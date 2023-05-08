@@ -1,0 +1,247 @@
+# #############################################################################
+# Copyright (c) 2023 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Apache License, Version 2.0 which is available at
+# https://www.apache.org/licenses/LICENSE-2.0.
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+# License for the specific language governing permissions and limitations
+# under the License.
+#
+# SPDX-License-Identifier: Apache-2.0
+# #############################################################################
+---
+global:
+  daps:
+    url: &dapsUrl "http://{{ .Release.Name }}-dapsserver:4567"
+    auth:
+      clientId: &dapsClientId admin
+      clientSecret: &dapsClientSecret ThisiSaSuPERSecretPassword1!11
+
+  edc:
+    enabled: true
+
+    controlplane:
+      image:
+        tag: &edcCpImageTag 0.1.6
+    dataplane:
+      image:
+        tag: &edcDpImageTag 0.1.6
+
+    consumer:
+      daps:
+        clientId: &edcConsumerDapsClientId consumer-daps-clientid
+
+      vault:
+        daps:
+          privateKey: &edcConsumerVaultDapsPrivateKey edcconsumer-daps-privatekey
+          publicKey: &edcConsumerVaultDapsPublicKey edcconsumer-daps-publickey
+
+        transfer:
+          encryptionAesKey: &edcConsumerVaultTransferEncryptionAesKey edcconsumer-encryption-aes-key
+          privateKey: &edcConsumerVaultTransferPrivateKey edcconsumer-transfer-privatekey
+          publicKey: &edcConsumerVaultTransferPublicKey edcconsumer-transfer-publickey
+
+    provider:
+      daps:
+        clientId: &edcProviderDapsClientId provider-daps-clientid
+
+      vault:
+        daps:
+          privateKey: &edcProviderVaultDapsPrivateKey edcprovider-daps-privatekey
+          publicKey: &edcProviderVaultDapsPublicKey edcprovider-daps-publickey
+
+        transfer:
+          encryptionAesKey: &edcProviderVaultTransferEncryptionAesKey edcprovider-encryption-aes-key
+          privateKey: &edcProviderVaultTransferPrivateKey edcprovider-transfer-privatekey
+          publicKey: &edcProviderVaultTransferPublicKey edcprovider-transfer-publickey
+
+    vault:
+      url: &vaultUrl "http://{{ .Release.Name }}-vault:8200"
+      token: &edcVaultToken vaultRootToken
+
+certsconsumer:
+  daps:
+    address: *dapsUrl
+    auth:
+      clientId: *dapsClientId
+      clientSecret: *dapsClientSecret
+    edc:
+      clientId: *edcConsumerDapsClientId
+
+  vault:
+    address: *vaultUrl
+    daps:
+      privateKey: *edcConsumerVaultDapsPrivateKey
+      publicKey: *edcConsumerVaultDapsPublicKey
+    token: *edcVaultToken
+    transfer:
+      encryptionAesKey: *edcConsumerVaultTransferEncryptionAesKey
+      privateKey: *edcConsumerVaultTransferPrivateKey
+      publicKey: *edcConsumerVaultTransferPublicKey
+
+certsprovider:
+  daps:
+    address: *dapsUrl
+    auth:
+      clientId: *dapsClientId
+      clientSecret: *dapsClientSecret
+    edc:
+      clientId: *edcProviderDapsClientId
+
+  vault:
+    address: *vaultUrl  
+    daps:
+      privateKey: *edcProviderVaultDapsPrivateKey
+      publicKey: *edcProviderVaultDapsPublicKey
+    token: *edcVaultToken
+    transfer:
+      encryptionAesKey: *edcProviderVaultTransferEncryptionAesKey
+      privateKey: *edcProviderVaultTransferPrivateKey
+      publicKey: *edcProviderVaultTransferPublicKey
+
+# eclipse-tractusx DAPS
+# https://github.com/eclipse-tractusx/daps-helm-chart
+dapsserver:
+  #fullnameOverride: daps
+  image:
+    repository: ghcr.io/fraunhofer-aisec/omejdn-server
+    tag: "1.7.1"
+  podSecurityContext:
+    fsGroup: 1000
+    runAsNonRoot: true
+    runAsUser: 1000
+    runAsGroup: 1000
+  persistence:
+    accessMode: "ReadWriteOnce"
+  omejdn:
+    defaultAdminUser: "admin:ThisiSaSuPERSecretPassword1!11" # unknown
+  daps:
+    secret:
+      clientId: *dapsClientId
+      clientSecret: *dapsClientSecret
+
+edcconsumer:
+  nameOverride: edcconsumer
+
+  backendService:
+    # TODO: what is the correct value here?
+    httpProxyTokenReceiverUrl: "http://localhost"
+
+  controlplane:
+    image:
+      tag: *edcCpImageTag
+
+    endpoints:
+      data:
+        # TODO: what is the correct value here?
+        authKey: edcconsumercpauthkey
+
+  daps:
+    url: *dapsUrl
+    clientId: *edcConsumerDapsClientId
+
+  dataplane:
+    image:
+      tag: *edcDpImageTag
+
+# test1: no database
+
+# test2: byo database
+  postgresql:
+    enabled: true
+    nameOverride: edcconsumer-postgresql
+
+# externalDB: helm upgrade --install thedb bitnami/postgresql --values thedb.yaml
+# test3 external database with password
+  # externalDatabase:
+  #   enabled: true
+  #   host: "thedb-postgresql"
+  #   password: "ThePassword"
+
+# test4 external database with existing secret
+  # externalDatabase:
+  #   enabled: true
+  #   host: "thedb-postgresql"
+  #   existingSecret: "thedb-postgresql"
+  #   existingSecretPasswordKey: "password"
+
+  vault:
+    hashicorp:
+      enabled: true
+
+      url: *vaultUrl
+      token: *edcVaultToken
+
+    secretNames:
+      dapsPrivateKey: *edcConsumerVaultDapsPrivateKey
+      dapsPublicKey: *edcConsumerVaultDapsPublicKey
+
+      transferProxyTokenEncryptionAesKey: *edcConsumerVaultTransferEncryptionAesKey
+
+      transferProxyTokenSignerPrivateKey: *edcConsumerVaultTransferPrivateKey
+      transferProxyTokenSignerPublicKey: *edcConsumerVaultTransferPublicKey
+
+
+edcprovider:
+  nameOverride: edcprovider
+
+  backendService:
+    # TODO: what is the correct value here?
+    httpProxyTokenReceiverUrl: "http://localhost"
+
+  controlplane:
+    image:
+      tag: *edcCpImageTag
+
+    endpoints:
+      data:
+        # TODO: what is the correct value here?
+        authKey: edcprovidercpauthkey
+
+  daps:
+    url: *dapsUrl
+    clientId: *edcProviderDapsClientId
+
+  dataplane:
+    image:
+      tag: *edcDpImageTag
+
+  postgresql:
+    enabled: true
+    nameOverride: edcprovider-postgresql
+
+  vault:
+    hashicorp:
+      enabled: true
+
+      url: *vaultUrl
+      token: *edcVaultToken
+
+    secretNames:
+      dapsPrivateKey: *edcProviderVaultDapsPrivateKey
+      dapsPublicKey: *edcProviderVaultDapsPublicKey
+
+      transferProxyTokenEncryptionAesKey: *edcProviderVaultTransferEncryptionAesKey
+
+      transferProxyTokenSignerPrivateKey: *edcProviderVaultTransferPrivateKey
+      transferProxyTokenSignerPublicKey: *edcProviderVaultTransferPublicKey
+
+vault:
+  #fullnameOverride: vault
+
+  injector:
+    enabled: false
+
+  server:
+    authDelegator:
+      enabled: false
+    dev:
+      enabled: true
+      devRootToken: *edcVaultToken

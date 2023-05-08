@@ -1,0 +1,76 @@
+# #############################################################################
+# Copyright (c) 2023 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Apache License, Version 2.0 which is available at
+# https://www.apache.org/licenses/LICENSE-2.0.
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+# License for the specific language governing permissions and limitations
+# under the License.
+#
+# SPDX-License-Identifier: Apache-2.0
+# #############################################################################
+---
+apiVersion: v2
+name: umbrella
+description: |
+  A Helm chart to spin up Catena-X OSS components to simulate a complete dataspace network.
+
+  With this Helm chart you are able to create a sandbox environment or run end-to-end.
+
+sources:
+  - https://github.com/eclipse-tractusx/e2e-testing
+
+type: application
+version: 0.2.1
+
+dependencies:
+  - alias: certsconsumer
+    name: certs
+    version: 0.1.0
+    condition: global.edc.enabled
+  - alias: certsprovider
+    name: certs
+    version: 0.1.0
+    condition: global.edc.enabled
+
+  - alias: dapsserver
+    name: daps-server
+    version: 1.7.5
+    # adding repo as directory to modify the chart
+    # repository: https://eclipse-tractusx.github.io/charts/dev
+
+  # edc consumer
+  - alias: edcconsumer
+    name: tractusx-connector
+    version: 0.3.0
+    #repository: https://catenax-ng.github.io/product-edc
+    condition: global.edc.enabled
+  # edc provider
+  - alias: edcprovider
+    name: tractusx-connector
+    version: 0.3.0
+    #repository: https://catenax-ng.github.io/product-edc
+    condition: global.edc.enabled
+
+  # - alias: psqlconsumer
+  #   name: postgresql
+  #   version: 11.9.13 # TODO: upgrade to PSQL v15
+  #   repository: https://charts.bitnami.com/bitnami
+  #   condition: global.edc.enabled
+  # - alias: psqlprovider
+  #   name: postgresql
+  #   version: 11.9.13 # TODO: upgrade to PSQL v15
+  #   repository: https://charts.bitnami.com/bitnami
+  #   condition: global.edc.enabled
+
+  - name: vault
+    version: 0.23.0
+    repository: https://helm.releases.hashicorp.com
+    condition: global.edc.enabled
