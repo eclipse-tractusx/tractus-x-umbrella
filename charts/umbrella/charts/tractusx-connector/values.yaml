@@ -545,3 +545,15 @@ serviceAccount:
   name: ""
   # -- Existing image pull secret bound to the service account to use to [obtain the container image from private registries](https://kubernetes.io/docs/concepts/containers/images/#using-a-private-registry)
   imagePullSecrets: []
+
+networkPolicy:
+  # -- If `true` network policy will be created to restrict access to control- and dataplane
+  enabled: false
+  # -- Configuration of the controlplane component
+  controlplane:
+    # -- Specify a custom from rule network policy (cp)
+    customFrom: []
+  # -- Configuration of the dataplane component
+  dataplane:
+    # -- Specify a custom from rule network policy (dp)
+    customFrom: []
