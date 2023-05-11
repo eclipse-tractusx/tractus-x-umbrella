@@ -49,17 +49,17 @@ spec:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
       initContainers:
       - name: init-fill-pvc
-        image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
         imagePullPolicy: {{ .Values.image.pullPolicy }}
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
         securityContext:
-            {{- toYaml .Values.securityContext | nindent 12 }}
+          {{- toYaml .Values.securityContext | nindent 10 }}
         command:
         - "sh"
         - "-c"
         args:
         - |
           mkdir -p /tmp/config /tmp/keys
-          #ls /tmp/
+          # ls /tmp/
           if [ ! -f /tmp/config/users.yml ]; then
             echo "File users.yml not found in pvc!. Creating empty file"
             touch /tmp/config/users.yml
@@ -97,10 +97,6 @@ spec:
             touch /tmp/config/scope_mapping.yml
             {{- end }}
           fi
-          #if [ ! -d /tmp/keys ]; then
-          #  echo "keys directory not found in pvc! Creating empty dit"
-          #  mkdir /tmp/keys
-          #fi
         volumeMounts:
         - name: config
           mountPath: /tmp/
@@ -151,7 +147,7 @@ spec:
           {{- end}}
           ports:
             - name: http
-              containerPort: 4567
+              containerPort: {{ .Values.service.targetPort }}
               protocol: TCP
           #livenessProbe:
           #  httpGet:
@@ -170,9 +166,6 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
-          - mountPath: {{ .Values.omejdn.serverKeyFolderPath }}/key.pem
-            name: config
-            subPath: key.pem
           - mountPath: {{ .Values.omejdn.serverKeyFolderPath }}/config
             name: config
             subPath: config
@@ -181,6 +174,9 @@ spec:
             name: plugins-config
             subPath: plugins.yml
             readOnly: false
+          - mountPath: {{ .Values.omejdn.serverKeyFolderPath }}/key.pem
+            name: config
+            subPath: key.pem
           - mountPath: {{ .Values.omejdn.serverKeyFolderPath }}/keys
             name: config
             subPath: keys

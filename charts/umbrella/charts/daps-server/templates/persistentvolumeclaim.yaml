@@ -22,14 +22,13 @@ apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
   name: {{ include "daps-server.fullname" . }}
+  labels:
+    {{- include "daps-server.labels" . | nindent 4 }}
 spec:
-{{- if .Values.persistence.storageClass }}
-  storageClassName: {{ .Values.persistence.storageClass }}
-{{- end }}
+  storageClassName: {{ .Values.persistence.storageClass | default "azurefile" }}
   accessModes:
     - {{ .Values.persistence.accessMode | default "ReadWriteOnce" }}
   resources:
     requests:
       storage: {{ .Values.persistence.storageSize }}
-
 {{- end }}

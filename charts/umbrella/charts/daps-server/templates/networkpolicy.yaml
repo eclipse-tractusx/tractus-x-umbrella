@@ -1,0 +1,41 @@
+{{- if eq (.Values.networkPolicy.enabled | toString) "true"  }}
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: {{ include "daps-server.fullname" . }}
+  labels:
+    {{- include "daps-server.labels" . | nindent 4 }}
+spec:
+  podSelector:
+    matchLabels:
+      {{- include "daps-server.selectorLabels" . | nindent 6 }}
+  ingress:
+  {{- if .Values.networkPolicy.customFrom }}
+  - from:
+    {{- toYaml .Values.networkPolicy.customFrom | nindent 4 }}
+  {{- else }}
+  - from:
+    {{- if and .Values.networkPolicy.namespaceSelector.matchLabels .Values.networkPolicy.podSelector.matchLabels }}
+    - namespaceSelector:
+        matchLabels:
+          {{- toYaml .Values.networkPolicy.namespaceSelector.matchLabels | nindent 10 }}
+      podSelector:
+        matchLabels:
+          {{- toYaml .Values.networkPolicy.podSelector.matchLabels | nindent 10 }}
+    {{- else if .Values.networkPolicy.namespaceSelector.matchLabels }}
+    - namespaceSelector:
+        matchLabels:
+          {{- toYaml .Values.networkPolicy.namespaceSelector.matchLabels | nindent 10 }}
+    {{- else }}
+    - namespaceSelector: {}
+      {{- if .Values.networkPolicy.podSelector.matchLabels }}
+      podSelector:
+        matchLabels:
+          {{- toYaml .Values.networkPolicy.podSelector.matchLabels | nindent 10 }}
+      {{- end }}
+    {{- end }}
+  {{- end }}
+    ports:
+    - port: {{ .Values.service.targetPort }}
+      protocol: TCP
+{{- end }}
