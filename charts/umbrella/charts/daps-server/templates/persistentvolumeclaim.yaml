@@ -25,7 +25,9 @@ metadata:
   labels:
     {{- include "daps-server.labels" . | nindent 4 }}
 spec:
-  storageClassName: {{ .Values.persistence.storageClass | default "azurefile" }}
+  {{- if .Values.persistence.storageClass }}
+  storageClassName: {{ .Values.persistence.storageClass }}
+  {{- end }}
   accessModes:
     - {{ .Values.persistence.accessMode | default "ReadWriteOnce" }}
   resources:

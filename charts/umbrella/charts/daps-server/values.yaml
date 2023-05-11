@@ -122,7 +122,7 @@ networkPolicy:
 persistence:
   # -- If `true` persistent volume will be used to store clients and users configuration
   enabled: true
-  # -- Storage class to claim a volume, defaults to azurefile.
+  # -- Storage class, defaults to none specified.
   storageClass: ""
   # -- Storage accessMode, defaults to ReadWriteOnce.
   accessMode: []
