@@ -161,6 +161,15 @@ edcconsumer:
     enabled: true
     nameOverride: edcconsumer-postgresql
 
+    networkPolicy:
+      enabled: *netPolEnabled
+      ingressRules:
+        primaryAccessOnlyFrom:
+          enabled: true
+          podSelector:
+            app.kubernetes.io/name: edcconsumer-controlplane
+            app.kubernetes.io/instance: '{{ .Release.Name }}-controlplane'
+
 # externalDB: helm upgrade --install thedb bitnami/postgresql --values thedb.yaml
 # test3 external database with password
   # externalDatabase:
@@ -219,6 +228,15 @@ edcprovider:
   postgresql:
     enabled: true
     nameOverride: edcprovider-postgresql
+
+    networkPolicy:
+      enabled: *netPolEnabled
+      ingressRules:
+        primaryAccessOnlyFrom:
+          enabled: true
+          podSelector:
+            app.kubernetes.io/name: edcprovider-controlplane
+            app.kubernetes.io/instance: '{{ .Release.Name }}-controlplane'
 
   vault:
     hashicorp:
