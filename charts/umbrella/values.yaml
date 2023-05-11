@@ -154,6 +154,9 @@ edcconsumer:
     image:
       tag: *edcDpImageTag
 
+  networkPolicy:
+    enabled: *netPolEnabled
+
 # test1: no database
 
 # test2: byo database
@@ -224,6 +227,9 @@ edcprovider:
   dataplane:
     image:
       tag: *edcDpImageTag
+
+  networkPolicy:
+    enabled: *netPolEnabled
 
   postgresql:
     enabled: true
