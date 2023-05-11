@@ -266,3 +266,5 @@ vault:
     dev:
       enabled: true
       devRootToken: *edcVaultToken
+    networkPolicy:
+      enabled: *netPolEnabled
