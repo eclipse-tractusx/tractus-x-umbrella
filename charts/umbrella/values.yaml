@@ -99,7 +99,7 @@ certsprovider:
       clientId: *edcProviderDapsClientId
 
   vault:
-    address: *vaultUrl  
+    address: *vaultUrl
     daps:
       privateKey: *edcProviderVaultDapsPrivateKey
       publicKey: *edcProviderVaultDapsPublicKey
