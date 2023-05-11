@@ -66,6 +66,9 @@ global:
       url: &vaultUrl "http://{{ .Release.Name }}-vault:8200"
       token: &edcVaultToken vaultRootToken
 
+  networkPolicy:
+    enabled: &netPolEnabled true
+
 certsconsumer:
   daps:
     address: *dapsUrl
