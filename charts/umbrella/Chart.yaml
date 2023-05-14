@@ -42,7 +42,7 @@ dependencies:
 
   - alias: dapsserver
     name: daps-server
-    version: 1.7.5
+    version: 1.7.6-59a5633
     # adding repo as directory to modify the chart
     # repository: https://eclipse-tractusx.github.io/charts/dev
 
