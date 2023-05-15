@@ -129,6 +129,8 @@ dapsserver:
     secret:
       clientId: *dapsClientId
       clientSecret: *dapsClientSecret
+  networkPolicy:
+    enabled: true
 
 edcconsumer:
   nameOverride: edcconsumer
