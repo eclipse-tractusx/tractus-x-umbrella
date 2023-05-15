@@ -12,11 +12,10 @@ Assuming you have a running cluster and your `kubectl` context is set to that cl
 the Chart as `lab` release.
 
 ```shell
-# Running from the root of this repository
+# Download (recursive chart dependencies) with hack script
+hack/helm-dependencies.bash
+
 cd charts/umbrella
-helm dependency build
-# The connector subchart has additional dependencies, that have to be built
-helm dependency build charts/tractusx-connector
 
 helm install lab . --namespace lab --create-namespace
 ```
