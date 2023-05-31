@@ -124,7 +124,7 @@ dapsserver:
   persistence:
     accessMode: "ReadWriteOnce"
   omejdn:
-    defaultAdminUser: "admin:ThisiSaSuPERSecretPassword1!11" # unknown
+    defaultAdminUser: "admin:ThisiSaSuPERSecretPassword1!11"
   daps:
     secret:
       clientId: *dapsClientId
