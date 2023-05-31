@@ -112,7 +112,7 @@ certsprovider:
 # eclipse-tractusx DAPS
 # https://github.com/eclipse-tractusx/daps-helm-chart
 dapsserver:
-  #fullnameOverride: daps
+  # fullnameOverride: daps
   image:
     repository: ghcr.io/fraunhofer-aisec/omejdn-server
     tag: "1.7.1"
@@ -263,7 +263,7 @@ edcprovider:
       transferProxyTokenSignerPublicKey: *edcProviderVaultTransferPublicKey
 
 vault:
-  #fullnameOverride: vault
+  # fullnameOverride: vault
 
   injector:
     enabled: false
