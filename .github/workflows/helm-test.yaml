@@ -26,9 +26,9 @@ jobs:
   test-charts:
     runs-on: ubuntu-latest
     strategy:
+      # Executing the Jobs sequentially to avoid race conditions for ct and kubectl context
+      max-parallel: 1
       matrix:
-        # Executing the Jobs sequentially to avoid race conditions for ct and kubectl context
-        max-parallel: 1
         # This will be used as node_image tag
         # see https://hub.docker.com/r/kindest/node/tags for available tags (tags always pinned to bugfix level)
         kind_node_version: ["v1.24.12"] #, "v1.25.8", "v1.26.3"]
