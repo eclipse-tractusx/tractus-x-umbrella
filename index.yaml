@@ -1,0 +1,46 @@
+apiVersion: v1
+entries:
+  umbrella:
+  - apiVersion: v2
+    created: "2023-06-02T13:52:37.61749054Z"
+    dependencies:
+    - alias: certsconsumer
+      condition: global.edc.enabled
+      name: certs
+      repository: ""
+      version: 0.1.0
+    - alias: certsprovider
+      condition: global.edc.enabled
+      name: certs
+      repository: ""
+      version: 0.1.0
+    - alias: dapsserver
+      name: daps-server
+      repository: ""
+      version: 1.7.5
+    - alias: edcconsumer
+      condition: global.edc.enabled
+      name: tractusx-connector
+      repository: ""
+      version: 0.3.0
+    - alias: edcprovider
+      condition: global.edc.enabled
+      name: tractusx-connector
+      repository: ""
+      version: 0.3.0
+    - condition: global.edc.enabled
+      name: vault
+      repository: https://helm.releases.hashicorp.com
+      version: 0.23.0
+    description: 'A Helm chart to spin up Catena-X OSS components to simulate a complete
+      dataspace network.  With this Helm chart you are able to create a sandbox environment
+      or run end-to-end. '
+    digest: 2a42bd63b1573fb89414619e07fb4cbc26e54a1bf0cfe9c9948bcd9b4b971fee
+    name: umbrella
+    sources:
+    - https://github.com/eclipse-tractusx/e2e-testing
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/e2e-testing/releases/download/umbrella-0.2.1/umbrella-0.2.1.tgz
+    version: 0.2.1
+generated: "2023-06-02T13:52:37.61750354Z"
