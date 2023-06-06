@@ -39,7 +39,7 @@ spec:
         #   - "3600"
         env:
           - name: VAULT_ADDR
-            value: {{ tpl .Values.vault.address . }}
+            value: {{ tpl .Values.vault.url . }}
           - name: VAULT_TOKEN
             value: {{ .Values.vault.token }}
 

@@ -18,7 +18,7 @@
 # #############################################################################
 ---
 daps:
-  address: http://daps:4567
+  url: http://daps:4567
 
   auth:
     clientId: ""
@@ -28,7 +28,7 @@ daps:
     clientId: ""
 
 vault:
-  address: http://vault:8200
+  url: http://vault:8200
 
   daps:
     privateKey: "daps-privatekey"
