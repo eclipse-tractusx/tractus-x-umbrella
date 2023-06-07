@@ -40,13 +40,13 @@ global:
 
       vault:
         daps:
-          privateKey: &edcConsumerVaultDapsPrivateKey edcconsumer-daps-privatekey
-          publicKey: &edcConsumerVaultDapsPublicKey edcconsumer-daps-publickey
+          privateKey: &edcConsumerVaultDapsPrivateKey edcconsumer-daps-private-key
+          publicKey: &edcConsumerVaultDapsPublicKey edcconsumer-daps-public-key
 
         transfer:
-          encryptionAesKey: &edcConsumerVaultTransferEncryptionAesKey edcconsumer-encryption-aes-key
-          privateKey: &edcConsumerVaultTransferPrivateKey edcconsumer-transfer-privatekey
-          publicKey: &edcConsumerVaultTransferPublicKey edcconsumer-transfer-publickey
+          encryptionAesKey: &edcConsumerVaultTransferEncryptionAesKey edcconsumer-transfer-proxy-token-encryption-aes-key
+          privateKey: &edcConsumerVaultTransferPrivateKey edcconsumer-transfer-proxy-token-signer-private-key
+          publicKey: &edcConsumerVaultTransferPublicKey edcconsumer-transfer-proxy-token-signer-public-key
 
     provider:
       daps:
@@ -54,13 +54,13 @@ global:
 
       vault:
         daps:
-          privateKey: &edcProviderVaultDapsPrivateKey edcprovider-daps-privatekey
-          publicKey: &edcProviderVaultDapsPublicKey edcprovider-daps-publickey
+          privateKey: &edcProviderVaultDapsPrivateKey edcprovider-daps-private-key
+          publicKey: &edcProviderVaultDapsPublicKey edcprovider-daps-public-key
 
         transfer:
-          encryptionAesKey: &edcProviderVaultTransferEncryptionAesKey edcprovider-encryption-aes-key
-          privateKey: &edcProviderVaultTransferPrivateKey edcprovider-transfer-privatekey
-          publicKey: &edcProviderVaultTransferPublicKey edcprovider-transfer-publickey
+          encryptionAesKey: &edcProviderVaultTransferEncryptionAesKey edcprovider-transfer-proxy-token-encryption-aes-key
+          privateKey: &edcProviderVaultTransferPrivateKey edcprovider-transfer-proxy-token-signer-private-key
+          publicKey: &edcProviderVaultTransferPublicKey edcprovider-transfer-proxy-token-signer-public-key
 
     vault:
       url: &vaultUrl "http://{{ .Release.Name }}-vault:8200"
