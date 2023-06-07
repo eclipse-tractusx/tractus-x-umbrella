@@ -37,13 +37,13 @@ spec:
             value: {{ tpl .Values.daps.address . }}
 
           - name: DAPS_AUTH_CLIENT_ID
-            value: {{ .Values.daps.auth.clientId }}
+            value: {{ .Values.daps.auth.clientId | required ".Values.daps.auth.clientId is required" }}
 
           - name: DAPS_AUTH_CLIENT_SECRET
-            value: {{ .Values.daps.auth.clientSecret }}
+            value: {{ .Values.daps.auth.clientSecret | required ".Values.daps.auth.clientSecret is required" }}
 
           - name: DAPS_EDC_CLIENT_ID
-            value: {{ .Values.daps.edc.clientId }}
+            value: {{ .Values.daps.edc.clientId | required ".Values.daps.edc.clientId is required" }}
 
           - name: DAPS_PUBLICKEY_VALUE
             valueFrom:
