@@ -50,13 +50,13 @@ dependencies:
   - alias: edcconsumer
     name: tractusx-connector
     version: 0.3.0
-    #repository: https://catenax-ng.github.io/product-edc
+    # repository: https://catenax-ng.github.io/product-edc
     condition: global.edc.enabled
   # edc provider
   - alias: edcprovider
     name: tractusx-connector
     version: 0.3.0
-    #repository: https://catenax-ng.github.io/product-edc
+    # repository: https://catenax-ng.github.io/product-edc
     condition: global.edc.enabled
 
   # - alias: psqlconsumer
