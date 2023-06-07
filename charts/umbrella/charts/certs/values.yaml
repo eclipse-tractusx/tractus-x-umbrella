@@ -34,7 +34,7 @@ vault:
     privateKey: daps-private-key
     publicKey: daps-public-key
 
-  token: "vaultRootToken"
+  token: vaultRootToken
 
   transfer:
     encryptionAesKey: transfer-proxy-token-encryption-aes-key
