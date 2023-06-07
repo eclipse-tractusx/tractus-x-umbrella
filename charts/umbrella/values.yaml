@@ -22,7 +22,11 @@ global:
     url: &dapsUrl "http://{{ .Release.Name }}-dapsserver:4567"
     auth:
       clientId: &dapsClientId admin
+      # ensure you use a secret password - this is only for testing purposes
       clientSecret: &dapsClientSecret ThisiSaSuPERSecretPassword1!11
+      # ensure you use a secret password - this is only for testing purposes
+      # defaultAdminUser must match with dapsClientId and dapsClientSecret (separated by colon)
+      defaultAdminUser: &dapsDefaultAdminUser "admin:ThisiSaSuPERSecretPassword1!11"
 
   edc:
     enabled: true
@@ -124,7 +128,7 @@ dapsserver:
   persistence:
     accessMode: "ReadWriteOnce"
   omejdn:
-    defaultAdminUser: "admin:ThisiSaSuPERSecretPassword1!11"
+    defaultAdminUser: *dapsDefaultAdminUser
   daps:
     secret:
       clientId: *dapsClientId
