@@ -58,13 +58,14 @@ jobs:
           # Create clusters with separate names, so there are no clashes on the worker
           cluster_name: ${{ format('chart-testing-{0}', matrix.kind_node_version) }}
 
+      # The current umbrella chart requires a dedicated dependency build for tractusx-connector sub chart (recursive)
+      - name: Download chart dependencies (recursive)
+        shell: bash
+        run: hack/helm-dependencies.bash
+
       - name: Run chart-testing (install)
-        # The current umbrella chart requires a dedicated dependency build for tractusx-connector sub chart
         # Chain kubectl + ct calls to avoid race condition (max-parallel setting should also prevent that)
         # ct install '--all' charts, to skip changed charts detection and automatically include new charts in this repo
         run: |
-          cd charts/umbrella/charts/tractusx-connector
-          helm dependency build
-          cd ${{ env.GITHUB_WORKSPACE }}
           kubectl config use-context ${{ format('kind-chart-testing-{0}', matrix.kind_node_version) }}
           ct install --all --chart-dirs charts/
