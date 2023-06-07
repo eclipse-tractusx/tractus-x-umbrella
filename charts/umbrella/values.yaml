@@ -96,7 +96,7 @@ certsprovider:
       clientId: *edcProviderDapsClientId
 
   vault:
-    address: *vaultUrl  
+    address: *vaultUrl
     daps:
       privateKey: *edcProviderVaultDapsPrivateKey
       publicKey: *edcProviderVaultDapsPublicKey
@@ -109,7 +109,7 @@ certsprovider:
 # eclipse-tractusx DAPS
 # https://github.com/eclipse-tractusx/daps-helm-chart
 dapsserver:
-  #fullnameOverride: daps
+  # fullnameOverride: daps
   image:
     repository: ghcr.io/fraunhofer-aisec/omejdn-server
     tag: "1.7.1"
@@ -121,7 +121,7 @@ dapsserver:
   persistence:
     accessMode: "ReadWriteOnce"
   omejdn:
-    defaultAdminUser: "admin:ThisiSaSuPERSecretPassword1!11" # unknown
+    defaultAdminUser: "admin:ThisiSaSuPERSecretPassword1!11"
   daps:
     secret:
       clientId: *dapsClientId
@@ -234,7 +234,7 @@ edcprovider:
       transferProxyTokenSignerPublicKey: *edcProviderVaultTransferPublicKey
 
 vault:
-  #fullnameOverride: vault
+  # fullnameOverride: vault
 
   injector:
     enabled: false
