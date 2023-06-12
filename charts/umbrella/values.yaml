@@ -23,10 +23,11 @@ global:
     auth:
       clientId: &dapsClientId admin
       # ensure you use a secret password - this is only for testing purposes
-      clientSecret: &dapsClientSecret ThisiSaSuPERSecretPassword1!11
+      clientSecret: &dapsClientSecret admin
       # ensure you use a secret password - this is only for testing purposes
       # defaultAdminUser must match with dapsClientId and dapsClientSecret (separated by colon)
-      defaultAdminUser: &dapsDefaultAdminUser "admin:ThisiSaSuPERSecretPassword1!11"
+      # using default daps password
+      defaultAdminUser: &dapsDefaultAdminUser "admin:admin"
 
   edc:
     enabled: true
