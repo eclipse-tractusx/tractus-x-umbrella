@@ -68,7 +68,7 @@ global:
 
 certsconsumer:
   daps:
-    address: *dapsUrl
+    url: *dapsUrl
     auth:
       clientId: *dapsClientId
       clientSecret: *dapsClientSecret
@@ -76,7 +76,7 @@ certsconsumer:
       clientId: *edcConsumerDapsClientId
 
   vault:
-    address: *vaultUrl
+    url: *vaultUrl
     daps:
       privateKey: *edcConsumerVaultDapsPrivateKey
       publicKey: *edcConsumerVaultDapsPublicKey
@@ -88,7 +88,7 @@ certsconsumer:
 
 certsprovider:
   daps:
-    address: *dapsUrl
+    url: *dapsUrl
     auth:
       clientId: *dapsClientId
       clientSecret: *dapsClientSecret
@@ -96,7 +96,7 @@ certsprovider:
       clientId: *edcProviderDapsClientId
 
   vault:
-    address: *vaultUrl
+    url: *vaultUrl
     daps:
       privateKey: *edcProviderVaultDapsPrivateKey
       publicKey: *edcProviderVaultDapsPublicKey

@@ -34,7 +34,7 @@ spec:
         #   - "3600"
         env:
           - name: DAPS_ADDR
-            value: {{ tpl .Values.daps.address . }}
+            value: {{ tpl .Values.daps.url . }}
 
           - name: DAPS_AUTH_CLIENT_ID
             value: {{ .Values.daps.auth.clientId }}
