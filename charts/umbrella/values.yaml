@@ -129,11 +129,11 @@ edcconsumer:
     image:
       repository: ghcr.io/fraunhofer-aisec/omejdn-server
 
-    podSecurityContext:
-      fsGroup: 1000
-      runAsNonRoot: true
-      runAsUser: 1000
-      runAsGroup: 1000
+    # podSecurityContext:
+    #   fsGroup: 1000
+    #   runAsNonRoot: true
+    #   runAsUser: 1000
+    #   runAsGroup: 1000
     # persistence:
     #   accessMode: "ReadWriteOnce"
 
