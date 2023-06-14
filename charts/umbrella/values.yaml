@@ -24,9 +24,6 @@ global:
       clientId: &dapsClientId admin
       clientSecret: &dapsClientSecret ThisiSaSuPERSecretPassword1!11
 
-  edc:
-    enabled: true
-
     consumer:
       daps:
         clientId: &edcConsumerDapsClientId consumer-daps-clientid
