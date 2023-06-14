@@ -19,20 +19,13 @@
 ---
 global:
   daps:
-    url: &dapsUrl "http://{{ .Release.Name }}-dapsserver:4567"
+    # url: &dapsUrl "http://{{ .Release.Name }}-daps:4567"
     auth:
       clientId: &dapsClientId admin
       clientSecret: &dapsClientSecret ThisiSaSuPERSecretPassword1!11
 
   edc:
     enabled: true
-
-    controlplane:
-      image:
-        tag: &edcCpImageTag 0.1.6
-    dataplane:
-      image:
-        tag: &edcDpImageTag 0.1.6
 
     consumer:
       daps:
@@ -63,7 +56,7 @@ global:
           publicKey: &edcProviderVaultTransferPublicKey edcprovider-transfer-proxy-token-signer-public-key
 
     vault:
-      url: &vaultUrl "http://{{ .Release.Name }}-vault:8200"
+      # url: &vaultUrl "http://{{ .Release.Name }}-vault:8200"
       token: &edcVaultToken vaultRootToken
     api:
       auth:
@@ -120,7 +113,6 @@ global:
 
 certsconsumer:
   daps:
-    url: *dapsUrl
     auth:
       clientId: *dapsClientId
       clientSecret: *dapsClientSecret
@@ -128,7 +120,6 @@ certsconsumer:
       clientId: *edcConsumerDapsClientId
 
   vault:
-    url: *vaultUrl
     daps:
       privateKey: *edcConsumerVaultDapsPrivateKey
       publicKey: *edcConsumerVaultDapsPublicKey
@@ -140,7 +131,6 @@ certsconsumer:
 
 certsprovider:
   daps:
-    url: *dapsUrl
     auth:
       clientId: *dapsClientId
       clientSecret: *dapsClientSecret
@@ -148,7 +138,6 @@ certsprovider:
       clientId: *edcProviderDapsClientId
 
   vault:
-    url: *vaultUrl
     daps:
       privateKey: *edcProviderVaultDapsPrivateKey
       publicKey: *edcProviderVaultDapsPublicKey
@@ -158,121 +147,105 @@ certsprovider:
       privateKey: *edcProviderVaultTransferPrivateKey
       publicKey: *edcProviderVaultTransferPublicKey
 
-# eclipse-tractusx DAPS
-# https://github.com/eclipse-tractusx/daps-helm-chart
-dapsserver:
-  # fullnameOverride: daps
-  image:
-    repository: ghcr.io/fraunhofer-aisec/omejdn-server
-    tag: "1.7.1"
-  podSecurityContext:
-    fsGroup: 1000
-    runAsNonRoot: true
-    runAsUser: 1000
-    runAsGroup: 1000
-  persistence:
-    accessMode: "ReadWriteOnce"
-  omejdn:
-    defaultAdminUser: "admin:ThisiSaSuPERSecretPassword1!11"
-  daps:
-    secret:
-      clientId: *dapsClientId
-      clientSecret: *dapsClientSecret
-
 edcconsumer:
   nameOverride: edcconsumer
+
+  install:
+    daps: true
+    postgresql: true
+    vault: true
 
   backendService:
     # TODO: what is the correct value here?
     httpProxyTokenReceiverUrl: "http://localhost"
 
   controlplane:
-    image:
-      tag: *edcCpImageTag
-
     endpoints:
-      data:
-        # TODO: what is the correct value here?
-        authKey: edcconsumercpauthkey
+      management:
+        authKey: consumer-authkey
 
   daps:
-    url: *dapsUrl
     clientId: *edcConsumerDapsClientId
 
-  dataplane:
+    daps:
+      secret:
+        clientId: *dapsClientId
+        clientSecret: *dapsClientSecret
+
     image:
-      tag: *edcDpImageTag
+      repository: ghcr.io/fraunhofer-aisec/omejdn-server
 
-  # test1: no database
+    podSecurityContext:
+      fsGroup: 1000
+      runAsNonRoot: true
+      runAsUser: 1000
+      runAsGroup: 1000
+    # persistence:
+    #   accessMode: "ReadWriteOnce"
 
-  # test2: byo database
+  participant:
+    id: consumer
+
   postgresql:
-    enabled: true
-    nameOverride: edcconsumer-postgresql
+    nameOverride: consumer-postgresql
 
-  # externalDB: helm upgrade --install thedb bitnami/postgresql --values thedb.yaml
-  # test3 external database with password
-  # externalDatabase:
-  #   enabled: true
-  #   host: "thedb-postgresql"
-  #   password: "ThePassword"
+    jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-consumer-postgresql:5432/edc"
 
-  # test4 external database with existing secret
-  # externalDatabase:
-  #   enabled: true
-  #   host: "thedb-postgresql"
-  #   existingSecret: "thedb-postgresql"
-  #   existingSecretPasswordKey: "password"
+    auth:
+      username: psql-consumer-user
+      password: psql-consumer-password
 
   vault:
     hashicorp:
-      enabled: true
-
-      url: *vaultUrl
       token: *edcVaultToken
+    server:
+      dev:
+        devRootToken: *edcVaultToken
 
     secretNames:
       dapsPrivateKey: *edcConsumerVaultDapsPrivateKey
       dapsPublicKey: *edcConsumerVaultDapsPublicKey
 
       transferProxyTokenEncryptionAesKey: *edcConsumerVaultTransferEncryptionAesKey
-
       transferProxyTokenSignerPrivateKey: *edcConsumerVaultTransferPrivateKey
       transferProxyTokenSignerPublicKey: *edcConsumerVaultTransferPublicKey
 
 edcprovider:
   nameOverride: edcprovider
 
+  install:
+    daps: false
+    postgresql: true
+    vault: false
+
   backendService:
     # TODO: what is the correct value here?
     httpProxyTokenReceiverUrl: "http://localhost"
 
   controlplane:
-    image:
-      tag: *edcCpImageTag
-
     endpoints:
-      data:
-        # TODO: what is the correct value here?
-        authKey: edcprovidercpauthkey
+      management:
+        authKey: provider-authkey
 
   daps:
-    url: *dapsUrl
     clientId: *edcProviderDapsClientId
 
-  dataplane:
-    image:
-      tag: *edcDpImageTag
+  participant:
+    id: provider
+
+    clientId: *edcProviderDapsClientId
 
   postgresql:
-    enabled: true
-    nameOverride: edcprovider-postgresql
+    nameOverride: provider-postgresql
+
+    jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-provider-postgresql:5432/edc"
+
+    auth:
+      username: psql-provider-user
+      password: psql-provider-password
 
   vault:
     hashicorp:
-      enabled: true
-
-      url: *vaultUrl
       token: *edcVaultToken
 
     secretNames:
@@ -280,7 +253,6 @@ edcprovider:
       dapsPublicKey: *edcProviderVaultDapsPublicKey
 
       transferProxyTokenEncryptionAesKey: *edcProviderVaultTransferEncryptionAesKey
-
       transferProxyTokenSignerPrivateKey: *edcProviderVaultTransferPrivateKey
       transferProxyTokenSignerPublicKey: *edcProviderVaultTransferPublicKey
 
