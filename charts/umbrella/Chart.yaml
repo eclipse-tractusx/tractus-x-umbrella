@@ -34,21 +34,17 @@ dependencies:
   - alias: certsconsumer
     name: certs
     version: 0.1.0
-    condition: global.edc.enabled
   - alias: certsprovider
     name: certs
     version: 0.1.0
-    condition: global.edc.enabled
 
   # edc consumer
   - alias: edcconsumer
     name: tractusx-connector
     version: 0.4.1
     repository: https://eclipse-tractusx.github.io/charts/dev
-    condition: global.edc.enabled
   # edc provider
   - alias: edcprovider
     name: tractusx-connector
     version: 0.4.1
     repository: https://eclipse-tractusx.github.io/charts/dev
-    condition: global.edc.enabled
