@@ -59,17 +59,6 @@ dependencies:
     # repository: https://catenax-ng.github.io/product-edc
     condition: global.edc.enabled
 
-  # - alias: psqlconsumer
-  #   name: postgresql
-  #   version: 11.9.13 # TODO: upgrade to PSQL v15
-  #   repository: https://charts.bitnami.com/bitnami
-  #   condition: global.edc.enabled
-  # - alias: psqlprovider
-  #   name: postgresql
-  #   version: 11.9.13 # TODO: upgrade to PSQL v15
-  #   repository: https://charts.bitnami.com/bitnami
-  #   condition: global.edc.enabled
-
   - name: vault
     version: 0.23.0
     repository: https://helm.releases.hashicorp.com
