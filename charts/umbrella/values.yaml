@@ -21,25 +21,34 @@ global:
   daps:
     # url: &dapsUrl "http://{{ .Release.Name }}-daps:4567"
     auth:
+      # management login credentials for daps-server (username)
       clientId: &dapsClientId admin
+      # management login credentials for daps-server (password)
       clientSecret: &dapsClientSecret ThisiSaSuPERSecretPassword1!11
 
     consumer:
       daps:
+        # identity of the EDC (consumer) at daps-server
         clientId: &edcConsumerDapsClientId consumer-daps-clientid
 
       vault:
         daps:
+          # vault path of registered certificate for EDC to authenticate to EDC
           privateKey: &edcConsumerVaultDapsPrivateKey edcconsumer-daps-private-key
+          # vault path of registered certificate for EDC to authenticate to EDC
           publicKey: &edcConsumerVaultDapsPublicKey edcconsumer-daps-public-key
 
         transfer:
+          # vault path of key for dataplane transfer
           encryptionAesKey: &edcConsumerVaultTransferEncryptionAesKey edcconsumer-transfer-proxy-token-encryption-aes-key
+          # vault path of certificate for dataplane transfer
           privateKey: &edcConsumerVaultTransferPrivateKey edcconsumer-transfer-proxy-token-signer-private-key
+          # vault path of certificate for dataplane transfer
           publicKey: &edcConsumerVaultTransferPublicKey edcconsumer-transfer-proxy-token-signer-public-key
 
     provider:
       daps:
+        # identity of the EDC (provider) at daps-server
         clientId: &edcProviderDapsClientId provider-daps-clientid
 
       vault:
