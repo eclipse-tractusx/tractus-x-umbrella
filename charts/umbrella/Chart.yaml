@@ -34,35 +34,20 @@ dependencies:
   - alias: certsconsumer
     name: certs
     version: 0.1.0
-    condition: global.edc.enabled
   - alias: certsprovider
     name: certs
     version: 0.1.0
-    condition: global.edc.enabled
-
-  - alias: dapsserver
-    name: daps-server
-    version: 1.7.5
-    # adding repo as directory to modify the chart
-    # repository: https://eclipse-tractusx.github.io/charts/dev
 
   # edc consumer
   - alias: edcconsumer
-    name: tractusx-connector
-    version: 0.3.0
-    # repository: https://catenax-ng.github.io/product-edc
-    condition: global.edc.enabled
+    name: tractusx-connector-legacy
+    version: 0.5.0-rc1
+    repository: https://eclipse-tractusx.github.io/charts/dev
   # edc provider
   - alias: edcprovider
-    name: tractusx-connector
-    version: 0.3.0
-    # repository: https://catenax-ng.github.io/product-edc
-    condition: global.edc.enabled
-
-  - name: vault
-    version: 0.23.0
-    repository: https://helm.releases.hashicorp.com
-    condition: global.edc.enabled
+    name: tractusx-connector-legacy
+    version: 0.5.0-rc1
+    repository: https://eclipse-tractusx.github.io/charts/dev
 
 
   #  # IRS ############################
