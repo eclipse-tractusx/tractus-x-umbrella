@@ -1,0 +1,131 @@
+# Copyright (c) 2021,2022,2023
+  #       2022: ZF Friedrichshafen AG
+  #       2022: ISTOS GmbH
+  #       2022,2023: Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
+  #       2022,2023: BOSCH AG
+  # Copyright (c) 2021,2022,2023 Contributors to the Eclipse Foundation
+  #
+  # See the NOTICE file(s) distributed with this work for additional
+  # information regarding copyright ownership.
+  #
+  # This program and the accompanying materials are made available under the
+  # terms of the Apache License, Version 2.0 which is available at
+  # https://www.apache.org/licenses/LICENSE-2.0. *
+  # Unless required by applicable law or agreed to in writing, software
+  # distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+  # WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+  # License for the specific language governing permissions and limitations
+  # under the License.
+  #
+  # SPDX-License-Identifier: Apache-2.0
+  #
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "discovery.fullname" . }}
+  labels:
+    {{- include "discovery.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "discovery.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "discovery.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "discovery.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          args:
+            - --local-response-templating
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /__admin
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 5
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /__admin
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 5
+            failureThreshold: 3
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: configuration
+              mountPath: /home/wiremock/mappings/discovery_finder_request.json
+              subPath: discovery_finder_request.json
+            - name: configuration
+              mountPath: home/wiremock/__files/discovery_finder_response.json
+              subPath: discovery_finder_response.json
+            - name: configuration
+              mountPath: /home/wiremock/mappings/bpn_discovery_service_request.json
+              subPath: bpn_discovery_service_request.json
+            - name: configuration
+              mountPath: home/wiremock/__files/bpn_discovery_service_response.json
+              subPath: bpn_discovery_service_response.json
+            - name: configuration
+              mountPath: /home/wiremock/mappings/edc_discovery_request.json
+              subPath: edc_discovery_request.json
+            - name: configuration
+              mountPath: home/wiremock/__files/edc_discovery_response.json
+              subPath: edc_discovery_response.json
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: tmp
+          emptyDir: { }
+        - name: configuration
+          configMap:
+            name: {{ include "discovery.fullname" . }}
+            items:
+              - key: discovery_finder_request.json
+                path: discovery_finder_request.json
+              - key: discovery_finder_response.json
+                path: discovery_finder_response.json
+              - key: bpn_discovery_service_request.json
+                path: bpn_discovery_service_request.json
+              - key: bpn_discovery_service_response.json
+                path: bpn_discovery_service_response.json
+              - key: edc_discovery_request.json
+                path: edc_discovery_request.json
+              - key: edc_discovery_response.json
+                path: edc_discovery_response.json
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

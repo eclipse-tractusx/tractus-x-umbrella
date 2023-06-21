@@ -1,0 +1,97 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}
+  namespace: {{ .Release.Namespace | default "default" | quote }}
+  labels:
+    {{- include "semantic-hub.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "semantic-hub.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        {{- with .Values.podAnnotations }}
+          annotations:
+            {{- toYaml . | nindent 8 }}
+        {{- end }}
+      labels:
+        {{- include "semantic-hub.selectorLabels" . | nindent 8 }}
+    spec:
+      serviceAccountName: {{ include "semantic-hub.serviceAccountName" . }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: default
+              containerPort: 8080
+              protocol: TCP
+          {{- if .Values.livenessProbe.enabled }}
+          livenessProbe:
+            httpGet:
+              path: /__admin
+              port: default
+            initialDelaySeconds: 30
+            periodSeconds: 5
+            failureThreshold: 3
+          {{- end }}
+          {{- if .Values.readinessProbe.enabled }}
+          readinessProbe:
+            httpGet:
+              path: /__admin
+              port: default
+            initialDelaySeconds: 30
+            periodSeconds: 5
+            failureThreshold: 3
+          {{- end }}
+          envFrom:
+            - configMapRef:
+                name: {{ .Chart.Name }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: configuration
+              mountPath: /home/wiremock/mappings/serial_part_typization_model_request.json
+              subPath: serial_part_typization_model_request.json
+            - name: configuration
+              mountPath: home/wiremock/__files/serial_part_typization_model_response.json
+              subPath: serial_part_typization_model_response.json
+            - name: configuration
+              mountPath: /home/wiremock/mappings/assembly_part_relationship_model_request.json
+              subPath: assembly_part_relationship_model_request.json
+            - name: configuration
+              mountPath: home/wiremock/__files/assembly_part_relationship_model_response.json
+              subPath: assembly_part_relationship_model_response.json
+            - name: configuration
+              mountPath: /home/wiremock/mappings/all_models_request.json
+              subPath: all_models_request.json
+            - name: configuration
+              mountPath: home/wiremock/__files/all_models_response.json
+              subPath: all_models_response.json
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: tmp
+          emptyDir: {}
+        - name: configuration
+          configMap:
+            name: {{ .Chart.Name }}
+            items:
+              - key: serial_part_typization_model_request.json
+                path: serial_part_typization_model_request.json
+              - key: serial_part_typization_model_response.json
+                path: serial_part_typization_model_response.json
+              - key: assembly_part_relationship_model_request.json
+                path: assembly_part_relationship_model_request.json
+              - key: assembly_part_relationship_model_response.json
+                path: assembly_part_relationship_model_response.json
+              - key: all_models_request.json
+                path: all_models_request.json
+              - key: all_models_response.json
+                path: all_models_response.json

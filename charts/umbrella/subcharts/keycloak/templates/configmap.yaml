@@ -1,0 +1,67 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Chart.Name }}
+  namespace: {{ .Release.Namespace | default "default" | quote }}
+  labels:
+    {{- include "keycloak.labels" . | nindent 4 }}
+data:
+  ASPNETCORE_ENVIRONMENT: Development
+  ASPNETCORE_URLS: http://+:80
+  ASPNETCORE_Kestrel__Certificates__Default__Password: oidc-server-mock-pwd
+  SERVER_OPTIONS_PATH: /OpenIdConnectServerMock/config/server_options.json
+  LOGIN_OPTIONS_PATH: /OpenIdConnectServerMock/config/login_options.json
+  LOGOUT_OPTIONS_PATH: /OpenIdConnectServerMock/config/logout_options.json
+  API_SCOPES_INLINE: |
+    - Name: catena-scope
+  USERS_CONFIGURATION_PATH: /OpenIdConnectServerMock/config/users.yaml
+  CLIENTS_CONFIGURATION_PATH: /OpenIdConnectServerMock/config/clients.json
+  login_options.json: |-
+    {
+      "AllowRememberLogin": false
+    }
+  logout_options.json: |-
+    {
+      "AutomaticRedirectAfterSignOut": true
+    }
+  server_options.json: |-
+    {
+      "AccessTokenJwtType": "JWT",
+      "Discovery": {
+        "ShowKeySet": true
+      }
+    }
+  users.yaml: |-
+    [
+      { 
+        "SubjectId": "subj_1", 
+        "Username": "catena", 
+        "Password": "changeme" 
+      }
+    ]
+  clients.json: |-
+    [
+      {
+        "ClientId": "catena-client-id",
+        "ClientSecrets": ["catena-client-secret"],
+        "Description": "Client for client credentials flow",
+        "AllowedGrantTypes": ["client_credentials"],
+        "AllowedScopes": ["catena-scope"],
+        "ClientClaimsPrefix": "",
+        "IdentityTokenLifetime": 86400,
+        "AccessTokenLifetime": 86400,
+        "Claims": [
+          {
+            "Type": "resource_access",
+            "Value": "{\"Cl20-CX-IRS\": {\"roles\": [\"view_irs\"]}}",
+            "ValueType": "json"
+          },
+          {
+            "Type": "bpn",
+            "Value": "BPNL00000003CRHK",
+            "ValueType": "string"
+          }
+        ]
+      }
+    ]

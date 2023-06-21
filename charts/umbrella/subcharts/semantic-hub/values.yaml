@@ -1,0 +1,48 @@
+---
+replicaCount: 1
+
+image:
+  repository: wiremock/wiremock
+  pullPolicy: IfNotPresent
+  tag: "2.32.0"
+
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
+
+livenessProbe:
+  enabled: true
+
+readinessProbe:
+  enabled: true
+
+service:
+  type: ClusterIP
+  port: 8080
+
+resources:
+  limits:
+    cpu: 250m
+    memory: 512Mi
+  requests:
+    cpu: 250m
+    memory: 512Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 2
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
+
+securityContext:
+  allowPrivilegeEscalation: false
+  readOnlyRootFilesystem: true
+  runAsUser: 10001
+  runAsGroup: 10001
+  runAsNonRoot: true
+  seccompProfile:
+    type: RuntimeDefault      
+  capabilities:
+    drop: ["ALL"]

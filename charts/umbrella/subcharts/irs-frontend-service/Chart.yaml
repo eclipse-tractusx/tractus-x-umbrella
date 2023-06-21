@@ -1,0 +1,8 @@
+---
+apiVersion: v2
+name: irs-frontend-service
+description: IRS Frontend Service
+type: application
+version: 0.0.5
+appVersion: "1.0.0"
+icon: "https://github.com/catenax-ng/product-item-relationship-service-frontend/blob/main/favicon.ico"

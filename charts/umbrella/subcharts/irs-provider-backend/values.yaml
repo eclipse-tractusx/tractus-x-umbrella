@@ -1,0 +1,45 @@
+---
+replicaCount: 1
+
+image:
+  repository: ghcr.io/catenax-ng/catenax-at-home/provider-backend-service
+  pullPolicy: IfNotPresent
+  tag: "0.0.1"
+
+serviceAccount:
+  create: true
+  annotations: {}
+  name: ""
+
+service:
+  type: ClusterIP
+  port: 8080
+
+resources:
+  limits:
+    cpu: 250m
+    memory: 512Mi
+  requests:
+    cpu: 250m
+    memory: 512Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 2
+  targetCPUUtilizationPercentage: 80
+  targetMemoryUtilizationPercentage: 80
+
+# securityContext:
+#   allowPrivilegeEscalation: false
+#   readOnlyRootFilesystem: true
+#   runAsUser: 10001
+#   runAsGroup: 10001
+#   runAsNonRoot: true
+#   seccompProfile:
+#     type: RuntimeDefault      
+#   capabilities:
+#     drop: ["ALL"]
+
+ingress:
+  enabled: false

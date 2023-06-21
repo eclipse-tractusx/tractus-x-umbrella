@@ -1,0 +1,7 @@
+---
+apiVersion: v2
+name: keycloak
+description: Keycloak Service
+type: application
+version: 0.0.1
+appVersion: "1.0.0"

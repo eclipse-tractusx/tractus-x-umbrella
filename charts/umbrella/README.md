@@ -20,6 +20,15 @@ cd charts/umbrella
 helm install lab . --namespace lab --create-namespace
 ```
 
+To forward the ports for accessing the IRS:
+
+```shell
+./forwardingPorts.sh
+```
+After that you can access the:
+- IRS Frontend: http://localhost:3000
+
+
 To taredown your setup, run:
 
 ```shell

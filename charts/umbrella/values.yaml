@@ -65,6 +65,58 @@ global:
     vault:
       url: &vaultUrl "http://{{ .Release.Name }}-vault:8200"
       token: &edcVaultToken vaultRootToken
+    api:
+      auth:
+        key: &global-edc-auth-api-key "password"
+
+  keycloak:
+    grand:
+      type: &global-keycloak-grand-type client_credentials
+    scope: &global-keycloak-scope catena-scope
+    client:
+      id: &global-keycloak-client-id "catena-client-id"
+      secret: &global-keycloak-client-secret "catena-client-secret"
+    token:
+      url: &global-keycloak-token-url "http://keycloak:8080/connect/token"
+    cert:
+      url: &global-keycloak-certs-url "http://keycloak:8080/.well-known/openid-configuration/jwks"
+  # grafana:
+  #   username: &global-grafana-username "admin"
+  #   password: &global-grafana-password "password"
+  #   secret:
+  #     name: &global-grafana-secret-name irs-grafana
+  minio:
+    username: &global-minio-username "admin"
+    password: &global-minio-password "password"
+    secret:
+      name: &global-minio-secret-name "irs-minio"
+  vault:
+    url: &global-vault-url http://edc-vault:8200
+    token: &global-vault-token "root"
+    secret.path: &global-vault-api-secret-path "/v1/secret"
+    secret:
+      name: &global-vault-secret-name edc-vault
+      dataEncryptionName: &global-vault-secret-data-encryption-name "data-encryption"
+      dataEncryptionValue: &global-vault-secret-data-encryption-value "H7j47H6vVQQOv/hbdAYz+w=="
+      dapsCertName: &global-vault-secret-daps-cert-name "daps-cert"
+      dapsCertValue: &global-vault-secret-daps-cert-value "FILL ME UP"
+      dapsKeyName: &global-vault-secret-daps-key-name "daps-key"
+      dapsKeyValue: &global-vault-secret-daps-key-value "FILL ME UP"
+  irs:
+    existingSecret: &global-irs-existingSecret false
+    secret:
+      name: &global-irs-secret-name "irs-backend-service"
+      minio:
+        user: *global-minio-username
+        password: *global-minio-password
+      edc:
+        api:
+          secret: *global-edc-auth-api-key
+      # grafana:
+      #   user: *global-grafana-username
+      #   password: *global-grafana-password
+  discovery:
+    host: &discovery-host "discovery:8080"
 
 certsconsumer:
   daps:
@@ -151,21 +203,21 @@ edcconsumer:
     image:
       tag: *edcDpImageTag
 
-# test1: no database
+  # test1: no database
 
-# test2: byo database
+  # test2: byo database
   postgresql:
     enabled: true
     nameOverride: edcconsumer-postgresql
 
-# externalDB: helm upgrade --install thedb bitnami/postgresql --values thedb.yaml
-# test3 external database with password
+  # externalDB: helm upgrade --install thedb bitnami/postgresql --values thedb.yaml
+  # test3 external database with password
   # externalDatabase:
   #   enabled: true
   #   host: "thedb-postgresql"
   #   password: "ThePassword"
 
-# test4 external database with existing secret
+  # test4 external database with existing secret
   # externalDatabase:
   #   enabled: true
   #   host: "thedb-postgresql"
@@ -187,7 +239,6 @@ edcconsumer:
 
       transferProxyTokenSignerPrivateKey: *edcConsumerVaultTransferPrivateKey
       transferProxyTokenSignerPublicKey: *edcConsumerVaultTransferPublicKey
-
 
 edcprovider:
   nameOverride: edcprovider
@@ -233,15 +284,273 @@ edcprovider:
       transferProxyTokenSignerPrivateKey: *edcProviderVaultTransferPrivateKey
       transferProxyTokenSignerPublicKey: *edcProviderVaultTransferPublicKey
 
-vault:
-  # fullnameOverride: vault
-
+# ###########
+# EDC VAULT #
+# ###########
+edc-vault:
+  fullnameOverride: "edc-vault"
+  enabled: false
   injector:
-    enabled: false
-
+    # enabled: false
+    enabled: true
+    metrics:
+      enabled: true
   server:
-    authDelegator:
-      enabled: false
+    logLevel: "trace"
+    logFormat: "standard"
     dev:
       enabled: true
-      devRootToken: *edcVaultToken
+      devRootToken: *global-vault-token
+
+    # Must be the same certificate that is configured in section 'ids-daps'
+    extraEnvironmentVars:
+      SECRET_DATA_ENCRYPTION_NAME: *global-vault-secret-data-encryption-name
+      SECRET_DATA_ENCRYPTION_VALUE: *global-vault-secret-data-encryption-value
+      SECRET_DAPS_CERT_NAME: *global-vault-secret-daps-cert-name
+      SECRET_DAPS_CERT_VALUE: *global-vault-secret-daps-cert-value
+      SECRET_DAPS_KEY_NAME: *global-vault-secret-daps-key-name
+      SECRET_DAPS_KEY_VALUE: *global-vault-secret-daps-key-value
+    postStart:
+      - "sh"
+      - "-c"
+      - |
+        {
+
+        sleep 5
+
+        /bin/vault audit enable file file_path=/tmp/vault_log.txt
+
+        /bin/vault kv put secret/${SECRET_DATA_ENCRYPTION_NAME} content=${SECRET_DATA_ENCRYPTION_VALUE}
+
+        cat << EOF | /bin/vault kv put secret/${SECRET_DAPS_KEY_NAME} content=-
+        -----BEGIN PRIVATE KEY-----
+        MIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQDRl5vqQTWBNDFq
+        QonUKKC54cMB3CPat8Ec7yi4RnhuKdvmUX6yuDEsC4ia5wLaPQEsAiGWopjeXGDx
+        NS7nxAauZC/t8R6iZ6g+APq1zS4T/Kz48c609CZ8ryEKQtLgnKSNnJBYFf7wz7iV
+        blcXl4idvL8kUbucw+giKiewTgGbg8nCBn2PQ9JXWPr39LqaTt46qhaPRoZU1e9L
+        WoR0EGAeuQrmwmT1m4LTQLUKlp4T3iuSapgeOwfLULOkd5bCDuvQFclnebVuLVp7
+        7wEM3UsfxVaknnuKZNlig+arkhZpYOpUYQYYS7GE+/tTxP8sxIH6pVha2G/Qe7vG
+        s6HQG0hTAgMBAAECggEAQHHEcA/i2rpoo0qYRJLFcMI5Cr5ci+jKSRJES/znFMBs
+        K/JM6bj27ZsSQsbbOq1dSeHR4BZYuK5g5Gm85WiBwWdu0VO9XqROt9nnPLU9AMpF
+        iToYm80idF4I47XOT1/6vMwyGdORkwvbrp7ByrA+QnoBr7It5LLcEn0xvOUPW3ho
+        wNopAQcLre4S46tI9tjhjhDe/VOb9GclZ6pm4OLSb/dFawDaPZxFm6f7aevyS6FM
+        VmQ8YsrTqDpn9VnO6UNDhrGuvtrX5ochklQ4vbXcxyk7E74DVJP0kGIXYhBBHAj3
+        CdYne9S7c08qPDKbt6tMTaBB9h8O4EV0vftKf4WQEQKBgQDqZ2x1ZEKoJQc+k+BS
+        hnPu8BRREEXQQHXDKiQM9RY+oLM3BfVx4NI12NWRKTcoTfV+VfcVSKcNVdAZwbC2
+        ZRX/QGw1GkpcJfHb9z3BeS1OUofR55fRNLbRxQ5yCD97WtmDeTX59fU1AV6IfcFM
+        NbUELadN2zI2gE35CVo9wMyvCwKBgQDk5vugYszdp56FjPjRZIpzAgoQXxhgGSNv
+        xMfBqKZ4Z1MDRgk28MbFEiEp07yhCS6jdTsvGe+eslqm0lp7WiMas/SQ4JU9FkrQ
+        ZyuzvnEVWICbEo+90/Rr2JNGayZa7ECZ2lPFyrPLV6nuBdwqQL53EYyWCRTz5NZ1
+        Q7uJWUG42QKBgQCs9ArOw197eXbS8YF+4r3/+xzCg2M/uZAqpJldBimXpDMX0km7
+        8Mqp+If8R5DvKDaPNRbOmYDJEhwuJQAiVIvafspYlEFxpH3Ec7UZYDPRqouUkXEv
+        Z9nNBb0W3ocYmXwMyg7NlHGM3qnFxCQv+yDJKHZdt/JgzGK78e6nye486QKBgQCW
+        fL0FLq9dMivnxUx37U+QWNDg/oP5+czwWECzsvruwY8z4cGBGz6ypT6kTw3+GRlO
+        YW4tgzGj9cHfVwAhhJr7nT+2V9AFvzgkVw/GNfgGfo7eZI+Xz1cr59C7RQqMUDIQ
+        dBcLPD6D+vg/Ah9CsBoIEcOJiCL8TYAozATpQYMR0QKBgQDXCWh7A45QxYn0xq0B
+        iEd59YCVUoQBmRjKJzQTzN+dufjeMeLPRFvG713rnAeTzCzVwLi49ZJ3Zp0QFFWO
+        vd+cmpPmX/+Eq3yAit2rlbu5AMvwJiQXxOdShT3F9sMp8iPH4B+liZEoFPJO6RgG
+        UT2FhaZzgKIEWnt4aN0GvPRHdw==
+        -----END PRIVATE KEY-----
+
+        EOF
+
+        cat << EOF | /bin/vault kv put secret/${SECRET_DAPS_CERT_NAME} content=-
+        -----BEGIN CERTIFICATE-----
+        MIIDazCCAlOgAwIBAgIULRtsNKCEIXeJcpBg28vr6UgyfbIwDQYJKoZIhvcNAQEL
+        BQAwRTELMAkGA1UEBhMCQVUxEzARBgNVBAgMClNvbWUtU3RhdGUxITAfBgNVBAoM
+        GEludGVybmV0IFdpZGdpdHMgUHR5IEx0ZDAeFw0yMzAyMTMyMTE0NDlaFw0zMzAy
+        MTAyMTE0NDlaMEUxCzAJBgNVBAYTAkFVMRMwEQYDVQQIDApTb21lLVN0YXRlMSEw
+        HwYDVQQKDBhJbnRlcm5ldCBXaWRnaXRzIFB0eSBMdGQwggEiMA0GCSqGSIb3DQEB
+        AQUAA4IBDwAwggEKAoIBAQDRl5vqQTWBNDFqQonUKKC54cMB3CPat8Ec7yi4Rnhu
+        KdvmUX6yuDEsC4ia5wLaPQEsAiGWopjeXGDxNS7nxAauZC/t8R6iZ6g+APq1zS4T
+        /Kz48c609CZ8ryEKQtLgnKSNnJBYFf7wz7iVblcXl4idvL8kUbucw+giKiewTgGb
+        g8nCBn2PQ9JXWPr39LqaTt46qhaPRoZU1e9LWoR0EGAeuQrmwmT1m4LTQLUKlp4T
+        3iuSapgeOwfLULOkd5bCDuvQFclnebVuLVp77wEM3UsfxVaknnuKZNlig+arkhZp
+        YOpUYQYYS7GE+/tTxP8sxIH6pVha2G/Qe7vGs6HQG0hTAgMBAAGjUzBRMB0GA1Ud
+        DgQWBBRIDfz0SYxyVKHB5OqSag86ktrIODAfBgNVHSMEGDAWgBRIDfz0SYxyVKHB
+        5OqSag86ktrIODAPBgNVHRMBAf8EBTADAQH/MA0GCSqGSIb3DQEBCwUAA4IBAQCX
+        +hCBvBud9ph3p8FAKn1IntcmnC4H9BMDAwGM/QifgVVNRFe9hJJes2tKdVemYDk1
+        kgqRoZEpTapqvLT8Iekd+h15uvP1e2BXzdwhcS67rActsbtksfL8h8q6NWXVWKQO
+        9qARpzaCapIQ4BJTQnxTXlT9sqPyqnrqGQqTFoN5j71WELn3ETLeiWKwWjECkWx/
+        bql3pyGKnPORP+7OF0gJDDkdS+Vwuh3S3E8g5K8osXTgqL71AIabfRvu0TDFpy0b
+        /qfdxJfe5tS6sh1W8FaEgKYEyZQOVRa6wXzm8AkgaxlUcl9vVzmaoernxhn6sWCN
+        95UUKv3iblFl7yB8vGmr
+        -----END CERTIFICATE-----
+
+        EOF
+
+        }
+  ui:
+    enabled: true
+    externalPort: 8200
+    targetPort: 8200
+
+################
+# Semantic Hub #
+################
+semantic-hub:
+  fullnameOverride: "semantic-hub"
+
+#########################
+# Digital Twin Registry #
+#########################
+digital-twin-registry:
+  enableKeycloak: false
+  registry:
+    authentication: false
+  postgresql:
+    primary:
+      persistence:
+        enabled: true
+        size: 200Mi
+  auth:
+    username: default-user
+    password: password
+    database: default-database
+
+############
+# KeyCloak #
+############
+keycloak:
+  fullnameOverride: "keycloak"
+  client:
+    id: *global-keycloak-client-id
+    secret: *global-keycloak-client-secret
+  grand:
+    type: *global-keycloak-grand-type
+  scope: *global-keycloak-scope
+
+####################
+# IRS Configuration #
+#####################
+irs:
+  enabled: true
+  minioUser: *global-minio-username
+  minioPassword: *global-minio-password
+  minioUrl: "http://{{ .Release.Name }}-minio:9000"
+
+  config:
+    override: false
+
+  irsUrl: http://{{ .Chart.Name }}:{{ .Values.service.port }}
+
+  blobstore:
+    endpoint: "http://irs-minio:9000"
+    accessKey: "${MINIO_ACCESS_KEY}"
+    secretKey: "${MINIO_SECRET_KEY}"
+  keycloak:
+    oauth2:
+      clientId: *global-keycloak-client-id
+      clientSecret: *global-keycloak-client-secret
+      clientTokenUri: *global-keycloak-token-url
+      jwkSetUri: *global-keycloak-certs-url
+
+  digitalTwinRegistry:
+    url: "http://cx-irs-dependencies-registry-svc:8080"
+    descriptorEndpoint: "{{ tpl .Values.digitalTwinRegistry.url . }}/registry/shell-descriptors/{aasIdentifier}"
+    shellLookupEndpoint: "{{ tpl .Values.digitalTwinRegistry.url . }}/lookup/shells?assetIds={assetIds}"
+  semanticshub:
+    url: http://semantic-hub:8080/hub/api/v1/models
+    defaultUrns: >-
+      urn:bamm:io.catenax.serial_part_typization:1.0.0#SerialPartTypization
+    localModels:
+
+  bpdm:
+    url: ""
+    bpnEndpoint: "{{ tpl .Values.bpdm.url . }}/api/catena/legal-entities/{partnerId}?idType={idType}"
+
+  edc:
+    controlplane:
+      endpoint:
+        data: "http://edc-consumer-control-plane:8181/api/v1/management"
+      request:
+        ttl: PT10M
+      provider:
+        suffix: /api/v1/ids/data
+      catalog:
+        limit: 1000
+      apikey:
+        header: "X-Api-Key"
+        secret: *global-edc-auth-api-key
+    submodel:
+      request:
+        ttl: PT10M
+      path: /submodel
+      urnprefix: /urn
+
+  minio:
+    enabled: true
+    mode: standalone
+    persistence:
+      enabled: true
+      size: 100Mi
+    resources:
+      requests:
+        memory: 4Gi
+
+    rootUser: *global-minio-username
+    rootPassword: *global-minio-password
+
+    environment:
+      MINIO_PROMETHEUS_JOB_ID: minio-actuator
+      MINIO_PROMETHEUS_URL: http://{{ .Release.Name }}-prometheus-server:9090
+
+  prometheus:
+    enabled: false
+    rbac:
+      create: false
+    alertmanager:
+      enabled: false
+    prometheus-node-exporter:
+      enabled: false
+    kubeStateMetrics:
+      enabled: false
+    prometheus-pushgateway:
+      enabled: false
+    configmapReload:
+      prometheus:
+        enabled: false
+
+    extraScrapeConfigs: |
+      - job_name: 'spring-actuator'
+        metrics_path: '/actuator/prometheus'
+        scrape_interval: 5s
+        static_configs:
+          - targets: [ '{{ .Release.Name }}-irs-helm:4004' ]
+
+      - job_name: 'minio-actuator'
+        metrics_path: /minio/v2/metrics/cluster
+        static_configs:
+          - targets: [ '{{ .Release.Name }}-minio:9000' ]
+
+################
+# IRS Frontend #
+################
+irs-frontend:
+  registry:
+    default:
+      global:
+        asset:
+          id: urn:uuid:d3c0bf85-d44f-47c5-990d-fec8a36065c6
+    vite:
+      manual:
+        url: https://github.com/catenax-ng/product-item-relationship-service-frontend/blob/main/docs/userManual.md
+    url:
+      local: http://localhost:8080
+  keycloak:
+    url: http://localhost:4011/connect/token
+    grand:
+      type: *global-keycloak-grand-type
+    scope: *global-keycloak-scope
+    client:
+      id: *global-keycloak-client-id
+      secret: *global-keycloak-client-secret
+
+####################
+# Discovery Service #
+####################
+discovery:
+  ingress:
+    enabled: false
+  wiremock:
+    host: *discovery-host

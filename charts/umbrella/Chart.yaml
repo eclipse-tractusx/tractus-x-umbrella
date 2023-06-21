@@ -74,3 +74,54 @@ dependencies:
     version: 0.23.0
     repository: https://helm.releases.hashicorp.com
     condition: global.edc.enabled
+
+
+  #  # IRS ############################
+
+  # Semantic Hub Service
+  - name: semantic-hub
+    alias: semantic-hub
+    version: 0.0.1
+    repository: "file://subcharts/semantic-hub"
+    condition: install.semanticHub
+
+  # Digital Twin Registry
+  - name: registry
+    alias: digital-twin-registry
+    version: 0.2.14
+    repository: https://eclipse-tractusx.github.io/charts/dev
+    condition: install.digitalTwin
+
+  # KeyCloak Service
+  - name: keycloak
+    alias: keycloak
+    version: 0.0.1
+    repository: "file://subcharts/keycloak"
+    condition: install.keycloak
+
+  # IRS Provider Backend
+  - name: irs-provider-backend
+    alias: irs-provider-backend
+    version: 0.0.1
+    repository: "file://subcharts/irs-provider-backend"
+    condition: install.irs.providerBackend
+
+  # IRS
+  - name: irs-helm
+    alias: irs
+    repository: https://catenax-ng.github.io/tx-item-relationship-service
+    version: 5.0.9
+    condition: irs.enabled
+
+  # IRS Frontend Service
+  - name: irs-frontend-service
+    alias: irs-frontend
+    version: 0.0.5
+    repository: "file://subcharts/irs-frontend-service"
+    condition: install.irs.frontend
+
+  # Discovery
+  - name: discovery
+    version: 0.0.1
+    repository: "file://subcharts/discovery"
+    condition: install.discovery

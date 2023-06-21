@@ -1,0 +1,7 @@
+---
+apiVersion: v2
+name: irs-provider-backend
+description: IRS Provider Backend
+type: application
+version: 0.0.1
+appVersion: "1.0.0"

@@ -1,0 +1,116 @@
+# Copyright (c) 2021,2022,2023
+  #       2022: ZF Friedrichshafen AG
+  #       2022: ISTOS GmbH
+  #       2022,2023: Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
+  #       2022,2023: BOSCH AG
+  # Copyright (c) 2021,2022,2023 Contributors to the Eclipse Foundation
+  #
+  # See the NOTICE file(s) distributed with this work for additional
+  # information regarding copyright ownership.
+  #
+  # This program and the accompanying materials are made available under the
+  # terms of the Apache License, Version 2.0 which is available at
+  # https://www.apache.org/licenses/LICENSE-2.0. *
+  # Unless required by applicable law or agreed to in writing, software
+  # distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+  # WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+  # License for the specific language governing permissions and limitations
+  # under the License.
+  #
+  # SPDX-License-Identifier: Apache-2.0
+  #
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "discovery.fullname" . }}
+  labels:
+    {{- include "discovery.labels" . | nindent 4 }}
+data:
+  discovery_finder_request.json: |-
+    {
+      "request": {
+        "method": "POST",
+        "urlPath": "/api/administration/connectors/discovery/search"
+      },
+      "response": {
+        "status": 200,
+        "bodyFileName": "discovery_finder_response.json",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
+    }
+
+  discovery_finder_response.json: |-
+    {
+      "endpoints": [
+        {
+          "type": "bpn",
+          "description": "Service to discover EDC to a particular BPN",
+          "endpointAddress": "https://{{ .Values.wiremock.host }}/api/administration/connectors/discovery",
+          "documentation": "http://.../swagger/index.html",
+          "resourceId": "316417cd-0fb5-4daf-8dfa-8f68125923f1"
+        }
+      ]
+    }
+
+  edc_discovery_request.json: |-
+    {
+      "request": {
+        "method": "POST",
+        "urlPath": "/api/administration/connectors/discovery"
+      },
+      "response": {
+        "status": 200,
+        "bodyFileName": "edc_discovery_response.json",
+        "headers": {
+          "Content-Type": "application/json"
+        },
+        "transformers": ["response-template"]
+      }
+    }
+
+  edc_discovery_response.json: |-
+    [
+      {
+        "bpn": "{{ printf "{{jsonPath request.body '$.[0]'}}" }}",
+        "connectorEndpoint": [
+          "https://irs-provider-controlplane.dev.demo.catena-x.net/",
+          "https://irs-provider-controlplane2.dev.demo.catena-x.net/",
+          "https://irs-provider-controlplane3.dev.demo.catena-x.net/"
+        ]
+      }
+    ]
+
+  bpn_discovery_service_request.json: |-
+    {
+      "request": {
+        "method": "POST",
+        "urlPath": "/api/administration/connectors/bpnDiscovery/search"
+      },
+      "response": {
+        "status": 200,
+        "bodyFileName": "bpn_discovery_service_response.json",
+        "headers": {
+          "Content-Type": "application/json"
+        }
+      }
+    }
+
+  bpn_discovery_service_response.json: |-
+    {
+      "bpns": [
+        {"type": "bpn","key": ".*","value": "BPNL00000000BJTL","resourceId": "1ca6f9b5-8e1d-422a-8541-9bb2cf5fe485"},
+        {"type": "bpn","key": ".*","value": "BPNL00000003AVTH","resourceId": "1ca6f9b5-8e1d-422a-8541-9bb2cf5fe485"},
+        {"type": "bpn","key": ".*","value": "BPNL00000003AXS3","resourceId": "1ca6f9b5-8e1d-422a-8541-9bb2cf5fe485"},
+        {"type": "bpn","key": ".*","value": "BPNL00000003AYRE","resourceId": "1ca6f9b5-8e1d-422a-8541-9bb2cf5fe485"},
+        {"type": "bpn","key": ".*","value": "BPNL00000003AZQP","resourceId": "1ca6f9b5-8e1d-422a-8541-9bb2cf5fe485"},
+        {"type": "bpn","key": ".*","value": "BPNL00000003B0Q0","resourceId": "1ca6f9b5-8e1d-422a-8541-9bb2cf5fe485"},
+        {"type": "bpn","key": ".*","value": "BPNL00000003B2OM","resourceId": "1ca6f9b5-8e1d-422a-8541-9bb2cf5fe485"},
+        {"type": "bpn","key": ".*","value": "BPNL00000003B3NX","resourceId": "1ca6f9b5-8e1d-422a-8541-9bb2cf5fe485"},
+        {"type": "bpn","key": ".*","value": "BPNL00000003B5MJ","resourceId": "1ca6f9b5-8e1d-422a-8541-9bb2cf5fe485"},
+        {"type": "bpn","key": ".*","value": "BPNL00000003B5MJ","resourceId": "1ca6f9b5-8e1d-422a-8541-9bb2cf5fe485"},
+        {"type": "bpn","key": ".*","value": "BPNL00000003CSGV","resourceId": "1ca6f9b5-8e1d-422a-8541-9bb2cf5fe485"}
+      ]
+    }

@@ -1,0 +1,90 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Chart.Name }}
+  namespace: {{ .Release.Namespace | default "default" | quote }}
+  labels:
+    {{- include "keycloak.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "keycloak.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        {{- with .Values.podAnnotations }}
+          annotations:
+            {{- toYaml . | nindent 8 }}
+        {{- end }}
+      labels:
+        {{- include "keycloak.selectorLabels" . | nindent 8 }}
+    spec:
+      serviceAccountName: {{ include "keycloak.serviceAccountName" . }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: default
+              containerPort: 80
+              protocol: TCP
+          {{- if .Values.livenessProbe.enabled }}
+          livenessProbe:
+            httpGet:
+              path: /.well-known/openid-configuration
+              port: default
+            initialDelaySeconds: 30
+            periodSeconds: 3
+            failureThreshold: 3
+          {{- end }}
+          {{- if .Values.readinessProbe.enabled }}
+          readinessProbe:
+            httpGet:
+              path: /.well-known/openid-configuration
+              port: default
+            initialDelaySeconds: 30
+            periodSeconds: 3
+            failureThreshold: 3
+          {{- end }}
+          envFrom:
+            - configMapRef:
+                name: {{ .Chart.Name }}
+          volumeMounts:
+            - name: configuration
+              mountPath: /OpenIdConnectServerMock/config/server_options.json
+              subPath: server_options.json
+            - name: configuration
+              mountPath: /OpenIdConnectServerMock/config/login_options.json
+              subPath: login_options.json
+            - name: configuration
+              mountPath: /OpenIdConnectServerMock/config/logout_options.json
+              subPath: logout_options.json
+            - name: configuration
+              mountPath: /OpenIdConnectServerMock/config/users.yaml
+              subPath: users.yaml
+            - name: configuration
+              mountPath: /OpenIdConnectServerMock/config/clients.json
+              subPath: clients.json
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: tmp
+          emptyDir: {}
+        - name: configuration
+          configMap:
+            name: {{ .Chart.Name }}
+            items:
+              - key: server_options.json
+                path: server_options.json
+              - key: login_options.json
+                path: login_options.json
+              - key: logout_options.json
+                path: logout_options.json
+              - key: users.yaml
+                path: users.yaml
+              - key: clients.json
+                path: clients.json

@@ -1,0 +1,21 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Chart.Name }}
+  namespace: {{ .Release.Namespace | default "default" | quote }}
+  labels:
+    {{- include "irs-frontend-service.labels" . | nindent 4 }}
+data:
+  VITE_USER_MANUAL_URL: {{ .Values.registry.vite.manual.url }}
+
+  VITE_SERVER_DEFAULT_ENV: "LOCAL"
+  VITE_SERVER_DEFAULT_GLOBAL_ASSET_ID: {{ .Values.registry.default.global.asset.id }}
+
+  VITE_SERVER_LOCAL_LABEL: "Local Data"
+  VITE_SERVER_LOCAL_BASE_URL: {{ .Values.registry.url.local }}
+  VITE_SERVER_LOCAL_KEYCLOAK_URL: {{ .Values.keycloak.url }}
+  VITE_SERVER_LOCAL_SCOPE: {{ .Values.keycloak.scope }}
+  VITE_SERVER_LOCAL_CLIENT_ID: {{ .Values.keycloak.client.id }}
+  VITE_SERVER_LOCAL_CLIENT_SECRET: {{ .Values.keycloak.client.secret }}
+  VITE_SERVER_LOCAL_GRANT_TYPE: {{ .Values.keycloak.grand.type }}

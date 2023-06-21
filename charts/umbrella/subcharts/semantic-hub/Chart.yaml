@@ -1,0 +1,7 @@
+---
+apiVersion: v2
+name: semantic-hub
+description: Semantic Hub
+type: application
+version: 0.0.1
+appVersion: "1.0.0"
