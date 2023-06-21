@@ -212,6 +212,7 @@ edcconsumer:
   participant:
     id: consumer
 
+# test2: byo database
   postgresql:
     nameOverride: consumer-postgresql
 
