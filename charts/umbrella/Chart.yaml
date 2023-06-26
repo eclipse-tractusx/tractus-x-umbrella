@@ -40,11 +40,11 @@ dependencies:
 
   # edc consumer
   - alias: edcconsumer
-    name: tractusx-connector
-    version: 0.4.1
+    name: tractusx-connector-legacy
+    version: 0.5.0-rc1
     repository: https://eclipse-tractusx.github.io/charts/dev
   # edc provider
   - alias: edcprovider
-    name: tractusx-connector
-    version: 0.4.1
+    name: tractusx-connector-legacy
+    version: 0.5.0-rc1
     repository: https://eclipse-tractusx.github.io/charts/dev
