@@ -3,8 +3,7 @@
 # Check if any repositories is present
 if ! helm repo list ; then
   echo "Need to add repos"
-  helm repo add bitnami https://charts.bitnami.com/bitnami
-  helm repo add hashicorp https://helm.releases.hashicorp.com
+  helm repo add tractusx https://eclipse-tractusx.github.io/charts/dev
 fi
 
 # This hack script will download all chart/umbrella dependency charts.
