@@ -18,6 +18,17 @@
 # #############################################################################
 ---
 global:
+  edc:
+    # temporary using fixed image + tag
+    # Because there is no tractusx-connector release including PRs 473,474,475
+    # for 0.4.x we use the legacy Helm chart from release 0.5.0-rc1
+    cp:
+      image: &edcCpImage tractusx/edc-controlplane-postgresql-hashicorp-vault
+    dp:
+      image: &edcDpImage tractusx/edc-dataplane-hashicorp-vault
+    tag: &edcImageTag 0.4.1
+
+
   daps:
     # url: &dapsUrl "http://{{ .Release.Name }}-daps:4567"
     auth:
@@ -170,6 +181,10 @@ edcconsumer:
       management:
         authKey: consumer-authkey
 
+    image:
+      repository: *edcCpImage
+      tag: *edcImageTag
+
   daps:
     clientId: *edcConsumerDapsClientId
 
@@ -188,6 +203,11 @@ edcconsumer:
     #   runAsGroup: 1000
     # persistence:
     #   accessMode: "ReadWriteOnce"
+
+  dataplane:
+    image:
+      repository: *edcDpImage
+      tag: *edcImageTag
 
   participant:
     id: consumer
@@ -233,8 +253,17 @@ edcprovider:
       management:
         authKey: provider-authkey
 
+    image:
+      repository: *edcCpImage
+      tag: *edcImageTag
+
   daps:
     clientId: *edcProviderDapsClientId
+
+  dataplane:
+    image:
+      repository: *edcDpImage
+      tag: *edcImageTag
 
   participant:
     id: provider
