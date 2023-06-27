@@ -18,57 +18,62 @@
 # #############################################################################
 ---
 global:
-  daps:
-    url: &dapsUrl "http://{{ .Release.Name }}-dapsserver:4567"
-    auth:
-      clientId: &dapsClientId admin
-      # ensure you use a secret password - this is only for testing purposes
-      clientSecret: &dapsClientSecret admin
-      # ensure you use a secret password - this is only for testing purposes
-      # defaultAdminUser must match with dapsClientId and dapsClientSecret (separated by colon)
-      # using default daps password
-      defaultAdminUser: &dapsDefaultAdminUser "admin:admin"
-
   edc:
-    enabled: true
+    # temporary using fixed image + tag
+    # Because there is no tractusx-connector release including PRs 473,474,475
+    # for 0.4.x we use the legacy Helm chart from release 0.5.0-rc1
+    cp:
+      image: &edcCpImage tractusx/edc-controlplane-postgresql-hashicorp-vault
+    dp:
+      image: &edcDpImage tractusx/edc-dataplane-hashicorp-vault
+    tag: &edcImageTag 0.4.1
 
-    controlplane:
-      image:
-        tag: &edcCpImageTag 0.1.6
-    dataplane:
-      image:
-        tag: &edcDpImageTag 0.1.6
+
+  daps:
+    # url: &dapsUrl "http://{{ .Release.Name }}-daps:4567"
+    auth:
+      # management login credentials for daps-server (username)
+      clientId: &dapsClientId admin
+      # management login credentials for daps-server (password)
+      clientSecret: &dapsClientSecret ThisiSaSuPERSecretPassword1!11
 
     consumer:
       daps:
+        # identity of the EDC (consumer) at daps-server
         clientId: &edcConsumerDapsClientId consumer-daps-clientid
 
       vault:
         daps:
-          privateKey: &edcConsumerVaultDapsPrivateKey edcconsumer-daps-privatekey
-          publicKey: &edcConsumerVaultDapsPublicKey edcconsumer-daps-publickey
+          # vault path of registered certificate for EDC to authenticate to EDC
+          privateKey: &edcConsumerVaultDapsPrivateKey edcconsumer-daps-private-key
+          # vault path of registered certificate for EDC to authenticate to EDC
+          publicKey: &edcConsumerVaultDapsPublicKey edcconsumer-daps-public-key
 
         transfer:
-          encryptionAesKey: &edcConsumerVaultTransferEncryptionAesKey edcconsumer-encryption-aes-key
-          privateKey: &edcConsumerVaultTransferPrivateKey edcconsumer-transfer-privatekey
-          publicKey: &edcConsumerVaultTransferPublicKey edcconsumer-transfer-publickey
+          # vault path of key for dataplane transfer
+          encryptionAesKey: &edcConsumerVaultTransferEncryptionAesKey edcconsumer-transfer-proxy-token-encryption-aes-key
+          # vault path of certificate for dataplane transfer
+          privateKey: &edcConsumerVaultTransferPrivateKey edcconsumer-transfer-proxy-token-signer-private-key
+          # vault path of certificate for dataplane transfer
+          publicKey: &edcConsumerVaultTransferPublicKey edcconsumer-transfer-proxy-token-signer-public-key
 
     provider:
       daps:
+        # identity of the EDC (provider) at daps-server
         clientId: &edcProviderDapsClientId provider-daps-clientid
 
       vault:
         daps:
-          privateKey: &edcProviderVaultDapsPrivateKey edcprovider-daps-privatekey
-          publicKey: &edcProviderVaultDapsPublicKey edcprovider-daps-publickey
+          privateKey: &edcProviderVaultDapsPrivateKey edcprovider-daps-private-key
+          publicKey: &edcProviderVaultDapsPublicKey edcprovider-daps-public-key
 
         transfer:
-          encryptionAesKey: &edcProviderVaultTransferEncryptionAesKey edcprovider-encryption-aes-key
-          privateKey: &edcProviderVaultTransferPrivateKey edcprovider-transfer-privatekey
-          publicKey: &edcProviderVaultTransferPublicKey edcprovider-transfer-publickey
+          encryptionAesKey: &edcProviderVaultTransferEncryptionAesKey edcprovider-transfer-proxy-token-encryption-aes-key
+          privateKey: &edcProviderVaultTransferPrivateKey edcprovider-transfer-proxy-token-signer-private-key
+          publicKey: &edcProviderVaultTransferPublicKey edcprovider-transfer-proxy-token-signer-public-key
 
     vault:
-      url: &vaultUrl "http://{{ .Release.Name }}-vault:8200"
+      # url: &vaultUrl "http://{{ .Release.Name }}-vault:8200"
       token: &edcVaultToken vaultRootToken
 
   networkPolicy:
@@ -76,7 +81,6 @@ global:
 
 certsconsumer:
   daps:
-    address: *dapsUrl
     auth:
       clientId: *dapsClientId
       clientSecret: *dapsClientSecret
@@ -84,7 +88,6 @@ certsconsumer:
       clientId: *edcConsumerDapsClientId
 
   vault:
-    address: *vaultUrl
     daps:
       privateKey: *edcConsumerVaultDapsPrivateKey
       publicKey: *edcConsumerVaultDapsPublicKey
@@ -96,7 +99,6 @@ certsconsumer:
 
 certsprovider:
   daps:
-    address: *dapsUrl
     auth:
       clientId: *dapsClientId
       clientSecret: *dapsClientSecret
@@ -104,7 +106,6 @@ certsprovider:
       clientId: *edcProviderDapsClientId
 
   vault:
-    address: *vaultUrl
     daps:
       privateKey: *edcProviderVaultDapsPrivateKey
       publicKey: *edcProviderVaultDapsPublicKey
@@ -114,62 +115,59 @@ certsprovider:
       privateKey: *edcProviderVaultTransferPrivateKey
       publicKey: *edcProviderVaultTransferPublicKey
 
-# eclipse-tractusx DAPS
-# https://github.com/eclipse-tractusx/daps-helm-chart
-dapsserver:
-  # fullnameOverride: daps
-  image:
-    repository: ghcr.io/fraunhofer-aisec/omejdn-server
-    tag: "1.7.1"
-  podSecurityContext:
-    fsGroup: 1000
-    runAsNonRoot: true
-    runAsUser: 1000
-    runAsGroup: 1000
-  persistence:
-    accessMode: "ReadWriteOnce"
-  omejdn:
-    defaultAdminUser: *dapsDefaultAdminUser
-  daps:
-    secret:
-      clientId: *dapsClientId
-      clientSecret: *dapsClientSecret
-  networkPolicy:
-    enabled: true
-
 edcconsumer:
   nameOverride: edcconsumer
+
+  install:
+    daps: true
+    postgresql: true
+    vault: true
 
   backendService:
     # TODO: what is the correct value here?
     httpProxyTokenReceiverUrl: "http://localhost"
 
   controlplane:
-    image:
-      tag: *edcCpImageTag
-
     endpoints:
-      data:
-        # TODO: what is the correct value here?
-        authKey: edcconsumercpauthkey
+      management:
+        authKey: consumer-authkey
+
+    image:
+      repository: *edcCpImage
+      tag: *edcImageTag
 
   daps:
-    url: *dapsUrl
     clientId: *edcConsumerDapsClientId
+
+    daps:
+      secret:
+        clientId: *dapsClientId
+        clientSecret: *dapsClientSecret
+
+    image:
+      repository: ghcr.io/fraunhofer-aisec/omejdn-server
+
+    # podSecurityContext:
+    #   fsGroup: 1000
+    #   runAsNonRoot: true
+    #   runAsUser: 1000
+    #   runAsGroup: 1000
+    # persistence:
+    #   accessMode: "ReadWriteOnce"
 
   dataplane:
     image:
-      tag: *edcDpImageTag
+      repository: *edcDpImage
+      tag: *edcImageTag
 
   networkPolicy:
     enabled: *netPolEnabled
 
-# test1: no database
+  participant:
+    id: consumer
 
-# test2: byo database
   postgresql:
-    enabled: true
-    nameOverride: edcconsumer-postgresql
+    nameOverride: consumer-postgresql
 
     networkPolicy:
       enabled: *netPolEnabled
@@ -180,33 +178,24 @@ edcconsumer:
             app.kubernetes.io/name: edcconsumer-controlplane
             app.kubernetes.io/instance: '{{ .Release.Name }}-controlplane'
 
-# externalDB: helm upgrade --install thedb bitnami/postgresql --values thedb.yaml
-# test3 external database with password
-  # externalDatabase:
-  #   enabled: true
-  #   host: "thedb-postgresql"
-  #   password: "ThePassword"
+    jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-consumer-postgresql:5432/edc"
 
-# test4 external database with existing secret
-  # externalDatabase:
-  #   enabled: true
-  #   host: "thedb-postgresql"
-  #   existingSecret: "thedb-postgresql"
-  #   existingSecretPasswordKey: "password"
+    auth:
+      username: psql-consumer-user
+      password: psql-consumer-password
 
   vault:
     hashicorp:
-      enabled: true
-
-      url: *vaultUrl
       token: *edcVaultToken
+    server:
+      dev:
+        devRootToken: *edcVaultToken
 
     secretNames:
       dapsPrivateKey: *edcConsumerVaultDapsPrivateKey
       dapsPublicKey: *edcConsumerVaultDapsPublicKey
 
       transferProxyTokenEncryptionAesKey: *edcConsumerVaultTransferEncryptionAesKey
-
       transferProxyTokenSignerPrivateKey: *edcConsumerVaultTransferPrivateKey
       transferProxyTokenSignerPublicKey: *edcConsumerVaultTransferPublicKey
 
@@ -214,33 +203,48 @@ edcconsumer:
 edcprovider:
   nameOverride: edcprovider
 
+  install:
+    daps: false
+    postgresql: true
+    vault: false
+
   backendService:
     # TODO: what is the correct value here?
     httpProxyTokenReceiverUrl: "http://localhost"
 
   controlplane:
-    image:
-      tag: *edcCpImageTag
-
     endpoints:
-      data:
-        # TODO: what is the correct value here?
-        authKey: edcprovidercpauthkey
+      management:
+        authKey: provider-authkey
+
+    image:
+      repository: *edcCpImage
+      tag: *edcImageTag
 
   daps:
-    url: *dapsUrl
     clientId: *edcProviderDapsClientId
 
   dataplane:
     image:
-      tag: *edcDpImageTag
+      repository: *edcDpImage
+      tag: *edcImageTag
+
+  participant:
+    id: provider
+
+    clientId: *edcProviderDapsClientId
 
   networkPolicy:
     enabled: *netPolEnabled
 
   postgresql:
-    enabled: true
-    nameOverride: edcprovider-postgresql
+    nameOverride: provider-postgresql
+
+    jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-provider-postgresql:5432/edc"
+
+    auth:
+      username: psql-provider-user
+      password: psql-provider-password
 
     networkPolicy:
       enabled: *netPolEnabled
@@ -253,9 +257,6 @@ edcprovider:
 
   vault:
     hashicorp:
-      enabled: true
-
-      url: *vaultUrl
       token: *edcVaultToken
 
     secretNames:
@@ -263,21 +264,5 @@ edcprovider:
       dapsPublicKey: *edcProviderVaultDapsPublicKey
 
       transferProxyTokenEncryptionAesKey: *edcProviderVaultTransferEncryptionAesKey
-
       transferProxyTokenSignerPrivateKey: *edcProviderVaultTransferPrivateKey
       transferProxyTokenSignerPublicKey: *edcProviderVaultTransferPublicKey
-
-vault:
-  # fullnameOverride: vault
-
-  injector:
-    enabled: false
-
-  server:
-    authDelegator:
-      enabled: false
-    dev:
-      enabled: true
-      devRootToken: *edcVaultToken
-    networkPolicy:
-      enabled: *netPolEnabled
