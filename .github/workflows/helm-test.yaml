@@ -17,9 +17,15 @@
 # SPDX-License-Identifier: Apache-2.0
 # #############################################################################
 ---
-name: Helm Test (dispatch)
+name: Helm Test
 
 on:
+  pull_request:
+    paths-ignore:
+      - '**/*.md'
+    branches:
+      - '*'
+
   workflow_dispatch:
 
 jobs:
