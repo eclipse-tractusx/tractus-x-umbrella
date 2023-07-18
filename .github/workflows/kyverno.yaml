@@ -27,6 +27,9 @@ on:
       - 'charts/**'
   workflow_dispatch:
 
+env:
+  VERSION: v1.10.1
+
 jobs:
   list-changed:
     runs-on: ubuntu-latest
@@ -53,7 +56,6 @@ jobs:
             echo "changed=true" >> $GITHUB_OUTPUT
           fi
 
-
   kyverno-validate:
     runs-on: ubuntu-latest
     needs: [list-changed]
@@ -64,24 +66,21 @@ jobs:
         chart:
           - ${{ fromJson(needs.list-changed.outputs.charts) }}
     steps:
-      - name: Checkout
+      - name: Checkout repo
         uses: actions/checkout@v3
-
-      - uses: actions/checkout@v3
-        name: Checkout kyverno-policies
-        with:
-          repository: kyverno/policies
-          ref: main
-          path: kyverno-policies
 
       - name: Install Helm
         uses: azure/setup-helm@v3
 
-      - name: Test against Kyverno policies
-        uses: ckotzbauer/kyverno-test-action@v2
-        with:
-          chart-dir: "${{ matrix.chart }}"
-          value-files: |
-            ${{ matrix.chart }}/values.yaml
-          policy-files: |
-            kyverno-policies/pod-security/restricted/require-run-as-nonroot/require-run-as-nonroot.yaml
+      - name: Create Helm template
+        run: |
+            helm template chart-template ${{ matrix.chart }}/ > ${{ matrix.chart }}/chart-template.yaml
+
+      - name: Download Kyverno CLI
+        run: |
+          curl -sLO https://github.com/kyverno/kyverno/releases/download/${{ env.VERSION }}/kyverno-cli_${{ env.VERSION }}_linux_x86_64.tar.gz
+          tar -xf kyverno-cli_${{ env.VERSION }}_linux_x86_64.tar.gz
+          ${GITHUB_WORKSPACE}/kyverno version          
+
+      - name: Test new resources against existing policies
+        run: ${GITHUB_WORKSPACE}/kyverno apply .github/kyverno-policies/require-run-as-nonroot.yaml -r ${{ matrix.chart }}/chart-template.yaml
