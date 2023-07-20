@@ -173,9 +173,9 @@ edcconsumer:
       podSecurityContext:
         enabled: true
         runAsNonRoot: true
-        runAsGroup: 65534 # nogroup
+        runAsGroup: 65534
         runAsUser: 1001
-        fsGroup: 65534 # nogroup
+        fsGroup: 65534
 
   vault:
     hashicorp:
@@ -240,9 +240,9 @@ edcprovider:
       podSecurityContext:
         enabled: true
         runAsNonRoot: true
-        runAsGroup: 65534 # nogroup
+        runAsGroup: 65534
         runAsUser: 1001
-        fsGroup: 65534 # nogroup
+        fsGroup: 65534
 
   vault:
     hashicorp:
