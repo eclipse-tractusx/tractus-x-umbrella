@@ -24,6 +24,11 @@ metadata:
 spec:
   template:
     spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsGroup: 101
+        runAsUser: 100
+        fsGroup: 101
       containers:
       - name: transfer
         image: ghcr.io/taskmedia/curl-jq:main
