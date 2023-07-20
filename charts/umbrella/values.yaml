@@ -169,6 +169,14 @@ edcconsumer:
       username: psql-consumer-user
       password: psql-consumer-password
 
+    primary:
+      podSecurityContext:
+        enabled: true
+        runAsNonRoot: true
+        runAsGroup: 65534 # nogroup
+        runAsUser: 1001
+        fsGroup: 65534 # nogroup
+
   vault:
     hashicorp:
       token: *edcVaultToken
@@ -227,6 +235,14 @@ edcprovider:
     auth:
       username: psql-provider-user
       password: psql-provider-password
+
+    primary:
+      podSecurityContext:
+        enabled: true
+        runAsNonRoot: true
+        runAsGroup: 65534 # nogroup
+        runAsUser: 1001
+        fsGroup: 65534 # nogroup
 
   vault:
     hashicorp:
