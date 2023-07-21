@@ -72,6 +72,10 @@ jobs:
       - name: Install Helm
         uses: azure/setup-helm@v3
 
+      - name: Download chart dependencies (recursive)
+        shell: bash
+        run: hack/helm-dependencies.bash
+
       - name: Create Helm template
         run: |
             helm template chart-template ${{ matrix.chart }}/ > ${{ matrix.chart }}/chart-template.yaml
