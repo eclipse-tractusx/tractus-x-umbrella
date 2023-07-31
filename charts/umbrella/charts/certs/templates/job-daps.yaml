@@ -21,8 +21,15 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: {{ include "app.fullname" . }}-cert-transfer-daps
+  labels:
+    {{- include "app.labels" . | nindent 4 }}
+    app.kubernetes.io/component: cert-transfer-daps
 spec:
   template:
+    metadata:
+      labels:
+        {{- include "app.labels" . | nindent 8 }}
+        app.kubernetes.io/component: cert-transfer-daps
     spec:
       securityContext:
         runAsNonRoot: true

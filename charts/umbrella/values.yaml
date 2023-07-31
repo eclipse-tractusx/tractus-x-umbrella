@@ -76,6 +76,9 @@ global:
       # url: &vaultUrl "http://{{ .Release.Name }}-vault:8200"
       token: &edcVaultToken vaultRootToken
 
+  networkPolicy:
+    enabled: &netPolEnabled true
+
 certsconsumer:
   daps:
     auth:
@@ -157,11 +160,23 @@ edcconsumer:
       repository: *edcDpImage
       tag: *edcImageTag
 
+  networkPolicy:
+    enabled: *netPolEnabled
+
   participant:
     id: consumer
 
   postgresql:
     nameOverride: consumer-postgresql
+
+    networkPolicy:
+      enabled: *netPolEnabled
+      ingressRules:
+        primaryAccessOnlyFrom:
+          enabled: true
+          podSelector:
+            app.kubernetes.io/name: edcconsumer-controlplane
+            app.kubernetes.io/instance: '{{ .Release.Name }}-controlplane'
 
     jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-consumer-postgresql:5432/edc"
 
@@ -219,6 +234,9 @@ edcprovider:
 
     clientId: *edcProviderDapsClientId
 
+  networkPolicy:
+    enabled: *netPolEnabled
+
   postgresql:
     nameOverride: provider-postgresql
 
@@ -227,6 +245,15 @@ edcprovider:
     auth:
       username: psql-provider-user
       password: psql-provider-password
+
+    networkPolicy:
+      enabled: *netPolEnabled
+      ingressRules:
+        primaryAccessOnlyFrom:
+          enabled: true
+          podSelector:
+            app.kubernetes.io/name: edcprovider-controlplane
+            app.kubernetes.io/instance: '{{ .Release.Name }}-controlplane'
 
   vault:
     hashicorp:
