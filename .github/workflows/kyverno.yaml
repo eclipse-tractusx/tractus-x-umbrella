@@ -27,47 +27,62 @@ on:
       - 'charts/**'
   workflow_dispatch:
 
-env:
-  VERSION: v1.10.1
-
 jobs:
-  list-changed:
+  get-charts:
     runs-on: ubuntu-latest
     outputs:
-      changed: "${{ steps.list-changed.outputs.changed }}"
-      charts: "${{ steps.list-changed.outputs.charts }}"
+      charts: "${{ steps.output-charts.outputs.charts }}"
     steps:
       - name: Checkout
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
+      
+      - uses: actions/setup-python@v4
+        if: ${{ github.event_name == 'pull_request' }}
+        with:
+          python-version: '3.10'
 
+      # On pull request only get the charts that changed compared to the main brach
       - name: Set up chart-testing
+        if: ${{ github.event_name == 'pull_request' }}
         uses: helm/chart-testing-action@v2.4.0
 
       - name: List changes
-        id: list-changed
+        if: ${{ github.event_name == 'pull_request' }}
         run: |
-          changed=$(ct list-changed --target-branch main)
-          arr=(`echo $changed`)
+          echo "CHARTS=$(ct list-changed --target-branch main)" >> $GITHUB_ENV
+
+      # On other events than pull request get all charts
+      - name: Get all charts
+        if: ${{ github.event_name != 'pull_request' }}
+        run: |
+          echo "CHARTS=$(echo $(find charts -maxdepth 2 -type f -name 'Chart.yaml' | sed -r 's|/[^/]+$||'))" >> $GITHUB_ENV
+
+      - name: Output charts
+        id: output-charts
+        if: ${{ env.CHARTS != '' }}
+        run: |
+          arr=(`echo $CHARTS`)
           json=$(echo "${arr[@]}" | jq -ncR 'inputs | split(" ")')
           echo "charts=$json" >> $GITHUB_OUTPUT
-          if [[ -n "$changed" ]]; then
-            echo "changed=true" >> $GITHUB_OUTPUT
-          fi
 
   kyverno-validate:
     runs-on: ubuntu-latest
-    needs: [list-changed]
-    if: ${{ needs.list-changed.outputs.changed == 'true' }}
+    env:
+      VERSION: v1.10.1
+    needs: [get-charts]
+    if: ${{ needs.get-charts.outputs.charts != '' }}
     strategy:
       fail-fast: false
       matrix:
         chart:
-          - ${{ fromJson(needs.list-changed.outputs.charts) }}
+          - ${{ fromJson(needs.get-charts.outputs.charts) }}
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
       - name: Install Helm
         uses: azure/setup-helm@v3
