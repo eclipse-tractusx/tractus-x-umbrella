@@ -34,9 +34,11 @@ dependencies:
   - alias: certsconsumer
     name: certs
     version: 0.1.0
+    repository: "file://./subcharts/certs"
   - alias: certsprovider
     name: certs
     version: 0.1.0
+    repository: "file://./subcharts/certs"
 
   # edc consumer
   - alias: edcconsumer
