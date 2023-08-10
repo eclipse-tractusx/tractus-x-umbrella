@@ -191,6 +191,9 @@ edcconsumer:
       dev:
         devRootToken: *edcVaultToken
 
+      networkPolicy:
+        enabled: *netPolEnabled
+
     secretNames:
       dapsPrivateKey: *edcConsumerVaultDapsPrivateKey
       dapsPublicKey: *edcConsumerVaultDapsPublicKey
