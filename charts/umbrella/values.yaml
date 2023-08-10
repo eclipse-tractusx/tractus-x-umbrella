@@ -30,7 +30,6 @@ global:
 
 
   daps:
-    # url: &dapsUrl "http://{{ .Release.Name }}-daps:4567"
     auth:
       # management login credentials for daps-server (username)
       clientId: &dapsClientId admin
@@ -115,11 +114,28 @@ certsprovider:
       privateKey: *edcProviderVaultTransferPrivateKey
       publicKey: *edcProviderVaultTransferPublicKey
 
+daps:
+  clientId: *edcConsumerDapsClientId
+
+  daps:
+    secret:
+      clientId: *dapsClientId
+      clientSecret: *dapsClientSecret
+
+  networkPolicy:
+    enabled: *netPolEnabled
+
+  podSecurityContext:
+    runAsNonRoot: true
+    runAsUser: 1000
+    runAsGroup: 1000
+    fsGroup: 1000
+
 edcconsumer:
   nameOverride: edcconsumer
 
   install:
-    daps: true
+    daps: false
     postgresql: true
     vault: true
 
@@ -138,22 +154,6 @@ edcconsumer:
 
   daps:
     clientId: *edcConsumerDapsClientId
-
-    daps:
-      secret:
-        clientId: *dapsClientId
-        clientSecret: *dapsClientSecret
-
-    image:
-      repository: ghcr.io/fraunhofer-aisec/omejdn-server
-
-    # podSecurityContext:
-    #   fsGroup: 1000
-    #   runAsNonRoot: true
-    #   runAsUser: 1000
-    #   runAsGroup: 1000
-    # persistence:
-    #   accessMode: "ReadWriteOnce"
 
   dataplane:
     image:

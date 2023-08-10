@@ -38,6 +38,11 @@ dependencies:
     name: certs
     version: 0.1.0
 
+  - alias: daps
+    name: daps-server
+    version: 1.8.0
+    repository: https://eclipse-tractusx.github.io/charts/dev
+
   # edc consumer
   - alias: edcconsumer
     name: tractusx-connector-legacy
