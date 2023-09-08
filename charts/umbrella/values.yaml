@@ -271,7 +271,7 @@ edcprovider:
       transferProxyTokenSignerPublicKey: *edcProviderVaultTransferPublicKey
 
 portal:
-  enabled: false
+  enabled: true
   replicaCount: 1
 
 centralidp:
