@@ -1,1 +1,7 @@
-
+product: "e2e-testing"
+leadingRepository: "https://github.com/eclipse-tractusx/e2e-testing"
+repoCategory: "support"
+repositories:
+  - name: "e2e-testing"
+    usage: "The repository is the homebase for all e2e test automation efforts at Eclipse Tractus-X."
+    url: "https://github.com/eclipse-tractusx/e2e-testing"
