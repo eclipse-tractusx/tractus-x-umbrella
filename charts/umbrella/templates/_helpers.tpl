@@ -81,3 +81,33 @@ Create the name of the service account to use
 {{- default "default" .Values.serviceAccount.name }}
 {{- end }}
 {{- end }}
+
+{{/*
+Postgresql is a dependency of a dependency, which resulted in an empty .Chart.Name..
+Therefore, setting the chart name to the static value for the relevant resources.
+*/}}
+
+{{- define "postgresql.primary.fullname" -}}
+{{- if eq .Values.architecture "replication" }}
+    {{- printf "%s-primary" (include "chart-name-postgresql-dependency" .) | trunc 63 | trimSuffix "-" -}}
+{{- else -}}
+    {{- include "chart-name-postgresql-dependency" . -}}
+{{- end -}}
+{{- end -}}
+
+{{- define "postgresql.readReplica.fullname" -}}
+{{- printf "%s-read" (include "chart-name-postgresql-dependency" .) | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+
+{{- define "chart-name-postgresql-dependency" -}}
+{{- if .Values.fullnameOverride -}}
+{{- .Values.fullnameOverride | trunc 63 | trimSuffix "-" -}}
+{{- else -}}
+{{- $name := default "postgresql" .Values.nameOverride -}}
+{{- if contains $name .Release.Name -}}
+{{- .Release.Name | trunc 63 | trimSuffix "-" -}}
+{{- else -}}
+{{- printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" -}}
+{{- end -}}
+{{- end -}}
+{{- end -}}

@@ -269,3 +269,23 @@ edcprovider:
       transferProxyTokenEncryptionAesKey: *edcProviderVaultTransferEncryptionAesKey
       transferProxyTokenSignerPrivateKey: *edcProviderVaultTransferPrivateKey
       transferProxyTokenSignerPublicKey: *edcProviderVaultTransferPublicKey
+
+portal:
+  enabled: true
+  replicaCount: 1
+
+centralidp:
+  enabled: false
+  keycloak:
+    nameOverride: "centralidp"
+    replicaCount: 1
+    postgresql:
+      nameOverride: "centralidp-postgresql"
+
+sharedidp:
+  enabled: true
+  keycloak:
+    nameOverride: "sharedidp"
+    replicaCount: 1
+    postgresql:
+      nameOverride: "sharedidp-postgresql"

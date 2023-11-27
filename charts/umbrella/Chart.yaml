@@ -48,3 +48,18 @@ dependencies:
     name: tractusx-connector-legacy
     version: 0.5.0-rc1
     repository: https://eclipse-tractusx.github.io/charts/dev
+
+  # portal
+  - condition: portal.enabled
+    name: portal
+    repository: https://eclipse-tractusx.github.io/charts/dev
+    version: 1.6.0
+  # cx-iam
+  - condition: centralidp.enabled
+    name: centralidp
+    repository: https://eclipse-tractusx.github.io/charts/dev
+    version: 1.2.0
+  - condition: sharedidp.enabled
+    name: sharedidp
+    repository: https://eclipse-tractusx.github.io/charts/dev
+    version: 1.2.0
