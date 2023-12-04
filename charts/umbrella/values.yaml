@@ -275,7 +275,7 @@ portal:
   replicaCount: 1
 
 centralidp:
-  enabled: false
+  enabled: true
   keycloak:
     nameOverride: "centralidp"
     replicaCount: 1
