@@ -289,3 +289,11 @@ sharedidp:
     replicaCount: 1
     postgresql:
       nameOverride: "sharedidp-postgresql"
+
+registry:
+  enableKeycloak: false
+  enablePostgres: true
+  registry:
+    replicaCount: 1
+    authentication: false
+    tenantId: DEFAULT_BPN

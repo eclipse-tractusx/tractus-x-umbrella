@@ -63,3 +63,8 @@ dependencies:
     name: sharedidp
     repository: https://eclipse-tractusx.github.io/charts/dev
     version: 1.2.0
+
+  # digital twin registry
+  - name: registry
+    repository: https://eclipse-tractusx.github.io/charts/dev
+    version: 0.3.14
