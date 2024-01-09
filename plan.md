@@ -19,6 +19,9 @@ Complete list of content of the umbrella helm chart
    5. GDPM
 2. Minimal Data Space (Industry Core)
    1. Data Provider 1
+      1. EDC
+      2. Submodel Server
+      3. Registry
    2. Data Provider 2
    3. Data Provider 3
 3. Business Applications
