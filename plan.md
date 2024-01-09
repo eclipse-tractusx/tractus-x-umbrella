@@ -42,3 +42,4 @@ List of data necessary data objects
 * Is it possible to use arbitrary BPN's which are being seeded?
 * Do we need a new set of BPN values for that case?
 * Which version of the test data shall be used? --> 1.6.5?
+* Which technology stack is to be used for this? Helm or Terraform?
