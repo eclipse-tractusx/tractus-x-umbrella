@@ -116,6 +116,10 @@ jobs:
     - name: Lint chart
       run: ct lint --validate-maintainers=false --target-branch ${{ github.event.repository.default_branch }}
     
+    - name: Download chart dependencies (recursive)
+      shell: bash
+      run: hack/helm-dependencies.bash
+
     - name: Install chart and run tests
       run: ct install --charts charts/umbrella
 
