@@ -114,8 +114,8 @@ jobs:
     - name: Lint chart
       run: ct lint --validate-maintainers=false --target-branch ${{ github.event.repository.default_branch }}
     
-    - name: Install and run chart tests
-      run: ct install --charts charts/e2e-testing
+    - name: Install chart and run tests
+      run: ct install --charts charts/umbrella
 
     ## Skip upgrade for now until a working chart is released
     #- name: Run helm upgrade
