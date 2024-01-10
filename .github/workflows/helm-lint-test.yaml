@@ -157,5 +157,5 @@ jobs:
       uses: kyverno/action-install-cli@v0.2.0          
 
     - name: Test new resources against existing policies
-      run: kyverno apply .github/kyverno-policies/require-run-as-nonroot.yaml -r charts/umbrella-template.yaml
+      run: kyverno apply .github/kyverno-policies/ -r charts/umbrella-template.yaml
 
