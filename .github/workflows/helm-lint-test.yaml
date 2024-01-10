@@ -22,8 +22,6 @@ on:
   pull_request:
     paths:
       - 'charts/**'
-    paths-ignore:
-      - '**/*.md'
     branches:
       - main
   workflow_dispatch:
