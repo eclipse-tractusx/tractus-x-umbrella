@@ -63,6 +63,7 @@ jobs:
       uses: azure/setup-helm@v3
       with:
         version: ${{ github.event.inputs.helm_version || 'latest' }}
+        token: ${{ secrets.GITHUB_TOKEN }}
 
     - uses: actions/setup-python@v5
       with:
@@ -94,6 +95,7 @@ jobs:
       uses: azure/setup-helm@v3
       with:
         version: ${{ github.event.inputs.helm_version || 'latest' }}
+        token: ${{ secrets.GITHUB_TOKEN }}
 
     - uses: actions/setup-python@v5
       with:
@@ -138,6 +140,9 @@ jobs:
 
     - name: Install Helm
       uses: azure/setup-helm@v3
+      with:
+        version: ${{ github.event.inputs.helm_version || 'latest' }}
+        token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: Download chart dependencies (recursive)
       shell: bash
