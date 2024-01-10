@@ -69,7 +69,7 @@ jobs:
       with:
         context: .
         push: true
-        tags: kind-registry:5000/app-dashboard:testing
+        tags: kind-registry:5000/e2e-testing:testing
 
     - name: Set up Helm
       uses: azure/setup-helm@v3
@@ -96,7 +96,7 @@ jobs:
       run: ct lint --validate-maintainers=false --target-branch ${{ github.event.repository.default_branch }}
 
     - name: Run chart-testing (install)
-      run: ct install --charts charts/app-dashboard
+      run: ct install --charts charts/e2e-testing
       if: github.event_name != 'pull_request' || steps.list-changed.outputs.changed == 'true'
 
     ## Skip upgrade for now until a working chart is released
