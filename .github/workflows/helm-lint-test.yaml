@@ -93,14 +93,6 @@ jobs:
         python-version: '3.10'
         check-latest: true
 
-    - name: Kubernetes KinD Cluster
-      uses: container-tools/kind-action@v2
-      with:
-        # upgrade version, default (v0.17.0) uses node image v1.21.1 and doesn't work with more recent node image versions
-        version: v0.20.0
-        # default value for event_name != workflow_dispatch
-        node_image: ${{ github.event.inputs.node_image || 'kindest/node:v1.27.3' }}
-
     - name: Set up chart-testing
       uses: helm/chart-testing-action@v2.6.1
 
@@ -111,8 +103,15 @@ jobs:
       shell: bash
       run: hack/helm-dependencies.bash
 
+    - name: Kubernetes KinD Cluster
+      uses: helm/kind-action@v1.8.0
+      with:
+        # default value for event_name != workflow_dispatch
+        node_image: ${{ github.event.inputs.node_image || 'kindest/node:v1.27.3' }}
+
     - name: Install chart and run tests
-      run: ct install --charts charts/umbrella
+      run: ct install --charts charts/umbrella --target-branch ${{ github.event.repository.default_branch }}
+
 
     ## Skip upgrade for now until a working chart is released
     #- name: Run helm upgrade
