@@ -31,6 +31,13 @@ type: application
 version: 0.2.2
 
 dependencies:
+  - alias: certsconsumer
+    name: certs
+    version: 0.1.0
+  - alias: certsprovider
+    name: certs
+    version: 0.1.0
+
   # edc consumer
   - alias: edcconsumer
     name: tractusx-connector-legacy
