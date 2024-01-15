@@ -42,6 +42,10 @@ Complete list of content of the umbrella helm chart
 * [ ] implement Business App Helm
 * [ ] implement Business App seeding data
 
+## Goal
+
+> It shall be ready for the next Tractus-X Community Event!
+
 ## Seeding Data
 
 List of data necessary data objects
