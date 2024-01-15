@@ -29,6 +29,8 @@ Complete list of content of the umbrella helm chart
    2. Trace-X B
 
 * [ ] setup Helm/Folder structure
+  * [ ] Define Helm setup
+  * [ ] Define Helm how to seed data --> f.e. https://helm.sh/docs/topics/charts_hooks/
 * [ ] collect Seeding/Test data
 * [ ] implement Shared Services Helm
 * [ ] implement Mechanism to provision Seeding data
@@ -59,6 +61,7 @@ List of data necessary data objects
 * Which version of the test data shall be used? --> 1.6.5?
 * Which technology stack is to be used for this? Helm or Terraform? --> HELM
   * How does it fit to the Tutorial? --> It does not fit yet. Multiple Ideas exist. Transfer Tutorial in Helm.
+* Shall we use Helm test to check if services are online within the deployment phase?
 
 ## Contributions
 
@@ -97,7 +100,13 @@ EDC:
 ```text
 .🗂 charts                             -> 
   ├──🗂 umbrella                       -> umbrella chart for configuration of setup
-    ├──🗂 charts                       -> 
-    ├──🗂 templates                    ->
+    ├──🗂 charts 
+      ├──🗂 sharedServices
+      ├──🗂 industryCore 
+      ├──🗂 businessApplications 
+    ├──🗂 templates
     ├──🗂 seedingData                  -> folder to structure seeding data
+      ├──🗂 sharedServices
+      ├──🗂 industryCore 
+      ├──🗂 businessApplications 
 ```
