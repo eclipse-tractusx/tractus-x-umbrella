@@ -28,8 +28,11 @@ Complete list of content of the umbrella helm chart
    1. Trace-X A
    2. Trace-X B
 
-* [ ] draft Portal seeding data @jzbmw @Evelyn
-* [ ] invite @tunahan Discovery Services and Semantic Hub @jzbmw @Gabor @tunahan @Evelyn
+* [x] draft Portal seeding data @jzbmw @Evelyn --> 25.01
+* [x] invite @tunahan Discovery Services and Semantic Hub @jzbmw @Gabor @tunahan @Evelyn --> 
+  * Semantic Hub time necessary to build the Helm Chart
+  * Charts for Discovery finders will be added to shared Services
+* [ ] cleanup of Repo -> @Gabor --> 29.01
 * [ ] Awareness to Open Planning regarding E2E vs. tutorials
 * [ ] setup Helm/Folder structure
   * [ ] Define Helm setup
@@ -97,6 +100,8 @@ System Team:
 
 EDC:
 
+* **under discussion**
+
 Assosiation:
 
 * possible expert group to take over responsibility after consortia ends in Jul 24
@@ -104,8 +109,6 @@ Assosiation:
 @stephanbcbauer:
 
 * development contributions
-
-* **under discussion**
 
 ## Key Features of Umbrella Helm
 
@@ -119,10 +122,9 @@ Assosiation:
 
 ```text
 .🗂 charts                             -> 
-  ├──🗂 umbrella                       -> umbrella chart for configuration of setup
-    ├──🗂 charts 
+  ├──🗂 umbrella                       -> umbrella chart for configuration of setup 
       ├──🗂 sharedServices
-      ├──🗂 industryCore 
+      ├──🗂 industryCore
       ├──🗂 businessApplications 
     ├──🗂 templates
     ├──🗂 seedingData                  -> folder to structure seeding data
