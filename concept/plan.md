@@ -28,6 +28,8 @@ Complete list of content of the umbrella helm chart
    1. Trace-X A
    2. Trace-X B
 
+### TODO's
+
 * [x] draft Portal seeding data @jzbmw @Evelyn --> 25.01
 * [x] invite @tunahan Discovery Services and Semantic Hub @jzbmw @Gabor @tunahan @Evelyn --> 
   * Semantic Hub time necessary to build the Helm Chart
@@ -36,7 +38,7 @@ Complete list of content of the umbrella helm chart
 * [ ] Awareness to Open Planning regarding E2E vs. tutorials
 * [ ] setup Helm/Folder structure
   * [ ] Define Helm setup
-  * [ ] Define Helm how to seed data --> f.e. https://helm.sh/docs/topics/charts_hooks/ vs. https://stackoverflow.com/questions/71284091/helm-run-pods-and-dependencies-with-a-predefined-flow-order vs. https://itnext.io/database-migrations-on-kubernetes-using-helm-hooks-fb80c0d97805
+  * [ ] Define Helm how to seed data --> f.e. <https://helm.sh/docs/topics/charts_hooks/> vs. <https://stackoverflow.com/questions/71284091/helm-run-pods-and-dependencies-with-a-predefined-flow-order> vs. <https://itnext.io/database-migrations-on-kubernetes-using-helm-hooks-fb80c0d97805>
 * [ ] collect Seeding/Test data
 * [ ] implement Shared Services Helm
 * [ ] implement Mechanism to provision Seeding data
@@ -75,7 +77,7 @@ List of data necessary data objects
 * [ ] Shall we use Helm test to check if services are online within the deployment phase?
 * [x] Which Helm version are we using? --> Helm 3
 * [x] How are we seeding Data? --> post-install, post-upgrade hook's
-* [x] with which release shall be started? --> stable 23.12 https://github.com/catenax-ng/catena-x-release-deployment/tree/main/stable/23.12
+* [x] with which release shall be started? --> stable 23.12 <https://github.com/catenax-ng/catena-x-release-deployment/tree/main/stable/23.12>
 * [ ] take over naming conventions from the tutorial as much as possible?
 
 ## Contributions
