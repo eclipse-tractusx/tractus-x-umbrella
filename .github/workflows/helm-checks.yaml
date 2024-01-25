@@ -1,0 +1,152 @@
+# #############################################################################
+# Copyright (c) 2023,2024 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Apache License, Version 2.0 which is available at
+# https://www.apache.org/licenses/LICENSE-2.0.
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+# License for the specific language governing permissions and limitations
+# under the License.
+#
+# SPDX-License-Identifier: Apache-2.0
+# #############################################################################
+---
+name: Helm Checks (Lint, Test, Kyverno policies)
+on:
+  pull_request:
+    paths:
+      - 'charts/**'
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      node_image:
+        description: 'kindest/node image for k8s kind cluster'
+        # k8s version from 3.1 release as default
+        default: 'kindest/node:v1.27.3'
+        required: false
+        type: string
+      ## Skip upgrade for now until a working chart is released
+      #upgrade_from:
+      #  description: 'chart version to upgrade from'
+      #  # chart version from 3.1 release as default
+      #  default: 'x.x.x'
+      #  required: false
+      #  type: string
+      helm_version:
+        description: 'helm version to test (default = latest)'
+        default: 'latest'
+        required: false
+        type: string
+
+jobs:
+  list-changed:
+    runs-on: ubuntu-latest
+    outputs:
+      changed: "${{ steps.list-changed.outputs.changed }}"
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+        check-latest: true
+
+    - name: Set up chart-testing
+      uses: helm/chart-testing-action@v2.6.1
+
+    - name: Run chart-testing (list-changed)
+      id: list-changed
+      run: |
+        changed=$(ct list-changed --target-branch ${{ github.event.repository.default_branch }})
+        if [[ -n "$changed" ]]; then
+          echo "changed=true" >> $GITHUB_OUTPUT
+        fi
+
+  lint-test:
+    runs-on: ubuntu-latest
+    needs: [list-changed]
+    if: ${{ github.event_name != 'pull_request' || needs.list-changed.outputs.changed == 'true' }}
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Set up Helm
+      uses: azure/setup-helm@v3
+      with:
+        version: ${{ github.event.inputs.helm_version || 'latest' }}
+        token: ${{ secrets.GITHUB_TOKEN }}
+
+    - uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+        check-latest: true
+
+    - name: Set up chart-testing
+      uses: helm/chart-testing-action@v2.6.1
+
+    - name: Lint chart
+      run: ct lint --validate-maintainers=false --target-branch ${{ github.event.repository.default_branch }}
+    
+    - name: Download chart dependencies (recursive)
+      shell: bash
+      run: hack/helm-dependencies.bash
+
+    - name: Kubernetes KinD Cluster
+      uses: helm/kind-action@v1.8.0
+      with:
+        # default value for event_name != workflow_dispatch
+        node_image: ${{ github.event.inputs.node_image || 'kindest/node:v1.27.3' }}
+
+    - name: Install chart and run tests
+      run: ct install --charts charts/umbrella --target-branch ${{ github.event.repository.default_branch }}
+
+
+    ## Skip upgrade for now until a working chart is released
+    #- name: Run helm upgrade
+    #  run: |
+    #    helm repo add bitnami https://charts.bitnami.com/bitnami
+    #    helm repo add tractusx-dev https://eclipse-tractusx.github.io/charts/dev
+    #    helm install [NAME] tractusx-dev/[CHART] --version ${{ github.event.inputs.upgrade_from || 'x.x.x' }}
+    #    helm dependency update charts/[CHART]
+    #    helm upgrade [NAME] charts/[CHART]
+
+  #kyverno:
+  #  runs-on: ubuntu-latest
+  #  needs: [list-changed]
+  #  if: ${{ github.event_name != 'pull_request' || needs.list-changed.outputs.changed == 'true' }}
+  #  steps:
+  #  - name: Checkout
+  #    uses: actions/checkout@v4
+#
+  #  - name: Install Helm
+  #    uses: azure/setup-helm@v3
+  #    with:
+  #      version: ${{ github.event.inputs.helm_version || 'latest' }}
+  #      token: ${{ secrets.GITHUB_TOKEN }}
+#
+  #  - name: Download chart dependencies (recursive)
+  #    shell: bash
+  #    run: hack/helm-dependencies.bash
+#
+  #  - name: Create Helm template
+  #    run: |
+  #       helm template chart-template charts/umbrella > charts/umbrella-template.yaml
+#
+  #  - name: Install Kyverno CLI
+  #    uses: kyverno/action-install-cli@v0.2.0          
+#
+  #  - name: Test new resources against existing policies
+  #    run: kyverno apply .github/kyverno-policies/ -r charts/umbrella-template.yaml
+
