@@ -31,7 +31,7 @@ Complete list of content of the umbrella helm chart
 ### TODO's
 
 * [x] draft Portal seeding data @jzbmw @Evelyn --> 25.01
-* [x] invite @tunahan Discovery Services and Semantic Hub @jzbmw @Gabor @tunahan @Evelyn --> 
+* [x] invite @tunahan Discovery Services and Semantic Hub @jzbmw @Gabor @tunahan @Evelyn -->
   * Semantic Hub time necessary to build the Helm Chart
   * Charts for Discovery finders will be added to shared Services
 * [ ] cleanup of Repo -> @Gabor --> 29.01
