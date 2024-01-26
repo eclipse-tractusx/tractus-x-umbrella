@@ -1,5 +1,5 @@
 # #############################################################################
-# Copyright (c) 2023 Contributors to the Eclipse Foundation
+# Copyright (c) 2023,2024 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
 # information regarding copyright ownership.
@@ -28,27 +28,9 @@ sources:
   - https://github.com/eclipse-tractusx/e2e-testing
 
 type: application
-version: 0.2.2
+version: 0.0.1
 
 dependencies:
-  - alias: certsconsumer
-    name: certs
-    version: 0.1.0
-  - alias: certsprovider
-    name: certs
-    version: 0.1.0
-
-  # edc consumer
-  - alias: edcconsumer
-    name: tractusx-connector-legacy
-    version: 0.5.0-rc1
-    repository: https://eclipse-tractusx.github.io/charts/dev
-  # edc provider
-  - alias: edcprovider
-    name: tractusx-connector-legacy
-    version: 0.5.0-rc1
-    repository: https://eclipse-tractusx.github.io/charts/dev
-
   # portal
   - condition: portal.enabled
     name: portal
