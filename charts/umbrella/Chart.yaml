@@ -28,7 +28,7 @@ sources:
   - https://github.com/eclipse-tractusx/e2e-testing
 
 type: application
-version: 0.0.1
+version: 0.3.0
 
 dependencies:
   # portal
