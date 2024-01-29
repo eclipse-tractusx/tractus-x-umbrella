@@ -28,6 +28,47 @@ Complete list of content of the umbrella helm chart
    1. Trace-X A
    2. Trace-X B
 
+## Deployment Dependencies
+
+``` mermaid
+flowchart TB 
+
+  s((start)) --> IDP
+
+  subgraph ss [Shared Services]
+    IDP --> Portal
+    IDP --> MIW
+    IDP --> DiscoveryServices
+    IDP --> SemanticHub
+    IDP --> GDPM
+  end
+ 
+  ss --> DP1
+  ss --> DP2
+  ss --> DP3
+
+  subgraph industry [Industry Core]
+
+    subgraph DP1
+      EDC --> Registry
+      Registry --> SubmodelServer
+    end
+    
+    subgraph DP2
+      EDC2 --> Registry2
+      Registry2 --> SubmodelServer2
+    end
+
+    subgraph DP3
+      EDC3 --> Registry3
+      Registry3 --> SubmodelServer3
+    end
+
+  end
+
+
+```
+
 ### TODO's
 
 * [x] draft Portal seeding data @jzbmw @Evelyn --> 25.01
@@ -35,6 +76,7 @@ Complete list of content of the umbrella helm chart
   * Semantic Hub time necessary to build the Helm Chart
   * Charts for Discovery finders will be added to shared Services
 * [ ] cleanup of Repo -> @Gabor --> 29.01
+* [ ] BPN selection for IDP
 * [ ] Awareness to Open Planning regarding E2E vs. tutorials
 * [ ] setup Helm/Folder structure
   * [ ] Define Helm setup
