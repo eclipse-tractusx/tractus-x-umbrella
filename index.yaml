@@ -2,6 +2,32 @@ apiVersion: v1
 entries:
   umbrella:
   - apiVersion: v2
+    created: "2024-02-01T09:59:45.630663472Z"
+    dependencies:
+    - condition: portal.enabled
+      name: portal
+      repository: https://eclipse-tractusx.github.io/charts/dev
+      version: 1.7.0
+    - condition: centralidp.enabled
+      name: centralidp
+      repository: https://eclipse-tractusx.github.io/charts/dev
+      version: 2.0.0
+    - condition: sharedidp.enabled
+      name: sharedidp
+      repository: https://eclipse-tractusx.github.io/charts/dev
+      version: 2.0.0
+    description: 'A Helm chart to spin up Catena-X OSS components to simulate a complete
+      dataspace network.  With this Helm chart you are able to create a sandbox environment
+      or run end-to-end. '
+    digest: 08ea282d612ddf11543b5918e9f8fd2b524f9ca500618129f8a5d9645111aed9
+    name: umbrella
+    sources:
+    - https://github.com/eclipse-tractusx/e2e-testing
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/e2e-testing/releases/download/umbrella-0.3.0/umbrella-0.3.0.tgz
+    version: 0.3.0
+  - apiVersion: v2
     created: "2024-01-25T14:13:23.985904662Z"
     dependencies:
     - alias: certsconsumer
@@ -85,4 +111,4 @@ entries:
     urls:
     - https://github.com/eclipse-tractusx/e2e-testing/releases/download/umbrella-0.2.1/umbrella-0.2.1.tgz
     version: 0.2.1
-generated: "2024-01-25T14:13:23.985918407Z"
+generated: "2024-02-01T09:59:45.630677077Z"
