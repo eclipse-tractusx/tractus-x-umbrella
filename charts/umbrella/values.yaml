@@ -20,36 +20,28 @@
 ## TODO: update edc to R23.12 and adjust values
 # edcconsumer:
 #   nameOverride: edcconsumer
-# 
 #   install:
 #     daps: true
 #     postgresql: true
 #     vault: true
-# 
 #   backendService:
 #     # TODO: what is the correct value here?
 #     httpProxyTokenReceiverUrl: "http://localhost"
-# 
 #   controlplane:
 #     endpoints:
 #       management:
 #         authKey: consumer-authkey
-# 
 #     image:
 #       repository: *edcCpImage
 #       tag: *edcImageTag
-# 
 #   daps:
 #     clientId: *edcConsumerDapsClientId
-# 
 #     daps:
 #       secret:
 #         clientId: *dapsClientId
 #         clientSecret: *dapsClientSecret
-# 
 #     image:
 #       repository: ghcr.io/fraunhofer-aisec/omejdn-server
-# 
 #     # podSecurityContext:
 #     #   fsGroup: 1000
 #     #   runAsNonRoot: true
@@ -57,21 +49,16 @@
 #     #   runAsGroup: 1000
 #     # persistence:
 #     #   accessMode: "ReadWriteOnce"
-# 
 #   dataplane:
 #     image:
 #       repository: *edcDpImage
 #       tag: *edcImageTag
-# 
 #   networkPolicy:
 #     enabled: *netPolEnabled
-# 
 #   participant:
 #     id: consumer
-# 
 #   postgresql:
 #     nameOverride: consumer-postgresql
-# 
 #     networkPolicy:
 #       enabled: *netPolEnabled
 #       ingressRules:
@@ -80,78 +67,58 @@
 #           podSelector:
 #             app.kubernetes.io/name: edcconsumer-controlplane
 #             app.kubernetes.io/instance: '{{ .Release.Name }}-controlplane'
-# 
 #     jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-consumer-postgresql:5432/edc"
-# 
 #     auth:
 #       username: psql-consumer-user
 #       password: psql-consumer-password
-# 
 #   vault:
 #     hashicorp:
 #       token: *edcVaultToken
 #     server:
 #       dev:
 #         devRootToken: *edcVaultToken
-# 
 #       networkPolicy:
 #         enabled: *netPolEnabled
-# 
 #     secretNames:
 #       dapsPrivateKey: *edcConsumerVaultDapsPrivateKey
 #       dapsPublicKey: *edcConsumerVaultDapsPublicKey
-# 
 #       transferProxyTokenEncryptionAesKey: *edcConsumerVaultTransferEncryptionAesKey
 #       transferProxyTokenSignerPrivateKey: *edcConsumerVaultTransferPrivateKey
 #       transferProxyTokenSignerPublicKey: *edcConsumerVaultTransferPublicKey
-# 
-# 
+
 # edcprovider:
 #   nameOverride: edcprovider
-# 
 #   install:
 #     daps: false
 #     postgresql: true
 #     vault: false
-# 
 #   backendService:
 #     # TODO: what is the correct value here?
 #     httpProxyTokenReceiverUrl: "http://localhost"
-# 
 #   controlplane:
 #     endpoints:
 #       management:
 #         authKey: provider-authkey
-# 
 #     image:
 #       repository: *edcCpImage
 #       tag: *edcImageTag
-# 
 #   daps:
 #     clientId: *edcProviderDapsClientId
-# 
 #   dataplane:
 #     image:
 #       repository: *edcDpImage
 #       tag: *edcImageTag
-# 
 #   participant:
 #     id: provider
-# 
 #     clientId: *edcProviderDapsClientId
-# 
 #   networkPolicy:
 #     enabled: *netPolEnabled
-# 
 #   postgresql:
 #     nameOverride: provider-postgresql
-# 
 #     jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-provider-postgresql:5432/edc"
-# 
 #     auth:
 #       username: psql-provider-user
 #       password: psql-provider-password
-# 
 #     networkPolicy:
 #       enabled: *netPolEnabled
 #       ingressRules:
@@ -160,15 +127,12 @@
 #           podSelector:
 #             app.kubernetes.io/name: edcprovider-controlplane
 #             app.kubernetes.io/instance: '{{ .Release.Name }}-controlplane'
-# 
 #   vault:
 #     hashicorp:
 #       token: *edcVaultToken
-# 
 #     secretNames:
 #       dapsPrivateKey: *edcProviderVaultDapsPrivateKey
 #       dapsPublicKey: *edcProviderVaultDapsPublicKey
-# 
 #       transferProxyTokenEncryptionAesKey: *edcProviderVaultTransferEncryptionAesKey
 #       transferProxyTokenSignerPrivateKey: *edcProviderVaultTransferPrivateKey
 #       transferProxyTokenSignerPublicKey: *edcProviderVaultTransferPublicKey
