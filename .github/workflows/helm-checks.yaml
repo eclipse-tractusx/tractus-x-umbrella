@@ -17,13 +17,14 @@
 # SPDX-License-Identifier: Apache-2.0
 # #############################################################################
 ---
-name: Helm Checks (Lint, Test, Kyverno policies)
+name: Helm Checks (Lint, Install)
+
 on:
   pull_request:
     paths:
       - 'charts/**'
-    branches:
-      - main
+    # branches:
+    #   - main
   workflow_dispatch:
     inputs:
       node_image:
@@ -154,4 +155,3 @@ jobs:
 #
   #  - name: Test new resources against existing policies
   #    run: kyverno apply .github/kyverno-policies/ -r charts/umbrella-template.yaml
-
