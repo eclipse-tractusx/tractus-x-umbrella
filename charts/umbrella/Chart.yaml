@@ -31,17 +31,17 @@ type: application
 version: 0.3.0
 
 dependencies:
-  ## TODO: update edc components to R23.12
-  ## edc consumer
-  #- alias: edcconsumer
-  #  name: tractusx-connector-legacy
-  #  version: 0.5.0-rc1
-  #  repository: https://eclipse-tractusx.github.io/charts/dev
-  ## edc provider
-  #- alias: edcprovider
-  #  name: tractusx-connector-legacy
-  #  version: 0.5.0-rc1
-  #  repository: https://eclipse-tractusx.github.io/charts/dev
+#  # TODO: update edc components to R23.12
+#  # edc consumer
+#  - alias: edcconsumer
+#    name: tractusx-connector-legacy
+#    version: 0.5.0-rc1
+#    repository: https://eclipse-tractusx.github.io/charts/dev
+#  # edc provider
+#  - alias: edcprovider
+#    name: tractusx-connector-legacy
+#    version: 0.5.0-rc1
+#    repository: https://eclipse-tractusx.github.io/charts/dev
   # portal
   - condition: portal.enabled
     name: portal
