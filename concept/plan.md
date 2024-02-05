@@ -2,17 +2,12 @@
 
 ## Goals
 
-> It shall be ready for the next Tractus-X Community Event!
-
-> At the end of the consortia: To have one deployable result of the whole dataspace.
-
-> Setting up an complete environment for e2e testing purposes
-
-> Including seeding data to let the automated tests run
-
-> Only FOSS Applications will be part of this chart
-
-> It shall be highly configurable
+> - It shall be ready for the next Tractus-X Community Event!
+> - At the end of the consortia: To have one deployable result of the whole dataspace.
+> - Setting up an complete environment for e2e testing purpose.
+> - Including seeding data to let the automated tests run
+> - Only FOSS Applications will be part of this chart
+> - It shall be highly configurable
 
 ## Plan
 
@@ -20,11 +15,9 @@ Complete list of content of the umbrella helm chart
 
 1. Shared Services
    1. Portal incl. IDP
-   2. MIW
-   3. Discovery Services
-   4. Semantic Hub
-   5. GDPM
-   6. ? SD-Factory ?
+   2. Discovery Services
+   3. Semantic Hub
+   4. GDPM
 2. Industry Core
    1. Data Provider 1
       1. EDC
@@ -35,6 +28,10 @@ Complete list of content of the umbrella helm chart
 3. Business Applications
    1. Trace-X A
    2. Trace-X B
+
+> [!IMPORTANT]  
+> MIW vs. SD-Factory \
+> HashiCorp VAULT
 
 ## Seeding Data
 
@@ -48,7 +45,9 @@ List of data necessary data objects
   * technical credentials
   * url's to shared services
 
-TODO: Add Links
+> [!IMPORTANT]  
+> Add Links
+
 You will find a list of all seeds necessary for this helm chart within the files seeds_** 
 
 ## Contributions
@@ -95,10 +94,7 @@ Assosiation:
 
 ```text
 .🗂 charts                             -> 
-  ├──🗂 umbrella                       -> umbrella chart for configuration of setup 
-      ├──🗂 sharedServices
-      ├──🗂 industryCore
-      ├──🗂 businessApplications 
+  ├──🗂 umbrella                       -> umbrella chart for configuration of setup  
     ├──🗂 templates
     ├──🗂 seedingData                  -> folder to structure seeding data
       ├──🗂 sharedServices
@@ -125,15 +121,25 @@ Assosiation:
 * [x] invite @tunahan Discovery Services and Semantic Hub @jzbmw @Gabor @tunahan @Evelyn -->
   * Semantic Hub time necessary to build the Helm Chart
   * Charts for Discovery finders will be added to shared Services
-* [ ] cleanup of Repo -> @Gabor --> 29.01
+* [x] cleanup of Repo -> @Gabor --> 29.01
 * [x] BPN selection for IDP
-* [ ] Awareness to Open Planning regarding E2E vs. tutorials
-* [ ] setup Helm/Folder structure
+* [ ] Helm Test Timout investigation/ Bigger Github Runner @Gabor
+* [ ] @Evelyn: Check for Helm Test in Helm Chart --> leads to timeout during deployment
+* [ ] @Jaro: Status Data Provider
+* [ ] @Jaro: Build a SubmodelService
+* [ ] @Jaro: dDTR Version ( support from @Tuna)
+* [ ] @Tuna: Discovery Service Helm PR
+* [ ] @Johannes: BPDM Status
+* [ ] @Johannes: SD-Factory vs. MIW Status
+* [x] Awareness to Open Planning regarding E2E vs. tutorials
+* [x] setup Helm/Folder structure
   * [ ] Define Helm setup
   * [ ] Define Helm how to seed data --> f.e. <https://helm.sh/docs/topics/charts_hooks/> vs. <https://stackoverflow.com/questions/71284091/helm-run-pods-and-dependencies-with-a-predefined-flow-order> vs. <https://itnext.io/database-migrations-on-kubernetes-using-helm-hooks-fb80c0d97805>
 * [ ] collect Seeding/Test data
   * [x] BPN's
   * [x] Trace-X Testdata
+  * [ ] Current Testdatafile
+
 * [ ] implement Shared Services Helm
 * [ ] implement Mechanism to provision Seeding data
 * [ ] implement Shared Services seeding data
