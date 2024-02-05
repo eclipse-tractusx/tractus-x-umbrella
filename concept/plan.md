@@ -14,7 +14,7 @@
 Complete list of content of the umbrella helm chart
 
 1. Shared Services
-   1. Portal incl. IDP
+   1. :white_check_mark: Portal incl. IDP
    2. Discovery Services
    3. Semantic Hub
    4. GDPM
@@ -129,7 +129,7 @@ Assosiation:
 * [ ] @Jaro: Build a SubmodelService
 * [ ] @Jaro: dDTR Version ( support from @Tuna)
 * [ ] @Tuna: Discovery Service Helm PR
-* [ ] @Johannes: BPDM Status
+* [ ] @Johannes: BPDM Status <https://github.com/eclipse-tractusx/bpdm/issues/738>
 * [ ] @Johannes: SD-Factory vs. MIW Status
 * [x] Awareness to Open Planning regarding E2E vs. tutorials
 * [x] setup Helm/Folder structure
