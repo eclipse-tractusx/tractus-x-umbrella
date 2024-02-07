@@ -156,3 +156,31 @@ sharedidp:
     replicaCount: 1
     postgresql:
       nameOverride: "sharedidp-postgresql"
+
+bpndiscovery:
+  enablePostgres: true
+  bpndiscovery:
+    authentication: false
+    bpndiscoverEndpoint:
+      allowedTypes: oen,wmi,passtype,manufacturerPartId
+      description: Service to discover BPN for different kind of type numbers
+      endpointAddress: /bpndiscovery
+      documentation: /bpndiscovery/swagger-ui/index.html
+      timeToLive: "31536000"
+    livenessProbe:
+      initialDelaySeconds: 200
+    readinessProbe:
+      initialDelaySeconds: 200
+  postgresql:
+    nameOverride: "bpndiscovery-postgresql"
+
+discoveryfinder:
+  enablePostgres: true
+  discoveryfinder:
+    authentication: false
+    livenessProbe:
+      initialDelaySeconds: 200
+    readinessProbe:
+      initialDelaySeconds: 200
+  postgresql:
+    nameOverride: "discoveryfinder-postgresql"
