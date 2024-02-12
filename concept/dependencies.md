@@ -24,6 +24,8 @@ flowchart TB
 
 ```
 
+Indication for relevant components: [Portal Data Flow Diagram](https://github.com/eclipse-tractusx/portal-assets/blob/main/docs/developer/Technical%20Documentation/Architecture/Security-Assessment.md#data-flow-diagram)
+
 ### Layer 2: Industry Core
 
 ``` mermaid
