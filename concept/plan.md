@@ -125,12 +125,12 @@ Assosiation:
 * [x] BPN selection for IDP
 * [ ] Helm Test Timout investigation/ Bigger Github Runner @Gabor
 * [ ] @Evelyn: Check for Helm Test in Helm Chart --> leads to timeout during deployment
-* [ ] @Jaro: Status Data Provider
-* [ ] @Jaro: Build a SubmodelService
-* [ ] @Jaro: dDTR Version ( support from @Tuna)
+* [x] @Jaro: Status Data Provider --> currently ongoing. First Helm chart exists. Challanges with namespaces of using same chart 3 times with namespaces, for example databases
+* [x] @Jaro: Build a SubmodelServer--> used the existing one of IRS Team
+* [x] @Jaro: dDTR Version ( support from @Tuna )
 * [ ] @Tuna: Discovery Service Helm PR
-* [ ] @Johannes: BPDM Status <https://github.com/eclipse-tractusx/bpdm/issues/738>
-* [ ] @Johannes: SD-Factory vs. MIW Status
+* [x] @Johannes: BPDM Status <https://github.com/eclipse-tractusx/bpdm/issues/738>
+* [x] @Johannes: SD-Factory vs. MIW Status --> https://github.com/eclipse-tractusx/sd-factory/issues/91
 * [x] Awareness to Open Planning regarding E2E vs. tutorials
 * [x] setup Helm/Folder structure
   * [ ] Define Helm setup
