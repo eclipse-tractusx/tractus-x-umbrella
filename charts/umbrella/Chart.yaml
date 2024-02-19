@@ -57,10 +57,12 @@ dependencies:
     repository: https://eclipse-tractusx.github.io/charts/dev
     version: 2.0.0
   # discovery-finder
-  - name: discoveryfinder
+  - condition: discoveryfinder.enabled
+    name: discoveryfinder
     repository: https://eclipse-tractusx.github.io/charts/dev
     version: 0.2.2
     # bpn-discovery
-  - name: bpndiscovery
+  - condition: bpndiscovery.enabled
+    name: bpndiscovery
     repository: https://eclipse-tractusx.github.io/charts/dev
     version: 0.2.2

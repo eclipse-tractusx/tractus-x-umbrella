@@ -158,6 +158,7 @@ sharedidp:
       nameOverride: "sharedidp-postgresql"
 
 bpndiscovery:
+  enabled: true
   enablePostgres: true
   bpndiscovery:
     authentication: false
@@ -175,6 +176,7 @@ bpndiscovery:
     nameOverride: "bpndiscovery-postgresql"
 
 discoveryfinder:
+  enabled: true
   enablePostgres: true
   discoveryfinder:
     authentication: false
