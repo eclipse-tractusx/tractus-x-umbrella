@@ -18,6 +18,8 @@ Complete list of content of the umbrella helm chart
    2. Discovery Services
    3. Semantic Hub
    4. GDPM
+   5. Vault?
+   6. SD-Factory
 2. Industry Core
    1. Data Provider 1
       1. EDC
@@ -124,28 +126,21 @@ Assosiation:
 * [x] cleanup of Repo -> @Gabor --> 29.01
 * [x] BPN selection for IDP
 * [ ] Helm Test Timout investigation/ Bigger Github Runner @Gabor
-* [ ] @Evelyn: Check for Helm Test in Helm Chart --> leads to timeout during deployment
+* [x] @Evelyn: Check for Helm Test in Helm Chart --> leads to timeout during deployment
 * [x] @Jaro: Status Data Provider --> currently ongoing. First Helm chart exists. Challanges with namespaces of using same chart 3 times with namespaces, for example databases
 * [x] @Jaro: Build a SubmodelServer--> used the existing one of IRS Team
 * [x] @Jaro: dDTR Version ( support from @Tuna )
 * [ ] @Tuna: Discovery Service Helm PR
 * [x] @Johannes: BPDM Status <https://github.com/eclipse-tractusx/bpdm/issues/738>
-* [x] @Johannes: SD-Factory vs. MIW Status --> https://github.com/eclipse-tractusx/sd-factory/issues/91
+* [x] @Johannes: SD-Factory --> https://github.com/eclipse-tractusx/sd-factory/issues/91
 * [x] Awareness to Open Planning regarding E2E vs. tutorials
 * [x] setup Helm/Folder structure
-  * [ ] Define Helm setup
-  * [ ] Define Helm how to seed data --> f.e. <https://helm.sh/docs/topics/charts_hooks/> vs. <https://stackoverflow.com/questions/71284091/helm-run-pods-and-dependencies-with-a-predefined-flow-order> vs. <https://itnext.io/database-migrations-on-kubernetes-using-helm-hooks-fb80c0d97805>
+  * [x] Define Helm setup
+  * [x] Define Helm how to seed data --> f.e. <https://helm.sh/docs/topics/charts_hooks/> vs. <https://stackoverflow.com/questions/71284091/helm-run-pods-and-dependencies-with-a-predefined-flow-order> vs. <https://itnext.io/database-migrations-on-kubernetes-using-helm-hooks-fb80c0d97805>
 * [ ] collect Seeding/Test data
   * [x] BPN's
   * [x] Trace-X Testdata
   * [ ] Current Testdatafile
 
-* [ ] implement Shared Services Helm
-* [ ] implement Mechanism to provision Seeding data
-* [ ] implement Shared Services seeding data
-* [ ] run first minimal Helm setup
-* [ ] implement Script to split test data
-* [ ] implement the Data Providers Helm
-* [ ] implement Data Provider Helm seeding data
-* [ ] implement Business App Helm
-* [ ] implement Business App seeding data
+* [ ] Documentation (e.g. OpenApi / Swagger, Insomnia Collection, Tutorials-> E2E Documentation, Step-By-Step Guide)
+* [ ] @Evelyn: Setup new Environment for definition of Companies
