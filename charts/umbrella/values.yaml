@@ -148,6 +148,7 @@ centralidp:
     replicaCount: 1
     postgresql:
       nameOverride: "centralidp-postgresql"
+      architecture: standalone
 
 sharedidp:
   enabled: true
@@ -156,6 +157,7 @@ sharedidp:
     replicaCount: 1
     postgresql:
       nameOverride: "sharedidp-postgresql"
+      architecture: standalone
 
 bpndiscovery:
   enabled: true
