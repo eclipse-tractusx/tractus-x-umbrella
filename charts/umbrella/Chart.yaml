@@ -66,3 +66,15 @@ dependencies:
     name: bpndiscovery
     repository: https://eclipse-tractusx.github.io/charts/dev
     version: 0.2.2
+    # TX Data Consumer
+  - name: tx-data-provider
+    alias: dataconsumer
+    version: 0.0.1
+    repository: file://../tx-data-provider # TODO switch to released chart
+    condition: dataconsumer.enabled
+    # TX Data Providers
+  - name: tx-data-provider
+    alias: dataprovider
+    version: 0.0.1
+    repository: file://../tx-data-provider # TODO switch to released chart
+    condition: dataprovider.enabled
