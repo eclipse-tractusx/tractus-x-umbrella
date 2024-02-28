@@ -70,11 +70,11 @@ dependencies:
   - name: tx-data-provider
     alias: dataconsumer
     version: 0.0.1
-    repository: file://../tx-data-provider # TODO switch to released chart
+    repository: file://../tx-data-provider  # TODO switch to released chart
     condition: dataconsumer.enabled
     # TX Data Providers
   - name: tx-data-provider
     alias: dataprovider
     version: 0.0.1
-    repository: file://../tx-data-provider # TODO switch to released chart
+    repository: file://../tx-data-provider  # TODO switch to released chart
     condition: dataprovider.enabled
