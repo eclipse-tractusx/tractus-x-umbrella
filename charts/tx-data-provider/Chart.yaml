@@ -32,7 +32,7 @@ dependencies:
     repository: https://eclipse-tractusx.github.io/charts/dev
     condition: digital-twin-registry.enabled
   - name: submodelservers
-    repository: file://../submodelservers # TODO switch to released chart
+    repository: file://../submodelservers  # TODO switch to released chart
     version: 0.1.0
     condition: submodelservers.enabled
   - name: tractusx-connector
