@@ -34,17 +34,17 @@ tractusx-connector:
     postgresql: false
     vault: false
   participant:
-    id:
+    id: changeme
   controlplane:
     ssi:
       miw:
-        url:
-        authorityId:
+        url: changeme
+        authorityId: changeme
       oauth:
-        tokenurl:
+        tokenurl: changeme
         client:
-          id:
-          secretAlias:
+          id: changeme
+          secretAlias: changeme
     ingresses:
       - enabled: true
         hostname: "controlplane.test"
@@ -83,15 +83,15 @@ tractusx-connector:
     httpProxyTokenReceiverUrl: "https://submodelserver.test/data/endpoint-data-reference-provider1"
   vault:
     hashicorp:
-      url:
-      token:
+      url: changeme
+      token: changeme
       paths:
-        secret:
-        health:
+        secret: changeme
+        health: changeme
     secretNames:
-      transferProxyTokenSignerPrivateKey:
-      transferProxyTokenSignerPublicKey:
-      transferProxyTokenEncryptionAesKey:
+      transferProxyTokenSignerPrivateKey: changeme
+      transferProxyTokenSignerPublicKey: changeme
+      transferProxyTokenEncryptionAesKey: changeme
 
   postgresql:
     enabled: true

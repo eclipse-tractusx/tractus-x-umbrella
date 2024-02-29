@@ -257,31 +257,9 @@ dataconsumer:
 
   digital-twin-registry:
     enabled: false
-    fullnameOverride: dataconsumer-digital-twin-registry
-    nameOverride: dataconsumer-digital-twin-registry
-    postgresql:
-      fullnameOverride: dataconsumer-digital-twin-registry-db
-      nameOverride: dataconsumer-digital-twin-registry-db
-      auth:
-        existingSecret: dataconsumer-secret-dtr-postgres-init
-    registry:
-      host: dataconsumer-digital-twin-registry.test
 
   submodelservers:
     enabled: false
-    fullnameOverride: dataconsumer-submodelserver
-    nameOverride: dataconsumer-submodelserver
-    ingress:
-      enabled: true
-      hosts:
-        - host: dataconsumer-submodelserver.test
-          paths:
-            - path: /
-              pathType: ImplementationSpecific
-      tls:
-        - hosts:
-            - dataconsumer-submodelserver.test
-          secretName: tls-secret
 
 dataprovider:
   enabled: true
