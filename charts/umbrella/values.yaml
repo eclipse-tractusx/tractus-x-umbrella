@@ -198,7 +198,7 @@ dataconsumer:
     participant:
       id:
     controlplane:
-      ssi: # TODO configure MIW once available
+      ssi:  # TODO configure MIW once available
         miw:
           url:
           authorityId:
@@ -239,7 +239,7 @@ dataconsumer:
             secretName: tls-secret
     postgresql:
       jdbcUrl: "jdbc:postgresql://dataconsumer-db:5432/edc"
-    vault: # TODO configure Vault once available
+    vault:  # TODO configure Vault once available
       hashicorp:
         url:
         token:
@@ -293,7 +293,7 @@ dataprovider:
     participant:
       id:
     controlplane:
-      ssi: # TODO configure MIW once available
+      ssi:  # TODO configure MIW once available
         miw:
           url:
           authorityId:
@@ -334,7 +334,7 @@ dataprovider:
             secretName: tls-secret
     postgresql:
       jdbcUrl: "jdbc:postgresql://dataprovider-db:5432/edc"
-    vault: # TODO configure Vault once available
+    vault:  # TODO configure Vault once available
       hashicorp:
         url:
         token:
