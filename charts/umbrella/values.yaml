@@ -188,3 +188,38 @@ discoveryfinder:
       initialDelaySeconds: 200
   postgresql:
     nameOverride: "discoveryfinder-postgresql"
+
+vault:
+  enabled: true
+  host: &vault-host vault.test
+  token: &vault-token root
+  url: http://vault.test
+  secrets:
+    # TODO add test secret or secret reference. Can this be generated?
+    edc-test-miw-keycloak-secret: test
+    # TODO add certificate or secret reference. Can Key Pairs be generated?
+    tokenSignerPublicKey: >-
+      -----BEGIN CERTIFICATE-----\n
+      test\n
+      -----END CERTIFICATE-----
+    # TODO add certificate or secret reference. Can Key Pairs be generated?
+    tokenSignerPrivateKey: >-
+      -----BEGIN PRIVATE KEY-----\n
+      test\n
+      -----END PRIVATE KEY-----
+    # TODO add test secret or secret reference. Can this be generated?
+    tokenEncryptionAesKey: test
+  injector:
+    enabled: false
+  server:
+    dev:
+      enabled: true
+      devRootToken: *vault-token
+    ingress:
+      enabled: true
+      annotations:
+        kubernetes.io/tls-acme: "true"
+      ingressClassName: "nginx"
+      hosts:
+        - host: *vault-host
+          paths: []

@@ -1,0 +1,39 @@
+{{- if .Values.vault.enabled }}
+{{- $vaultToken := .Values.vault.token -}}
+{{- $vaultUrl := .Values.vault.host -}}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ .Release.Name }}-post-install-vault-setup
+  labels:
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion }}
+    helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+  annotations:
+    # This is what defines this resource as a hook. Without this line, the
+    # job is considered part of the release.
+    "helm.sh/hook": post-install
+    "helm.sh/hook-weight": "-5"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+spec:
+  template:
+    metadata:
+      name: "{{ .Release.Name }}"
+      labels:
+        app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+        app.kubernetes.io/instance: {{ .Release.Name | quote }}
+        helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: post-install-job
+          image: "alpine:3.19"
+          command:
+            - "/bin/sh"
+            - "-c"
+            - |
+              {{- range $key, $value := .Values.vault.secrets }}
+              wget --header 'Content-Type: application/json' --header 'X-Vault-Token: {{ $vaultToken }}' --post-data '{"data": {"content": "{{ $value }}"}}' "{{ $vaultUrl }}/v1/secret/data/{{ $key }}"
+              {{- end }}
+{{- end }}
