@@ -39,14 +39,14 @@ public class BackendDataServiceController {
 
     @PostMapping("/{id}")
     public void addData(@PathVariable final String id, @RequestBody final Object payload) {
-        log.info("Adding data for id '{}'", id);
+        log.info("Adding data for id '{}'.", id);
         data.put(id, payload);
     }
 
     @GetMapping("/{id}")
     public Object getData(@PathVariable final String id) {
         if (data.containsKey(id)) {
-            log.info("Returning data for id '{}'", id);
+            log.info("Returning data for id '{}'.", id);
             return data.get(id);
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No data found with id '%s'".formatted(id));
