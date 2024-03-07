@@ -85,9 +85,6 @@ tractusx-connector:
     hashicorp:
       url: changeme
       token: changeme
-      paths:
-        secret: changeme
-        health: changeme
     secretNames:
       transferProxyTokenSignerPrivateKey: changeme
       transferProxyTokenSignerPublicKey: changeme

@@ -655,7 +655,7 @@ if __name__ == "__main__":
                         endpoint_address = f"{edc_url}/{catenax_id}-{submodel_identification}/submodel?content=value&extent=withBlobValue"
 
                     if is_aas3:
-                        endpoint_address = f"{dataplane_url}{dataplane_public_path}/data/{submodel_identification}"
+                        endpoint_address = f"{dataplane_url}{dataplane_public_path}/{submodel_identification}"
                         if is_ess and tmp_data["bpnl"] in bpnl_fail:
                             endpoint_address = f"http://idonotexist/{dataplane_public_path}/data/{submodel_identification}"
                         descriptor = create_submodel_descriptor_3_0(submodel_name, submodel_identification, semantic_id,
@@ -677,7 +677,7 @@ if __name__ == "__main__":
                     if tmp_data[tmp_key] != "":
                         payload = create_submodel_payload(tmp_data[tmp_key][0])
                         response = session.request(method="POST",
-                                                   url=f"{submodel_upload_url}/data/{submodel_identification}",
+                                                   url=f"{submodel_upload_url}/{submodel_identification}",
                                                    headers=headers, data=payload)
                         print_response(response)
 
