@@ -260,7 +260,7 @@ dataconsumer:
   digital-twin-registry:
     enabled: false
 
-  submodelservers:
+  simple-data-backend:
     enabled: false
 
 dataprovider:
@@ -340,7 +340,7 @@ dataprovider:
     registry:
       host: dataprovider-digital-twin-registry.test
 
-  submodelservers:
+  simple-data-backend:
     fullnameOverride: dataprovider-submodelserver
     nameOverride: dataprovider-submodelserver
     ingress:
