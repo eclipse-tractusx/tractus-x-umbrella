@@ -17,7 +17,7 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.irs.backenddataservice;
+package org.eclipse.tractusx.simpledataservice;
 
 import java.util.HashMap;
 
@@ -34,7 +34,7 @@ import org.springframework.web.server.ResponseStatusException;
 @RestController
 @RequestMapping
 @Slf4j
-public class BackendDataServiceController {
+public class SimpleDataServiceController {
     private final HashMap<String, Object> data = new HashMap<>();
 
     @PostMapping("/{id}")

@@ -17,16 +17,16 @@
  *
  * SPDX-License-Identifier: Apache-2.0
  ********************************************************************************/
-package org.eclipse.tractusx.irs.backenddataservice;
+package org.eclipse.tractusx.simpledataservice;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class BackendDataServiceApplication {
+public class SimpleDataServiceApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(BackendDataServiceApplication.class, args);
+        SpringApplication.run(SimpleDataServiceApplication.class, args);
     }
 
 }

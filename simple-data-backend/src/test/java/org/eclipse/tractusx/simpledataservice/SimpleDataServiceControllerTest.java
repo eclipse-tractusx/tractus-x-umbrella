@@ -1,4 +1,4 @@
-package org.eclipse.tractusx.irs.backenddataservice;
+package org.eclipse.tractusx.simpledataservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.web.server.ResponseStatusException;
@@ -6,12 +6,12 @@ import org.springframework.web.server.ResponseStatusException;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
-class BackendDataServiceControllerTest {
+class SimpleDataServiceControllerTest {
 
     @Test
     void shouldStoreData() {
         // Arrange
-        final BackendDataServiceController backendDataServiceController = new BackendDataServiceController();
+        final SimpleDataServiceController simpleDataServiceController = new SimpleDataServiceController();
         final String payload = """
                 {
                     "test": "data"
@@ -19,19 +19,19 @@ class BackendDataServiceControllerTest {
                 """;
 
         // Act
-        backendDataServiceController.addData("test", payload);
+        simpleDataServiceController.addData("test", payload);
 
         // Assert
-        final Object actualResponse = backendDataServiceController.getData("test");
+        final Object actualResponse = simpleDataServiceController.getData("test");
         assertThat(actualResponse).isEqualTo(payload);
     }
 
     @Test
     void shouldThrowNotFoundException() {
         // Arrange
-        final BackendDataServiceController backendDataServiceController = new BackendDataServiceController();
+        final SimpleDataServiceController simpleDataServiceController = new SimpleDataServiceController();
 
         // Act & Assert
-        assertThatExceptionOfType(ResponseStatusException.class).isThrownBy(() -> backendDataServiceController.getData("test"));
+        assertThatExceptionOfType(ResponseStatusException.class).isThrownBy(() -> simpleDataServiceController.getData("test"));
     }
 }
