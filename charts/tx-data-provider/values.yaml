@@ -153,7 +153,7 @@ digital-twin-registry:
       initialDelaySeconds: 200
       periodSeconds: 10
 
-submodelservers:
+simple-data-backend:
   enabled: true
   ingress:
     enabled: true

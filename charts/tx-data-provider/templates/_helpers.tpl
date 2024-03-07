@@ -40,9 +40,9 @@ If release name contains chart name it will be used as a full name.
 {{/*
 Submodel URL helpers
 */}}
-{{- define "submodelservers.host" -}}
-    {{- if .Values.submodelservers.ingress.enabled }}
-        {{- with (first .Values.submodelservers.ingress.hosts) }}
+{{- define "simple-data-backend.host" -}}
+    {{- if (index .Values "simple-data-backend" "ingress" "enabled") }}
+        {{- with (first (index .Values "simple-data-backend" "ingress" "hosts")) }}
             {{- printf "https://%s" .host }}
         {{- end }}
     {{- else }}

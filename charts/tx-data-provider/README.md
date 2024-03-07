@@ -36,7 +36,7 @@ Configuration of EDC see [tractusx-edc/tree/main/charts/tractusx-connecto](https
 
 EDC requires connection to HashiCorp Vault and Manage Identity Wallet. These have to be configured for the dataprovider to be operative. 
 
-The Chart can be used as dataprovider by setting `submodelservers.enabled`, `digital-twin-registry.enabled` and `seedTestdata` to `false`.
+The Chart can be used as dataprovider by setting `simple-data-backend.enabled`, `digital-twin-registry.enabled` and `seedTestdata` to `false`.
 
 ## Testdata seeding
 
