@@ -1,15 +1,20 @@
-name: Java build
+name: Java CI with Maven
 
 on:
-  workflow_dispatch: # Trigger manually
-  pull_request:
-    paths:
-      - simple-data-backend/
   push:
     branches:
       - main
+    paths:
+      - 'simple-data-backend/**'
+    # trigger events for SemVer like tags
     tags:
-      - '**'
+      - '*.*.*'
+      - '*.*.*-*'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'simple-data-backend/**'
 
 jobs:
   build:
