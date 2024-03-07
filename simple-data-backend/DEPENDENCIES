@@ -50,7 +50,7 @@ maven/mavencentral/org.slf4j/jul-to-slf4j/2.0.12, MIT, approved, #7698
 maven/mavencentral/org.slf4j/slf4j-api/2.0.12, MIT, approved, #5915
 maven/mavencentral/org.springframework.boot/spring-boot-autoconfigure/3.2.3, Apache-2.0, approved, #11751
 maven/mavencentral/org.springframework.boot/spring-boot-starter-json/3.2.3, Apache-2.0, approved, #11894
-maven/mavencentral/org.springframework.boot/spring-boot-starter-log4j2/3.2.3, unknown, restricted, none
+maven/mavencentral/org.springframework.boot/spring-boot-starter-log4j2/3.2.3, , restricted, clearlydefined
 maven/mavencentral/org.springframework.boot/spring-boot-starter-logging/3.2.3, Apache-2.0, approved, #11890
 maven/mavencentral/org.springframework.boot/spring-boot-starter-test/3.2.3, Apache-2.0, approved, #12917
 maven/mavencentral/org.springframework.boot/spring-boot-starter-tomcat/3.2.3, Apache-2.0, approved, #11923
