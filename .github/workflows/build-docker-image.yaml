@@ -1,9 +1,11 @@
-name: Build - Docker image (SemVer)
+name: Build - Docker image
 
 on:
   push:
     branches:
       - main
+    paths:
+      - 'simple-data-backend/**'
     # trigger events for SemVer like tags
     tags:
       - '*.*.*'
@@ -11,6 +13,8 @@ on:
   pull_request:
     branches:
       - main
+    paths:
+      - 'simple-data-backend/**'
 
 env:
   IMAGE_NAMESPACE: "tractusx"
