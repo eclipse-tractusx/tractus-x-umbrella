@@ -4,6 +4,7 @@
 if ! helm repo list ; then
   echo "Need to add repos"
   helm repo add tractusx https://eclipse-tractusx.github.io/charts/dev
+  helm repo add hashicorp https://helm.releases.hashicorp.com
 fi
 
 # This hack script will download all chart/umbrella dependency charts.
