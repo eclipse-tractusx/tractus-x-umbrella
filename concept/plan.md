@@ -150,3 +150,4 @@ Assosiation:
 * [ ] @Johannes: Status BusinessApps Helm Chart
 * [ ] @All: Ingress discussions & Testing configuration
 * [ ] @All: TLS Setup
+* [ ] Tractus-X Community Days
