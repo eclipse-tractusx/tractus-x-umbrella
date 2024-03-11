@@ -223,3 +223,32 @@ vault:
       hosts:
         - host: *vault-host
           paths: []
+
+managed-identity-wallet:
+  nameOverride: miw
+  enabled: true
+  miw:
+    database:
+      host: "{{ .Release.Name }}-miw-postgres"
+      secret: "{{ .Release.Name }}-miw-postgres"
+    keycloak:
+      url: "http://miw-keycloak.test"  # TODO connect to central idp
+  postgresql:
+    nameOverride: miw-postgres
+    primary:
+      persistence:
+        enabled: false
+        size: 1Gi
+  keycloak:  # TODO replace with central idp
+    nameOverride: miw-keycloak
+    enabled: true
+    ingress:
+      enabled: true
+      ingressClassName: nginx
+      hostname: miw-keycloak.test
+    postgresql:
+      nameOverride: miw-keycloak-postgres
+  livenessProbe:
+    initialDelaySeconds: 90
+  readinessProbe:
+    initialDelaySeconds: 90
