@@ -190,6 +190,7 @@ discoveryfinder:
     nameOverride: "discoveryfinder-postgresql"
 
 sdfactory:
+  enabled: true
   secret:
     # -- JWK Set URI
     jwkSetUri: "https://centralidp.example.org/auth/realms/CX-Central/protocol/openid-connect/certs"
