@@ -16,10 +16,10 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################
-product: "e2e-testing"
-leadingRepository: "https://github.com/eclipse-tractusx/e2e-testing"
+product: "tractus-x-umbrella"
+leadingRepository: "https://github.com/eclipse-tractusx/tractus-x-umbrella"
 repoCategory: "support"
 repositories:
-  - name: "e2e-testing"
+  - name: "tractus-x-umbrella"
     usage: "The repository is the homebase for all e2e test automation efforts at Eclipse Tractus-X."
-    url: "https://github.com/eclipse-tractusx/e2e-testing"
+    url: "https://github.com/eclipse-tractusx/tractus-x-umbrella"

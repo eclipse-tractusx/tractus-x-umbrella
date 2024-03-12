@@ -15,12 +15,12 @@ Complete list of content of the umbrella helm chart
 
 1. Shared Services
    1. :white_check_mark: Portal incl. IDP
-   2. Discovery Services
-   3. Semantic Hub
-   4. GDPM
-   5. Vault?
-   6. SD-Factory
-2. Industry Core
+   2. :white_check_mark: Discovery Services
+   3. Semantic Hub (to be prepared)
+   4. GDPM (Product Ticket: https://github.com/eclipse-tractusx/bpdm/issues/738 )
+   5. SD-Factory (Ready for integration)
+   6. MIW (Review current Helm Chart)
+2. Industry Core (Ready for integration --> https://github.com/eclipse-tractusx/tractus-x-umbrella/pull/53)
    1. Data Provider 1
       1. EDC
       2. Submodel Server
@@ -125,22 +125,28 @@ Assosiation:
   * Charts for Discovery finders will be added to shared Services
 * [x] cleanup of Repo -> @Gabor --> 29.01
 * [x] BPN selection for IDP
-* [ ] Helm Test Timout investigation/ Bigger Github Runner @Gabor
+* [x] Helm Test Timout investigation/ Bigger Github Runner @Gabor
 * [x] @Evelyn: Check for Helm Test in Helm Chart --> leads to timeout during deployment
 * [x] @Jaro: Status Data Provider --> currently ongoing. First Helm chart exists. Challanges with namespaces of using same chart 3 times with namespaces, for example databases
 * [x] @Jaro: Build a SubmodelServer--> used the existing one of IRS Team
 * [x] @Jaro: dDTR Version ( support from @Tuna )
-* [ ] @Tuna: Discovery Service Helm PR
+* [x] @Tuna: Discovery Service Helm PR
 * [x] @Johannes: BPDM Status <https://github.com/eclipse-tractusx/bpdm/issues/738>
 * [x] @Johannes: SD-Factory --> https://github.com/eclipse-tractusx/sd-factory/issues/91
 * [x] Awareness to Open Planning regarding E2E vs. tutorials
 * [x] setup Helm/Folder structure
   * [x] Define Helm setup
   * [x] Define Helm how to seed data --> f.e. <https://helm.sh/docs/topics/charts_hooks/> vs. <https://stackoverflow.com/questions/71284091/helm-run-pods-and-dependencies-with-a-predefined-flow-order> vs. <https://itnext.io/database-migrations-on-kubernetes-using-helm-hooks-fb80c0d97805>
-* [ ] collect Seeding/Test data
+* [x] collect Seeding/Test data
   * [x] BPN's
   * [x] Trace-X Testdata
-  * [ ] Current Testdatafile
+  * [x] Current Testdatafile
 
 * [ ] Documentation (e.g. OpenApi / Swagger, Insomnia Collection, Tutorials-> E2E Documentation, Step-By-Step Guide)
 * [ ] @Evelyn: Setup new Environment for definition of Companies
+* [ ] @Jaro & @Evelyn: Have a look on the MIW Helm Chart
+* [ ] @Jaro: EDC Chat to clarify on secrets via configuration to reduce the Vault as ressource
+* [ ] @Garbor: Update of TRG's 
+* [ ] @Johannes: Status BusinessApps Helm Chart
+* [ ] @All: Ingress discussions & Testing configuration
+* [ ] @All: TLS Setup
