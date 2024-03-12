@@ -28,7 +28,7 @@ sources:
   - https://github.com/eclipse-tractusx/e2e-testing
 
 type: application
-version: 0.4.1
+version: 0.5.0
 
 dependencies:
 #  # TODO: update edc components to R23.12
@@ -66,3 +66,7 @@ dependencies:
     name: bpndiscovery
     repository: https://eclipse-tractusx.github.io/charts/dev
     version: 0.2.2
+  - condition: sdfactory.enabled
+    name: sdfactory
+    repository: https://eclipse-tractusx.github.io/charts/dev
+    version: 2.1.12
