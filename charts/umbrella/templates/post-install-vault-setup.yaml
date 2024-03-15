@@ -1,6 +1,6 @@
 {{- if .Values.vault.enabled }}
 {{- $vaultToken := .Values.vault.token -}}
-{{- $vaultUrl := .Values.vault.host -}}
+{{- $vaultUrl := tpl .Values.vault.url . -}}
 apiVersion: batch/v1
 kind: Job
 metadata:

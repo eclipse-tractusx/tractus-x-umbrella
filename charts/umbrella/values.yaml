@@ -219,9 +219,8 @@ sdfactory:
 
 vault:
   enabled: true
-  host: &vault-host vault.test
   token: &vault-token root
-  url: http://vault.test
+  url: http://{{ .Release.Name }}-vault:8200
   secrets:
     # TODO add test secret or secret reference. Can this be generated?
     edc-test-miw-keycloak-secret: test
@@ -244,13 +243,7 @@ vault:
       enabled: true
       devRootToken: *vault-token
     ingress:
-      enabled: true
-      annotations:
-        kubernetes.io/tls-acme: "true"
-      ingressClassName: "nginx"
-      hosts:
-        - host: *vault-host
-          paths: []
+      enabled: false
 
 managed-identity-wallet:
   nameOverride: miw
@@ -260,7 +253,7 @@ managed-identity-wallet:
       host: "{{ .Release.Name }}-miw-postgres"
       secret: "{{ .Release.Name }}-miw-postgres"
     keycloak:
-      url: "http://miw-keycloak.test"  # TODO connect to central idp
+      url: "http://{{ .Release.Name }}-miw-keycloak"  # TODO connect to central idp
   postgresql:
     nameOverride: miw-postgres
     primary:
@@ -271,9 +264,7 @@ managed-identity-wallet:
     nameOverride: miw-keycloak
     enabled: true
     ingress:
-      enabled: true
-      ingressClassName: nginx
-      hostname: miw-keycloak.test
+      enabled: false
     postgresql:
       nameOverride: miw-keycloak-postgres
   livenessProbe:
