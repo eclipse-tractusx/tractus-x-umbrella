@@ -9,6 +9,8 @@ maven/mavencentral/com.fasterxml.jackson.module/jackson-module-parameter-names/2
 maven/mavencentral/com.jayway.jsonpath/json-path/2.9.0, Apache-2.0, approved, clearlydefined
 maven/mavencentral/com.vaadin.external.google/android-json/0.0.20131108.vaadin1, Apache-2.0, approved, CQ21310
 maven/mavencentral/io.micrometer/micrometer-commons/1.12.3, Apache-2.0 AND (Apache-2.0 AND MIT), approved, #11679
+maven/mavencentral/io.micrometer/micrometer-core/1.12.3, Apache-2.0 AND (Apache-2.0 AND MIT), approved, #11678
+maven/mavencentral/io.micrometer/micrometer-jakarta9/1.12.3, Apache-2.0, approved, #12923
 maven/mavencentral/io.micrometer/micrometer-observation/1.12.3, Apache-2.0, approved, #11680
 maven/mavencentral/jakarta.activation/jakarta.activation-api/2.1.2, EPL-2.0 OR BSD-3-Clause OR GPL-2.0-only with Classpath-exception-2.0, approved, ee4j.jaf
 maven/mavencentral/jakarta.annotation/jakarta.annotation-api/2.1.1, EPL-2.0 OR GPL-2.0-only with Classpath-exception-2.0, approved, ee4j.ca
@@ -33,12 +35,14 @@ maven/mavencentral/org.assertj/assertj-core/3.24.2, Apache-2.0, approved, #6161
 maven/mavencentral/org.awaitility/awaitility/4.2.0, Apache-2.0, approved, clearlydefined
 maven/mavencentral/org.hamcrest/hamcrest-core/2.2, BSD-3-Clause, approved, clearlydefined
 maven/mavencentral/org.hamcrest/hamcrest/2.2, BSD-3-Clause, approved, clearlydefined
+maven/mavencentral/org.hdrhistogram/HdrHistogram/2.1.12, BSD-2-Clause OR LicenseRef-Public-Domain, approved, CQ13192
 maven/mavencentral/org.junit.jupiter/junit-jupiter-api/5.10.2, EPL-2.0, approved, #9714
 maven/mavencentral/org.junit.jupiter/junit-jupiter-engine/5.10.2, EPL-2.0, approved, #9711
 maven/mavencentral/org.junit.jupiter/junit-jupiter-params/5.10.2, EPL-2.0, approved, #9708
 maven/mavencentral/org.junit.jupiter/junit-jupiter/5.10.2, EPL-2.0, approved, #13393
 maven/mavencentral/org.junit.platform/junit-platform-commons/1.10.2, EPL-2.0, approved, #9715
 maven/mavencentral/org.junit.platform/junit-platform-engine/1.10.2, EPL-2.0, approved, #9709
+maven/mavencentral/org.latencyutils/LatencyUtils/2.0.3, BSD-2-Clause, approved, CQ17408
 maven/mavencentral/org.mockito/mockito-core/5.7.0, MIT AND (Apache-2.0 AND MIT) AND Apache-2.0, approved, #11424
 maven/mavencentral/org.mockito/mockito-junit-jupiter/5.7.0, MIT, approved, #11423
 maven/mavencentral/org.objenesis/objenesis/3.3, Apache-2.0, approved, clearlydefined
@@ -48,7 +52,10 @@ maven/mavencentral/org.projectlombok/lombok/1.18.30, MIT AND LicenseRef-Public-D
 maven/mavencentral/org.skyscreamer/jsonassert/1.5.1, Apache-2.0, approved, clearlydefined
 maven/mavencentral/org.slf4j/jul-to-slf4j/2.0.12, MIT, approved, #7698
 maven/mavencentral/org.slf4j/slf4j-api/2.0.12, MIT, approved, #5915
+maven/mavencentral/org.springframework.boot/spring-boot-actuator-autoconfigure/3.2.3, Apache-2.0, approved, #11921
+maven/mavencentral/org.springframework.boot/spring-boot-actuator/3.2.3, Apache-2.0, approved, #11918
 maven/mavencentral/org.springframework.boot/spring-boot-autoconfigure/3.2.3, Apache-2.0, approved, #11751
+maven/mavencentral/org.springframework.boot/spring-boot-starter-actuator/3.2.3, Apache-2.0, approved, #12918
 maven/mavencentral/org.springframework.boot/spring-boot-starter-json/3.2.3, Apache-2.0, approved, #11894
 maven/mavencentral/org.springframework.boot/spring-boot-starter-log4j2/3.2.3, , restricted, clearlydefined
 maven/mavencentral/org.springframework.boot/spring-boot-starter-logging/3.2.3, Apache-2.0, approved, #11890
