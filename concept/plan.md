@@ -17,16 +17,18 @@ Complete list of content of the umbrella helm chart
    1. :white_check_mark: Portal incl. IDP
    2. :white_check_mark: Discovery Services
    3. Semantic Hub (to be prepared)
-   4. GDPM (Product Ticket: https://github.com/eclipse-tractusx/bpdm/issues/738 )
-   5. SD-Factory (Ready for integration)
-   6. MIW (Review current Helm Chart)
-2. Industry Core (Ready for integration --> https://github.com/eclipse-tractusx/tractus-x-umbrella/pull/53)
-   1. Data Provider 1
+   4. GDPM 
+      (Product Ticket: https://github.com/eclipse-tractusx/bpdm/issues/738 )
+      (Issue: https://github.com/eclipse-tractusx/bpdm/issues/795)
+   5. :white_check_mark: SD-Factory
+   6. MIW & Vault (PR: https://github.com/eclipse-tractusx/tractus-x-umbrella/pull/57)
+2. :white_check_mark: Industry Core (Ready for integration --> https://github.com/eclipse-tractusx/tractus-x-umbrella/pull/53)
+   1. :white_check_mark: Data Provider 1
       1. EDC
       2. Submodel Server
       3. Registry
-   2. Data Provider 2
-   3. Data Provider 3
+   2. :white_check_mark: Data Provider 2
+   3. :white_check_mark: Data Provider 3
 3. Business Applications
    1. Trace-X A
    2. Trace-X B
@@ -143,10 +145,12 @@ Assosiation:
   * [x] Current Testdatafile
 
 * [ ] Documentation (e.g. OpenApi / Swagger, Insomnia Collection, Tutorials-> E2E Documentation, Step-By-Step Guide)
-* [ ] @Evelyn: Setup new Environment for definition of Companies
-* [ ] @Jaro & @Evelyn: Have a look on the MIW Helm Chart
-* [ ] @Jaro: EDC Chat to clarify on secrets via configuration to reduce the Vault as ressource
-* [ ] @Garbor: Update of TRG's 
-* [ ] @Johannes: Status BusinessApps Helm Chart
+* [ ] @Evelyn: Setup new Environment for definition of Companies -> conducting when the components are integrated
+* [x] @Jaro & @Evelyn: Have a look on the MIW Helm Chart
+* [x] @Jaro: EDC Chat to clarify on secrets via configuration to reduce the Vault as ressource
+* [ ] @Garbor: Update of TRG's 5.0.5 -> see also https://github.com/eclipse-tractusx/eclipse-tractusx.github.io/pull/755
+* [x] @Johannes: Status BusinessApps Helm Chart
 * [ ] @All: Ingress discussions & Testing configuration
 * [ ] @All: TLS Setup
+* [ ] Tractus-X Community Days
+* [ ] @All: update components to 24.03 Release
