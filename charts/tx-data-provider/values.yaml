@@ -46,18 +46,7 @@ tractusx-connector:
           id: changeme
           secretAlias: changeme
     ingresses:
-      - enabled: true
-        hostname: "controlplane.test"
-        annotations:
-          nginx.ingress.kubernetes.io/ssl-passthrough: "false"
-          nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
-          nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-        endpoints:
-          - protocol
-          - management
-        tls:
-          enabled: true
-          secretName: tls-secret
+      - enabled: false
     endpoints:
       management:
         authKey: *edcKey
@@ -66,18 +55,7 @@ tractusx-connector:
 
   dataplane:
     ingresses:
-      - enabled: true
-        hostname: "dataplane.test"
-        annotations:
-          nginx.ingress.kubernetes.io/ssl-passthrough: "false"
-          nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
-          nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-        endpoints:
-          - public
-        className: "nginx"
-        tls:
-          enabled: true
-          secretName: tls-secret
+      - enabled: false
 
   backendService:
     httpProxyTokenReceiverUrl: "https://submodelserver.test/data/endpoint-data-reference-provider1"
@@ -132,17 +110,7 @@ digital-twin-registry:
   registry:
     host: digital-twin-registry.test
     ingress:
-      enabled: true
-      urlPrefix: /semantics/registry
-      className: nginx
-      tls: true
-      annotations:
-        cert-manager.io/cluster-issuer: selfsigned-cluster-issuer
-        nginx.ingress.kubernetes.io/rewrite-target: /$2
-        nginx.ingress.kubernetes.io/use-regex: "true"
-        nginx.ingress.kubernetes.io/enable-cors: "true"
-        nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
-        nginx.ingress.kubernetes.io/x-forwarded-prefix: /semantics/registry
+      enabled: false
     authentication: false
     livenessProbe:
       failureThreshold: 6
@@ -156,18 +124,4 @@ digital-twin-registry:
 simple-data-backend:
   enabled: true
   ingress:
-    enabled: true
-    className: "nginx"
-    annotations:
-      nginx.ingress.kubernetes.io/ssl-passthrough: "false"
-      nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
-      nginx.ingress.kubernetes.io/force-ssl-redirect: "false"
-    hosts:
-      - host: submodelserver.test
-        paths:
-          - path: /
-            pathType: ImplementationSpecific
-    tls:
-      - hosts:
-          - submodelserver.test
-        secretName: tls-secret
+    enabled: false
