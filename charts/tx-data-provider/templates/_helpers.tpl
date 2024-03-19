@@ -41,12 +41,14 @@ If release name contains chart name it will be used as a full name.
 Submodel URL helpers
 */}}
 {{- define "simple-data-backend.host" -}}
-    {{- if (index .Values "simple-data-backend" "ingress" "enabled") }}
+    {{- if .Values.backendUrl }}
+        {{- print .Values.backendUrl }}
+    {{- else if (index .Values "simple-data-backend" "ingress" "enabled") }}
         {{- with (first (index .Values "simple-data-backend" "ingress" "hosts")) }}
             {{- printf "https://%s" .host }}
         {{- end }}
     {{- else }}
-        {{- print "http://test" }}
+        {{- printf "http://%s%s:8080" .Release.Name "-simple-data-backend" }}
     {{- end }}
 {{- end }}
 
@@ -54,31 +56,77 @@ Submodel URL helpers
 Registry URL helpers
 */}}
 {{- define "registry.host" -}}
-    {{- printf "https://%s" (index .Values "digital-twin-registry" "registry" "host") }}
+    {{- if index .Values "digital-twin-registry" "registry" "ingress" "enabled" }}
+        {{- printf "https://%s" (index .Values "digital-twin-registry" "registry" "host") }}
+    {{- else }}
+        {{- printf "http://%s-%s:8080" .Release.Name "digital-twin-registry" }}
+    {{- end }}
 {{- end }}
 {{- define "registry.path" -}}
-    {{- index .Values "digital-twin-registry" "registry" "ingress" "urlPrefix" }}
+    {{- if index .Values "digital-twin-registry" "registry" "ingress" "enabled" }}
+        {{- index .Values "digital-twin-registry" "registry" "ingress" "urlPrefix" }}
+    {{- else }}
+    {{- print "" }}
+    {{- end }}
 {{- end }}
 {{- define "registry.url" -}}
-    {{- printf "%s%s%s" (include "registry.host" .) (include "registry.path" .) "/api/v3.0" }}
+    {{- if .Values.registryUrl }}
+        {{- print .Values.registryUrl }}
+    {{ else }}
+        {{- printf "%s%s%s" (include "registry.host" .) (include "registry.path" .) "/api/v3.0" }}
+    {{- end }}
 {{- end }}
 
 {{/*
 EDC URL helpers
 */}}
+
 {{- define "edc.controlplane.host" -}}
-    {{- with (first (index .Values "tractusx-connector" "controlplane" "ingresses")) }}
-        {{- printf "https://%s" .hostname }}
-    {{- end }}
+    {{- if .Values.controlplanePublicUrl }}
+        {{- print .Values.controlplanePublicUrl }}
+    {{ else }}
+        {{- with (first (index .Values "tractusx-connector" "controlplane" "ingresses")) }}
+            {{- if .enabled }}
+                {{- printf "https://%s" .hostname }}
+            {{- else }}
+                {{- printf "http://%s-%s:8084" $.Release.Name "tractusx-connector-controlplane" }}
+            {{- end }}
+        {{- end }}
+    {{ end  }}
 {{- end }}
+
+{{- define "edc.controlplane.management.host" -}}
+    {{- if .Values.controlplaneManagementUrl }}
+        {{- print .Values.controlplaneManagementUrl }}
+    {{ else }}
+        {{- with (first (index .Values "tractusx-connector" "controlplane" "ingresses")) }}
+            {{- if .enabled }}
+                {{- printf "https://%s" .hostname }}
+            {{- else }}
+                {{- printf "http://%s-%s:8081" $.Release.Name "tractusx-connector-controlplane" }}
+            {{- end }}
+        {{- end }}
+    {{ end  }}
+{{- end }}
+
 {{- define "edc.dataplane.host" -}}
-    {{- with (first (index .Values "tractusx-connector" "dataplane" "ingresses")) }}
-        {{- printf "https://%s" .hostname }}
-    {{- end }}
+    {{- if .Values.dataplaneUrl }}
+        {{- print .Values.dataplaneUrl }}
+    {{ else }}
+        {{- with (first (index .Values "tractusx-connector" "dataplane" "ingresses")) }}
+            {{- if .enabled }}
+                {{- printf "https://%s" .hostname }}
+            {{- else }}
+                {{- printf "http://%s-%s:8081" $.Release.Name "tractusx-connector-dataplane" }}
+            {{- end }}
+        {{- end }}
+    {{ end  }}
 {{- end }}
+
 {{- define "edc.key" -}}
     {{- index .Values "tractusx-connector" "controlplane" "endpoints" "management" "authKey" }}
 {{- end }}
+
 {{- define "edc.bpn" -}}
     {{- index .Values "tractusx-connector" "participant" "id" }}
 {{- end }}

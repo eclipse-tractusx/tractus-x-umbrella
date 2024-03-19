@@ -26,6 +26,7 @@ CONTROLPLANEURL=$3
 DATAPLANEURL=$4
 EDCKEY=$5
 ALLOWEDBPNS=$6
+MANAGEMENTURL=$7
 
 echo "Submodel: $SUBMODELURL"
 echo "Registry: $REGISTRYURL"
@@ -35,4 +36,10 @@ echo "EDC Key: $EDCKEY"
 echo "Allowed BPNs: $ALLOWEDBPNS"
 
 pip install -r /opt/scripts/requirements.txt
-python /opt/scripts/upload.py -f /opt/scripts/testdata.json -s "$SUBMODELURL" -a "$REGISTRYURL" -edc "$CONTROLPLANEURL" -d "$DATAPLANEURL" -k "$EDCKEY" -p id-3.0-trace --allowedBPNs "$ALLOWEDBPNS" --aas3
+
+if [ -z "$MANAGEMENTURL" ]; then
+  python /opt/scripts/upload.py -f /opt/scripts/testdata.json -s "$SUBMODELURL" -a "$REGISTRYURL" -edc "$CONTROLPLANEURL" -d "$DATAPLANEURL" -k "$EDCKEY" -p id-3.0-trace --allowedBPNs "$ALLOWEDBPNS" --aas3
+else
+  echo "Management: $MANAGEMENTURL"
+  python /opt/scripts/upload.py -f /opt/scripts/testdata.json -s "$SUBMODELURL" -a "$REGISTRYURL" -edc "$CONTROLPLANEURL" -eu "$MANAGEMENTURL" -d "$DATAPLANEURL" -k "$EDCKEY" -p id-3.0-trace --allowedBPNs "$ALLOWEDBPNS" --aas3
+fi

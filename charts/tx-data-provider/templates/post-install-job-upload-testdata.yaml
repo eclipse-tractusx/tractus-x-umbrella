@@ -18,8 +18,15 @@
 # SPDX-License-Identifier: Apache-2.0
 # #############################################################################
 ---
-{{- $fullName := include "dataprovider.fullname" . -}}
 {{- if .Values.seedTestdata }}
+{{- $fullName := include "dataprovider.fullname" . -}}
+{{- $submodel := include "simple-data-backend.host" . -}}
+{{- $registry := include "registry.url" . -}}
+{{- $controlplane := include "edc.controlplane.host" . -}}
+{{- $management := include "edc.controlplane.management.host" . -}}
+{{- $dataplane := include "edc.dataplane.host" . -}}
+{{- $key := include "edc.key" . -}}
+{{- $bpn := include "edc.bpn" . -}}
 apiVersion: batch/v1
 kind: Job
 metadata:
@@ -52,7 +59,7 @@ spec:
             - "/bin/sh"
             - "-c"
           args:
-            - "{{- cat "/opt/scripts/upload-data.sh" (include "simple-data-backend.host" .) (include "registry.url" .) (include "edc.controlplane.host" .) (include "edc.dataplane.host" .) (include "edc.key" .) (include "edc.bpn" .) }}"
+            - "{{- cat "/opt/scripts/upload-data.sh" $submodel $registry $controlplane $dataplane $key $bpn $management}}"
           volumeMounts:
             - name: config-volume
               mountPath: /opt/scripts

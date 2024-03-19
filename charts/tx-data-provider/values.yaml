@@ -27,6 +27,11 @@ nameOverride: ""
 fullnameOverride: ""
 seedTestdata: true  # Toggle seeding of testdata. Can be disabled when e.g. only edc is used as consumer. Default true.
 testdataConfigMap: ""  # Provide a custom configmap for post-install-job-upload-testdata.yaml.
+backendUrl: ""  # Override the backend service url
+registryUrl: ""  # Override the digital twin registry url
+controlplanePublicUrl: ""  # Override the edc controlplane protocol url
+controlplaneManagementUrl: ""  # Override the edc controlplane management url
+dataplaneUrl: ""  # Override the edc dataplane public url
 
 tractusx-connector:
   enabled: true
