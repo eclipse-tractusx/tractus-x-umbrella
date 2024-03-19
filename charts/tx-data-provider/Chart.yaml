@@ -39,7 +39,3 @@ dependencies:
     repository: https://eclipse-tractusx.github.io/charts/dev
     version: 0.5.3
     condition: tractusx-connector.enabled
-  - name: postgresql
-    repository: https://charts.bitnami.com/bitnami
-    version: 12.12.10
-    condition: postgresql.enabled

@@ -31,7 +31,7 @@ testdataConfigMap: ""  # Provide a custom configmap for post-install-job-upload-
 tractusx-connector:
   enabled: true
   install:
-    postgresql: false
+    postgresql: true
     vault: false
   participant:
     id: changeme
@@ -69,31 +69,19 @@ tractusx-connector:
       transferProxyTokenEncryptionAesKey: changeme
 
   postgresql:
-    enabled: true
+    nameOverride: edc-postgresql
+    primary:
+      persistence:
+        enabled: false
+        size: 1Gi
     auth:
-      database: "edc"
+      database: edc
       username: *postgresuser
+      postgresPassword: *postgrespass
       password: *postgrespass
     username: *postgresuser
     password: *postgrespass
-    jdbcUrl: "jdbc:postgresql://edc-postgresql:5432/edc"
-
-postgresql:
-  fullnameOverride: edc-postgresql
-  nameOverride: edc-postgresql
-  enabled: true
-  primary:
-    persistence:
-      enabled: false
-      size: 1Gi
-  readReplicas:
-    persistence:
-      enabled: false
-  auth:
-    database: edc
-    username: *postgresuser
-    postgresPassword: *postgrespass
-    password: *postgrespass
+    jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-edc-postgresql:5432/edc"
 
 digital-twin-registry:
   enabled: true
@@ -113,12 +101,12 @@ digital-twin-registry:
       enabled: false
     authentication: false
     livenessProbe:
-      failureThreshold: 6
-      initialDelaySeconds: 200
+      failureThreshold: 10
+      initialDelaySeconds: 60
       periodSeconds: 10
     readinessProbe:
-      failureThreshold: 6
-      initialDelaySeconds: 200
+      failureThreshold: 10
+      initialDelaySeconds: 60
       periodSeconds: 10
 
 simple-data-backend:
