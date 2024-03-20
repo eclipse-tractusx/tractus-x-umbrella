@@ -189,6 +189,34 @@ discoveryfinder:
   postgresql:
     nameOverride: "discoveryfinder-postgresql"
 
+sdfactory:
+  enabled: true
+  secret:
+    # -- JWK Set URI
+    jwkSetUri: "https://centralidp.example.org/auth/realms/CX-Central/protocol/openid-connect/certs"
+    # -- Custodian wallet client id
+    clientId: ""
+    # -- Custodian wallet client secret
+    clientSecret: ""
+    # -- Keycloak URL
+    authServerUrl: "https://centralidp.example.org/auth"
+    # -- Keycloak Realm detail
+    realm: ""
+    # -- Keycloak Resource detail
+    resource: ""
+    # -- Details for Custodian wallet URI
+    custodianWalletUri: ""
+    # -- Details for Clearing House URI
+    clearingHouseUri: ""
+    # -- Details for Clearing House URL
+    clearingHouseServerUrl: ""
+    # -- Details for Clearing House Realm
+    clearingHouseRealm: ""
+    # -- Details for Clearing House Client ID
+    clearingHouseClientId: ""
+    # -- Details for Clearing House Client Secret
+    clearingHouseClientSecret: ""
+
 dataconsumer:
   enabled: true
   seedTestdata: false

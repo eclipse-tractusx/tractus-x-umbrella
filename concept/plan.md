@@ -15,18 +15,20 @@ Complete list of content of the umbrella helm chart
 
 1. Shared Services
    1. :white_check_mark: Portal incl. IDP
-   2. Discovery Services
-   3. Semantic Hub
-   4. GDPM
-   5. Vault?
-   6. SD-Factory
-2. Industry Core
-   1. Data Provider 1
+   2. :white_check_mark: Discovery Services
+   3. Semantic Hub (to be prepared)
+   4. GDPM 
+      (Product Ticket: https://github.com/eclipse-tractusx/bpdm/issues/738 )
+      (Issue: https://github.com/eclipse-tractusx/bpdm/issues/795)
+   5. :white_check_mark: SD-Factory
+   6. MIW & Vault (PR: https://github.com/eclipse-tractusx/tractus-x-umbrella/pull/57)
+2. :white_check_mark: Industry Core (Ready for integration --> https://github.com/eclipse-tractusx/tractus-x-umbrella/pull/53)
+   1. :white_check_mark: Data Provider 1
       1. EDC
       2. Submodel Server
       3. Registry
-   2. Data Provider 2
-   3. Data Provider 3
+   2. :white_check_mark: Data Provider 2
+   3. :white_check_mark: Data Provider 3
 3. Business Applications
    1. Trace-X A
    2. Trace-X B
@@ -125,22 +127,30 @@ Assosiation:
   * Charts for Discovery finders will be added to shared Services
 * [x] cleanup of Repo -> @Gabor --> 29.01
 * [x] BPN selection for IDP
-* [ ] Helm Test Timout investigation/ Bigger Github Runner @Gabor
+* [x] Helm Test Timout investigation/ Bigger Github Runner @Gabor
 * [x] @Evelyn: Check for Helm Test in Helm Chart --> leads to timeout during deployment
 * [x] @Jaro: Status Data Provider --> currently ongoing. First Helm chart exists. Challanges with namespaces of using same chart 3 times with namespaces, for example databases
 * [x] @Jaro: Build a SubmodelServer--> used the existing one of IRS Team
 * [x] @Jaro: dDTR Version ( support from @Tuna )
-* [ ] @Tuna: Discovery Service Helm PR
+* [x] @Tuna: Discovery Service Helm PR
 * [x] @Johannes: BPDM Status <https://github.com/eclipse-tractusx/bpdm/issues/738>
 * [x] @Johannes: SD-Factory --> https://github.com/eclipse-tractusx/sd-factory/issues/91
 * [x] Awareness to Open Planning regarding E2E vs. tutorials
 * [x] setup Helm/Folder structure
   * [x] Define Helm setup
   * [x] Define Helm how to seed data --> f.e. <https://helm.sh/docs/topics/charts_hooks/> vs. <https://stackoverflow.com/questions/71284091/helm-run-pods-and-dependencies-with-a-predefined-flow-order> vs. <https://itnext.io/database-migrations-on-kubernetes-using-helm-hooks-fb80c0d97805>
-* [ ] collect Seeding/Test data
+* [x] collect Seeding/Test data
   * [x] BPN's
   * [x] Trace-X Testdata
-  * [ ] Current Testdatafile
+  * [x] Current Testdatafile
 
 * [ ] Documentation (e.g. OpenApi / Swagger, Insomnia Collection, Tutorials-> E2E Documentation, Step-By-Step Guide)
-* [ ] @Evelyn: Setup new Environment for definition of Companies
+* [ ] @Evelyn: Setup new Environment for definition of Companies -> conducting when the components are integrated
+* [x] @Jaro & @Evelyn: Have a look on the MIW Helm Chart
+* [x] @Jaro: EDC Chat to clarify on secrets via configuration to reduce the Vault as ressource
+* [ ] @Garbor: Update of TRG's 5.0.5 -> see also https://github.com/eclipse-tractusx/eclipse-tractusx.github.io/pull/755
+* [x] @Johannes: Status BusinessApps Helm Chart
+* [ ] @All: Ingress discussions & Testing configuration
+* [ ] @All: TLS Setup
+* [ ] Tractus-X Community Days
+* [ ] @All: update components to 24.03 Release
