@@ -192,13 +192,11 @@ discoveryfinder:
 dataconsumer:
   enabled: true
   seedTestdata: false
-  fullnameOverride: dataconsumer
   nameOverride: dataconsumer
   tractusx-connector:
-    fullnameOverride: dataconsumer-edc
     nameOverride: dataconsumer-edc
     participant:
-      id:
+      id: BPNL000000000000
     controlplane:
       ssi:  # TODO configure MIW once available
         miw:
@@ -213,32 +211,10 @@ dataconsumer:
         management:
           authKey: TEST1
       ingresses:
-        - enabled: true
-          hostname: "dataconsumer-controlplane.test"
-          annotations:
-            nginx.ingress.kubernetes.io/ssl-passthrough: "false"
-            nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
-            nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-          endpoints:
-            - protocol
-            - management
-          tls:
-            enabled: true
-            secretName: tls-secret
+        - enabled: false
     dataplane:
       ingresses:
-        - enabled: true
-          hostname: "dataconsumer-dataplane.test"
-          annotations:
-            nginx.ingress.kubernetes.io/ssl-passthrough: "false"
-            nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
-            nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-          endpoints:
-            - public
-          className: "nginx"
-          tls:
-            enabled: true
-            secretName: tls-secret
+        - enabled: false
     postgresql:
       jdbcUrl: "jdbc:postgresql://dataconsumer-db:5432/edc"
     vault:  # TODO configure Vault once available
@@ -265,10 +241,13 @@ dataconsumer:
 
 dataprovider:
   enabled: true
-  fullnameOverride: dataprovider
+  backendUrl: http://{{ .Release.Name }}-dataprovider-submodelserver:8080
+  registryUrl: http://{{ .Release.Name }}-dataprovider-digital-twin-registry:8080/api/v3.0
+  controlplanePublicUrl: http://{{ .Release.Name }}-dataprovider-edc-controlplane:8084
+  controlplaneManagementUrl: http://{{ .Release.Name }}-dataprovider-edc-controlplane:8081
+  dataplaneUrl: http://{{ .Release.Name }}-dataprovider-edc-dataplane:8081
   nameOverride: dataprovider
   tractusx-connector:
-    fullnameOverride: dataprovider-edc
     nameOverride: dataprovider-edc
     participant:
       id:
@@ -286,41 +265,17 @@ dataprovider:
         management:
           authKey: TEST2
       ingresses:
-        - enabled: true
-          hostname: "dataprovider-controlplane.test"
-          annotations:
-            nginx.ingress.kubernetes.io/ssl-passthrough: "false"
-            nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
-            nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-          endpoints:
-            - protocol
-            - management
-          tls:
-            enabled: true
-            secretName: tls-secret
+        - enabled: false
     dataplane:
       ingresses:
-        - enabled: true
-          hostname: "dataprovider-dataplane.test"
-          annotations:
-            nginx.ingress.kubernetes.io/ssl-passthrough: "false"
-            nginx.ingress.kubernetes.io/backend-protocol: "HTTP"
-            nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
-          endpoints:
-            - public
-          className: "nginx"
-          tls:
-            enabled: true
-            secretName: tls-secret
+        - enabled: false
     postgresql:
-      jdbcUrl: "jdbc:postgresql://dataprovider-db:5432/edc"
-    vault:  # TODO configure Vault once available
+      nameOverride: dataprovider-db
+      jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-dataprovider-db:5432/edc"
+    vault:
       hashicorp:
-        url:
-        token:
-        paths:
-          secret:
-          health:
+        url: http://{{ .Release.Name }}-vault:8200
+        token: *vault-token
       secretNames:
         transferProxyTokenSignerPrivateKey:
         transferProxyTokenSignerPublicKey:
@@ -330,10 +285,8 @@ dataprovider:
     nameOverride: dataprovider-db
 
   digital-twin-registry:
-    fullnameOverride: dataprovider-digital-twin-registry
     nameOverride: dataprovider-digital-twin-registry
     postgresql:
-      fullnameOverride: dataprovider-digital-twin-registry-db
       nameOverride: dataprovider-digital-twin-registry-db
       auth:
         existingSecret: dataprovider-secret-dtr-postgres-init
@@ -341,16 +294,6 @@ dataprovider:
       host: dataprovider-digital-twin-registry.test
 
   simple-data-backend:
-    fullnameOverride: dataprovider-submodelserver
     nameOverride: dataprovider-submodelserver
     ingress:
-      enabled: true
-      hosts:
-        - host: dataprovider-submodelserver.test
-          paths:
-            - path: /
-              pathType: ImplementationSpecific
-      tls:
-        - hosts:
-            - dataprovider-submodelserver.test
-          secretName: tls-secret
+      enabled: false
