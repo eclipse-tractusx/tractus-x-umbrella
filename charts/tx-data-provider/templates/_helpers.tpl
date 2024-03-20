@@ -42,7 +42,7 @@ Submodel URL helpers
 */}}
 {{- define "simple-data-backend.host" -}}
     {{- if .Values.backendUrl }}
-        {{- print .Values.backendUrl }}
+        {{- tpl .Values.backendUrl . }}
     {{- else if (index .Values "simple-data-backend" "ingress" "enabled") }}
         {{- with (first (index .Values "simple-data-backend" "ingress" "hosts")) }}
             {{- printf "https://%s" .host }}
@@ -71,7 +71,7 @@ Registry URL helpers
 {{- end }}
 {{- define "registry.url" -}}
     {{- if .Values.registryUrl }}
-        {{- print .Values.registryUrl }}
+        {{- tpl .Values.registryUrl . }}
     {{ else }}
         {{- printf "%s%s%s" (include "registry.host" .) (include "registry.path" .) "/api/v3.0" }}
     {{- end }}
@@ -83,7 +83,7 @@ EDC URL helpers
 
 {{- define "edc.controlplane.host" -}}
     {{- if .Values.controlplanePublicUrl }}
-        {{- print .Values.controlplanePublicUrl }}
+        {{- tpl .Values.controlplanePublicUrl . }}
     {{ else }}
         {{- with (first (index .Values "tractusx-connector" "controlplane" "ingresses")) }}
             {{- if .enabled }}
@@ -97,7 +97,7 @@ EDC URL helpers
 
 {{- define "edc.controlplane.management.host" -}}
     {{- if .Values.controlplaneManagementUrl }}
-        {{- print .Values.controlplaneManagementUrl }}
+        {{- tpl .Values.controlplaneManagementUrl . }}
     {{ else }}
         {{- with (first (index .Values "tractusx-connector" "controlplane" "ingresses")) }}
             {{- if .enabled }}
@@ -111,7 +111,7 @@ EDC URL helpers
 
 {{- define "edc.dataplane.host" -}}
     {{- if .Values.dataplaneUrl }}
-        {{- print .Values.dataplaneUrl }}
+        {{- tpl .Values.dataplaneUrl . }}
     {{ else }}
         {{- with (first (index .Values "tractusx-connector" "dataplane" "ingresses")) }}
             {{- if .enabled }}
