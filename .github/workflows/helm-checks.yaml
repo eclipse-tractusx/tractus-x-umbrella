@@ -88,6 +88,15 @@ jobs:
       with:
         fetch-depth: 0
 
+    - name: Build simple data backend
+      id: build-simple-data-backend
+      uses: docker/build-push-action@4a13e500e55cf31b7a5d59a38ab2040ab0f42f56 # v5.1.0
+      with:
+        context: .
+        file: simple-data-backend/Dockerfile
+        push: true
+        tags: kind-registry:5000/simple-data-backend:testing
+
     - name: Set up Helm
       uses: azure/setup-helm@v3
       with:
@@ -115,7 +124,10 @@ jobs:
         # default value for event_name != workflow_dispatch
         node_image: ${{ github.event.inputs.node_image || 'kindest/node:v1.27.3' }}
 
-    - name: Install chart and run tests
+    - name: Install chart and run tests (simple-data-backend)
+      run: ct install --charts charts/umbrella --target-branch ${{ github.event.repository.default_branch }} --helm-extra-set-args "--set image.repository=kind-registry:5000/simple-data-backend --set image.tag=testing"
+
+    - name: Install chart and run tests (umbrella)
       run: ct install --charts charts/umbrella --target-branch ${{ github.event.repository.default_branch }}
 
 
