@@ -16,7 +16,7 @@
 # * SPDX-License-Identifier: Apache-2.0
 
 # Dependencies
-FROM maven:3-eclipse-temurin-17-alpine AS maven
+FROM maven:3-eclipse-temurin-21-alpine AS maven
 ARG BUILD_TARGET=simple-data-backend
 
 WORKDIR /build
@@ -28,7 +28,7 @@ RUN --mount=type=cache,target=/root/.m2 mvn -B clean package -am -DskipTests
 
 
 # Copy the jar and build image
-FROM eclipse-temurin:17-jre-alpine AS simple-data-backend
+FROM eclipse-temurin:21-jre-alpine AS simple-data-backend
 
 ARG UID=10000
 ARG GID=3000
