@@ -116,7 +116,7 @@ jobs:
         node_image: ${{ github.event.inputs.node_image || 'kindest/node:v1.27.3' }}
 
     - name: Install chart and run tests
-      run: ct install --charts charts/umbrella --target-branch ${{ github.event.repository.default_branch }} --helm-extra-args '--timeout 20m'
+      run: ct install --charts charts/umbrella --target-branch ${{ github.event.repository.default_branch }}
 
 
     ## Skip upgrade for now until a working chart is released

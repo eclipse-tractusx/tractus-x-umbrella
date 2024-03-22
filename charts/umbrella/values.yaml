@@ -223,7 +223,7 @@ vault:
   url: http://{{ .Release.Name }}-vault:8200
   secrets:
     # TODO add test secret or secret reference. Can this be generated?
-    edc-test-miw-keycloak-secret: test
+    edc-test-miw-keycloak-secret: miw_private_client
     # TODO add certificate or secret reference. Can Key Pairs be generated?
     tokenSignerPublicKey: >-
       -----BEGIN CERTIFICATE-----\n
@@ -247,26 +247,25 @@ vault:
 
 managed-identity-wallet:
   nameOverride: miw
+  fullnameOverride: miw
   enabled: true
   miw:
+    authorityWallet:
+      bpn: &authority-bpn "BPNL000000000000"
     database:
       host: "{{ .Release.Name }}-miw-postgres"
       secret: "{{ .Release.Name }}-miw-postgres"
     keycloak:
-      url: "http://{{ .Release.Name }}-miw-keycloak"  # TODO connect to central idp
+      url: "https://centralidp.example.org"
+      clientId: &miw_client miw_private_client  # TODO switch to existing user
   postgresql:
     nameOverride: miw-postgres
     primary:
       persistence:
         enabled: false
         size: 1Gi
-  keycloak:  # TODO replace with central idp
-    nameOverride: miw-keycloak
-    enabled: true
-    ingress:
-      enabled: false
-    postgresql:
-      nameOverride: miw-keycloak-postgres
+  keycloak:
+    enabled: false
   livenessProbe:
     initialDelaySeconds: 90
   readinessProbe:
