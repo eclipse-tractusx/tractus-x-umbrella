@@ -28,12 +28,16 @@ spec:
       restartPolicy: Never
       containers:
         - name: post-install-job
-          image: "alpine:3.19"
+          image: "ubuntu:mantic"
           command:
             - "/bin/sh"
             - "-c"
             - |
+              apt-get update && apt-get install -y --no-install-recommends wget
               {{- range $key, $value := .Values.vault.secrets }}
-              wget --header 'Content-Type: application/json' --header 'X-Vault-Token: {{ $vaultToken }}' --post-data '{"data": {"content": "{{ $value }}"}}' "{{ $vaultUrl }}/v1/secret/data/{{ $key }}"
+              wget --retry-connrefused --waitretry=1 --read-timeout=20 --timeout=15 -t 0 --header 'Content-Type: application/json' \
+              --header 'X-Vault-Token: {{ $vaultToken }}' \
+              --post-data '{"data": {"content": "{{ $value }}"}}' \
+              "{{ $vaultUrl }}/v1/secret/data/{{ $key }}"
               {{- end }}
 {{- end }}
