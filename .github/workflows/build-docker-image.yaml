@@ -19,6 +19,7 @@ on:
 env:
   IMAGE_NAMESPACE: "tractusx"
   IMAGE_NAME: "simple-data-backend"
+  TARGET_PLATFORMS: "linux/amd64, linux/arm64"
 
 jobs:
   docker:
@@ -29,6 +30,14 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+
+      # Needed to create multi-platform image
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # Needed to create multi-platform image
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
 
       # Create SemVer or ref tags dependent of trigger event
       - name: Docker meta
@@ -58,6 +67,8 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: simple-data-backend/
+          # Needed to create multi-platform image
+          platforms: ${{ env.TARGET_PLATFORMS }}
           # Build image for verification purposes on every trigger event. Only push if event is not a PR
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
