@@ -216,3 +216,112 @@ sdfactory:
     clearingHouseClientId: ""
     # -- Details for Clearing House Client Secret
     clearingHouseClientSecret: ""
+
+dataconsumer:
+  enabled: true
+  seedTestdata: false
+  nameOverride: dataconsumer
+  tractusx-connector:
+    nameOverride: dataconsumer-edc
+    participant:
+      id: BPNL000000000000
+    controlplane:
+      ssi:  # TODO configure MIW once available
+        miw:
+          url:
+          authorityId:
+        oauth:
+          tokenurl:
+          client:
+            id:
+            secretAlias:
+      endpoints:
+        management:
+          authKey: TEST1
+      ingresses:
+        - enabled: false
+    dataplane:
+      ingresses:
+        - enabled: false
+    postgresql:
+      jdbcUrl: "jdbc:postgresql://dataconsumer-db:5432/edc"
+    vault:  # TODO configure Vault once available
+      hashicorp:
+        url:
+        token:
+        paths:
+          secret:
+          health:
+      secretNames:
+        transferProxyTokenSignerPrivateKey:
+        transferProxyTokenSignerPublicKey:
+        transferProxyTokenEncryptionAesKey:
+
+  postgresql:
+    fullnameOverride: dataconsumer-db
+    nameOverride: dataconsumer-db
+
+  digital-twin-registry:
+    enabled: false
+
+  simple-data-backend:
+    enabled: false
+
+dataprovider:
+  enabled: true
+  backendUrl: http://{{ .Release.Name }}-dataprovider-submodelserver:8080
+  registryUrl: http://{{ .Release.Name }}-dataprovider-digital-twin-registry:8080/api/v3.0
+  controlplanePublicUrl: http://{{ .Release.Name }}-dataprovider-edc-controlplane:8084
+  controlplaneManagementUrl: http://{{ .Release.Name }}-dataprovider-edc-controlplane:8081
+  dataplaneUrl: http://{{ .Release.Name }}-dataprovider-edc-dataplane:8081
+  nameOverride: dataprovider
+  tractusx-connector:
+    nameOverride: dataprovider-edc
+    participant:
+      id:
+    controlplane:
+      ssi:  # TODO configure MIW once available
+        miw:
+          url:
+          authorityId:
+        oauth:
+          tokenurl:
+          client:
+            id:
+            secretAlias:
+      endpoints:
+        management:
+          authKey: TEST2
+      ingresses:
+        - enabled: false
+    dataplane:
+      ingresses:
+        - enabled: false
+    postgresql:
+      nameOverride: dataprovider-db
+      jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-dataprovider-db:5432/edc"
+    vault:
+      hashicorp:
+        url: http://{{ .Release.Name }}-vault:8200
+        token: *vault-token
+      secretNames:
+        transferProxyTokenSignerPrivateKey:
+        transferProxyTokenSignerPublicKey:
+        transferProxyTokenEncryptionAesKey:
+  postgresql:
+    fullnameOverride: dataprovider-db
+    nameOverride: dataprovider-db
+
+  digital-twin-registry:
+    nameOverride: dataprovider-digital-twin-registry
+    postgresql:
+      nameOverride: dataprovider-digital-twin-registry-db
+      auth:
+        existingSecret: dataprovider-secret-dtr-postgres-init
+    registry:
+      host: dataprovider-digital-twin-registry.test
+
+  simple-data-backend:
+    nameOverride: dataprovider-submodelserver
+    ingress:
+      enabled: false

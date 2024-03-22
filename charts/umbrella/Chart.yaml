@@ -28,7 +28,7 @@ sources:
   - https://github.com/eclipse-tractusx/e2e-testing
 
 type: application
-version: 0.5.0
+version: 0.6.0
 
 dependencies:
 #  # TODO: update edc components to R23.12
@@ -70,3 +70,15 @@ dependencies:
     name: sdfactory
     repository: https://eclipse-tractusx.github.io/charts/dev
     version: 2.1.12
+    # TX Data Consumer
+  - name: tx-data-provider
+    alias: dataconsumer
+    version: 0.0.1
+    repository: file://../tx-data-provider  # TODO switch to released chart
+    condition: dataconsumer.enabled
+    # TX Data Providers
+  - name: tx-data-provider
+    alias: dataprovider
+    version: 0.0.1
+    repository: file://../tx-data-provider  # TODO switch to released chart
+    condition: dataprovider.enabled
