@@ -144,6 +144,90 @@ portal:
     postgresql:
     nameOverride: "portal-backend-postgresql"
     architecture: standalone
+  portalAddress: "https://portal.example.org"
+  portalBackendAddress: "https://portal-backend.example.org"
+  frontend:
+    ingress:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: "my-ca-issuer"
+        nginx.ingress.kubernetes.io/rewrite-target: "/$1"
+        nginx.ingress.kubernetes.io/use-regex: "true"
+        nginx.ingress.kubernetes.io/enable-cors: "true"
+        nginx.ingress.kubernetes.io/cors-allow-origin: "https://*.example.org"
+      tls:
+        # -- Provide tls secret.
+        - secretName: "portal.example.org-tls"
+          # -- Provide host for tls secret.
+          hosts:
+            - "portal.example.org"
+      hosts:
+        - host: "portal.example.org"
+          paths:
+            - path: "/(.*)"
+              pathType: "ImplementationSpecific"
+              backend:
+                service: "portal"
+                port: 8080
+            - path: "/registration/(.*)"
+              pathType: "ImplementationSpecific"
+              backend:
+                service: "registration"
+                port: 8080
+            - path: "/((assets|documentation)/.*)"
+              pathType: "ImplementationSpecific"
+              backend:
+                service: "assets"
+                port: 8080
+  backend:
+    ingress:
+      enabled: true
+      name: "portal-backend"
+      annotations:
+        cert-manager.io/cluster-issuer: "my-ca-issuer"
+        nginx.ingress.kubernetes.io/use-regex: "true"
+        nginx.ingress.kubernetes.io/enable-cors: "true"
+        nginx.ingress.kubernetes.io/proxy-body-size: "8m"
+        nginx.ingress.kubernetes.io/cors-allow-origin: "http://localhost:3000, https://*.example.org"
+      tls:
+        # -- Provide tls secret.
+        - secretName: "portal-backend.example.org-tls"
+          # -- Provide host for tls secret.
+          hosts:
+            - "portal-backend.example.org"
+      hosts:
+        - host: "portal-backend.example.org"
+          paths:
+            - path: "/api/registration"
+              pathType: "Prefix"
+              backend:
+                service: "registration-service"
+                port: 8080
+            - path: "/api/administration"
+              pathType: "Prefix"
+              backend:
+                service: "administration-service"
+                port: 8080
+            - path: "/api/notification"
+              pathType: "Prefix"
+              backend:
+                service: "notification-service"
+                port: 8080
+            - path: "/api/provisioning"
+              pathType: "Prefix"
+              backend:
+                service: "provisioning-service"
+                port: 8080
+            - path: "/api/apps"
+              pathType: "Prefix"
+              backend:
+                service: "marketplace-app-service"
+                port: 8080
+            - path: "/api/services"
+              pathType: "Prefix"
+              backend:
+                service: "services-service"
+                port: 8080
 
 centralidp:
   enabled: true
@@ -167,6 +251,84 @@ centralidp:
     postgresql:
       nameOverride: "centralidp-postgresql"
       architecture: standalone
+    proxy: edge
+    extraEnvVars:
+      - name: KEYCLOAK_LOG_LEVEL
+        value: TRACE
+      - name: KEYCLOAK_SPI_TRUSTSTORE_FILE
+        value: "/opt/bitnami/keycloak/certs/keycloak.truststore.jks"
+      - name: "JAVA_OPTS"
+        value: "-Djavax.net.debug=ssl -Djavax.net.ssl.trustStore=$KEYCLOAK_SPI_TRUSTSTORE_PASSWORD -Djavax.net.ssl.trustStorePassword=$KEYCLOAK_SPI_TRUSTSTORE_PASSWORD"
+      - name: KEYCLOAK_SPI_TRUSTSTORE_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: centralidp-spi
+            key: spi-truststore-password
+    extraVolumes:
+      - name: certificates
+        secret:
+          secretName: root-secret
+          defaultMode: 420
+      - name: shared-certs
+        emptyDir: {}
+      - name: themes
+        emptyDir: {}
+      - name: realms
+        emptyDir: {}
+    extraVolumeMounts:
+      - name: certificates
+        mountPath: /certs
+      - name: shared-certs
+        mountPath: "/opt/bitnami/keycloak/certs"
+      - name: themes
+        mountPath: "/opt/bitnami/keycloak/themes/catenax-central"
+      - name: realms
+        mountPath: "/realms"
+    initContainers:
+      - name: init-certs
+        image: docker.io/bitnami/keycloak:22.0.3-debian-11-r14
+        imagePullPolicy: Always
+        command: ["/bin/bash"]
+        args:
+          - -ec
+          - |-
+            keytool -import -file "/certs/tls.crt" \
+                    -keystore "/opt/bitnami/keycloak/certs/keycloak.truststore.jks" \
+                    -storepass "${KEYCLOAK_SPI_TRUSTSTORE_PASSWORD}" \
+                    -noprompt
+        env:
+          - name: KEYCLOAK_SPI_TRUSTSTORE_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: centralidp-spi
+                key: spi-truststore-password
+        volumeMounts:
+          - name: certificates
+            mountPath: /certs
+          - name: shared-certs
+            mountPath: "/opt/bitnami/keycloak/certs"
+    ingress:
+      enabled: true
+      ingressClassName: "nginx"
+      hostname: "centralidp.example.org"
+      annotations:
+        cert-manager.io/cluster-issuer: "my-ca-issuer"
+        nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
+        nginx.ingress.kubernetes.io/cors-allow-methods: "PUT, GET, POST, OPTIONS"
+        nginx.ingress.kubernetes.io/cors-allow-origin: "https://centralidp.example.org"
+        nginx.ingress.kubernetes.io/enable-cors: "true"
+        nginx.ingress.kubernetes.io/proxy-buffer-size: "128k"
+        nginx.ingress.kubernetes.io/proxy-buffering: "on"
+        nginx.ingress.kubernetes.io/proxy-buffers-number: "20"
+        nginx.ingress.kubernetes.io/use-regex: "true"
+      tls: true
+  secrets:
+    auth:
+      existingSecret:
+        # -- Password for the admin username 'admin'. Secret-key 'admin-password'.
+        adminpassword: ""
+      spi:
+        truststorePassword: ""
 
 sharedidp:
   enabled: true
@@ -190,6 +352,74 @@ sharedidp:
     postgresql:
       nameOverride: "sharedidp-postgresql"
       architecture: standalone
+    proxy: edge
+    extraEnvVars:
+      - name: KEYCLOAK_SPI_TRUSTSTORE_FILE
+        value: "/opt/bitnami/keycloak/certs/keycloak.truststore.jks"
+      - name: "JAVA_OPTS"
+        value: "-Djavax.net.debug=ssl -Djavax.net.ssl.trustStore=$KEYCLOAK_SPI_TRUSTSTORE_PASSWORD -Djavax.net.ssl.trustStorePassword=$KEYCLOAK_SPI_TRUSTSTORE_PASSWORD"
+      - name: KEYCLOAK_SPI_TRUSTSTORE_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: sharedidp-spi
+            key: spi-truststore-password
+    extraVolumes:
+      - name: certificates
+        secret:
+          secretName: root-secret
+          defaultMode: 420
+      - name: shared-certs
+        emptyDir: {}
+    extraVolumeMounts:
+      - name: certificates
+        mountPath: /certs
+      - name: shared-certs
+        mountPath: "/opt/bitnami/keycloak/certs"
+    initContainers:
+      - name: init-certs
+        image: docker.io/bitnami/keycloak:22.0.3-debian-11-r14
+        imagePullPolicy: Always
+        command: ["/bin/bash"]
+        args:
+          - -ec
+          - |-
+            keytool -import -file "/certs/tls.crt" \
+                    -keystore "/opt/bitnami/keycloak/certs/keycloak.truststore.jks" \
+                    -storepass "${KEYCLOAK_SPI_TRUSTSTORE_PASSWORD}" \
+                    -noprompt
+        env:
+          - name: KEYCLOAK_SPI_TRUSTSTORE_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: sharedidp-spi
+                key: spi-truststore-password
+        volumeMounts:
+          - name: certificates
+            mountPath: /certs
+          - name: shared-certs
+            mountPath: "/opt/bitnami/keycloak/certs"
+    ingress:
+      enabled: true
+      ingressClassName: "nginx"
+      hostname: "sharedidp.example.org"
+      annotations:
+        cert-manager.io/cluster-issuer: "my-ca-issuer"
+        nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
+        nginx.ingress.kubernetes.io/cors-allow-methods: "PUT, GET, POST, OPTIONS"
+        nginx.ingress.kubernetes.io/cors-allow-origin: "https://sharedidp.example.org"
+        nginx.ingress.kubernetes.io/enable-cors: "true"
+        nginx.ingress.kubernetes.io/proxy-buffer-size: "128k"
+        nginx.ingress.kubernetes.io/proxy-buffering: "on"
+        nginx.ingress.kubernetes.io/proxy-buffers-number: "20"
+        nginx.ingress.kubernetes.io/use-regex: "true"
+      tls: true
+  secrets:
+    auth:
+      existingSecret:
+        # -- Password for the admin username 'admin'. Secret-key 'admin-password'.
+        adminpassword: ""
+      spi:
+        truststorePassword: ""
 
 bpndiscovery:
   enabled: true
