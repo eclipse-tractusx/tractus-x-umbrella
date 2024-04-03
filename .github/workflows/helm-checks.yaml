@@ -96,6 +96,19 @@ jobs:
         # default value for event_name != workflow_dispatch
         node_image: ${{ github.event.inputs.node_image || 'kindest/node:v1.27.3' }}
 
+      # Pull and build Jena Fuseki DB for semantic-hub
+    - name: Pull Fuseki sources
+      run: |
+        curl https://repo1.maven.org/maven2/org/apache/jena/jena-fuseki-docker/4.7.0/jena-fuseki-docker-4.7.0.zip > ./jena-fuseki.zip
+        unzip jena-fuseki.zip
+    - name: Build and push Fuseki DB
+      uses: docker/build-push-action@4a13e500e55cf31b7a5d59a38ab2040ab0f42f56
+      with:
+        context: jena-fuseki-docker-4.7.0
+        push: true
+        tags: kind-registry:5000/jena-fuseki-docker:4.7.0
+        build-args: JENA_VERSION=4.7.0
+
     - name: Build simple data backend
       id: build-simple-data-backend
       uses: docker/build-push-action@4a13e500e55cf31b7a5d59a38ab2040ab0f42f56 # v5.1.0
@@ -129,7 +142,7 @@ jobs:
       run: ct install --charts charts/simple-data-backend --target-branch ${{ github.event.repository.default_branch }} --helm-extra-set-args "--set image.repository=kind-registry:5000/simple-data-backend --set image.tag=testing"
 
     - name: Install chart and run tests (umbrella)
-      run: ct install --charts charts/umbrella --target-branch ${{ github.event.repository.default_branch }}
+      run: ct install --charts charts/umbrella --target-branch ${{ github.event.repository.default_branch }} --helm-extra-set-args "--set semantic-hub.graphdb.image=kind-registry:5000/jena-fuseki-docker:4.7.0"
 
 
     ## Skip upgrade for now until a working chart is released

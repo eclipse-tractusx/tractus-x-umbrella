@@ -270,3 +270,21 @@ managed-identity-wallet:
     initialDelaySeconds: 90
   readinessProbe:
     initialDelaySeconds: 90
+
+semantic-hub:
+  enabled: true
+  enableKeycloak: false
+  hub:
+    authentication: false
+    livenessProbe:
+      initialDelaySeconds: 200
+    readinessProbe:
+      initialDelaySeconds: 200
+  graphdb:
+    enabled: true
+    image: jena-fuseki-docker:4.7.0
+    imagePullPolicy: Always
+    imagePullSecrets:
+      - name: machineuser-pull-secret-ro
+    storageClassName: ""
+    storageSize: 8Gi

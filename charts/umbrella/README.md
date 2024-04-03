@@ -5,6 +5,13 @@ consisting of [Tractus-X](https://projects.eclipse.org/projects/automotive.tract
 
 The Chart aims for a completely automated setup of a fully functional network, that does not require manual setup steps.
 
+## Precondition
+In case of enabling `semantic-hub` the fuseki docker image must be built.
+Build fuseki docker image by following the below steps:
+- Download [jena-fuseki-docker-4.7.0.zip](https://repo1.maven.org/maven2/org/apache/jena/jena-fuseki-docker/4.7.0/jena-fuseki-docker-4.7.0.zip)
+- Unzip the jena-fuseki-docker-4.7.0.zip.
+- Build the docker image by running the command - `docker build --build-arg JENA_VERSION=4.7.0 -t jena-fuseki-docker:4.7.0 .`
+
 ## Installing
 
 Running this Chart requires a kubernetes cluster `>1.24.x`. One of the options is to run a local instance of [minikube](https://minikube.sigs.k8s.io/docs/start/) setup.

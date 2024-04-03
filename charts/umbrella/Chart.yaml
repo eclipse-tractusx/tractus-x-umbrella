@@ -28,7 +28,7 @@ sources:
   - https://github.com/eclipse-tractusx/e2e-testing
 
 type: application
-version: 0.6.0
+version: 0.7.0
 
 dependencies:
 #  # TODO: update edc components to R23.12
@@ -66,6 +66,8 @@ dependencies:
     name: bpndiscovery
     repository: https://eclipse-tractusx.github.io/charts/dev
     version: 0.2.2
+
+    # sd-factory
   - condition: sdfactory.enabled
     name: sdfactory
     repository: https://eclipse-tractusx.github.io/charts/dev
@@ -80,3 +82,9 @@ dependencies:
     repository: https://eclipse-tractusx.github.io/charts/dev
     version: 0.4.0
     condition: managed-identity-wallet.enabled
+
+  # semantic-hub
+  - condition: semantic-hub.enabled
+    name: semantic-hub
+    repository: https://eclipse-tractusx.github.io/charts/dev
+    version: 0.2.2
