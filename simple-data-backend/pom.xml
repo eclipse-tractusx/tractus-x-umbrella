@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.2.3</version>
+        <relativePath/>
+        <!-- lookup parent from repository -->
+    </parent>
+
+    <groupId>org.eclipse.tractusx.irs</groupId>
+    <artifactId>simple-data-backend</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+
+    <name>simple-data-backend</name>
+    <description>A simple web app to store and load data in memory.</description>
+
+    <properties>
+        <java.version>21</java.version>
+        <license-tool-plugin.version>1.1.0</license-tool-plugin.version>
+        <json-unit-assertj.version>2.36.1</json-unit-assertj.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-log4j2</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.javacrumbs.json-unit</groupId>
+            <artifactId>json-unit-assertj</artifactId>
+            <version>${json-unit-assertj.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <pluginRepositories>
+        <pluginRepository>
+            <id>dash-licenses-releases</id>
+            <url>https://repo.eclipse.org/content/repositories/dash-licenses-releases/</url>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.eclipse.dash</groupId>
+                    <artifactId>license-tool-plugin</artifactId>
+                    <version>${license-tool-plugin.version}</version>
+                    <configuration>
+                        <projectId>automotive.tractusx</projectId>
+                        <includeScope>test</includeScope>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>license-check</id>
+                            <goals>
+                                <goal>license-check</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
+</project>

@@ -70,6 +70,16 @@ dependencies:
     name: sdfactory
     repository: https://eclipse-tractusx.github.io/charts/dev
     version: 2.1.12
+    # vault
+  - name: vault
+    condition: vault.enabled
+    repository: https://helm.releases.hashicorp.com
+    version: 0.20.0
+    # miw
+  - name: managed-identity-wallet
+    repository: https://eclipse-tractusx.github.io/charts/dev
+    version: 0.4.0
+    condition: managed-identity-wallet.enabled
     # TX Data Consumer
   - name: tx-data-provider
     alias: dataconsumer
