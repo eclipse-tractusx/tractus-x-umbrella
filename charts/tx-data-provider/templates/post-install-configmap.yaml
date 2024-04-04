@@ -18,8 +18,8 @@
 # SPDX-License-Identifier: Apache-2.0
 # #############################################################################
 ---
+{{ if .Values.seedTestdata }}
 {{- $fullName := include "dataprovider.fullname" . -}}
-{{- if .Values.seedTestdata }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -33,4 +33,4 @@ data:
 {{ .Files.Get "resources/Testdata_AsBuilt-combustion.json" | indent 4}}
   upload-data.sh: |-
 {{ .Files.Get "resources/upload-data.sh" | indent 4}}
-{{- end }}
+{{ end }}

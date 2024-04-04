@@ -18,7 +18,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # #############################################################################
 ---
-{{- if .Values.seedTestdata }}
+{{ if .Values.seedTestdata }}
 {{- $fullName := include "dataprovider.fullname" . -}}
 {{- $submodel := include "simple-data-backend.host" . -}}
 {{- $registry := include "registry.url" . -}}
@@ -74,4 +74,4 @@ spec:
             name: {{ $fullName }}-postinstall-configmap
             defaultMode: 0777
           {{- end }}
-{{- end }}
+{{ end }}
