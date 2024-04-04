@@ -31,5 +31,5 @@ spec:
     - name: wget
       image: busybox
       command: ['wget']
-      args: ['{{ include "simple-data-backend.fullname" . }}:{{ .Values.service.port }}']
+      args: ['{{ include "simple-data-backend.fullname" . }}:{{ .Values.service.port }}/actuator/health']
   restartPolicy: Never
