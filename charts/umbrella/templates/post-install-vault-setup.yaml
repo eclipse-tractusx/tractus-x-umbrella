@@ -59,4 +59,24 @@ spec:
               --post-data '{"data": {"content": "{{ $value }}"}}' \
               "{{ $vaultUrl }}/v1/secret/data/{{ $key }}"
               {{- end }}
+
+              wget --retry-connrefused --waitretry=1 --read-timeout=20 --timeout=15 -t 0 --header 'Content-Type: application/json' \
+              --header 'X-Vault-Token: {{ $vaultToken }}' --post-file=/opt/config/cert.json \
+              "{{ $vaultUrl }}/v1/secret/data/{{ .Values.vault.secretNames.tokenSignerPublicKey }}"
+
+              wget --retry-connrefused --waitretry=1 --read-timeout=20 --timeout=15 -t 0 --header 'Content-Type: application/json' \
+              --header 'X-Vault-Token: {{ $vaultToken }}' --post-file=/opt/config/key.json \
+              "{{ $vaultUrl }}/v1/secret/data/{{ .Values.vault.secretNames.tokenSignerPrivateKey }}"
+
+              wget --retry-connrefused --waitretry=1 --read-timeout=20 --timeout=15 -t 0 --header 'Content-Type: application/json' \
+              --header 'X-Vault-Token: {{ $vaultToken }}' --post-file=/opt/config/aes-secret.json \
+              "{{ $vaultUrl }}/v1/secret/data/{{ .Values.vault.secretNames.tokenEncryptionAesKey }}"
+          volumeMounts:
+            - name: config-volume
+              mountPath: /opt/config
+      volumes:
+        - name: config-volume
+          configMap:
+            name: {{ .Release.Name }}-vault-edc-configmap
+            defaultMode: 0777
 {{ end }}

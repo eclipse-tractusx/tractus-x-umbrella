@@ -222,20 +222,11 @@ vault:
   token: &vault-token root
   url: http://{{ .Release.Name }}-vault:8200
   secrets:
-    # TODO add test secret or secret reference. Can this be generated?
-    edc-test-miw-keycloak-secret: miw_private_client
-    # TODO add certificate or secret reference. Can Key Pairs be generated?
-    tokenSignerPublicKey: >-
-      -----BEGIN CERTIFICATE-----\n
-      test\n
-      -----END CERTIFICATE-----
-    # TODO add certificate or secret reference. Can Key Pairs be generated?
-    tokenSignerPrivateKey: >-
-      -----BEGIN PRIVATE KEY-----\n
-      test\n
-      -----END PRIVATE KEY-----
-    # TODO add test secret or secret reference. Can this be generated?
-    tokenEncryptionAesKey: test
+    edc-test-miw-keycloak-secret: miw_private_client  # TODO switch to existing user
+  secretNames:
+    tokenSignerPublicKey: &tokenSignerPublicKey tokenSignerPublicKey
+    tokenSignerPrivateKey: &tokenSignerPrivateKey tokenSignerPrivateKey
+    tokenEncryptionAesKey: &tokenEncryptionAesKey tokenEncryptionAesKey
   injector:
     enabled: false
   server:
@@ -256,8 +247,8 @@ managed-identity-wallet:
       host: "{{ .Release.Name }}-miw-postgres"
       secret: "{{ .Release.Name }}-miw-postgres"
     keycloak:
-      url: "https://centralidp.example.org"
-      clientId: &miw_client miw_private_client  # TODO switch to existing user
+      url: "https://{{ .Release.Name }}-centralidp"
+      clientId: &miw_client CHANGEME  # TODO switch to existing user
   postgresql:
     nameOverride: miw-postgres
     primary:
@@ -280,15 +271,15 @@ dataconsumer:
     participant:
       id: BPNL000000000000
     controlplane:
-      ssi:  # TODO configure MIW once available
+      ssi:
         miw:
-          url:
-          authorityId:
+          url: http://miw:8080
+          authorityId: *authority-bpn
         oauth:
-          tokenurl:
+          tokenurl: http://lab-centralidp/auth/realms/CX-Central/protocol/openid-connect/token
           client:
-            id:
-            secretAlias:
+            id: *miw_client
+            secretAlias: edc-test-miw-keycloak-secret
       endpoints:
         management:
           authKey: TEST1
@@ -298,22 +289,16 @@ dataconsumer:
       ingresses:
         - enabled: false
     postgresql:
-      jdbcUrl: "jdbc:postgresql://dataconsumer-db:5432/edc"
-    vault:  # TODO configure Vault once available
+      nameOverride: dataconsumer-db
+      jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-dataconsumer-db:5432/edc"
+    vault:
       hashicorp:
-        url:
-        token:
-        paths:
-          secret:
-          health:
+        url: http://{{ .Release.Name }}-vault:8200
+        token: *vault-token
       secretNames:
-        transferProxyTokenSignerPrivateKey:
-        transferProxyTokenSignerPublicKey:
-        transferProxyTokenEncryptionAesKey:
-
-  postgresql:
-    fullnameOverride: dataconsumer-db
-    nameOverride: dataconsumer-db
+        transferProxyTokenSignerPublicKey: *tokenSignerPublicKey
+        transferProxyTokenSignerPrivateKey: *tokenSignerPrivateKey
+        transferProxyTokenEncryptionAesKey: *tokenEncryptionAesKey
 
   digital-twin-registry:
     enabled: false
@@ -323,6 +308,7 @@ dataconsumer:
 
 dataprovider:
   enabled: true
+  seedTestdata: true
   backendUrl: http://{{ .Release.Name }}-dataprovider-submodelserver:8080
   registryUrl: http://{{ .Release.Name }}-dataprovider-digital-twin-registry:8080/api/v3.0
   controlplanePublicUrl: http://{{ .Release.Name }}-dataprovider-edc-controlplane:8084
@@ -332,17 +318,17 @@ dataprovider:
   tractusx-connector:
     nameOverride: dataprovider-edc
     participant:
-      id:
+      id: BPNL000000000000
     controlplane:
-      ssi:  # TODO configure MIW once available
+      ssi:
         miw:
-          url:
-          authorityId:
+          url: http://miw:8080
+          authorityId: *authority-bpn
         oauth:
-          tokenurl:
+          tokenurl: http://lab-centralidp/auth/realms/CX-Central/protocol/openid-connect/token
           client:
-            id:
-            secretAlias:
+            id: *miw_client
+            secretAlias: edc-test-miw-keycloak-secret
       endpoints:
         management:
           authKey: TEST2
@@ -359,12 +345,9 @@ dataprovider:
         url: http://{{ .Release.Name }}-vault:8200
         token: *vault-token
       secretNames:
-        transferProxyTokenSignerPrivateKey:
-        transferProxyTokenSignerPublicKey:
-        transferProxyTokenEncryptionAesKey:
-  postgresql:
-    fullnameOverride: dataprovider-db
-    nameOverride: dataprovider-db
+        transferProxyTokenSignerPublicKey: *tokenSignerPublicKey
+        transferProxyTokenSignerPrivateKey: *tokenSignerPrivateKey
+        transferProxyTokenEncryptionAesKey: *tokenEncryptionAesKey
 
   digital-twin-registry:
     nameOverride: dataprovider-digital-twin-registry
