@@ -116,5 +116,7 @@ digital-twin-registry:
 
 simple-data-backend:
   enabled: true
+  image:
+    tag: "main"
   ingress:
     enabled: false
