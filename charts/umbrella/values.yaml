@@ -310,7 +310,7 @@ dataprovider:
   enabled: true
   seedTestdata: true
   backendUrl: http://{{ .Release.Name }}-dataprovider-submodelserver:8080
-  registryUrl: http://{{ .Release.Name }}-dataprovider-digital-twin-registry:8080/api/v3.0
+  registryUrl: http://{{ .Release.Name }}-dataprovider-dtr:8080/api/v3.0
   controlplanePublicUrl: http://{{ .Release.Name }}-dataprovider-edc-controlplane:8084
   controlplaneManagementUrl: http://{{ .Release.Name }}-dataprovider-edc-controlplane:8081
   dataplaneUrl: http://{{ .Release.Name }}-dataprovider-edc-dataplane:8081
@@ -350,13 +350,13 @@ dataprovider:
         transferProxyTokenEncryptionAesKey: *tokenEncryptionAesKey
 
   digital-twin-registry:
-    nameOverride: dataprovider-digital-twin-registry
+    nameOverride: dataprovider-dtr
     postgresql:
-      nameOverride: dataprovider-digital-twin-registry-db
+      nameOverride: dataprovider-dtr-db
       auth:
         existingSecret: dataprovider-secret-dtr-postgres-init
     registry:
-      host: dataprovider-digital-twin-registry.test
+      host: dataprovider-dtr.test
 
   simple-data-backend:
     nameOverride: dataprovider-submodelserver
