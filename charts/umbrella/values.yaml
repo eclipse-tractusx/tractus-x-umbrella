@@ -307,7 +307,8 @@ dataconsumer:
     enabled: false
 
 dataprovider:
-  enabled: true
+  # TODO enable once resource availability is clarified
+  enabled: false
   seedTestdata: true
   backendUrl: http://{{ .Release.Name }}-dataprovider-submodelserver:8080
   registryUrl: http://{{ .Release.Name }}-dataprovider-dtr:8080/api/v3.0
