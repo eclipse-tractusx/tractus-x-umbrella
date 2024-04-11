@@ -448,6 +448,23 @@ discoveryfinder:
       initialDelaySeconds: 200
     readinessProbe:
       initialDelaySeconds: 200
+  host: semantics.example.org
+  ## If 'authentication' is set to false, no OAuth authentication is enforced
+  authentication: false
+  properties:
+    discoveryfinder:
+      # Initial Endpoint for edc discovery with type bpn
+      initialEndpoints:
+        - type: bpn
+          endpointAddress: https://portal-backend.example.org/api/administration/Connectors/discovery
+          description: Service to discover connector endpoints based on bpns
+          documentation: https://portal-backend.example.org/api/administration/swagger/index.html
+  idp:
+    issuerUri: "https://centralidp.example.org/auth/realms/CX-Central"
+    #publicClientId: ""
+  ingress:
+    enabled: true
+    tls: true
   postgresql:
     nameOverride: "discoveryfinder-postgresql"
 
