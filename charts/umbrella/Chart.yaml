@@ -28,7 +28,7 @@ sources:
   - https://github.com/eclipse-tractusx/e2e-testing
 
 type: application
-version: 0.6.0
+version: 0.7.0
 
 dependencies:
 #  # TODO: update edc components to R23.12
@@ -46,16 +46,16 @@ dependencies:
   - condition: portal.enabled
     name: portal
     repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 1.7.0
+    version: 1.8.0
   # cx-iam
   - condition: centralidp.enabled
     name: centralidp
     repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 2.0.0
+    version: 2.1.0
   - condition: sharedidp.enabled
     name: sharedidp
     repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 2.0.0
+    version: 2.1.0
   # discovery-finder
   - condition: discoveryfinder.enabled
     name: discoveryfinder
