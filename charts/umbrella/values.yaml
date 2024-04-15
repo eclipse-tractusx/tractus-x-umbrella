@@ -151,7 +151,7 @@ centralidp:
       architecture: standalone
 
 sharedidp:
-  enabled: true
+  enabled: false
   keycloak:
     nameOverride: "sharedidp"
     replicaCount: 1
@@ -190,7 +190,7 @@ discoveryfinder:
     nameOverride: "discoveryfinder-postgresql"
 
 sdfactory:
-  enabled: true
+  enabled: false
   secret:
     # -- JWK Set URI
     jwkSetUri: "https://centralidp.example.org/auth/realms/CX-Central/protocol/openid-connect/certs"
