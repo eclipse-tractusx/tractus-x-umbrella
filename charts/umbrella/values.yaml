@@ -140,6 +140,10 @@
 portal:
   enabled: true
   replicaCount: 1
+  postgresql:
+    postgresql:
+    nameOverride: "portal-backend-postgresql"
+    architecture: standalone
 
 centralidp:
   enabled: true
