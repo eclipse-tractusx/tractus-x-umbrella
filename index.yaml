@@ -13,6 +13,52 @@ entries:
     version: 0.1.0
   umbrella:
   - apiVersion: v2
+    created: "2024-04-16T08:09:08.623055545Z"
+    dependencies:
+    - condition: portal.enabled
+      name: portal
+      repository: https://eclipse-tractusx.github.io/charts/dev
+      version: 1.8.0
+    - condition: centralidp.enabled
+      name: centralidp
+      repository: https://eclipse-tractusx.github.io/charts/dev
+      version: 2.1.0
+    - condition: sharedidp.enabled
+      name: sharedidp
+      repository: https://eclipse-tractusx.github.io/charts/dev
+      version: 2.1.0
+    - condition: discoveryfinder.enabled
+      name: discoveryfinder
+      repository: https://eclipse-tractusx.github.io/charts/dev
+      version: 0.2.2
+    - condition: bpndiscovery.enabled
+      name: bpndiscovery
+      repository: https://eclipse-tractusx.github.io/charts/dev
+      version: 0.2.2
+    - condition: sdfactory.enabled
+      name: sdfactory
+      repository: https://eclipse-tractusx.github.io/charts/dev
+      version: 2.1.12
+    - condition: vault.enabled
+      name: vault
+      repository: https://helm.releases.hashicorp.com
+      version: 0.20.0
+    - condition: managed-identity-wallet.enabled
+      name: managed-identity-wallet
+      repository: https://eclipse-tractusx.github.io/charts/dev
+      version: 0.4.0
+    description: 'A Helm chart to spin up Catena-X OSS components to simulate a complete
+      dataspace network.  With this Helm chart you are able to create a sandbox environment
+      or run end-to-end. '
+    digest: 0a13ea15fb07b3493f63778824fa27162fef08c95ea339e1ffee1358dd270e02
+    name: umbrella
+    sources:
+    - https://github.com/eclipse-tractusx/e2e-testing
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/tractus-x-umbrella/releases/download/umbrella-0.7.0/umbrella-0.7.0.tgz
+    version: 0.7.0
+  - apiVersion: v2
     created: "2024-04-04T12:10:11.42736489Z"
     dependencies:
     - condition: portal.enabled
@@ -274,4 +320,4 @@ entries:
     urls:
     - https://github.com/eclipse-tractusx/e2e-testing/releases/download/umbrella-0.2.1/umbrella-0.2.1.tgz
     version: 0.2.1
-generated: "2024-04-04T12:14:15.553708629Z"
+generated: "2024-04-16T08:09:08.623082926Z"
