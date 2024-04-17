@@ -1,0 +1,18 @@
+{
+  "realm" : "CX-Operator",
+  "users" : [ {
+    "id" : "656e8a94-188b-4a3e-9eec-b45d8efd8347",
+    "username" : "cx-operator@cx.com",
+    "enabled" : true,
+    "totp" : false,
+    "emailVerified" : false,
+    "firstName" : "Operator",
+    "lastName" : "CX Admin",
+    "email" : "tobeadded@cx.com",
+    "credentials" : [ ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "notBefore" : 0,
+    "groups" : [ ]
+  } ]
+}
