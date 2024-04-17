@@ -1,4 +1,4 @@
-name: Build - Docker image
+name: Build - Image Simple Data Backend
 
 on:
   push:
@@ -8,8 +8,7 @@ on:
       - 'simple-data-backend/**'
     # trigger events for SemVer like tags
     tags:
-      - '*.*.*'
-      - '*.*.*-*'
+      - '*.*.*-sdb*'
   pull_request:
     branches:
       - main
@@ -66,7 +65,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
-          context: simple-data-backend/
+          context: ./simple-data-backend/
           # Needed to create multi-platform image
           platforms: ${{ env.TARGET_PLATFORMS }}
           # Build image for verification purposes on every trigger event. Only push if event is not a PR
