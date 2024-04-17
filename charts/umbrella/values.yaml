@@ -461,7 +461,7 @@ discoveryfinder:
           documentation: https://portal-backend.example.org/api/administration/swagger/index.html
   idp:
     issuerUri: "https://centralidp.example.org/auth/realms/CX-Central"
-    #publicClientId: ""
+    # publicClientId: ""
   ingress:
     enabled: true
     tls: true
