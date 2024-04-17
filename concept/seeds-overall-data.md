@@ -1,18 +1,24 @@
 # Overall Seed Data
 
-## Keycloack
+## Addresses
 
-Provide portal base address. - portalAddress: "<https://portal.example.org>"
-Provide portal-backend base address. - portalBackendAddress: "<https://portal-backend.example.org>"
-Provide centralidp base address (CX IAM), without trailing '/auth' - centralidpAddress: "<https://centralidp.example.org>"
-Provide sharedidp address (CX IAM), without trailing '/auth'. - sharedidpAddress: "<https://sharedidp.example.org>"
-Provide semantics base address. - semanticsAddress: "<https://semantics.example.org>"
-Provide bpdm partners pool base address. - bpdmPartnersPoolAddress: "<https://business-partners.example.org>"
-Provide bpdm portal gate base address. - bpdmPortalGateAddress: "<https://business-partners.example.org>"
-Provide custodian base address. - custodianAddress: "<https://managed-identity-w+allets.example.org>"
-Provide sdfactory base address. - sdfactoryAddress: "<https://sdfactory.example.org>"
-Provide clearinghouse base address. - clearinghouseAddress: "<https://validation.example.org>"
-Provide clearinghouse token address. - clearinghouseTokenAddress: "<https://keycloak.example.org/realms/example/protocol/openid-connect/token>"
+### Base addresses
+
+- portal base address - portalAddress: "<https://portal.example.org>"
+- portal-backend base address - portalBackendAddress: "<https://portal-backend.example.org>"
+- centralidp base address (CX IAM) - centralidpAddress: "<https://centralidp.example.org>"
+- sharedidp address (CX IAM) - sharedidpAddress: "<https://sharedidp.example.org>"
+- semantics base address - semanticsAddress: "<https://semantics.example.org>"
+- bpdm partners pool base address. - bpdmPartnersPoolAddress: "<https://business-partners.example.org>"
+- bpdm portal gate base address. - bpdmPortalGateAddress: "<https://business-partners.example.org>"
+- custodian base address - custodianAddress: "<https://managed-identity-wallets.example.org>"
+- sdfactory base address - sdfactoryAddress: "<https://sdfactory.example.org>"
+- clearinghouse base address - clearinghouseAddress: "<https://validation.example.org>"
+- clearinghouse token address - clearinghouseTokenAddress: "<https://keycloak.example.org/realms/example/protocol/openid-connect/token>"
+
+### Token Address
+
+- "<https://centralidp.example.org/auth/realms/CX-Central/protocol/openid-connect/token>"
 
 ## BPN's
 
@@ -33,3 +39,6 @@ Provide clearinghouse token address. - clearinghouseTokenAddress: "<https://keyc
 "BPN_SUB_TIER_A" : "BPNL00000003B3NX",
 "BPN_SUB_TIER_C" : "BPNL00000000BJTL",
 
+## CentralIdP (Keycloak) Seeding
+
+### Service Accounts for Managed Identity Wallet
