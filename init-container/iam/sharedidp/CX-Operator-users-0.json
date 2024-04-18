@@ -1,0 +1,24 @@
+{
+  "realm" : "CX-Operator",
+  "users" : [ {
+    "id" : "656e8a94-188b-4a3e-9eec-b45d8efd8347",
+    "username" : "cx-operator@example.org",
+    "enabled" : true,
+    "totp" : false,
+    "emailVerified" : false,
+    "firstName" : "Test User",
+    "lastName" : "CX Operator",
+    "email" : "cx-operator@example.org",
+    "credentials" : [ {
+      "id" : "02afe9d5-7315-465a-8949-ef0f4db14af0",
+      "type" : "password",
+      "createdDate" : 1713385962102,
+      "secretData" : "{\"value\":\"CaRlUwoqillRbysSUm2/yuH3g9e9RWRq7VK1NJ3tu8A=\",\"salt\":\"UT/XRE/7gKQ0fqRRuwz1+g==\",\"additionalParameters\":{}}",
+      "credentialData" : "{\"hashIterations\":27500,\"algorithm\":\"pbkdf2-sha256\",\"additionalParameters\":{}}"
+    } ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "notBefore" : 0,
+    "groups" : [ ]
+  } ]
+}
