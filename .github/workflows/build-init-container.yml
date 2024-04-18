@@ -87,6 +87,7 @@ jobs:
         if: github.event_name != 'pull_request'
         uses: peter-evans/dockerhub-description@e98e4d1628a5f3be2be7c231e50981aee98723ae # v4.0.0
         with:
+          readme-filepath: ./init-container/DOCKER_NOTICE.md
           username: ${{ secrets.DOCKER_HUB_USER }}
           password: ${{ secrets.DOCKER_HUB_TOKEN }}
           repository: ${{ env.IMAGE_NAMESPACE }}/${{ env.IMAGE_NAME }}
