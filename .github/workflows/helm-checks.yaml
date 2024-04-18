@@ -100,12 +100,18 @@ jobs:
       run: kubectl describe node
 
     - name: Build simple data backend
-      id: build-simple-data-backend
       uses: docker/build-push-action@4a13e500e55cf31b7a5d59a38ab2040ab0f42f56 # v5.1.0
       with:
-        context: simple-data-backend/
+        context: ./simple-data-backend/
         push: true
         tags: kind-registry:5000/simple-data-backend:testing
+
+    - name: Build init container
+      uses: docker/build-push-action@4a13e500e55cf31b7a5d59a38ab2040ab0f42f56 # v5.1.0
+      with:
+        context: ./init-container/
+        push: true
+        tags: kind-registry:5000/init-container:testing
 
     - name: Set up Helm
       uses: azure/setup-helm@b7246b12e77f7134dc2d460a3d5bad15bbe29390 # v4.1.0
@@ -135,7 +141,7 @@ jobs:
 
     - name: Install chart and run tests (umbrella)
       run: |
-        helm install umbrella charts/umbrella --namespace install --create-namespace --debug
+        helm install umbrella charts/umbrella -f charts/values-test.yaml --namespace install --create-namespace --debug
         helm uninstall umbrella --namespace install
 
     ## Skip upgrade for now until a working chart is released

@@ -30,6 +30,20 @@ centralidp:
   keycloak:
     nameOverride: "centralidp"
     replicaCount: 1
+    initContainers:
+      - name: import
+        image: docker.io/tractusx/umbrella-init-container:0.0.1-init
+        imagePullPolicy: Always
+        command:
+          - sh
+        args:
+          - -c
+          - |
+            echo "Copying realms..."
+            cp -R /import/catenax-central/realms/* /realms
+        volumeMounts:
+        - name: realms
+          mountPath: "/realms"
     postgresql:
       nameOverride: "centralidp-postgresql"
       architecture: standalone
@@ -39,6 +53,20 @@ sharedidp:
   keycloak:
     nameOverride: "sharedidp"
     replicaCount: 1
+    initContainers:
+      - name: import
+        image: docker.io/tractusx/umbrella-init-container:0.0.1-init
+        imagePullPolicy: Always
+        command:
+          - sh
+        args:
+          - -c
+          - |
+            echo "Copying realms..."
+            cp -R /import/catenax-shared/realms/* /realms
+        volumeMounts:
+        - name: realms
+          mountPath: "/realms"
     postgresql:
       nameOverride: "sharedidp-postgresql"
       architecture: standalone
