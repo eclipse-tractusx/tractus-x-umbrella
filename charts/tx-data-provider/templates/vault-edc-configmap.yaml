@@ -17,7 +17,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # #############################################################################
 ---
-{{- $cert := genSelfSignedCert "" (list) (list) 365 }}
+{{ $cert := genSelfSignedCert "" (list) (list) 365 }}
 {{- $fullName := include "dataprovider.fullname" . -}}
 apiVersion: v1
 kind: ConfigMap
