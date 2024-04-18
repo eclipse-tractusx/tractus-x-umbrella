@@ -40,6 +40,6 @@ dependencies:
     version: 0.5.3
     condition: tractusx-connector.enabled
   - name: vault
-    version: 0.20.1
+    version: 0.20.0
     repository: https://helm.releases.hashicorp.com
     condition: vault.enabled
