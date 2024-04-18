@@ -51,7 +51,7 @@ tractusx-connector:
         tokenurl: http://example.org
         client:
           id: changeme
-          secretAlias: edc-miw-keycloak-secret
+          secretAlias: client-secret
     ingresses:
       - enabled: false
     endpoints:
@@ -71,9 +71,9 @@ tractusx-connector:
       url: http://{{ .Release.Name }}-edc-provider-vault:8200
       token: "root"
     secretNames:
-      transferProxyTokenSignerPrivateKey: tokenSignerPrivateKey
-      transferProxyTokenSignerPublicKey: tokenSignerPublicKey
-      transferProxyTokenEncryptionAesKey: tokenEncryptionAesKey
+      transferProxyTokenSignerPrivateKey:
+      transferProxyTokenSignerPublicKey:
+      transferProxyTokenEncryptionAesKey: aesKey
 
   postgresql:
     nameOverride: edc-postgresql
@@ -129,6 +129,15 @@ vault:
   injector:
     enabled: false
   server:
+    postStart:
+      - sh
+      - -c
+      - |-
+        {
+        sleep 5
+        /bin/vault kv put secret/client-secret content=kEmH7QRPWhKfy8f+x0pFMw==
+        /bin/vault kv put secret/aesKey content=YWVzX2VuY2tleV90ZXN0Cg==
+        }
     dev:
       enabled: true
       devRootToken: root

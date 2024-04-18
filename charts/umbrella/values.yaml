@@ -161,11 +161,17 @@ dataconsumer:
     vault:
       hashicorp:
         url: http://edc-dataconsumer-vault:8200
+      secretNames:
+        transferProxyTokenSignerPrivateKey: tokenSignerPrivateKey
+        transferProxyTokenSignerPublicKey: tokenSignerPublicKey
+        transferProxyTokenEncryptionAesKey: tokenEncryptionAesKey
 
   vault:
     nameOverride: edc-dataconsumer-vault
     fullnameOverride: edc-dataconsumer-vault
     enabled: true
+    server:
+      postStart: []
 
   digital-twin-registry:
     enabled: false
@@ -213,11 +219,17 @@ dataprovider:
     vault:
       hashicorp:
         url: http://edc-dataprovider-vault:8200
+      secretNames:
+        transferProxyTokenSignerPrivateKey: tokenSignerPrivateKey
+        transferProxyTokenSignerPublicKey: tokenSignerPublicKey
+        transferProxyTokenEncryptionAesKey: tokenEncryptionAesKey
 
   vault:
     nameOverride: edc-dataprovider-vault
     fullnameOverride: edc-dataprovider-vault
     enabled: true
+    server:
+      postStart: []
 
   digital-twin-registry:
     nameOverride: dataprovider-dtr
