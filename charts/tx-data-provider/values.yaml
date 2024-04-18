@@ -32,6 +32,8 @@ registryUrl: ""  # Override the digital twin registry url
 controlplanePublicUrl: ""  # Override the edc controlplane protocol url
 controlplaneManagementUrl: ""  # Override the edc controlplane management url
 dataplaneUrl: ""  # Override the edc dataplane public url
+secrets:
+  edc-miw-keycloak-secret: changeme
 
 tractusx-connector:
   enabled: true
@@ -43,13 +45,13 @@ tractusx-connector:
   controlplane:
     ssi:
       miw:
-        url: changeme
+        url: http://example.org
         authorityId: changeme
       oauth:
-        tokenurl: changeme
+        tokenurl: http://example.org
         client:
           id: changeme
-          secretAlias: changeme
+          secretAlias: edc-miw-keycloak-secret
     ingresses:
       - enabled: false
     endpoints:
@@ -66,12 +68,12 @@ tractusx-connector:
     httpProxyTokenReceiverUrl: "https://submodelserver.test/data/endpoint-data-reference-provider1"
   vault:
     hashicorp:
-      url: changeme
-      token: changeme
+      url: http://{{ .Release.Name }}-edc-provider-vault:8200
+      token: "root"
     secretNames:
-      transferProxyTokenSignerPrivateKey: changeme
-      transferProxyTokenSignerPublicKey: changeme
-      transferProxyTokenEncryptionAesKey: changeme
+      transferProxyTokenSignerPrivateKey: tokenSignerPrivateKey
+      transferProxyTokenSignerPublicKey: tokenSignerPublicKey
+      transferProxyTokenEncryptionAesKey: tokenEncryptionAesKey
 
   postgresql:
     nameOverride: edc-postgresql
@@ -120,3 +122,15 @@ simple-data-backend:
     tag: "main"
   ingress:
     enabled: false
+
+vault:
+  enabled: true
+  nameOverride: edc-provider-vault
+  injector:
+    enabled: false
+  server:
+    dev:
+      enabled: true
+      devRootToken: root
+    ingress:
+      enabled: false

@@ -18,12 +18,13 @@
 # #############################################################################
 ---
 {{ if .Values.vault.enabled }}
-{{- $vaultToken := .Values.vault.token -}}
-{{- $vaultUrl := tpl .Values.vault.url . -}}
+{{- $vaultToken := index .Values "tractusx-connector" "vault" "hashicorp" "token" -}}
+{{- $vaultUrl := tpl (index .Values "tractusx-connector" "vault" "hashicorp" "url") . -}}
+{{- $fullName := include "dataprovider.fullname" . -}}
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ .Release.Name }}-post-install-vault-setup
+  name: {{ $fullName }}-post-install-vault-setup
   labels:
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
@@ -47,36 +48,31 @@ spec:
       restartPolicy: Never
       containers:
         - name: post-install-job
-          image: "ubuntu:mantic"
+          image: "alpine:3.19"
           command:
             - "/bin/sh"
             - "-c"
             - |
-              apt-get update && apt-get install -y --no-install-recommends wget
-              {{- range $key, $value := .Values.vault.secrets }}
-              wget --retry-connrefused --waitretry=1 --read-timeout=20 --timeout=15 -t 0 --header 'Content-Type: application/json' \
-              --header 'X-Vault-Token: {{ $vaultToken }}' \
-              --post-data '{"data": {"content": "{{ $value }}"}}' \
-              "{{ $vaultUrl }}/v1/secret/data/{{ $key }}"
+              sleep 10
+              {{- range $key, $value := .Values.secrets }}
+              wget --header 'Content-Type: application/json' --header 'X-Vault-Token: {{ $vaultToken }}' \
+              --post-data '{"data": {"content": "{{ $value }}"}}' "{{ $vaultUrl }}/v1/secret/data/{{ $key }}"
               {{- end }}
 
-              wget --retry-connrefused --waitretry=1 --read-timeout=20 --timeout=15 -t 0 --header 'Content-Type: application/json' \
-              --header 'X-Vault-Token: {{ $vaultToken }}' --post-file=/opt/config/cert.json \
-              "{{ $vaultUrl }}/v1/secret/data/{{ .Values.vault.secretNames.tokenSignerPublicKey }}"
+              wget --header 'Content-Type: application/json' --header 'X-Vault-Token: {{ $vaultToken }}' \
+              --post-file=/opt/config/cert.json "{{ $vaultUrl }}/v1/secret/data/tokenSignerPublicKey"
 
-              wget --retry-connrefused --waitretry=1 --read-timeout=20 --timeout=15 -t 0 --header 'Content-Type: application/json' \
-              --header 'X-Vault-Token: {{ $vaultToken }}' --post-file=/opt/config/key.json \
-              "{{ $vaultUrl }}/v1/secret/data/{{ .Values.vault.secretNames.tokenSignerPrivateKey }}"
+              wget --header 'Content-Type: application/json' --header 'X-Vault-Token: {{ $vaultToken }}' \
+              --post-file=/opt/config/key.json "{{ $vaultUrl }}/v1/secret/data/tokenSignerPrivateKey"
 
-              wget --retry-connrefused --waitretry=1 --read-timeout=20 --timeout=15 -t 0 --header 'Content-Type: application/json' \
-              --header 'X-Vault-Token: {{ $vaultToken }}' --post-file=/opt/config/aes-secret.json \
-              "{{ $vaultUrl }}/v1/secret/data/{{ .Values.vault.secretNames.tokenEncryptionAesKey }}"
+              wget --header 'Content-Type: application/json' --header 'X-Vault-Token: {{ $vaultToken }}' \
+              --post-file=/opt/config/aes-secret.json "{{ $vaultUrl }}/v1/secret/data/tokenEncryptionAesKey"
           volumeMounts:
             - name: config-volume
               mountPath: /opt/config
       volumes:
         - name: config-volume
           configMap:
-            name: {{ .Release.Name }}-vault-edc-configmap
+            name: {{ $fullName }}-vault-edc-configmap
             defaultMode: 0777
 {{ end }}

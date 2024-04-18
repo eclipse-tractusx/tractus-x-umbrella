@@ -18,10 +18,11 @@
 # #############################################################################
 ---
 {{- $cert := genSelfSignedCert "" (list) (list) 365 }}
+{{- $fullName := include "dataprovider.fullname" . -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ .Release.Name }}-vault-edc-configmap
+  name: {{ $fullName }}-vault-edc-configmap
 data:
   cert.json: |-
       {
