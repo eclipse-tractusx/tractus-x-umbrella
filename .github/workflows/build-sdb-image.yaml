@@ -28,7 +28,9 @@ on:
       - 'simple-data-backend/**'
     # trigger events for SemVer like tags
     tags:
-      - '*.*.*-sdb*'
+      - '*.*.*'
+      - '*.*.*-*'
+      - '!*.*.*-init*'
   pull_request:
     branches:
       - main
