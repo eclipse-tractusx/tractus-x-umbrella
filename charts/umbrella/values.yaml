@@ -234,6 +234,10 @@ centralidp:
   keycloak:
     nameOverride: "centralidp"
     replicaCount: 1
+    postgresql:
+      nameOverride: "centralidp-postgresql"
+      architecture: standalone
+    proxy: edge
     initContainers:
       - name: import
         image: docker.io/tractusx/umbrella-init-container:0.0.1-init
@@ -248,43 +252,6 @@ centralidp:
         volumeMounts:
         - name: realms
           mountPath: "/realms"
-    postgresql:
-      nameOverride: "centralidp-postgresql"
-      architecture: standalone
-    proxy: edge
-    extraEnvVars:
-      - name: KEYCLOAK_LOG_LEVEL
-        value: TRACE
-      - name: KEYCLOAK_SPI_TRUSTSTORE_FILE
-        value: "/opt/bitnami/keycloak/certs/keycloak.truststore.jks"
-      - name: "JAVA_OPTS"
-        value: "-Djavax.net.debug=ssl -Djavax.net.ssl.trustStore=$KEYCLOAK_SPI_TRUSTSTORE_PASSWORD -Djavax.net.ssl.trustStorePassword=$KEYCLOAK_SPI_TRUSTSTORE_PASSWORD"
-      - name: KEYCLOAK_SPI_TRUSTSTORE_PASSWORD
-        valueFrom:
-          secretKeyRef:
-            name: centralidp-spi
-            key: spi-truststore-password
-    extraVolumes:
-      - name: certificates
-        secret:
-          secretName: root-secret
-          defaultMode: 420
-      - name: shared-certs
-        emptyDir: {}
-      - name: themes
-        emptyDir: {}
-      - name: realms
-        emptyDir: {}
-    extraVolumeMounts:
-      - name: certificates
-        mountPath: /certs
-      - name: shared-certs
-        mountPath: "/opt/bitnami/keycloak/certs"
-      - name: themes
-        mountPath: "/opt/bitnami/keycloak/themes/catenax-central"
-      - name: realms
-        mountPath: "/realms"
-    initContainers:
       - name: init-certs
         image: docker.io/bitnami/keycloak:22.0.3-debian-11-r14
         imagePullPolicy: Always
@@ -307,6 +274,34 @@ centralidp:
             mountPath: /certs
           - name: shared-certs
             mountPath: "/opt/bitnami/keycloak/certs"
+    extraEnvVars:
+      - name: KEYCLOAK_LOG_LEVEL
+        value: TRACE
+      - name: KEYCLOAK_SPI_TRUSTSTORE_FILE
+        value: "/opt/bitnami/keycloak/certs/keycloak.truststore.jks"
+      - name: KEYCLOAK_SPI_TRUSTSTORE_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: centralidp-spi
+            key: spi-truststore-password
+      - name: KEYCLOAK_EXTRA_ARGS
+        value: "-Dkeycloak.migration.action=import -Dkeycloak.migration.provider=singleFile -Dkeycloak.migration.file=/realms/CX-Central-realm.json -Dkeycloak.migration.strategy=IGNORE_EXISTING"
+    extraVolumes:
+      - name: realms
+        emptyDir: {}
+      - name: certificates
+        secret:
+          secretName: root-secret
+          defaultMode: 420
+      - name: shared-certs
+        emptyDir: {}
+    extraVolumeMounts:
+      - name: realms
+        mountPath: "/realms"
+      - name: certificates
+        mountPath: /certs
+      - name: shared-certs
+        mountPath: "/opt/bitnami/keycloak/certs"
     ingress:
       enabled: true
       ingressClassName: "nginx"
@@ -335,6 +330,10 @@ sharedidp:
   keycloak:
     nameOverride: "sharedidp"
     replicaCount: 1
+    postgresql:
+      nameOverride: "sharedidp-postgresql"
+      architecture: standalone
+    proxy: edge
     initContainers:
       - name: import
         image: docker.io/tractusx/umbrella-init-container:0.0.1-init
@@ -349,33 +348,6 @@ sharedidp:
         volumeMounts:
         - name: realms
           mountPath: "/realms"
-    postgresql:
-      nameOverride: "sharedidp-postgresql"
-      architecture: standalone
-    proxy: edge
-    extraEnvVars:
-      - name: KEYCLOAK_SPI_TRUSTSTORE_FILE
-        value: "/opt/bitnami/keycloak/certs/keycloak.truststore.jks"
-      - name: "JAVA_OPTS"
-        value: "-Djavax.net.debug=ssl -Djavax.net.ssl.trustStore=$KEYCLOAK_SPI_TRUSTSTORE_PASSWORD -Djavax.net.ssl.trustStorePassword=$KEYCLOAK_SPI_TRUSTSTORE_PASSWORD"
-      - name: KEYCLOAK_SPI_TRUSTSTORE_PASSWORD
-        valueFrom:
-          secretKeyRef:
-            name: sharedidp-spi
-            key: spi-truststore-password
-    extraVolumes:
-      - name: certificates
-        secret:
-          secretName: root-secret
-          defaultMode: 420
-      - name: shared-certs
-        emptyDir: {}
-    extraVolumeMounts:
-      - name: certificates
-        mountPath: /certs
-      - name: shared-certs
-        mountPath: "/opt/bitnami/keycloak/certs"
-    initContainers:
       - name: init-certs
         image: docker.io/bitnami/keycloak:22.0.3-debian-11-r14
         imagePullPolicy: Always
@@ -398,6 +370,32 @@ sharedidp:
             mountPath: /certs
           - name: shared-certs
             mountPath: "/opt/bitnami/keycloak/certs"
+    extraEnvVars:
+      - name: KEYCLOAK_SPI_TRUSTSTORE_FILE
+        value: "/opt/bitnami/keycloak/certs/keycloak.truststore.jks"
+      - name: KEYCLOAK_SPI_TRUSTSTORE_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: sharedidp-spi
+            key: spi-truststore-password
+      - name: KEYCLOAK_EXTRA_ARGS
+        value: "-Dkeycloak.migration.action=import -Dkeycloak.migration.provider=dir -Dkeycloak.migration.dir=/realms -Dkeycloak.migration.strategy=IGNORE_EXISTING"
+    extraVolumes:
+      - name: realms
+        emptyDir: {}
+      - name: certificates
+        secret:
+          secretName: root-secret
+          defaultMode: 420
+      - name: shared-certs
+        emptyDir: {}
+    extraVolumeMounts:
+      - name: realms
+        mountPath: "/realms"
+      - name: certificates
+        mountPath: /certs
+      - name: shared-certs
+        mountPath: "/opt/bitnami/keycloak/certs"
     ingress:
       enabled: true
       ingressClassName: "nginx"
