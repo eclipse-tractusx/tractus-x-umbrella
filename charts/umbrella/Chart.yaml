@@ -20,12 +20,12 @@
 apiVersion: v2
 name: umbrella
 description: |
-  A Helm chart to spin up Catena-X OSS components to simulate a complete dataspace network.
+  A Helm chart to spin up Tractus-X OSS components to simulate a complete dataspace network.
 
-  With this Helm chart you are able to create a sandbox environment or run end-to-end.
+  With this Helm chart you are able to run end-to-end or create a sandbox environment.
 
 sources:
-  - https://github.com/eclipse-tractusx/e2e-testing
+  - https://github.com/eclipse-tractusx/tractus-x-umbrella
 
 type: application
 version: 0.9.0

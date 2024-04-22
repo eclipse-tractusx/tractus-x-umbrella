@@ -1,15 +1,15 @@
-# E2E umbrella Chart
+# Umbrella Chart
 
-This e2e umbrella Chart is a basis for end-to-end testing of an [Catena-X](https://catena-x.net/en/) automotive dataspace network
-consisting of [Tractus-X](https://projects.eclipse.org/projects/automotive.tractusx) OSS coponents.
+This umbrella chart provides a basis for running end-to-end tests or creating a sandbox environment of the [Catena-X](https://catena-x.net/en/) automotive dataspace network
+consisting of [Tractus-X](https://projects.eclipse.org/projects/automotive.tractusx) OSS components.
 
-The Chart aims for a completely automated setup of a fully functional network, that does not require manual setup steps.
+The chart aims for a completely automated setup of a fully functional network, that does not require manual setup steps.
 
 ## Installing
 
 Running this Chart requires a kubernetes cluster `>1.24.x`. One of the options is to run a local instance of [minikube](https://minikube.sigs.k8s.io/docs/start/) setup.
 Assuming you have a running cluster and your `kubectl` context is set to that cluster, you can use the following command to install
-the Chart as `lab` release.
+the chart as `umbrella` release.
 
 ### (Optional) Self-signed TLS setup
 
@@ -89,7 +89,7 @@ helm install umbrella . --namespace umbrella --create-namespace
 
 ## Uninstalling
 
-To taredown your setup, run:
+To teardown your setup, run:
 
 ```shell
 helm delete umbrella --namespace umbrella
