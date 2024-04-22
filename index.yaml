@@ -11,6 +11,34 @@ entries:
     urls:
     - https://github.com/eclipse-tractusx/tractus-x-umbrella/releases/download/simple-data-backend-0.1.0/simple-data-backend-0.1.0.tgz
     version: 0.1.0
+  tx-data-provider:
+  - apiVersion: v2
+    appVersion: 0.0.1
+    created: "2024-04-22T15:21:37.821533545Z"
+    dependencies:
+    - condition: digital-twin-registry.enabled
+      name: digital-twin-registry
+      repository: https://eclipse-tractusx.github.io/charts/dev
+      version: 0.4.5
+    - condition: simple-data-backend.enabled
+      name: simple-data-backend
+      repository: https://eclipse-tractusx.github.io/charts/dev
+      version: 0.1.0
+    - condition: tractusx-connector.enabled
+      name: tractusx-connector
+      repository: https://eclipse-tractusx.github.io/charts/dev
+      version: 0.5.3
+    - condition: vault.enabled
+      name: vault
+      repository: https://helm.releases.hashicorp.com
+      version: 0.20.0
+    description: A Helm chart for Kubernetes
+    digest: b35a71b7010709a1b60b5ac8a8ccaad0b5fdf25811827723b1543d3e4b06d802
+    name: tx-data-provider
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/tractus-x-umbrella/releases/download/tx-data-provider-0.0.2/tx-data-provider-0.0.2.tgz
+    version: 0.0.2
   umbrella:
   - apiVersion: v2
     created: "2024-04-22T15:03:16.973605692Z"
@@ -464,4 +492,4 @@ entries:
     urls:
     - https://github.com/eclipse-tractusx/e2e-testing/releases/download/umbrella-0.2.1/umbrella-0.2.1.tgz
     version: 0.2.1
-generated: "2024-04-22T15:03:16.973641249Z"
+generated: "2024-04-22T15:21:37.82157867Z"
