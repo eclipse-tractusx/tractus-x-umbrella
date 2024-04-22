@@ -31,17 +31,6 @@ type: application
 version: 0.9.0
 
 dependencies:
-#  # TODO: update edc components to R23.12
-#  # edc consumer
-#  - alias: edcconsumer
-#    name: tractusx-connector-legacy
-#    version: 0.5.0-rc1
-#    repository: https://eclipse-tractusx.github.io/charts/dev
-#  # edc provider
-#  - alias: edcprovider
-#    name: tractusx-connector-legacy
-#    version: 0.5.0-rc1
-#    repository: https://eclipse-tractusx.github.io/charts/dev
   # portal
   - condition: portal.enabled
     name: portal
@@ -70,13 +59,20 @@ dependencies:
     name: sdfactory
     repository: https://eclipse-tractusx.github.io/charts/dev
     version: 2.1.12
-    # vault
-  - name: vault
-    condition: vault.enabled
-    repository: https://helm.releases.hashicorp.com
-    version: 0.20.0
     # miw
   - name: managed-identity-wallet
     repository: https://eclipse-tractusx.github.io/charts/dev
     version: 0.4.0
     condition: managed-identity-wallet.enabled
+    # TX Data Consumer
+  - name: tx-data-provider
+    alias: dataconsumer
+    version: 0.0.1
+    repository: file://../tx-data-provider  # TODO switch to released chart
+    condition: dataconsumer.enabled
+    # TX Data Providers
+  - name: tx-data-provider
+    alias: dataprovider
+    version: 0.0.1
+    repository: file://../tx-data-provider  # TODO switch to released chart
+    condition: dataprovider.enabled

@@ -1,0 +1,145 @@
+# #############################################################################
+# Copyright (c) 2022,2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
+# Copyright (c) 2021,2024 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Apache License, Version 2.0 which is available at
+# https://www.apache.org/licenses/LICENSE-2.0.
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+# License for the specific language governing permissions and limitations
+# under the License.
+#
+# SPDX-License-Identifier: Apache-2.0
+# #############################################################################
+
+configuration:
+  postgresuser: &postgresuser testuser
+  postgrespass: &postgrespass testpass
+  edcKey: &edcKey TEST
+
+nameOverride: ""
+fullnameOverride: ""
+seedTestdata: true  # Toggle seeding of testdata. Can be disabled when e.g. only edc is used as consumer. Default true.
+testdataConfigMap: ""  # Provide a custom configmap for post-install-job-upload-testdata.yaml.
+backendUrl: ""  # Override the backend service url
+registryUrl: ""  # Override the digital twin registry url
+controlplanePublicUrl: ""  # Override the edc controlplane protocol url
+controlplaneManagementUrl: ""  # Override the edc controlplane management url
+dataplaneUrl: ""  # Override the edc dataplane public url
+secrets:
+  edc-miw-keycloak-secret: changeme
+
+tractusx-connector:
+  enabled: true
+  install:
+    postgresql: true
+    vault: false
+  participant:
+    id: changeme
+  controlplane:
+    ssi:
+      miw:
+        url: http://example.org
+        authorityId: changeme
+      oauth:
+        tokenurl: http://example.org
+        client:
+          id: changeme
+          secretAlias: client-secret
+    ingresses:
+      - enabled: false
+    endpoints:
+      management:
+        authKey: *edcKey
+    securityContext:
+      readOnlyRootFilesystem: false
+
+  dataplane:
+    ingresses:
+      - enabled: false
+
+  backendService:
+    httpProxyTokenReceiverUrl: "https://submodelserver.test/data/endpoint-data-reference-provider1"
+  vault:
+    hashicorp:
+      url: http://{{ .Release.Name }}-edc-provider-vault:8200
+      token: "root"
+    secretNames:
+      transferProxyTokenSignerPrivateKey:
+      transferProxyTokenSignerPublicKey:
+      transferProxyTokenEncryptionAesKey: aesKey
+
+  postgresql:
+    nameOverride: edc-postgresql
+    primary:
+      persistence:
+        enabled: false
+        size: 1Gi
+    auth:
+      database: edc
+      username: *postgresuser
+      postgresPassword: *postgrespass
+      password: *postgrespass
+    username: *postgresuser
+    password: *postgrespass
+    jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-edc-postgresql:5432/edc"
+
+digital-twin-registry:
+  enabled: true
+  enableKeycloak: false
+
+  postgresql:
+    auth:
+      existingSecret: registry-db-postresinit
+    primary:
+      persistence:
+        enabled: false
+        size: 1Gi
+
+  registry:
+    host: digital-twin-registry.test
+    ingress:
+      enabled: false
+    authentication: false
+    livenessProbe:
+      failureThreshold: 10
+      initialDelaySeconds: 60
+      periodSeconds: 10
+    readinessProbe:
+      failureThreshold: 10
+      initialDelaySeconds: 60
+      periodSeconds: 10
+
+simple-data-backend:
+  enabled: true
+  image:
+    tag: "main"
+  ingress:
+    enabled: false
+
+vault:
+  enabled: true
+  nameOverride: edc-provider-vault
+  injector:
+    enabled: false
+  server:
+    postStart:
+      - sh
+      - -c
+      - |-
+        {
+        sleep 5
+        /bin/vault kv put secret/client-secret content=kEmH7QRPWhKfy8f+x0pFMw==
+        /bin/vault kv put secret/aesKey content=YWVzX2VuY2tleV90ZXN0Cg==
+        }
+    dev:
+      enabled: true
+      devRootToken: root
+    ingress:
+      enabled: false

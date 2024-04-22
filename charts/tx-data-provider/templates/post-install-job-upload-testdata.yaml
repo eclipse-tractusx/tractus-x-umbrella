@@ -1,4 +1,5 @@
 # #############################################################################
+# Copyright (c) 2022,2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
 # Copyright (c) 2021,2024 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
@@ -17,13 +18,19 @@
 # SPDX-License-Identifier: Apache-2.0
 # #############################################################################
 ---
-{{ if .Values.vault.enabled }}
-{{- $vaultToken := .Values.vault.token -}}
-{{- $vaultUrl := tpl .Values.vault.url . -}}
+{{ if .Values.seedTestdata }}
+{{- $fullName := include "dataprovider.fullname" . -}}
+{{- $submodel := include "simple-data-backend.host" . -}}
+{{- $registry := include "registry.url" . -}}
+{{- $controlplane := include "edc.controlplane.host" . -}}
+{{- $management := include "edc.controlplane.management.host" . -}}
+{{- $dataplane := include "edc.dataplane.host" . -}}
+{{- $key := include "edc.key" . -}}
+{{- $bpn := include "edc.bpn" . -}}
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ .Release.Name }}-post-install-vault-setup
+  name: {{ $fullName }}-post-install-testdata
   labels:
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
@@ -33,12 +40,12 @@ metadata:
     # This is what defines this resource as a hook. Without this line, the
     # job is considered part of the release.
     "helm.sh/hook": post-install
-    "helm.sh/hook-weight": "-5"
+    "helm.sh/hook-weight": "-4"
     "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
 spec:
   template:
     metadata:
-      name: "{{ .Release.Name }}"
+      name: "{{ $fullName }}"
       labels:
         app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
         app.kubernetes.io/instance: {{ .Release.Name | quote }}
@@ -47,16 +54,24 @@ spec:
       restartPolicy: Never
       containers:
         - name: post-install-job
-          image: "ubuntu:mantic"
+          image: "python:3.11"
           command:
             - "/bin/sh"
             - "-c"
-            - |
-              apt-get update && apt-get install -y --no-install-recommends wget
-              {{- range $key, $value := .Values.vault.secrets }}
-              wget --retry-connrefused --waitretry=1 --read-timeout=20 --timeout=15 -t 0 --header 'Content-Type: application/json' \
-              --header 'X-Vault-Token: {{ $vaultToken }}' \
-              --post-data '{"data": {"content": "{{ $value }}"}}' \
-              "{{ $vaultUrl }}/v1/secret/data/{{ $key }}"
-              {{- end }}
+          args:
+            - "{{- cat "/opt/scripts/upload-data.sh" $submodel $registry $controlplane $dataplane $key $bpn $management}}"
+          volumeMounts:
+            - name: config-volume
+              mountPath: /opt/scripts
+      volumes:
+        - name: config-volume
+          {{- if .Values.testdataConfigMap }}
+          configMap:
+            name: {{ .Values.testdataConfigMap }}
+            defaultMode: 0777
+          {{- else }}
+          configMap:
+            name: {{ $fullName }}-postinstall-configmap
+            defaultMode: 0777
+          {{- end }}
 {{ end }}

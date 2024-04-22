@@ -136,9 +136,12 @@ jobs:
     - name: Install chart and run tests (simple-data-backend)
       run: ct install --charts charts/simple-data-backend --target-branch ${{ github.event.repository.default_branch }} --helm-extra-set-args "--set image.repository=kind-registry:5000/simple-data-backend --set image.tag=testing"
 
+    - name: Install chart and run tests (tx-data-provider)
+      run: ct install --charts charts/tx-data-provider --target-branch ${{ github.event.repository.default_branch }}
+
     - name: Install chart and run tests (umbrella)
       run: |
-        helm install umbrella charts/umbrella -f charts/values-test.yaml --namespace install --create-namespace --debug
+        helm install umbrella charts/umbrella -f charts/values-test.yaml --namespace install --create-namespace --debug --timeout 10m
         helm uninstall umbrella --namespace install
 
     ## Skip upgrade for now until a working chart is released

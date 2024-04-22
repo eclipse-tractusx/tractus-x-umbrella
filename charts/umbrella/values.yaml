@@ -17,126 +17,6 @@
 # SPDX-License-Identifier: Apache-2.0
 # #############################################################################
 ---
-## TODO: update edc to R23.12 and adjust values
-# edcconsumer:
-#   nameOverride: edcconsumer
-#   install:
-#     daps: true
-#     postgresql: true
-#     vault: true
-#   backendService:
-#     # TODO: what is the correct value here?
-#     httpProxyTokenReceiverUrl: "http://localhost"
-#   controlplane:
-#     endpoints:
-#       management:
-#         authKey: consumer-authkey
-#     image:
-#       repository: *edcCpImage
-#       tag: *edcImageTag
-#   daps:
-#     clientId: *edcConsumerDapsClientId
-#     daps:
-#       secret:
-#         clientId: *dapsClientId
-#         clientSecret: *dapsClientSecret
-#     image:
-#       repository: ghcr.io/fraunhofer-aisec/omejdn-server
-#     # podSecurityContext:
-#     #   fsGroup: 1000
-#     #   runAsNonRoot: true
-#     #   runAsUser: 1000
-#     #   runAsGroup: 1000
-#     # persistence:
-#     #   accessMode: "ReadWriteOnce"
-#   dataplane:
-#     image:
-#       repository: *edcDpImage
-#       tag: *edcImageTag
-#   networkPolicy:
-#     enabled: *netPolEnabled
-#   participant:
-#     id: consumer
-#   postgresql:
-#     nameOverride: consumer-postgresql
-#     networkPolicy:
-#       enabled: *netPolEnabled
-#       ingressRules:
-#         primaryAccessOnlyFrom:
-#           enabled: true
-#           podSelector:
-#             app.kubernetes.io/name: edcconsumer-controlplane
-#             app.kubernetes.io/instance: '{{ .Release.Name }}-controlplane'
-#     jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-consumer-postgresql:5432/edc"
-#     auth:
-#       username: psql-consumer-user
-#       password: psql-consumer-password
-#   vault:
-#     hashicorp:
-#       token: *edcVaultToken
-#     server:
-#       dev:
-#         devRootToken: *edcVaultToken
-#       networkPolicy:
-#         enabled: *netPolEnabled
-#     secretNames:
-#       dapsPrivateKey: *edcConsumerVaultDapsPrivateKey
-#       dapsPublicKey: *edcConsumerVaultDapsPublicKey
-#       transferProxyTokenEncryptionAesKey: *edcConsumerVaultTransferEncryptionAesKey
-#       transferProxyTokenSignerPrivateKey: *edcConsumerVaultTransferPrivateKey
-#       transferProxyTokenSignerPublicKey: *edcConsumerVaultTransferPublicKey
-
-# edcprovider:
-#   nameOverride: edcprovider
-#   install:
-#     daps: false
-#     postgresql: true
-#     vault: false
-#   backendService:
-#     # TODO: what is the correct value here?
-#     httpProxyTokenReceiverUrl: "http://localhost"
-#   controlplane:
-#     endpoints:
-#       management:
-#         authKey: provider-authkey
-#     image:
-#       repository: *edcCpImage
-#       tag: *edcImageTag
-#   daps:
-#     clientId: *edcProviderDapsClientId
-#   dataplane:
-#     image:
-#       repository: *edcDpImage
-#       tag: *edcImageTag
-#   participant:
-#     id: provider
-#     clientId: *edcProviderDapsClientId
-#   networkPolicy:
-#     enabled: *netPolEnabled
-#   postgresql:
-#     nameOverride: provider-postgresql
-#     jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-provider-postgresql:5432/edc"
-#     auth:
-#       username: psql-provider-user
-#       password: psql-provider-password
-#     networkPolicy:
-#       enabled: *netPolEnabled
-#       ingressRules:
-#         primaryAccessOnlyFrom:
-#           enabled: true
-#           podSelector:
-#             app.kubernetes.io/name: edcprovider-controlplane
-#             app.kubernetes.io/instance: '{{ .Release.Name }}-controlplane'
-#   vault:
-#     hashicorp:
-#       token: *edcVaultToken
-#     secretNames:
-#       dapsPrivateKey: *edcProviderVaultDapsPrivateKey
-#       dapsPublicKey: *edcProviderVaultDapsPublicKey
-#       transferProxyTokenEncryptionAesKey: *edcProviderVaultTransferEncryptionAesKey
-#       transferProxyTokenSignerPrivateKey: *edcProviderVaultTransferPrivateKey
-#       transferProxyTokenSignerPublicKey: *edcProviderVaultTransferPublicKey
-
 portal:
   enabled: true
   replicaCount: 1
@@ -588,34 +468,6 @@ sdfactory:
     # -- Details for Clearing House Client Secret
     clearingHouseClientSecret: ""
 
-vault:
-  enabled: true
-  token: &vault-token root
-  url: http://{{ .Release.Name }}-vault:8200
-  secrets:
-    # TODO add test secret or secret reference. Can this be generated?
-    edc-test-miw-keycloak-secret: miw_private_client
-    # TODO add certificate or secret reference. Can Key Pairs be generated?
-    tokenSignerPublicKey: >-
-      -----BEGIN CERTIFICATE-----\n
-      test\n
-      -----END CERTIFICATE-----
-    # TODO add certificate or secret reference. Can Key Pairs be generated?
-    tokenSignerPrivateKey: >-
-      -----BEGIN PRIVATE KEY-----\n
-      test\n
-      -----END PRIVATE KEY-----
-    # TODO add test secret or secret reference. Can this be generated?
-    tokenEncryptionAesKey: test
-  injector:
-    enabled: false
-  server:
-    dev:
-      enabled: true
-      devRootToken: *vault-token
-    ingress:
-      enabled: false
-
 managed-identity-wallet:
   nameOverride: miw
   fullnameOverride: miw
@@ -627,8 +479,8 @@ managed-identity-wallet:
       host: "{{ .Release.Name }}-miw-postgres"
       secret: "{{ .Release.Name }}-miw-postgres"
     keycloak:
-      url: "https://centralidp.example.org"
-      clientId: &miw_client miw_private_client  # TODO switch to existing user
+      url: "https://{{ .Release.Name }}-centralidp"
+      clientId: &miw_client CHANGEME  # TODO switch to existing user
   postgresql:
     nameOverride: miw-postgres
     primary:
@@ -641,3 +493,120 @@ managed-identity-wallet:
     initialDelaySeconds: 90
   readinessProbe:
     initialDelaySeconds: 90
+
+dataconsumer:
+  enabled: true
+  seedTestdata: false
+  nameOverride: dataconsumer
+  secrets:
+    edc-miw-keycloak-secret: changeme  # TODO switch to existing user
+  tractusx-connector:
+    nameOverride: dataconsumer-edc
+    participant:
+      id: BPNL000000000000
+    controlplane:
+      ssi:
+        miw:
+          url: http://miw:8080
+          authorityId: *authority-bpn
+        oauth:
+          tokenurl: http://lab-centralidp/auth/realms/CX-Central/protocol/openid-connect/token
+          client:
+            id: *miw_client
+            secretAlias: edc-miw-keycloak-secret
+      endpoints:
+        management:
+          authKey: TEST1
+      ingresses:
+        - enabled: false
+    dataplane:
+      ingresses:
+        - enabled: false
+    postgresql:
+      nameOverride: dataconsumer-db
+      jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-dataconsumer-db:5432/edc"
+    vault:
+      hashicorp:
+        url: http://edc-dataconsumer-vault:8200
+      secretNames:
+        transferProxyTokenSignerPrivateKey: tokenSignerPrivateKey
+        transferProxyTokenSignerPublicKey: tokenSignerPublicKey
+        transferProxyTokenEncryptionAesKey: tokenEncryptionAesKey
+
+  vault:
+    nameOverride: edc-dataconsumer-vault
+    fullnameOverride: edc-dataconsumer-vault
+    enabled: true
+    server:
+      postStart: []
+
+  digital-twin-registry:
+    enabled: false
+
+  simple-data-backend:
+    enabled: false
+
+dataprovider:
+  enabled: true
+  seedTestdata: true
+  backendUrl: http://{{ .Release.Name }}-dataprovider-submodelserver:8080
+  registryUrl: http://{{ .Release.Name }}-dataprovider-dtr:8080/api/v3.0
+  controlplanePublicUrl: http://{{ .Release.Name }}-dataprovider-edc-controlplane:8084
+  controlplaneManagementUrl: http://{{ .Release.Name }}-dataprovider-edc-controlplane:8081
+  dataplaneUrl: http://{{ .Release.Name }}-dataprovider-edc-dataplane:8081
+  nameOverride: dataprovider
+  secrets:
+    edc-miw-keycloak-secret: changeme  # TODO switch to existing user
+  tractusx-connector:
+    nameOverride: dataprovider-edc
+    participant:
+      id: BPNL000000000000
+    controlplane:
+      ssi:
+        miw:
+          url: http://miw:8080
+          authorityId: *authority-bpn
+        oauth:
+          tokenurl: http://lab-centralidp/auth/realms/CX-Central/protocol/openid-connect/token
+          client:
+            id: *miw_client
+            secretAlias: edc-miw-keycloak-secret
+      endpoints:
+        management:
+          authKey: TEST2
+      ingresses:
+        - enabled: false
+    dataplane:
+      ingresses:
+        - enabled: false
+    postgresql:
+      nameOverride: dataprovider-db
+      jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-dataprovider-db:5432/edc"
+    vault:
+      hashicorp:
+        url: http://edc-dataprovider-vault:8200
+      secretNames:
+        transferProxyTokenSignerPrivateKey: tokenSignerPrivateKey
+        transferProxyTokenSignerPublicKey: tokenSignerPublicKey
+        transferProxyTokenEncryptionAesKey: tokenEncryptionAesKey
+
+  vault:
+    nameOverride: edc-dataprovider-vault
+    fullnameOverride: edc-dataprovider-vault
+    enabled: true
+    server:
+      postStart: []
+
+  digital-twin-registry:
+    nameOverride: dataprovider-dtr
+    postgresql:
+      nameOverride: dataprovider-dtr-db
+      auth:
+        existingSecret: dataprovider-secret-dtr-postgres-init
+    registry:
+      host: dataprovider-dtr.test
+
+  simple-data-backend:
+    nameOverride: dataprovider-submodelserver
+    ingress:
+      enabled: false

@@ -1,0 +1,36 @@
+# #############################################################################
+# Copyright (c) 2022,2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
+# Copyright (c) 2021,2024 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Apache License, Version 2.0 which is available at
+# https://www.apache.org/licenses/LICENSE-2.0.
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+# License for the specific language governing permissions and limitations
+# under the License.
+#
+# SPDX-License-Identifier: Apache-2.0
+# #############################################################################
+---
+{{ if .Values.seedTestdata }}
+{{- $fullName := include "dataprovider.fullname" . -}}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ $fullName }}-postinstall-configmap
+data:
+  requirements.txt: |-
+{{ .Files.Get "resources/requirements.txt" | indent 4}}
+  upload.py: |-
+{{ .Files.Get "resources/transform-and-upload.py" | indent 4}}
+  testdata.json: |-
+{{ .Files.Get "resources/Testdata_AsBuilt-combustion.json" | indent 4}}
+  upload-data.sh: |-
+{{ .Files.Get "resources/upload-data.sh" | indent 4}}
+{{ end }}
