@@ -146,6 +146,15 @@ portal:
     architecture: standalone
   portalAddress: "https://portal.example.org"
   portalBackendAddress: "https://portal-backend.example.org"
+  centralidpAddress: "https://centralidp.example.org"
+  sharedidpAddress: "https://sharedidp.example.org"
+  semanticsAddress: "https://semantics.example.org"
+  bpdmPartnersPoolAddress: "https://business-partners.example.org"
+  bpdmPortalGateAddress: "https://business-partners.example.org"
+  custodianAddress: "https://managed-identity-wallets.example.org"
+  sdfactoryAddress: "https://sdfactory.example.org"
+  clearinghouseAddress: "https://validation.example.org"
+  clearinghouseTokenAddress: "https://keycloak.example.org/realms/example/protocol/openid-connect/token"
   frontend:
     ingress:
       enabled: true
@@ -180,6 +189,41 @@ portal:
                 service: "assets"
                 port: 8080
   backend:
+    dotnetEnvironment: "Development"
+    keycloak:
+      central:
+        clientId: "sa-cl1-reg-2"
+        clientSecret: "aEoUADDw2aNPa0WAaKGAyKfC80n8sKxJ"
+        jwtBearerOptions:
+          requireHttpsMetadata: "false"
+      shared:
+        clientId: "sa-cl1-reg-1"
+        clientSecret: "YPA1t6BMQtPtaG3fpH8Sa8Ac6KYbPUM7"
+    registration:
+      swaggerEnabled: true
+    administration:
+      swaggerEnabled: true
+    appmarketplace:
+      swaggerEnabled: true
+    services:
+      swaggerEnabled: true
+    notification:
+      swaggerEnabled: true
+    mailing:
+      host: "smtp.example.org"
+      port: "587"
+      user: "smtp-user"
+      senderEmail: "smtp@example.org"
+      password: ""
+    provisioning:
+      sharedRealm:
+        smtpServer:
+          host: "smtp.example.org"
+          port: "587"
+          user: "smtp-user"
+          password: ""
+          from: "smtp@example.org"
+          replyTo: "smtp@example.org"
     ingress:
       enabled: true
       name: "portal-backend"
@@ -239,7 +283,7 @@ centralidp:
       architecture: standalone
     proxy: edge
     initContainers:
-      - name: import
+      - name: realm-import
         image: docker.io/tractusx/umbrella-init-container:0.0.1-init
         imagePullPolicy: Always
         command:
@@ -252,6 +296,19 @@ centralidp:
         volumeMounts:
         - name: realms
           mountPath: "/realms"
+      - name: theme-import
+        image: docker.io/tractusx/portal-iam:v2.1.0
+        imagePullPolicy: Always
+        command:
+          - sh
+        args:
+          - -c
+          - |
+            echo "Copying themes..."
+            cp -R /import/themes/catenax-central/* /themes
+        volumeMounts:
+        - name: themes
+          mountPath: "/themes"
       - name: init-certs
         image: docker.io/bitnami/keycloak:22.0.3-debian-11-r14
         imagePullPolicy: Always
@@ -289,6 +346,8 @@ centralidp:
     extraVolumes:
       - name: realms
         emptyDir: {}
+      - name: themes
+        emptyDir: {}
       - name: certificates
         secret:
           secretName: root-secret
@@ -298,6 +357,8 @@ centralidp:
     extraVolumeMounts:
       - name: realms
         mountPath: "/realms"
+      - name: themes
+        mountPath: "/opt/bitnami/keycloak/themes/catenax-central"
       - name: certificates
         mountPath: /certs
       - name: shared-certs
@@ -335,7 +396,7 @@ sharedidp:
       architecture: standalone
     proxy: edge
     initContainers:
-      - name: import
+      - name: realm-import
         image: docker.io/tractusx/umbrella-init-container:0.0.1-init
         imagePullPolicy: Always
         command:
@@ -348,6 +409,23 @@ sharedidp:
         volumeMounts:
         - name: realms
           mountPath: "/realms"
+      - name: theme-import
+        image: docker.io/tractusx/portal-iam:v2.1.0
+        imagePullPolicy: Always
+        command:
+          - sh
+        args:
+          - -c
+          - |
+            echo "Copying themes-catenax-shared..."
+            cp -R /import/themes/catenax-shared/* /themes-catenax-shared
+            echo "Copying themes-catenax-shared-portal..."
+            cp -R /import/themes/catenax-shared-portal/* /themes-catenax-shared-portal
+        volumeMounts:
+        - name: themes-catenax-shared
+          mountPath: "/themes-catenax-shared"
+        - name: themes-catenax-shared-portal
+          mountPath: "/themes-catenax-shared-portal"
       - name: init-certs
         image: docker.io/bitnami/keycloak:22.0.3-debian-11-r14
         imagePullPolicy: Always
@@ -383,6 +461,10 @@ sharedidp:
     extraVolumes:
       - name: realms
         emptyDir: {}
+      - name: themes-catenax-shared
+        emptyDir: {}
+      - name: themes-catenax-shared-portal
+        emptyDir: {}
       - name: certificates
         secret:
           secretName: root-secret
@@ -392,6 +474,10 @@ sharedidp:
     extraVolumeMounts:
       - name: realms
         mountPath: "/realms"
+      - name: themes-catenax-shared
+        mountPath: "/opt/bitnami/keycloak/themes/catenax-shared"
+      - name: themes-catenax-shared-portal
+        mountPath: "/opt/bitnami/keycloak/themes/catenax-shared-portal"
       - name: certificates
         mountPath: /certs
       - name: shared-certs
@@ -441,28 +527,36 @@ discoveryfinder:
   enabled: true
   enablePostgres: true
   discoveryfinder:
-    authentication: false
+    authentication: true
     livenessProbe:
       initialDelaySeconds: 200
     readinessProbe:
       initialDelaySeconds: 200
-  host: semantics.example.org
-  ## If 'authentication' is set to false, no OAuth authentication is enforced
-  authentication: false
-  properties:
-    discoveryfinder:
-      # Initial Endpoint for edc discovery with type bpn
-      initialEndpoints:
-        - type: bpn
-          endpointAddress: https://portal-backend.example.org/api/administration/Connectors/discovery
-          description: Service to discover connector endpoints based on bpns
-          documentation: https://portal-backend.example.org/api/administration/swagger/index.html
-  idp:
-    issuerUri: "https://centralidp.example.org/auth/realms/CX-Central"
-    # publicClientId: ""
-  ingress:
-    enabled: true
-    tls: true
+    host: semantics.example.org
+    properties:
+      discoveryfinder:
+        initialEndpoints:
+          - type: bpn
+            endpointAddress: https://portal-backend.example.org/api/administration/Connectors/discovery
+            description: Service to discover connector endpoints based on bpns
+            documentation: https://portal-backend.example.org/api/administration/swagger/index.html
+    idp:
+      issuerUri: "https://centralidp.example.org/auth/realms/CX-Central"
+      publicClientId: "Cl21-CX-DF"
+    dataSource:
+      url: "jdbc:postgresql://{{ .Release.Name }}-discoveryfinder-postgresql:5432/discoveryfinder"
+    ingress:
+      enabled: true
+      tls: true
+      urlPrefix: "/discoveryfinder"
+      className: "nginx"
+      annotations:
+        cert-manager.io/cluster-issuer: "my-ca-issuer"
+        nginx.ingress.kubernetes.io/rewrite-target: "/$2"
+        nginx.ingress.kubernetes.io/use-regex: "true"
+        nginx.ingress.kubernetes.io/enable-cors: "true"
+        nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
+        nginx.ingress.kubernetes.io/x-forwarded-prefix: "/discoveryfinder"
   postgresql:
     nameOverride: "discoveryfinder-postgresql"
 
