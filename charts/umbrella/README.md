@@ -169,7 +169,7 @@ helm repo add tractusx-dev https://eclipse-tractusx.github.io/charts/dev
 ```
 
 ```bash
-helm install umbrella tractusx-dev/umbrella--namespace umbrella
+helm install umbrella tractusx-dev/umbrella --namespace umbrella
 ```
 
 #### Repository
@@ -185,7 +185,7 @@ cd charts/umbrella/
 Download the chart dependencies:
 
 ```bash
-helm update dependencies
+helm dependency update
 ```
 
 ```bash
