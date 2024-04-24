@@ -25,6 +25,8 @@ on:
       - 'charts/**'
     # branches:
     #   - main
+    paths-ignore:
+      - '**/README.md'
   workflow_dispatch:
     inputs:
       node_image:
