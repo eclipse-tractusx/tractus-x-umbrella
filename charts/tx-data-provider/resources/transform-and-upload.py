@@ -545,6 +545,7 @@ if __name__ == "__main__":
                     backoff_factor=0.1)
     session = requests.Session()
     session.mount('https://', HTTPAdapter(max_retries=retries))
+    session.mount('http://', HTTPAdapter(max_retries=retries))
     session.verify = False
 
     if policies:
