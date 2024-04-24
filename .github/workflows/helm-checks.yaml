@@ -141,7 +141,7 @@ jobs:
 
     - name: Install chart and run tests (umbrella)
       run: |
-        helm install umbrella charts/umbrella -f charts/values-test.yaml --namespace install --create-namespace --debug --timeout 10m
+        helm install umbrella charts/umbrella -f charts/values-test.yaml --namespace install --create-namespace --debug --timeout 15m
         helm uninstall umbrella --namespace install
 
     ## Skip upgrade for now until a working chart is released
