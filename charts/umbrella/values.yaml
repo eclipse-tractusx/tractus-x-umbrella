@@ -104,6 +104,11 @@ portal:
           password: ""
           from: "smtp@example.org"
           replyTo: "smtp@example.org"
+    # -- docs: https://portal-backend.example.org/api/administration/swagger/index.html
+    # https://portal-backend.example.org/api/registration/swagger/index.html
+    # https://portal-backend.example.org/api/apps/swagger/index.html
+    # https://portal-backend.example.org/api/services/swagger/index.html
+    # https://portal-backend.example.org/api/notification/swagger/index.html
     ingress:
       enabled: true
       name: "portal-backend"
@@ -425,6 +430,7 @@ discoveryfinder:
       publicClientId: "Cl21-CX-DF"
     dataSource:
       url: "jdbc:postgresql://{{ .Release.Name }}-discoveryfinder-postgresql:5432/discoveryfinder"
+    # -- docs: https://semantics.example.org/discoveryfinder/swagger-ui/index.html
     ingress:
       enabled: true
       tls: true
@@ -469,18 +475,22 @@ sdfactory:
     clearingHouseClientSecret: ""
 
 managed-identity-wallet:
-  nameOverride: miw
-  fullnameOverride: miw
   enabled: true
+  ## TODO figure out tls setup with centralidp keycloak
   miw:
+    host: "managed-identity-wallets.example.org"
     authorityWallet:
-      bpn: &authority-bpn "BPNL000000000000"
+      bpn: &authority-bpn "BPNL00000003CRHK"
+      name: "Catena-X"
     database:
       host: "{{ .Release.Name }}-miw-postgres"
       secret: "{{ .Release.Name }}-miw-postgres"
     keycloak:
-      url: "https://{{ .Release.Name }}-centralidp"
-      clientId: &miw_client CHANGEME  # TODO switch to existing user
+      url: "https://centralidp.example.org/auth"
+      realm: "CX-Central"
+      clientId: &miw_client "Cl5-CX-Custodian"
+    ssi:
+      enforceHttpsInDidWebResolution: "false"
   postgresql:
     nameOverride: miw-postgres
     primary:
@@ -493,9 +503,29 @@ managed-identity-wallet:
     initialDelaySeconds: 90
   readinessProbe:
     initialDelaySeconds: 90
+  # -- docs: https://managed-identity-wallets.example.org/ui/swagger-ui/index.html
+  ingress:
+    enabled: true
+    hosts:
+      - host: "managed-identity-wallets.example.org"
+        paths:
+          - path: "/"
+            pathType: "ImplementationSpecific"
+    tls:
+      - secretName: "managed-identity-wallets.example.org-tls"
+        hosts:
+          - "managed-identity-wallets.example.org"
+    className: "nginx"
+    annotations:
+      cert-manager.io/cluster-issuer: "my-ca-issuer"
+      nginx.ingress.kubernetes.io/cors-allow-origin: https://portal.example.org
+      nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
+      nginx.ingress.kubernetes.io/cors-allow-methods: GET
+      nginx.ingress.kubernetes.io/enable-cors: "true"
 
 dataconsumer:
-  enabled: false # Disable until install works
+  # Disable until install works
+  enabled: false
   seedTestdata: false
   nameOverride: dataconsumer
   secrets:
@@ -547,7 +577,8 @@ dataconsumer:
     enabled: false
 
 dataprovider:
-  enabled: false # Disable until install works
+  # Disable until install works
+  enabled: false
   seedTestdata: true
   backendUrl: http://{{ .Release.Name }}-dataprovider-submodelserver:8080
   registryUrl: http://{{ .Release.Name }}-dataprovider-dtr:8080/api/v3.0
