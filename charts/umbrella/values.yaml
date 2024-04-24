@@ -525,7 +525,7 @@ managed-identity-wallet:
 
 dataconsumer:
   # Disable until install works
-  enabled: true
+  enabled: false
   seedTestdata: false
   nameOverride: dataconsumer
   secrets:
