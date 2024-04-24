@@ -28,7 +28,7 @@ sources:
   - https://github.com/eclipse-tractusx/tractus-x-umbrella
 
 type: application
-version: 0.10.0
+version: 0.11.0
 
 dependencies:
   # portal
@@ -67,12 +67,12 @@ dependencies:
     # TX Data Consumer
   - name: tx-data-provider
     alias: dataconsumer
-    version: 0.0.1
-    repository: file://../tx-data-provider  # TODO switch to released chart
+    version: 0.0.2
+    repository: https://eclipse-tractusx.github.io/charts/dev
     condition: dataconsumer.enabled
     # TX Data Providers
   - name: tx-data-provider
     alias: dataprovider
-    version: 0.0.1
-    repository: file://../tx-data-provider  # TODO switch to released chart
+    version: 0.0.2
+    repository: https://eclipse-tractusx.github.io/charts/dev
     condition: dataprovider.enabled
