@@ -40,7 +40,7 @@ managed-identity-wallet:
   enabled: true
 
 dataconsumer:
-  enabled: true
+  enabled: false
 
 dataprovider:
-  enabled: true
+  enabled: false

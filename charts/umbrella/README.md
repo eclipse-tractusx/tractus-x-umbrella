@@ -208,7 +208,7 @@ helm install -f values-adopter.yaml umbrella tractusx-dev/umbrella --namespace u
 
 > **Note**
 >
-> It is to be expected that some pods that run as post-install hooks, like for instance the portal-migrations job, will run into errors until another components, like for instance a database, is ready to take connections.
+> It is to be expected that some pods - which run as post-install hooks, like for instance the portal-migrations job - will run into errors until other components, like for instance a database, is ready to take connections.
 > Those jobs will recreate pods until one run is successful.
 >
 
