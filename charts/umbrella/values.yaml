@@ -495,7 +495,7 @@ managed-identity-wallet:
     initialDelaySeconds: 90
 
 dataconsumer:
-  enabled: true
+  enabled: false # Disable until install works
   seedTestdata: false
   nameOverride: dataconsumer
   secrets:
@@ -547,7 +547,7 @@ dataconsumer:
     enabled: false
 
 dataprovider:
-  enabled: true
+  enabled: false # Disable until install works
   seedTestdata: true
   backendUrl: http://{{ .Release.Name }}-dataprovider-submodelserver:8080
   registryUrl: http://{{ .Release.Name }}-dataprovider-dtr:8080/api/v3.0
