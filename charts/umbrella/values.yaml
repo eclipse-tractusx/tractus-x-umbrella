@@ -407,6 +407,10 @@ bpndiscovery:
       initialDelaySeconds: 200
   postgresql:
     nameOverride: "bpndiscovery-postgresql"
+    primary:
+      persistence:
+        enabled: true
+        size: 8Gi
 
 discoveryfinder:
   enabled: true
@@ -445,6 +449,10 @@ discoveryfinder:
         nginx.ingress.kubernetes.io/x-forwarded-prefix: "/discoveryfinder"
   postgresql:
     nameOverride: "discoveryfinder-postgresql"
+    primary:
+      persistence:
+        enabled: true
+        size: 8Gi
 
 sdfactory:
   enabled: true
