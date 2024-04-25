@@ -10,7 +10,7 @@ In case of enabling `semantic-hub` the fuseki docker image must be built.
 Build fuseki docker image by following the below steps:
 - Download [jena-fuseki-docker-4.7.0.zip](https://repo1.maven.org/maven2/org/apache/jena/jena-fuseki-docker/4.7.0/jena-fuseki-docker-4.7.0.zip)
 - Unzip the jena-fuseki-docker-4.7.0.zip.
-- Build the docker image by running the command - `docker build --build-arg JENA_VERSION=4.7.0 -t jena-fuseki-docker:4.7.0 .`
+- Build the docker image by running the command - `docker build --build-arg JENA_VERSION=4.7.0 -t jena-fuseki-docker:4.7.0 --platform linux/amd64 .`
 
 - [Usage](#usage)
 - [Network setup](#network-setup)
