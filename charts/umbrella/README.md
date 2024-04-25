@@ -283,7 +283,7 @@ helm delete umbrella --namespace umbrella
 
 ## How to contribute
 
-Before contributing, make sure, you read and understood our [contributing guidelines](./CONTRIBUTING.md).
+Before contributing, make sure, you read and understand our [contributing guidelines](/CONTRIBUTING.md).
 We appreciate every contribution, be it bug reports, feature requests, test automation or enhancements to the Chart(s),
 but please keep the following in mind:
 

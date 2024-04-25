@@ -23,6 +23,7 @@ on:
   pull_request:
     paths:
       - 'charts/**'
+      - '!**/README.md'
     # branches:
     #   - main
   workflow_dispatch:
