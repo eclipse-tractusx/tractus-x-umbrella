@@ -23,10 +23,9 @@ on:
   pull_request:
     paths:
       - 'charts/**'
+      - '!**/README.md'
     # branches:
     #   - main
-    paths-ignore:
-      - '**/README.md'
   workflow_dispatch:
     inputs:
       node_image:
