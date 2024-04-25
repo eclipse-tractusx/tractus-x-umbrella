@@ -17,129 +17,146 @@
 # SPDX-License-Identifier: Apache-2.0
 # #############################################################################
 ---
-## TODO: update edc to R23.12 and adjust values
-# edcconsumer:
-#   nameOverride: edcconsumer
-#   install:
-#     daps: true
-#     postgresql: true
-#     vault: true
-#   backendService:
-#     # TODO: what is the correct value here?
-#     httpProxyTokenReceiverUrl: "http://localhost"
-#   controlplane:
-#     endpoints:
-#       management:
-#         authKey: consumer-authkey
-#     image:
-#       repository: *edcCpImage
-#       tag: *edcImageTag
-#   daps:
-#     clientId: *edcConsumerDapsClientId
-#     daps:
-#       secret:
-#         clientId: *dapsClientId
-#         clientSecret: *dapsClientSecret
-#     image:
-#       repository: ghcr.io/fraunhofer-aisec/omejdn-server
-#     # podSecurityContext:
-#     #   fsGroup: 1000
-#     #   runAsNonRoot: true
-#     #   runAsUser: 1000
-#     #   runAsGroup: 1000
-#     # persistence:
-#     #   accessMode: "ReadWriteOnce"
-#   dataplane:
-#     image:
-#       repository: *edcDpImage
-#       tag: *edcImageTag
-#   networkPolicy:
-#     enabled: *netPolEnabled
-#   participant:
-#     id: consumer
-#   postgresql:
-#     nameOverride: consumer-postgresql
-#     networkPolicy:
-#       enabled: *netPolEnabled
-#       ingressRules:
-#         primaryAccessOnlyFrom:
-#           enabled: true
-#           podSelector:
-#             app.kubernetes.io/name: edcconsumer-controlplane
-#             app.kubernetes.io/instance: '{{ .Release.Name }}-controlplane'
-#     jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-consumer-postgresql:5432/edc"
-#     auth:
-#       username: psql-consumer-user
-#       password: psql-consumer-password
-#   vault:
-#     hashicorp:
-#       token: *edcVaultToken
-#     server:
-#       dev:
-#         devRootToken: *edcVaultToken
-#       networkPolicy:
-#         enabled: *netPolEnabled
-#     secretNames:
-#       dapsPrivateKey: *edcConsumerVaultDapsPrivateKey
-#       dapsPublicKey: *edcConsumerVaultDapsPublicKey
-#       transferProxyTokenEncryptionAesKey: *edcConsumerVaultTransferEncryptionAesKey
-#       transferProxyTokenSignerPrivateKey: *edcConsumerVaultTransferPrivateKey
-#       transferProxyTokenSignerPublicKey: *edcConsumerVaultTransferPublicKey
-
-# edcprovider:
-#   nameOverride: edcprovider
-#   install:
-#     daps: false
-#     postgresql: true
-#     vault: false
-#   backendService:
-#     # TODO: what is the correct value here?
-#     httpProxyTokenReceiverUrl: "http://localhost"
-#   controlplane:
-#     endpoints:
-#       management:
-#         authKey: provider-authkey
-#     image:
-#       repository: *edcCpImage
-#       tag: *edcImageTag
-#   daps:
-#     clientId: *edcProviderDapsClientId
-#   dataplane:
-#     image:
-#       repository: *edcDpImage
-#       tag: *edcImageTag
-#   participant:
-#     id: provider
-#     clientId: *edcProviderDapsClientId
-#   networkPolicy:
-#     enabled: *netPolEnabled
-#   postgresql:
-#     nameOverride: provider-postgresql
-#     jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-provider-postgresql:5432/edc"
-#     auth:
-#       username: psql-provider-user
-#       password: psql-provider-password
-#     networkPolicy:
-#       enabled: *netPolEnabled
-#       ingressRules:
-#         primaryAccessOnlyFrom:
-#           enabled: true
-#           podSelector:
-#             app.kubernetes.io/name: edcprovider-controlplane
-#             app.kubernetes.io/instance: '{{ .Release.Name }}-controlplane'
-#   vault:
-#     hashicorp:
-#       token: *edcVaultToken
-#     secretNames:
-#       dapsPrivateKey: *edcProviderVaultDapsPrivateKey
-#       dapsPublicKey: *edcProviderVaultDapsPublicKey
-#       transferProxyTokenEncryptionAesKey: *edcProviderVaultTransferEncryptionAesKey
-#       transferProxyTokenSignerPrivateKey: *edcProviderVaultTransferPrivateKey
-#       transferProxyTokenSignerPublicKey: *edcProviderVaultTransferPublicKey
-
 portal:
   enabled: true
   replicaCount: 1
+  postgresql:
+    postgresql:
+    nameOverride: "portal-backend-postgresql"
+    architecture: standalone
+  portalAddress: "https://portal.example.org"
+  portalBackendAddress: "https://portal-backend.example.org"
+  centralidpAddress: "https://centralidp.example.org"
+  sharedidpAddress: "https://sharedidp.example.org"
+  semanticsAddress: "https://semantics.example.org"
+  bpdmPartnersPoolAddress: "https://business-partners.example.org"
+  bpdmPortalGateAddress: "https://business-partners.example.org"
+  custodianAddress: "https://managed-identity-wallets.example.org"
+  sdfactoryAddress: "https://sdfactory.example.org"
+  clearinghouseAddress: "https://validation.example.org"
+  clearinghouseTokenAddress: "https://keycloak.example.org/realms/example/protocol/openid-connect/token"
+  frontend:
+    ingress:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: "my-ca-issuer"
+        nginx.ingress.kubernetes.io/rewrite-target: "/$1"
+        nginx.ingress.kubernetes.io/use-regex: "true"
+        nginx.ingress.kubernetes.io/enable-cors: "true"
+        nginx.ingress.kubernetes.io/cors-allow-origin: "https://*.example.org"
+      tls:
+        # -- Provide tls secret.
+        - secretName: "portal.example.org-tls"
+          # -- Provide host for tls secret.
+          hosts:
+            - "portal.example.org"
+      hosts:
+        - host: "portal.example.org"
+          paths:
+            - path: "/(.*)"
+              pathType: "ImplementationSpecific"
+              backend:
+                service: "portal"
+                port: 8080
+            - path: "/registration/(.*)"
+              pathType: "ImplementationSpecific"
+              backend:
+                service: "registration"
+                port: 8080
+            - path: "/((assets|documentation)/.*)"
+              pathType: "ImplementationSpecific"
+              backend:
+                service: "assets"
+                port: 8080
+  backend:
+    dotnetEnvironment: "Development"
+    keycloak:
+      central:
+        clientId: "sa-cl1-reg-2"
+        clientSecret: "aEoUADDw2aNPa0WAaKGAyKfC80n8sKxJ"
+        jwtBearerOptions:
+          requireHttpsMetadata: "false"
+      shared:
+        clientId: "sa-cl1-reg-1"
+        clientSecret: "YPA1t6BMQtPtaG3fpH8Sa8Ac6KYbPUM7"
+    registration:
+      swaggerEnabled: true
+    administration:
+      swaggerEnabled: true
+    appmarketplace:
+      swaggerEnabled: true
+    services:
+      swaggerEnabled: true
+    notification:
+      swaggerEnabled: true
+    mailing:
+      host: "smtp.example.org"
+      port: "587"
+      user: "smtp-user"
+      senderEmail: "smtp@example.org"
+      password: ""
+    provisioning:
+      sharedRealm:
+        smtpServer:
+          host: "smtp.example.org"
+          port: "587"
+          user: "smtp-user"
+          password: ""
+          from: "smtp@example.org"
+          replyTo: "smtp@example.org"
+    # -- docs: https://portal-backend.example.org/api/administration/swagger/index.html
+    # https://portal-backend.example.org/api/registration/swagger/index.html
+    # https://portal-backend.example.org/api/apps/swagger/index.html
+    # https://portal-backend.example.org/api/services/swagger/index.html
+    # https://portal-backend.example.org/api/notification/swagger/index.html
+    ingress:
+      enabled: true
+      name: "portal-backend"
+      annotations:
+        cert-manager.io/cluster-issuer: "my-ca-issuer"
+        nginx.ingress.kubernetes.io/use-regex: "true"
+        nginx.ingress.kubernetes.io/enable-cors: "true"
+        nginx.ingress.kubernetes.io/proxy-body-size: "8m"
+        nginx.ingress.kubernetes.io/cors-allow-origin: "http://localhost:3000, https://*.example.org"
+      tls:
+        # -- Provide tls secret.
+        - secretName: "portal-backend.example.org-tls"
+          # -- Provide host for tls secret.
+          hosts:
+            - "portal-backend.example.org"
+      hosts:
+        - host: "portal-backend.example.org"
+          paths:
+            - path: "/api/registration"
+              pathType: "Prefix"
+              backend:
+                service: "registration-service"
+                port: 8080
+            - path: "/api/administration"
+              pathType: "Prefix"
+              backend:
+                service: "administration-service"
+                port: 8080
+            - path: "/api/notification"
+              pathType: "Prefix"
+              backend:
+                service: "notification-service"
+                port: 8080
+            - path: "/api/provisioning"
+              pathType: "Prefix"
+              backend:
+                service: "provisioning-service"
+                port: 8080
+            - path: "/api/apps"
+              pathType: "Prefix"
+              backend:
+                service: "marketplace-app-service"
+                port: 8080
+            - path: "/api/services"
+              pathType: "Prefix"
+              backend:
+                service: "services-service"
+                port: 8080
 
 centralidp:
   enabled: true
@@ -149,6 +166,110 @@ centralidp:
     postgresql:
       nameOverride: "centralidp-postgresql"
       architecture: standalone
+    proxy: edge
+    initContainers:
+      - name: realm-import
+        image: docker.io/tractusx/umbrella-init-container:0.0.1-init
+        imagePullPolicy: Always
+        command:
+          - sh
+        args:
+          - -c
+          - |
+            echo "Copying realms..."
+            cp -R /import/catenax-central/realms/* /realms
+        volumeMounts:
+        - name: realms
+          mountPath: "/realms"
+      - name: theme-import
+        image: docker.io/tractusx/portal-iam:v2.1.0
+        imagePullPolicy: Always
+        command:
+          - sh
+        args:
+          - -c
+          - |
+            echo "Copying themes..."
+            cp -R /import/themes/catenax-central/* /themes
+        volumeMounts:
+        - name: themes
+          mountPath: "/themes"
+      - name: init-certs
+        image: docker.io/bitnami/keycloak:22.0.3-debian-11-r14
+        imagePullPolicy: Always
+        command: ["/bin/bash"]
+        args:
+          - -ec
+          - |-
+            keytool -import -file "/certs/tls.crt" \
+                    -keystore "/opt/bitnami/keycloak/certs/keycloak.truststore.jks" \
+                    -storepass "${KEYCLOAK_SPI_TRUSTSTORE_PASSWORD}" \
+                    -noprompt
+        env:
+          - name: KEYCLOAK_SPI_TRUSTSTORE_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: centralidp-spi
+                key: spi-truststore-password
+        volumeMounts:
+          - name: certificates
+            mountPath: /certs
+          - name: shared-certs
+            mountPath: "/opt/bitnami/keycloak/certs"
+    extraEnvVars:
+      - name: KEYCLOAK_LOG_LEVEL
+        value: TRACE
+      - name: KEYCLOAK_SPI_TRUSTSTORE_FILE
+        value: "/opt/bitnami/keycloak/certs/keycloak.truststore.jks"
+      - name: KEYCLOAK_SPI_TRUSTSTORE_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: centralidp-spi
+            key: spi-truststore-password
+      - name: KEYCLOAK_EXTRA_ARGS
+        value: "-Dkeycloak.migration.action=import -Dkeycloak.migration.provider=singleFile -Dkeycloak.migration.file=/realms/CX-Central-realm.json -Dkeycloak.migration.strategy=IGNORE_EXISTING"
+    extraVolumes:
+      - name: realms
+        emptyDir: {}
+      - name: themes
+        emptyDir: {}
+      - name: certificates
+        secret:
+          secretName: root-secret
+          defaultMode: 420
+      - name: shared-certs
+        emptyDir: {}
+    extraVolumeMounts:
+      - name: realms
+        mountPath: "/realms"
+      - name: themes
+        mountPath: "/opt/bitnami/keycloak/themes/catenax-central"
+      - name: certificates
+        mountPath: /certs
+      - name: shared-certs
+        mountPath: "/opt/bitnami/keycloak/certs"
+    ingress:
+      enabled: true
+      ingressClassName: "nginx"
+      hostname: "centralidp.example.org"
+      annotations:
+        cert-manager.io/cluster-issuer: "my-ca-issuer"
+        nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
+        nginx.ingress.kubernetes.io/cors-allow-methods: "PUT, GET, POST, OPTIONS"
+        nginx.ingress.kubernetes.io/cors-allow-origin: "https://centralidp.example.org"
+        nginx.ingress.kubernetes.io/enable-cors: "true"
+        nginx.ingress.kubernetes.io/proxy-buffer-size: "128k"
+        nginx.ingress.kubernetes.io/proxy-buffering: "on"
+        nginx.ingress.kubernetes.io/proxy-buffers-number: "20"
+        nginx.ingress.kubernetes.io/use-regex: "true"
+      tls: true
+  secrets:
+    auth:
+      existingSecret:
+        # -- Password for the admin username 'admin'. Secret-key 'admin-password'.
+        adminpassword: ""
+      spi:
+        truststorePassword: ""
 
 sharedidp:
   enabled: true
@@ -158,6 +279,116 @@ sharedidp:
     postgresql:
       nameOverride: "sharedidp-postgresql"
       architecture: standalone
+    proxy: edge
+    initContainers:
+      - name: realm-import
+        image: docker.io/tractusx/umbrella-init-container:0.0.1-init
+        imagePullPolicy: Always
+        command:
+          - sh
+        args:
+          - -c
+          - |
+            echo "Copying realms..."
+            cp -R /import/catenax-shared/realms/* /realms
+        volumeMounts:
+        - name: realms
+          mountPath: "/realms"
+      - name: theme-import
+        image: docker.io/tractusx/portal-iam:v2.1.0
+        imagePullPolicy: Always
+        command:
+          - sh
+        args:
+          - -c
+          - |
+            echo "Copying themes-catenax-shared..."
+            cp -R /import/themes/catenax-shared/* /themes-catenax-shared
+            echo "Copying themes-catenax-shared-portal..."
+            cp -R /import/themes/catenax-shared-portal/* /themes-catenax-shared-portal
+        volumeMounts:
+        - name: themes-catenax-shared
+          mountPath: "/themes-catenax-shared"
+        - name: themes-catenax-shared-portal
+          mountPath: "/themes-catenax-shared-portal"
+      - name: init-certs
+        image: docker.io/bitnami/keycloak:22.0.3-debian-11-r14
+        imagePullPolicy: Always
+        command: ["/bin/bash"]
+        args:
+          - -ec
+          - |-
+            keytool -import -file "/certs/tls.crt" \
+                    -keystore "/opt/bitnami/keycloak/certs/keycloak.truststore.jks" \
+                    -storepass "${KEYCLOAK_SPI_TRUSTSTORE_PASSWORD}" \
+                    -noprompt
+        env:
+          - name: KEYCLOAK_SPI_TRUSTSTORE_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: sharedidp-spi
+                key: spi-truststore-password
+        volumeMounts:
+          - name: certificates
+            mountPath: /certs
+          - name: shared-certs
+            mountPath: "/opt/bitnami/keycloak/certs"
+    extraEnvVars:
+      - name: KEYCLOAK_SPI_TRUSTSTORE_FILE
+        value: "/opt/bitnami/keycloak/certs/keycloak.truststore.jks"
+      - name: KEYCLOAK_SPI_TRUSTSTORE_PASSWORD
+        valueFrom:
+          secretKeyRef:
+            name: sharedidp-spi
+            key: spi-truststore-password
+      - name: KEYCLOAK_EXTRA_ARGS
+        value: "-Dkeycloak.migration.action=import -Dkeycloak.migration.provider=dir -Dkeycloak.migration.dir=/realms -Dkeycloak.migration.strategy=IGNORE_EXISTING"
+    extraVolumes:
+      - name: realms
+        emptyDir: {}
+      - name: themes-catenax-shared
+        emptyDir: {}
+      - name: themes-catenax-shared-portal
+        emptyDir: {}
+      - name: certificates
+        secret:
+          secretName: root-secret
+          defaultMode: 420
+      - name: shared-certs
+        emptyDir: {}
+    extraVolumeMounts:
+      - name: realms
+        mountPath: "/realms"
+      - name: themes-catenax-shared
+        mountPath: "/opt/bitnami/keycloak/themes/catenax-shared"
+      - name: themes-catenax-shared-portal
+        mountPath: "/opt/bitnami/keycloak/themes/catenax-shared-portal"
+      - name: certificates
+        mountPath: /certs
+      - name: shared-certs
+        mountPath: "/opt/bitnami/keycloak/certs"
+    ingress:
+      enabled: true
+      ingressClassName: "nginx"
+      hostname: "sharedidp.example.org"
+      annotations:
+        cert-manager.io/cluster-issuer: "my-ca-issuer"
+        nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
+        nginx.ingress.kubernetes.io/cors-allow-methods: "PUT, GET, POST, OPTIONS"
+        nginx.ingress.kubernetes.io/cors-allow-origin: "https://sharedidp.example.org"
+        nginx.ingress.kubernetes.io/enable-cors: "true"
+        nginx.ingress.kubernetes.io/proxy-buffer-size: "128k"
+        nginx.ingress.kubernetes.io/proxy-buffering: "on"
+        nginx.ingress.kubernetes.io/proxy-buffers-number: "20"
+        nginx.ingress.kubernetes.io/use-regex: "true"
+      tls: true
+  secrets:
+    auth:
+      existingSecret:
+        # -- Password for the admin username 'admin'. Secret-key 'admin-password'.
+        adminpassword: ""
+      spi:
+        truststorePassword: ""
 
 bpndiscovery:
   enabled: true
@@ -181,11 +412,37 @@ discoveryfinder:
   enabled: true
   enablePostgres: true
   discoveryfinder:
-    authentication: false
+    authentication: true
     livenessProbe:
       initialDelaySeconds: 200
     readinessProbe:
       initialDelaySeconds: 200
+    host: semantics.example.org
+    properties:
+      discoveryfinder:
+        initialEndpoints:
+          - type: bpn
+            endpointAddress: https://portal-backend.example.org/api/administration/Connectors/discovery
+            description: Service to discover connector endpoints based on bpns
+            documentation: https://portal-backend.example.org/api/administration/swagger/index.html
+    idp:
+      issuerUri: "https://centralidp.example.org/auth/realms/CX-Central"
+      publicClientId: "Cl21-CX-DF"
+    dataSource:
+      url: "jdbc:postgresql://{{ .Release.Name }}-discoveryfinder-postgresql:5432/discoveryfinder"
+    # -- docs: https://semantics.example.org/discoveryfinder/swagger-ui/index.html
+    ingress:
+      enabled: true
+      tls: true
+      urlPrefix: "/discoveryfinder"
+      className: "nginx"
+      annotations:
+        cert-manager.io/cluster-issuer: "my-ca-issuer"
+        nginx.ingress.kubernetes.io/rewrite-target: "/$2"
+        nginx.ingress.kubernetes.io/use-regex: "true"
+        nginx.ingress.kubernetes.io/enable-cors: "true"
+        nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
+        nginx.ingress.kubernetes.io/x-forwarded-prefix: "/discoveryfinder"
   postgresql:
     nameOverride: "discoveryfinder-postgresql"
 
@@ -217,47 +474,23 @@ sdfactory:
     # -- Details for Clearing House Client Secret
     clearingHouseClientSecret: ""
 
-vault:
-  enabled: true
-  token: &vault-token root
-  url: http://{{ .Release.Name }}-vault:8200
-  secrets:
-    # TODO add test secret or secret reference. Can this be generated?
-    edc-test-miw-keycloak-secret: miw_private_client
-    # TODO add certificate or secret reference. Can Key Pairs be generated?
-    tokenSignerPublicKey: >-
-      -----BEGIN CERTIFICATE-----\n
-      test\n
-      -----END CERTIFICATE-----
-    # TODO add certificate or secret reference. Can Key Pairs be generated?
-    tokenSignerPrivateKey: >-
-      -----BEGIN PRIVATE KEY-----\n
-      test\n
-      -----END PRIVATE KEY-----
-    # TODO add test secret or secret reference. Can this be generated?
-    tokenEncryptionAesKey: test
-  injector:
-    enabled: false
-  server:
-    dev:
-      enabled: true
-      devRootToken: *vault-token
-    ingress:
-      enabled: false
-
 managed-identity-wallet:
-  nameOverride: miw
-  fullnameOverride: miw
   enabled: true
+  ## TODO figure out tls setup with centralidp keycloak
   miw:
+    host: "managed-identity-wallets.example.org"
     authorityWallet:
-      bpn: &authority-bpn "BPNL000000000000"
+      bpn: &authority-bpn "BPNL00000003CRHK"
+      name: "Catena-X"
     database:
       host: "{{ .Release.Name }}-miw-postgres"
       secret: "{{ .Release.Name }}-miw-postgres"
     keycloak:
-      url: "https://centralidp.example.org"
-      clientId: &miw_client miw_private_client  # TODO switch to existing user
+      url: "https://centralidp.example.org/auth"
+      realm: "CX-Central"
+      clientId: &miw_client "Cl5-CX-Custodian"
+    ssi:
+      enforceHttpsInDidWebResolution: "false"
   postgresql:
     nameOverride: miw-postgres
     primary:
@@ -270,6 +503,144 @@ managed-identity-wallet:
     initialDelaySeconds: 90
   readinessProbe:
     initialDelaySeconds: 90
+  # -- docs: https://managed-identity-wallets.example.org/ui/swagger-ui/index.html
+  ingress:
+    enabled: true
+    hosts:
+      - host: "managed-identity-wallets.example.org"
+        paths:
+          - path: "/"
+            pathType: "ImplementationSpecific"
+    tls:
+      - secretName: "managed-identity-wallets.example.org-tls"
+        hosts:
+          - "managed-identity-wallets.example.org"
+    className: "nginx"
+    annotations:
+      cert-manager.io/cluster-issuer: "my-ca-issuer"
+      nginx.ingress.kubernetes.io/cors-allow-origin: https://portal.example.org
+      nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
+      nginx.ingress.kubernetes.io/cors-allow-methods: GET
+      nginx.ingress.kubernetes.io/enable-cors: "true"
+
+dataconsumer:
+  # Disable until install works
+  enabled: false
+  seedTestdata: false
+  nameOverride: dataconsumer
+  secrets:
+    edc-miw-keycloak-secret: changeme  # TODO switch to existing user
+  tractusx-connector:
+    nameOverride: dataconsumer-edc
+    participant:
+      id: BPNL000000000000
+    controlplane:
+      ssi:
+        miw:
+          url: http://miw:8080
+          authorityId: *authority-bpn
+        oauth:
+          tokenurl: http://lab-centralidp/auth/realms/CX-Central/protocol/openid-connect/token
+          client:
+            id: *miw_client
+            secretAlias: edc-miw-keycloak-secret
+      endpoints:
+        management:
+          authKey: TEST1
+      ingresses:
+        - enabled: false
+    dataplane:
+      ingresses:
+        - enabled: false
+    postgresql:
+      nameOverride: dataconsumer-db
+      jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-dataconsumer-db:5432/edc"
+    vault:
+      hashicorp:
+        url: http://edc-dataconsumer-vault:8200
+      secretNames:
+        transferProxyTokenSignerPrivateKey: tokenSignerPrivateKey
+        transferProxyTokenSignerPublicKey: tokenSignerPublicKey
+        transferProxyTokenEncryptionAesKey: tokenEncryptionAesKey
+
+  vault:
+    nameOverride: edc-dataconsumer-vault
+    fullnameOverride: edc-dataconsumer-vault
+    enabled: true
+    server:
+      postStart: []
+
+  digital-twin-registry:
+    enabled: false
+
+  simple-data-backend:
+    enabled: false
+
+dataprovider:
+  # Disable until install works
+  enabled: false
+  seedTestdata: true
+  backendUrl: http://{{ .Release.Name }}-dataprovider-submodelserver:8080
+  registryUrl: http://{{ .Release.Name }}-dataprovider-dtr:8080/api/v3.0
+  controlplanePublicUrl: http://{{ .Release.Name }}-dataprovider-edc-controlplane:8084
+  controlplaneManagementUrl: http://{{ .Release.Name }}-dataprovider-edc-controlplane:8081
+  dataplaneUrl: http://{{ .Release.Name }}-dataprovider-edc-dataplane:8081
+  nameOverride: dataprovider
+  secrets:
+    edc-miw-keycloak-secret: changeme  # TODO switch to existing user
+  tractusx-connector:
+    nameOverride: dataprovider-edc
+    participant:
+      id: BPNL000000000000
+    controlplane:
+      ssi:
+        miw:
+          url: http://miw:8080
+          authorityId: *authority-bpn
+        oauth:
+          tokenurl: http://lab-centralidp/auth/realms/CX-Central/protocol/openid-connect/token
+          client:
+            id: *miw_client
+            secretAlias: edc-miw-keycloak-secret
+      endpoints:
+        management:
+          authKey: TEST2
+      ingresses:
+        - enabled: false
+    dataplane:
+      ingresses:
+        - enabled: false
+    postgresql:
+      nameOverride: dataprovider-db
+      jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-dataprovider-db:5432/edc"
+    vault:
+      hashicorp:
+        url: http://edc-dataprovider-vault:8200
+      secretNames:
+        transferProxyTokenSignerPrivateKey: tokenSignerPrivateKey
+        transferProxyTokenSignerPublicKey: tokenSignerPublicKey
+        transferProxyTokenEncryptionAesKey: tokenEncryptionAesKey
+
+  vault:
+    nameOverride: edc-dataprovider-vault
+    fullnameOverride: edc-dataprovider-vault
+    enabled: true
+    server:
+      postStart: []
+
+  digital-twin-registry:
+    nameOverride: dataprovider-dtr
+    postgresql:
+      nameOverride: dataprovider-dtr-db
+      auth:
+        existingSecret: dataprovider-secret-dtr-postgres-init
+    registry:
+      host: dataprovider-dtr.test
+
+  simple-data-backend:
+    nameOverride: dataprovider-submodelserver
+    ingress:
+      enabled: false
 
 semantic-hub:
   enabled: true

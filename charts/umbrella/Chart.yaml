@@ -20,42 +20,31 @@
 apiVersion: v2
 name: umbrella
 description: |
-  A Helm chart to spin up Catena-X OSS components to simulate a complete dataspace network.
+  A Helm chart to spin up Tractus-X OSS components to simulate a complete dataspace network.
 
-  With this Helm chart you are able to create a sandbox environment or run end-to-end.
+  With this Helm chart you are able to run end-to-end or create a sandbox environment.
 
 sources:
-  - https://github.com/eclipse-tractusx/e2e-testing
+  - https://github.com/eclipse-tractusx/tractus-x-umbrella
 
 type: application
-version: 0.7.0
+version: 0.11.1
 
 dependencies:
-#  # TODO: update edc components to R23.12
-#  # edc consumer
-#  - alias: edcconsumer
-#    name: tractusx-connector-legacy
-#    version: 0.5.0-rc1
-#    repository: https://eclipse-tractusx.github.io/charts/dev
-#  # edc provider
-#  - alias: edcprovider
-#    name: tractusx-connector-legacy
-#    version: 0.5.0-rc1
-#    repository: https://eclipse-tractusx.github.io/charts/dev
   # portal
   - condition: portal.enabled
     name: portal
     repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 1.7.0
+    version: 1.8.0
   # cx-iam
   - condition: centralidp.enabled
     name: centralidp
     repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 2.0.0
+    version: 2.1.0
   - condition: sharedidp.enabled
     name: sharedidp
     repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 2.0.0
+    version: 2.1.0
   # discovery-finder
   - condition: discoveryfinder.enabled
     name: discoveryfinder
@@ -66,25 +55,30 @@ dependencies:
     name: bpndiscovery
     repository: https://eclipse-tractusx.github.io/charts/dev
     version: 0.2.2
-
     # sd-factory
   - condition: sdfactory.enabled
     name: sdfactory
     repository: https://eclipse-tractusx.github.io/charts/dev
     version: 2.1.12
-    # vault
-  - name: vault
-    condition: vault.enabled
-    repository: https://helm.releases.hashicorp.com
-    version: 0.20.0
     # miw
   - name: managed-identity-wallet
     repository: https://eclipse-tractusx.github.io/charts/dev
     version: 0.4.0
     condition: managed-identity-wallet.enabled
-
   # semantic-hub
   - condition: semantic-hub.enabled
     name: semantic-hub
     repository: https://eclipse-tractusx.github.io/charts/dev
     version: 0.2.2
+    # TX Data Consumer
+  - name: tx-data-provider
+    alias: dataconsumer
+    version: 0.0.2
+    repository: https://eclipse-tractusx.github.io/charts/dev
+    condition: dataconsumer.enabled
+    # TX Data Providers
+  - name: tx-data-provider
+    alias: dataprovider
+    version: 0.0.2
+    repository: https://eclipse-tractusx.github.io/charts/dev
+    condition: dataprovider.enabled

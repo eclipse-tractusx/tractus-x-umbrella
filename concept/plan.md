@@ -21,12 +21,13 @@ Complete list of content of the umbrella helm chart
       (Product Ticket: https://github.com/eclipse-tractusx/bpdm/issues/738 )
       (Issue: https://github.com/eclipse-tractusx/bpdm/issues/795)
    5. :white_check_mark: SD-Factory
-   6. MIW & Vault (PR: https://github.com/eclipse-tractusx/tractus-x-umbrella/pull/57)
+   6. :white_check_mark: MIW & Vault (PR: https://github.com/eclipse-tractusx/tractus-x-umbrella/pull/57)
 2. :white_check_mark: Industry Core (Ready for integration --> https://github.com/eclipse-tractusx/tractus-x-umbrella/pull/53)
    1. :white_check_mark: Data Provider 1
       1. EDC
       2. Submodel Server
       3. Registry
+      4. :white_check_mark: Simple Data Backend
    2. :white_check_mark: Data Provider 2
    3. :white_check_mark: Data Provider 3
 3. Business Applications
@@ -154,3 +155,4 @@ Assosiation:
 * [ ] @All: TLS Setup
 * [ ] Tractus-X Community Days
 * [ ] @All: update components to 24.03 Release
+* [ ] Semantic Hub integration ongoing, some issues remain, Tuna is investigating them. Update will be in the EF Matrix chat as he'll be gone for a month. https://github.com/eclipse-tractusx/tractus-x-umbrella/pull/61
