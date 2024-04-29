@@ -170,7 +170,7 @@ centralidp:
     initContainers:
       - name: realm-import
         image: docker.io/tractusx/umbrella-init-container:0.0.1-init
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         command:
           - sh
         args:
@@ -183,7 +183,7 @@ centralidp:
           mountPath: "/realms"
       - name: theme-import
         image: docker.io/tractusx/portal-iam:v2.1.0
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         command:
           - sh
         args:
@@ -196,7 +196,7 @@ centralidp:
           mountPath: "/themes"
       - name: init-certs
         image: docker.io/bitnami/keycloak:22.0.3-debian-11-r14
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         command: ["/bin/bash"]
         args:
           - -ec
@@ -283,7 +283,7 @@ sharedidp:
     initContainers:
       - name: realm-import
         image: docker.io/tractusx/umbrella-init-container:0.0.1-init
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         command:
           - sh
         args:
@@ -296,7 +296,7 @@ sharedidp:
           mountPath: "/realms"
       - name: theme-import
         image: docker.io/tractusx/portal-iam:v2.1.0
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         command:
           - sh
         args:
@@ -313,7 +313,7 @@ sharedidp:
           mountPath: "/themes-catenax-shared-portal"
       - name: init-certs
         image: docker.io/bitnami/keycloak:22.0.3-debian-11-r14
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         command: ["/bin/bash"]
         args:
           - -ec
