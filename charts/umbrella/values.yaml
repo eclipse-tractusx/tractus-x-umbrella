@@ -18,7 +18,7 @@
 # #############################################################################
 ---
 portal:
-  enabled: true
+  enabled: false
   replicaCount: 1
   postgresql:
     postgresql:
@@ -159,7 +159,7 @@ portal:
                 port: 8080
 
 centralidp:
-  enabled: true
+  enabled: false
   keycloak:
     nameOverride: "centralidp"
     replicaCount: 1
@@ -170,7 +170,7 @@ centralidp:
     initContainers:
       - name: realm-import
         image: docker.io/tractusx/umbrella-init-container:0.0.1-init
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         command:
           - sh
         args:
@@ -183,7 +183,7 @@ centralidp:
           mountPath: "/realms"
       - name: theme-import
         image: docker.io/tractusx/portal-iam:v2.1.0
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         command:
           - sh
         args:
@@ -196,7 +196,7 @@ centralidp:
           mountPath: "/themes"
       - name: init-certs
         image: docker.io/bitnami/keycloak:22.0.3-debian-11-r14
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         command: ["/bin/bash"]
         args:
           - -ec
@@ -272,7 +272,7 @@ centralidp:
         truststorePassword: ""
 
 sharedidp:
-  enabled: true
+  enabled: false
   keycloak:
     nameOverride: "sharedidp"
     replicaCount: 1
@@ -283,7 +283,7 @@ sharedidp:
     initContainers:
       - name: realm-import
         image: docker.io/tractusx/umbrella-init-container:0.0.1-init
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         command:
           - sh
         args:
@@ -296,7 +296,7 @@ sharedidp:
           mountPath: "/realms"
       - name: theme-import
         image: docker.io/tractusx/portal-iam:v2.1.0
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         command:
           - sh
         args:
@@ -313,7 +313,7 @@ sharedidp:
           mountPath: "/themes-catenax-shared-portal"
       - name: init-certs
         image: docker.io/bitnami/keycloak:22.0.3-debian-11-r14
-        imagePullPolicy: Always
+        imagePullPolicy: IfNotPresent
         command: ["/bin/bash"]
         args:
           - -ec
@@ -391,7 +391,7 @@ sharedidp:
         truststorePassword: ""
 
 bpndiscovery:
-  enabled: true
+  enabled: false
   enablePostgres: true
   bpndiscovery:
     authentication: false
@@ -413,7 +413,7 @@ bpndiscovery:
         size: 8Gi
 
 discoveryfinder:
-  enabled: true
+  enabled: false
   enablePostgres: true
   discoveryfinder:
     authentication: true
@@ -455,7 +455,7 @@ discoveryfinder:
         size: 8Gi
 
 sdfactory:
-  enabled: true
+  enabled: false
   secret:
     # -- JWK Set URI
     jwkSetUri: "https://centralidp.example.org/auth/realms/CX-Central/protocol/openid-connect/certs"
@@ -483,7 +483,7 @@ sdfactory:
     clearingHouseClientSecret: ""
 
 managed-identity-wallet:
-  enabled: true
+  enabled: false
   ## TODO figure out tls setup with centralidp keycloak
   miw:
     host: "managed-identity-wallets.example.org"
@@ -532,7 +532,6 @@ managed-identity-wallet:
       nginx.ingress.kubernetes.io/enable-cors: "true"
 
 dataconsumer:
-  # Disable until install works
   enabled: false
   seedTestdata: false
   nameOverride: dataconsumer
@@ -584,8 +583,7 @@ dataconsumer:
   simple-data-backend:
     enabled: false
 
-dataprovider:
-  # Disable until install works
+tx-data-provider:
   enabled: false
   seedTestdata: true
   backendUrl: http://{{ .Release.Name }}-dataprovider-submodelserver:8080
@@ -641,6 +639,7 @@ dataprovider:
     postgresql:
       nameOverride: dataprovider-dtr-db
       auth:
+        password: "dtrdataproviderpw"
         existingSecret: dataprovider-secret-dtr-postgres-init
     registry:
       host: dataprovider-dtr.test

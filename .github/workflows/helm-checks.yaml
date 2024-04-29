@@ -140,10 +140,15 @@ jobs:
     - name: Install chart and run tests (tx-data-provider)
       run: ct install --charts charts/tx-data-provider --target-branch ${{ github.event.repository.default_branch }}
 
-    - name: Install chart and run tests (umbrella)
+    - name: Install chart for shared services (umbrella)
       run: |
-        helm install umbrella charts/umbrella -f charts/values-test.yaml --namespace install --create-namespace --debug --timeout 10m
-        helm uninstall umbrella --namespace install
+        helm install umbrella charts/umbrella -f charts/values-test-shared-services.yaml -f charts/values-test-iam-init-container.yaml --namespace shared-services --create-namespace --debug --timeout 10m
+        helm uninstall umbrella --namespace shared-services
+
+    - name: Install chart for data exchange (umbrella)
+      run: |
+        helm install umbrella charts/umbrella -f charts/values-test-data-exchange.yaml -f charts/values-test-iam-init-container.yaml --namespace data-exchange --create-namespace --debug --timeout 10m
+        helm uninstall umbrella --namespace data-exchange
 
     ## Skip upgrade for now until a working chart is released
     #- name: Run helm upgrade

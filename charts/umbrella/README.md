@@ -200,10 +200,18 @@ To set your own configuration and secret values, install the helm chart with you
 helm install -f your-values.yaml umbrella tractusx-dev/umbrella --namespace umbrella
 ```
 
-To install only the components currently in focus of the **E2E Adopter Journey**, install the helm chart with the values-adopter.yaml file:
+To install only the components currently in focus of the **E2E Adopter Journey**, install the helm chart with the respective `values-adopter-xxx.yaml` file:
+
+**Data Exchange**
 
 ```bash
-helm install -f values-adopter.yaml umbrella tractusx-dev/umbrella --namespace umbrella
+helm install -f values-adopter-data-exchange.yaml umbrella tractusx-dev/umbrella --namespace umbrella
+```
+
+**Portal**
+
+```bash
+helm install -f values-adopter-portal.yaml umbrella tractusx-dev/umbrella --namespace umbrella
 ```
 
 > **Note**
@@ -213,6 +221,14 @@ helm install -f values-adopter.yaml umbrella tractusx-dev/umbrella --namespace u
 >
 
 ### E2E Adopter Journeys
+
+#### Data exchange
+
+Involved components:
+
+EDC, MIW, DTR, Vault (data provider and consumer in tx-data-provider), CentralIdP.
+
+TBD.
 
 #### Get to know the Portal
 
@@ -260,14 +276,6 @@ tractusx-umbr3lla!
             end
           linkStyle 0,1 stroke:lightblue
 ```
-
-#### Data exchange
-
-Involved components:
-
-EDC, MIW, DTR, Vault (data provider and consumer in tx-data-provider), CentralIdP.
-
-TBD.
 
 ### Uninstall
 
