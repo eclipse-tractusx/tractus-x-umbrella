@@ -18,7 +18,7 @@
 # #############################################################################
 ---
 portal:
-  enabled: true
+  enabled: false
   replicaCount: 1
   postgresql:
     postgresql:
@@ -159,7 +159,7 @@ portal:
                 port: 8080
 
 centralidp:
-  enabled: true
+  enabled: false
   keycloak:
     nameOverride: "centralidp"
     replicaCount: 1
@@ -272,7 +272,7 @@ centralidp:
         truststorePassword: ""
 
 sharedidp:
-  enabled: true
+  enabled: false
   keycloak:
     nameOverride: "sharedidp"
     replicaCount: 1
@@ -391,7 +391,7 @@ sharedidp:
         truststorePassword: ""
 
 bpndiscovery:
-  enabled: true
+  enabled: false
   enablePostgres: true
   bpndiscovery:
     authentication: false
@@ -413,7 +413,7 @@ bpndiscovery:
         size: 8Gi
 
 discoveryfinder:
-  enabled: true
+  enabled: false
   enablePostgres: true
   discoveryfinder:
     authentication: true
@@ -455,7 +455,7 @@ discoveryfinder:
         size: 8Gi
 
 sdfactory:
-  enabled: true
+  enabled: false
   secret:
     # -- JWK Set URI
     jwkSetUri: "https://centralidp.example.org/auth/realms/CX-Central/protocol/openid-connect/certs"
@@ -483,7 +483,7 @@ sdfactory:
     clearingHouseClientSecret: ""
 
 managed-identity-wallet:
-  enabled: true
+  enabled: false
   ## TODO figure out tls setup with centralidp keycloak
   miw:
     host: "managed-identity-wallets.example.org"
@@ -532,7 +532,6 @@ managed-identity-wallet:
       nginx.ingress.kubernetes.io/enable-cors: "true"
 
 dataconsumer:
-  # Disable until install works
   enabled: false
   seedTestdata: false
   nameOverride: dataconsumer
@@ -585,7 +584,6 @@ dataconsumer:
     enabled: false
 
 dataprovider:
-  # Disable until install works
   enabled: false
   seedTestdata: true
   backendUrl: http://{{ .Release.Name }}-dataprovider-submodelserver:8080
