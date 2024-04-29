@@ -17,7 +17,11 @@
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################
 
+portal:
+  enabled: false
+
 centralidp:
+  enabled: true
   keycloak:
     initContainers:
       - name: import
@@ -35,18 +39,22 @@ centralidp:
           mountPath: "/realms"
 
 sharedidp:
-  keycloak:
-    initContainers:
-      - name: import
-        image: kind-registry:5000/init-container:testing
-        imagePullPolicy: Always
-        command:
-          - sh
-        args:
-          - -c
-          - |
-            echo "Copying realms..."
-            cp -R /import/catenax-shared/realms/* /realms
-        volumeMounts:
-        - name: realms
-          mountPath: "/realms"
+  enabled: false
+
+bpndiscovery:
+  enabled: false
+
+discoveryfinder:
+  enabled: false
+
+sdfactory:
+  enabled: false
+
+managed-identity-wallet:
+  enabled: true
+
+dataconsumer:
+  enabled: false
+
+dataprovider:
+  enabled: false
