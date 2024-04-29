@@ -583,7 +583,7 @@ dataconsumer:
   simple-data-backend:
     enabled: false
 
-dataprovider:
+tx-data-provider:
   enabled: false
   seedTestdata: true
   backendUrl: http://{{ .Release.Name }}-dataprovider-submodelserver:8080
@@ -639,6 +639,7 @@ dataprovider:
     postgresql:
       nameOverride: dataprovider-dtr-db
       auth:
+        password: "dtrdataproviderpw"
         existingSecret: dataprovider-secret-dtr-postgres-init
     registry:
       host: dataprovider-dtr.test

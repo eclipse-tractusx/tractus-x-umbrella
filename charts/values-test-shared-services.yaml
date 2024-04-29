@@ -41,5 +41,5 @@ managed-identity-wallet:
 dataconsumer:
   enabled: false
 
-dataprovider:
+tx-data-provider:
   enabled: false

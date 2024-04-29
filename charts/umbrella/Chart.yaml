@@ -72,7 +72,6 @@ dependencies:
     condition: dataconsumer.enabled
     # TX Data Providers
   - name: tx-data-provider
-    alias: dataprovider
     version: 0.0.2
     repository: https://eclipse-tractusx.github.io/charts/dev
-    condition: dataprovider.enabled
+    condition: tx-data-provider.enabled
