@@ -24,6 +24,9 @@ portal:
     postgresql:
     nameOverride: "portal-backend-postgresql"
     architecture: standalone
+    primary:
+      persistence:
+        enabled: false
   portalAddress: "https://portal.example.org"
   portalBackendAddress: "https://portal-backend.example.org"
   centralidpAddress: "https://centralidp.example.org"
@@ -166,6 +169,9 @@ centralidp:
     postgresql:
       nameOverride: "centralidp-postgresql"
       architecture: standalone
+      primary:
+        persistence:
+          enabled: false
     proxy: edge
     initContainers:
       - name: realm-import
@@ -279,6 +285,9 @@ sharedidp:
     postgresql:
       nameOverride: "sharedidp-postgresql"
       architecture: standalone
+      primary:
+        persistence:
+          enabled: false
     proxy: edge
     initContainers:
       - name: realm-import
@@ -409,7 +418,7 @@ bpndiscovery:
     nameOverride: "bpndiscovery-postgresql"
     primary:
       persistence:
-        enabled: true
+        enabled: false
         size: 8Gi
 
 discoveryfinder:
@@ -451,7 +460,7 @@ discoveryfinder:
     nameOverride: "discoveryfinder-postgresql"
     primary:
       persistence:
-        enabled: true
+        enabled: false
         size: 8Gi
 
 sdfactory:
