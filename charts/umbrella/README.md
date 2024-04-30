@@ -1,3 +1,4 @@
+
 # Umbrella Chart
 
 This umbrella chart provides a basis for running end-to-end tests or creating a sandbox environment of the [Catena-X](https://catena-x.net/en/) automotive dataspace network
@@ -11,11 +12,12 @@ The chart aims for a completely automated setup of a fully functional network, t
 - [Install](#install)
   - [Released chart](#released-chart)
   - [Repository](#repository)
-  - [Custom configuration (E2E Adopter Journey)](#custom-configuration-e2e-adopter-journey)
 - [E2E Adopter Journeys](#e2e-adopter-journeys)
-  - [Get to know the portal](#get-to-know-the-portal)
   - [Data exchange](#data-exchange)
+  - [Get to know the portal](#get-to-know-the-portal)
 - [Uninstall](#uninstall)
+- [Ingresses](#ingresses)
+- [Seeding](#seeding)
 
 ## Usage
 
@@ -84,7 +86,8 @@ If you still face DNS issues afterwards, add the hosts to your /etc/hosts file:
 192.168.49.2    sharedidp.example.org
 192.168.49.2    portal.example.org
 192.168.49.2    portal-backend.example.org
-...
+192.168.49.2    managed-identity-wallets.example.org
+192.168.49.2    semantics.example.org
 ```
 
 Replace 192.168.49.2 with your minikube ip.
@@ -162,14 +165,64 @@ See [cert-manager self-signed](https://cert-manager.io/docs/configuration/selfsi
 
 ### Install
 
+Select a subset of components which are designed to integrate with each other for a certain functional use case and enable those at install.
+
+The currently available components are following:
+
+- [portal](https://github.com/eclipse-tractusx/portal/tree/portal-1.8.0)
+- [centralidp](https://github.com/eclipse-tractusx/portal-iam/tree/v2.1.0)
+- [sharedidp](https://github.com/eclipse-tractusx/portal-iam/tree/v2.1.0)
+- [bpndiscovery](https://github.com/eclipse-tractusx/sldt-bpn-discovery/tree/bpndiscovery-0.2.2)
+- [discoveryfinder](https://github.com/eclipse-tractusx/sldt-discovery-finder/tree/discoveryfinder-0.2.2)
+- [sdfactory](https://github.com/eclipse-tractusx/sd-factory/tree/sdfactory-2.1.12)
+- [managed-identity-wallet](https://github.com/eclipse-tractusx/managed-identity-wallet/tree/v0.4.0)
+- [dataconsumer](https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/tx-data-provider) ([tractusx-edc](https://github.com/eclipse-tractusx/tractusx-edc/tree/0.5.3), [vault](https://github.com/hashicorp/vault-helm/tree/v0.20.0))
+- [tx-data-provider](https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/tx-data-provider) ([tractusx-edc](https://github.com/eclipse-tractusx/tractusx-edc/tree/0.5.3), [digital-twin-registry](https://github.com/eclipse-tractusx/sldt-digital-twin-registry/tree/digital-twin-registry-0.4.5), [vault](https://github.com/hashicorp/vault-helm/tree/v0.20.0), [simple-data-backend](https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/simple-data-backend))
+
+> :warning:
+>
+> Due to resource restrictions, it's not recommended to install the helm chart with all components enabled.
+>
+
 #### Released chart
 
 ```bash
 helm repo add tractusx-dev https://eclipse-tractusx.github.io/charts/dev
 ```
 
+Install with your chosen components enabled:
+
 ```bash
-helm install umbrella tractusx-dev/umbrella --namespace umbrella
+helm install \
+  --set COMPONENT_1.enabled=true,COMPONENT_2.enabled=true,COMPONENT_3.enabled=true \
+  umbrella tractusx-dev/umbrella \
+  --namespace umbrella
+```
+
+Or choose to install one of the predefined subsets (currently in focus of the **E2E Adopter Journey**):
+
+**Data Exchange**
+
+```bash
+helm install \
+  --set centralidp.enabled=true,managed-identity-wallet.enabled=true,dataconsumer.enabled=true,tx-data-provider.enabled=true \
+  umbrella tractusx-dev/umbrella \
+  --namespace umbrella
+```
+
+**Portal**
+
+```bash
+helm install \
+  --set portal.enabled=true,centralidp.enabled=true,sharedidp.enabled=true \
+  umbrella tractusx-dev/umbrella \
+  --namespace umbrella
+```
+
+To set your own configuration and secret values, install the helm chart with your own values file:
+
+```bash
+helm install -f your-values.yaml umbrella tractusx-dev/umbrella --namespace umbrella
 ```
 
 #### Repository
@@ -188,36 +241,38 @@ Download the chart dependencies:
 helm dependency update
 ```
 
-```bash
-helm install umbrella . --namespace umbrella
-```
-
-#### Custom configuration (E2E Adopter Journey)
-
-To set your own configuration and secret values, install the helm chart with your own values file:
+Install your chosen components by having them enabled in `your-values` file:
 
 ```bash
-helm install -f your-values.yaml umbrella tractusx-dev/umbrella --namespace umbrella
+helm install -f your-values.yaml umbrella . --namespace umbrella
 ```
 
-To install only the components currently in focus of the **E2E Adopter Journey**, install the helm chart with the respective `values-adopter-xxx.yaml` file:
+>
+> In general, all your specific configuration and secret values can be set by installing with an own values file.
+>
+
+Or choose to install one of the predefined subsets (currently in focus of the **E2E Adopter Journey**):
 
 **Data Exchange**
 
 ```bash
-helm install -f values-adopter-data-exchange.yaml umbrella tractusx-dev/umbrella --namespace umbrella
+helm install -f values-adopter-data-exchange.yaml umbrella . --namespace umbrella
 ```
 
 **Portal**
 
 ```bash
-helm install -f values-adopter-portal.yaml umbrella tractusx-dev/umbrella --namespace umbrella
+helm install -f values-adopter-portal.yaml umbrella . --namespace umbrella
 ```
 
 > **Note**
 >
-> It is to be expected that some pods - which run as post-install hooks, like for instance the portal-migrations job - will run into errors until other components, like for instance a database, is ready to take connections.
+> It is to be expected that some pods - which run as post-install hooks, like for instance the portal-migrations job - will run into errors until another component, like for instance a database, is ready to take connections.
 > Those jobs will recreate pods until one run is successful.
+>
+> :warning:
+>
+> **Persistance is disabled by default** but can be configured in a custom values file.
 >
 
 ### E2E Adopter Journeys
@@ -284,10 +339,30 @@ To teardown your setup, run:
 ```shell
 helm delete umbrella --namespace umbrella
 ```
-> **Note**
+> :warning:
 >
-> Persistent Volume Claims (PVCs) and connected Persistent Volumes (PVs) need to be removed manually even if you deleted the release from the cluster.
+> If persistance for one or more components is enabled, the persistent volume claims (PVCs) and connected persistent volumes (PVs) need to be removed manually even if you deleted the release from the cluster.
 >
+
+### Ingresses
+
+Currently enabled ingresses:
+
+- https://centralidp.example.org/auth/
+- https://sharedidp.example.org/auth/
+- https://portal-backend.example.org
+  - https://portal-backend.example.org/api/administration/swagger/index.html
+  - https://portal-backend.example.org/api/registration/swagger/index.html
+  - https://portal-backend.example.org/api/apps/swagger/index.html
+  - https://portal-backend.example.org/api/services/swagger/index.html
+  - https://portal-backend.example.org/api/notification/swagger/index.html
+- https://portal.example.org
+- https://managed-identity-wallets.example.org/ui/swagger-ui/index.html
+- https://semantics.example.org/discoveryfinder/swagger-ui/index.html
+
+### Seeding
+
+See [Overall Seeding](../../concept/seeds-overall-data.md).
 
 ## How to contribute
 
