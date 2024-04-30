@@ -20,12 +20,29 @@
 
 portal:
   enabled: true
+  # -- uncomment the following for persistance
+  # postgresql:
+  #   primary:
+  #     persistence:
+  #       enabled: true
 
 centralidp:
   enabled: true
+  # -- uncomment the following for persistance
+  # keycloak:
+  #   postgresql:
+  #     primary:
+  #       persistence:
+  #         enabled: true
 
 sharedidp:
   enabled: true
+  # -- uncomment the following for persistance
+  # keycloak:
+  #   postgresql:
+  #     primary:
+  #       persistence:
+  #         enabled: true
 
 bpndiscovery:
   enabled: false
