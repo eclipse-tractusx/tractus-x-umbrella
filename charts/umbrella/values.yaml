@@ -553,10 +553,10 @@ dataconsumer:
     controlplane:
       ssi:
         miw:
-          url: http://miw:8080
-          authorityId: *authority-bpn
+          url: https://managed-identity-wallets.example.org
+          authorityId: BPNL00000003CRHK
         oauth:
-          tokenurl: http://lab-centralidp/auth/realms/CX-Central/protocol/openid-connect/token
+          tokenurl: https://centralidp.example.org/auth/realms/CX-Central/protocol/openid-connect/token
           client:
             id: *miw_client
             secretAlias: edc-miw-keycloak-secret
@@ -610,10 +610,10 @@ tx-data-provider:
     controlplane:
       ssi:
         miw:
-          url: http://miw:8080
-          authorityId: *authority-bpn
+          url: https://managed-identity-wallets.example.org
+          authorityId: BPNL00000003CRHK
         oauth:
-          tokenurl: http://lab-centralidp/auth/realms/CX-Central/protocol/openid-connect/token
+          tokenurl: https://centralidp.example.org/auth/realms/CX-Central/protocol/openid-connect/token
           client:
             id: *miw_client
             secretAlias: edc-miw-keycloak-secret
