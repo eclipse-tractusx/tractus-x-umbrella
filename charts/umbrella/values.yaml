@@ -570,8 +570,6 @@ dataconsumer:
             - default
             - protocol
             - management
-            - control
-            - metrics
           className: "nginx"
           tls:
             enabled: false
@@ -582,9 +580,6 @@ dataconsumer:
           endpoints:
             - default
             - public
-            - control
-            - proxy
-            - metrics
           className: "nginx"
           tls:
             enabled: false
