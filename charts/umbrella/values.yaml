@@ -493,7 +493,36 @@ sdfactory:
 
 managed-identity-wallet:
   enabled: false
-  ## TODO figure out tls setup with centralidp keycloak
+  # TLS to trust centralidp Keycloak instance
+  initContainers:
+    - name: init-certs
+      image: docker.io/tractusx/managed-identity-wallet:0.4.0
+      imagePullPolicy: IfNotPresent
+      command: ["sh"]
+      args:
+        - -ec
+        - |-
+          cp -R /opt/java/openjdk/lib/security/* /cacerts/
+          echo "Copying done"
+          keytool -import -noprompt -trustcacerts -alias local -file /certs/tls.crt -keystore /cacerts/cacerts -storepass changeit
+          keytool -list -keystore /cacerts/cacerts -alias local
+      volumeMounts:
+        - name: certificates
+          mountPath: /certs
+        - name: shared-certs
+          mountPath: /cacerts
+  extraVolumes:
+    - name: certificates
+      secret:
+        secretName: root-secret
+        defaultMode: 420
+    - name: shared-certs
+      emptyDir: {}
+  extraVolumeMounts:
+    - name: certificates
+      mountPath: /certs
+    - name: shared-certs
+      mountPath: /opt/java/openjdk/lib/security
   miw:
     host: "managed-identity-wallets.example.org"
     authorityWallet:
