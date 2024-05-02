@@ -2,13 +2,13 @@
   "realm" : "CX-Operator",
   "users" : [ {
     "id" : "656e8a94-188b-4a3e-9eec-b45d8efd8347",
-    "username" : "cx-operator@example.org",
+    "username" : "cx-operator@tx.test",
     "enabled" : true,
     "totp" : false,
     "emailVerified" : false,
     "firstName" : "Test User",
     "lastName" : "CX Operator",
-    "email" : "cx-operator@example.org",
+    "email" : "cx-operator@tx.test",
     "credentials" : [ {
       "id" : "02afe9d5-7315-465a-8949-ef0f4db14af0",
       "type" : "password",

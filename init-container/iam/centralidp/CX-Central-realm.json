@@ -2365,7 +2365,7 @@
       "emailVerified" : false,
       "firstName" : "Operator",
       "lastName" : "CX Admin",
-      "email" : "tobeadded@example.org",
+      "email" : "tobeadded@tx.test",
       "attributes" : {
         "bpn" : [ "BPNL00000003CRHK" ],
         "organisation" : [ "CX-Operator" ]
@@ -2376,7 +2376,7 @@
       "federatedIdentities" : [ {
         "identityProvider" : "CX-Operator",
         "userId" : "656e8a94-188b-4a3e-9eec-b45d8efd8347",
-        "userName" : "cx-operator@example.org"
+        "userName" : "cx-operator@tx.test"
       } ],
       "realmRoles" : [ "default-roles-catena-x realm" ],
       "clientRoles" : {
@@ -3495,7 +3495,7 @@
       "clientAuthenticatorType": "client-secret",
       "secret": "q0ma25iV6bfqV6ho3kyWKnR1trp0IRez",
       "redirectUris": [
-        "https://partners-gate.example.org/*"
+        "https://partners-gate.tx.test/*"
       ],
       "webOrigins": [
         "+"
@@ -3561,7 +3561,7 @@
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "https://portal.example.org/*"
+        "https://portal.tx.test/*"
       ],
       "webOrigins": [
         "+"
@@ -3858,7 +3858,7 @@
       "clientId": "Cl2-CX-Portal",
       "name": "",
       "description": "",
-      "rootUrl": "https://portal.example.org/home",
+      "rootUrl": "https://portal.tx.test/home",
       "adminUrl": "",
       "baseUrl": "",
       "surrogateAuthRequired": false,
@@ -3866,7 +3866,7 @@
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "https://portal.example.org/*"
+        "https://portal.tx.test/*"
       ],
       "webOrigins": [
         "+"
@@ -3955,13 +3955,13 @@
       "id": "36e2745d-f331-4fa5-bbfa-90947d7f1dc4",
       "clientId": "Cl3-CX-Semantic",
       "rootUrl": "",
-      "adminUrl": "https://portal.example.org/home",
+      "adminUrl": "https://portal.tx.test/home",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
-        "https://portal.example.org/*"
+        "https://portal.tx.test/*"
       ],
       "webOrigins": [
         "+"
@@ -4056,7 +4056,7 @@
       "clientAuthenticatorType": "client-secret",
       "secret": "XzZNs56cadY8b2P253By8GS4jbY7QCui",
       "redirectUris": [
-        "https://managed-identity-wallets.example.org/*"
+        "https://managed-identity-wallets.tx.test/*"
       ],
       "webOrigins": [],
       "notBefore": 0,
@@ -4159,7 +4159,7 @@
       "clientAuthenticatorType": "client-secret",
       "secret": "4pJIiaUsLeQsSH6OEqoZmq6aEsZkeBj2",
       "redirectUris": [
-        "https://partners-pool.example.org/*"
+        "https://partners-pool.tx.test/*"
       ],
       "webOrigins": [
         "+"
@@ -8138,11 +8138,11 @@
         "hideOnLoginPage": "false",
         "validateSignature": "true",
         "clientId": "central-idp",
-        "tokenUrl": "https://sharedidp.example.org/auth/realms/CX-Operator/protocol/openid-connect/token",
-        "jwksUrl": "https://sharedidp.example.org/auth/realms/CX-Operator/protocol/openid-connect/certs",
-        "authorizationUrl": "https://sharedidp.example.org/auth/realms/CX-Operator/protocol/openid-connect/auth",
+        "tokenUrl": "https://sharedidp.tx.test/auth/realms/CX-Operator/protocol/openid-connect/token",
+        "jwksUrl": "https://sharedidp.tx.test/auth/realms/CX-Operator/protocol/openid-connect/certs",
+        "authorizationUrl": "https://sharedidp.tx.test/auth/realms/CX-Operator/protocol/openid-connect/auth",
         "clientAuthMethod": "private_key_jwt",
-        "logoutUrl": "https://sharedidp.example.org/auth/realms/CX-Operator/protocol/openid-connect/logout",
+        "logoutUrl": "https://sharedidp.tx.test/auth/realms/CX-Operator/protocol/openid-connect/logout",
         "clientAssertionSigningAlg": "RS256",
         "syncMode": "FORCE",
         "useJwksUrl": "true"

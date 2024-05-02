@@ -4,21 +4,21 @@
 
 ### Base addresses
 
-- portal base address - portalAddress: "<https://portal.example.org>"
-- portal-backend base address - portalBackendAddress: "<https://portal-backend.example.org>"
-- centralidp base address (CX IAM) - centralidpAddress: "<https://centralidp.example.org>"
-- sharedidp address (CX IAM) - sharedidpAddress: "<https://sharedidp.example.org>"
-- semantics base address - semanticsAddress: "<https://semantics.example.org>"
-- bpdm partners pool base address - bpdmPartnersPoolAddress: "<https://business-partners.example.org>"
-- bpdm portal gate base address - bpdmPortalGateAddress: "<https://business-partners.example.org>"
-- custodian base address - custodianAddress: "<https://managed-identity-wallets.example.org>"
-- sdfactory base address - sdfactoryAddress: "<https://sdfactory.example.org>"
-- clearinghouse base address - clearinghouseAddress: "<https://validation.example.org>"
-- clearinghouse token address - clearinghouseTokenAddress: "<https://keycloak.example.org/realms/example/protocol/openid-connect/token>"
+- portal base address - portalAddress: "<https://portal.tx.test>"
+- portal-backend base address - portalBackendAddress: "<https://portal-backend.tx.test>"
+- centralidp base address (CX IAM) - centralidpAddress: "<https://centralidp.tx.test>"
+- sharedidp address (CX IAM) - sharedidpAddress: "<https://sharedidp.tx.test>"
+- semantics base address - semanticsAddress: "<https://semantics.tx.test>"
+- bpdm partners pool base address - bpdmPartnersPoolAddress: "<https://business-partners.tx.test>"
+- bpdm portal gate base address - bpdmPortalGateAddress: "<https://business-partners.tx.test>"
+- custodian base address - custodianAddress: "<https://managed-identity-wallets.tx.test>"
+- sdfactory base address - sdfactoryAddress: "<https://sdfactory.tx.test>"
+- clearinghouse base address - clearinghouseAddress: "<https://validation.tx.test>"
+- clearinghouse token address - clearinghouseTokenAddress: "<https://keycloak.tx.test/realms/example/protocol/openid-connect/token>"
 
 ### Token Address
 
-- "<https://centralidp.example.org/auth/realms/CX-Central/protocol/openid-connect/token>"
+- "<https://centralidp.tx.test/auth/realms/CX-Central/protocol/openid-connect/token>"
 
 ## Companies and BPNs
 

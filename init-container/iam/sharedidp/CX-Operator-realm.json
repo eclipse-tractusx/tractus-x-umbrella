@@ -657,7 +657,7 @@
       "clientAuthenticatorType": "client-jwt",
       "secret": "**********",
       "redirectUris": [
-        "https://centralidp.example.org/auth/realms/CX-Central/broker/CX-Operator/endpoint/*"
+        "https://centralidp.tx.test/auth/realms/CX-Central/broker/CX-Operator/endpoint/*"
       ],
       "webOrigins": [
         "+"
@@ -674,7 +674,7 @@
       "protocol": "openid-connect",
       "attributes": {
         "backchannel.logout.session.required": "true",
-        "jwks.url": "https://centralidp.example.org/auth/realms/CX-Central/protocol/openid-connect/certs",
+        "jwks.url": "https://centralidp.tx.test/auth/realms/CX-Central/protocol/openid-connect/certs",
         "token.endpoint.auth.signing.alg": "RS256",
         "post.logout.redirect.uris": "+",
         "use.jwks.url": "true",
