@@ -564,10 +564,30 @@ dataconsumer:
         management:
           authKey: TEST1
       ingresses:
-        - enabled: false
+        - enabled: true
+          hostname: "dataconsumer-controlplane.example.org"
+          endpoints:
+            - default
+            - protocol
+            - management
+            - control
+            - metrics
+          className: "nginx"
+          tls:
+            enabled: false
     dataplane:
       ingresses:
-        - enabled: false
+        - enabled: true
+          hostname: "dataconsumer-dataplane.example.org"
+          endpoints:
+            - default
+            - public
+            - control
+            - proxy
+            - metrics
+          className: "nginx"
+          tls:
+            enabled: false
     postgresql:
       nameOverride: dataconsumer-db
       jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-dataconsumer-db:5432/edc"
@@ -621,10 +641,25 @@ tx-data-provider:
         management:
           authKey: TEST2
       ingresses:
-        - enabled: false
+        - enabled: true
+          hostname: "dataprovider-controlplane.example.org"
+          endpoints:
+            - default
+            - protocol
+            - management
+          className: "nginx"
+          tls:
+            enabled: false
     dataplane:
       ingresses:
-        - enabled: false
+        - enabled: true
+          hostname: "dataprovider-dataplane.example.org"
+          endpoints:
+            - default
+            - public
+          className: "nginx"
+          tls:
+            enabled: false
     postgresql:
       nameOverride: dataprovider-db
       jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-dataprovider-db:5432/edc"
