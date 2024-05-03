@@ -66,7 +66,7 @@ And execute installation step [3 Add the `minikube ip` as a DNS server](https://
 Create a file in /etc/resolver/minikube-test with the following contents.
 
 ```
-domain example.org
+domain tx.test
 nameserver 192.168.49.2
 search_order 1
 timeout 5
@@ -82,12 +82,12 @@ minikube ip
 If you still face DNS issues afterwards, add the hosts to your /etc/hosts file:
 
 ```
-192.168.49.2    centralidp.example.org
-192.168.49.2    sharedidp.example.org
-192.168.49.2    portal.example.org
-192.168.49.2    portal-backend.example.org
-192.168.49.2    managed-identity-wallets.example.org
-192.168.49.2    semantics.example.org
+192.168.49.2    centralidp.tx.test
+192.168.49.2    sharedidp.tx.test
+192.168.49.2    portal.tx.test
+192.168.49.2    portal-backend.tx.test
+192.168.49.2    managed-identity-wallets.tx.test
+192.168.49.2    semantics.tx.test
 ```
 
 Replace 192.168.49.2 with your minikube ip.
@@ -134,7 +134,7 @@ metadata:
   namespace: umbrella
 spec:
   isCA: true
-  commonName: cx.local
+  commonName: tx.test
   secretName: root-secret
   privateKey:
     algorithm: RSA
@@ -290,17 +290,17 @@ TBD.
 Perform first login and send out an invite to a company to join the network (SMTP account required to be configured in custom values.yaml file).
 
 Make sure to accept the risk of the self-signed certificates for the following hosts using the continue option:
-- [centralidp.example.org/auth/](https://centralidp.example.org/auth/)
-- [sharedidp.example.org/auth/](https://sharedidp.example.org/auth/)
-- [portal-backend.example.org](https://portal-backend.example.org)
-- [portal.example.org](https://portal.example.org)
+- [centralidp.tx.test/auth/](https://centralidp.tx.test/auth/)
+- [sharedidp.tx.test/auth/](https://sharedidp.tx.test/auth/)
+- [portal-backend.tx.test](https://portal-backend.tx.test)
+- [portal.tx.test](https://portal.tx.test)
 
-Then proceed with the login to the [portal](https://portal.example.org) to verify that everything is setup as expected.
+Then proceed with the login to the [portal](https://portal.tx.test) to verify that everything is setup as expected.
 
 Credentials to log into the initial example realm (CX-Operator):
 
 ```
-cx-operator@example.org
+cx-operator@tx.test
 ```
 
 ```
@@ -348,17 +348,17 @@ helm delete umbrella --namespace umbrella
 
 Currently enabled ingresses:
 
-- https://centralidp.example.org/auth/
-- https://sharedidp.example.org/auth/
-- https://portal-backend.example.org
-  - https://portal-backend.example.org/api/administration/swagger/index.html
-  - https://portal-backend.example.org/api/registration/swagger/index.html
-  - https://portal-backend.example.org/api/apps/swagger/index.html
-  - https://portal-backend.example.org/api/services/swagger/index.html
-  - https://portal-backend.example.org/api/notification/swagger/index.html
-- https://portal.example.org
-- https://managed-identity-wallets.example.org/ui/swagger-ui/index.html
-- https://semantics.example.org/discoveryfinder/swagger-ui/index.html
+- https://centralidp.tx.test/auth/
+- https://sharedidp.tx.test/auth/
+- https://portal-backend.tx.test
+  - https://portal-backend.tx.test/api/administration/swagger/index.html
+  - https://portal-backend.tx.test/api/registration/swagger/index.html
+  - https://portal-backend.tx.test/api/apps/swagger/index.html
+  - https://portal-backend.tx.test/api/services/swagger/index.html
+  - https://portal-backend.tx.test/api/notification/swagger/index.html
+- https://portal.tx.test
+- https://managed-identity-wallets.tx.test/ui/swagger-ui/index.html
+- https://semantics.tx.test/discoveryfinder/swagger-ui/index.html
 
 ### Seeding
 
