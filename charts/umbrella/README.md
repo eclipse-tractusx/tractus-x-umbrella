@@ -1,3 +1,18 @@
+- [Umbrella Chart](#umbrella-chart)
+  - [Precondition for Semantic Hub](#precondition-for-semantic-hub)
+  - [Usage](#usage)
+    - [Network setup](#network-setup)
+    - [Self-signed TLS setup](#self-signed-tls-setup)
+    - [Install](#install)
+      - [Released chart](#released-chart)
+      - [Repository](#repository)
+    - [E2E Adopter Journeys](#e2e-adopter-journeys)
+      - [Data exchange](#data-exchange)
+      - [Get to know the Portal](#get-to-know-the-portal)
+    - [Uninstall](#uninstall)
+    - [Ingresses](#ingresses)
+    - [Seeding](#seeding)
+  - [How to contribute](#how-to-contribute)
 
 # Umbrella Chart
 
@@ -6,25 +21,13 @@ consisting of [Tractus-X](https://projects.eclipse.org/projects/automotive.tract
 
 The Chart aims for a completely automated setup of a fully functional network, that does not require manual setup steps.
 
-## Precondition
+## Precondition for Semantic Hub
+
 In case of enabling `semantic-hub` the fuseki docker image must be built.
 Build fuseki docker image by following the below steps:
 - Download [jena-fuseki-docker-4.7.0.zip](https://repo1.maven.org/maven2/org/apache/jena/jena-fuseki-docker/4.7.0/jena-fuseki-docker-4.7.0.zip)
 - Unzip the jena-fuseki-docker-4.7.0.zip.
 - Build the docker image by running the command - `docker build --build-arg JENA_VERSION=4.7.0 -t jena-fuseki-docker:4.7.0 --platform linux/amd64 .`
-
-- [Usage](#usage)
-- [Network setup](#network-setup)
-- [Self-signed TLS setup](#self-signed-tls-setup)
-- [Install](#install)
-  - [Released chart](#released-chart)
-  - [Repository](#repository)
-- [E2E Adopter Journeys](#e2e-adopter-journeys)
-  - [Data exchange](#data-exchange)
-  - [Get to know the portal](#get-to-know-the-portal)
-- [Uninstall](#uninstall)
-- [Ingresses](#ingresses)
-- [Seeding](#seeding)
 
 ## Usage
 
