@@ -549,7 +549,7 @@ managed-identity-wallet:
     initialDelaySeconds: 90
   readinessProbe:
     initialDelaySeconds: 90
-  # -- docs: https://managed-identity-wallets.tx.test/ui/swagger-ui/index.html
+  # -- docs: http://managed-identity-wallets.tx.test/ui/swagger-ui/index.html
   ingress:
     enabled: true
     hosts:
@@ -557,14 +557,16 @@ managed-identity-wallet:
         paths:
           - path: "/"
             pathType: "ImplementationSpecific"
-    tls:
-      - secretName: "managed-identity-wallets.tx.test-tls"
-        hosts:
-          - "managed-identity-wallets.tx.test"
+    # uncomment the following lines for tls
+    # tls:
+    #   - secretName: "managed-identity-wallets.tx.test-tls"
+    #     hosts:
+    #       - "managed-identity-wallets.tx.test"
     className: "nginx"
     annotations:
-      cert-manager.io/cluster-issuer: "my-ca-issuer"
-      nginx.ingress.kubernetes.io/cors-allow-origin: https://portal.tx.test
+      # uncomment the following lines for tls
+      # cert-manager.io/cluster-issuer: "my-ca-issuer"
+      nginx.ingress.kubernetes.io/cors-allow-origin: http://portal.tx.test
       nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
       nginx.ingress.kubernetes.io/cors-allow-methods: GET
       nginx.ingress.kubernetes.io/enable-cors: "true"
@@ -582,10 +584,10 @@ dataconsumer:
     controlplane:
       ssi:
         miw:
-          url: https://managed-identity-wallets.tx.test
+          url: http://managed-identity-wallets.tx.test
           authorityId: BPNL00000003CRHK
         oauth:
-          tokenurl: https://centralidp.tx.test/auth/realms/CX-Central/protocol/openid-connect/token
+          tokenurl: http://centralidp.tx.test/auth/realms/CX-Central/protocol/openid-connect/token
           client:
             id: *miw_client
             secretAlias: edc-miw-keycloak-secret
@@ -654,10 +656,10 @@ tx-data-provider:
     controlplane:
       ssi:
         miw:
-          url: https://managed-identity-wallets.tx.test
+          url: http://managed-identity-wallets.tx.test
           authorityId: BPNL00000003CRHK
         oauth:
-          tokenurl: https://centralidp.tx.test/auth/realms/CX-Central/protocol/openid-connect/token
+          tokenurl: http://centralidp.tx.test/auth/realms/CX-Central/protocol/openid-connect/token
           client:
             id: *miw_client
             secretAlias: edc-miw-keycloak-secret
