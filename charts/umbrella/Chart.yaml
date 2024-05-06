@@ -30,6 +30,7 @@ sources:
 type: application
 version: 0.12.0
 
+# when adding or updating versions of dependencies, also update list under README.md#Install
 dependencies:
   # portal
   - condition: portal.enabled
@@ -78,7 +79,6 @@ dependencies:
     condition: dataconsumer.enabled
     # TX Data Providers
   - name: tx-data-provider
-    alias: dataprovider
     version: 0.0.2
     repository: https://eclipse-tractusx.github.io/charts/dev
-    condition: dataprovider.enabled
+    condition: tx-data-provider.enabled
