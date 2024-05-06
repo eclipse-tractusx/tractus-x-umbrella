@@ -718,7 +718,7 @@ tx-data-provider:
       enabled: false
 
 semantic-hub:
-  enabled: true
+  enabled: false
   enableKeycloak: false
   hub:
     authentication: false
