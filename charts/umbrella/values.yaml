@@ -729,8 +729,6 @@ semantic-hub:
   graphdb:
     enabled: true
     image: jena-fuseki-docker:4.7.0
-    imagePullPolicy: Always
-    imagePullSecrets:
-      - name: machineuser-pull-secret-ro
+    imagePullPolicy: Never
     storageClassName: ""
     storageSize: 8Gi
