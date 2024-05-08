@@ -491,8 +491,31 @@ sdfactory:
     # -- Details for Clearing House Client Secret
     clearingHouseClientSecret: ""
 
+# -- Map of company BPN and company name. For each of these Companies, a MIW wallet will be created.
+companies:
+  BPNL00000003AZQP: "BPN_OEM_C"
+  BPNL00000003AYRE: "BPN_OEM_A"
+  BPNL00000003AVTH: "BPN_OEM_B"
+  BPNL00000003AWSS: "BPN_IRS_TEST"
+  BPNL00000003B0Q0: "BPN_N_TIER_A"
+  BPNS0000000008ZZ: "BPN_TRACEX_A_SITE_A"
+  BPNL00000003CNKC: "BPN_TRACEX_B"
+  BPNL00000003B6LU: "BPN_DISMANTLER"
+  BPNL00000003CML1: "BPN_TRACEX_A"
+  BPNS00000008BDFH: "BPN_TRACEX_B_SITE_A"
+  BPNL00000003B2OM: "BPN_TIER_A"
+  BPNL00000003CSGV: "BPN_TIER_C"
+  BPNL00000003B5MJ: "BPN_TIER_B"
+  BPNL00000003AXS3: "BPN_SUB_TIER_B"
+  BPNL00000003B3NX: "BPN_SUB_TIER_A"
+  BPNL00000000BJTL: "BPN_SUB_TIER_C"
+
 managed-identity-wallet:
   enabled: false
+  seeding:
+    enabled: true
+    clientId: sa-cl5-custodian-2
+    clientSecret: UIqawwoohsvZ6AZOd1llLhnsUTKMWe4D
   # TLS to trust centralidp Keycloak instance
   initContainers:
     - name: init-certs
@@ -534,7 +557,7 @@ managed-identity-wallet:
     keycloak:
       url: "https://centralidp.tx.test/auth"
       realm: "CX-Central"
-      clientId: &miw_client "Cl5-CX-Custodian"
+      clientId: "Cl5-CX-Custodian"
     ssi:
       enforceHttpsInDidWebResolution: "false"
   postgresql:
@@ -576,20 +599,20 @@ dataconsumer:
   seedTestdata: false
   nameOverride: dataconsumer
   secrets:
-    edc-miw-keycloak-secret: changeme  # TODO switch to existing user
+    edc-miw-keycloak-secret: UbfW4CR1xH4OskkovqJ2JzcwnQIrG7oj
   tractusx-connector:
     nameOverride: dataconsumer-edc
     participant:
-      id: BPNL000000000000
+      id: BPNL00000003AZQP
     controlplane:
       ssi:
         miw:
           url: http://managed-identity-wallets.tx.test
-          authorityId: BPNL00000003CRHK
+          authorityId: *authority-bpn
         oauth:
           tokenurl: http://centralidp.tx.test/auth/realms/CX-Central/protocol/openid-connect/token
           client:
-            id: *miw_client
+            id: satest01
             secretAlias: edc-miw-keycloak-secret
       endpoints:
         management:
@@ -648,20 +671,20 @@ tx-data-provider:
   dataplaneUrl: http://{{ .Release.Name }}-dataprovider-edc-dataplane:8081
   nameOverride: dataprovider
   secrets:
-    edc-miw-keycloak-secret: changeme  # TODO switch to existing user
+    edc-miw-keycloak-secret: pyFUZP2L9UCSVJUScHcN3ZEgy2PGyEpg
   tractusx-connector:
     nameOverride: dataprovider-edc
     participant:
-      id: BPNL000000000000
+      id: BPNL00000003AYRE
     controlplane:
       ssi:
         miw:
           url: http://managed-identity-wallets.tx.test
-          authorityId: BPNL00000003CRHK
+          authorityId: *authority-bpn
         oauth:
           tokenurl: http://centralidp.tx.test/auth/realms/CX-Central/protocol/openid-connect/token
           client:
-            id: *miw_client
+            id: satest02
             secretAlias: edc-miw-keycloak-secret
       endpoints:
         management:
