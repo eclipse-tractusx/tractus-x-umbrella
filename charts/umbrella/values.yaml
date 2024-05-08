@@ -795,11 +795,11 @@ dataconsumerTwo:
   seedTestdata: false
   nameOverride: dataconsumer-2
   secrets:
-    edc-miw-keycloak-secret: WUXpQx1aIclA7enqtk4o2uvLDLMreUMI
+    edc-miw-keycloak-secret: tPwy4exxH1sXBRQouobSA2nNVaaPuwCs
   tractusx-connector:
     nameOverride: dataconsumer-2-edc
     participant:
-      id: BPNL00000003B6LU
+      id: BPNL00000003AVTH
     controlplane:
       ssi:
         miw:
@@ -808,11 +808,11 @@ dataconsumerTwo:
         oauth:
           tokenurl: http://centralidp.tx.test/auth/realms/CX-Central/protocol/openid-connect/token
           client:
-            id: satest08
+            id: satest03
             secretAlias: edc-miw-keycloak-secret
       endpoints:
         management:
-          authKey: TEST1
+          authKey: TEST3
       ingresses:
         - enabled: true
           hostname: "dataconsumer-2-controlplane.tx.test"
