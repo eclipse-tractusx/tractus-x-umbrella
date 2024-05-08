@@ -65,14 +65,20 @@ dependencies:
     repository: https://eclipse-tractusx.github.io/charts/dev
     version: 0.4.0
     condition: managed-identity-wallet.enabled
-    # TX Data Consumer
+    # TX Data Consumer 1
   - name: tx-data-provider
-    alias: dataconsumer
-    version: 0.0.2
+    alias: dataconsumerOne
+    version: 0.0.3
     repository: https://eclipse-tractusx.github.io/charts/dev
-    condition: dataconsumer.enabled
+    condition: dataconsumerOne.enabled
     # TX Data Providers
   - name: tx-data-provider
-    version: 0.0.2
+    version: 0.0.3
     repository: https://eclipse-tractusx.github.io/charts/dev
     condition: tx-data-provider.enabled
+    # TX Data Consumer 2
+  - name: tx-data-provider
+    alias: dataconsumerTwo
+    version: 0.0.3
+    repository: https://eclipse-tractusx.github.io/charts/dev
+    condition: dataconsumerTwo.enabled
