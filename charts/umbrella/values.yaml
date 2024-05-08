@@ -83,21 +83,69 @@ portal:
         clientId: "sa-cl1-reg-1"
         clientSecret: "YPA1t6BMQtPtaG3fpH8Sa8Ac6KYbPUM7"
     registration:
+      logging:
+        default: "Debug"
+        bpdmLibrary: "Debug"
+        registrationService: "Debug"
       swaggerEnabled: true
     administration:
+      logging:
+        default: "Debug"
+        businessLogic: "Debug"
+        sdfactoryLibrary: "Debug"
+        bpdmLibrary: "Debug"
+        custodianLibrary: "Debug"
       swaggerEnabled: true
     appmarketplace:
+      logging:
+        default: "Debug"
+        offersLibrary: "Debug"
       swaggerEnabled: true
     services:
+      logging:
+        default: "Debug"
+        offersLibrary: "Debug"
       swaggerEnabled: true
     notification:
+      logging:
+        default: "Debug"
       swaggerEnabled: true
+    processesworker:
+      logging:
+        default: "Debug"
+        processesLibrary: "Debug"
+        bpdmLibrary: "Debug"
+        clearinghouseLibrary: "Debug"
+        custodianLibrary: "Debug"
+        sdfactoryLibrary: "Debug"
+        offerProvider: "Debug"
+      bpdm:
+        clientId: "sa-cl7-cx-5"
+        clientSecret: "bWSck103qNJ0jZ1LVtG9mUAlcL7R5RLg"
+      # -- no configuration for clearinghouse because it's an external component
+      # clientId and clientSecret aren't in the centralidp Keycloak
+      # clearinghouse:
+      #   clientId: "clearinghouse-client-id"
+      #   clientSecret: ""
+      custodian:
+        clientId: "sa-cl5-custodian-2"
+        clientSecret: "UIqawwoohsvZ6AZOd1llLhnsUTKMWe4D"
+      sdfactory:
+        issuerBpn: "BPNL00000003CRHK"
+        clientId: "sa-cl8-cx-1"
+        clientSecret: "clbQOPHcVKY9tUUd068vyf8CrsPZ8BgZ"
+      offerprovider:
+        clientId: "sa-cl2-03"
+        clientSecret: "wyNYzSnyu4iGvj17XgLSl0aQxAPjTjmI"
     mailing:
       host: "smtp.tx.test"
       port: "587"
       user: "smtp-user"
       senderEmail: "smtp@tx.test"
       password: ""
+    portalmigrations:
+      logging:
+        default: "Debug"
     provisioning:
       sharedRealm:
         smtpServer:
@@ -564,7 +612,7 @@ managed-identity-wallet:
     #       - "managed-identity-wallets.tx.test"
     className: "nginx"
     annotations:
-      # uncomment the following lines for tls
+      # uncomment the following line for tls
       # cert-manager.io/cluster-issuer: "my-ca-issuer"
       nginx.ingress.kubernetes.io/cors-allow-origin: http://portal.tx.test
       nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
