@@ -833,3 +833,17 @@ dataconsumerTwo:
 
   simple-data-backend:
     enabled: false
+
+pgadmin4:
+  enabled: false
+  env:
+    email: pgadmin4@txtest.org
+    password: tractusxpgdamin4
+  ingress:
+    enabled: true
+    ingressClassName: "nginx"
+    hosts:
+      - host: pgadmin4.tx.test
+        paths:
+        - path: /
+          pathType: Prefix

@@ -16,6 +16,7 @@ The chart aims for a completely automated setup of a fully functional network, t
   - [Data exchange](#data-exchange)
   - [Get to know the portal](#get-to-know-the-portal)
 - [Uninstall](#uninstall)
+- [Database Access](#database-access)
 - [Ingresses](#ingresses)
 - [Seeding](#seeding)
 
@@ -366,6 +367,24 @@ helm delete umbrella --namespace umbrella
 >
 > If persistance for one or more components is enabled, the persistent volume claims (PVCs) and connected persistent volumes (PVs) need to be removed manually even if you deleted the release from the cluster.
 >
+
+### Database Access
+
+This chart also contains a pgadmin4 instance for easy access to the deployed Postgres databases which are only available from within the Kubernetes cluster.
+
+pgadmin4 is by default enabled with in the predefined subsets for data exchange and portal.
+
+Address: [pgadmin4.tx.test](http://pgadmin4.tx.test)
+
+Credentials to login:
+
+```
+pgadmin4@txtest.org
+```
+
+```
+tractusxpgdamin4
+```
 
 ### Ingresses
 

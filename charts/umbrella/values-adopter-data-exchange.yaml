@@ -195,3 +195,6 @@ dataconsumerTwo:
     #   primary:
     #     persistence:
     #       enabled: true
+
+pgadmin4:
+  enabled: true
