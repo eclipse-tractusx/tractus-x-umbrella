@@ -795,20 +795,20 @@ dataconsumerTwo:
   seedTestdata: false
   nameOverride: dataconsumer-2
   secrets:
-    edc-miw-keycloak-secret: changeme  # TODO switch to existing user
+    edc-miw-keycloak-secret: WUXpQx1aIclA7enqtk4o2uvLDLMreUMI
   tractusx-connector:
     nameOverride: dataconsumer-2-edc
     participant:
-      id: BPNL000000000000
+      id: BPNL00000003B6LU
     controlplane:
       ssi:
         miw:
           url: http://managed-identity-wallets.tx.test
-          authorityId: BPNL00000003CRHK
+          authorityId: *authority-bpn
         oauth:
           tokenurl: http://centralidp.tx.test/auth/realms/CX-Central/protocol/openid-connect/token
           client:
-            id: *miw_client
+            id: satest08
             secretAlias: edc-miw-keycloak-secret
       endpoints:
         management:
