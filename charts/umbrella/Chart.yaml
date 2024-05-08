@@ -28,7 +28,7 @@ sources:
   - https://github.com/eclipse-tractusx/tractus-x-umbrella
 
 type: application
-version: 0.12.1
+version: 0.13.0
 
 # when adding or updating versions of dependencies, also update list under README.md#Install
 dependencies:
@@ -36,7 +36,7 @@ dependencies:
   - condition: portal.enabled
     name: portal
     repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 1.8.0
+    version: 1.8.1
   # cx-iam
   - condition: centralidp.enabled
     name: centralidp
