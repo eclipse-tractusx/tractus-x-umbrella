@@ -170,7 +170,7 @@ Select a subset of components which are designed to integrate with each other fo
 
 The currently available components are following:
 
-- [portal](https://github.com/eclipse-tractusx/portal/tree/portal-1.8.0)
+- [portal](https://github.com/eclipse-tractusx/portal/tree/portal-1.8.1)
 - [centralidp](https://github.com/eclipse-tractusx/portal-iam/tree/v2.1.0)
 - [sharedidp](https://github.com/eclipse-tractusx/portal-iam/tree/v2.1.0)
 - [bpndiscovery](https://github.com/eclipse-tractusx/sldt-bpn-discovery/tree/bpndiscovery-0.2.2)
