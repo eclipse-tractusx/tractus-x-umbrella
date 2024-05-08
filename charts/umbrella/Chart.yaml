@@ -82,3 +82,7 @@ dependencies:
     version: 0.0.3
     repository: https://eclipse-tractusx.github.io/charts/dev
     condition: dataconsumerTwo.enabled
+  - condition: pgadmin4.enabled
+    name: pgadmin4
+    repository: https://helm.runix.net
+    version: 1.25.x
