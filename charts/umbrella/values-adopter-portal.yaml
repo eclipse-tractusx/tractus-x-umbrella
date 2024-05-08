@@ -61,3 +61,6 @@ dataconsumer:
 
 tx-data-provider:
   enabled: false
+
+pgadmin4:
+  enabled: true

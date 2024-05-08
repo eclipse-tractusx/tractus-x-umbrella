@@ -83,21 +83,69 @@ portal:
         clientId: "sa-cl1-reg-1"
         clientSecret: "YPA1t6BMQtPtaG3fpH8Sa8Ac6KYbPUM7"
     registration:
+      logging:
+        default: "Debug"
+        bpdmLibrary: "Debug"
+        registrationService: "Debug"
       swaggerEnabled: true
     administration:
+      logging:
+        default: "Debug"
+        businessLogic: "Debug"
+        sdfactoryLibrary: "Debug"
+        bpdmLibrary: "Debug"
+        custodianLibrary: "Debug"
       swaggerEnabled: true
     appmarketplace:
+      logging:
+        default: "Debug"
+        offersLibrary: "Debug"
       swaggerEnabled: true
     services:
+      logging:
+        default: "Debug"
+        offersLibrary: "Debug"
       swaggerEnabled: true
     notification:
+      logging:
+        default: "Debug"
       swaggerEnabled: true
+    processesworker:
+      logging:
+        default: "Debug"
+        processesLibrary: "Debug"
+        bpdmLibrary: "Debug"
+        clearinghouseLibrary: "Debug"
+        custodianLibrary: "Debug"
+        sdfactoryLibrary: "Debug"
+        offerProvider: "Debug"
+      bpdm:
+        clientId: "sa-cl7-cx-5"
+        clientSecret: "bWSck103qNJ0jZ1LVtG9mUAlcL7R5RLg"
+      # -- no configuration for clearinghouse because it's an external component
+      # clientId and clientSecret aren't in the centralidp Keycloak
+      # clearinghouse:
+      #   clientId: "clearinghouse-client-id"
+      #   clientSecret: ""
+      custodian:
+        clientId: "sa-cl5-custodian-2"
+        clientSecret: "UIqawwoohsvZ6AZOd1llLhnsUTKMWe4D"
+      sdfactory:
+        issuerBpn: "BPNL00000003CRHK"
+        clientId: "sa-cl8-cx-1"
+        clientSecret: "clbQOPHcVKY9tUUd068vyf8CrsPZ8BgZ"
+      offerprovider:
+        clientId: "sa-cl2-03"
+        clientSecret: "wyNYzSnyu4iGvj17XgLSl0aQxAPjTjmI"
     mailing:
       host: "smtp.tx.test"
       port: "587"
       user: "smtp-user"
       senderEmail: "smtp@tx.test"
       password: ""
+    portalmigrations:
+      logging:
+        default: "Debug"
     provisioning:
       sharedRealm:
         smtpServer:
@@ -587,21 +635,21 @@ managed-identity-wallet:
     #       - "managed-identity-wallets.tx.test"
     className: "nginx"
     annotations:
-      # uncomment the following lines for tls
+      # uncomment the following line for tls
       # cert-manager.io/cluster-issuer: "my-ca-issuer"
       nginx.ingress.kubernetes.io/cors-allow-origin: http://portal.tx.test
       nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
       nginx.ingress.kubernetes.io/cors-allow-methods: GET
       nginx.ingress.kubernetes.io/enable-cors: "true"
 
-dataconsumer:
+dataconsumerOne:
   enabled: false
   seedTestdata: false
-  nameOverride: dataconsumer
+  nameOverride: dataconsumer-1
   secrets:
     edc-miw-keycloak-secret: UbfW4CR1xH4OskkovqJ2JzcwnQIrG7oj
   tractusx-connector:
-    nameOverride: dataconsumer-edc
+    nameOverride: dataconsumer-1-edc
     participant:
       id: BPNL00000003AZQP
     controlplane:
@@ -619,7 +667,7 @@ dataconsumer:
           authKey: TEST1
       ingresses:
         - enabled: true
-          hostname: "dataconsumer-controlplane.tx.test"
+          hostname: "dataconsumer-1-controlplane.tx.test"
           endpoints:
             - default
             - protocol
@@ -630,7 +678,7 @@ dataconsumer:
     dataplane:
       ingresses:
         - enabled: true
-          hostname: "dataconsumer-dataplane.tx.test"
+          hostname: "dataconsumer-1-dataplane.tx.test"
           endpoints:
             - default
             - public
@@ -638,19 +686,19 @@ dataconsumer:
           tls:
             enabled: false
     postgresql:
-      nameOverride: dataconsumer-db
-      jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-dataconsumer-db:5432/edc"
+      nameOverride: dataconsumer-1-db
+      jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-dataconsumer-1-db:5432/edc"
     vault:
       hashicorp:
-        url: http://edc-dataconsumer-vault:8200
+        url: http://edc-dataconsumer-1-vault:8200
       secretNames:
         transferProxyTokenSignerPrivateKey: tokenSignerPrivateKey
         transferProxyTokenSignerPublicKey: tokenSignerPublicKey
         transferProxyTokenEncryptionAesKey: tokenEncryptionAesKey
 
   vault:
-    nameOverride: edc-dataconsumer-vault
-    fullnameOverride: edc-dataconsumer-vault
+    nameOverride: edc-dataconsumer-1-vault
+    fullnameOverride: edc-dataconsumer-1-vault
     enabled: true
     server:
       postStart: []
@@ -741,3 +789,84 @@ tx-data-provider:
     nameOverride: dataprovider-submodelserver
     ingress:
       enabled: false
+
+dataconsumerTwo:
+  enabled: false
+  seedTestdata: false
+  nameOverride: dataconsumer-2
+  secrets:
+    edc-miw-keycloak-secret: changeme  # TODO switch to existing user
+  tractusx-connector:
+    nameOverride: dataconsumer-2-edc
+    participant:
+      id: BPNL000000000000
+    controlplane:
+      ssi:
+        miw:
+          url: http://managed-identity-wallets.tx.test
+          authorityId: BPNL00000003CRHK
+        oauth:
+          tokenurl: http://centralidp.tx.test/auth/realms/CX-Central/protocol/openid-connect/token
+          client:
+            id: *miw_client
+            secretAlias: edc-miw-keycloak-secret
+      endpoints:
+        management:
+          authKey: TEST1
+      ingresses:
+        - enabled: true
+          hostname: "dataconsumer-2-controlplane.tx.test"
+          endpoints:
+            - default
+            - protocol
+            - management
+          className: "nginx"
+          tls:
+            enabled: false
+    dataplane:
+      ingresses:
+        - enabled: true
+          hostname: "dataconsumer-2-dataplane.tx.test"
+          endpoints:
+            - default
+            - public
+          className: "nginx"
+          tls:
+            enabled: false
+    postgresql:
+      nameOverride: dataconsumer-2-db
+      jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-dataconsumer-2-db:5432/edc"
+    vault:
+      hashicorp:
+        url: http://edc-dataconsumer-2-vault:8200
+      secretNames:
+        transferProxyTokenSignerPrivateKey: tokenSignerPrivateKey
+        transferProxyTokenSignerPublicKey: tokenSignerPublicKey
+        transferProxyTokenEncryptionAesKey: tokenEncryptionAesKey
+
+  vault:
+    nameOverride: edc-dataconsumer-2-vault
+    fullnameOverride: edc-dataconsumer-2-vault
+    enabled: true
+    server:
+      postStart: []
+
+  digital-twin-registry:
+    enabled: false
+
+  simple-data-backend:
+    enabled: false
+
+pgadmin4:
+  enabled: false
+  env:
+    email: pgadmin4@txtest.org
+    password: tractusxpgdamin4
+  ingress:
+    enabled: true
+    ingressClassName: "nginx"
+    hosts:
+      - host: pgadmin4.tx.test
+        paths:
+        - path: /
+          pathType: Prefix
