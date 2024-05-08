@@ -513,7 +513,7 @@ companies:
 managed-identity-wallet:
   enabled: false
   seeding:
-    enabled: true
+    enabled: false
     clientId: sa-cl5-custodian-2
     clientSecret: UIqawwoohsvZ6AZOd1llLhnsUTKMWe4D
   # TLS to trust centralidp Keycloak instance

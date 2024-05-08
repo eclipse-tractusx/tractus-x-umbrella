@@ -46,6 +46,10 @@ managed-identity-wallet:
   miw:
     keycloak:
       url: "http://centralidp.tx.test/auth"
+  livenessProbe:
+    initialDelaySeconds: 60
+  readinessProbe:
+    initialDelaySeconds: 60
   ingress:
     enabled: true
     hosts:
