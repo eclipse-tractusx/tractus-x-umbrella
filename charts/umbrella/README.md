@@ -10,6 +10,7 @@
       - [Data exchange](#data-exchange)
       - [Get to know the Portal](#get-to-know-the-portal)
     - [Uninstall](#uninstall)
+    - [Database Access](#database-access)
     - [Ingresses](#ingresses)
     - [Seeding](#seeding)
   - [How to contribute](#how-to-contribute)
@@ -179,15 +180,16 @@ Select a subset of components which are designed to integrate with each other fo
 
 The currently available components are following:
 
-- [portal](https://github.com/eclipse-tractusx/portal/tree/portal-1.8.0)
+- [portal](https://github.com/eclipse-tractusx/portal/tree/portal-1.8.1)
 - [centralidp](https://github.com/eclipse-tractusx/portal-iam/tree/v2.1.0)
 - [sharedidp](https://github.com/eclipse-tractusx/portal-iam/tree/v2.1.0)
 - [bpndiscovery](https://github.com/eclipse-tractusx/sldt-bpn-discovery/tree/bpndiscovery-0.2.2)
 - [discoveryfinder](https://github.com/eclipse-tractusx/sldt-discovery-finder/tree/discoveryfinder-0.2.2)
 - [sdfactory](https://github.com/eclipse-tractusx/sd-factory/tree/sdfactory-2.1.12)
 - [managed-identity-wallet](https://github.com/eclipse-tractusx/managed-identity-wallet/tree/v0.4.0)
-- [dataconsumer](https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/tx-data-provider) ([tractusx-edc](https://github.com/eclipse-tractusx/tractusx-edc/tree/0.5.3), [vault](https://github.com/hashicorp/vault-helm/tree/v0.20.0))
+- [dataconsumerOne](https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/tx-data-provider) ([tractusx-edc](https://github.com/eclipse-tractusx/tractusx-edc/tree/0.5.3), [vault](https://github.com/hashicorp/vault-helm/tree/v0.20.0))
 - [tx-data-provider](https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/tx-data-provider) ([tractusx-edc](https://github.com/eclipse-tractusx/tractusx-edc/tree/0.5.3), [digital-twin-registry](https://github.com/eclipse-tractusx/sldt-digital-twin-registry/tree/digital-twin-registry-0.4.5), [vault](https://github.com/hashicorp/vault-helm/tree/v0.20.0), [simple-data-backend](https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/simple-data-backend))
+- [dataconsumerTwo](https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/tx-data-provider) ([tractusx-edc](https://github.com/eclipse-tractusx/tractusx-edc/tree/0.5.3), [vault](https://github.com/hashicorp/vault-helm/tree/v0.20.0))
 
 > :warning:
 >
@@ -215,10 +217,19 @@ Or choose to install one of the predefined subsets (currently in focus of the **
 
 ```bash
 helm install \
-  --set centralidp.enabled=true,managed-identity-wallet.enabled=true,dataconsumer.enabled=true,tx-data-provider.enabled=true \
+  --set centralidp.enabled=true,managed-identity-wallet.enabled=true,dataconsumerOne.enabled=true,tx-data-provider.enabled=true \
   umbrella tractusx-dev/umbrella \
   --namespace umbrella
 ```
+Optional:
+
+Enable `dataconsumerTwo` at upgrade:
+
+```bash
+helm install \
+  --set centralidp.enabled=true,managed-identity-wallet.enabled=true,dataconsumerOne.enabled=true,tx-data-provider.enabled=true,dataconsumerTwo.enabled=true \
+  umbrella tractusx-dev/umbrella \
+  --namespace umbrella
 
 **Portal**
 
@@ -267,6 +278,19 @@ Or choose to install one of the predefined subsets (currently in focus of the **
 
 ```bash
 helm install -f values-adopter-data-exchange.yaml umbrella . --namespace umbrella
+```
+
+Optional:
+
+Enable `dataconsumerTwo` by setting it true in `values-adopter-data-exchange.yaml` and then executing an upgrade:
+
+```bash
+dataconsumerTwo:
+  enabled: true
+```
+
+```bash
+helm upgrade -f values-adopter-data-exchange.yaml umbrella . --namespace umbrella
 ```
 
 **Portal**
@@ -353,6 +377,24 @@ helm delete umbrella --namespace umbrella
 >
 > If persistance for one or more components is enabled, the persistent volume claims (PVCs) and connected persistent volumes (PVs) need to be removed manually even if you deleted the release from the cluster.
 >
+
+### Database Access
+
+This chart also contains a pgadmin4 instance for easy access to the deployed Postgres databases which are only available from within the Kubernetes cluster.
+
+pgadmin4 is by default enabled with in the predefined subsets for data exchange and portal.
+
+Address: [pgadmin4.tx.test](http://pgadmin4.tx.test)
+
+Credentials to login:
+
+```
+pgadmin4@txtest.org
+```
+
+```
+tractusxpgdamin4
+```
 
 ### Ingresses
 

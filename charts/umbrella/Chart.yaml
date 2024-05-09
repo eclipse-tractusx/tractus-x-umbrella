@@ -36,7 +36,7 @@ dependencies:
   - condition: portal.enabled
     name: portal
     repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 1.8.0
+    version: 1.8.1
   # cx-iam
   - condition: centralidp.enabled
     name: centralidp
@@ -71,14 +71,25 @@ dependencies:
     name: semantic-hub
     repository: https://eclipse-tractusx.github.io/charts/dev
     version: 0.2.2
-    # TX Data Consumer
+    # TX Data Consumer 1
   - name: tx-data-provider
-    alias: dataconsumer
-    version: 0.0.2
+    alias: dataconsumerOne
+    version: 0.0.3
     repository: https://eclipse-tractusx.github.io/charts/dev
-    condition: dataconsumer.enabled
+    condition: dataconsumerOne.enabled
     # TX Data Providers
   - name: tx-data-provider
-    version: 0.0.2
+    version: 0.0.3
     repository: https://eclipse-tractusx.github.io/charts/dev
     condition: tx-data-provider.enabled
+    # TX Data Consumer 2
+  - name: tx-data-provider
+    alias: dataconsumerTwo
+    version: 0.0.3
+    repository: https://eclipse-tractusx.github.io/charts/dev
+    condition: dataconsumerTwo.enabled
+    # pgadmin4
+  - condition: pgadmin4.enabled
+    name: pgadmin4
+    repository: https://helm.runix.net
+    version: 1.25.x
