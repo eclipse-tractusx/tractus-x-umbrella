@@ -43,9 +43,15 @@ centralidp:
 
 managed-identity-wallet:
   enabled: true
+  seeding:
+    enabled: true
   miw:
     keycloak:
       url: "http://centralidp.tx.test/auth"
+  livenessProbe:
+    initialDelaySeconds: 60
+  readinessProbe:
+    initialDelaySeconds: 60
   ingress:
     enabled: true
     hosts:
@@ -109,6 +115,7 @@ dataconsumerOne:
     #       enabled: true
 
 tx-data-provider:
+  seedTestdata: true
   enabled: true
   secrets:
     edc-miw-keycloak-secret: pyFUZP2L9UCSVJUScHcN3ZEgy2PGyEpg
