@@ -63,7 +63,7 @@ spec:
               --post-data 'grant_type=client_credentials&client_id={{ $miwUser }}&client_secret={{ $miwSecret }}'
               TOKEN=`cat token | grep -o '"access_token": *"[^"]*"' | sed 's#"access_token":"\(.*\)"#\1#'` && export TOKEN
 
-              {{- range $bpn, $companyName := .Values.companies }}
+              {{- range $bpn, $companyName := index .Values "managed-identity-wallet" "seeding" "companies" }}
               wget --header "Content-Type: application/json" --header "Authorization: Bearer $TOKEN" \
               --post-data '{"bpn": "{{ $bpn }}", "name": "{{ $companyName }}"}' "{{ $miwUrl }}/api/wallets" -S -O -
               {{- end }}
