@@ -35,6 +35,9 @@ discoveryfinder:
 sdfactory:
   enabled: true
 
+semantic-hub:
+  enabled: true
+
 managed-identity-wallet:
   enabled: true
 
