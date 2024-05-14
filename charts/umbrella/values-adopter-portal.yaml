@@ -64,3 +64,6 @@ tx-data-provider:
 
 pgadmin4:
   enabled: true
+  # -- uncomment the following for persistance
+  # persistentVolume:
+  #   enabled: true
