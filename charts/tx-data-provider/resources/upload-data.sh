@@ -38,8 +38,8 @@ echo "Allowed BPNs: $ALLOWEDBPNS"
 pip install -r /opt/scripts/requirements.txt
 
 if [ -z "$MANAGEMENTURL" ]; then
-  python /opt/scripts/upload.py -f /opt/scripts/testdata.json -s "$SUBMODELURL" -a "$REGISTRYURL" -edc "$CONTROLPLANEURL" -d "$DATAPLANEURL" -k "$EDCKEY" -p id-3.0-trace --allowedBPNs "$ALLOWEDBPNS" --aas3
+  python /opt/scripts/upload.py -f /opt/scripts/testdata.json -s "$SUBMODELURL" -a "$REGISTRYURL" -edc "$CONTROLPLANEURL" -d "$DATAPLANEURL" -k "$EDCKEY" -p test --allowedBPNs "$ALLOWEDBPNS"
 else
   echo "Management: $MANAGEMENTURL"
-  python /opt/scripts/upload.py -f /opt/scripts/testdata.json -s "$SUBMODELURL" -a "$REGISTRYURL" -edc "$CONTROLPLANEURL" -eu "$MANAGEMENTURL" -d "$DATAPLANEURL" -k "$EDCKEY" -p id-3.0-trace --allowedBPNs "$ALLOWEDBPNS" --aas3
+  python /opt/scripts/upload.py -f /opt/scripts/testdata.json -s "$SUBMODELURL" -a "$REGISTRYURL" -edc "$CONTROLPLANEURL" -eu "$MANAGEMENTURL" -d "$DATAPLANEURL" -k "$EDCKEY" -p test --allowedBPNs "$ALLOWEDBPNS"
 fi
