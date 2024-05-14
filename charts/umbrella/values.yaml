@@ -884,6 +884,8 @@ pgadmin4:
   env:
     email: pgadmin4@txtest.org
     password: tractusxpgdamin4
+  persistentVolume:
+    enabled: false
   ingress:
     enabled: true
     ingressClassName: "nginx"
