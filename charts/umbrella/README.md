@@ -1,19 +1,20 @@
 - [Umbrella Chart](#umbrella-chart)
-    - [Usage](#usage)
-        - [Network setup](#network-setup)
-        - [Self-signed TLS setup](#self-signed-tls-setup)
-        - [Install](#install)
-            - [Released chart](#released-chart)
-            - [Repository](#repository)
-        - [E2E Adopter Journeys](#e2e-adopter-journeys)
-            - [Data exchange](#data-exchange)
-            - [Get to know the Portal](#get-to-know-the-portal)
-        - [Uninstall](#uninstall)
-        - [Database Access](#database-access)
-        - [Ingresses](#ingresses)
-        - [Seeding](#seeding)
-    - [Precondition for Semantic Hub](#precondition-for-semantic-hub)
-    - [How to contribute](#how-to-contribute)
+  - [Usage](#usage)
+    - [Cluster setup](#cluster-setup)
+    - [Network setup](#network-setup)
+    - [Self-signed TLS setup](#self-signed-tls-setup)
+    - [Install](#install)
+      - [Released chart](#use-released-chart)
+      - [Repository](#use-local-repository)
+    - [E2E Adopter Journeys](#e2e-adopter-journeys)
+      - [Data exchange](#data-exchange)
+      - [Get to know the Portal](#get-to-know-the-portal)
+    - [Uninstall](#uninstall)
+    - [Database Access](#database-access)
+    - [Ingresses](#ingresses)
+    - [Seeding](#seeding)
+  - [Precondition for Semantic Hub](#precondition-for-semantic-hub)
+  - [How to contribute](#how-to-contribute)
 
 # Umbrella Chart
 
@@ -21,6 +22,7 @@ This umbrella chart provides a basis for running end-to-end tests or creating a 
 consisting of [Tractus-X](https://projects.eclipse.org/projects/automotive.tractusx) OSS components.
 
 The Chart aims for a completely automated setup of a fully functional network, that does not require manual setup steps.
+
 ## Usage
 
 Running this helm chart **requires** a kubernetes cluster (`>1.24.x`), it's recommended to run it on [**Minikube**](https://minikube.sigs.k8s.io/docs/start/).
@@ -34,23 +36,44 @@ Assuming you have a running cluster and your `kubectl` context is set to that cl
 >
 > We plan to test the chart's reliability also on Windows and to update the installation guide accordingly.
 
+### Cluster setup
 
 > Recommendations for resources
 > | CPU(cores) | Memory(GB) |
 > | :--------: | :--------: |
 > |     4      |      6     |
 
+#### Linux
 
 ```bash
 minikube start --cpus=4 --memory 6gb
 ```
 
-> Use the dashboard provided by Minikube or a tool like OpenLens to get an overview about the deployed components:
->
-> ```bash
-> minikube dashboard
+#### Windows
+
+For DNS resolution to work you need to either use `--driver=hyperv` option which requires administrator privileges:
+
+```bash
+minikube start --cpus=4 --memory 6gb --driver=hyperv
+```
+
+or use the native Kubernetes Cluster in *Docker Desktop* as well with a manual ingress setup:
+
+```bash
+# 1. Enable Kubernetes unter Settings > Kubernetes > Enable Kubernetes
+# 2. Install an NGINX Ingress Controller
+helm upgrade --install ingress-nginx ingress-nginx --repo https://kubernetes.github.io/ingress-nginx --namespace ingress-nginx --create-namespace
+# 3. Skip the minikube addons and assume 127.0.0.1 for Cluster IP 
+```
+
+> :warning: The rest of the tutorial assumes a minikube cluster, however.
 
 ### Network setup
+
+> Use the dashboard provided by Minikube or a tool like OpenLens to get an overview about the deployed components:
+> ```bash
+> `minikube dashboard`
+> ```
 
 In order to enable the local access via **ingress**, use the according addon for Minikube:
 
@@ -63,6 +86,7 @@ Make sure that the **DNS** resolution for the hosts is in place:
 ```bash
 minikube addons enable ingress-dns
 ```
+
 And execute installation step [3 Add the `minikube ip` as a DNS server](https://minikube.sigs.k8s.io/docs/handbook/addons/ingress-dns) for your OS:
 
 To find out the IP address of your Minikube execute:
@@ -70,6 +94,8 @@ To find out the IP address of your Minikube execute:
 ```bash
 minikube ip
 ```
+
+In the following steps, replace `192.168.49.2` with your `minikube ip` if it differs.
 
 #### Linux
 Create a file in /etc/resolver/minikube-test with the following contents.
@@ -80,8 +106,6 @@ nameserver 192.168.49.2
 search_order 1
 timeout 5
 ```
-
-Replace 192.168.49.2 with your minikube ip.
 
 If you still face DNS issues afterward, add the hosts to your /etc/hosts file:
 
@@ -94,14 +118,17 @@ If you still face DNS issues afterward, add the hosts to your /etc/hosts file:
 192.168.49.2    semantics.tx.test
 ```
 
-Replace 192.168.49.2 with your minikube ip.
-
 #### Windows
 
-For windows edit the hosts file under `C:\Windows\System32\drivers\etc\hosts` to include your minikube ip:
+For Windows edit the hosts file under `C:\Windows\System32\drivers\etc\hosts`:
 
 ```
-192.168.49.2    example.org
+192.168.49.2    centralidp.tx.test
+192.168.49.2    sharedidp.tx.test
+192.168.49.2    portal.tx.test
+192.168.49.2    portal-backend.tx.test
+192.168.49.2    managed-identity-wallets.tx.test
+192.168.49.2    semantics.tx.test
 ```
 
 #### Mac
@@ -130,6 +157,14 @@ helm install \
 ```
 
 Configure the self-signed certificate and issuer to be used by the ingress resources.
+
+If you have the repository checked out you can run:
+
+```bash
+kubectl apply -f ./charts/umbrella/cluster-issuer.yaml
+```
+
+or otherwise you can run:
 
 ```bash
 kubectl apply -f - <<EOF
@@ -172,12 +207,6 @@ spec:
   ca:
     secretName: root-secret
 EOF
-```
-
-or if you have the repository checked out:
-
-```bash
-kubectl apply -f ./charts/umbrella/cluster-issuer.yaml
 ```
 
 See [cert-manager self-signed](https://cert-manager.io/docs/configuration/selfsigned) for reference.
@@ -250,7 +279,8 @@ helm install \
   umbrella tractusx-dev/umbrella \
   --namespace umbrella
 ```
-Optional:
+
+*Optional:*
 
 Enable `dataconsumerTwo` at upgrade:
 
@@ -259,6 +289,7 @@ helm install \
   --set centralidp.enabled=true,managed-identity-wallet.enabled=true,dataconsumerOne.enabled=true,tx-data-provider.enabled=true,dataconsumerTwo.enabled=true \
   umbrella tractusx-dev/umbrella \
   --namespace umbrella
+```
 
 **Portal Subset**
 
@@ -294,7 +325,7 @@ helm dependency update
 **:grey_question: Command explanation**
 
 > `helm install` is used to install a Helm chart.
-> > `-f values*.yaml` specifies the values file to use for configuration.
+> > `-f your-values.yaml` | `-f values-*.yaml` specifies the values file to use for configuration.
 >
 > > `umbrella` is the release name for the Helm chart.
 >
@@ -322,7 +353,7 @@ Choose to install one of the predefined subsets (currently in focus of the **E2E
 helm install -f values-adopter-data-exchange.yaml umbrella . --namespace umbrella
 ```
 
-Optional:
+*Optional:*
 
 Enable `dataconsumerTwo` by setting it true in `values-adopter-data-exchange.yaml` and then executing an upgrade:
 
