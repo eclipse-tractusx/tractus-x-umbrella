@@ -790,6 +790,28 @@ tx-data-provider:
     ingress:
       enabled: false
 
+semantic-hub:
+  enabled: false
+  enableKeycloak: false
+  keycloak:
+    postgresql:
+      architecture: standalone
+      primary:
+        persistence:
+          enabled: false
+  hub:
+    authentication: false
+    livenessProbe:
+      initialDelaySeconds: 200
+    readinessProbe:
+      initialDelaySeconds: 200
+  graphdb:
+    enabled: true
+    image: jena-fuseki-docker:4.7.0
+    imagePullPolicy: Never
+    storageClassName: ""
+    storageSize: 8Gi
+
 dataconsumerTwo:
   enabled: false
   seedTestdata: false
