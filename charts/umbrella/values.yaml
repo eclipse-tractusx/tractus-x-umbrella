@@ -793,6 +793,12 @@ tx-data-provider:
 semantic-hub:
   enabled: false
   enableKeycloak: false
+  keycloak:
+    postgresql:
+      architecture: standalone
+      primary:
+        persistence:
+          enabled: false
   hub:
     authentication: false
     livenessProbe:
