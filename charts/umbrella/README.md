@@ -34,7 +34,7 @@ Assuming you have a running cluster and your `kubectl` context is set to that cl
 >
 > **Linux** is the **preferred platform** to install this chart on, as the network setup with Minikube is very straightforward on Linux.
 >
-> We plan to test the chart's reliability also on Windows and to update the installation guide accordingly.
+> We are working on testing the chart's reliability on Windows as well and updating the installation guide accordingly.
 
 ### Cluster setup
 
@@ -43,7 +43,7 @@ Assuming you have a running cluster and your `kubectl` context is set to that cl
 > | :--------: | :--------: |
 > |     4      |      6     |
 
-#### Linux
+#### Linux & Mac
 
 ```bash
 minikube start --cpus=4 --memory 6gb
@@ -97,7 +97,7 @@ minikube ip
 
 In the following steps, replace `192.168.49.2` with your `minikube ip` if it differs.
 
-#### Linux
+#### Linux & Mac
 Create a file in /etc/resolver/minikube-test with the following contents.
 
 ```
@@ -107,7 +107,7 @@ search_order 1
 timeout 5
 ```
 
-If you still face DNS issues afterward, add the hosts to your /etc/hosts file:
+If you still face DNS issues, add the hosts to your /etc/hosts file:
 
 ```
 192.168.49.2    centralidp.tx.test
@@ -117,6 +117,12 @@ If you still face DNS issues afterward, add the hosts to your /etc/hosts file:
 192.168.49.2    managed-identity-wallets.tx.test
 192.168.49.2    semantics.tx.test
 ```
+
+**Additional network setup for Mac**
+
+Install and start [Docker Mac Net Connect](https://github.com/chipmk/docker-mac-net-connect#installation).
+
+We also recommend to execute the usage example after install to check proper setup.
 
 #### Windows
 
@@ -130,13 +136,6 @@ For Windows edit the hosts file under `C:\Windows\System32\drivers\etc\hosts`:
 192.168.49.2    managed-identity-wallets.tx.test
 192.168.49.2    semantics.tx.test
 ```
-
-#### Mac
-**Additional network setup**
-
-Install and start [Docker Mac Net Connect](https://github.com/chipmk/docker-mac-net-connect#installation).
-
-We also recommend to execute the usage example after install to check proper setup.
 
 ### Self-signed TLS setup
 
@@ -280,7 +279,7 @@ helm install \
   --namespace umbrella
 ```
 
-*Optional:*
+*Optional*
 
 Enable `dataconsumerTwo` at upgrade:
 
@@ -353,7 +352,7 @@ Choose to install one of the predefined subsets (currently in focus of the **E2E
 helm install -f values-adopter-data-exchange.yaml umbrella . --namespace umbrella
 ```
 
-*Optional:*
+*Optional*
 
 Enable `dataconsumerTwo` by setting it true in `values-adopter-data-exchange.yaml` and then executing an upgrade:
 
