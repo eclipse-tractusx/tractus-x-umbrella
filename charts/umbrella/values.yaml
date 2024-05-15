@@ -640,6 +640,8 @@ managed-identity-wallet:
       persistence:
         enabled: false
         size: 1Gi
+    auth:
+      password: "dbpasswordmiw"
   keycloak:
     enabled: false
   livenessProbe:
