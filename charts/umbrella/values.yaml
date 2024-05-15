@@ -21,9 +21,13 @@ portal:
   enabled: false
   replicaCount: 1
   postgresql:
-    postgresql:
     nameOverride: "portal-backend-postgresql"
     architecture: standalone
+    auth:
+      password: "dbpasswordportal"
+      portalPassword: "dbpasswordportal"
+      replicationPassword: "dbpasswordportal"
+      provisioningPassword: "dbpasswordportal"
     primary:
       persistence:
         enabled: false
@@ -318,6 +322,12 @@ centralidp:
         nginx.ingress.kubernetes.io/use-regex: "true"
       tls: true
   secrets:
+    postgresql:
+      auth:
+        existingSecret:
+          postgrespassword: "dbpasswordcentralidp"
+          password: "dbpasswordcentralidp"
+          replicationPassword: "dbpasswordcentralidp"
     auth:
       existingSecret:
         # -- Password for the admin username 'admin'. Secret-key 'admin-password'.
@@ -440,6 +450,12 @@ sharedidp:
         nginx.ingress.kubernetes.io/use-regex: "true"
       tls: true
   secrets:
+    postgresql:
+      auth:
+        existingSecret:
+          postgrespassword: "dbpasswordsharedidp"
+          password: "dbpasswordsharedidp"
+          replicationPassword: "dbpasswordsharedidp"
     auth:
       existingSecret:
         # -- Password for the admin username 'admin'. Secret-key 'admin-password'.
@@ -468,6 +484,9 @@ bpndiscovery:
       persistence:
         enabled: false
         size: 8Gi
+    auth:
+      password: "dbpasswordbpndiscovery"
+      postgresPassword: "dbpasswordbpndiscovery"
 
 discoveryfinder:
   enabled: false
@@ -510,6 +529,9 @@ discoveryfinder:
       persistence:
         enabled: false
         size: 8Gi
+    auth:
+      password: "dbpassworddiscoveryfinder"
+      postgresPassword: "dbpassworddiscoveryfinder"
 
 sdfactory:
   enabled: false
@@ -614,6 +636,10 @@ managed-identity-wallet:
       persistence:
         enabled: false
         size: 1Gi
+    auth:
+      password: "dbpasswordmiw"
+      enablePostgresUser: true
+      postgresPassword: "dbpasswordmiw"
   keycloak:
     enabled: false
   livenessProbe:
@@ -688,6 +714,9 @@ dataconsumerOne:
     postgresql:
       nameOverride: dataconsumer-1-db
       jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-dataconsumer-1-db:5432/edc"
+      auth:
+        password: "dbpassworddataconsumerone"
+        postgresPassword: "dbpassworddataconsumerone"
     vault:
       hashicorp:
         url: http://edc-dataconsumer-1-vault:8200
@@ -760,6 +789,9 @@ tx-data-provider:
     postgresql:
       nameOverride: dataprovider-db
       jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-dataprovider-db:5432/edc"
+      auth:
+        password: "dbpasswordtxdataprovider"
+        postgresPassword: "dbpasswordtxdataprovider"
     vault:
       hashicorp:
         url: http://edc-dataprovider-vault:8200
@@ -780,7 +812,7 @@ tx-data-provider:
     postgresql:
       nameOverride: dataprovider-dtr-db
       auth:
-        password: "dtrdataproviderpw"
+        password: "dbpassworddtrdataprovider"
         existingSecret: dataprovider-secret-dtr-postgres-init
     registry:
       host: dataprovider-dtr.test
@@ -858,6 +890,9 @@ dataconsumerTwo:
     postgresql:
       nameOverride: dataconsumer-2-db
       jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-dataconsumer-2-db:5432/edc"
+      auth:
+        password: "dbpassworddataconsumertwo"
+        postgresPassword: "dbpassworddataconsumertwo"
     vault:
       hashicorp:
         url: http://edc-dataconsumer-2-vault:8200

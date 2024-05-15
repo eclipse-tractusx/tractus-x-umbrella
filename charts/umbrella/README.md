@@ -449,7 +449,7 @@ pgadmin4 is by default enabled with in the predefined subsets for data exchange 
 
 Address: [pgadmin4.tx.test](http://pgadmin4.tx.test)
 
-Credentials to login:
+Credentials to login into pgadmin4:
 
 ```
 pgadmin4@txtest.org
@@ -457,6 +457,120 @@ pgadmin4@txtest.org
 
 ```
 tractusxpgdamin4
+```
+
+**The database server connections need to be added manually to pgadmin4.**
+
+Default username for all connections:
+
+```
+postgres
+```
+
+Default user for all connections:
+
+```
+5432
+```
+
+In the following some of the available connections:
+
+- portal
+
+Host:
+
+```
+portal-backend-postgresql
+```
+
+Password:
+
+```
+dbpasswordportal
+```
+
+- centralidp
+
+Host:
+
+```
+umbrella-centralidp-postgresql
+```
+
+Password:
+
+```
+dbpasswordcentralidp
+```
+
+- sharedidp
+
+Host:
+
+```
+umbrella-sharedidp-postgresql
+```
+
+Password:
+
+```
+dbpasswordsharedidp
+```
+
+- miw
+
+Host:
+
+```
+umbrella-miw-postgres
+```
+
+Password:
+
+```
+dbpasswordmiw
+```
+
+- dataprovider
+
+Host:
+
+```
+umbrella-dataprovider-db
+```
+
+Password:
+
+```
+dbpasswordtxdataprovider
+```
+
+- dataconsumer-1
+
+Host:
+
+```
+umbrella-dataconsumer-1-db
+```
+
+Password:
+
+```
+dbpassworddataconsumerone
+```
+
+- dataconsumer-2
+
+Host:
+
+```
+umbrella-dataconsumer-2-db
+```
+
+Password:
+
+```
+dbpassworddataconsumertwo
 ```
 
 ### Ingresses
