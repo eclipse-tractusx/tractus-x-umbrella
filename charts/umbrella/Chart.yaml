@@ -28,7 +28,7 @@ sources:
   - https://github.com/eclipse-tractusx/tractus-x-umbrella
 
 type: application
-version: 0.15.1
+version: 0.15.2
 
 # when adding or updating versions of dependencies, also update list under README.md#Install
 dependencies:
@@ -74,18 +74,18 @@ dependencies:
     # TX Data Consumer 1
   - name: tx-data-provider
     alias: dataconsumerOne
-    version: 0.0.4
+    version: 0.0.5
     repository: https://eclipse-tractusx.github.io/charts/dev
     condition: dataconsumerOne.enabled
     # TX Data Providers
   - name: tx-data-provider
-    version: 0.0.4
+    version: 0.0.5
     repository: https://eclipse-tractusx.github.io/charts/dev
     condition: tx-data-provider.enabled
     # TX Data Consumer 2
   - name: tx-data-provider
     alias: dataconsumerTwo
-    version: 0.0.4
+    version: 0.0.5
     repository: https://eclipse-tractusx.github.io/charts/dev
     condition: dataconsumerTwo.enabled
     # pgadmin4 as helper tool for easy database access
