@@ -1,11 +1,11 @@
 {
   "policies": {
-    "ID 3.0 Trace": {
+    "Test-Policy": {
       "@context": {
         "odrl": "http://www.w3.org/ns/odrl/2/"
       },
       "@type": "PolicyDefinitionRequestDto",
-      "@id": "id-3.0-trace",
+      "@id": "test",
       "policy": {
         "@type": "Policy",
         "odrl:permission": [
@@ -20,7 +20,7 @@
                   "odrl:operator": {
                     "@id": "odrl:eq"
                   },
-                  "odrl:rightOperand": "ID 3.0 Trace"
+                  "odrl:rightOperand": "TEST"
                 }
               ]
             }
