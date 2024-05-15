@@ -889,6 +889,9 @@ dataconsumerTwo:
     postgresql:
       nameOverride: dataconsumer-2-db
       jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-dataconsumer-2-db:5432/edc"
+      auth:
+        password: "dbpassworddataconsumertwo"
+        postgresPassword: "dbpassworddataconsumertwo"
     vault:
       hashicorp:
         url: http://edc-dataconsumer-2-vault:8200
