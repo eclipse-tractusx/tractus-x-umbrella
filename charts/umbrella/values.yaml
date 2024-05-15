@@ -488,6 +488,9 @@ bpndiscovery:
       persistence:
         enabled: false
         size: 8Gi
+    auth:
+      password: "dbpasswordbpndiscovery"
+      posrgresPassword: "dbpasswordbpndiscovery"
 
 discoveryfinder:
   enabled: false
@@ -530,6 +533,9 @@ discoveryfinder:
       persistence:
         enabled: false
         size: 8Gi
+    auth:
+      password: "dbpassworddiscoveryfinder"
+      posrgresPassword: "dbpassworddiscoveryfinder"
 
 sdfactory:
   enabled: false
