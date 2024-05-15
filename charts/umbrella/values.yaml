@@ -21,9 +21,13 @@ portal:
   enabled: false
   replicaCount: 1
   postgresql:
-    postgresql:
     nameOverride: "portal-backend-postgresql"
     architecture: standalone
+    auth:
+      password: "dbpasswordportal"
+      portalPassword: "dbpasswordportal"
+      replicationPassword: "dbpasswordportal"
+      provisioningPassword: "dbpasswordportal"
     primary:
       persistence:
         enabled: false
