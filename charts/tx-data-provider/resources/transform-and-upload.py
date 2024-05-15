@@ -2,6 +2,7 @@
 
 # #############################################################################
 # Copyright (c) 2022,2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
+# Copyright (c) 2024 SAP SE
 # Copyright (c) 2021,2024 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
@@ -64,6 +65,8 @@ def create_edc_registry_asset_payload(registry_url_, asset_prop_id_):
             "@id": f"{asset_prop_id_}",  # DTR-EDC-instance-unique-ID
             "properties": {
                 "type": "data.core.digitalTwinRegistry",
+                "http://purl.org/dc/terms/type":  {
+                    "@id": "https://w3id.org/catenax/taxonomy#DigitalTwinRegistry"},
                 "description": "Digital Twin Registry Endpoint of IRS DEV"
             }
         },
