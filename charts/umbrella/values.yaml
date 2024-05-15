@@ -788,6 +788,9 @@ tx-data-provider:
     postgresql:
       nameOverride: dataprovider-db
       jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-dataprovider-db:5432/edc"
+      auth:
+        password: "dbpasswordtxdataprovider"
+        postgresPassword: "dbpasswordtxdataprovider"
     vault:
       hashicorp:
         url: http://edc-dataprovider-vault:8200
