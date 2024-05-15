@@ -224,6 +224,8 @@ centralidp:
       primary:
         persistence:
           enabled: false
+    externalDatabase:
+      password: "dbpasswordcentralidp"
     proxy: edge
     initContainers:
       - name: realm-import
@@ -322,6 +324,12 @@ centralidp:
         nginx.ingress.kubernetes.io/use-regex: "true"
       tls: true
   secrets:
+    postgresql:
+      auth:
+        existingSecret:
+          postgrespassword: "dbpasswordcentralidp"
+          password: "dbpasswordcentralidp"
+          replicationPassword: "dbpasswordcentralidp"
     auth:
       existingSecret:
         # -- Password for the admin username 'admin'. Secret-key 'admin-password'.
@@ -340,6 +348,8 @@ sharedidp:
       primary:
         persistence:
           enabled: false
+    externalDatabase:
+      password: "dbpasswordsharedidp"
     proxy: edge
     initContainers:
       - name: realm-import
@@ -444,6 +454,12 @@ sharedidp:
         nginx.ingress.kubernetes.io/use-regex: "true"
       tls: true
   secrets:
+    postgresql:
+      auth:
+        existingSecret:
+          postgrespassword: "dbpasswordsharedidp"
+          password: "dbpasswordsharedidp"
+          replicationPassword: "dbpasswordsharedidp"
     auth:
       existingSecret:
         # -- Password for the admin username 'admin'. Secret-key 'admin-password'.
