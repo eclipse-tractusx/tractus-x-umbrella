@@ -638,6 +638,8 @@ managed-identity-wallet:
         size: 1Gi
     auth:
       password: "dbpasswordmiw"
+      enablePostgresUser: true
+      postgresPassword: "dbpasswordmiw"
   keycloak:
     enabled: false
   livenessProbe:
