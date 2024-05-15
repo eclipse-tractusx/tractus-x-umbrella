@@ -74,7 +74,7 @@ dependencies:
     # TX Data Consumer 1
   - name: tx-data-provider
     alias: dataconsumerOne
-    version: 0.0.3
+    version: 0.0.5
     repository: https://eclipse-tractusx.github.io/charts/dev
     condition: dataconsumerOne.enabled
     # TX Data Providers
@@ -85,7 +85,7 @@ dependencies:
     # TX Data Consumer 2
   - name: tx-data-provider
     alias: dataconsumerTwo
-    version: 0.0.3
+    version: 0.0.5
     repository: https://eclipse-tractusx.github.io/charts/dev
     condition: dataconsumerTwo.enabled
     # pgadmin4
