@@ -1,10 +1,11 @@
 - [Umbrella Chart](#umbrella-chart)
   - [Usage](#usage)
+    - [Cluster setup](#cluster-setup)
     - [Network setup](#network-setup)
     - [Self-signed TLS setup](#self-signed-tls-setup)
     - [Install](#install)
-      - [Released chart](#released-chart)
-      - [Repository](#repository)
+      - [Released chart](#use-released-chart)
+      - [Repository](#use-local-repository)
     - [E2E Adopter Journeys](#e2e-adopter-journeys)
       - [Data exchange](#data-exchange)
       - [Get to know the Portal](#get-to-know-the-portal)
@@ -33,25 +34,46 @@ Assuming you have a running cluster and your `kubectl` context is set to that cl
 >
 > **Linux** is the **preferred platform** to install this chart on, as the network setup with Minikube is very straightforward on Linux.
 >
-> We plan to test the chart's reliability also on Windows and to update the installation guide accordingly.
+> We are working on testing the chart's reliability on Windows as well and updating the installation guide accordingly.
 
+### Cluster setup
 
 > Recommendations for resources
 > | CPU(cores) | Memory(GB) |
 > | :--------: | :--------: |
 > |     4      |      6     |
 
+#### Linux & Mac
 
 ```bash
 minikube start --cpus=4 --memory 6gb
 ```
 
-> Use the dashboard provided by Minikube to get an overview about the deployed components:
->
-> ```bash
-> minikube dashboard
+#### Windows
+
+For DNS resolution to work you need to either use `--driver=hyperv` option which requires administrator privileges:
+
+```bash
+minikube start --cpus=4 --memory 6gb --driver=hyperv
+```
+
+or use the native Kubernetes Cluster in *Docker Desktop* as well with a manual ingress setup:
+
+```bash
+# 1. Enable Kubernetes unter Settings > Kubernetes > Enable Kubernetes
+# 2. Install an NGINX Ingress Controller
+helm upgrade --install ingress-nginx ingress-nginx --repo https://kubernetes.github.io/ingress-nginx --namespace ingress-nginx --create-namespace
+# 3. Skip the minikube addons and assume 127.0.0.1 for Cluster IP 
+```
+
+> :warning: The rest of the tutorial assumes a minikube cluster, however.
 
 ### Network setup
+
+> Use the dashboard provided by Minikube or a tool like OpenLens to get an overview about the deployed components:
+> ```bash
+> `minikube dashboard`
+> ```
 
 In order to enable the local access via **ingress**, use the according addon for Minikube:
 
@@ -64,8 +86,18 @@ Make sure that the **DNS** resolution for the hosts is in place:
 ```bash
 minikube addons enable ingress-dns
 ```
+
 And execute installation step [3 Add the `minikube ip` as a DNS server](https://minikube.sigs.k8s.io/docs/handbook/addons/ingress-dns) for your OS:
 
+To find out the IP address of your Minikube execute:
+
+```bash
+minikube ip
+```
+
+In the following steps, replace `192.168.49.2` with your `minikube ip` if it differs.
+
+#### Linux & Mac
 Create a file in /etc/resolver/minikube-test with the following contents.
 
 ```
@@ -74,15 +106,8 @@ nameserver 192.168.49.2
 search_order 1
 timeout 5
 ```
-Replace 192.168.49.2 with your minikube ip.
 
-To find out the IP address of your Minikube:
-
-```bash
-minikube ip
-```
-
-If you still face DNS issues afterwards, add the hosts to your /etc/hosts file:
+If you still face DNS issues, add the hosts to your /etc/hosts file:
 
 ```
 192.168.49.2    centralidp.tx.test
@@ -93,13 +118,24 @@ If you still face DNS issues afterwards, add the hosts to your /etc/hosts file:
 192.168.49.2    semantics.tx.test
 ```
 
-Replace 192.168.49.2 with your minikube ip.
-
-**Additional network setup** (for Mac only)
+**Additional network setup for Mac**
 
 Install and start [Docker Mac Net Connect](https://github.com/chipmk/docker-mac-net-connect#installation).
 
 We also recommend to execute the usage example after install to check proper setup.
+
+#### Windows
+
+For Windows edit the hosts file under `C:\Windows\System32\drivers\etc\hosts`:
+
+```
+192.168.49.2    centralidp.tx.test
+192.168.49.2    sharedidp.tx.test
+192.168.49.2    portal.tx.test
+192.168.49.2    portal-backend.tx.test
+192.168.49.2    managed-identity-wallets.tx.test
+192.168.49.2    semantics.tx.test
+```
 
 ### Self-signed TLS setup
 
@@ -120,6 +156,14 @@ helm install \
 ```
 
 Configure the self-signed certificate and issuer to be used by the ingress resources.
+
+If you have the repository checked out you can run:
+
+```bash
+kubectl apply -f ./charts/umbrella/cluster-issuer.yaml
+```
+
+or otherwise you can run:
 
 ```bash
 kubectl apply -f - <<EOF
@@ -184,16 +228,34 @@ The currently available components are following:
 - [tx-data-provider](https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/tx-data-provider) ([tractusx-edc](https://github.com/eclipse-tractusx/tractusx-edc/tree/0.5.3), [digital-twin-registry](https://github.com/eclipse-tractusx/sldt-digital-twin-registry/tree/digital-twin-registry-0.4.5), [vault](https://github.com/hashicorp/vault-helm/tree/v0.20.0), [simple-data-backend](https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/simple-data-backend))
 - [dataconsumerTwo](https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/tx-data-provider) ([tractusx-edc](https://github.com/eclipse-tractusx/tractusx-edc/tree/0.5.3), [vault](https://github.com/hashicorp/vault-helm/tree/v0.20.0))
 
-> :warning:
+> :warning: **Note**
 >
-> Due to resource restrictions, it's not recommended to install the helm chart with all components enabled.
+> - Due to resource restrictions, it's **not recommended** to install the helm chart with all components enabled.
 >
+> - It is to be expected that some pods - which run as post-install hooks, like for instance the **portal-migrations job - will run into errors until another component**, like for instance a database, is ready to take connections.
+> Those jobs will recreate pods until one run is successful.
+>
+> - **Persistance is disabled by default** but can be configured in a custom values file.
 
-#### Released chart
+#### Use released chart
 
 ```bash
 helm repo add tractusx-dev https://eclipse-tractusx.github.io/charts/dev
 ```
+
+**:grey_question: Command explanation**
+
+> `helm install` is used to install a chart in Kubernetes using Helm.
+> > `--set COMPONENT_1.enabled=true,COMPONENT_2.enabled=true` Enables the components by setting their respecive enabled values to true.
+> 
+> > `umbrella` is the release name for the chart.
+> 
+> > `tractusx-dev/umbrella` specifies the chart to install, with *tractusx-dev* being the repository name and *umbrella* being the chart
+name.
+> 
+> > `--namespace umbrella` specifies the namespace in which to install the chart.
+
+##### Option 1
 
 Install with your chosen components enabled:
 
@@ -204,9 +266,11 @@ helm install \
   --namespace umbrella
 ```
 
-Or choose to install one of the predefined subsets (currently in focus of the **E2E Adopter Journey**):
+##### Option 2
 
-**Data Exchange**
+Choose to install one of the predefined subsets (currently in focus of the **E2E Adopter Journey**):
+
+**Data Exchange Subset**
 
 ```bash
 helm install \
@@ -214,7 +278,8 @@ helm install \
   umbrella tractusx-dev/umbrella \
   --namespace umbrella
 ```
-Optional:
+
+*Optional*
 
 Enable `dataconsumerTwo` at upgrade:
 
@@ -223,8 +288,9 @@ helm install \
   --set centralidp.enabled=true,managed-identity-wallet.enabled=true,dataconsumerOne.enabled=true,tx-data-provider.enabled=true,dataconsumerTwo.enabled=true \
   umbrella tractusx-dev/umbrella \
   --namespace umbrella
+```
 
-**Portal**
+**Portal Subset**
 
 ```bash
 helm install \
@@ -239,11 +305,11 @@ To set your own configuration and secret values, install the helm chart with you
 helm install -f your-values.yaml umbrella tractusx-dev/umbrella --namespace umbrella
 ```
 
-#### Repository
+#### Use local repository
 
 Make sure to clone the [tractus-x-umbrella](https://github.com/eclipse-tractusx/tractus-x-umbrella) repository beforehand.
 
-Then change to the chart directory:
+Then navigate to the chart directory:
 
 ```bash
 cd charts/umbrella/
@@ -255,25 +321,38 @@ Download the chart dependencies:
 helm dependency update
 ```
 
-Install your chosen components by having them enabled in `your-values` file:
+**:grey_question: Command explanation**
+
+> `helm install` is used to install a Helm chart.
+> > `-f your-values.yaml` | `-f values-*.yaml` specifies the values file to use for configuration.
+>
+> > `umbrella` is the release name for the Helm chart.
+>
+> > `.` specifies the path to the chart directory.
+>
+> > `--namespace umbrella` specifies the namespace in which to install the chart.
+
+##### Option 1
+
+Install your chosen components by having them enabled in a `your-values.yaml` file:
 
 ```bash
 helm install -f your-values.yaml umbrella . --namespace umbrella
 ```
 
->
-> In general, all your specific configuration and secret values can be set by installing with an own values file.
->
+> In general, all your specific configuration and secret values should be set by installing with an own values file.
 
-Or choose to install one of the predefined subsets (currently in focus of the **E2E Adopter Journey**):
+##### Option 2
 
-**Data Exchange**
+Choose to install one of the predefined subsets (currently in focus of the **E2E Adopter Journey**):
+
+**Data Exchange Subset**
 
 ```bash
 helm install -f values-adopter-data-exchange.yaml umbrella . --namespace umbrella
 ```
 
-Optional:
+*Optional*
 
 Enable `dataconsumerTwo` by setting it true in `values-adopter-data-exchange.yaml` and then executing an upgrade:
 
@@ -286,21 +365,11 @@ dataconsumerTwo:
 helm upgrade -f values-adopter-data-exchange.yaml umbrella . --namespace umbrella
 ```
 
-**Portal**
+**Portal Subset**
 
 ```bash
 helm install -f values-adopter-portal.yaml umbrella . --namespace umbrella
 ```
-
-> **Note**
->
-> It is to be expected that some pods - which run as post-install hooks, like for instance the portal-migrations job - will run into errors until another component, like for instance a database, is ready to take connections.
-> Those jobs will recreate pods until one run is successful.
->
-> :warning:
->
-> **Persistance is disabled by default** but can be configured in a custom values file.
->
 
 ### E2E Adopter Journeys
 
@@ -314,7 +383,7 @@ TBD.
 
 #### Get to know the Portal
 
-Perform first login and send out an invite to a company to join the network (SMTP account required to be configured in custom values.yaml file).
+Perform first login and send out an invitation to a company to join the network (SMTP account required to be configured in custom values.yaml file).
 
 Make sure to accept the risk of the self-signed certificates for the following hosts using the continue option:
 - [centralidp.tx.test/auth/](https://centralidp.tx.test/auth/)
@@ -366,6 +435,7 @@ To teardown your setup, run:
 ```shell
 helm delete umbrella --namespace umbrella
 ```
+
 > :warning:
 >
 > If persistance for one or more components is enabled, the persistent volume claims (PVCs) and connected persistent volumes (PVs) need to be removed manually even if you deleted the release from the cluster.
