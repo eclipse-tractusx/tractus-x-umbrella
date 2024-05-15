@@ -1,24 +1,26 @@
+- [Umbrella Chart](#umbrella-chart)
+  - [Usage](#usage)
+    - [Network setup](#network-setup)
+    - [Self-signed TLS setup](#self-signed-tls-setup)
+    - [Install](#install)
+      - [Released chart](#released-chart)
+      - [Repository](#repository)
+    - [E2E Adopter Journeys](#e2e-adopter-journeys)
+      - [Data exchange](#data-exchange)
+      - [Get to know the Portal](#get-to-know-the-portal)
+    - [Uninstall](#uninstall)
+    - [Database Access](#database-access)
+    - [Ingresses](#ingresses)
+    - [Seeding](#seeding)
+  - [Precondition for Semantic Hub](#precondition-for-semantic-hub)
+  - [How to contribute](#how-to-contribute)
 
 # Umbrella Chart
 
 This umbrella chart provides a basis for running end-to-end tests or creating a sandbox environment of the [Catena-X](https://catena-x.net/en/) automotive dataspace network
 consisting of [Tractus-X](https://projects.eclipse.org/projects/automotive.tractusx) OSS components.
 
-The chart aims for a completely automated setup of a fully functional network, that does not require manual setup steps.
-
-- [Usage](#usage)
-- [Network setup](#network-setup)
-- [Self-signed TLS setup](#self-signed-tls-setup)
-- [Install](#install)
-  - [Released chart](#released-chart)
-  - [Repository](#repository)
-- [E2E Adopter Journeys](#e2e-adopter-journeys)
-  - [Data exchange](#data-exchange)
-  - [Get to know the portal](#get-to-know-the-portal)
-- [Uninstall](#uninstall)
-- [Database Access](#database-access)
-- [Ingresses](#ingresses)
-- [Seeding](#seeding)
+The Chart aims for a completely automated setup of a fully functional network, that does not require manual setup steps.
 
 ## Usage
 
@@ -177,6 +179,7 @@ The currently available components are following:
 - [discoveryfinder](https://github.com/eclipse-tractusx/sldt-discovery-finder/tree/discoveryfinder-0.2.2)
 - [sdfactory](https://github.com/eclipse-tractusx/sd-factory/tree/sdfactory-2.1.12)
 - [managed-identity-wallet](https://github.com/eclipse-tractusx/managed-identity-wallet/tree/v0.4.0)
+- [semantic-hub](https://github.com/eclipse-tractusx/sldt-semantic-hub/tree/semantic-hub-0.2.2)
 - [dataconsumerOne](https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/tx-data-provider) ([tractusx-edc](https://github.com/eclipse-tractusx/tractusx-edc/tree/0.5.3), [vault](https://github.com/hashicorp/vault-helm/tree/v0.20.0))
 - [tx-data-provider](https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/tx-data-provider) ([tractusx-edc](https://github.com/eclipse-tractusx/tractusx-edc/tree/0.5.3), [digital-twin-registry](https://github.com/eclipse-tractusx/sldt-digital-twin-registry/tree/digital-twin-registry-0.4.5), [vault](https://github.com/hashicorp/vault-helm/tree/v0.20.0), [simple-data-backend](https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/simple-data-backend))
 - [dataconsumerTwo](https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/tx-data-provider) ([tractusx-edc](https://github.com/eclipse-tractusx/tractusx-edc/tree/0.5.3), [vault](https://github.com/hashicorp/vault-helm/tree/v0.20.0))
@@ -405,6 +408,14 @@ Currently enabled ingresses:
 ### Seeding
 
 See [Overall Seeding](../../concept/seeds-overall-data.md).
+
+## Precondition for Semantic Hub
+
+In case of enabling `semantic-hub` the fuseki docker image must be built.
+Build fuseki docker image by following the below steps:
+- Download [jena-fuseki-docker-4.7.0.zip](https://repo1.maven.org/maven2/org/apache/jena/jena-fuseki-docker/4.7.0/jena-fuseki-docker-4.7.0.zip)
+- Unzip the jena-fuseki-docker-4.7.0.zip.
+- Build the docker image by running the command - `docker build --build-arg JENA_VERSION=4.7.0 -t jena-fuseki-docker:4.7.0 --platform linux/amd64 .`
 
 ## How to contribute
 

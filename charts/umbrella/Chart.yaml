@@ -28,7 +28,7 @@ sources:
   - https://github.com/eclipse-tractusx/tractus-x-umbrella
 
 type: application
-version: 0.14.0
+version: 0.15.0
 
 # when adding or updating versions of dependencies, also update list under README.md#Install
 dependencies:
@@ -56,6 +56,7 @@ dependencies:
     name: bpndiscovery
     repository: https://eclipse-tractusx.github.io/charts/dev
     version: 0.2.2
+    # sd-factory
   - condition: sdfactory.enabled
     name: sdfactory
     repository: https://eclipse-tractusx.github.io/charts/dev
@@ -65,6 +66,11 @@ dependencies:
     repository: https://eclipse-tractusx.github.io/charts/dev
     version: 0.4.0
     condition: managed-identity-wallet.enabled
+  # semantic-hub
+  - condition: semantic-hub.enabled
+    name: semantic-hub
+    repository: https://eclipse-tractusx.github.io/charts/dev
+    version: 0.2.2
     # TX Data Consumer 1
   - name: tx-data-provider
     alias: dataconsumerOne
@@ -82,6 +88,7 @@ dependencies:
     version: 0.0.6
     repository: https://eclipse-tractusx.github.io/charts/dev
     condition: dataconsumerTwo.enabled
+    # pgadmin4
   - condition: pgadmin4.enabled
     name: pgadmin4
     repository: https://helm.runix.net

@@ -1,7 +1,7 @@
 # Eclipse Tractus-X Umbrella
 
 This repository is the homebase for all end-to-end test automation efforts at Eclipse Tractus-X.
-It contains a umbrella helm chart to deploy a sandbox Catena-X dataspace based on the Tractus-X OSS components, as well as automated tests and workflows to verify the e2e use cases and the compatibility of the OSS components and versions.
+It contains an umbrella helm chart to deploy a sandbox Catena-X dataspace based on the Tractus-X OSS components, as well as automated tests and workflows to verify the e2e use cases and the compatibility of the OSS components and versions.
 
 ## Umbrella Helm Chart
 

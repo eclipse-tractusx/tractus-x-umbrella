@@ -37,22 +37,20 @@ def create_submodel_payload(json_payload):
 
 def create_edc_asset_payload(submodel_url_, asset_id_):
     return json.dumps({
-        "@context": {},
-        "asset": {
-            "@type": "Asset",
-            "@id": f"{asset_id_}",
-            "properties": {
-                "description": "IRS EDC Test Asset"
-            }
+        "@context": edc_context(),
+        "@id": f"{asset_id_}",
+        "edc:properties": {
+            "edc:description": "Umbrella EDC Test Asset",
+            "edc:id": f"{asset_id_}",
         },
-        "dataAddress": {
-            "@type": "DataAddress",
-            "type": "HttpData",
-            "baseUrl": f"{submodel_url_}",
-            "proxyPath": "true",
-            "proxyBody": "false",
-            "proxyMethod": "false",
-            "proxyQueryParams": "false"
+        "edc:dataAddress": {
+            "@type": "edc:DataAddress",
+            "edc:type": "HttpData",
+            "edc:baseUrl": f"{submodel_url_}",
+            "edc:proxyPath": "true",
+            "edc:proxyBody": "false",
+            "edc:proxyMethod": "false",
+            "edc:proxyQueryParams": "false"
         }
     })
 
@@ -112,20 +110,22 @@ def create_esr_edc_asset_payload(esr_url_, asset_prop_id_, digital_twin_id_):
                 "asset:prop:contenttype": "application/json"
             }
         },
-        "dataAddress": {
-            "properties": {
-                "baseUrl": f"{esr_url_}/{digital_twin_id_}/asBuilt/ISO14001/submodel",
-                "type": "HttpData",
-                "proxyBody": True,
-                "proxyMethod": True
-            }
+        "edc:dataAddress": {
+            "@type": "edc:DataAddress",
+            "edc:type": "HttpData",
+            "edc:baseUrl": f"{registry_url_}",
+            "edc:proxyPath": "true",
+            "edc:proxyMethod": "true",
+            "edc:proxyQueryParams": "true",
+            "edc:proxyBody": "true",
+            "edc:contentType": "application-json"
         }
     })
 
 
 def create_edc_contract_definition_payload(edc_policy_id_, asset_prop_id_):
     return json.dumps({
-        "@context": {},
+        "@context": edc_context(),
         "@type": "ContractDefinition",
         "accessPolicyId": f"{edc_policy_id_}",
         "contractPolicyId": f"{edc_policy_id_}",
@@ -136,49 +136,6 @@ def create_edc_contract_definition_payload(edc_policy_id_, asset_prop_id_):
             "operandRight": f"{asset_prop_id_}"
         }
     }
-    )
-
-
-def create_aas_shell(global_asset_id_, id_short_, identification_, specific_asset_id_, submodel_descriptors_):
-    return json.dumps({
-        "description": [],
-        "globalAssetId": {
-            "value": [
-                global_asset_id_
-            ]
-        },
-        "idShort": id_short_,
-        "identification": identification_,
-        "specificAssetIds": specific_asset_id_,
-        "submodelDescriptors": submodel_descriptors_
-    })
-
-
-def create_submodel_descriptor(id_short_, identification_, semantic_id_, endpoint_address_):
-    return json.dumps(
-        {
-            "description": [],
-            "idShort": id_short_,
-            "identification": identification_,
-            "semanticId": {
-                "value": [
-                    semantic_id_
-                ]
-            },
-            "endpoints": [
-                {
-                    "interface": "HTTP",
-                    "protocolInformation": {
-                        "endpointAddress": endpoint_address_,
-                        "endpointProtocol": "AAS/IDS",
-                        "endpointProtocolVersion": "0.1",
-                        "subprotocol": "IDS",
-                        "subprotocolBody": "TDB",
-                        "subprotocolBodyEncoding": "plain"
-                    }
-                }
-            ]
-        }
     )
 
 
@@ -348,62 +305,8 @@ def edc_context():
         "edc": "https://w3id.org/edc/v0.0.1/ns/",
         "odrl": "http://www.w3.org/ns/odrl/2/",
         "dcat": "https://www.w3.org/ns/dcat/",
-        "dspace": "https://w3id.org/dspace/v0.8/"}
-
-
-def create_notification_assets(edc_upload_urls_, edc_asset_path_, edc_contract_definition_path_, edc_catalog_path_,
-                               edc_public_path_, header_, session_, edc_urls_, policy_, ess_base_url_):
-    for edc_upload_url_ in edc_upload_urls_:
-        index = edc_upload_urls_.index(edc_upload_url_)
-        edc_url_ = edc_urls_[index] + edc_public_path_
-        print(edc_url_)
-        print(edc_upload_url_)
-
-        notifications_ = [
-            {
-                "id": "ess-response-asset",
-                "type": "ess-supplier-response",
-                "path": "/ess/notification/receive"
-            },
-            {
-                "id": "notify-request-asset",
-                "type": "ess-supplier-request",
-                "path": "/ess/mock/notification/receive"
-            },
-            {
-                "id": "notify-request-asset-recursive",
-                "type": "ess-supplier-request",
-                "path": "/ess/notification/receive-recursive"
-            }
-        ]
-
-        for notification_ in notifications_:
-            notification_id = notification_['id']
-            notification_type = notification_['type']
-            ess_url = f"{ess_base_url_}{notification_['path']}"
-            response_ = search_for_asset_in_catalog(edc_catalog_path_, edc_upload_url_, edc_url_, header_, session_,
-                                                    notification_id)
-            asset_url_ = edc_upload_url_ + edc_asset_path_
-            print(response_.status_code)
-            catalog_response_ = response_.json()
-            if response_.status_code == 200 and len(catalog_response_['dcat:dataset']) >= 1:
-                print(
-                    f"Offer with id {notification_id} already exists. Skipping creation.")
-            else:
-                payload_ = create_edc_notification_asset_payload(ess_url, notification_id, notification_type)
-                response_ = session_.request(method="POST", url=asset_url_, headers=header_, data=payload_)
-                print(response_)
-                if response_.status_code > 205:
-                    print(response_.text)
-                else:
-                    print(f"Successfully created notification asset {response_.json()['@id']}.")
-
-                print("Create registry edc contract definition")
-                payload_ = create_edc_contract_definition_payload(policy_, notification_id)
-                response_ = session_.request(method="POST", url=edc_upload_url_ + edc_contract_definition_path_,
-                                             headers=header_,
-                                             data=payload_)
-                print_response(response_)
+        "dspace": "https://w3id.org/dspace/v0.8/"
+    }
 
 
 def search_for_asset_in_catalog(edc_catalog_path_, edc_upload_url_, edc_url_, headers_, session_, asset_id_):
@@ -440,20 +343,15 @@ if __name__ == "__main__":
     parser.add_argument("-eu", "--edcupload", type=str, nargs="*", help="EDC provider control plane upload URLs",
                         required=False)
     parser.add_argument("-k", "--apikey", type=str, help="EDC provider api key", required=True)
-    parser.add_argument("-e", "--esr", type=str, help="ESR URL", required=False)
-    parser.add_argument("--ess", help="Enable ESS data creation with invalid EDC URL", action='store_true',
-                        required=False)
     parser.add_argument("--bpn", help="Faulty BPN which will create a non existing EDC endpoint", required=False)
     parser.add_argument("-p", "--policy", help="Default Policy which should be used for EDC contract definitions",
                         required=False)
     parser.add_argument("-bpns", "--bpns", type=str, nargs="*", help="Filter upload to upload only specific BPNs",
                         required=False)
-    parser.add_argument("--aas3", help="Create AAS assets in version 3.0", action='store_true', required=False)
     parser.add_argument("-d", "--dataplane", type=str, nargs="*", help="EDC provider data plane display URLs",
                         required=False)
     parser.add_argument("--allowedBPNs", type=str, nargs="*",
                         help="The allowed BPNs for digital twin registration in the registry.", required=False)
-    parser.add_argument("--essURL", type=str, help="The base URL of the ESS Service API", required=False)
 
     args = parser.parse_args()
     config = vars(args)
@@ -466,20 +364,14 @@ if __name__ == "__main__":
     edc_urls = config.get("edc")
     edc_upload_urls = config.get("edcupload")
     edc_api_key = config.get("apikey")
-    esr_url = config.get("esr")
-    is_ess = config.get("ess")
-    ess_base_url = config.get("essURL")
     bpnl_fail = config.get("bpn")
     default_policy = config.get("policy")
     bpns_list = config.get("bpns")
-    is_aas3 = config.get("aas3")
     dataplane_urls = config.get("dataplane")
     allowedBPNs = config.get("allowedBPNs")
 
-    if is_aas3 and dataplane_urls is None:
-        raise ArgumentException("Dataplane URLs have to be specified with -d or --dataplane if --aas flag is set!")
-    if is_ess and ess_base_url is None:
-        raise ArgumentException("ESS base URL has to be specified with --essURL if --ess flag is set!")
+    if dataplane_urls is None:
+        raise ArgumentException("Dataplane URLs have to be specified with -d or --dataplane!")
 
     if submodel_server_upload_urls is None:
         submodel_server_upload_urls = submodel_server_urls
@@ -495,13 +387,11 @@ if __name__ == "__main__":
     if allowedBPNs is None:
         allowedBPNs = []
 
-    registry_path = "/registry/shell-descriptors"
-    if is_aas3:
-        registry_path = "/shell-descriptors"
+    registry_path = "/shell-descriptors"
 
     check_url_args(submodel_server_upload_urls, submodel_server_urls, edc_upload_urls, edc_urls, dataplane_urls)
 
-    edc_asset_path = "/management/v2/assets"
+    edc_asset_path = "/management/v3/assets"
     edc_policy_path = "/management/v2/policydefinitions"
     edc_contract_definition_path = "/management/v2/contractdefinitions"
     edc_catalog_path = "/management/v2/catalog/request"
@@ -558,18 +448,11 @@ if __name__ == "__main__":
     create_registry_asset(edc_upload_urls, edc_asset_path, edc_contract_definition_path, edc_catalog_path,
                           headers_with_api_key, session, edc_urls, default_policy, registry_asset_id, aas_url)
 
-    if is_ess:
-        create_notification_assets(edc_upload_urls, edc_asset_path, edc_contract_definition_path, edc_catalog_path,
-                                   controlplane_public_path, headers_with_api_key, session, edc_urls, default_policy,
-                                   ess_base_url)
-
     edc_asset_ids = []
     for url in dataplane_urls:
         edc_asset_ids.append(uuid.uuid4().urn)
     print(edc_asset_ids)
 
-    esr = "urn:bamm:io.catenax.esr_certificates.esr_certificate_state_statistic:1.0.1#EsrCertificateStateStatistic"
-    apr = "urn:bamm:io.catenax.single_level_bom_as_built:1.0.0#SingleLevelBomAsBuilt"
     for tmp_data in testdata:
         if bpns_list is None or tmp_data["bpnl"] in bpns_list or not bpns_list:
             catenax_id = tmp_data["catenaXId"]
@@ -604,31 +487,26 @@ if __name__ == "__main__":
             }
             if manufacturerId not in specific_asset_ids_temp:
                 specific_asset_ids_temp.append(manufacturerId)
-            if is_aas3:
-                keys = [{
-                    "type": "GlobalReference",
-                    "value": "PUBLIC_READABLE"
-                }]
-                for bpn in allowedBPNs:
-                    keys.append({
-                        "type": "GlobalReference",
-                        "value": bpn
-                    })
-                externalSubjectId = {
-                    "type": "ExternalReference",
-                    "keys": keys
-                }
-                for asset in specific_asset_ids_temp:
-                    specific_asset_ids.append({
-                        "name": asset.get("key"),
-                        "value": asset.get("value"),
-                        "externalSubjectId": externalSubjectId
-                    })
-            else:
-                specific_asset_ids = specific_asset_ids_temp
 
-            if esr_url and apr in tmp_keys and "childItems" in tmp_data[apr][0] and tmp_data[apr][0]["childItems"]:
-                tmp_data.update({esr: ""})
+            keys = [{
+                "type": "GlobalReference",
+                "value": "PUBLIC_READABLE"
+            }]
+            for bpn in allowedBPNs:
+                keys.append({
+                    "type": "GlobalReference",
+                    "value": bpn
+                })
+            externalSubjectId = {
+                "type": "ExternalReference",
+                "keys": keys
+            }
+            for asset in specific_asset_ids_temp:
+                specific_asset_ids.append({
+                    "name": asset.get("key"),
+                    "value": asset.get("value"),
+                    "externalSubjectId": externalSubjectId
+                })
 
             policy_id = default_policy
             if "policy" in tmp_keys:
@@ -650,31 +528,13 @@ if __name__ == "__main__":
                     submodel_name = tmp_key[tmp_key.index("#") + 1: len(tmp_key)]
                     submodel_identification = uuid.uuid4().urn
                     semantic_id = tmp_key
-                    if is_ess and tmp_data["bpnl"] in bpnl_fail:
-                        endpoint_address = f"http://idonotexist/{catenax_id}-{submodel_identification}/submodel?content=value&extent=withBlobValue"
-                    elif submodel_name == "EsrCertificateStateStatistic" and esr_url is not None:
-                        endpoint_address = f"{esr_url}/{catenax_id}/asBuilt/ISO14001/submodel"
-                    else:
-                        endpoint_address = f"{edc_url}/{catenax_id}-{submodel_identification}/submodel?content=value&extent=withBlobValue"
 
-                    if is_aas3:
-                        endpoint_address = f"{dataplane_url}{dataplane_public_path}/{submodel_identification}"
-                        if is_ess and tmp_data["bpnl"] in bpnl_fail:
-                            endpoint_address = f"http://idonotexist/{dataplane_public_path}/data/{submodel_identification}"
-                        descriptor = create_submodel_descriptor_3_0(submodel_name, submodel_identification, semantic_id,
-                                                                    endpoint_address,
-                                                                    edc_asset_id,
-                                                                    edc_url)
-                        submodel_descriptors.append(json.loads(descriptor))
-                    else:
-                        descriptor = create_submodel_descriptor(submodel_name, submodel_identification, semantic_id,
-                                                                endpoint_address)
-                        submodel_descriptors.append(json.loads(descriptor))
-
-                    if is_aas3:
-                        asset_prop_id = edc_asset_id
-                    else:
-                        asset_prop_id = f"{catenax_id}-{submodel_identification}"
+                    endpoint_address = f"{dataplane_url}{dataplane_public_path}/{submodel_identification}"
+                    descriptor = create_submodel_descriptor_3_0(submodel_name, submodel_identification, semantic_id,
+                                                                endpoint_address,
+                                                                edc_asset_id,
+                                                                edc_url)
+                    submodel_descriptors.append(json.loads(descriptor))
 
                     print("Create submodel on submodel server")
                     if tmp_data[tmp_key] != "":
@@ -686,10 +546,7 @@ if __name__ == "__main__":
 
                     asset_path = edc_upload_url + edc_asset_path
                     print(f"Create edc asset on EDC {asset_path}")
-                    if submodel_name == "EsrCertificateStateStatistic" and esr_url is not None:
-                        payload = create_esr_edc_asset_payload(esr_url, asset_prop_id, catenax_id)
-                    else:
-                        payload = create_edc_asset_payload(submodel_url, asset_prop_id)
+                    payload = create_edc_asset_payload(submodel_url, edc_asset_id)
                     response = session.request(method="POST", url=asset_path, headers=headers_with_api_key,
                                                data=payload)
                     print_response(response)
@@ -697,7 +554,7 @@ if __name__ == "__main__":
                         print("Asset creation failed. Skipping creation of contract definition.")
                     else:
                         print("Create edc contract definition")
-                        payload = create_edc_contract_definition_payload(policy_id, asset_prop_id)
+                        payload = create_edc_contract_definition_payload(policy_id, edc_asset_id)
                         response = session.request(method="POST", url=edc_upload_url + edc_contract_definition_path,
                                                    headers=headers_with_api_key,
                                                    data=payload)
@@ -706,11 +563,7 @@ if __name__ == "__main__":
 
             if submodel_descriptors:
                 print("Create aas shell")
-                if is_aas3:
-                    payload = create_aas_shell_3_0(catenax_id, name_at_manufacturer, identification, specific_asset_ids,
-                                                   submodel_descriptors)
-                else:
-                    payload = create_aas_shell(catenax_id, name_at_manufacturer, identification, specific_asset_ids,
+                payload = create_aas_shell_3_0(catenax_id, name_at_manufacturer, identification, specific_asset_ids,
                                                submodel_descriptors)
                 response = session.request(method="POST", url=f"{aas_upload_url}{registry_path}",
                                            headers=headers,
