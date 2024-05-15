@@ -224,8 +224,6 @@ centralidp:
       primary:
         persistence:
           enabled: false
-    externalDatabase:
-      password: "dbpasswordcentralidp"
     proxy: edge
     initContainers:
       - name: realm-import
@@ -348,8 +346,6 @@ sharedidp:
       primary:
         persistence:
           enabled: false
-    externalDatabase:
-      password: "dbpasswordsharedidp"
     proxy: edge
     initContainers:
       - name: realm-import
@@ -490,7 +486,7 @@ bpndiscovery:
         size: 8Gi
     auth:
       password: "dbpasswordbpndiscovery"
-      posrgresPassword: "dbpasswordbpndiscovery"
+      postgresPassword: "dbpasswordbpndiscovery"
 
 discoveryfinder:
   enabled: false
@@ -535,7 +531,7 @@ discoveryfinder:
         size: 8Gi
     auth:
       password: "dbpassworddiscoveryfinder"
-      posrgresPassword: "dbpassworddiscoveryfinder"
+      postgresPassword: "dbpassworddiscoveryfinder"
 
 sdfactory:
   enabled: false
@@ -716,6 +712,9 @@ dataconsumerOne:
     postgresql:
       nameOverride: dataconsumer-1-db
       jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-dataconsumer-1-db:5432/edc"
+      auth:
+        password: "dbpassworddataconsumerone"
+        postgresPassword: "dbpassworddataconsumerone"
     vault:
       hashicorp:
         url: http://edc-dataconsumer-1-vault:8200
@@ -811,7 +810,7 @@ tx-data-provider:
     postgresql:
       nameOverride: dataprovider-dtr-db
       auth:
-        password: "dtrdataproviderpw"
+        password: "dbpassworddtrdataprovider"
         existingSecret: dataprovider-secret-dtr-postgres-init
     registry:
       host: dataprovider-dtr.test
