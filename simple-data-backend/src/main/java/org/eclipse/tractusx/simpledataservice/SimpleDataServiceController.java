@@ -43,7 +43,7 @@ public class SimpleDataServiceController {
         data.put(id, payload);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping({"/{id}", "/{id}/$value"})
     public Object getData(@PathVariable final String id) {
         if (data.containsKey(id)) {
             log.info("Returning data for id '{}'", id);
