@@ -598,36 +598,37 @@ managed-identity-wallet:
       BPNL00000000BJTL: "BPN_SUB_TIER_C"
     clientId: sa-cl5-custodian-2
     clientSecret: UIqawwoohsvZ6AZOd1llLhnsUTKMWe4D
-  # TLS to trust centralidp Keycloak instance
-  initContainers:
-    - name: init-certs
-      image: docker.io/tractusx/managed-identity-wallet:0.4.0
-      imagePullPolicy: IfNotPresent
-      command: ["sh"]
-      args:
-        - -ec
-        - |-
-          cp -R /opt/java/openjdk/lib/security/* /cacerts/
-          echo "Copying done"
-          keytool -import -noprompt -trustcacerts -alias local -file /certs/tls.crt -keystore /cacerts/cacerts -storepass changeit
-          keytool -list -keystore /cacerts/cacerts -alias local
-      volumeMounts:
-        - name: certificates
-          mountPath: /certs
-        - name: shared-certs
-          mountPath: /cacerts
-  extraVolumes:
-    - name: certificates
-      secret:
-        secretName: root-secret
-        defaultMode: 420
-    - name: shared-certs
-      emptyDir: {}
-  extraVolumeMounts:
-    - name: certificates
-      mountPath: /certs
-    - name: shared-certs
-      mountPath: /opt/java/openjdk/lib/security
+  # TLS to trust centralidp Keycloak instance of TLS enabled
+  # uncomment the following line for tls
+  # initContainers:
+  #   - name: init-certs
+  #     image: docker.io/tractusx/managed-identity-wallet:0.4.0
+  #     imagePullPolicy: IfNotPresent
+  #     command: ["sh"]
+  #     args:
+  #       - -ec
+  #       - |-
+  #         cp -R /opt/java/openjdk/lib/security/* /cacerts/
+  #         echo "Copying done"
+  #         keytool -import -noprompt -trustcacerts -alias local -file /certs/tls.crt -keystore /cacerts/cacerts -storepass changeit
+  #         keytool -list -keystore /cacerts/cacerts -alias local
+  #     volumeMounts:
+  #       - name: certificates
+  #         mountPath: /certs
+  #       - name: shared-certs
+  #         mountPath: /cacerts
+  # extraVolumes:
+  #   - name: certificates
+  #     secret:
+  #       secretName: root-secret
+  #       defaultMode: 420
+  #   - name: shared-certs
+  #     emptyDir: {}
+  # extraVolumeMounts:
+  #   - name: certificates
+  #     mountPath: /certs
+  #   - name: shared-certs
+  #     mountPath: /opt/java/openjdk/lib/security
   miw:
     host: "managed-identity-wallets.tx.test"
     authorityWallet:
