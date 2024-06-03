@@ -115,6 +115,11 @@ If you still face DNS issues, add the hosts to your /etc/hosts file:
 192.168.49.2    portal-backend.tx.test
 192.168.49.2    managed-identity-wallets.tx.test
 192.168.49.2    semantics.tx.test
+192.168.49.2    sdfactory.tx.test
+192.168.49.2    dataconsumer-1-dataplane.tx.test
+192.168.49.2    dataconsumer-1-controlplane.tx.test
+192.168.49.2    dataconsumer-2-dataplane.tx.test
+192.168.49.2    dataconsumer-2-controlplane.tx.test
 ```
 
 **Additional network setup for Mac**
