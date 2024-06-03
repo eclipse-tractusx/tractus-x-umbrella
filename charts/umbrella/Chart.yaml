@@ -61,7 +61,7 @@ dependencies:
     name: sdfactory
     alias: selfdescription
     repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 2.1.12
+    version: 2.1.19
     # miw
   - name: managed-identity-wallet
     repository: https://eclipse-tractusx.github.io/charts/dev

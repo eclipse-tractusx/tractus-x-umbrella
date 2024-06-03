@@ -3495,6 +3495,7 @@
       "clientAuthenticatorType": "client-secret",
       "secret": "q0ma25iV6bfqV6ho3kyWKnR1trp0IRez",
       "redirectUris": [
+        "http://partners-gate.tx.test/*",
         "https://partners-gate.tx.test/*"
       ],
       "webOrigins": [
@@ -3561,6 +3562,7 @@
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
+        "http://portal.tx.test/*",
         "https://portal.tx.test/*"
       ],
       "webOrigins": [
@@ -3858,7 +3860,7 @@
       "clientId": "Cl2-CX-Portal",
       "name": "",
       "description": "",
-      "rootUrl": "https://portal.tx.test/home",
+      "rootUrl": "http://portal.tx.test/home",
       "adminUrl": "",
       "baseUrl": "",
       "surrogateAuthRequired": false,
@@ -3866,6 +3868,7 @@
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
+        "http://portal.tx.test/*",
         "https://portal.tx.test/*"
       ],
       "webOrigins": [
@@ -3955,12 +3958,13 @@
       "id": "36e2745d-f331-4fa5-bbfa-90947d7f1dc4",
       "clientId": "Cl3-CX-Semantic",
       "rootUrl": "",
-      "adminUrl": "https://portal.tx.test/home",
+      "adminUrl": "http://portal.tx.test/home",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
+        "http://portal.tx.test/*",
         "https://portal.tx.test/*"
       ],
       "webOrigins": [
@@ -4056,6 +4060,7 @@
       "clientAuthenticatorType": "client-secret",
       "secret": "XzZNs56cadY8b2P253By8GS4jbY7QCui",
       "redirectUris": [
+        "http://managed-identity-wallets.tx.test/*",
         "https://managed-identity-wallets.tx.test/*"
       ],
       "webOrigins": [],
@@ -4159,6 +4164,7 @@
       "clientAuthenticatorType": "client-secret",
       "secret": "4pJIiaUsLeQsSH6OEqoZmq6aEsZkeBj2",
       "redirectUris": [
+        "http://partners-pool.tx.test/*",
         "https://partners-pool.tx.test/*"
       ],
       "webOrigins": [
@@ -8138,11 +8144,11 @@
         "hideOnLoginPage": "false",
         "validateSignature": "true",
         "clientId": "central-idp",
-        "tokenUrl": "https://sharedidp.tx.test/auth/realms/CX-Operator/protocol/openid-connect/token",
-        "jwksUrl": "https://sharedidp.tx.test/auth/realms/CX-Operator/protocol/openid-connect/certs",
-        "authorizationUrl": "https://sharedidp.tx.test/auth/realms/CX-Operator/protocol/openid-connect/auth",
+        "tokenUrl": "http://sharedidp.tx.test/auth/realms/CX-Operator/protocol/openid-connect/token",
+        "jwksUrl": "http://sharedidp.tx.test/auth/realms/CX-Operator/protocol/openid-connect/certs",
+        "authorizationUrl": "http://sharedidp.tx.test/auth/realms/CX-Operator/protocol/openid-connect/auth",
         "clientAuthMethod": "private_key_jwt",
-        "logoutUrl": "https://sharedidp.tx.test/auth/realms/CX-Operator/protocol/openid-connect/logout",
+        "logoutUrl": "http://sharedidp.tx.test/auth/realms/CX-Operator/protocol/openid-connect/logout",
         "clientAssertionSigningAlg": "RS256",
         "syncMode": "FORCE",
         "useJwksUrl": "true"

@@ -6,7 +6,7 @@
 #
 # This program and the accompanying materials are made available under the
 # terms of the Apache License, Version 2.0 which is available at
-# https://www.apache.org/licenses/LICENSE-2.0.
+# http://www.apache.org/licenses/LICENSE-2.0.
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
@@ -31,17 +31,17 @@ portal:
     primary:
       persistence:
         enabled: false
-  portalAddress: "https://portal.tx.test"
-  portalBackendAddress: "https://portal-backend.tx.test"
-  centralidpAddress: "https://centralidp.tx.test"
-  sharedidpAddress: "https://sharedidp.tx.test"
-  semanticsAddress: "https://semantics.tx.test"
-  bpdmPartnersPoolAddress: "https://business-partners.tx.test"
-  bpdmPortalGateAddress: "https://business-partners.tx.test"
-  custodianAddress: "https://managed-identity-wallets.tx.test"
-  sdfactoryAddress: "https://sdfactory.tx.test"
-  clearinghouseAddress: "https://validation.tx.test"
-  clearinghouseTokenAddress: "https://keycloak.tx.test/realms/example/protocol/openid-connect/token"
+  portalAddress: "http://portal.tx.test"
+  portalBackendAddress: "http://portal-backend.tx.test"
+  centralidpAddress: "http://centralidp.tx.test"
+  sharedidpAddress: "http://sharedidp.tx.test"
+  semanticsAddress: "http://semantics.tx.test"
+  bpdmPartnersPoolAddress: "http://business-partners.tx.test"
+  bpdmPortalGateAddress: "http://business-partners.tx.test"
+  custodianAddress: "http://managed-identity-wallets.tx.test"
+  sdfactoryAddress: "http://sdfactory.tx.test"
+  clearinghouseAddress: "http://validation.tx.test"
+  clearinghouseTokenAddress: "http://keycloak.tx.test/realms/example/protocol/openid-connect/token"
   frontend:
     # portal:
     #   image:
@@ -51,17 +51,19 @@ portal:
     ingress:
       enabled: true
       annotations:
-        cert-manager.io/cluster-issuer: "my-ca-issuer"
+        # uncomment the following line for tls
+        # cert-manager.io/cluster-issuer: "my-ca-issuer"
         nginx.ingress.kubernetes.io/rewrite-target: "/$1"
         nginx.ingress.kubernetes.io/use-regex: "true"
         nginx.ingress.kubernetes.io/enable-cors: "true"
-        nginx.ingress.kubernetes.io/cors-allow-origin: "https://*.tx.test"
-      tls:
-        # -- Provide tls secret.
-        - secretName: "portal.tx.test-tls"
-          # -- Provide host for tls secret.
-          hosts:
-            - "portal.tx.test"
+        nginx.ingress.kubernetes.io/cors-allow-origin: "http://*.tx.test"
+      # uncomment the following lines for tls
+      # tls:
+      #   # -- Provide tls secret.
+      #   - secretName: "portal.tx.test-tls"
+      #     # -- Provide host for tls secret.
+      #     hosts:
+      #       - "portal.tx.test"
       hosts:
         - host: "portal.tx.test"
           paths:
@@ -164,26 +166,28 @@ portal:
           password: ""
           from: "smtp@tx.test"
           replyTo: "smtp@tx.test"
-    # -- docs: https://portal-backend.tx.test/api/administration/swagger/index.html
-    # https://portal-backend.tx.test/api/registration/swagger/index.html
-    # https://portal-backend.tx.test/api/apps/swagger/index.html
-    # https://portal-backend.tx.test/api/services/swagger/index.html
-    # https://portal-backend.tx.test/api/notification/swagger/index.html
+    # -- docs: http://portal-backend.tx.test/api/administration/swagger/index.html
+    # http://portal-backend.tx.test/api/registration/swagger/index.html
+    # http://portal-backend.tx.test/api/apps/swagger/index.html
+    # http://portal-backend.tx.test/api/services/swagger/index.html
+    # http://portal-backend.tx.test/api/notification/swagger/index.html
     ingress:
       enabled: true
       name: "portal-backend"
       annotations:
-        cert-manager.io/cluster-issuer: "my-ca-issuer"
+        # uncomment the following line for tls
+        # cert-manager.io/cluster-issuer: "my-ca-issuer"
         nginx.ingress.kubernetes.io/use-regex: "true"
         nginx.ingress.kubernetes.io/enable-cors: "true"
         nginx.ingress.kubernetes.io/proxy-body-size: "8m"
-        nginx.ingress.kubernetes.io/cors-allow-origin: "http://localhost:3000, https://*.tx.test"
-      tls:
-        # -- Provide tls secret.
-        - secretName: "portal-backend.tx.test-tls"
-          # -- Provide host for tls secret.
-          hosts:
-            - "portal-backend.tx.test"
+        nginx.ingress.kubernetes.io/cors-allow-origin: "http://localhost:3000, http://*.tx.test"
+      # uncomment the following lines for tls
+      # tls:
+      #   # -- Provide tls secret.
+      #   - secretName: "portal-backend.tx.test-tls"
+      #     # -- Provide host for tls secret.
+      #     hosts:
+      #       - "portal-backend.tx.test"
       hosts:
         - host: "portal-backend.tx.test"
           paths:
@@ -232,7 +236,7 @@ centralidp:
     proxy: edge
     initContainers:
       - name: realm-import
-        image: docker.io/tractusx/umbrella-init-container:0.0.2-init
+        image: 192.168.49.2:5000/init
         imagePullPolicy: IfNotPresent
         command:
           - sh
@@ -316,16 +320,17 @@ centralidp:
       ingressClassName: "nginx"
       hostname: "centralidp.tx.test"
       annotations:
-        cert-manager.io/cluster-issuer: "my-ca-issuer"
+        # uncomment the following line for tls
+        # cert-manager.io/cluster-issuer: "my-ca-issuer"
         nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
         nginx.ingress.kubernetes.io/cors-allow-methods: "PUT, GET, POST, OPTIONS"
-        nginx.ingress.kubernetes.io/cors-allow-origin: "https://centralidp.tx.test"
+        nginx.ingress.kubernetes.io/cors-allow-origin: "http://centralidp.tx.test"
         nginx.ingress.kubernetes.io/enable-cors: "true"
         nginx.ingress.kubernetes.io/proxy-buffer-size: "128k"
         nginx.ingress.kubernetes.io/proxy-buffering: "on"
         nginx.ingress.kubernetes.io/proxy-buffers-number: "20"
         nginx.ingress.kubernetes.io/use-regex: "true"
-      tls: true
+      tls: false
   secrets:
     postgresql:
       auth:
@@ -354,7 +359,7 @@ sharedidp:
     proxy: edge
     initContainers:
       - name: realm-import
-        image: docker.io/tractusx/umbrella-init-container:0.0.2-init
+        image: 192.168.49.2:5000/init
         imagePullPolicy: IfNotPresent
         command:
           - sh
@@ -444,16 +449,17 @@ sharedidp:
       ingressClassName: "nginx"
       hostname: "sharedidp.tx.test"
       annotations:
-        cert-manager.io/cluster-issuer: "my-ca-issuer"
+        # uncomment the following line for tls
+        # cert-manager.io/cluster-issuer: "my-ca-issuer"
         nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
         nginx.ingress.kubernetes.io/cors-allow-methods: "PUT, GET, POST, OPTIONS"
-        nginx.ingress.kubernetes.io/cors-allow-origin: "https://sharedidp.tx.test"
+        nginx.ingress.kubernetes.io/cors-allow-origin: "http://sharedidp.tx.test"
         nginx.ingress.kubernetes.io/enable-cors: "true"
         nginx.ingress.kubernetes.io/proxy-buffer-size: "128k"
         nginx.ingress.kubernetes.io/proxy-buffering: "on"
         nginx.ingress.kubernetes.io/proxy-buffers-number: "20"
         nginx.ingress.kubernetes.io/use-regex: "true"
-      tls: true
+      tls: false
   secrets:
     postgresql:
       auth:
@@ -507,18 +513,18 @@ discoveryfinder:
       discoveryfinder:
         initialEndpoints:
           - type: bpn
-            endpointAddress: https://portal-backend.tx.test/api/administration/Connectors/discovery
+            endpointAddress: http://portal-backend.tx.test/api/administration/Connectors/discovery
             description: Service to discover connector endpoints based on bpns
-            documentation: https://portal-backend.tx.test/api/administration/swagger/index.html
+            documentation: http://portal-backend.tx.test/api/administration/swagger/index.html
     idp:
-      issuerUri: "https://centralidp.tx.test/auth/realms/CX-Central"
+      issuerUri: "http://centralidp.tx.test/auth/realms/CX-Central"
       publicClientId: "Cl21-CX-DF"
     dataSource:
       url: "jdbc:postgresql://{{ .Release.Name }}-discoveryfinder-postgresql:5432/discoveryfinder"
-    # -- docs: https://semantics.tx.test/discoveryfinder/swagger-ui/index.html
+    # -- docs: http://semantics.tx.test/discoveryfinder/swagger-ui/index.html
     ingress:
       enabled: true
-      tls: true
+      tls: false
       urlPrefix: "/discoveryfinder"
       className: "nginx"
       annotations:
@@ -543,13 +549,13 @@ selfdescription:
   sdfactory:
     secret:
       # -- JWK Set URI
-      jwkSetUri: "https://centralidp.tx.test/auth/realms/CX-Central/protocol/openid-connect/certs"
+      jwkSetUri: "http://centralidp.tx.test/auth/realms/CX-Central/protocol/openid-connect/certs"
       # -- Custodian wallet client id
       clientId: "sa-cl5-custodian-1"
       # -- Custodian wallet client secret
       clientSecret: "6pnnap7byS1TImL9Uj7g2psud9Fdq4tJ"
       # -- Keycloak URL
-      authServerUrl: "https://centralidp.tx.test/auth"
+      authServerUrl: "http://centralidp.tx.test/auth"
       # -- Keycloak Realm detail
       realm: "CX-Central"
       # -- Keycloak Resource detail
@@ -574,14 +580,14 @@ selfdescription:
           - path: "/"
             pathType: "Prefix"
     # uncomment the following lines for tls
-    tls:
-    - tlsName: sdfactory.tx.test-tls
-      hosts:
-        - sdfactory.tx.test.net
+    # tls:
+    # - tlsName: sdfactory.tx.test-tls
+    #   hosts:
+    #     - sdfactory.tx.test.net
     className: "nginx"
-    annotations:
-      # uncomment the following line for tls
-      cert-manager.io/cluster-issuer: "my-ca-issuer"
+    # annotations:
+    #   # uncomment the following line for tls
+    #   cert-manager.io/cluster-issuer: "my-ca-issuer"
 
 managed-identity-wallet:
   enabled: false
@@ -646,7 +652,7 @@ managed-identity-wallet:
       host: "{{ .Release.Name }}-miw-postgres"
       secret: "{{ .Release.Name }}-miw-postgres"
     keycloak:
-      url: "https://centralidp.tx.test/auth"
+      url: "http://centralidp.tx.test/auth"
       realm: "CX-Central"
       clientId: "Cl5-CX-Custodian"
     ssi:
