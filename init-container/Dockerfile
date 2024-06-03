@@ -24,5 +24,6 @@ RUN mkdir import
 RUN chown -R 1000:3000 /import
 USER 1000:3000
 
-COPY iam/centralidp/ import/catenax-central/realms
+COPY iam/centralidp/R2403/ import/catenax-central/R2403/realms
+COPY iam/centralidp/R2405/ import/catenax-central/R2405/realms
 COPY iam/sharedidp/ import/catenax-shared/realms

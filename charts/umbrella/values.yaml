@@ -236,7 +236,7 @@ centralidp:
     proxy: edge
     initContainers:
       - name: realm-import
-        image: 192.168.49.2:5000/init
+        image: docker.io/tractusx/umbrella-init-container:0.1.0-init
         imagePullPolicy: IfNotPresent
         command:
           - sh
@@ -244,7 +244,7 @@ centralidp:
           - -c
           - |
             echo "Copying realms..."
-            cp -R /import/catenax-central/realms/* /realms
+            cp -R /import/catenax-central/R2403/realms/* /realms
         volumeMounts:
         - name: realms
           mountPath: "/realms"
@@ -359,7 +359,7 @@ sharedidp:
     proxy: edge
     initContainers:
       - name: realm-import
-        image: 192.168.49.2:5000/init
+        image: docker.io/tractusx/umbrella-init-container:0.1.0-init
         imagePullPolicy: IfNotPresent
         command:
           - sh
