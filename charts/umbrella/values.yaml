@@ -43,11 +43,6 @@ portal:
   clearinghouseAddress: "http://validation.tx.test"
   clearinghouseTokenAddress: "http://keycloak.tx.test/realms/example/protocol/openid-connect/token"
   frontend:
-    # portal:
-    #   image:
-    #     name: 192.168.49.2:5000/portal-frontend
-    #     portaltag: latest
-    #     pullPolicy: Always
     ingress:
       enabled: true
       annotations:
