@@ -9,8 +9,9 @@
       - [Data exchange](#data-exchange)
       - [Get to know the Portal](#get-to-know-the-portal)
     - [Uninstall](#uninstall)
-    - [Database Access](#database-access)
     - [Ingresses](#ingresses)
+    - [Database Access](#database-access)
+    - [Keycloak Admin Console](#keycloak-admin-console)
     - [Seeding](#seeding)
     - [Self-signed TLS setup (Optional)](#self-signed-tls-setup-optional)
   - [Precondition for Semantic Hub](#precondition-for-semantic-hub)
@@ -118,6 +119,7 @@ If you still face DNS issues, add the hosts to your /etc/hosts file:
 192.168.49.2    sdfactory.tx.test
 192.168.49.2    dataconsumer-1-dataplane.tx.test
 192.168.49.2    dataconsumer-1-controlplane.tx.test
+192.168.49.2    dataprovider-dataplane.tx.test
 192.168.49.2    dataconsumer-2-dataplane.tx.test
 192.168.49.2    dataconsumer-2-controlplane.tx.test
 ```
@@ -142,6 +144,7 @@ For Windows edit the hosts file under `C:\Windows\System32\drivers\etc\hosts`:
 192.168.49.2    sdfactory.tx.test
 192.168.49.2    dataconsumer-1-dataplane.tx.test
 192.168.49.2    dataconsumer-1-controlplane.tx.test
+192.168.49.2    dataprovider-dataplane.tx.test
 192.168.49.2    dataconsumer-2-dataplane.tx.test
 192.168.49.2    dataconsumer-2-controlplane.tx.test
 ```
@@ -384,6 +387,28 @@ helm delete umbrella --namespace umbrella
 > If persistance for one or more components is enabled, the persistent volume claims (PVCs) and connected persistent volumes (PVs) need to be removed manually even if you deleted the release from the cluster.
 >
 
+### Ingresses
+
+Currently enabled ingresses:
+
+- http://centralidp.tx.test/auth/
+- http://sharedidp.tx.test/auth/
+- http://portal-backend.tx.test
+  - http://portal-backend.tx.test/api/administration/swagger/index.html
+  - http://portal-backend.tx.test/api/registration/swagger/index.html
+  - http://portal-backend.tx.test/api/apps/swagger/index.html
+  - http://portal-backend.tx.test/api/services/swagger/index.html
+  - http://portal-backend.tx.test/api/notification/swagger/index.html
+- http://portal.tx.test
+- http://managed-identity-wallets.tx.test/ui/swagger-ui/index.html
+- http://semantics.tx.test/discoveryfinder/swagger-ui/index.html
+- http://dataconsumer-1-controlplane.tx.test
+- http://dataconsumer-1-dataplane.tx.test
+- http://dataprovider-dataplane.tx.test
+- http://dataconsumer-2-controlplane.tx.test
+- http://dataconsumer-2-dataplane.tx.test
+- http://pgadmin4.tx.test
+
 ### Database Access
 
 This chart also contains a pgadmin4 instance for easy access to the deployed Postgres databases which are only available from within the Kubernetes cluster.
@@ -515,22 +540,31 @@ Password:
 ```
 dbpassworddataconsumertwo
 ```
+### Keycloak Admin Console
 
-### Ingresses
-
-Currently enabled ingresses:
+Access to admin consoles:
 
 - http://centralidp.tx.test/auth/
 - http://sharedidp.tx.test/auth/
-- http://portal-backend.tx.test
-  - http://portal-backend.tx.test/api/administration/swagger/index.html
-  - http://portal-backend.tx.test/api/registration/swagger/index.html
-  - http://portal-backend.tx.test/api/apps/swagger/index.html
-  - http://portal-backend.tx.test/api/services/swagger/index.html
-  - http://portal-backend.tx.test/api/notification/swagger/index.html
-- http://portal.tx.test
-- http://managed-identity-wallets.tx.test/ui/swagger-ui/index.html
-- http://semantics.tx.test/discoveryfinder/swagger-ui/index.html
+
+Default username for centralidp and sharedidp:
+
+```
+admin
+```
+
+Password centralidp:
+
+```
+adminconsolepwcentralidp
+```
+
+Password sharedidp:
+
+```
+adminconsolepwsharedidp
+```
+
 
 ### Seeding
 
