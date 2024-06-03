@@ -261,60 +261,56 @@ centralidp:
         volumeMounts:
         - name: themes
           mountPath: "/themes"
-      - name: init-certs
-        image: docker.io/bitnami/keycloak:22.0.3-debian-11-r14
-        imagePullPolicy: IfNotPresent
-        command: ["/bin/bash"]
-        args:
-          - -ec
-          - |-
-            keytool -import -file "/certs/tls.crt" \
-                    -keystore "/opt/bitnami/keycloak/certs/keycloak.truststore.jks" \
-                    -storepass "${KEYCLOAK_SPI_TRUSTSTORE_PASSWORD}" \
-                    -noprompt
-        env:
-          - name: KEYCLOAK_SPI_TRUSTSTORE_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: centralidp-spi
-                key: spi-truststore-password
-        volumeMounts:
-          - name: certificates
-            mountPath: /certs
-          - name: shared-certs
-            mountPath: "/opt/bitnami/keycloak/certs"
+      # uncomment the following line for tls
+      # - name: init-certs
+      #   image: docker.io/bitnami/keycloak:22.0.3-debian-11-r14
+      #   imagePullPolicy: IfNotPresent
+      #   command: ["/bin/bash"]
+      #   args:
+      #     - -ec
+      #     - |-
+      #       keytool -import -file "/certs/tls.crt" \
+      #               -keystore "/opt/bitnami/keycloak/certs/keycloak.truststore.jks" \
+      #               -storepass "${KEYCLOAK_SPI_TRUSTSTORE_PASSWORD}" \
+      #               -noprompt
+      #   env:
+      #     - name: KEYCLOAK_SPI_TRUSTSTORE_PASSWORD
+      #       value: "changeit"
+      #   volumeMounts:
+      #     - name: certificates
+      #       mountPath: /certs
+      #     - name: shared-certs
+      #       mountPath: "/opt/bitnami/keycloak/certs"
     extraEnvVars:
-      - name: KEYCLOAK_LOG_LEVEL
-        value: TRACE
-      - name: KEYCLOAK_SPI_TRUSTSTORE_FILE
-        value: "/opt/bitnami/keycloak/certs/keycloak.truststore.jks"
-      - name: KEYCLOAK_SPI_TRUSTSTORE_PASSWORD
-        valueFrom:
-          secretKeyRef:
-            name: centralidp-spi
-            key: spi-truststore-password
       - name: KEYCLOAK_EXTRA_ARGS
         value: "-Dkeycloak.migration.action=import -Dkeycloak.migration.provider=singleFile -Dkeycloak.migration.file=/realms/CX-Central-realm.json -Dkeycloak.migration.strategy=IGNORE_EXISTING"
+      # uncomment the following line for tls
+      # - name: KEYCLOAK_SPI_TRUSTSTORE_FILE
+      #   value: "/opt/bitnami/keycloak/certs/keycloak.truststore.jks"
+      # - name: KEYCLOAK_SPI_TRUSTSTORE_PASSWORD
+      #   value: "changeit"
     extraVolumes:
       - name: realms
         emptyDir: {}
       - name: themes
         emptyDir: {}
-      - name: certificates
-        secret:
-          secretName: root-secret
-          defaultMode: 420
-      - name: shared-certs
-        emptyDir: {}
+      # uncomment the following line for tls
+      # - name: certificates
+      #   secret:
+      #     secretName: root-secret
+      #     defaultMode: 420
+      # - name: shared-certs
+      #   emptyDir: {}
     extraVolumeMounts:
       - name: realms
         mountPath: "/realms"
       - name: themes
         mountPath: "/opt/bitnami/keycloak/themes/catenax-central"
-      - name: certificates
-        mountPath: /certs
-      - name: shared-certs
-        mountPath: "/opt/bitnami/keycloak/certs"
+      # uncomment the following line for tls
+      # - name: certificates
+      #   mountPath: /certs
+      # - name: shared-certs
+      #   mountPath: "/opt/bitnami/keycloak/certs"
     ingress:
       enabled: true
       ingressClassName: "nginx"
@@ -342,8 +338,6 @@ centralidp:
       existingSecret:
         # -- Password for the admin username 'admin'. Secret-key 'admin-password'.
         adminpassword: ""
-      spi:
-        truststorePassword: ""
 
 sharedidp:
   enabled: false
@@ -388,38 +382,34 @@ sharedidp:
           mountPath: "/themes-catenax-shared"
         - name: themes-catenax-shared-portal
           mountPath: "/themes-catenax-shared-portal"
-      - name: init-certs
-        image: docker.io/bitnami/keycloak:22.0.3-debian-11-r14
-        imagePullPolicy: IfNotPresent
-        command: ["/bin/bash"]
-        args:
-          - -ec
-          - |-
-            keytool -import -file "/certs/tls.crt" \
-                    -keystore "/opt/bitnami/keycloak/certs/keycloak.truststore.jks" \
-                    -storepass "${KEYCLOAK_SPI_TRUSTSTORE_PASSWORD}" \
-                    -noprompt
-        env:
-          - name: KEYCLOAK_SPI_TRUSTSTORE_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: sharedidp-spi
-                key: spi-truststore-password
-        volumeMounts:
-          - name: certificates
-            mountPath: /certs
-          - name: shared-certs
-            mountPath: "/opt/bitnami/keycloak/certs"
+      # uncomment the following line for tls
+      # - name: init-certs
+      #   image: docker.io/bitnami/keycloak:22.0.3-debian-11-r14
+      #   imagePullPolicy: IfNotPresent
+      #   command: ["/bin/bash"]
+      #   args:
+      #     - -ec
+      #     - |-
+      #       keytool -import -file "/certs/tls.crt" \
+      #               -keystore "/opt/bitnami/keycloak/certs/keycloak.truststore.jks" \
+      #               -storepass "${KEYCLOAK_SPI_TRUSTSTORE_PASSWORD}" \
+      #               -noprompt
+      #   env:
+      #     - name: KEYCLOAK_SPI_TRUSTSTORE_PASSWORD
+      #       value: "changeit"
+      #   volumeMounts:
+      #     - name: certificates
+      #       mountPath: /certs
+      #     - name: shared-certs
+      #       mountPath: "/opt/bitnami/keycloak/certs"
     extraEnvVars:
-      - name: KEYCLOAK_SPI_TRUSTSTORE_FILE
-        value: "/opt/bitnami/keycloak/certs/keycloak.truststore.jks"
-      - name: KEYCLOAK_SPI_TRUSTSTORE_PASSWORD
-        valueFrom:
-          secretKeyRef:
-            name: sharedidp-spi
-            key: spi-truststore-password
       - name: KEYCLOAK_EXTRA_ARGS
         value: "-Dkeycloak.migration.action=import -Dkeycloak.migration.provider=dir -Dkeycloak.migration.dir=/realms -Dkeycloak.migration.strategy=IGNORE_EXISTING"
+      # uncomment the following line for tls
+      # - name: KEYCLOAK_SPI_TRUSTSTORE_FILE
+      #   value: "/opt/bitnami/keycloak/certs/keycloak.truststore.jks"
+      # - name: KEYCLOAK_SPI_TRUSTSTORE_PASSWORD
+      #   value: "changeit"
     extraVolumes:
       - name: realms
         emptyDir: {}
@@ -427,12 +417,13 @@ sharedidp:
         emptyDir: {}
       - name: themes-catenax-shared-portal
         emptyDir: {}
-      - name: certificates
-        secret:
-          secretName: root-secret
-          defaultMode: 420
-      - name: shared-certs
-        emptyDir: {}
+      # uncomment the following line for tls
+      # - name: certificates
+      #   secret:
+      #     secretName: root-secret
+      #     defaultMode: 420
+      # - name: shared-certs
+      #   emptyDir: {}
     extraVolumeMounts:
       - name: realms
         mountPath: "/realms"
@@ -440,10 +431,11 @@ sharedidp:
         mountPath: "/opt/bitnami/keycloak/themes/catenax-shared"
       - name: themes-catenax-shared-portal
         mountPath: "/opt/bitnami/keycloak/themes/catenax-shared-portal"
-      - name: certificates
-        mountPath: /certs
-      - name: shared-certs
-        mountPath: "/opt/bitnami/keycloak/certs"
+      # uncomment the following line for tls
+      # - name: certificates
+      #   mountPath: /certs
+      # - name: shared-certs
+      #   mountPath: "/opt/bitnami/keycloak/certs"
     ingress:
       enabled: true
       ingressClassName: "nginx"
@@ -471,8 +463,6 @@ sharedidp:
       existingSecret:
         # -- Password for the admin username 'admin'. Secret-key 'admin-password'.
         adminpassword: ""
-      spi:
-        truststorePassword: ""
 
 bpndiscovery:
   enabled: false
