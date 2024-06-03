@@ -2,7 +2,6 @@
   - [Usage](#usage)
     - [Cluster setup](#cluster-setup)
     - [Network setup](#network-setup)
-    - [Self-signed TLS setup](#self-signed-tls-setup)
     - [Install](#install)
       - [Released chart](#use-released-chart)
       - [Repository](#use-local-repository)
@@ -13,13 +12,13 @@
     - [Database Access](#database-access)
     - [Ingresses](#ingresses)
     - [Seeding](#seeding)
+    - [Self-signed TLS setup (Optional)](#self-signed-tls-setup-optional)
   - [Precondition for Semantic Hub](#precondition-for-semantic-hub)
   - [How to contribute](#how-to-contribute)
 
 # Umbrella Chart
 
-This umbrella chart provides a basis for running end-to-end tests or creating a sandbox environment of the [Catena-X](https://catena-x.net/en/) automotive dataspace network
-consisting of [Tractus-X](https://projects.eclipse.org/projects/automotive.tractusx) OSS components.
+This umbrella chart provides a basis for running end-to-end tests or creating a sandbox environment of the [Catena-X](https://catena-x.net/en/) automotive dataspace network consisting of [Tractus-X](https://projects.eclipse.org/projects/automotive.tractusx) OSS components.
 
 The Chart aims for a completely automated setup of a fully functional network, that does not require manual setup steps.
 
@@ -68,12 +67,12 @@ helm upgrade --install ingress-nginx ingress-nginx --repo https://kubernetes.git
 
 > :warning: The rest of the tutorial assumes a minikube cluster, however.
 
-### Network setup
-
 > Use the dashboard provided by Minikube or a tool like OpenLens to get an overview about the deployed components:
 > ```bash
 > `minikube dashboard`
 > ```
+
+### Network setup
 
 In order to enable the local access via **ingress**, use the according addon for Minikube:
 
@@ -135,80 +134,12 @@ For Windows edit the hosts file under `C:\Windows\System32\drivers\etc\hosts`:
 192.168.49.2    portal-backend.tx.test
 192.168.49.2    managed-identity-wallets.tx.test
 192.168.49.2    semantics.tx.test
+192.168.49.2    sdfactory.tx.test
+192.168.49.2    dataconsumer-1-dataplane.tx.test
+192.168.49.2    dataconsumer-1-controlplane.tx.test
+192.168.49.2    dataconsumer-2-dataplane.tx.test
+192.168.49.2    dataconsumer-2-controlplane.tx.test
 ```
-
-### Self-signed TLS setup
-
-Install cert-manager chart in the same namespace where the umbrella chart will be located.
-
-```bash
-helm repo add jetstack https://charts.jetstack.io
-helm repo update
-```
-
-```bash
-helm install \
-  cert-manager jetstack/cert-manager \
-  --namespace umbrella \
-  --create-namespace \
-  --version v1.14.4 \
-  --set installCRDs=true
-```
-
-Configure the self-signed certificate and issuer to be used by the ingress resources.
-
-If you have the repository checked out you can run:
-
-```bash
-kubectl apply -f ./charts/umbrella/cluster-issuer.yaml
-```
-
-or otherwise you can run:
-
-```bash
-kubectl apply -f - <<EOF
-apiVersion: cert-manager.io/v1
-kind: ClusterIssuer
-metadata:
-  name: selfsigned-issuer
-spec:
-  selfSigned: {}
----
-apiVersion: cert-manager.io/v1
-kind: Certificate
-metadata:
-  name: my-selfsigned-ca
-  namespace: umbrella
-spec:
-  isCA: true
-  commonName: tx.test
-  secretName: root-secret
-  privateKey:
-    algorithm: RSA
-    size: 2048
-  issuerRef:
-    name: selfsigned-issuer
-    kind: ClusterIssuer
-    group: cert-manager.io
-  subject:
-    organizations:
-      - CX
-    countries:
-      - DE
-    provinces:
-      - Some-State
----
-apiVersion: cert-manager.io/v1
-kind: ClusterIssuer
-metadata:
-  name: my-ca-issuer
-spec:
-  ca:
-    secretName: root-secret
-EOF
-```
-
-See [cert-manager self-signed](https://cert-manager.io/docs/configuration/selfsigned) for reference.
 
 ### Install
 
@@ -246,7 +177,7 @@ helm repo add tractusx-dev https://eclipse-tractusx.github.io/charts/dev
 **:grey_question: Command explanation**
 
 > `helm install` is used to install a chart in Kubernetes using Helm.
-> > `--set COMPONENT_1.enabled=true,COMPONENT_2.enabled=true` Enables the components by setting their respecive enabled values to true.
+> > `--set COMPONENT_1.enabled=true,COMPONENT_2.enabled=true` Enables the components by setting their respective enabled values to true.
 > 
 > > `umbrella` is the release name for the chart.
 > 
@@ -254,6 +185,8 @@ helm repo add tractusx-dev https://eclipse-tractusx.github.io/charts/dev
 name.
 > 
 > > `--namespace umbrella` specifies the namespace in which to install the chart.
+>
+> > `--create-namespace` create a namespace with the name `umbrella`.
 
 ##### Option 1
 
@@ -263,7 +196,8 @@ Install with your chosen components enabled:
 helm install \
   --set COMPONENT_1.enabled=true,COMPONENT_2.enabled=true,COMPONENT_3.enabled=true \
   umbrella tractusx-dev/umbrella \
-  --namespace umbrella
+  --namespace umbrella \
+  --create-namespace
 ```
 
 ##### Option 2
@@ -276,7 +210,8 @@ Choose to install one of the predefined subsets (currently in focus of the **E2E
 helm install \
   --set centralidp.enabled=true,managed-identity-wallet.enabled=true,dataconsumerOne.enabled=true,tx-data-provider.enabled=true \
   umbrella tractusx-dev/umbrella \
-  --namespace umbrella
+  --namespace umbrella \
+  --create-namespace
 ```
 
 *Optional*
@@ -296,13 +231,14 @@ helm install \
 helm install \
   --set portal.enabled=true,centralidp.enabled=true,sharedidp.enabled=true \
   umbrella tractusx-dev/umbrella \
-  --namespace umbrella
+  --namespace umbrella \
+  --create-namespace
 ```
 
 To set your own configuration and secret values, install the helm chart with your own values file:
 
 ```bash
-helm install -f your-values.yaml umbrella tractusx-dev/umbrella --namespace umbrella
+helm install -f your-values.yaml umbrella tractusx-dev/umbrella --namespace umbrella --create-namespace
 ```
 
 #### Use local repository
@@ -331,13 +267,15 @@ helm dependency update
 > > `.` specifies the path to the chart directory.
 >
 > > `--namespace umbrella` specifies the namespace in which to install the chart.
+>
+> > `--create-namespace` create a namespace with the name `umbrella`.
 
 ##### Option 1
 
 Install your chosen components by having them enabled in a `your-values.yaml` file:
 
 ```bash
-helm install -f your-values.yaml umbrella . --namespace umbrella
+helm install -f your-values.yaml umbrella . --namespace umbrella --create-namespace
 ```
 
 > In general, all your specific configuration and secret values should be set by installing with an own values file.
@@ -349,7 +287,7 @@ Choose to install one of the predefined subsets (currently in focus of the **E2E
 **Data Exchange Subset**
 
 ```bash
-helm install -f values-adopter-data-exchange.yaml umbrella . --namespace umbrella
+helm install -f values-adopter-data-exchange.yaml umbrella . --namespace umbrella --create-namespace
 ```
 
 *Optional*
@@ -368,7 +306,7 @@ helm upgrade -f values-adopter-data-exchange.yaml umbrella . --namespace umbrell
 **Portal Subset**
 
 ```bash
-helm install -f values-adopter-portal.yaml umbrella . --namespace umbrella
+helm install -f values-adopter-portal.yaml umbrella . --namespace umbrella --create-namespace
 ```
 
 ### E2E Adopter Journeys
@@ -386,12 +324,12 @@ TBD.
 Perform first login and send out an invitation to a company to join the network (SMTP account required to be configured in custom values.yaml file).
 
 Make sure to accept the risk of the self-signed certificates for the following hosts using the continue option:
-- [centralidp.tx.test/auth/](https://centralidp.tx.test/auth/)
-- [sharedidp.tx.test/auth/](https://sharedidp.tx.test/auth/)
-- [portal-backend.tx.test](https://portal-backend.tx.test)
-- [portal.tx.test](https://portal.tx.test)
+- [centralidp.tx.test/auth/](http://centralidp.tx.test/auth/)
+- [sharedidp.tx.test/auth/](http://sharedidp.tx.test/auth/)
+- [portal-backend.tx.test](http://portal-backend.tx.test)
+- [portal.tx.test](http://portal.tx.test)
 
-Then proceed with the login to the [portal](https://portal.tx.test) to verify that everything is setup as expected.
+Then proceed with the login to the [portal](http://portal.tx.test) to verify that everything is setup as expected.
 
 Credentials to log into the initial example realm (CX-Operator):
 
@@ -577,21 +515,98 @@ dbpassworddataconsumertwo
 
 Currently enabled ingresses:
 
-- https://centralidp.tx.test/auth/
-- https://sharedidp.tx.test/auth/
-- https://portal-backend.tx.test
-  - https://portal-backend.tx.test/api/administration/swagger/index.html
-  - https://portal-backend.tx.test/api/registration/swagger/index.html
-  - https://portal-backend.tx.test/api/apps/swagger/index.html
-  - https://portal-backend.tx.test/api/services/swagger/index.html
-  - https://portal-backend.tx.test/api/notification/swagger/index.html
-- https://portal.tx.test
-- https://managed-identity-wallets.tx.test/ui/swagger-ui/index.html
-- https://semantics.tx.test/discoveryfinder/swagger-ui/index.html
+- http://centralidp.tx.test/auth/
+- http://sharedidp.tx.test/auth/
+- http://portal-backend.tx.test
+  - http://portal-backend.tx.test/api/administration/swagger/index.html
+  - http://portal-backend.tx.test/api/registration/swagger/index.html
+  - http://portal-backend.tx.test/api/apps/swagger/index.html
+  - http://portal-backend.tx.test/api/services/swagger/index.html
+  - http://portal-backend.tx.test/api/notification/swagger/index.html
+- http://portal.tx.test
+- http://managed-identity-wallets.tx.test/ui/swagger-ui/index.html
+- http://semantics.tx.test/discoveryfinder/swagger-ui/index.html
 
 ### Seeding
 
 See [Overall Seeding](../../concept/seeds-overall-data.md).
+
+### Self-signed TLS setup (Optional)
+
+Some of the components are prepared to be configured with TLS enabled (see "uncomment the following line for tls" comments in [values.yaml](./values.yaml)).
+
+If you'd like to make use of that, make sure to to execute this step beforehand.
+
+Install cert-manager chart in the same namespace where the umbrella chart will be located.
+
+```bash
+helm repo add jetstack https://charts.jetstack.io
+helm repo update
+```
+
+```bash
+helm install \
+  cert-manager jetstack/cert-manager \
+  --namespace umbrella \
+  --create-namespace \
+  --version v1.14.4 \
+  --set installCRDs=true
+```
+
+Configure the self-signed certificate and issuer to be used by the ingress resources.
+
+If you have the repository checked out you can run:
+
+```bash
+kubectl apply -f ./charts/umbrella/cluster-issuer.yaml
+```
+
+or otherwise you can run:
+
+```bash
+kubectl apply -f - <<EOF
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: selfsigned-issuer
+spec:
+  selfSigned: {}
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: my-selfsigned-ca
+  namespace: umbrella
+spec:
+  isCA: true
+  commonName: tx.test
+  secretName: root-secret
+  privateKey:
+    algorithm: RSA
+    size: 2048
+  issuerRef:
+    name: selfsigned-issuer
+    kind: ClusterIssuer
+    group: cert-manager.io
+  subject:
+    organizations:
+      - CX
+    countries:
+      - DE
+    provinces:
+      - Some-State
+---
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer
+metadata:
+  name: my-ca-issuer
+spec:
+  ca:
+    secretName: root-secret
+EOF
+```
+
+See [cert-manager self-signed](https://cert-manager.io/docs/configuration/selfsigned) for reference.
 
 ## Precondition for Semantic Hub
 
