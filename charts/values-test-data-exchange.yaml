@@ -32,7 +32,7 @@ bpndiscovery:
 discoveryfinder:
   enabled: false
 
-sdfactory:
+selfdescription:
   enabled: false
 
 managed-identity-wallet:

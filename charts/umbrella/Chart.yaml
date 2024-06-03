@@ -57,8 +57,9 @@ dependencies:
     repository: https://eclipse-tractusx.github.io/charts/dev
     version: 0.2.2
     # sd-factory
-  - condition: sdfactory.enabled
+  - condition: selfdescription.enabled
     name: sdfactory
+    alias: selfdescription
     repository: https://eclipse-tractusx.github.io/charts/dev
     version: 2.1.12
     # miw
