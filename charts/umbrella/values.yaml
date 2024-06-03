@@ -332,7 +332,7 @@ centralidp:
     auth:
       existingSecret:
         # -- Password for the admin username 'admin'. Secret-key 'admin-password'.
-        adminpassword: ""
+        adminpassword: "adminconsolepwcentralidp"
 
 sharedidp:
   enabled: false
@@ -457,7 +457,7 @@ sharedidp:
     auth:
       existingSecret:
         # -- Password for the admin username 'admin'. Secret-key 'admin-password'.
-        adminpassword: ""
+        adminpassword: "adminconsolepwsharedidp"
 
 bpndiscovery:
   enabled: false
