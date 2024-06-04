@@ -28,7 +28,7 @@ sources:
   - https://github.com/eclipse-tractusx/tractus-x-umbrella
 
 type: application
-version: 0.15.4
+version: 0.16.0
 
 # when adding or updating versions of dependencies, also update list under README.md#Install
 dependencies:
@@ -57,10 +57,11 @@ dependencies:
     repository: https://eclipse-tractusx.github.io/charts/dev
     version: 0.2.2
     # sd-factory
-  - condition: sdfactory.enabled
+  - condition: selfdescription.enabled
     name: sdfactory
+    alias: selfdescription
     repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 2.1.12
+    version: 2.1.19
     # miw
   - name: managed-identity-wallet
     repository: https://eclipse-tractusx.github.io/charts/dev

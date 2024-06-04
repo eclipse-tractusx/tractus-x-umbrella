@@ -108,9 +108,9 @@
     - client id: satest16
     - client secret: d2sqUurBH9Vd8DNRmjiMfObU67ajorCq
 
-### Fixed client secrets in base seeding
+### Client secrets in base seeding
 
-#### CentralIdP
+#### CentralIdP (Release 24.03)
 
 - Confidential client for BPDM
     - client id: Cl7-CX-BPDM
@@ -154,6 +154,18 @@
 - Service account for Portal to SD (portal helm chart: backend.processesworker.sdfactory.clientId)
     - client id: sa-cl8-cx-1
     - client secret: clbQOPHcVKY9tUUd068vyf8CrsPZ8BgZ
+
+##### New with release 24.05
+
+- Service account for SSI Credential Issuer (credential issuer helm chart: processesworker.portal.clientId)
+    - client id: sa-cl24-01
+    - client secret: VRHQM2NOA4176Vrscxey1DdO4P7ikUQc
+- Service account for SSI Credential Issuer - Portal to SSI Credential Issuer (portal helm chart: backend.processesworker.issuerComponent.clientId)
+    - client id: sa-cl2-04
+    - client secret: c0gFPfWWUpeOr7MP6DIqdRPhUfaX4GRC
+- Service account for Dim Layer - Dim Layer to Portal (dim helm chart: processesworker.callback.clientId)
+    - client id: sa-cl2-05
+    - client secret: zuBGfr67Tj0WJ5fAJSIRvoPEP5hSQFMT
 
 #### SharedIdP
 

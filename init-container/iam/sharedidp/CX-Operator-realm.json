@@ -27,7 +27,7 @@
   "oauth2DeviceCodeLifespan": 600,
   "oauth2DevicePollingInterval": 5,
   "enabled": true,
-  "sslRequired": "external",
+  "sslRequired": "none",
   "registrationAllowed": false,
   "registrationEmailAsUsername": false,
   "rememberMe": false,
@@ -657,7 +657,7 @@
       "clientAuthenticatorType": "client-jwt",
       "secret": "**********",
       "redirectUris": [
-        "https://centralidp.tx.test/auth/realms/CX-Central/broker/CX-Operator/endpoint/*"
+        "http://centralidp.tx.test/auth/realms/CX-Central/broker/CX-Operator/endpoint/*"
       ],
       "webOrigins": [
         "+"
@@ -674,7 +674,7 @@
       "protocol": "openid-connect",
       "attributes": {
         "backchannel.logout.session.required": "true",
-        "jwks.url": "https://centralidp.tx.test/auth/realms/CX-Central/protocol/openid-connect/certs",
+        "jwks.url": "http://centralidp.tx.test/auth/realms/CX-Central/protocol/openid-connect/certs",
         "token.endpoint.auth.signing.alg": "RS256",
         "post.logout.redirect.uris": "+",
         "use.jwks.url": "true",

@@ -27,7 +27,7 @@
   "oauth2DeviceCodeLifespan": 600,
   "oauth2DevicePollingInterval": 5,
   "enabled": true,
-  "sslRequired": "external",
+  "sslRequired": "none",
   "registrationAllowed": false,
   "registrationEmailAsUsername": false,
   "rememberMe": false,
@@ -101,11 +101,79 @@
     "client": {
       "sa-cl2-02": [],
       "sa-cl2-01": [],
+      "sa-cl2-04": [],
       "sa-cl3-cx-1": [],
       "security-admin-console": [],
       "sa-cl2-03": [],
+      "sa-cl2-05": [],
+      "sa-cl24-01": [],
       "account-console": [],
       "sa-cl22-01": [],
+      "Cl24-CX-SSI-CredentialIssuer": [
+        {
+          "id": "04b4162f-ab97-49aa-9331-cb73a60b845f",
+          "name": "view_certificates",
+          "description": "",
+          "composite": false,
+          "clientRole": true,
+          "containerId": "e3ef0979-896b-4455-87e7-647f19119c7b",
+          "attributes": {}
+        },
+        {
+          "id": "3dcd410b-0984-48b4-88d5-060eb744dd76",
+          "name": "revoke_credentials_issuer",
+          "description": "",
+          "composite": false,
+          "clientRole": true,
+          "containerId": "e3ef0979-896b-4455-87e7-647f19119c7b",
+          "attributes": {}
+        },
+        {
+          "id": "1f8ee654-161a-42e4-a2aa-64b4cd91f27e",
+          "name": "view_credential_requests",
+          "description": "",
+          "composite": false,
+          "clientRole": true,
+          "containerId": "e3ef0979-896b-4455-87e7-647f19119c7b",
+          "attributes": {}
+        },
+        {
+          "id": "3459d174-ef82-41d1-8d4d-35a16dd5665a",
+          "name": "view_use_case_participation",
+          "description": "",
+          "composite": false,
+          "clientRole": true,
+          "containerId": "e3ef0979-896b-4455-87e7-647f19119c7b",
+          "attributes": {}
+        },
+        {
+          "id": "72c2c701-f352-44b2-b95e-2d8125b6cdbc",
+          "name": "request_ssicredential",
+          "description": "",
+          "composite": false,
+          "clientRole": true,
+          "containerId": "e3ef0979-896b-4455-87e7-647f19119c7b",
+          "attributes": {}
+        },
+        {
+          "id": "c5e784b2-4cd1-4aae-965d-5ca0d54ad293",
+          "name": "decision_ssicredential",
+          "description": "",
+          "composite": false,
+          "clientRole": true,
+          "containerId": "e3ef0979-896b-4455-87e7-647f19119c7b",
+          "attributes": {}
+        },
+        {
+          "id": "3f8bbef4-5d29-4ca3-9b67-7e102663f725",
+          "name": "revoke_credential",
+          "description": "",
+          "composite": false,
+          "clientRole": true,
+          "containerId": "e3ef0979-896b-4455-87e7-647f19119c7b",
+          "attributes": {}
+        }
+      ],
       "Cl2-CX-Portal": [
         {
           "id": "39ff444c-888a-4bf6-b8e1-343b66f8a067",
@@ -156,14 +224,18 @@
           "composite": true,
           "composites": {
             "client": {
-              "Cl7-CX-BPDM": [
-                "view_company_data"
-              ],
               "Cl5-CX-Custodian": [
                 "view_wallet"
               ],
+              "technical_roles_management": [
+                "BPDM Pool Consumer"
+              ],
               "Cl1-CX-Registration": [
+                "delete_documents",
                 "view_registration"
+              ],
+              "Cl24-CX-SSI-CredentialIssuer": [
+                "view_credential_requests"
               ],
               "Cl2-CX-Portal": [
                 "view_license_types",
@@ -176,24 +248,22 @@
                 "view_service_offering",
                 "view_autosetup_status",
                 "add_connectors",
-                "upload_documents",
                 "view_own_user_account",
                 "view_use_cases",
+                "service_management",
                 "view_idp",
-                "view_services",
                 "add_tech_user_management",
                 "view_membership",
                 "update_own_user_account",
                 "add_service_offering",
+                "add_self_descriptions",
                 "view_service_subscriptions",
                 "activate_subscription",
-                "view_tech_roles",
                 "view_notifications",
                 "view_certificates",
                 "technical_roles_management",
                 "delete_tech_user_management",
                 "delete_own_user_account",
-                "my_user_account",
                 "view_subscription",
                 "delete_notifications",
                 "view_connectors",
@@ -214,14 +284,6 @@
         {
           "id": "4d1ca50b-8a6e-47ee-9a9b-ed5a919bc0d5",
           "name": "invite_new_partner",
-          "composite": false,
-          "clientRole": true,
-          "containerId": "e0806293-f9b3-44f1-a6d0-4e4406787f80",
-          "attributes": {}
-        },
-        {
-          "id": "a029dec3-8c6a-4a2f-a60a-82249f0590fd",
-          "name": "setup_client",
           "composite": false,
           "clientRole": true,
           "containerId": "e0806293-f9b3-44f1-a6d0-4e4406787f80",
@@ -303,20 +365,24 @@
           "composite": true,
           "composites": {
             "client": {
-              "Cl7-CX-BPDM": [
-                "view_company_data"
-              ],
               "Cl5-CX-Custodian": [
                 "view_wallet"
+              ],
+              "technical_roles_management": [
+                "BPDM Pool Consumer"
               ],
               "Cl1-CX-Registration": [
                 "view_registration"
               ],
+              "Cl24-CX-SSI-CredentialIssuer": [
+                "view_credential_requests"
+              ],
               "Cl2-CX-Portal": [
+                "view_license_types",
                 "view_technical_setup",
                 "view_tech_user_management",
+                "view_service_subscriptions",
                 "app_management",
-                "view_tech_roles",
                 "view_certificates",
                 "view_app_language",
                 "technical_roles_management",
@@ -337,22 +403,23 @@
           "composite": true,
           "composites": {
             "client": {
-              "Cl7-CX-BPDM": [
-                "view_company_data"
-              ],
               "Cl5-CX-Custodian": [
                 "view_wallet"
+              ],
+              "technical_roles_management": [
+                "BPDM Pool Consumer"
               ],
               "Cl1-CX-Registration": [
                 "view_registration"
               ],
-              "Cl3-CX-Semantic": [
-                "add_semantic_model",
-                "update_semantic_model",
-                "view_semantic_model",
-                "delete_semantic_model"
+              "Cl24-CX-SSI-CredentialIssuer": [
+                "view_credential_requests",
+                "view_certificates",
+                "view_use_case_participation",
+                "revoke_credential"
               ],
               "Cl2-CX-Portal": [
+                "view_documents",
                 "view_app_subscription",
                 "add_user_account",
                 "view_company_data",
@@ -362,33 +429,33 @@
                 "view_autosetup_status",
                 "unsubscribe_apps",
                 "upload_certificates",
+                "view_own_user_account",
                 "view_user_management",
                 "subscribe_apps",
-                "view_services",
-                "view_dataspaces",
-                "filter_apps",
+                "view_membership",
+                "update_own_user_account",
                 "view_service_subscriptions",
                 "view_notifications",
                 "view_certificates",
                 "delete_certificates",
+                "view_client_roles",
                 "delete_own_user_account",
+                "request_ssicredential",
                 "unsubscribe_services",
                 "view_apps",
                 "view_subscription",
                 "view_use_case_participation",
-                "view_connectors",
+                "delete_notifications",
                 "view_partner_network"
+              ],
+              "Cl3-CX-Semantic": [
+                "add_semantic_model",
+                "update_semantic_model",
+                "view_semantic_model",
+                "delete_semantic_model"
               ]
             }
           },
-          "clientRole": true,
-          "containerId": "e0806293-f9b3-44f1-a6d0-4e4406787f80",
-          "attributes": {}
-        },
-        {
-          "id": "03acc78a-0301-4518-a548-d5bd782c3d13",
-          "name": "decision_ssicredential",
-          "composite": false,
           "clientRole": true,
           "containerId": "e0806293-f9b3-44f1-a6d0-4e4406787f80",
           "attributes": {}
@@ -405,6 +472,15 @@
         {
           "id": "c75a196c-2b82-4cd5-b572-0b70ec38e8fb",
           "name": "configure_partner_registration",
+          "description": "",
+          "composite": false,
+          "clientRole": true,
+          "containerId": "e0806293-f9b3-44f1-a6d0-4e4406787f80",
+          "attributes": {}
+        },
+        {
+          "id": "9503daf6-498d-44c8-9f1b-04f61cbf35c0",
+          "name": "service_management",
           "description": "",
           "composite": false,
           "clientRole": true,
@@ -450,14 +526,6 @@
           "id": "146c2388-2e26-4505-b85d-6824a4f80a2e",
           "name": "add_tech_user_management",
           "description": "Create / request technical users for my org",
-          "composite": false,
-          "clientRole": true,
-          "containerId": "e0806293-f9b3-44f1-a6d0-4e4406787f80",
-          "attributes": {}
-        },
-        {
-          "id": "15bd8123-3469-4505-93ff-a5bd3b929495",
-          "name": "subscribe_service_offering",
           "composite": false,
           "clientRole": true,
           "containerId": "e0806293-f9b3-44f1-a6d0-4e4406787f80",
@@ -525,17 +593,17 @@
           "attributes": {}
         },
         {
-          "id": "9db8ca83-6cfd-4c44-8ab7-ccbcb11da38f",
-          "name": "view_tech_roles",
-          "description": "View technical user roles",
+          "id": "26eacd86-808a-4869-ad64-564cda6b3e2f",
+          "name": "delete_certificates",
+          "description": "",
           "composite": false,
           "clientRole": true,
           "containerId": "e0806293-f9b3-44f1-a6d0-4e4406787f80",
           "attributes": {}
         },
         {
-          "id": "26eacd86-808a-4869-ad64-564cda6b3e2f",
-          "name": "delete_certificates",
+          "id": "ba19030e-1f3b-45dd-ab0f-6e5370bc73d0",
+          "name": "update_application_bpn_credential",
           "description": "",
           "composite": false,
           "clientRole": true,
@@ -563,6 +631,7 @@
         {
           "id": "29ac8c4d-5296-467c-91fa-3a0d7487c912",
           "name": "request_ssicredential",
+          "description": "",
           "composite": false,
           "clientRole": true,
           "containerId": "e0806293-f9b3-44f1-a6d0-4e4406787f80",
@@ -589,6 +658,15 @@
           "id": "f4eca60a-55c3-4b53-b3ee-f93a73d497f1",
           "name": "delete_notifications",
           "description": "User can delete notifications",
+          "composite": false,
+          "clientRole": true,
+          "containerId": "e0806293-f9b3-44f1-a6d0-4e4406787f80",
+          "attributes": {}
+        },
+        {
+          "id": "e087e905-4279-4e0d-a547-9d2294d19e25",
+          "name": "send_mail",
+          "description": "",
           "composite": false,
           "clientRole": true,
           "containerId": "e0806293-f9b3-44f1-a6d0-4e4406787f80",
@@ -661,55 +739,61 @@
           "composite": true,
           "composites": {
             "client": {
-              "Cl7-CX-BPDM": [
-                "view_company_data"
-              ],
               "Cl5-CX-Custodian": [
                 "view_wallet"
+              ],
+              "technical_roles_management": [
+                "BPDM Pool Consumer"
               ],
               "Cl1-CX-Registration": [
                 "view_registration"
               ],
+              "Cl24-CX-SSI-CredentialIssuer": [
+                "view_credential_requests",
+                "view_use_case_participation",
+                "revoke_credential",
+                "view_certificates"
+              ],
               "Cl2-CX-Portal": [
+                "view_documents",
                 "delete_connectors",
-                "view_technical_setup",
-                "view_tech_user_management",
-                "add_user_account",
                 "view_company_data",
-                "view_managed_idp",
-                "view_service_marketplace",
                 "modify_user_account",
-                "view_service_offering",
-                "disable_idp",
                 "add_connectors",
                 "configure_partner_registration",
                 "view_own_user_account",
                 "view_user_management",
                 "view_idp",
                 "add_tech_user_management",
-                "add_idp",
-                "delete_idp",
-                "view_membership",
                 "update_own_user_account",
                 "add_self_descriptions",
                 "view_user_account",
                 "view_service_subscriptions",
                 "setup_idp",
+                "view_client_roles",
+                "subscribe_service",
+                "request_ssicredential",
+                "delete_user_account",
+                "view_subscription",
+                "delete_notifications",
+                "view_technical_setup",
+                "view_tech_user_management",
+                "add_user_account",
+                "view_managed_idp",
+                "view_service_marketplace",
+                "view_service_offering",
+                "disable_idp",
+                "add_idp",
+                "delete_idp",
+                "view_membership",
                 "view_notifications",
                 "view_certificates",
                 "technical_roles_management",
-                "view_client_roles",
                 "delete_tech_user_management",
-                "subscribe_service",
                 "delete_own_user_account",
-                "request_ssicredential",
-                "my_user_account",
-                "delete_user_account",
                 "view_apps",
-                "view_subscription",
                 "modify_connectors",
                 "view_use_case_participation",
-                "delete_notifications",
                 "view_connectors",
                 "view_partner_network"
               ],
@@ -728,17 +812,22 @@
           "composite": true,
           "composites": {
             "client": {
-              "Cl7-CX-BPDM": [
-                "view_company_data"
-              ],
               "Cl5-CX-Custodian": [
                 "view_wallet"
+              ],
+              "technical_roles_management": [
+                "BPDM Pool Consumer"
               ],
               "Cl1-CX-Registration": [
                 "view_registration"
               ],
+              "Cl24-CX-SSI-CredentialIssuer": [
+                "view_credential_requests"
+              ],
               "Cl2-CX-Portal": [
+                "view_app_subscription",
                 "view_service_subscriptions",
+                "app_management",
                 "activate_subscription",
                 "view_certificates",
                 "subscribe_service",
@@ -746,8 +835,8 @@
                 "view_service_offering",
                 "unsubscribe_apps",
                 "unsubscribe_services",
-                "subscribe_apps",
-                "view_services"
+                "service_management",
+                "subscribe_apps"
               ]
             }
           },
@@ -783,6 +872,15 @@
           "attributes": {}
         },
         {
+          "id": "72018ed0-a3ef-47a1-9d2c-014b2bcfac6f",
+          "name": "store_didDocument",
+          "description": "",
+          "composite": false,
+          "clientRole": true,
+          "containerId": "e0806293-f9b3-44f1-a6d0-4e4406787f80",
+          "attributes": {}
+        },
+        {
           "id": "43a0826f-ba1a-44d4-952f-e4b879be353c",
           "name": "view_service_marketplace",
           "description": "view_service_marketplace",
@@ -798,19 +896,29 @@
           "composites": {
             "client": {
               "Cl7-CX-BPDM": [
-                "view_company_data"
+                "read_partner_member",
+                "read_metadata",
+                "read_changelog_member"
               ],
               "Cl5-CX-Custodian": [
                 "view_wallet"
               ],
+              "technical_roles_management": [
+                "BPDM Pool Consumer"
+              ],
               "Cl1-CX-Registration": [
                 "view_registration"
+              ],
+              "Cl24-CX-SSI-CredentialIssuer": [
+                "view_credential_requests",
+                "view_use_case_participation",
+                "revoke_credential",
+                "view_certificates"
               ],
               "Cl2-CX-Portal": [
                 "update_company_role",
                 "view_documents",
                 "delete_connectors",
-                "setup_client",
                 "view_app_subscription",
                 "delete_documents",
                 "view_company_data",
@@ -823,12 +931,10 @@
                 "view_user_management",
                 "view_idp",
                 "add_tech_user_management",
-                "subscribe_service_offering",
                 "update_own_user_account",
                 "add_self_descriptions",
                 "view_user_account",
                 "setup_idp",
-                "view_tech_roles",
                 "delete_certificates",
                 "view_client_roles",
                 "subscribe_service",
@@ -844,22 +950,17 @@
                 "view_service_offering",
                 "unsubscribe_apps",
                 "disable_idp",
-                "upload_documents",
                 "upload_certificates",
                 "view_use_cases",
                 "subscribe_apps",
-                "view_services",
                 "add_idp",
                 "delete_idp",
                 "view_membership",
-                "view_dataspaces",
-                "filter_apps",
                 "view_notifications",
                 "view_certificates",
                 "technical_roles_management",
                 "delete_tech_user_management",
                 "delete_own_user_account",
-                "my_user_account",
                 "unsubscribe_services",
                 "view_apps",
                 "modify_connectors",
@@ -885,34 +986,34 @@
           "composite": true,
           "composites": {
             "client": {
-              "Cl7-CX-BPDM": [
-                "view_company_data"
-              ],
               "Cl5-CX-Custodian": [
                 "view_wallet"
+              ],
+              "technical_roles_management": [
+                "BPDM Pool Consumer"
               ],
               "Cl1-CX-Registration": [
                 "view_registration"
               ],
+              "Cl24-CX-SSI-CredentialIssuer": [
+                "view_credential_requests"
+              ],
               "Cl2-CX-Portal": [
                 "view_documents",
                 "view_membership",
-                "view_dataspaces",
                 "update_own_user_account",
-                "filter_apps",
+                "view_service_subscriptions",
                 "view_company_data",
                 "view_notifications",
                 "view_certificates",
                 "view_service_marketplace",
                 "view_service_offering",
                 "delete_own_user_account",
-                "my_user_account",
                 "view_own_user_account",
                 "view_apps",
                 "view_user_management",
                 "view_subscription",
                 "delete_notifications",
-                "view_services",
                 "view_partner_network"
               ],
               "Cl3-CX-Semantic": [
@@ -920,6 +1021,15 @@
               ]
             }
           },
+          "clientRole": true,
+          "containerId": "e0806293-f9b3-44f1-a6d0-4e4406787f80",
+          "attributes": {}
+        },
+        {
+          "id": "5b5cd4b9-0634-4f56-a526-64c017ef4578",
+          "name": "update_application_membership_credential",
+          "description": "",
+          "composite": false,
           "clientRole": true,
           "containerId": "e0806293-f9b3-44f1-a6d0-4e4406787f80",
           "attributes": {}
@@ -956,26 +1066,31 @@
           "composite": true,
           "composites": {
             "client": {
-              "Cl7-CX-BPDM": [
-                "view_company_data"
-              ],
               "Cl5-CX-Custodian": [
                 "view_wallet"
+              ],
+              "technical_roles_management": [
+                "BPDM Pool Consumer"
               ],
               "Cl1-CX-Registration": [
                 "view_registration"
               ],
+              "Cl24-CX-SSI-CredentialIssuer": [
+                "view_credential_requests"
+              ],
               "Cl2-CX-Portal": [
                 "add_apps",
                 "view_license_types",
-                "add_user_account",
+                "view_app_subscription",
+                "view_service_subscriptions",
                 "activate_subscription",
                 "delete_apps",
                 "view_certificates",
                 "CX User",
                 "view_autosetup_status",
                 "App Developer",
-                "edit_apps"
+                "edit_apps",
+                "view_connectors"
               ],
               "Cl3-CX-Semantic": [
                 "add_semantic_model",
@@ -985,14 +1100,6 @@
               ]
             }
           },
-          "clientRole": true,
-          "containerId": "e0806293-f9b3-44f1-a6d0-4e4406787f80",
-          "attributes": {}
-        },
-        {
-          "id": "39c00d2f-491f-4658-96ef-9f47920afea6",
-          "name": "upload_documents",
-          "composite": false,
           "clientRole": true,
           "containerId": "e0806293-f9b3-44f1-a6d0-4e4406787f80",
           "attributes": {}
@@ -1019,15 +1126,6 @@
           "id": "51e6dede-686f-43d5-925a-693784f8a661",
           "name": "subscribe_apps",
           "description": "User is able to start the app subscription process",
-          "composite": false,
-          "clientRole": true,
-          "containerId": "e0806293-f9b3-44f1-a6d0-4e4406787f80",
-          "attributes": {}
-        },
-        {
-          "id": "6e3d7bcf-7340-4def-bb76-8002acc73f95",
-          "name": "view_services",
-          "description": "view service marketplace",
           "composite": false,
           "clientRole": true,
           "containerId": "e0806293-f9b3-44f1-a6d0-4e4406787f80",
@@ -1078,15 +1176,6 @@
           "attributes": {}
         },
         {
-          "id": "8fe708e4-7870-4044-89eb-a74b8dc11a8e",
-          "name": "view_dataspaces",
-          "description": "View dataspace marketplace",
-          "composite": false,
-          "clientRole": true,
-          "containerId": "e0806293-f9b3-44f1-a6d0-4e4406787f80",
-          "attributes": {}
-        },
-        {
           "id": "b06c2999-6008-4fb6-a22f-93fdac150656",
           "name": "decline_app_release",
           "description": "User can decline apps to not get released on the marketplace",
@@ -1104,38 +1193,33 @@
           "attributes": {}
         },
         {
-          "id": "9f5b48bf-4fc2-4feb-8c4e-00b57f5f2bed",
-          "name": "filter_apps",
-          "description": "Users with this role can filter apps in the App Marketplace",
-          "composite": false,
-          "clientRole": true,
-          "containerId": "e0806293-f9b3-44f1-a6d0-4e4406787f80",
-          "attributes": {}
-        },
-        {
           "id": "765bced5-b422-4f91-b35f-19d648595e6a",
           "name": "Purchaser",
           "composite": true,
           "composites": {
             "client": {
-              "Cl7-CX-BPDM": [
-                "view_company_data"
-              ],
               "Cl5-CX-Custodian": [
                 "view_wallet"
+              ],
+              "technical_roles_management": [
+                "BPDM Pool Consumer"
               ],
               "Cl1-CX-Registration": [
                 "view_registration"
               ],
+              "Cl24-CX-SSI-CredentialIssuer": [
+                "view_credential_requests"
+              ],
               "Cl2-CX-Portal": [
+                "view_app_subscription",
+                "view_service_subscriptions",
+                "view_certificates",
                 "delete_certificates",
-                "subscribe_service_offering",
+                "subscribe_service",
                 "CX User",
                 "unsubscribe_apps",
-                "view_app_subscription",
                 "upload_certificates",
                 "unsubscribe_services",
-                "view_certificates",
                 "subscribe_apps"
               ]
             }
@@ -1167,102 +1251,119 @@
           "composite": true,
           "composites": {
             "client": {
+              "Cl16-CX-BPDMGate": [
+                "read_stats",
+                "write_output_partner",
+                "read_output_changelog",
+                "write_sharing_state",
+                "read_input_partner",
+                "read_sharing_state",
+                "read_output_partner",
+                "read_input_changelog",
+                "write_input_partner"
+              ],
               "Cl7-CX-BPDM": [
-                "delete_company_data",
-                "add_company_data",
-                "view_company_data"
+                "write_partner",
+                "read_metadata",
+                "write_metadata",
+                "read_changelog_member",
+                "read_changelog",
+                "read_partner",
+                "read_partner_member"
               ],
               "Cl5-CX-Custodian": [
-                "delete_wallet",
                 "add_wallet",
                 "view_wallet",
-                "update_wallet"
+                "update_wallet",
+                "delete_wallet"
+              ],
+              "technical_roles_management": [
+                "BPDM Pool Consumer"
               ],
               "Cl1-CX-Registration": [
                 "view_registration"
               ],
+              "Cl24-CX-SSI-CredentialIssuer": [
+                "revoke_credential",
+                "view_credential_requests",
+                "view_use_case_participation",
+                "revoke_credentials_issuer",
+                "view_certificates"
+              ],
               "Cl2-CX-Portal": [
-                "decline_new_partner",
-                "update_company_role",
                 "view_documents",
                 "delete_connectors",
                 "update_service_offering",
                 "invite_new_partner",
-                "setup_client",
                 "view_app_subscription",
-                "delete_documents",
-                "app_management",
                 "view_company_data",
                 "approve_app_release",
-                "view_app_language",
-                "modify_user_account",
                 "view_autosetup_status",
-                "decision_ssicredential",
-                "add_connectors",
                 "view_own_user_account",
-                "view_user_management",
                 "view_idp",
                 "add_apps",
-                "add_tech_user_management",
-                "subscribe_service_offering",
                 "update_own_user_account",
-                "add_self_descriptions",
-                "view_user_account",
-                "view_service_subscriptions",
-                "activate_subscription",
                 "setup_idp",
-                "view_tech_roles",
-                "view_client_roles",
-                "subscribe_service",
                 "request_ssicredential",
-                "delete_user_account",
                 "view_subscription",
                 "delete_notifications",
                 "view_license_types",
-                "view_submitted_applications",
                 "approve_new_partner",
                 "view_technical_setup",
                 "view_tech_user_management",
-                "add_user_account",
-                "delete_apps",
                 "approve_service_release",
                 "view_managed_idp",
-                "view_service_marketplace",
-                "view_service_offering",
                 "unsubscribe_apps",
                 "disable_idp",
-                "upload_documents",
-                "view_use_cases",
                 "subscribe_apps",
-                "view_services",
                 "add_idp",
                 "delete_idp",
                 "view_membership",
                 "decline_service_release",
-                "view_dataspaces",
                 "decline_app_release",
                 "add_service_offering",
-                "filter_apps",
                 "view_notifications",
                 "view_certificates",
+                "create_notifications",
+                "unsubscribe_services",
+                "modify_connectors",
+                "view_use_case_participation",
+                "view_partner_network",
+                "decline_new_partner",
+                "update_company_role",
+                "delete_documents",
+                "app_management",
+                "view_app_language",
+                "modify_user_account",
+                "add_connectors",
+                "service_management",
+                "view_user_management",
+                "add_tech_user_management",
+                "add_self_descriptions",
+                "view_user_account",
+                "view_service_subscriptions",
+                "activate_subscription",
+                "view_client_roles",
+                "subscribe_service",
+                "delete_user_account",
+                "view_submitted_applications",
+                "add_user_account",
+                "delete_apps",
+                "view_service_marketplace",
+                "view_service_offering",
+                "view_use_cases",
                 "technical_roles_management",
                 "delete_tech_user_management",
                 "delete_own_user_account",
-                "my_user_account",
-                "create_notifications",
                 "edit_apps",
-                "unsubscribe_services",
                 "view_apps",
-                "modify_connectors",
-                "view_use_case_participation",
-                "view_connectors",
-                "view_partner_network"
+                "view_connectors"
               ],
               "Cl3-CX-Semantic": [
-                "view_semantic_model",
                 "delete_semantic_model",
                 "add_semantic_model",
-                "update_semantic_model"
+                "update_semantic_model",
+                "view_semantic_model"
               ]
             }
           },
@@ -1297,10 +1398,28 @@
           "attributes": {}
         },
         {
-          "id": "99a8940c-0fbc-4f65-8134-4b598c3aabbc",
-          "name": "my_user_account",
-          "description": "view my own user account details",
-          "composite": false,
+          "id": "3ad2a1ef-09ad-4ab8-9ccc-30b15aae9f1c",
+          "name": "Business Partner Data Manager",
+          "description": "",
+          "composite": true,
+          "composites": {
+            "client": {
+              "Cl7-CX-BPDM": [
+                "read_changelog_member",
+                "read_metadata",
+                "read_partner_member"
+              ],
+              "technical_roles_management": [
+                "BPDM Pool Consumer"
+              ],
+              "Cl24-CX-SSI-CredentialIssuer": [
+                "view_credential_requests"
+              ],
+              "Cl2-CX-Portal": [
+                "CX User"
+              ]
+            }
+          },
           "clientRole": true,
           "containerId": "e0806293-f9b3-44f1-a6d0-4e4406787f80",
           "attributes": {}
@@ -1434,24 +1553,63 @@
       "sa-cl8-cx-1": [],
       "Cl7-CX-BPDM": [
         {
-          "id": "b59a076b-07c5-42fa-b8d8-04a65f077226",
-          "name": "delete_company_data",
+          "id": "a1571747-020a-4803-bb77-06c41628c015",
+          "name": "read_changelog_member",
+          "description": "",
           "composite": false,
           "clientRole": true,
           "containerId": "04cd6d38-674f-4588-980a-8f120bddcc44",
           "attributes": {}
         },
         {
-          "id": "a4829839-9df9-47c8-8eb0-57f4020000c3",
-          "name": "add_company_data",
+          "id": "942b1ca5-9e70-41c7-b18f-23c656f870eb",
+          "name": "read_partner",
+          "description": "",
           "composite": false,
           "clientRole": true,
           "containerId": "04cd6d38-674f-4588-980a-8f120bddcc44",
           "attributes": {}
         },
         {
-          "id": "d16779a5-03bd-4fbd-bf40-382c4348b205",
-          "name": "view_company_data",
+          "id": "f2dc6b37-1df8-4ff6-8326-557aa771d8c8",
+          "name": "read_metadata",
+          "description": "",
+          "composite": false,
+          "clientRole": true,
+          "containerId": "04cd6d38-674f-4588-980a-8f120bddcc44",
+          "attributes": {}
+        },
+        {
+          "id": "022ba187-6168-469e-9d07-5122361ff090",
+          "name": "read_partner_member",
+          "description": "",
+          "composite": false,
+          "clientRole": true,
+          "containerId": "04cd6d38-674f-4588-980a-8f120bddcc44",
+          "attributes": {}
+        },
+        {
+          "id": "b4e78d14-8c99-41ad-aff5-ab1d6ad3081b",
+          "name": "write_metadata",
+          "description": "",
+          "composite": false,
+          "clientRole": true,
+          "containerId": "04cd6d38-674f-4588-980a-8f120bddcc44",
+          "attributes": {}
+        },
+        {
+          "id": "5a36b13d-48ed-440a-b28b-e07a6354f90c",
+          "name": "read_changelog",
+          "description": "",
+          "composite": false,
+          "clientRole": true,
+          "containerId": "04cd6d38-674f-4588-980a-8f120bddcc44",
+          "attributes": {}
+        },
+        {
+          "id": "cccaaf38-4b98-41a8-a92f-8332ecb6faf7",
+          "name": "write_partner",
+          "description": "",
           "composite": false,
           "clientRole": true,
           "containerId": "04cd6d38-674f-4588-980a-8f120bddcc44",
@@ -1460,31 +1618,17 @@
       ],
       "technical_roles_management": [
         {
-          "id": "b5c9ff05-b0cf-414d-bd70-e38f8e4923cf",
-          "name": "BPDM Management",
-          "composite": true,
-          "composites": {
-            "client": {
-              "Cl7-CX-BPDM": [
-                "delete_company_data",
-                "add_company_data",
-                "view_company_data"
-              ]
-            }
-          },
-          "clientRole": true,
-          "containerId": "6df310ed-500e-43d5-b510-fa4668e939ee",
-          "attributes": {}
-        },
-        {
-          "id": "0324b0ed-43c0-4493-ad4b-4f202e288df0",
-          "name": "CX Membership Info",
+          "id": "94f74d64-272b-497d-b280-e2007bf4adb4",
+          "name": "BPDM Pool Sharing Consumer",
           "description": "",
           "composite": true,
           "composites": {
             "client": {
-              "Cl2-CX-Portal": [
-                "view_membership"
+              "Cl7-CX-BPDM": [
+                "read_changelog_member",
+                "read_metadata",
+                "read_partner_member",
+                "read_changelog"
               ]
             }
           },
@@ -1509,55 +1653,6 @@
           "attributes": {}
         },
         {
-          "id": "20f2c41a-dacd-4505-877a-bb899066a767",
-          "name": "BPDM Pool",
-          "composite": true,
-          "composites": {
-            "client": {
-              "Cl7-CX-BPDM": [
-                "view_company_data"
-              ]
-            }
-          },
-          "clientRole": true,
-          "containerId": "6df310ed-500e-43d5-b510-fa4668e939ee",
-          "attributes": {}
-        },
-        {
-          "id": "162b2472-c940-4285-a662-e712501491dc",
-          "name": "BPDM Gate Read & Write",
-          "description": "",
-          "composite": true,
-          "composites": {
-            "client": {
-              "Cl16-CX-BPDMGate": [
-                "view_company_data",
-                "update_company_data",
-                "view_shared_data"
-              ]
-            }
-          },
-          "clientRole": true,
-          "containerId": "6df310ed-500e-43d5-b510-fa4668e939ee",
-          "attributes": {}
-        },
-        {
-          "id": "6f153999-e1a9-4cc7-b9c0-f53e7c5f7a42",
-          "name": "Identity Wallet Management",
-          "composite": true,
-          "composites": {
-            "client": {
-              "Cl5-CX-Custodian": [
-                "view_wallet",
-                "update_wallet"
-              ]
-            }
-          },
-          "clientRole": true,
-          "containerId": "6df310ed-500e-43d5-b510-fa4668e939ee",
-          "attributes": {}
-        },
-        {
           "id": "dee6cf7a-fb6b-451c-9ef7-87459893e48f",
           "name": "Registration External",
           "composite": true,
@@ -1566,6 +1661,27 @@
               "Cl2-CX-Portal": [
                 "create_partner_registration",
                 "configure_partner_registration"
+              ]
+            }
+          },
+          "clientRole": true,
+          "containerId": "6df310ed-500e-43d5-b510-fa4668e939ee",
+          "attributes": {}
+        },
+        {
+          "id": "80d0af88-3cad-47d2-b2b5-3992941573b8",
+          "name": "BPDM Sharing Input Manager",
+          "description": "",
+          "composite": true,
+          "composites": {
+            "client": {
+              "Cl16-CX-BPDMGate": [
+                "read_input_changelog",
+                "read_sharing_state",
+                "write_sharing_state",
+                "read_input_partner",
+                "write_input_partner",
+                "read_stats"
               ]
             }
           },
@@ -1594,15 +1710,22 @@
           "attributes": {}
         },
         {
-          "id": "67ef1542-73d5-4179-8c4e-d4a297b8aad3",
-          "name": "BPDM Partner Gate",
+          "id": "e2f27c6d-b183-4a3a-abfa-332edaa09bf5",
+          "name": "BPDM Sharing Admin",
+          "description": "",
           "composite": true,
           "composites": {
             "client": {
               "Cl16-CX-BPDMGate": [
-                "view_company_data",
-                "update_company_data",
-                "view_shared_data"
+                "read_input_changelog",
+                "read_sharing_state",
+                "read_output_changelog",
+                "read_output_partner",
+                "write_sharing_state",
+                "read_input_partner",
+                "write_input_partner",
+                "write_output_partner",
+                "read_stats"
               ]
             }
           },
@@ -1611,14 +1734,20 @@
           "attributes": {}
         },
         {
-          "id": "ef1112fd-3e6d-4e73-8947-5a21fd38f760",
-          "name": "BPDM Gate Read",
+          "id": "d26cf5c3-665c-4522-bbc4-fb28f6c62d11",
+          "name": "BPDM Pool Admin",
           "description": "",
           "composite": true,
           "composites": {
             "client": {
-              "Cl16-CX-BPDMGate": [
-                "view_company_data"
+              "Cl7-CX-BPDM": [
+                "read_changelog_member",
+                "read_partner",
+                "read_metadata",
+                "read_partner_member",
+                "write_metadata",
+                "read_changelog",
+                "write_partner"
               ]
             }
           },
@@ -1642,6 +1771,94 @@
               ],
               "Cl2-CX-Portal": [
                 "view_connectors"
+              ]
+            }
+          },
+          "clientRole": true,
+          "containerId": "6df310ed-500e-43d5-b510-fa4668e939ee",
+          "attributes": {}
+        },
+        {
+          "id": "bf0d0e2e-a58a-4f2e-ae40-a4f9754b55e1",
+          "name": "BPDM Sharing Output Consumer",
+          "description": "",
+          "composite": true,
+          "composites": {
+            "client": {
+              "Cl16-CX-BPDMGate": [
+                "read_sharing_state",
+                "read_output_changelog",
+                "read_output_partner",
+                "read_stats"
+              ]
+            }
+          },
+          "clientRole": true,
+          "containerId": "6df310ed-500e-43d5-b510-fa4668e939ee",
+          "attributes": {}
+        },
+        {
+          "id": "0324b0ed-43c0-4493-ad4b-4f202e288df0",
+          "name": "CX Membership Info",
+          "description": "",
+          "composite": true,
+          "composites": {
+            "client": {
+              "Cl2-CX-Portal": [
+                "view_membership"
+              ]
+            }
+          },
+          "clientRole": true,
+          "containerId": "6df310ed-500e-43d5-b510-fa4668e939ee",
+          "attributes": {}
+        },
+        {
+          "id": "6f153999-e1a9-4cc7-b9c0-f53e7c5f7a42",
+          "name": "Identity Wallet Management",
+          "composite": true,
+          "composites": {
+            "client": {
+              "Cl5-CX-Custodian": [
+                "view_wallet",
+                "update_wallet"
+              ]
+            }
+          },
+          "clientRole": true,
+          "containerId": "6df310ed-500e-43d5-b510-fa4668e939ee",
+          "attributes": {}
+        },
+        {
+          "id": "3ffec12b-e9da-46d2-ae71-d9b0a196d030",
+          "name": "BPDM Pool Consumer",
+          "description": "",
+          "composite": true,
+          "composites": {
+            "client": {
+              "Cl7-CX-BPDM": [
+                "read_changelog_member",
+                "read_metadata",
+                "read_changelog"
+              ]
+            }
+          },
+          "clientRole": true,
+          "containerId": "6df310ed-500e-43d5-b510-fa4668e939ee",
+          "attributes": {}
+        },
+        {
+          "id": "4348abf6-499f-41cd-91a5-c22afee81629",
+          "name": "BPDM Sharing Input Consumer",
+          "description": "",
+          "composite": true,
+          "composites": {
+            "client": {
+              "Cl16-CX-BPDMGate": [
+                "read_input_changelog",
+                "read_sharing_state",
+                "read_input_partner",
+                "read_stats"
               ]
             }
           },
@@ -1871,24 +2088,81 @@
       ],
       "Cl16-CX-BPDMGate": [
         {
-          "id": "891e715a-7fdb-4dbe-a177-998a383ee836",
-          "name": "view_company_data",
+          "id": "e86f464d-f43c-4da5-a076-8a29ff171d39",
+          "name": "read_input_changelog",
+          "description": "",
           "composite": false,
           "clientRole": true,
           "containerId": "52f90723-b4c1-44c3-bef2-fd8ebe59ae6c",
           "attributes": {}
         },
         {
-          "id": "cf42a03f-20f7-4ff3-a898-e1a93bf03520",
-          "name": "update_company_data",
+          "id": "4970ceef-4196-46f5-9f02-60fa87066ec7",
+          "name": "read_sharing_state",
+          "description": "",
           "composite": false,
           "clientRole": true,
           "containerId": "52f90723-b4c1-44c3-bef2-fd8ebe59ae6c",
           "attributes": {}
         },
         {
-          "id": "2a006c99-0790-4dd0-8b82-59c4fea1ce17",
-          "name": "view_shared_data",
+          "id": "8f49b2b4-ef67-43f0-af51-308497afbad2",
+          "name": "read_output_changelog",
+          "description": "",
+          "composite": false,
+          "clientRole": true,
+          "containerId": "52f90723-b4c1-44c3-bef2-fd8ebe59ae6c",
+          "attributes": {}
+        },
+        {
+          "id": "57b5a95f-a918-4e94-8df3-f6ad988f1b26",
+          "name": "read_output_partner",
+          "description": "",
+          "composite": false,
+          "clientRole": true,
+          "containerId": "52f90723-b4c1-44c3-bef2-fd8ebe59ae6c",
+          "attributes": {}
+        },
+        {
+          "id": "3306707a-c19d-4e1c-ad00-0adeab2dff3f",
+          "name": "write_sharing_state",
+          "description": "",
+          "composite": false,
+          "clientRole": true,
+          "containerId": "52f90723-b4c1-44c3-bef2-fd8ebe59ae6c",
+          "attributes": {}
+        },
+        {
+          "id": "4e3e7c89-7bff-4dc0-9a7d-f553a2f509d1",
+          "name": "read_input_partner",
+          "description": "",
+          "composite": false,
+          "clientRole": true,
+          "containerId": "52f90723-b4c1-44c3-bef2-fd8ebe59ae6c",
+          "attributes": {}
+        },
+        {
+          "id": "8d808af6-cbc8-4853-86dd-04572c1aec01",
+          "name": "read_stats",
+          "description": "",
+          "composite": false,
+          "clientRole": true,
+          "containerId": "52f90723-b4c1-44c3-bef2-fd8ebe59ae6c",
+          "attributes": {}
+        },
+        {
+          "id": "0fde7cd1-ba66-4405-961c-5db9bbcc456c",
+          "name": "write_input_partner",
+          "description": "",
+          "composite": false,
+          "clientRole": true,
+          "containerId": "52f90723-b4c1-44c3-bef2-fd8ebe59ae6c",
+          "attributes": {}
+        },
+        {
+          "id": "7e7ac79f-1661-4137-a665-54836b06e5b7",
+          "name": "write_output_partner",
+          "description": "",
           "composite": false,
           "clientRole": true,
           "containerId": "52f90723-b4c1-44c3-bef2-fd8ebe59ae6c",
@@ -2027,17 +2301,20 @@
           "composites": {
             "client": {
               "Cl7-CX-BPDM": [
-                "view_company_data"
+                "read_metadata",
+                "read_partner_member",
+                "read_changelog_member",
+                "read_partner"
               ],
               "Cl1-CX-Registration": [
-                "add_company_data",
-                "view_registration",
                 "view_documents",
                 "view_company_roles",
-                "submit_registration",
-                "sign_consent",
                 "delete_documents",
                 "upload_documents",
+                "add_company_data",
+                "view_registration",
+                "submit_registration",
+                "sign_consent",
                 "invite_user"
               ]
             }
@@ -2197,7 +2474,6 @@
       "sa-cl1-reg-2": [],
       "satest09": [],
       "satest08": [],
-      "sa-cl5-custodian-1": [],
       "sa-cl5-custodian-2": [],
       "satest03": [],
       "satest02": [],
@@ -2327,9 +2603,9 @@
   "otpPolicyPeriod": 30,
   "otpPolicyCodeReusable": false,
   "otpSupportedApplications": [
+    "totpAppMicrosoftAuthenticatorName",
     "totpAppGoogleName",
-    "totpAppFreeOTPName",
-    "totpAppMicrosoftAuthenticatorName"
+    "totpAppFreeOTPName"
   ],
   "webAuthnPolicyRpEntityName": "keycloak",
   "webAuthnPolicySignatureAlgorithms": [
@@ -2393,6 +2669,11 @@
       "totp": false,
       "emailVerified": false,
       "serviceAccountClientId": "sa-cl1-reg-2",
+      "attributes": {
+        "bpn": [
+          "BPNL00000003CRHK"
+        ]
+      },
       "disableableCredentialTypes": [],
       "requiredActions": [],
       "realmRoles": [
@@ -2416,6 +2697,11 @@
       "totp": false,
       "emailVerified": false,
       "serviceAccountClientId": "sa-cl2-01",
+      "attributes": {
+        "bpn": [
+          "BPNL00000003CRHK"
+        ]
+      },
       "disableableCredentialTypes": [],
       "requiredActions": [],
       "realmRoles": [
@@ -2437,6 +2723,11 @@
       "totp": false,
       "emailVerified": false,
       "serviceAccountClientId": "sa-cl2-02",
+      "attributes": {
+        "bpn": [
+          "BPNL00000003CRHK"
+        ]
+      },
       "disableableCredentialTypes": [],
       "requiredActions": [],
       "realmRoles": [
@@ -2459,11 +2750,73 @@
       "totp": false,
       "emailVerified": false,
       "serviceAccountClientId": "sa-cl2-03",
+      "attributes": {
+        "bpn": [
+          "BPNL00000003CRHK"
+        ]
+      },
       "disableableCredentialTypes": [],
       "requiredActions": [],
       "realmRoles": [
         "default-roles-catena-x realm"
       ],
+      "notBefore": 0,
+      "groups": []
+    },
+    {
+      "id": "27655161-6170-474c-ba8a-b8ead374308a",
+      "createdTimestamp": 1717061369266,
+      "username": "service-account-sa-cl2-04",
+      "enabled": true,
+      "totp": false,
+      "emailVerified": false,
+      "serviceAccountClientId": "sa-cl2-04",
+      "attributes": {
+        "bpn": [
+          "BPNL00000003CRHK"
+        ]
+      },
+      "disableableCredentialTypes": [],
+      "requiredActions": [],
+      "realmRoles": [
+        "default-roles-catena-x realm"
+      ],
+      "clientRoles": {
+        "Cl24-CX-SSI-CredentialIssuer": [
+          "view_certificates",
+          "revoke_credentials_issuer",
+          "view_use_case_participation",
+          "request_ssicredential",
+          "decision_ssicredential",
+          "revoke_credential"
+        ]
+      },
+      "notBefore": 0,
+      "groups": []
+    },
+    {
+      "id": "473dd544-f3f1-412f-84cf-30b6a926e9ba",
+      "createdTimestamp": 1717061369406,
+      "username": "service-account-sa-cl2-05",
+      "enabled": true,
+      "totp": false,
+      "emailVerified": false,
+      "serviceAccountClientId": "sa-cl2-05",
+      "attributes": {
+        "bpn": [
+          "BPNL00000003CRHK"
+        ]
+      },
+      "disableableCredentialTypes": [],
+      "requiredActions": [],
+      "realmRoles": [
+        "default-roles-catena-x realm"
+      ],
+      "clientRoles": {
+        "Cl2-CX-Portal": [
+          "store_didDocument"
+        ]
+      },
       "notBefore": 0,
       "groups": []
     },
@@ -2524,46 +2877,13 @@
       "groups": []
     },
     {
-      "id": "965ae857-1e91-4e0b-bdb5-4efd1fc7ea9c",
-      "createdTimestamp": 1658347753956,
-      "username": "service-account-sa-cl3-cx-1",
+      "id": "95b49235-8d2e-4e92-868b-98107cedcb09",
+      "createdTimestamp": 1717061369639,
+      "username": "service-account-sa-cl24-01",
       "enabled": true,
       "totp": false,
       "emailVerified": false,
-      "serviceAccountClientId": "sa-cl3-cx-1",
-      "attributes": {
-        "bpn": [
-          "CAX0000000000001"
-        ]
-      },
-      "disableableCredentialTypes": [],
-      "requiredActions": [],
-      "realmRoles": [
-        "default-roles-catena-x realm"
-      ],
-      "clientRoles": {
-        "technical_roles_management": [
-          "Semantic Model Management",
-          "Identity Wallet Management",
-          "Dataspace Discovery"
-        ],
-        "Cl3-CX-Semantic": [
-          "delete_semantic_model",
-          "add_semantic_model",
-          "update_semantic_model"
-        ]
-      },
-      "notBefore": 0,
-      "groups": []
-    },
-    {
-      "id": "6e9d388a-1a21-4196-8210-80e9a696ae87",
-      "createdTimestamp": 1651615151516,
-      "username": "service-account-sa-cl5-custodian-1",
-      "enabled": true,
-      "totp": false,
-      "emailVerified": false,
-      "serviceAccountClientId": "sa-cl5-custodian-1",
+      "serviceAccountClientId": "sa-cl24-01",
       "attributes": {
         "bpn": [
           "BPNL00000003CRHK"
@@ -2575,11 +2895,44 @@
         "default-roles-catena-x realm"
       ],
       "clientRoles": {
-        "Cl5-CX-Custodian": [
-          "update_wallets",
-          "view_wallet",
-          "update_wallet",
-          "view_wallets"
+        "Cl2-CX-Portal": [
+          "send_mail",
+          "update_application_bpn_credential",
+          "update_application_membership_credential",
+          "create_notifications"
+        ]
+      },
+      "notBefore": 0,
+      "groups": []
+    },
+    {
+      "id": "965ae857-1e91-4e0b-bdb5-4efd1fc7ea9c",
+      "createdTimestamp": 1658347753956,
+      "username": "service-account-sa-cl3-cx-1",
+      "enabled": true,
+      "totp": false,
+      "emailVerified": false,
+      "firstName": "",
+      "lastName": "",
+      "serviceAccountClientId": "sa-cl3-cx-1",
+      "attributes": {
+        "bpn": [
+          "BPNL00000003CRHK"
+        ]
+      },
+      "disableableCredentialTypes": [],
+      "requiredActions": [],
+      "realmRoles": [
+        "default-roles-catena-x realm"
+      ],
+      "clientRoles": {
+        "technical_roles_management": [
+          "Semantic Model Management"
+        ],
+        "Cl3-CX-Semantic": [
+          "delete_semantic_model",
+          "add_semantic_model",
+          "update_semantic_model"
         ]
       },
       "notBefore": 0,
@@ -2626,20 +2979,20 @@
       "totp": false,
       "emailVerified": false,
       "serviceAccountClientId": "sa-cl7-cx-5",
+      "attributes": {
+        "bpn": [
+          "BPNL00000003CRHK"
+        ]
+      },
       "disableableCredentialTypes": [],
       "requiredActions": [],
       "realmRoles": [
         "default-roles-catena-x realm"
       ],
       "clientRoles": {
-        "Cl16-CX-BPDMGate": [
-          "view_company_data",
-          "update_company_data",
-          "view_shared_data"
-        ],
-        "Cl7-CX-BPDM": [
-          "add_company_data",
-          "view_company_data"
+        "technical_roles_management": [
+          "BPDM Sharing Admin",
+          "BPDM Pool Admin"
         ]
       },
       "notBefore": 0,
@@ -2653,6 +3006,11 @@
       "totp": false,
       "emailVerified": false,
       "serviceAccountClientId": "sa-cl8-cx-1",
+      "attributes": {
+        "bpn": [
+          "BPNL00000003CRHK"
+        ]
+      },
       "disableableCredentialTypes": [],
       "requiredActions": [],
       "realmRoles": [
@@ -3154,25 +3512,6 @@
         ]
       }
     ],
-    "Cl16-CX-BPDMGate": [
-      {
-        "client": "sa-cl7-cx-5",
-        "roles": [
-          "update_company_data",
-          "view_shared_data",
-          "view_company_data"
-        ]
-      }
-    ],
-    "Cl7-CX-BPDM": [
-      {
-        "client": "sa-cl7-cx-5",
-        "roles": [
-          "add_company_data",
-          "view_company_data"
-        ]
-      }
-    ],
     "technical_roles_management": [
       {
         "client": "sa-cl3-cx-1",
@@ -3181,18 +3520,16 @@
           "Semantic Model Management",
           "Identity Wallet Management"
         ]
+      },
+      {
+        "client": "sa-cl7-cx-5",
+        "roles": [
+          "BPDM Pool Admin",
+          "BPDM Sharing Admin"
+        ]
       }
     ],
     "Cl5-CX-Custodian": [
-      {
-        "client": "sa-cl5-custodian-1",
-        "roles": [
-          "update_wallets",
-          "update_wallet",
-          "view_wallets",
-          "view_wallet"
-        ]
-      },
       {
         "client": "sa-cl5-custodian-2",
         "roles": [
@@ -3204,6 +3541,19 @@
           "view_wallets",
           "view_wallet",
           "add_wallets"
+        ]
+      }
+    ],
+    "Cl24-CX-SSI-CredentialIssuer": [
+      {
+        "client": "sa-cl2-04",
+        "roles": [
+          "revoke_credentials_issuer",
+          "view_use_case_participation",
+          "view_certificates",
+          "request_ssicredential",
+          "revoke_credential",
+          "decision_ssicredential"
         ]
       }
     ],
@@ -3228,6 +3578,21 @@
         "roles": [
           "submit_connector_sd",
           "update_application_checklist_value"
+        ]
+      },
+      {
+        "client": "sa-cl2-05",
+        "roles": [
+          "store_didDocument"
+        ]
+      },
+      {
+        "client": "sa-cl24-01",
+        "roles": [
+          "send_mail",
+          "create_notifications",
+          "update_application_membership_credential",
+          "update_application_bpn_credential"
         ]
       },
       {
@@ -3489,12 +3854,17 @@
     {
       "id": "52f90723-b4c1-44c3-bef2-fd8ebe59ae6c",
       "clientId": "Cl16-CX-BPDMGate",
+      "name": "",
+      "description": " Portal Gate",
+      "rootUrl": "",
+      "baseUrl": "",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "secret": "q0ma25iV6bfqV6ho3kyWKnR1trp0IRez",
       "redirectUris": [
+        "http://partners-gate.tx.test/*",
         "https://partners-gate.tx.test/*"
       ],
       "webOrigins": [
@@ -3561,6 +3931,7 @@
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
+        "http://portal.tx.test/*",
         "https://portal.tx.test/*"
       ],
       "webOrigins": [
@@ -3834,11 +4205,61 @@
           "config": {
             "included.client.audience": "Cl23-CX-Policy-Hub",
             "id.token.claim": "true",
-            "access.token.claim": "true",
-            "userinfo.token.claim": "true"
+            "access.token.claim": "true"
           }
         }
       ],
+      "defaultClientScopes": [
+        "web-origins",
+        "acr",
+        "roles",
+        "profile",
+        "email"
+      ],
+      "optionalClientScopes": [
+        "address",
+        "phone",
+        "offline_access",
+        "microprofile-jwt"
+      ]
+    },
+    {
+      "id": "e3ef0979-896b-4455-87e7-647f19119c7b",
+      "clientId": "Cl24-CX-SSI-CredentialIssuer",
+      "name": "",
+      "description": "Client for SSI Credential Issuer",
+      "rootUrl": "",
+      "adminUrl": "",
+      "baseUrl": "",
+      "surrogateAuthRequired": false,
+      "enabled": true,
+      "alwaysDisplayInConsole": false,
+      "clientAuthenticatorType": "client-secret",
+      "redirectUris": [
+        "/*"
+      ],
+      "webOrigins": [
+        "/*"
+      ],
+      "notBefore": 0,
+      "bearerOnly": false,
+      "consentRequired": false,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": true,
+      "serviceAccountsEnabled": false,
+      "publicClient": true,
+      "frontchannelLogout": true,
+      "protocol": "openid-connect",
+      "attributes": {
+        "oidc.ciba.grant.enabled": "false",
+        "oauth2.device.authorization.grant.enabled": "false",
+        "backchannel.logout.session.required": "true",
+        "backchannel.logout.revoke.offline.tokens": "false"
+      },
+      "authenticationFlowBindingOverrides": {},
+      "fullScopeAllowed": true,
+      "nodeReRegistrationTimeout": -1,
       "defaultClientScopes": [
         "web-origins",
         "acr",
@@ -3858,7 +4279,7 @@
       "clientId": "Cl2-CX-Portal",
       "name": "",
       "description": "",
-      "rootUrl": "https://portal.tx.test/home",
+      "rootUrl": "http://portal.tx.test/home",
       "adminUrl": "",
       "baseUrl": "",
       "surrogateAuthRequired": false,
@@ -3866,6 +4287,7 @@
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
+        "http://portal.tx.test/*",
         "https://portal.tx.test/*"
       ],
       "webOrigins": [
@@ -3955,12 +4377,13 @@
       "id": "36e2745d-f331-4fa5-bbfa-90947d7f1dc4",
       "clientId": "Cl3-CX-Semantic",
       "rootUrl": "",
-      "adminUrl": "https://portal.tx.test/home",
+      "adminUrl": "http://portal.tx.test/home",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "redirectUris": [
+        "http://portal.tx.test/*",
         "https://portal.tx.test/*"
       ],
       "webOrigins": [
@@ -4056,6 +4479,7 @@
       "clientAuthenticatorType": "client-secret",
       "secret": "XzZNs56cadY8b2P253By8GS4jbY7QCui",
       "redirectUris": [
+        "http://managed-identity-wallets.tx.test/*",
         "https://managed-identity-wallets.tx.test/*"
       ],
       "webOrigins": [],
@@ -4153,13 +4577,18 @@
     {
       "id": "04cd6d38-674f-4588-980a-8f120bddcc44",
       "clientId": "Cl7-CX-BPDM",
+      "name": "",
+      "description": " BPDM Pool",
+      "rootUrl": "",
+      "baseUrl": "",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
       "clientAuthenticatorType": "client-secret",
       "secret": "4pJIiaUsLeQsSH6OEqoZmq6aEsZkeBj2",
       "redirectUris": [
-        "https://partners-pool.tx.test/*"
+        "https://partners-pool.tx.test/*",
+        "http://partners-pool.tx.test/*"
       ],
       "webOrigins": [
         "+"
@@ -4307,6 +4736,21 @@
       "nodeReRegistrationTimeout": -1,
       "protocolMappers": [
         {
+          "id": "504ddec9-12e3-4a07-92ea-5777fb0281ca",
+          "name": "BPN",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "userinfo.token.claim": "true",
+            "user.attribute": "bpn",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "bpn",
+            "jsonType.label": "String"
+          }
+        },
+        {
           "id": "7ef011ab-1e39-4d57-9f23-3b389394b57f",
           "name": "Client Host",
           "protocol": "openid-connect",
@@ -4415,6 +4859,21 @@
       "fullScopeAllowed": false,
       "nodeReRegistrationTimeout": -1,
       "protocolMappers": [
+        {
+          "id": "c1db59ce-0c87-44c0-9b58-cd1be76f2dec",
+          "name": "BPN",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "userinfo.token.claim": "true",
+            "user.attribute": "bpn",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "bpn",
+            "jsonType.label": "String"
+          }
+        },
         {
           "id": "9a62e6ee-4e3c-4cb9-81b7-53e8dfbdd210",
           "name": "Client IP Address",
@@ -4540,6 +4999,21 @@
           }
         },
         {
+          "id": "548dddd8-aa66-44c5-9f1a-63b332762904",
+          "name": "BPN",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "userinfo.token.claim": "true",
+            "user.attribute": "bpn",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "bpn",
+            "jsonType.label": "String"
+          }
+        },
+        {
           "id": "6c3d92dd-e8db-4ecd-a819-bd2d64f73f6c",
           "name": "Client ID",
           "protocol": "openid-connect",
@@ -4634,6 +5108,21 @@
       "nodeReRegistrationTimeout": -1,
       "protocolMappers": [
         {
+          "id": "2ef193a2-2426-42b5-8529-f520f968cbe4",
+          "name": "BPN",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "userinfo.token.claim": "true",
+            "user.attribute": "bpn",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "bpn",
+            "jsonType.label": "String"
+          }
+        },
+        {
           "id": "f57ed439-7c35-4a6c-a097-aa750249c442",
           "name": "Client IP Address",
           "protocol": "openid-connect",
@@ -4681,6 +5170,231 @@
       ],
       "defaultClientScopes": [
         "web-origins",
+        "roles",
+        "profile",
+        "email"
+      ],
+      "optionalClientScopes": [
+        "address",
+        "phone",
+        "offline_access",
+        "microprofile-jwt"
+      ]
+    },
+    {
+      "id": "f7cca1d1-5e78-46ee-bf95-bc68f0d95641",
+      "clientId": "sa-cl2-04",
+      "name": "",
+      "description": "Technical User SSI Credential Issuer - Portal to SSI Credential Issuer (portal helm chart: backend.processesworker.issuerComponent.clientId)",
+      "rootUrl": "",
+      "adminUrl": "",
+      "baseUrl": "",
+      "surrogateAuthRequired": false,
+      "enabled": true,
+      "alwaysDisplayInConsole": false,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "c0gFPfWWUpeOr7MP6DIqdRPhUfaX4GRC",
+      "redirectUris": [
+        "/*"
+      ],
+      "webOrigins": [
+        "/*"
+      ],
+      "notBefore": 0,
+      "bearerOnly": false,
+      "consentRequired": false,
+      "standardFlowEnabled": false,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": true,
+      "publicClient": false,
+      "frontchannelLogout": true,
+      "protocol": "openid-connect",
+      "attributes": {
+        "oidc.ciba.grant.enabled": "false",
+        "client.secret.creation.time": "1712762229",
+        "backchannel.logout.session.required": "true",
+        "display.on.consent.screen": "false",
+        "oauth2.device.authorization.grant.enabled": "false",
+        "backchannel.logout.revoke.offline.tokens": "false"
+      },
+      "authenticationFlowBindingOverrides": {},
+      "fullScopeAllowed": false,
+      "nodeReRegistrationTimeout": -1,
+      "protocolMappers": [
+        {
+          "id": "8883d27a-0e9a-442b-863c-b397ddfe44af",
+          "name": "Client Host",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usersessionmodel-note-mapper",
+          "consentRequired": false,
+          "config": {
+            "user.session.note": "clientHost",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "clientHost",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "id": "b3b54eab-9050-4ac2-bfca-e72145e53476",
+          "name": "Client ID",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usersessionmodel-note-mapper",
+          "consentRequired": false,
+          "config": {
+            "user.session.note": "client_id",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "client_id",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "id": "da1d8d5a-5966-475b-9905-cbadb59fcd65",
+          "name": "Client IP Address",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usersessionmodel-note-mapper",
+          "consentRequired": false,
+          "config": {
+            "user.session.note": "clientAddress",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "clientAddress",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "id": "484a4e1a-4fbb-4aa7-bc7b-16da13acf4fc",
+          "name": "BPN",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "userinfo.token.claim": "true",
+            "user.attribute": "bpn",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "bpn",
+            "jsonType.label": "String"
+          }
+        }
+      ],
+      "defaultClientScopes": [
+        "web-origins",
+        "acr",
+        "roles",
+        "profile",
+        "email"
+      ],
+      "optionalClientScopes": [
+        "address",
+        "phone",
+        "offline_access",
+        "microprofile-jwt"
+      ]
+    },
+    {
+      "id": "5d706a32-3b3b-4d8d-aa81-bd3c25bacd3e",
+      "clientId": "sa-cl2-05",
+      "name": "",
+      "description": "Technical User Dim Layer - Dim Layer to Portal (dim helm chart: processesworker.callback.clientId)",
+      "rootUrl": "",
+      "adminUrl": "",
+      "baseUrl": "",
+      "surrogateAuthRequired": false,
+      "enabled": true,
+      "alwaysDisplayInConsole": false,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "zuBGfr67Tj0WJ5fAJSIRvoPEP5hSQFMT",
+      "redirectUris": [
+        "/*"
+      ],
+      "webOrigins": [
+        "/*"
+      ],
+      "notBefore": 0,
+      "bearerOnly": false,
+      "consentRequired": false,
+      "standardFlowEnabled": false,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": true,
+      "publicClient": false,
+      "frontchannelLogout": true,
+      "protocol": "openid-connect",
+      "attributes": {
+        "oidc.ciba.grant.enabled": "false",
+        "oauth2.device.authorization.grant.enabled": "false",
+        "client.secret.creation.time": "1712764151",
+        "backchannel.logout.session.required": "true",
+        "backchannel.logout.revoke.offline.tokens": "false"
+      },
+      "authenticationFlowBindingOverrides": {},
+      "fullScopeAllowed": false,
+      "nodeReRegistrationTimeout": -1,
+      "protocolMappers": [
+        {
+          "id": "251d6c51-ffa5-47b8-9306-887964392a8f",
+          "name": "Client ID",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usersessionmodel-note-mapper",
+          "consentRequired": false,
+          "config": {
+            "user.session.note": "client_id",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "client_id",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "id": "61795fb8-83bd-434f-bbef-3ee5ee6fdda8",
+          "name": "Client Host",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usersessionmodel-note-mapper",
+          "consentRequired": false,
+          "config": {
+            "user.session.note": "clientHost",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "clientHost",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "id": "d5dee42f-5c81-45d4-9c80-f84845b47893",
+          "name": "BPN",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "userinfo.token.claim": "true",
+            "user.attribute": "bpn",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "bpn",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "id": "b9ffdad2-c44d-4a80-be38-48dec07c8216",
+          "name": "Client IP Address",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usersessionmodel-note-mapper",
+          "consentRequired": false,
+          "config": {
+            "user.session.note": "clientAddress",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "clientAddress",
+            "jsonType.label": "String"
+          }
+        }
+      ],
+      "defaultClientScopes": [
+        "web-origins",
+        "acr",
         "roles",
         "profile",
         "email"
@@ -4941,6 +5655,119 @@
       ]
     },
     {
+      "id": "453d8dd2-9907-45cc-a500-4fc277561515",
+      "clientId": "sa-cl24-01",
+      "name": "",
+      "description": "Technical User for SSI Credential Issuer (credential issuer helm chart: processesworker.portal.clientId)",
+      "rootUrl": "",
+      "adminUrl": "",
+      "baseUrl": "",
+      "surrogateAuthRequired": false,
+      "enabled": true,
+      "alwaysDisplayInConsole": false,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "VRHQM2NOA4176Vrscxey1DdO4P7ikUQc",
+      "redirectUris": [
+        "/*"
+      ],
+      "webOrigins": [
+        "/*"
+      ],
+      "notBefore": 0,
+      "bearerOnly": false,
+      "consentRequired": false,
+      "standardFlowEnabled": false,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": false,
+      "serviceAccountsEnabled": true,
+      "publicClient": false,
+      "frontchannelLogout": true,
+      "protocol": "openid-connect",
+      "attributes": {
+        "oidc.ciba.grant.enabled": "false",
+        "client.secret.creation.time": "1712762671",
+        "backchannel.logout.session.required": "true",
+        "display.on.consent.screen": "false",
+        "oauth2.device.authorization.grant.enabled": "false",
+        "backchannel.logout.revoke.offline.tokens": "false"
+      },
+      "authenticationFlowBindingOverrides": {},
+      "fullScopeAllowed": false,
+      "nodeReRegistrationTimeout": -1,
+      "protocolMappers": [
+        {
+          "id": "be5541c9-603f-4565-a8e6-d2131eaaa0ec",
+          "name": "Client ID",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usersessionmodel-note-mapper",
+          "consentRequired": false,
+          "config": {
+            "user.session.note": "client_id",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "client_id",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "id": "c8bae3bd-087e-483b-8fab-afca624e4796",
+          "name": "Client IP Address",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usersessionmodel-note-mapper",
+          "consentRequired": false,
+          "config": {
+            "user.session.note": "clientAddress",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "clientAddress",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "id": "58393aa9-bc14-4963-8834-9b5e82d2fa19",
+          "name": "BPN",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "userinfo.token.claim": "true",
+            "user.attribute": "bpn",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "bpn",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "id": "e0484ca9-ef42-482e-826f-a990aea18453",
+          "name": "Client Host",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usersessionmodel-note-mapper",
+          "consentRequired": false,
+          "config": {
+            "user.session.note": "clientHost",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "clientHost",
+            "jsonType.label": "String"
+          }
+        }
+      ],
+      "defaultClientScopes": [
+        "web-origins",
+        "acr",
+        "roles",
+        "profile",
+        "email"
+      ],
+      "optionalClientScopes": [
+        "address",
+        "phone",
+        "offline_access",
+        "microprofile-jwt"
+      ]
+    },
+    {
       "id": "7beaee76-d447-4531-9433-fd9ce19d1460",
       "clientId": "sa-cl3-cx-1",
       "name": "Technical User CX internal - communication GitHub and Semantic Hub",
@@ -5066,130 +5893,12 @@
       ]
     },
     {
-      "id": "dab9dd17-0d31-46c7-b313-aca61225dcd1",
-      "clientId": "sa-cl5-custodian-1",
-      "description": "Technical User for SD Hub Call to Custodian for SD signature",
-      "surrogateAuthRequired": false,
-      "enabled": true,
-      "alwaysDisplayInConsole": false,
-      "clientAuthenticatorType": "client-secret",
-      "secret": "6pnnap7byS1TImL9Uj7g2psud9Fdq4tJ",
-      "redirectUris": [
-        "*"
-      ],
-      "webOrigins": [],
-      "notBefore": 0,
-      "bearerOnly": false,
-      "consentRequired": false,
-      "standardFlowEnabled": false,
-      "implicitFlowEnabled": false,
-      "directAccessGrantsEnabled": false,
-      "serviceAccountsEnabled": true,
-      "publicClient": false,
-      "frontchannelLogout": false,
-      "protocol": "openid-connect",
-      "attributes": {
-        "id.token.as.detached.signature": "false",
-        "saml.assertion.signature": "false",
-        "saml.force.post.binding": "false",
-        "saml.multivalued.roles": "false",
-        "saml.encrypt": "false",
-        "post.logout.redirect.uris": "+",
-        "oauth2.device.authorization.grant.enabled": "false",
-        "backchannel.logout.revoke.offline.tokens": "false",
-        "saml.server.signature": "false",
-        "saml.server.signature.keyinfo.ext": "false",
-        "use.refresh.tokens": "true",
-        "exclude.session.state.from.auth.response": "false",
-        "oidc.ciba.grant.enabled": "false",
-        "saml.artifact.binding": "false",
-        "backchannel.logout.session.required": "true",
-        "client_credentials.use_refresh_token": "false",
-        "saml_force_name_id_format": "false",
-        "require.pushed.authorization.requests": "false",
-        "saml.client.signature": "false",
-        "tls.client.certificate.bound.access.tokens": "false",
-        "saml.authnstatement": "false",
-        "display.on.consent.screen": "false",
-        "saml.onetimeuse.condition": "false"
-      },
-      "authenticationFlowBindingOverrides": {},
-      "fullScopeAllowed": false,
-      "nodeReRegistrationTimeout": -1,
-      "protocolMappers": [
-        {
-          "id": "30897db9-574e-49ee-b968-ede77a6baf67",
-          "name": "Client ID",
-          "protocol": "openid-connect",
-          "protocolMapper": "oidc-usersessionmodel-note-mapper",
-          "consentRequired": false,
-          "config": {
-            "user.session.note": "client_id",
-            "userinfo.token.claim": "true",
-            "id.token.claim": "true",
-            "access.token.claim": "true",
-            "claim.name": "client_id",
-            "jsonType.label": "String"
-          }
-        },
-        {
-          "id": "00879247-75ce-491f-abed-52a6a810f685",
-          "name": "Client Host",
-          "protocol": "openid-connect",
-          "protocolMapper": "oidc-usersessionmodel-note-mapper",
-          "consentRequired": false,
-          "config": {
-            "user.session.note": "clientHost",
-            "userinfo.token.claim": "true",
-            "id.token.claim": "true",
-            "access.token.claim": "true",
-            "claim.name": "clientHost",
-            "jsonType.label": "String"
-          }
-        },
-        {
-          "id": "bb69e2e4-312f-4447-946f-b51f3c7184c2",
-          "name": "Client IP Address",
-          "protocol": "openid-connect",
-          "protocolMapper": "oidc-usersessionmodel-note-mapper",
-          "consentRequired": false,
-          "config": {
-            "user.session.note": "clientAddress",
-            "userinfo.token.claim": "true",
-            "id.token.claim": "true",
-            "access.token.claim": "true",
-            "claim.name": "clientAddress",
-            "jsonType.label": "String"
-          }
-        },
-        {
-          "id": "0c387b1e-5a80-47c8-82f5-693e3af79425",
-          "name": "BPN",
-          "protocol": "openid-connect",
-          "protocolMapper": "oidc-usermodel-attribute-mapper",
-          "consentRequired": false,
-          "config": {
-            "userinfo.token.claim": "true",
-            "user.attribute": "bpn",
-            "id.token.claim": "true",
-            "access.token.claim": "true",
-            "claim.name": "bpn",
-            "jsonType.label": "String"
-          }
-        }
-      ],
-      "defaultClientScopes": [
-        "web-origins",
-        "roles"
-      ],
-      "optionalClientScopes": [
-        "microprofile-jwt"
-      ]
-    },
-    {
       "id": "50fa6455-a775-4683-b407-57a33a9b9f3b",
       "clientId": "sa-cl5-custodian-2",
-      "description": "Technical User for Portal to call Custodian Wallet (portal helm chart: backend.processesworker.custodian.clientId)",
+      "name": "",
+      "description": "Technical User for Portal to call Managed Identity Wallet (portal helm chart: backend.processesworker.custodian.clientId)",
+      "rootUrl": "",
+      "baseUrl": "",
       "surrogateAuthRequired": false,
       "enabled": true,
       "alwaysDisplayInConsole": false,
@@ -5373,6 +6082,21 @@
           }
         },
         {
+          "id": "7775ad0f-a5ef-42de-b4ae-58f617ab57de",
+          "name": "BPN",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "userinfo.token.claim": "true",
+            "user.attribute": "bpn",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "bpn",
+            "jsonType.label": "String"
+          }
+        },
+        {
           "id": "2420c9fc-2c5a-4e54-b6c1-3d72e4eb9e85",
           "name": "Client Host",
           "protocol": "openid-connect",
@@ -5484,6 +6208,21 @@
           }
         },
         {
+          "id": "d05db868-80b8-43d9-a3ab-cf7600dd9e2a",
+          "name": "BPN",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "userinfo.token.claim": "true",
+            "user.attribute": "bpn",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "bpn",
+            "jsonType.label": "String"
+          }
+        },
+        {
           "id": "b8086ec0-3da2-4f98-a7fd-19d007709e6f",
           "name": "Client Host",
           "protocol": "openid-connect",
@@ -5553,9 +6292,10 @@
       "protocol": "openid-connect",
       "attributes": {
         "oidc.ciba.grant.enabled": "false",
-        "oauth2.device.authorization.grant.enabled": "false",
         "client.secret.creation.time": "1713342372",
         "backchannel.logout.session.required": "true",
+        "post.logout.redirect.uris": "+",
+        "oauth2.device.authorization.grant.enabled": "false",
         "backchannel.logout.revoke.offline.tokens": "false"
       },
       "authenticationFlowBindingOverrides": {},
@@ -5570,6 +6310,7 @@
           "consentRequired": false,
           "config": {
             "user.session.note": "client_id",
+            "userinfo.token.claim": "true",
             "id.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "client_id",
@@ -5584,6 +6325,7 @@
           "consentRequired": false,
           "config": {
             "user.session.note": "clientAddress",
+            "userinfo.token.claim": "true",
             "id.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "clientAddress",
@@ -5613,6 +6355,7 @@
           "consentRequired": false,
           "config": {
             "user.session.note": "clientHost",
+            "userinfo.token.claim": "true",
             "id.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "clientHost",
@@ -5665,9 +6408,10 @@
       "protocol": "openid-connect",
       "attributes": {
         "oidc.ciba.grant.enabled": "false",
-        "oauth2.device.authorization.grant.enabled": "false",
         "client.secret.creation.time": "1713342995",
         "backchannel.logout.session.required": "true",
+        "post.logout.redirect.uris": "+",
+        "oauth2.device.authorization.grant.enabled": "false",
         "backchannel.logout.revoke.offline.tokens": "false"
       },
       "authenticationFlowBindingOverrides": {},
@@ -5682,6 +6426,7 @@
           "consentRequired": false,
           "config": {
             "user.session.note": "clientAddress",
+            "userinfo.token.claim": "true",
             "id.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "clientAddress",
@@ -5696,6 +6441,7 @@
           "consentRequired": false,
           "config": {
             "user.session.note": "clientHost",
+            "userinfo.token.claim": "true",
             "id.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "clientHost",
@@ -5710,6 +6456,7 @@
           "consentRequired": false,
           "config": {
             "user.session.note": "client_id",
+            "userinfo.token.claim": "true",
             "id.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "client_id",
@@ -5777,9 +6524,10 @@
       "protocol": "openid-connect",
       "attributes": {
         "oidc.ciba.grant.enabled": "false",
-        "oauth2.device.authorization.grant.enabled": "false",
         "client.secret.creation.time": "1713344089",
         "backchannel.logout.session.required": "true",
+        "post.logout.redirect.uris": "+",
+        "oauth2.device.authorization.grant.enabled": "false",
         "backchannel.logout.revoke.offline.tokens": "false"
       },
       "authenticationFlowBindingOverrides": {},
@@ -5794,6 +6542,7 @@
           "consentRequired": false,
           "config": {
             "user.session.note": "clientHost",
+            "userinfo.token.claim": "true",
             "id.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "clientHost",
@@ -5808,6 +6557,7 @@
           "consentRequired": false,
           "config": {
             "user.session.note": "clientAddress",
+            "userinfo.token.claim": "true",
             "id.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "clientAddress",
@@ -5837,6 +6587,7 @@
           "consentRequired": false,
           "config": {
             "user.session.note": "client_id",
+            "userinfo.token.claim": "true",
             "id.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "client_id",
@@ -5891,6 +6642,7 @@
         "oidc.ciba.grant.enabled": "false",
         "client.secret.creation.time": "1713344246",
         "backchannel.logout.session.required": "true",
+        "post.logout.redirect.uris": "+",
         "oauth2.device.authorization.grant.enabled": "false",
         "display.on.consent.screen": "false",
         "backchannel.logout.revoke.offline.tokens": "false"
@@ -5922,6 +6674,7 @@
           "consentRequired": false,
           "config": {
             "user.session.note": "clientAddress",
+            "userinfo.token.claim": "true",
             "id.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "clientAddress",
@@ -5936,6 +6689,7 @@
           "consentRequired": false,
           "config": {
             "user.session.note": "clientHost",
+            "userinfo.token.claim": "true",
             "id.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "clientHost",
@@ -5950,6 +6704,7 @@
           "consentRequired": false,
           "config": {
             "user.session.note": "client_id",
+            "userinfo.token.claim": "true",
             "id.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "client_id",
@@ -6004,6 +6759,7 @@
         "oidc.ciba.grant.enabled": "false",
         "client.secret.creation.time": "1713344605",
         "backchannel.logout.session.required": "true",
+        "post.logout.redirect.uris": "+",
         "oauth2.device.authorization.grant.enabled": "false",
         "display.on.consent.screen": "false",
         "backchannel.logout.revoke.offline.tokens": "false"
@@ -6020,6 +6776,7 @@
           "consentRequired": false,
           "config": {
             "user.session.note": "client_id",
+            "userinfo.token.claim": "true",
             "id.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "client_id",
@@ -6034,6 +6791,7 @@
           "consentRequired": false,
           "config": {
             "user.session.note": "clientAddress",
+            "userinfo.token.claim": "true",
             "id.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "clientAddress",
@@ -6048,6 +6806,7 @@
           "consentRequired": false,
           "config": {
             "user.session.note": "clientHost",
+            "userinfo.token.claim": "true",
             "id.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "clientHost",
@@ -6115,9 +6874,10 @@
       "protocol": "openid-connect",
       "attributes": {
         "oidc.ciba.grant.enabled": "false",
-        "oauth2.device.authorization.grant.enabled": "false",
         "client.secret.creation.time": "1713358821",
         "backchannel.logout.session.required": "true",
+        "post.logout.redirect.uris": "+",
+        "oauth2.device.authorization.grant.enabled": "false",
         "backchannel.logout.revoke.offline.tokens": "false"
       },
       "authenticationFlowBindingOverrides": {},
@@ -6147,6 +6907,7 @@
           "consentRequired": false,
           "config": {
             "user.session.note": "clientHost",
+            "userinfo.token.claim": "true",
             "id.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "clientHost",
@@ -6161,6 +6922,7 @@
           "consentRequired": false,
           "config": {
             "user.session.note": "client_id",
+            "userinfo.token.claim": "true",
             "id.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "client_id",
@@ -6175,6 +6937,7 @@
           "consentRequired": false,
           "config": {
             "user.session.note": "clientAddress",
+            "userinfo.token.claim": "true",
             "id.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "clientAddress",
@@ -6229,6 +6992,7 @@
         "oidc.ciba.grant.enabled": "false",
         "client.secret.creation.time": "1713358955",
         "backchannel.logout.session.required": "true",
+        "post.logout.redirect.uris": "+",
         "display.on.consent.screen": "false",
         "oauth2.device.authorization.grant.enabled": "false",
         "backchannel.logout.revoke.offline.tokens": "false"
@@ -6245,6 +7009,7 @@
           "consentRequired": false,
           "config": {
             "user.session.note": "clientAddress",
+            "userinfo.token.claim": "true",
             "id.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "clientAddress",
@@ -6259,6 +7024,7 @@
           "consentRequired": false,
           "config": {
             "user.session.note": "clientHost",
+            "userinfo.token.claim": "true",
             "id.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "clientHost",
@@ -6288,6 +7054,7 @@
           "consentRequired": false,
           "config": {
             "user.session.note": "client_id",
+            "userinfo.token.claim": "true",
             "id.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "client_id",
@@ -6340,9 +7107,10 @@
       "protocol": "openid-connect",
       "attributes": {
         "oidc.ciba.grant.enabled": "false",
-        "oauth2.device.authorization.grant.enabled": "false",
         "client.secret.creation.time": "1713359075",
         "backchannel.logout.session.required": "true",
+        "post.logout.redirect.uris": "+",
+        "oauth2.device.authorization.grant.enabled": "false",
         "backchannel.logout.revoke.offline.tokens": "false"
       },
       "authenticationFlowBindingOverrides": {},
@@ -6357,6 +7125,7 @@
           "consentRequired": false,
           "config": {
             "user.session.note": "clientAddress",
+            "userinfo.token.claim": "true",
             "id.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "clientAddress",
@@ -6371,6 +7140,7 @@
           "consentRequired": false,
           "config": {
             "user.session.note": "client_id",
+            "userinfo.token.claim": "true",
             "id.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "client_id",
@@ -6385,6 +7155,7 @@
           "consentRequired": false,
           "config": {
             "user.session.note": "clientHost",
+            "userinfo.token.claim": "true",
             "id.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "clientHost",
@@ -6452,9 +7223,10 @@
       "protocol": "openid-connect",
       "attributes": {
         "oidc.ciba.grant.enabled": "false",
-        "oauth2.device.authorization.grant.enabled": "false",
         "client.secret.creation.time": "1713359288",
         "backchannel.logout.session.required": "true",
+        "post.logout.redirect.uris": "+",
+        "oauth2.device.authorization.grant.enabled": "false",
         "backchannel.logout.revoke.offline.tokens": "false"
       },
       "authenticationFlowBindingOverrides": {},
@@ -6484,6 +7256,7 @@
           "consentRequired": false,
           "config": {
             "user.session.note": "clientHost",
+            "userinfo.token.claim": "true",
             "id.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "clientHost",
@@ -6498,6 +7271,7 @@
           "consentRequired": false,
           "config": {
             "user.session.note": "clientAddress",
+            "userinfo.token.claim": "true",
             "id.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "clientAddress",
@@ -6512,6 +7286,7 @@
           "consentRequired": false,
           "config": {
             "user.session.note": "client_id",
+            "userinfo.token.claim": "true",
             "id.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "client_id",
@@ -6566,6 +7341,7 @@
         "oidc.ciba.grant.enabled": "false",
         "client.secret.creation.time": "1713359537",
         "backchannel.logout.session.required": "true",
+        "post.logout.redirect.uris": "+",
         "oauth2.device.authorization.grant.enabled": "false",
         "display.on.consent.screen": "false",
         "backchannel.logout.revoke.offline.tokens": "false"
@@ -6582,6 +7358,7 @@
           "consentRequired": false,
           "config": {
             "user.session.note": "client_id",
+            "userinfo.token.claim": "true",
             "id.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "client_id",
@@ -6611,6 +7388,7 @@
           "consentRequired": false,
           "config": {
             "user.session.note": "clientAddress",
+            "userinfo.token.claim": "true",
             "id.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "clientAddress",
@@ -6625,6 +7403,7 @@
           "consentRequired": false,
           "config": {
             "user.session.note": "clientHost",
+            "userinfo.token.claim": "true",
             "id.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "clientHost",
@@ -6677,9 +7456,10 @@
       "protocol": "openid-connect",
       "attributes": {
         "oidc.ciba.grant.enabled": "false",
-        "oauth2.device.authorization.grant.enabled": "false",
         "client.secret.creation.time": "1713359631",
         "backchannel.logout.session.required": "true",
+        "post.logout.redirect.uris": "+",
+        "oauth2.device.authorization.grant.enabled": "false",
         "backchannel.logout.revoke.offline.tokens": "false"
       },
       "authenticationFlowBindingOverrides": {},
@@ -6694,6 +7474,7 @@
           "consentRequired": false,
           "config": {
             "user.session.note": "clientHost",
+            "userinfo.token.claim": "true",
             "id.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "clientHost",
@@ -6708,6 +7489,7 @@
           "consentRequired": false,
           "config": {
             "user.session.note": "client_id",
+            "userinfo.token.claim": "true",
             "id.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "client_id",
@@ -6722,6 +7504,7 @@
           "consentRequired": false,
           "config": {
             "user.session.note": "clientAddress",
+            "userinfo.token.claim": "true",
             "id.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "clientAddress",
@@ -6789,9 +7572,10 @@
       "protocol": "openid-connect",
       "attributes": {
         "oidc.ciba.grant.enabled": "false",
-        "oauth2.device.authorization.grant.enabled": "false",
         "client.secret.creation.time": "1713360830",
         "backchannel.logout.session.required": "true",
+        "post.logout.redirect.uris": "+",
+        "oauth2.device.authorization.grant.enabled": "false",
         "backchannel.logout.revoke.offline.tokens": "false"
       },
       "authenticationFlowBindingOverrides": {},
@@ -6806,6 +7590,7 @@
           "consentRequired": false,
           "config": {
             "user.session.note": "client_id",
+            "userinfo.token.claim": "true",
             "id.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "client_id",
@@ -6820,6 +7605,7 @@
           "consentRequired": false,
           "config": {
             "user.session.note": "clientAddress",
+            "userinfo.token.claim": "true",
             "id.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "clientAddress",
@@ -6834,6 +7620,7 @@
           "consentRequired": false,
           "config": {
             "user.session.note": "clientHost",
+            "userinfo.token.claim": "true",
             "id.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "clientHost",
@@ -6901,9 +7688,10 @@
       "protocol": "openid-connect",
       "attributes": {
         "oidc.ciba.grant.enabled": "false",
-        "oauth2.device.authorization.grant.enabled": "false",
         "client.secret.creation.time": "1713360916",
         "backchannel.logout.session.required": "true",
+        "post.logout.redirect.uris": "+",
+        "oauth2.device.authorization.grant.enabled": "false",
         "backchannel.logout.revoke.offline.tokens": "false"
       },
       "authenticationFlowBindingOverrides": {},
@@ -6918,6 +7706,7 @@
           "consentRequired": false,
           "config": {
             "user.session.note": "clientAddress",
+            "userinfo.token.claim": "true",
             "id.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "clientAddress",
@@ -6932,6 +7721,7 @@
           "consentRequired": false,
           "config": {
             "user.session.note": "clientHost",
+            "userinfo.token.claim": "true",
             "id.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "clientHost",
@@ -6961,6 +7751,7 @@
           "consentRequired": false,
           "config": {
             "user.session.note": "client_id",
+            "userinfo.token.claim": "true",
             "id.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "client_id",
@@ -7013,9 +7804,10 @@
       "protocol": "openid-connect",
       "attributes": {
         "oidc.ciba.grant.enabled": "false",
-        "oauth2.device.authorization.grant.enabled": "false",
         "client.secret.creation.time": "1713360999",
         "backchannel.logout.session.required": "true",
+        "post.logout.redirect.uris": "+",
+        "oauth2.device.authorization.grant.enabled": "false",
         "backchannel.logout.revoke.offline.tokens": "false"
       },
       "authenticationFlowBindingOverrides": {},
@@ -7030,6 +7822,7 @@
           "consentRequired": false,
           "config": {
             "user.session.note": "client_id",
+            "userinfo.token.claim": "true",
             "id.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "client_id",
@@ -7044,6 +7837,7 @@
           "consentRequired": false,
           "config": {
             "user.session.note": "clientHost",
+            "userinfo.token.claim": "true",
             "id.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "clientHost",
@@ -7073,6 +7867,7 @@
           "consentRequired": false,
           "config": {
             "user.session.note": "clientAddress",
+            "userinfo.token.claim": "true",
             "id.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "clientAddress",
@@ -7125,9 +7920,10 @@
       "protocol": "openid-connect",
       "attributes": {
         "oidc.ciba.grant.enabled": "false",
-        "oauth2.device.authorization.grant.enabled": "false",
         "client.secret.creation.time": "1713361075",
         "backchannel.logout.session.required": "true",
+        "post.logout.redirect.uris": "+",
+        "oauth2.device.authorization.grant.enabled": "false",
         "backchannel.logout.revoke.offline.tokens": "false"
       },
       "authenticationFlowBindingOverrides": {},
@@ -7142,6 +7938,7 @@
           "consentRequired": false,
           "config": {
             "user.session.note": "client_id",
+            "userinfo.token.claim": "true",
             "id.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "client_id",
@@ -7156,6 +7953,7 @@
           "consentRequired": false,
           "config": {
             "user.session.note": "clientAddress",
+            "userinfo.token.claim": "true",
             "id.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "clientAddress",
@@ -7170,6 +7968,7 @@
           "consentRequired": false,
           "config": {
             "user.session.note": "clientHost",
+            "userinfo.token.claim": "true",
             "id.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "clientHost",
@@ -7237,9 +8036,10 @@
       "protocol": "openid-connect",
       "attributes": {
         "oidc.ciba.grant.enabled": "false",
-        "oauth2.device.authorization.grant.enabled": "false",
         "client.secret.creation.time": "1713361153",
         "backchannel.logout.session.required": "true",
+        "post.logout.redirect.uris": "+",
+        "oauth2.device.authorization.grant.enabled": "false",
         "backchannel.logout.revoke.offline.tokens": "false"
       },
       "authenticationFlowBindingOverrides": {},
@@ -7254,6 +8054,7 @@
           "consentRequired": false,
           "config": {
             "user.session.note": "clientHost",
+            "userinfo.token.claim": "true",
             "id.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "clientHost",
@@ -7283,6 +8084,7 @@
           "consentRequired": false,
           "config": {
             "user.session.note": "clientAddress",
+            "userinfo.token.claim": "true",
             "id.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "clientAddress",
@@ -7297,6 +8099,7 @@
           "consentRequired": false,
           "config": {
             "user.session.note": "client_id",
+            "userinfo.token.claim": "true",
             "id.token.claim": "true",
             "access.token.claim": "true",
             "claim.name": "client_id",
@@ -8138,11 +8941,11 @@
         "hideOnLoginPage": "false",
         "validateSignature": "true",
         "clientId": "central-idp",
-        "tokenUrl": "https://sharedidp.tx.test/auth/realms/CX-Operator/protocol/openid-connect/token",
-        "jwksUrl": "https://sharedidp.tx.test/auth/realms/CX-Operator/protocol/openid-connect/certs",
-        "authorizationUrl": "https://sharedidp.tx.test/auth/realms/CX-Operator/protocol/openid-connect/auth",
+        "tokenUrl": "http://sharedidp.tx.test/auth/realms/CX-Operator/protocol/openid-connect/token",
+        "jwksUrl": "http://sharedidp.tx.test/auth/realms/CX-Operator/protocol/openid-connect/certs",
+        "authorizationUrl": "http://sharedidp.tx.test/auth/realms/CX-Operator/protocol/openid-connect/auth",
         "clientAuthMethod": "private_key_jwt",
-        "logoutUrl": "https://sharedidp.tx.test/auth/realms/CX-Operator/protocol/openid-connect/logout",
+        "logoutUrl": "http://sharedidp.tx.test/auth/realms/CX-Operator/protocol/openid-connect/logout",
         "clientAssertionSigningAlg": "RS256",
         "syncMode": "FORCE",
         "useJwksUrl": "true"
@@ -8151,7 +8954,7 @@
   ],
   "identityProviderMappers": [
     {
-      "id": "bcfabece-bb07-4ece-8fb0-a2b75bdf5744",
+      "id": "d6402195-c46d-4c92-9de6-b5d234acd9e5",
       "name": "organisation-mapper",
       "identityProviderAlias": "CX-Operator",
       "identityProviderMapper": "hardcoded-attribute-idp-mapper",
@@ -8207,14 +9010,14 @@
         "subComponents": {},
         "config": {
           "allowed-protocol-mapper-types": [
-            "oidc-address-mapper",
-            "oidc-sha256-pairwise-sub-mapper",
-            "oidc-usermodel-attribute-mapper",
-            "oidc-full-name-mapper",
-            "saml-user-attribute-mapper",
             "saml-role-list-mapper",
+            "oidc-usermodel-property-mapper",
+            "oidc-usermodel-attribute-mapper",
+            "saml-user-attribute-mapper",
+            "oidc-full-name-mapper",
             "saml-user-property-mapper",
-            "oidc-usermodel-property-mapper"
+            "oidc-sha256-pairwise-sub-mapper",
+            "oidc-address-mapper"
           ]
         }
       },
@@ -8234,12 +9037,12 @@
         "subComponents": {},
         "config": {
           "allowed-protocol-mapper-types": [
+            "saml-user-property-mapper",
             "oidc-usermodel-property-mapper",
             "saml-user-attribute-mapper",
-            "saml-user-property-mapper",
-            "oidc-full-name-mapper",
             "oidc-sha256-pairwise-sub-mapper",
             "saml-role-list-mapper",
+            "oidc-full-name-mapper",
             "oidc-usermodel-attribute-mapper",
             "oidc-address-mapper"
           ]
@@ -9220,7 +10023,7 @@
     "parRequestUriLifespan": "60",
     "clientSessionMaxLifespan": "0"
   },
-  "keycloakVersion": "22.0.3",
+  "keycloakVersion": "23.0.7",
   "userManagedAccessAllowed": false,
   "clientProfiles": {
     "profiles": []

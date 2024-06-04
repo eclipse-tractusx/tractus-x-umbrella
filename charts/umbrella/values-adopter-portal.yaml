@@ -50,8 +50,8 @@ bpndiscovery:
 discoveryfinder:
   enabled: false
 
-sdfactory:
-  enabled: false
+selfdescription:
+  enabled: true
 
 managed-identity-wallet:
   enabled: true

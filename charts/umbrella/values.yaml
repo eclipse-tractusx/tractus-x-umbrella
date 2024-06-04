@@ -31,32 +31,34 @@ portal:
     primary:
       persistence:
         enabled: false
-  portalAddress: "https://portal.tx.test"
-  portalBackendAddress: "https://portal-backend.tx.test"
-  centralidpAddress: "https://centralidp.tx.test"
-  sharedidpAddress: "https://sharedidp.tx.test"
-  semanticsAddress: "https://semantics.tx.test"
-  bpdmPartnersPoolAddress: "https://business-partners.tx.test"
-  bpdmPortalGateAddress: "https://business-partners.tx.test"
-  custodianAddress: "https://managed-identity-wallets.tx.test"
-  sdfactoryAddress: "https://sdfactory.tx.test"
-  clearinghouseAddress: "https://validation.tx.test"
-  clearinghouseTokenAddress: "https://keycloak.tx.test/realms/example/protocol/openid-connect/token"
+  portalAddress: "http://portal.tx.test"
+  portalBackendAddress: "http://portal-backend.tx.test"
+  centralidpAddress: "http://centralidp.tx.test"
+  sharedidpAddress: "http://sharedidp.tx.test"
+  semanticsAddress: "http://semantics.tx.test"
+  bpdmPartnersPoolAddress: "http://business-partners.tx.test"
+  bpdmPortalGateAddress: "http://business-partners.tx.test"
+  custodianAddress: "http://managed-identity-wallets.tx.test"
+  sdfactoryAddress: "http://sdfactory.tx.test"
+  clearinghouseAddress: "http://validation.tx.test"
+  clearinghouseTokenAddress: "http://keycloak.tx.test/realms/example/protocol/openid-connect/token"
   frontend:
     ingress:
       enabled: true
       annotations:
-        cert-manager.io/cluster-issuer: "my-ca-issuer"
+        # uncomment the following line for tls
+        # cert-manager.io/cluster-issuer: "my-ca-issuer"
         nginx.ingress.kubernetes.io/rewrite-target: "/$1"
         nginx.ingress.kubernetes.io/use-regex: "true"
         nginx.ingress.kubernetes.io/enable-cors: "true"
-        nginx.ingress.kubernetes.io/cors-allow-origin: "https://*.tx.test"
-      tls:
-        # -- Provide tls secret.
-        - secretName: "portal.tx.test-tls"
-          # -- Provide host for tls secret.
-          hosts:
-            - "portal.tx.test"
+        nginx.ingress.kubernetes.io/cors-allow-origin: "http://*.tx.test"
+      # uncomment the following lines for tls
+      # tls:
+      #   # -- Provide tls secret.
+      #   - secretName: "portal.tx.test-tls"
+      #     # -- Provide host for tls secret.
+      #     hosts:
+      #       - "portal.tx.test"
       hosts:
         - host: "portal.tx.test"
           paths:
@@ -159,26 +161,28 @@ portal:
           password: ""
           from: "smtp@tx.test"
           replyTo: "smtp@tx.test"
-    # -- docs: https://portal-backend.tx.test/api/administration/swagger/index.html
-    # https://portal-backend.tx.test/api/registration/swagger/index.html
-    # https://portal-backend.tx.test/api/apps/swagger/index.html
-    # https://portal-backend.tx.test/api/services/swagger/index.html
-    # https://portal-backend.tx.test/api/notification/swagger/index.html
+    # -- docs: http://portal-backend.tx.test/api/administration/swagger/index.html
+    # http://portal-backend.tx.test/api/registration/swagger/index.html
+    # http://portal-backend.tx.test/api/apps/swagger/index.html
+    # http://portal-backend.tx.test/api/services/swagger/index.html
+    # http://portal-backend.tx.test/api/notification/swagger/index.html
     ingress:
       enabled: true
       name: "portal-backend"
       annotations:
-        cert-manager.io/cluster-issuer: "my-ca-issuer"
+        # uncomment the following line for tls
+        # cert-manager.io/cluster-issuer: "my-ca-issuer"
         nginx.ingress.kubernetes.io/use-regex: "true"
         nginx.ingress.kubernetes.io/enable-cors: "true"
         nginx.ingress.kubernetes.io/proxy-body-size: "8m"
-        nginx.ingress.kubernetes.io/cors-allow-origin: "http://localhost:3000, https://*.tx.test"
-      tls:
-        # -- Provide tls secret.
-        - secretName: "portal-backend.tx.test-tls"
-          # -- Provide host for tls secret.
-          hosts:
-            - "portal-backend.tx.test"
+        nginx.ingress.kubernetes.io/cors-allow-origin: "http://localhost:3000, http://*.tx.test"
+      # uncomment the following lines for tls
+      # tls:
+      #   # -- Provide tls secret.
+      #   - secretName: "portal-backend.tx.test-tls"
+      #     # -- Provide host for tls secret.
+      #     hosts:
+      #       - "portal-backend.tx.test"
       hosts:
         - host: "portal-backend.tx.test"
           paths:
@@ -227,7 +231,7 @@ centralidp:
     proxy: edge
     initContainers:
       - name: realm-import
-        image: docker.io/tractusx/umbrella-init-container:0.0.2-init
+        image: docker.io/tractusx/umbrella-init-container:0.1.0-init
         imagePullPolicy: IfNotPresent
         command:
           - sh
@@ -235,7 +239,7 @@ centralidp:
           - -c
           - |
             echo "Copying realms..."
-            cp -R /import/catenax-central/realms/* /realms
+            cp -R /import/catenax-central/R2403/realms/* /realms
         volumeMounts:
         - name: realms
           mountPath: "/realms"
@@ -252,75 +256,72 @@ centralidp:
         volumeMounts:
         - name: themes
           mountPath: "/themes"
-      - name: init-certs
-        image: docker.io/bitnami/keycloak:22.0.3-debian-11-r14
-        imagePullPolicy: IfNotPresent
-        command: ["/bin/bash"]
-        args:
-          - -ec
-          - |-
-            keytool -import -file "/certs/tls.crt" \
-                    -keystore "/opt/bitnami/keycloak/certs/keycloak.truststore.jks" \
-                    -storepass "${KEYCLOAK_SPI_TRUSTSTORE_PASSWORD}" \
-                    -noprompt
-        env:
-          - name: KEYCLOAK_SPI_TRUSTSTORE_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: centralidp-spi
-                key: spi-truststore-password
-        volumeMounts:
-          - name: certificates
-            mountPath: /certs
-          - name: shared-certs
-            mountPath: "/opt/bitnami/keycloak/certs"
+      # uncomment the following line for tls
+      # - name: init-certs
+      #   image: docker.io/bitnami/keycloak:22.0.3-debian-11-r14
+      #   imagePullPolicy: IfNotPresent
+      #   command: ["/bin/bash"]
+      #   args:
+      #     - -ec
+      #     - |-
+      #       keytool -import -file "/certs/tls.crt" \
+      #               -keystore "/opt/bitnami/keycloak/certs/keycloak.truststore.jks" \
+      #               -storepass "${KEYCLOAK_SPI_TRUSTSTORE_PASSWORD}" \
+      #               -noprompt
+      #   env:
+      #     - name: KEYCLOAK_SPI_TRUSTSTORE_PASSWORD
+      #       value: "changeit"
+      #   volumeMounts:
+      #     - name: certificates
+      #       mountPath: /certs
+      #     - name: shared-certs
+      #       mountPath: "/opt/bitnami/keycloak/certs"
     extraEnvVars:
-      - name: KEYCLOAK_LOG_LEVEL
-        value: TRACE
-      - name: KEYCLOAK_SPI_TRUSTSTORE_FILE
-        value: "/opt/bitnami/keycloak/certs/keycloak.truststore.jks"
-      - name: KEYCLOAK_SPI_TRUSTSTORE_PASSWORD
-        valueFrom:
-          secretKeyRef:
-            name: centralidp-spi
-            key: spi-truststore-password
       - name: KEYCLOAK_EXTRA_ARGS
         value: "-Dkeycloak.migration.action=import -Dkeycloak.migration.provider=singleFile -Dkeycloak.migration.file=/realms/CX-Central-realm.json -Dkeycloak.migration.strategy=IGNORE_EXISTING"
+      # uncomment the following line for tls
+      # - name: KEYCLOAK_SPI_TRUSTSTORE_FILE
+      #   value: "/opt/bitnami/keycloak/certs/keycloak.truststore.jks"
+      # - name: KEYCLOAK_SPI_TRUSTSTORE_PASSWORD
+      #   value: "changeit"
     extraVolumes:
       - name: realms
         emptyDir: {}
       - name: themes
         emptyDir: {}
-      - name: certificates
-        secret:
-          secretName: root-secret
-          defaultMode: 420
-      - name: shared-certs
-        emptyDir: {}
+      # uncomment the following line for tls
+      # - name: certificates
+      #   secret:
+      #     secretName: root-secret
+      #     defaultMode: 420
+      # - name: shared-certs
+      #   emptyDir: {}
     extraVolumeMounts:
       - name: realms
         mountPath: "/realms"
       - name: themes
         mountPath: "/opt/bitnami/keycloak/themes/catenax-central"
-      - name: certificates
-        mountPath: /certs
-      - name: shared-certs
-        mountPath: "/opt/bitnami/keycloak/certs"
+      # uncomment the following line for tls
+      # - name: certificates
+      #   mountPath: /certs
+      # - name: shared-certs
+      #   mountPath: "/opt/bitnami/keycloak/certs"
     ingress:
       enabled: true
       ingressClassName: "nginx"
       hostname: "centralidp.tx.test"
       annotations:
-        cert-manager.io/cluster-issuer: "my-ca-issuer"
+        # uncomment the following line for tls
+        # cert-manager.io/cluster-issuer: "my-ca-issuer"
         nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
         nginx.ingress.kubernetes.io/cors-allow-methods: "PUT, GET, POST, OPTIONS"
-        nginx.ingress.kubernetes.io/cors-allow-origin: "https://centralidp.tx.test"
+        nginx.ingress.kubernetes.io/cors-allow-origin: "http://centralidp.tx.test"
         nginx.ingress.kubernetes.io/enable-cors: "true"
         nginx.ingress.kubernetes.io/proxy-buffer-size: "128k"
         nginx.ingress.kubernetes.io/proxy-buffering: "on"
         nginx.ingress.kubernetes.io/proxy-buffers-number: "20"
         nginx.ingress.kubernetes.io/use-regex: "true"
-      tls: true
+      tls: false
   secrets:
     postgresql:
       auth:
@@ -331,9 +332,7 @@ centralidp:
     auth:
       existingSecret:
         # -- Password for the admin username 'admin'. Secret-key 'admin-password'.
-        adminpassword: ""
-      spi:
-        truststorePassword: ""
+        adminpassword: "adminconsolepwcentralidp"
 
 sharedidp:
   enabled: false
@@ -349,7 +348,7 @@ sharedidp:
     proxy: edge
     initContainers:
       - name: realm-import
-        image: docker.io/tractusx/umbrella-init-container:0.0.2-init
+        image: docker.io/tractusx/umbrella-init-container:0.1.0-init
         imagePullPolicy: IfNotPresent
         command:
           - sh
@@ -378,38 +377,34 @@ sharedidp:
           mountPath: "/themes-catenax-shared"
         - name: themes-catenax-shared-portal
           mountPath: "/themes-catenax-shared-portal"
-      - name: init-certs
-        image: docker.io/bitnami/keycloak:22.0.3-debian-11-r14
-        imagePullPolicy: IfNotPresent
-        command: ["/bin/bash"]
-        args:
-          - -ec
-          - |-
-            keytool -import -file "/certs/tls.crt" \
-                    -keystore "/opt/bitnami/keycloak/certs/keycloak.truststore.jks" \
-                    -storepass "${KEYCLOAK_SPI_TRUSTSTORE_PASSWORD}" \
-                    -noprompt
-        env:
-          - name: KEYCLOAK_SPI_TRUSTSTORE_PASSWORD
-            valueFrom:
-              secretKeyRef:
-                name: sharedidp-spi
-                key: spi-truststore-password
-        volumeMounts:
-          - name: certificates
-            mountPath: /certs
-          - name: shared-certs
-            mountPath: "/opt/bitnami/keycloak/certs"
+      # uncomment the following line for tls
+      # - name: init-certs
+      #   image: docker.io/bitnami/keycloak:22.0.3-debian-11-r14
+      #   imagePullPolicy: IfNotPresent
+      #   command: ["/bin/bash"]
+      #   args:
+      #     - -ec
+      #     - |-
+      #       keytool -import -file "/certs/tls.crt" \
+      #               -keystore "/opt/bitnami/keycloak/certs/keycloak.truststore.jks" \
+      #               -storepass "${KEYCLOAK_SPI_TRUSTSTORE_PASSWORD}" \
+      #               -noprompt
+      #   env:
+      #     - name: KEYCLOAK_SPI_TRUSTSTORE_PASSWORD
+      #       value: "changeit"
+      #   volumeMounts:
+      #     - name: certificates
+      #       mountPath: /certs
+      #     - name: shared-certs
+      #       mountPath: "/opt/bitnami/keycloak/certs"
     extraEnvVars:
-      - name: KEYCLOAK_SPI_TRUSTSTORE_FILE
-        value: "/opt/bitnami/keycloak/certs/keycloak.truststore.jks"
-      - name: KEYCLOAK_SPI_TRUSTSTORE_PASSWORD
-        valueFrom:
-          secretKeyRef:
-            name: sharedidp-spi
-            key: spi-truststore-password
       - name: KEYCLOAK_EXTRA_ARGS
         value: "-Dkeycloak.migration.action=import -Dkeycloak.migration.provider=dir -Dkeycloak.migration.dir=/realms -Dkeycloak.migration.strategy=IGNORE_EXISTING"
+      # uncomment the following line for tls
+      # - name: KEYCLOAK_SPI_TRUSTSTORE_FILE
+      #   value: "/opt/bitnami/keycloak/certs/keycloak.truststore.jks"
+      # - name: KEYCLOAK_SPI_TRUSTSTORE_PASSWORD
+      #   value: "changeit"
     extraVolumes:
       - name: realms
         emptyDir: {}
@@ -417,12 +412,13 @@ sharedidp:
         emptyDir: {}
       - name: themes-catenax-shared-portal
         emptyDir: {}
-      - name: certificates
-        secret:
-          secretName: root-secret
-          defaultMode: 420
-      - name: shared-certs
-        emptyDir: {}
+      # uncomment the following line for tls
+      # - name: certificates
+      #   secret:
+      #     secretName: root-secret
+      #     defaultMode: 420
+      # - name: shared-certs
+      #   emptyDir: {}
     extraVolumeMounts:
       - name: realms
         mountPath: "/realms"
@@ -430,25 +426,27 @@ sharedidp:
         mountPath: "/opt/bitnami/keycloak/themes/catenax-shared"
       - name: themes-catenax-shared-portal
         mountPath: "/opt/bitnami/keycloak/themes/catenax-shared-portal"
-      - name: certificates
-        mountPath: /certs
-      - name: shared-certs
-        mountPath: "/opt/bitnami/keycloak/certs"
+      # uncomment the following line for tls
+      # - name: certificates
+      #   mountPath: /certs
+      # - name: shared-certs
+      #   mountPath: "/opt/bitnami/keycloak/certs"
     ingress:
       enabled: true
       ingressClassName: "nginx"
       hostname: "sharedidp.tx.test"
       annotations:
-        cert-manager.io/cluster-issuer: "my-ca-issuer"
+        # uncomment the following line for tls
+        # cert-manager.io/cluster-issuer: "my-ca-issuer"
         nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
         nginx.ingress.kubernetes.io/cors-allow-methods: "PUT, GET, POST, OPTIONS"
-        nginx.ingress.kubernetes.io/cors-allow-origin: "https://sharedidp.tx.test"
+        nginx.ingress.kubernetes.io/cors-allow-origin: "http://sharedidp.tx.test"
         nginx.ingress.kubernetes.io/enable-cors: "true"
         nginx.ingress.kubernetes.io/proxy-buffer-size: "128k"
         nginx.ingress.kubernetes.io/proxy-buffering: "on"
         nginx.ingress.kubernetes.io/proxy-buffers-number: "20"
         nginx.ingress.kubernetes.io/use-regex: "true"
-      tls: true
+      tls: false
   secrets:
     postgresql:
       auth:
@@ -459,9 +457,7 @@ sharedidp:
     auth:
       existingSecret:
         # -- Password for the admin username 'admin'. Secret-key 'admin-password'.
-        adminpassword: ""
-      spi:
-        truststorePassword: ""
+        adminpassword: "adminconsolepwsharedidp"
 
 bpndiscovery:
   enabled: false
@@ -502,18 +498,18 @@ discoveryfinder:
       discoveryfinder:
         initialEndpoints:
           - type: bpn
-            endpointAddress: https://portal-backend.tx.test/api/administration/Connectors/discovery
+            endpointAddress: http://portal-backend.tx.test/api/administration/Connectors/discovery
             description: Service to discover connector endpoints based on bpns
-            documentation: https://portal-backend.tx.test/api/administration/swagger/index.html
+            documentation: http://portal-backend.tx.test/api/administration/swagger/index.html
     idp:
-      issuerUri: "https://centralidp.tx.test/auth/realms/CX-Central"
+      issuerUri: "http://centralidp.tx.test/auth/realms/CX-Central"
       publicClientId: "Cl21-CX-DF"
     dataSource:
       url: "jdbc:postgresql://{{ .Release.Name }}-discoveryfinder-postgresql:5432/discoveryfinder"
-    # -- docs: https://semantics.tx.test/discoveryfinder/swagger-ui/index.html
+    # -- docs: http://semantics.tx.test/discoveryfinder/swagger-ui/index.html
     ingress:
       enabled: true
-      tls: true
+      tls: false
       urlPrefix: "/discoveryfinder"
       className: "nginx"
       annotations:
@@ -533,34 +529,50 @@ discoveryfinder:
       password: "dbpassworddiscoveryfinder"
       postgresPassword: "dbpassworddiscoveryfinder"
 
-sdfactory:
+selfdescription:
   enabled: false
-  secret:
-    # -- JWK Set URI
-    jwkSetUri: "https://centralidp.tx.test/auth/realms/CX-Central/protocol/openid-connect/certs"
-    # -- Custodian wallet client id
-    clientId: ""
-    # -- Custodian wallet client secret
-    clientSecret: ""
-    # -- Keycloak URL
-    authServerUrl: "https://centralidp.tx.test/auth"
-    # -- Keycloak Realm detail
-    realm: ""
-    # -- Keycloak Resource detail
-    resource: ""
-    # -- Details for Custodian wallet URI
-    custodianWalletUri: ""
-    # -- Details for Clearing House URI
-    clearingHouseUri: ""
-    # -- Details for Clearing House URL
-    clearingHouseServerUrl: ""
-    # -- Details for Clearing House Realm
-    clearingHouseRealm: ""
-    # -- Details for Clearing House Client ID
-    clearingHouseClientId: ""
-    # -- Details for Clearing House Client Secret
-    clearingHouseClientSecret: ""
-
+  sdfactory:
+    secret:
+      # -- JWK Set URI
+      jwkSetUri: "http://centralidp.tx.test/auth/realms/CX-Central/protocol/openid-connect/certs"
+      # -- Custodian wallet client id
+      clientId: "sa-cl5-custodian-1"
+      # -- Custodian wallet client secret
+      clientSecret: "6pnnap7byS1TImL9Uj7g2psud9Fdq4tJ"
+      # -- Keycloak URL
+      authServerUrl: "http://centralidp.tx.test/auth"
+      # -- Keycloak Realm detail
+      realm: "CX-Central"
+      # -- Keycloak Resource detail
+      resource: "Cl5-CX-Custodian"
+      # -- Details for Custodian wallet URI
+      custodianWalletUri: ""
+      # -- Details for Clearing House URI
+      clearingHouseUri: ""
+      # -- Details for Clearing House URL
+      clearingHouseServerUrl: ""
+      # -- Details for Clearing House Realm
+      clearingHouseRealm: ""
+      # -- Details for Clearing House Client ID
+      clearingHouseClientId: ""
+      # -- Details for Clearing House Client Secret
+      clearingHouseClientSecret: ""
+  ingress:
+    enabled: true
+    hosts:
+      - host: "sdfactory.tx.test"
+        paths:
+          - path: "/"
+            pathType: "Prefix"
+    # uncomment the following lines for tls
+    # tls:
+    # - tlsName: sdfactory.tx.test-tls
+    #   hosts:
+    #     - sdfactory.tx.test.net
+    className: "nginx"
+    # annotations:
+    #   # uncomment the following line for tls
+    #   cert-manager.io/cluster-issuer: "my-ca-issuer"
 
 managed-identity-wallet:
   enabled: false
@@ -586,36 +598,37 @@ managed-identity-wallet:
       BPNL00000000BJTL: "BPN_SUB_TIER_C"
     clientId: sa-cl5-custodian-2
     clientSecret: UIqawwoohsvZ6AZOd1llLhnsUTKMWe4D
-  # TLS to trust centralidp Keycloak instance
-  initContainers:
-    - name: init-certs
-      image: docker.io/tractusx/managed-identity-wallet:0.4.0
-      imagePullPolicy: IfNotPresent
-      command: ["sh"]
-      args:
-        - -ec
-        - |-
-          cp -R /opt/java/openjdk/lib/security/* /cacerts/
-          echo "Copying done"
-          keytool -import -noprompt -trustcacerts -alias local -file /certs/tls.crt -keystore /cacerts/cacerts -storepass changeit
-          keytool -list -keystore /cacerts/cacerts -alias local
-      volumeMounts:
-        - name: certificates
-          mountPath: /certs
-        - name: shared-certs
-          mountPath: /cacerts
-  extraVolumes:
-    - name: certificates
-      secret:
-        secretName: root-secret
-        defaultMode: 420
-    - name: shared-certs
-      emptyDir: {}
-  extraVolumeMounts:
-    - name: certificates
-      mountPath: /certs
-    - name: shared-certs
-      mountPath: /opt/java/openjdk/lib/security
+  # TLS to trust centralidp Keycloak instance of TLS enabled
+  # uncomment the following line for tls
+  # initContainers:
+  #   - name: init-certs
+  #     image: docker.io/tractusx/managed-identity-wallet:0.4.0
+  #     imagePullPolicy: IfNotPresent
+  #     command: ["sh"]
+  #     args:
+  #       - -ec
+  #       - |-
+  #         cp -R /opt/java/openjdk/lib/security/* /cacerts/
+  #         echo "Copying done"
+  #         keytool -import -noprompt -trustcacerts -alias local -file /certs/tls.crt -keystore /cacerts/cacerts -storepass changeit
+  #         keytool -list -keystore /cacerts/cacerts -alias local
+  #     volumeMounts:
+  #       - name: certificates
+  #         mountPath: /certs
+  #       - name: shared-certs
+  #         mountPath: /cacerts
+  # extraVolumes:
+  #   - name: certificates
+  #     secret:
+  #       secretName: root-secret
+  #       defaultMode: 420
+  #   - name: shared-certs
+  #     emptyDir: {}
+  # extraVolumeMounts:
+  #   - name: certificates
+  #     mountPath: /certs
+  #   - name: shared-certs
+  #     mountPath: /opt/java/openjdk/lib/security
   miw:
     host: "managed-identity-wallets.tx.test"
     authorityWallet:
@@ -625,7 +638,7 @@ managed-identity-wallet:
       host: "{{ .Release.Name }}-miw-postgres"
       secret: "{{ .Release.Name }}-miw-postgres"
     keycloak:
-      url: "https://centralidp.tx.test/auth"
+      url: "http://centralidp.tx.test/auth"
       realm: "CX-Central"
       clientId: "Cl5-CX-Custodian"
     ssi:

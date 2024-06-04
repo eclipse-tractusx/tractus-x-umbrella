@@ -32,7 +32,7 @@ bpndiscovery:
 discoveryfinder:
   enabled: true
 
-sdfactory:
+selfdescription:
   enabled: true
 
 semantic-hub:
