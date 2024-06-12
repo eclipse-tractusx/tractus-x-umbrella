@@ -43,6 +43,11 @@ Assuming you have a running cluster and your `kubectl` context is set to that cl
 > | :--------: | :--------: |
 > |     4      |      6     |
 
+> Use the dashboard provided by Minikube or a tool like OpenLens to get an overview about the deployed components:
+> ```bash
+> `minikube dashboard`
+> ```
+
 #### Linux & Mac
 
 ```bash
@@ -67,11 +72,6 @@ helm upgrade --install ingress-nginx ingress-nginx --repo https://kubernetes.git
 ```
 
 > :warning: The rest of the tutorial assumes a minikube cluster, however.
-
-> Use the dashboard provided by Minikube or a tool like OpenLens to get an overview about the deployed components:
-> ```bash
-> `minikube dashboard`
-> ```
 
 ### Network setup
 
@@ -331,13 +331,7 @@ TBD.
 
 Perform first login and send out an invitation to a company to join the network (SMTP account required to be configured in custom values.yaml file).
 
-Make sure to accept the risk of the self-signed certificates for the following hosts using the continue option:
-- [centralidp.tx.test/auth/](http://centralidp.tx.test/auth/)
-- [sharedidp.tx.test/auth/](http://sharedidp.tx.test/auth/)
-- [portal-backend.tx.test](http://portal-backend.tx.test)
-- [portal.tx.test](http://portal.tx.test)
-
-Then proceed with the login to the [portal](http://portal.tx.test) to verify that everything is setup as expected.
+Proceed with the login to the <http://portal.tx.test> to verify that everything is setup as expected.
 
 Credentials to log into the initial example realm (CX-Operator):
 
@@ -373,6 +367,20 @@ tractusx-umbr3lla!
             end
           linkStyle 0,1 stroke:lightblue
 ```
+
+The relevant hosts are the following:
+
+- <http://centralidp.tx.test/auth/>
+- <http://sharedidp.tx.test/auth/>
+- <http://portal-backend.tx.test>
+- <http://portal.tx.test>
+
+In case that you have TLS enabled (see [Self-signed TLS setup (Optional)](#self-signed-tls-setup-optional)), make sure to accept the risk of the self-signed certificates for all the hosts before performing the first login:
+
+- <https://centralidp.tx.test/auth/>
+- <https://sharedidp.tx.test/auth/>
+- <https://portal-backend.tx.test>
+- <https://portal.tx.test>
 
 ### Uninstall
 
