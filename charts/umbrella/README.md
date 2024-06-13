@@ -44,8 +44,9 @@ Assuming you have a running cluster and your `kubectl` context is set to that cl
 > |     4      |      6     |
 
 > Use the dashboard provided by Minikube or a tool like OpenLens to get an overview about the deployed components:
+>
 > ```bash
-> `minikube dashboard`
+> minikube dashboard
 > ```
 
 #### Linux & Mac
