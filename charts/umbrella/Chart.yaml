@@ -50,7 +50,7 @@ dependencies:
   - condition: discoveryfinder.enabled
     name: discoveryfinder
     repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 0.2.6
+    version: 0.2.5
     # bpn-discovery
   - condition: bpndiscovery.enabled
     name: bpndiscovery
