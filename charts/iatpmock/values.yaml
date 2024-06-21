@@ -10,7 +10,7 @@ image:
   # Overrides the image tag whose default is the chart appVersion.
   tag: "testing"
 
-imagePullSecrets: [ ]
+imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
@@ -20,13 +20,13 @@ serviceAccount:
   # Automatically mount a ServiceAccount's API credentials?
   automount: true
   # Annotations to add to the service account
-  annotations: { }
+  annotations: {}
   # The name of the service account to use.
   # If not set and create is true, a name is generated using the fullname template
   name: ""
 
-podAnnotations: { }
-podLabels: { }
+podAnnotations: {}
+podLabels: {}
 
 podSecurityContext:
   fsGroup: 2000
@@ -46,13 +46,13 @@ service:
 ingress:
   enabled: false
   className: "nginx"
-  annotations: { }
+  annotations: {}
   hosts:
     - host: chart-example.local
       paths:
         - path: /
           pathType: ImplementationSpecific
-  tls: [ ]
+  tls: []
 
 resources:
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -74,4 +74,3 @@ readinessProbe:
   httpGet:
     path: /health
     port: http
-

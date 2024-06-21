@@ -930,4 +930,3 @@ bdrs-server-memory:
         className: "nginx"
         tls:
           enabled: false
-
