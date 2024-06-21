@@ -1,0 +1,107 @@
+# #############################################################################
+  # Copyright (c) 2021,2024 Contributors to the Eclipse Foundation
+  #
+  # See the NOTICE file(s) distributed with this work for additional
+  # information regarding copyright ownership.
+  #
+  # This program and the accompanying materials are made available under the
+  # terms of the Apache License, Version 2.0 which is available at
+  # https://www.apache.org/licenses/LICENSE-2.0.
+  #
+  # Unless required by applicable law or agreed to in writing, software
+  # distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+  # WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+  # License for the specific language governing permissions and limitations
+  # under the License.
+  #
+  # SPDX-License-Identifier: Apache-2.0
+  # #############################################################################
+---
+{{ if index .Values "bdrs-server-memory" "seeding" "enabled" }}
+{{- $bdrsUrl := printf "http://%s" (index .Values "bdrs-server-memory" "hostname") -}}
+{{- $bdrsKey := index .Values "bdrs-server-memory" "server" "endpoints" "management" "authKey" -}}
+{{- $fullName := include "app.fullname" . -}}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ $fullName }}-post-install-bdrs-setup
+  labels:
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+  annotations:
+    # This is what defines this resource as a hook. Without this line, the
+    # job is considered part of the release.
+    "helm.sh/hook": post-install
+    "helm.sh/hook-weight": "-5"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+spec:
+  template:
+    metadata:
+      name: "{{ .Release.Name }}"
+      labels:
+        app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+        app.kubernetes.io/instance: {{ .Release.Name | quote }}
+        helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: post-install-job
+          image: "alpine:3.19"
+          imagePullPolicy: IfNotPresent
+          command:
+            - "/bin/sh"
+            - "-c"
+            - |
+              echo "Waiting 10s to start BDRS seeding..."
+              sleep 10
+
+              wget --header "Content-Type: application/json" --header "x-api-key: {{ $bdrsKey }}" \
+              --post-data '{"bpn": "BPNL00000003AZQP","did": "did:web:mock-util-service/customer"}' "{{ $bdrsUrl }}/api/management/bpn-directory" -S -O -
+
+              wget --header "Content-Type: application/json" --header "x-api-key: {{ $bdrsKey }}" \
+              --post-data '{"bpn": "BPNL00000003AYRE","did": "did:web:mock-util-service/supplier"}' "{{ $bdrsUrl }}/api/management/bpn-directory" -S -O -
+
+{{/*              wget --header "Content-Type: application/json" --header "x-api-key: {{ $bdrsKey }}" \*/}}
+{{/*              --post-data '{"bpn": "BPNL00000003AVTH","did": "did:web:mock-util-service/BPNL00000003AVTH"}' "{{ $bdrsUrl }}/api/management/bpn-directory" -S -O -*/}}
+
+{{/*              wget --header "Content-Type: application/json" --header "x-api-key: {{ $bdrsKey }}" \*/}}
+{{/*              --post-data '{"bpn": "BPNL00000003AWSS","did": "did:web:mock-util-service/BPNL00000003AWSS"}' "{{ $bdrsUrl }}/api/management/bpn-directory" -S -O -*/}}
+
+{{/*              wget --header "Content-Type: application/json" --header "x-api-key: {{ $bdrsKey }}" \*/}}
+{{/*              --post-data '{"bpn": "BPNL00000003B0Q0","did": "did:web:mock-util-service/BPNL00000003B0Q0"}' "{{ $bdrsUrl }}/api/management/bpn-directory" -S -O -*/}}
+
+{{/*              wget --header "Content-Type: application/json" --header "x-api-key: {{ $bdrsKey }}" \*/}}
+{{/*              --post-data '{"bpn": "BPNS0000000008ZZ","did": "did:web:mock-util-service/BPNS0000000008ZZ"}' "{{ $bdrsUrl }}/api/management/bpn-directory" -S -O -*/}}
+
+{{/*              wget --header "Content-Type: application/json" --header "x-api-key: {{ $bdrsKey }}" \*/}}
+{{/*              --post-data '{"bpn": "BPNL00000003CNKC","did": "did:web:mock-util-service/BPNL00000003CNKC"}' "{{ $bdrsUrl }}/api/management/bpn-directory" -S -O -*/}}
+
+{{/*              wget --header "Content-Type: application/json" --header "x-api-key: {{ $bdrsKey }}" \*/}}
+{{/*              --post-data '{"bpn": "BPNL00000003B6LU","did": "did:web:mock-util-service/BPNL00000003B6LU"}' "{{ $bdrsUrl }}/api/management/bpn-directory" -S -O -*/}}
+
+{{/*              wget --header "Content-Type: application/json" --header "x-api-key: {{ $bdrsKey }}" \*/}}
+{{/*              --post-data '{"bpn": "BPNL00000003CML1","did": "did:web:mock-util-service/BPNL00000003CML1"}' "{{ $bdrsUrl }}/api/management/bpn-directory" -S -O -*/}}
+
+{{/*              wget --header "Content-Type: application/json" --header "x-api-key: {{ $bdrsKey }}" \*/}}
+{{/*              --post-data '{"bpn": "BPNS00000008BDFH","did": "did:web:mock-util-service/BPNS00000008BDFH"}' "{{ $bdrsUrl }}/api/management/bpn-directory" -S -O -*/}}
+
+{{/*              wget --header "Content-Type: application/json" --header "x-api-key: {{ $bdrsKey }}" \*/}}
+{{/*              --post-data '{"bpn": "BPNL00000003B2OM","did": "did:web:mock-util-service/BPNL00000003B2OM"}' "{{ $bdrsUrl }}/api/management/bpn-directory" -S -O -*/}}
+
+{{/*              wget --header "Content-Type: application/json" --header "x-api-key: {{ $bdrsKey }}" \*/}}
+{{/*              --post-data '{"bpn": "BPNL00000003CSGV","did": "did:web:mock-util-service/BPNL00000003CSGV"}' "{{ $bdrsUrl }}/api/management/bpn-directory" -S -O -*/}}
+
+{{/*              wget --header "Content-Type: application/json" --header "x-api-key: {{ $bdrsKey }}" \*/}}
+{{/*              --post-data '{"bpn": "BPNL00000003B5MJ","did": "did:web:mock-util-service/BPNL00000003B5MJ"}' "{{ $bdrsUrl }}/api/management/bpn-directory" -S -O -*/}}
+
+{{/*              wget --header "Content-Type: application/json" --header "x-api-key: {{ $bdrsKey }}" \*/}}
+{{/*              --post-data '{"bpn": "BPNL00000003AXS3","did": "did:web:mock-util-service/BPNL00000003AXS3"}' "{{ $bdrsUrl }}/api/management/bpn-directory" -S -O -*/}}
+
+{{/*              wget --header "Content-Type: application/json" --header "x-api-key: {{ $bdrsKey }}" \*/}}
+{{/*              --post-data '{"bpn": "BPNL00000003B3NX","did": "did:web:mock-util-service/BPNL00000003B3NX"}' "{{ $bdrsUrl }}/api/management/bpn-directory" -S -O -*/}}
+
+{{/*              wget --header "Content-Type: application/json" --header "x-api-key: {{ $bdrsKey }}" \*/}}
+{{/*              --post-data '{"bpn": "BPNL00000000BJTL","did": "did:web:mock-util-service/BPNL00000000BJTL"}' "{{ $bdrsUrl }}/api/management/bpn-directory" -S -O -*/}}
+
+{{ end }}
