@@ -25,7 +25,7 @@ configuration:
 
 nameOverride: ""
 fullnameOverride: ""
-seedTestdata: true  # Toggle seeding of testdata. Can be disabled when e.g. only edc is used as consumer. Default true.
+seedTestdata: false  # Toggle seeding of testdata. Can be enabled when the edc should be seeded with testdata on startup.
 testdataConfigMap: ""  # Provide a custom configmap for post-install-job-upload-testdata.yaml.
 backendUrl: ""  # Override the backend service url
 registryUrl: ""  # Override the digital twin registry url
