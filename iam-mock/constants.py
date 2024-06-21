@@ -38,24 +38,22 @@ ES256_PUBLIC_KEY = read_file(Path("keys/public_key.pem"))
 EDC_PRIVATE_KEY = read_file(Path("keys/edc.key"))
 
 DID_TRUSTED_ISSUER = "did:web:mock-util-service/trusted-issuer"
-DID_CUSTOMER = "did:web:mock-util-service/customer"
-DID_SUPPLIER = "did:web:mock-util-service/supplier"
-# DID_BPNL00000003AYRE = "did:web:mock-util-service/BPNL00000003AYRE"
-# DID_BPNL00000003AZQP = "did:web:mock-util-service/BPNL00000003AZQP"
-# DID_BPNL00000003AVTH = "did:web:mock-util-service/BPNL00000003AVTH"
-# DID_BPNL00000003AWSS = "did:web:mock-util-service/BPNL00000003AWSS"
-# DID_BPNL00000003B0Q0 = "did:web:mock-util-service/BPNL00000003B0Q0"
-# DID_BPNS0000000008ZZ = "did:web:mock-util-service/BPNS0000000008ZZ"
-# DID_BPNL00000003CNKC = "did:web:mock-util-service/BPNL00000003CNKC"
-# DID_BPNL00000003B6LU = "did:web:mock-util-service/BPNL00000003B6LU"
-# DID_BPNL00000003CML1 = "did:web:mock-util-service/BPNL00000003CML1"
-# DID_BPNS00000008BDFH = "did:web:mock-util-service/BPNS00000008BDFH"
-# DID_BPNL00000003B2OM = "did:web:mock-util-service/BPNL00000003B2OM"
-# DID_BPNL00000003CSGV = "did:web:mock-util-service/BPNL00000003CSGV"
-# DID_BPNL00000003B5MJ = "did:web:mock-util-service/BPNL00000003B5MJ"
-# DID_BPNL00000003AXS3 = "did:web:mock-util-service/BPNL00000003AXS3"
-# DID_BPNL00000003B3NX = "did:web:mock-util-service/BPNL00000003B3NX"
-# DID_BPNL00000000BJTL = "did:web:mock-util-service/BPNL00000000BJTL"
+DID_BPNL00000003AYRE = "did:web:mock-util-service/BPNL00000003AYRE"
+DID_BPNL00000003AZQP = "did:web:mock-util-service/BPNL00000003AZQP"
+DID_BPNL00000003AVTH = "did:web:mock-util-service/BPNL00000003AVTH"
+DID_BPNL00000003AWSS = "did:web:mock-util-service/BPNL00000003AWSS"
+DID_BPNL00000003B0Q0 = "did:web:mock-util-service/BPNL00000003B0Q0"
+DID_BPNS0000000008ZZ = "did:web:mock-util-service/BPNS0000000008ZZ"
+DID_BPNL00000003CNKC = "did:web:mock-util-service/BPNL00000003CNKC"
+DID_BPNL00000003B6LU = "did:web:mock-util-service/BPNL00000003B6LU"
+DID_BPNL00000003CML1 = "did:web:mock-util-service/BPNL00000003CML1"
+DID_BPNS00000008BDFH = "did:web:mock-util-service/BPNS00000008BDFH"
+DID_BPNL00000003B2OM = "did:web:mock-util-service/BPNL00000003B2OM"
+DID_BPNL00000003CSGV = "did:web:mock-util-service/BPNL00000003CSGV"
+DID_BPNL00000003B5MJ = "did:web:mock-util-service/BPNL00000003B5MJ"
+DID_BPNL00000003AXS3 = "did:web:mock-util-service/BPNL00000003AXS3"
+DID_BPNL00000003B3NX = "did:web:mock-util-service/BPNL00000003B3NX"
+DID_BPNL00000000BJTL = "did:web:mock-util-service/BPNL00000000BJTL"
 
 # note: kid_vault = alias used for public key, set in edc.transfer.proxy.token.verifier.publickey.alias
 DID_DICT = {
@@ -63,111 +61,98 @@ DID_DICT = {
         "bpnl": "NONE",
         "did_resolve_name": "trusted-issuer",
     },
-    DID_SUPPLIER: {
+    DID_BPNL00000003AYRE: {
         "bpnl": "BPNL00000003AYRE",
-        "did_resolve_name": "supplier",
+        "did_resolve_name": "BPNL00000003AYRE",
         "kid_vault": "tokenSignerPublicKey",
         "private_key": EDC_PRIVATE_KEY
     },
-    DID_CUSTOMER: {
+    DID_BPNL00000003AZQP: {
         "bpnl": "BPNL00000003AZQP",
-        "did_resolve_name": "customer",
+        "did_resolve_name": "BPNL00000003AZQP",
+        "kid_vault": "tokenSignerPublicKey",
+        "private_key": EDC_PRIVATE_KEY
+    },
+    DID_BPNL00000003AVTH: {
+        "bpnl": "BPNL00000003AVTH",
+        "did_resolve_name": "BPNL00000003AVTH",
+        "kid_vault": "tokenSignerPublicKey",
+        "private_key": EDC_PRIVATE_KEY
+    }
+    ,
+    DID_BPNL00000003AWSS: {
+        "bpnl": "BPNL00000003AWSS",
+        "did_resolve_name": "BPNL00000003AWSS",
+        "kid_vault": "tokenSignerPublicKey",
+        "private_key": EDC_PRIVATE_KEY
+    },
+    DID_BPNL00000003B0Q0: {
+        "bpnl": "BPNL00000003B0Q0",
+        "did_resolve_name": "BPNL00000003B0Q0",
+        "kid_vault": "tokenSignerPublicKey",
+        "private_key": EDC_PRIVATE_KEY
+    },
+    DID_BPNS0000000008ZZ: {
+        "bpnl": "BPNS0000000008ZZ",
+        "did_resolve_name": "BPNS0000000008ZZ",
+        "kid_vault": "tokenSignerPublicKey",
+        "private_key": EDC_PRIVATE_KEY
+    },
+    DID_BPNL00000003CNKC: {
+        "bpnl": "BPNL00000003CNKC",
+        "did_resolve_name": "BPNL00000003CNKC",
+        "kid_vault": "tokenSignerPublicKey",
+        "private_key": EDC_PRIVATE_KEY
+    },
+    DID_BPNL00000003B6LU: {
+        "bpnl": "BPNL00000003B6LU",
+        "did_resolve_name": "BPNL00000003B6LU",
+        "kid_vault": "tokenSignerPublicKey",
+        "private_key": EDC_PRIVATE_KEY
+    },
+    DID_BPNL00000003CML1: {
+        "bpnl": "BPNL00000003CML1",
+        "did_resolve_name": "BPNL00000003CML1",
+        "kid_vault": "tokenSignerPublicKey",
+        "private_key": EDC_PRIVATE_KEY
+    },
+    DID_BPNS00000008BDFH: {
+        "bpnl": "BPNS00000008BDFH",
+        "did_resolve_name": "BPNS00000008BDFH",
+        "kid_vault": "tokenSignerPublicKey",
+        "private_key": EDC_PRIVATE_KEY
+    },
+    DID_BPNL00000003B2OM: {
+        "bpnl": "BPNL00000003B2OM",
+        "did_resolve_name": "BPNL00000003B2OM",
+        "kid_vault": "tokenSignerPublicKey",
+        "private_key": EDC_PRIVATE_KEY
+    },
+    DID_BPNL00000003CSGV: {
+        "bpnl": "BPNL00000003CSGV",
+        "did_resolve_name": "BPNL00000003CSGV",
+        "kid_vault": "tokenSignerPublicKey",
+        "private_key": EDC_PRIVATE_KEY
+    },
+    DID_BPNL00000003B5MJ: {
+        "bpnl": "BPNL00000003B5MJ",
+        "did_resolve_name": "BPNL00000003B5MJ",
+        "kid_vault": "tokenSignerPublicKey",
+        "private_key": EDC_PRIVATE_KEY
+    },
+    DID_BPNL00000003AXS3: {
+        "bpnl": "BPNL00000003AXS3",
+        "did_resolve_name": "BPNL00000003AXS3",
+        "kid_vault": "tokenSignerPublicKey",
+        "private_key": EDC_PRIVATE_KEY
+    },
+    DID_BPNL00000003B3NX: {
+        "bpnl": "BPNL00000003B3NX",
+        "did_resolve_name": "BPNL00000003B3NX",
         "kid_vault": "tokenSignerPublicKey",
         "private_key": EDC_PRIVATE_KEY
     }
 }
-    # ,
-    # DID_BPNL00000003AYRE: {
-    #     "bpnl": "BPNL00000003AYRE",
-    #     "did_resolve_name": "BPNL00000003AYRE",
-    #     "kid_vault": "tokenSignerPublicKey",
-    #     "private_key": EDC_PRIVATE_KEY,
-    # },
-    # DID_BPNL00000003AZQP: {
-    #     "bpnl": "BPNL00000003AZQP",
-    #     "did_resolve_name": "BPNL00000003AZQP",
-    #     "kid_vault": "tokenSignerPublicKey",
-    #     "private_key": EDC_PRIVATE_KEY,
-    # },
-    # DID_BPNL00000003AVTH: {
-    #     "bpnl": "BPNL00000003AVTH",
-    #     "did_resolve_name": "BPNL00000003AVTH",
-    #     "kid_vault": "tokenSignerPublicKey",
-    #     "private_key": EDC_PRIVATE_KEY,
-    # }
-    # ,
-    # DID_BPNL00000003AWSS: {
-    #     "bpnl": "BPNL00000003AWSS",
-    #     "did_resolve_name": "BPNL00000003AWSS",
-    #     "kid_vault": "tokenSignerPublicKey",
-    #     "private_key": EDC_PRIVATE_KEY,
-    # },
-    # DID_BPNL00000003B0Q0: {
-    #     "bpnl": "BPNL00000003B0Q0",
-    #     "did_resolve_name": "BPNL00000003B0Q0",
-    #     "kid_vault": "tokenSignerPublicKey",
-    #     "private_key": EDC_PRIVATE_KEY,
-    # },
-    # DID_BPNS0000000008ZZ: {
-    #     "bpnl": "BPNS0000000008ZZ",
-    #     "did_resolve_name": "BPNS0000000008ZZ",
-    #     "kid_vault": "tokenSignerPublicKey",
-    #     "private_key": EDC_PRIVATE_KEY,
-    # },
-    # DID_BPNL00000003CNKC: {
-    #     "bpnl": "BPNL00000003CNKC",
-    #     "did_resolve_name": "BPNL00000003CNKC",
-    #     "kid_vault": "tokenSignerPublicKey",
-    #     "private_key": EDC_PRIVATE_KEY,
-    # },
-    # DID_BPNL00000003B6LU: {
-    #     "bpnl": "BPNL00000003B6LU",
-    #     "did_resolve_name": "BPNL00000003B6LU",
-    #     "kid_vault": "tokenSignerPublicKey",
-    #     "private_key": EDC_PRIVATE_KEY,
-    # },
-    # DID_BPNL00000003CML1: {
-    #     "bpnl": "BPNL00000003CML1",
-    #     "did_resolve_name": "BPNL00000003CML1",
-    #     "kid_vault": "tokenSignerPublicKey",
-    #     "private_key": EDC_PRIVATE_KEY,
-    # },
-    # DID_BPNS00000008BDFH: {
-    #     "bpnl": "BPNS00000008BDFH",
-    #     "did_resolve_name": "BPNS00000008BDFH",
-    #     "kid_vault": "tokenSignerPublicKey",
-    #     "private_key": EDC_PRIVATE_KEY,
-    # },
-    # DID_BPNL00000003B2OM: {
-    #     "bpnl": "BPNL00000003B2OM",
-    #     "did_resolve_name": "BPNL00000003B2OM",
-    #     "kid_vault": "tokenSignerPublicKey",
-    #     "private_key": EDC_PRIVATE_KEY,
-    # },
-    # DID_BPNL00000003CSGV: {
-    #     "bpnl": "BPNL00000003CSGV",
-    #     "did_resolve_name": "BPNL00000003CSGV",
-    #     "kid_vault": "tokenSignerPublicKey",
-    #     "private_key": EDC_PRIVATE_KEY,
-    # },
-    # DID_BPNL00000003B5MJ: {
-    #     "bpnl": "BPNL00000003B5MJ",
-    #     "did_resolve_name": "BPNL00000003B5MJ",
-    #     "kid_vault": "tokenSignerPublicKey",
-    #     "private_key": EDC_PRIVATE_KEY,
-    # },
-    # DID_BPNL00000003AXS3: {
-    #     "bpnl": "BPNL00000003AXS3",
-    #     "did_resolve_name": "BPNL00000003AXS3",
-    #     "kid_vault": "tokenSignerPublicKey",
-    #     "private_key": EDC_PRIVATE_KEY,
-    # },
-    # DID_BPNL00000003B3NX: {
-    #     "bpnl": "BPNL00000003B3NX",
-    #     "did_resolve_name": "BPNL00000003B3NX",
-    #     "kid_vault": "tokenSignerPublicKey",
-    #     "private_key": EDC_PRIVATE_KEY,
-    # }
 
 """
 lookup did by did_resolve_name

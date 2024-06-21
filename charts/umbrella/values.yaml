@@ -597,7 +597,7 @@ dataconsumerOne:
     participant:
       id: BPNL00000003AZQP
     iatp:
-      id: did:web:mock-util-service/customer
+      id: did:web:mock-util-service/BPNL00000003AZQP
       trustedIssuers:
         - did:web:mock-util-service/trusted-issuer
       sts:
@@ -689,7 +689,7 @@ tx-data-provider:
     participant:
       id: BPNL00000003AYRE
     iatp:
-      id: did:web:mock-util-service/supplier
+      id: did:web:mock-util-service/BPNL00000003AYRE
       trustedIssuers:
         - did:web:mock-util-service/trusted-issuer
       sts:
