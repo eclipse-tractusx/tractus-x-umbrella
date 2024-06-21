@@ -42,18 +42,24 @@ tractusx-connector:
     vault: false
   participant:
     id: changeme
-  controlplane:
-    ssi:
-      miw:
+  iatp:
+    id: changeme
+    trustedIssuers:
+      - changeme
+    sts:
+      dim:
         url: http://example.org
-        authorityId: changeme
       oauth:
-        tokenurl: http://example.org
+        token_url: http://example.org
         client:
           id: changeme
-          secretAlias: client-secret
+          secret_alias: client-secret
+  controlplane:
     ingresses:
       - enabled: false
+    bdrs:
+      server:
+        url: http://example.org
     endpoints:
       management:
         authKey: *edcKey
@@ -63,16 +69,19 @@ tractusx-connector:
   dataplane:
     ingresses:
       - enabled: false
+    token:
+      signer:
+        privatekey_alias: changeme
+      verifier:
+        publickey_alias: changeme
 
-  backendService:
-    httpProxyTokenReceiverUrl: "https://submodelserver.test/data/endpoint-data-reference-provider1"
   vault:
     hashicorp:
       url: http://{{ .Release.Name }}-edc-provider-vault:8200
       token: "root"
     secretNames:
-      transferProxyTokenSignerPrivateKey:
-      transferProxyTokenSignerPublicKey:
+      transferProxyTokenSignerPrivateKey: changeme
+      transferProxyTokenSignerPublicKey: changeme
       transferProxyTokenEncryptionAesKey: aesKey
 
   postgresql:
