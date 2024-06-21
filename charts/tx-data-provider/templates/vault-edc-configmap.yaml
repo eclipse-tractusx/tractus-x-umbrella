@@ -17,7 +17,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # #############################################################################
 ---
-{{- $fullName := include "dataprovider.fullname" . -}}
+{{ $fullName := include "dataprovider.fullname" . -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
