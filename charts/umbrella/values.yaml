@@ -575,7 +575,7 @@ selfdescription:
     #   cert-manager.io/cluster-issuer: "my-ca-issuer"
 
 iatpmock:
-  enabled: true
+  enabled: false
   nameOverride: mock-util-service
   fullnameOverride: mock-util-service
   ingress:

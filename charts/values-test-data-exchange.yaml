@@ -35,7 +35,10 @@ discoveryfinder:
 selfdescription:
   enabled: false
 
-managed-identity-wallet:
+iatpmock:
+  enabled: true
+
+bdrs-server-memory:
   enabled: true
 
 dataconsumer:
