@@ -160,6 +160,9 @@ jobs:
     - name: Install chart and run tests (tx-data-provider)
       run: ct install --charts charts/tx-data-provider --target-branch ${{ github.event.repository.default_branch }}
 
+    - name: Install chart and run tests (iatpmock)
+      run: ct install --charts charts/iatpmock --target-branch ${{ github.event.repository.default_branch }}
+
     - name: Install chart for shared services (umbrella)
       run: |
         helm install umbrella charts/umbrella -f charts/values-test-shared-services.yaml -f charts/values-test-iam-init-container.yaml --namespace shared-services --create-namespace --debug --timeout 10m  --set semantic-hub.graphdb.image=kind-registry:5000/jena-fuseki-docker:4.7.0
