@@ -493,7 +493,7 @@ discoveryfinder:
       initialDelaySeconds: 200
     readinessProbe:
       initialDelaySeconds: 200
-    host: discovery.tx.test
+    host: semantics.tx.test
     properties:
       discoveryfinder:
         initialEndpoints:
@@ -784,14 +784,6 @@ semantic-hub:
         persistence:
           enabled: false
   hub:
-    host: semantics.tx.test
-    ingress:
-      enabled: true
-      tls: false
-      urlPrefix: /
-      className: "nginx"
-      annotations:
-        kubernetes.io/ingress.class: nginx
     authentication: false
     livenessProbe:
       initialDelaySeconds: 200
