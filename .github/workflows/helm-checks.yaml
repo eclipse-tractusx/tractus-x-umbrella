@@ -130,9 +130,9 @@ jobs:
     - name: Build iatp mock
       uses: docker/build-push-action@4a13e500e55cf31b7a5d59a38ab2040ab0f42f56 # v5.1.0
       with:
-        context: ./iam-mock/
+        context: ./iatp-mock/
         push: true
-        tags: kind-registry:5000/iam-mock:testing
+        tags: kind-registry:5000/iatp-mock:testing
 
     - name: Set up Helm
       uses: azure/setup-helm@b7246b12e77f7134dc2d460a3d5bad15bbe29390 # v4.1.0
@@ -161,7 +161,7 @@ jobs:
       run: ct install --charts charts/tx-data-provider --target-branch ${{ github.event.repository.default_branch }}
 
     - name: Install chart and run tests (iatpmock)
-      run: ct install --charts charts/iatpmock --target-branch ${{ github.event.repository.default_branch }} --helm-extra-set-args "--set image.repository=kind-registry:5000/iam-mock --set image.tag=testing"
+      run: ct install --charts charts/iatpmock --target-branch ${{ github.event.repository.default_branch }} --helm-extra-set-args "--set image.repository=kind-registry:5000/iatp-mock --set image.tag=testing"
 
     - name: Install chart for shared services (umbrella)
       run: |
