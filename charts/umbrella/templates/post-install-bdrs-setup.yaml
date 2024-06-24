@@ -19,7 +19,7 @@
 ---
 {{ if index .Values "bdrs-server-memory" "enabled" }}
 {{ if index .Values "bdrs-server-memory" "seeding" "enabled" }}
-{{- $bdrsUrl := printf "http://%s" (index .Values "bdrs-server-memory" "hostname") -}}
+{{- $bdrsUrl := tpl (index .Values "bdrs-server-memory" "seeding" "url") . -}}
 {{- $bdrsKey := index .Values "bdrs-server-memory" "server" "endpoints" "management" "authKey" -}}
 {{- $fullName := include "app.fullname" . -}}
 apiVersion: batch/v1
@@ -54,56 +54,9 @@ spec:
             - "/bin/sh"
             - "-c"
             - |
-              echo "Waiting 10s to start BDRS seeding..."
-              sleep 10
-
+              {{- range $index, $element := index .Values "bdrs-server-memory" "seeding" "bpnList" }}
               wget --header "Content-Type: application/json" --header "x-api-key: {{ $bdrsKey }}" \
-              --post-data '{"bpn": "BPNL00000003AZQP","did": "did:web:iatpmock.tx.test/BPNL00000003AZQP"}' "{{ $bdrsUrl }}/api/management/bpn-directory" -S -O -
-
-              wget --header "Content-Type: application/json" --header "x-api-key: {{ $bdrsKey }}" \
-              --post-data '{"bpn": "BPNL00000003AYRE","did": "did:web:iatpmock.tx.test/BPNL00000003AYRE"}' "{{ $bdrsUrl }}/api/management/bpn-directory" -S -O -
-
-              wget --header "Content-Type: application/json" --header "x-api-key: {{ $bdrsKey }}" \
-              --post-data '{"bpn": "BPNL00000003AVTH","did": "did:web:iatpmock.tx.test/BPNL00000003AVTH"}' "{{ $bdrsUrl }}/api/management/bpn-directory" -S -O -
-
-              wget --header "Content-Type: application/json" --header "x-api-key: {{ $bdrsKey }}" \
-              --post-data '{"bpn": "BPNL00000003AWSS","did": "did:web:iatpmock.tx.test/BPNL00000003AWSS"}' "{{ $bdrsUrl }}/api/management/bpn-directory" -S -O -
-
-              wget --header "Content-Type: application/json" --header "x-api-key: {{ $bdrsKey }}" \
-              --post-data '{"bpn": "BPNL00000003B0Q0","did": "did:web:iatpmock.tx.test/BPNL00000003B0Q0"}' "{{ $bdrsUrl }}/api/management/bpn-directory" -S -O -
-
-              wget --header "Content-Type: application/json" --header "x-api-key: {{ $bdrsKey }}" \
-              --post-data '{"bpn": "BPNS0000000008ZZ","did": "did:web:iatpmock.tx.test/BPNS0000000008ZZ"}' "{{ $bdrsUrl }}/api/management/bpn-directory" -S -O -
-
-              wget --header "Content-Type: application/json" --header "x-api-key: {{ $bdrsKey }}" \
-              --post-data '{"bpn": "BPNL00000003CNKC","did": "did:web:iatpmock.tx.test/BPNL00000003CNKC"}' "{{ $bdrsUrl }}/api/management/bpn-directory" -S -O -
-
-              wget --header "Content-Type: application/json" --header "x-api-key: {{ $bdrsKey }}" \
-              --post-data '{"bpn": "BPNL00000003B6LU","did": "did:web:iatpmock.tx.test/BPNL00000003B6LU"}' "{{ $bdrsUrl }}/api/management/bpn-directory" -S -O -
-
-              wget --header "Content-Type: application/json" --header "x-api-key: {{ $bdrsKey }}" \
-              --post-data '{"bpn": "BPNL00000003CML1","did": "did:web:iatpmock.tx.test/BPNL00000003CML1"}' "{{ $bdrsUrl }}/api/management/bpn-directory" -S -O -
-
-              wget --header "Content-Type: application/json" --header "x-api-key: {{ $bdrsKey }}" \
-              --post-data '{"bpn": "BPNS00000008BDFH","did": "did:web:iatpmock.tx.test/BPNS00000008BDFH"}' "{{ $bdrsUrl }}/api/management/bpn-directory" -S -O -
-
-              wget --header "Content-Type: application/json" --header "x-api-key: {{ $bdrsKey }}" \
-              --post-data '{"bpn": "BPNL00000003B2OM","did": "did:web:iatpmock.tx.test/BPNL00000003B2OM"}' "{{ $bdrsUrl }}/api/management/bpn-directory" -S -O -
-
-              wget --header "Content-Type: application/json" --header "x-api-key: {{ $bdrsKey }}" \
-              --post-data '{"bpn": "BPNL00000003CSGV","did": "did:web:iatpmock.tx.test/BPNL00000003CSGV"}' "{{ $bdrsUrl }}/api/management/bpn-directory" -S -O -
-
-              wget --header "Content-Type: application/json" --header "x-api-key: {{ $bdrsKey }}" \
-              --post-data '{"bpn": "BPNL00000003B5MJ","did": "did:web:iatpmock.tx.test/BPNL00000003B5MJ"}' "{{ $bdrsUrl }}/api/management/bpn-directory" -S -O -
-
-              wget --header "Content-Type: application/json" --header "x-api-key: {{ $bdrsKey }}" \
-              --post-data '{"bpn": "BPNL00000003AXS3","did": "did:web:iatpmock.tx.test/BPNL00000003AXS3"}' "{{ $bdrsUrl }}/api/management/bpn-directory" -S -O -
-
-              wget --header "Content-Type: application/json" --header "x-api-key: {{ $bdrsKey }}" \
-              --post-data '{"bpn": "BPNL00000003B3NX","did": "did:web:iatpmock.tx.test/BPNL00000003B3NX"}' "{{ $bdrsUrl }}/api/management/bpn-directory" -S -O -
-
-              wget --header "Content-Type: application/json" --header "x-api-key: {{ $bdrsKey }}" \
-              --post-data '{"bpn": "BPNL00000000BJTL","did": "did:web:iatpmock.tx.test/BPNL00000000BJTL"}' "{{ $bdrsUrl }}/api/management/bpn-directory" -S -O -
-
+              --post-data '{"bpn": "{{ $element.bpn }}","did": "{{ $element.did }}"}' "{{ $bdrsUrl }}/api/management/bpn-directory" -S -O -
+              {{- end }}
 {{ end }}
 {{ end }}

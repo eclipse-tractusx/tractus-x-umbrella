@@ -901,9 +901,43 @@ pgadmin4:
 
 bdrs-server-memory:
   enabled: false
-  hostname: &hostname bdrs-server.tx.test
   seeding:
+    url: "http://{{ .Release.Name }}-bdrs-server-memory:8081"
     enabled: true
+    bpnList:
+      - bpn: "BPNL00000003B3NX"
+        did: "did:web:iatpmock.tx.test/BPNL00000003B3NX"
+      - bpn: "BPNL00000003CSGV"
+        did: "did:web:iatpmock.tx.test/BPNL00000003CSGV"
+      - bpn: "BPNL00000003B6LU"
+        did: "did:web:iatpmock.tx.test/BPNL00000003B6LU"
+      - bpn: "BPNL00000003AXS3"
+        did: "did:web:iatpmock.tx.test/BPNL00000003AXS3"
+      - bpn: "BPNL00000003AZQP"
+        did: "did:web:iatpmock.tx.test/BPNL00000003AZQP"
+      - bpn: "BPNL00000003AWSS"
+        did: "did:web:iatpmock.tx.test/BPNL00000003AWSS"
+      - bpn: "BPNL00000003AYRE"
+        did: "did:web:iatpmock.tx.test/BPNL00000003AYRE"
+      - bpn: "BPNL00000003AVTH"
+        did: "did:web:iatpmock.tx.test/BPNL00000003AVTH"
+      - bpn: "BPNL00000000BJTL"
+        did: "did:web:iatpmock.tx.test/BPNL00000000BJTL"
+      - bpn: "BPNL00000003CML1"
+        did: "did:web:iatpmock.tx.test/BPNL00000003CML1"
+      - bpn: "BPNL00000003B2OM"
+        did: "did:web:iatpmock.tx.test/BPNL00000003B2OM"
+      - bpn: "BPNL00000003B0Q0"
+        did: "did:web:iatpmock.tx.test/BPNL00000003B0Q0"
+      - bpn: "BPNL00000003B5MJ"
+        did: "did:web:iatpmock.tx.test/BPNL00000003B5MJ"
+      - bpn: "BPNS0000000008ZZ"
+        did: "did:web:iatpmock.tx.test/BPNS0000000008ZZ"
+      - bpn: "BPNL00000003CNKC"
+        did: "did:web:iatpmock.tx.test/BPNL00000003CNKC"
+      - bpn: "BPNS00000008BDFH"
+        did: "did:web:iatpmock.tx.test/BPNS00000008BDFH"
+
   server:
     trustedIssuers:
       - did:web:iatpmock.tx.test/trusted-issuer
@@ -915,7 +949,7 @@ bdrs-server-memory:
         authKey: TEST
     ingresses:
       - enabled: true
-        hostname: *hostname
+        hostname: bdrs-server.tx.test
         endpoints:
           - directory
           - management
