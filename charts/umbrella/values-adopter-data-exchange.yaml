@@ -72,12 +72,12 @@ dataconsumerOne:
     participant:
       id: BPNL00000003AZQP
     iatp:
-      id: did:web:mock-util-service/BPNL00000003AZQP
+      id: did:web:iatpmock.tx.test/BPNL00000003AZQP
       trustedIssuers:
-        - did:web:mock-util-service/trusted-issuer
+        - did:web:iatpmock.tx.test/trusted-issuer
       sts:
         dim:
-          url: http://mock-util-service:80/sts
+          url: http://iatpmock.tx.test/sts
         oauth:
           token_url: http://centralidp.tx.test/auth/realms/CX-Central/protocol/openid-connect/token
           client:
@@ -122,12 +122,12 @@ tx-data-provider:
     participant:
       id: BPNL00000003AYRE
     iatp:
-      id: did:web:mock-util-service/BPNL00000003AYRE
+      id: did:web:iatpmock.tx.test/BPNL00000003AYRE
       trustedIssuers:
-        - did:web:mock-util-service/trusted-issuer
+        - did:web:iatpmock.tx.test/trusted-issuer
       sts:
         dim:
-          url: http://mock-util-service:80/sts
+          url: http://iatpmock.tx.test/sts
         oauth:
           token_url: http://centralidp.tx.test/auth/realms/CX-Central/protocol/openid-connect/token
           client:
@@ -176,9 +176,9 @@ dataconsumerTwo:
     participant:
       id: BPNL00000003AVTH
     iatp:
-      id: did:web:mock-util-service/BPNL00000003AVTH
+      id: did:web:iatpmock.tx.test/BPNL00000003AVTH
       trustedIssuers:
-        - did:web:mock-util-service/trusted-issuer
+        - did:web:iatpmock.tx.test/trusted-issuer
       sts:
         oauth:
           token_url: http://centralidp.tx.test/auth/realms/CX-Central/protocol/openid-connect/token

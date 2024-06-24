@@ -33,12 +33,12 @@ docker compose up
 
 Following services are now reachable:
 
-| Service           | address                                         | reachable where          |
-|-------------------|-------------------------------------------------|--------------------------|
-| mock-util-service | http://mock-util-service:80/edr-log             | docker compose (miw net) |
-| mock-util-service | http://mock-util-service:80/sts                 | docker compose (miw net) |
-| mock-util-service | http://mock-util-service:80/presentations/query | docker compose (miw net) |
-| mock-util-service | http://mock-util-service:80/{did-name}          | docker compose (miw net) |
-| mock-util-service | localhost:8888/*                                | host machine             |
+| Service           | address                                           | reachable where          |
+|-------------------|---------------------------------------------------|--------------------------|
+| mock-util-service | http://mock-util-service:8080/edr-log             | docker compose (miw net) |
+| mock-util-service | http://mock-util-service:8080/sts                 | docker compose (miw net) |
+| mock-util-service | http://mock-util-service:8080/presentations/query | docker compose (miw net) |
+| mock-util-service | http://mock-util-service:8080/{did-name}          | docker compose (miw net) |
+| mock-util-service | localhost:8888/*                                  | host machine             |
 
 Use the service to either simulate the central IAM or just to got some logging api

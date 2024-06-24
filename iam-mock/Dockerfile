@@ -27,4 +27,4 @@ COPY ./keys /code/keys
 RUN useradd -u 1000 nonroot
 USER nonroot
 
-CMD ["uvicorn", "mock_util:app", "--host", "0.0.0.0", "--port", "80"]
+CMD ["uvicorn", "mock_util:app", "--host", "0.0.0.0", "--port", "8080"]
