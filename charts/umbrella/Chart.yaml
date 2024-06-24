@@ -94,7 +94,7 @@ dependencies:
     name: pgadmin4
     repository: https://helm.runix.net
     version: 1.25.x
-  # Simple-Data-Exchanger SDE
+    # SDE
   - condition: sdeapp.enabled
     name: sde
     alias: simple-data-exchanger
