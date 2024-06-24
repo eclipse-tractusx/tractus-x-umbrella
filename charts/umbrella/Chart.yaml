@@ -97,5 +97,5 @@ dependencies:
     # iatp
   - name: iatpmock
     version: 0.1.0
-    repository: file://../iatpmock
+    repository: file://charts/iatpmock
     condition: iatpmock.enabled

@@ -17,6 +17,7 @@
   # SPDX-License-Identifier: Apache-2.0
   # #############################################################################
 ---
+{{ if index .Values "bdrs-server-memory" "enabled" }}
 {{ if index .Values "bdrs-server-memory" "seeding" "enabled" }}
 {{- $bdrsUrl := printf "http://%s" (index .Values "bdrs-server-memory" "hostname") -}}
 {{- $bdrsKey := index .Values "bdrs-server-memory" "server" "endpoints" "management" "authKey" -}}
@@ -104,4 +105,5 @@ spec:
               wget --header "Content-Type: application/json" --header "x-api-key: {{ $bdrsKey }}" \
               --post-data '{"bpn": "BPNL00000000BJTL","did": "did:web:iatpmock.tx.test/BPNL00000000BJTL"}' "{{ $bdrsUrl }}/api/management/bpn-directory" -S -O -
 
+{{ end }}
 {{ end }}
