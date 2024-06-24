@@ -96,7 +96,7 @@ dependencies:
     version: 1.25.x
   # Simple-Data-Exchanger SDE
   - condition: sdeapp.enabled
-    name: SDE
+    name: sde
     alias: simple-data-exchanger
     repository: https://eclipse-tractusx.github.io/charts/dev
     version: 0.1.9
