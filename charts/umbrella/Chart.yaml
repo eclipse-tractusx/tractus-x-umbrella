@@ -99,5 +99,5 @@ dependencies:
     name: sde
     alias: simple-data-exchanger
     repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 0.1.9    
+    version: 0.1.9
     
