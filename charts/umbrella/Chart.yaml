@@ -89,14 +89,14 @@ dependencies:
     version: 0.0.5
     repository: https://eclipse-tractusx.github.io/charts/dev
     condition: dataconsumerTwo.enabled
-    # pgadmin4 as helper tool for easy database access
-  - condition: pgadmin4.enabled
-    name: pgadmin4
-    repository: https://helm.runix.net
-    version: 1.25.x
     # SDE
   - condition: sdeapp.enabled
     name: sde
     alias: simple-data-exchanger
     repository: https://eclipse-tractusx.github.io/charts/dev
     version: 0.1.9
+    # pgadmin4 as helper tool for easy database access
+  - condition: pgadmin4.enabled
+    name: pgadmin4
+    repository: https://helm.runix.net
+    version: 1.25.x
