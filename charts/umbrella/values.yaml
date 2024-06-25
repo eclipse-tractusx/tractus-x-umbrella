@@ -463,6 +463,19 @@ bpndiscovery:
   enabled: false
   enablePostgres: true
   bpndiscovery:
+    host: semantics.tx.test
+    ingress:
+      enabled: true
+      tls: false
+      urlPrefix: "/bpndiscovery"
+      className: "nginx"
+      annotations:
+        cert-manager.io/cluster-issuer: "my-ca-issuer"
+        nginx.ingress.kubernetes.io/rewrite-target: "/$2"
+        nginx.ingress.kubernetes.io/use-regex: "true"
+        nginx.ingress.kubernetes.io/enable-cors: "true"
+        nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
+        nginx.ingress.kubernetes.io/x-forwarded-prefix: "/bpndiscovery"
     authentication: false
     bpndiscoverEndpoint:
       allowedTypes: oen,wmi,passtype,manufacturerPartId
@@ -850,6 +863,19 @@ semantic-hub:
       initialDelaySeconds: 200
     readinessProbe:
       initialDelaySeconds: 200
+    host: semantics.tx.test
+    ingress:
+      enabled: true
+      tls: false
+      urlPrefix: "/hub"
+      className: "nginx"
+      annotations:
+        cert-manager.io/cluster-issuer: "my-ca-issuer"
+        nginx.ingress.kubernetes.io/rewrite-target: "/$2"
+        nginx.ingress.kubernetes.io/use-regex: "true"
+        nginx.ingress.kubernetes.io/enable-cors: "true"
+        nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
+        nginx.ingress.kubernetes.io/x-forwarded-prefix: "/hub"
   graphdb:
     enabled: true
     image: jena-fuseki-docker:4.7.0
