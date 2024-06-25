@@ -476,7 +476,10 @@ bpndiscovery:
         nginx.ingress.kubernetes.io/enable-cors: "true"
         nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
         nginx.ingress.kubernetes.io/x-forwarded-prefix: "/bpndiscovery"
-    authentication: false
+    authentication: true
+    idp:
+      issuerUri: "http://centralidp.tx.test/auth/realms/CX-Central"
+      publicClientId: "Cl22-CX-BPND"
     bpndiscoverEndpoint:
       allowedTypes: oen,wmi,passtype,manufacturerPartId
       description: Service to discover BPN for different kind of type numbers
