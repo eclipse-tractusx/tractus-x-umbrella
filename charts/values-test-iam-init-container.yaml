@@ -29,7 +29,7 @@ centralidp:
           - -c
           - |
             echo "Copying realms..."
-            cp -R /import/catenax-central/realms/* /realms
+            cp -R /import/catenax-central/R2403/realms/* /realms
         volumeMounts:
         - name: realms
           mountPath: "/realms"
