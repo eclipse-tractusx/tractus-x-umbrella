@@ -41,7 +41,7 @@ iatpmock:
 bdrs-server-memory:
   enabled: true
 
-dataconsumer:
+dataconsumerOne:
   enabled: true
 
 tx-data-provider:
