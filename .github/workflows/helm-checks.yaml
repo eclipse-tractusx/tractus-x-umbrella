@@ -165,13 +165,17 @@ jobs:
         helm install umbrella charts/umbrella -f charts/values-test-shared-services.yaml -f charts/values-test-iam-init-container.yaml \
         --namespace shared-services --create-namespace --debug --timeout 10m \
         --set semantic-hub.graphdb.image=kind-registry:5000/jena-fuseki-docker:4.7.0 \
-        --set iatpmock.image.repository=kind-registry:5000/iatp-mock --set iatpmock.image.tag=testing 
-        
+        --set iatpmock.image.repository=kind-registry:5000/iatp-mock --set iatpmock.image.tag=testing
+    
         helm uninstall umbrella --namespace shared-services
 
     - name: Install chart for data exchange (umbrella)
       run: |
-        helm install umbrella charts/umbrella -f charts/values-test-data-exchange.yaml -f charts/values-test-iam-init-container.yaml --namespace data-exchange --create-namespace --debug --timeout 10m
+        helm dep up charts/tx-data-provider
+        helm dep up charts/umbrella
+        helm install umbrella charts/umbrella --namespace data-exchange --create-namespace --debug --timeout 10m \
+        -f charts/values-test-data-exchange.yaml -f charts/values-test-iam-init-container.yaml \
+        --set iatpmock.image.repository=kind-registry:5000/iatp-mock --set iatpmock.image.tag=testing
         helm uninstall umbrella --namespace data-exchange
 
     ## Skip upgrade for now until a working chart is released

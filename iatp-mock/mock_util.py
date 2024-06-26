@@ -233,7 +233,7 @@ def return_did(request: Request, partner_did: str, did_path: str):
           {
               "id": did_id,
               "type": "CredentialService",
-              "serviceEndpoint": "http://iatpmock.tx.test"
+              "serviceEndpoint": "http://mock-util-service"
           }
       ],
       "verificationMethod": [
