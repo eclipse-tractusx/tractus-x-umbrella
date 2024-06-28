@@ -38,7 +38,10 @@ selfdescription:
 semantic-hub:
   enabled: true
 
-managed-identity-wallet:
+iatpmock:
+  enabled: true
+
+bdrs-server-memory:
   enabled: true
 
 dataconsumer:

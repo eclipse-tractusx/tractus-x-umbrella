@@ -23,10 +23,11 @@
 import argparse
 import json
 import math
-import requests
 import time
 import uuid
 from copy import copy
+
+import requests
 from requests.adapters import HTTPAdapter, Retry
 
 
@@ -59,6 +60,10 @@ def create_edc_registry_asset_payload(registry_url_, asset_prop_id_):
         "@context": edc_context(),
         "@id": f"{asset_prop_id_}",  # DTR-EDC-instance-unique-ID
         "edc:properties": {
+            "dct:type": {
+                "@id": "https://w3id.org/catenax/taxonomy#DigitalTwinRegistry"
+            },
+            "cx-common:version": "3.0",
             "edc:description": "Digital Twin Registry Endpoint",
             "edc:id": f"{asset_prop_id_}",  # DTR-EDC-instance-unique-ID
             "edc:type": "data.core.digitalTwinRegistry"
@@ -74,6 +79,18 @@ def create_edc_registry_asset_payload(registry_url_, asset_prop_id_):
             "edc:contentType": "application-json"
         }
     })
+
+
+def edc_context():
+    return {
+        "dct": "http://purl.org/dc/terms/",
+        "tx": "https://w3id.org/tractusx/v0.0.1/ns/",
+        "edc": "https://w3id.org/edc/v0.0.1/ns/",
+        "dcat": "https://www.w3.org/ns/dcat/",
+        "odrl": "http://www.w3.org/ns/odrl/2/",
+        "dspace": "https://w3id.org/dspace/v0.8/",
+        "cx-common": "https://w3id.org/catenax/ontology/common#"
+    }
 
 
 def create_edc_contract_definition_payload(edc_policy_id_, asset_prop_id_):
@@ -151,7 +168,8 @@ def print_response(response_):
         raise Exception("Failed to call service")
 
 
-def check_url_args(submodel_server_upload_urls_, submodel_server_urls_, edc_upload_urls_, edc_urls_, dataplane_urls_):
+def check_url_args(submodel_server_upload_urls_, submodel_server_urls_, edc_upload_urls_, edc_urls_, dataplane_urls_,
+                   edc_bpns_):
     nr_of_submodel_server_upload_urls = len(submodel_server_upload_urls_)
     nr_of_submodel_server_urls = len(submodel_server_urls_)
     if nr_of_submodel_server_upload_urls != nr_of_submodel_server_urls:
@@ -164,6 +182,11 @@ def check_url_args(submodel_server_upload_urls_, submodel_server_urls_, edc_uplo
         raise ArgumentException(
             f"Number and order of edc upload URLs '{edc_upload_urls_}' has to match number and order of edc URLs "
             f"'{edc_urls_}'")
+    nr_of_edc_bpns = len(edc_bpns_)
+    if nr_of_edc_urls != nr_of_edc_bpns:
+        raise ArgumentException(
+            f"Number and order of edc URLs '{nr_of_edc_urls}' has to match number and order of edc BPNs "
+            f"'{nr_of_edc_bpns}'")
     if nr_of_submodel_server_urls != nr_of_edc_urls:
         raise ArgumentException(
             f"Number and order of edc URLs '{edc_urls_}' has to match number and order of submodelserver URLS "
@@ -200,11 +223,12 @@ def create_policy(policy_, edc_upload_url_, edc_policy_path_, headers_, session_
             print(f"Successfully created policy {response_.json()['@id']}.")
 
 
-def create_registry_asset(edc_upload_urls_, edc_asset_path_, edc_contract_definition_path_, catalog_path_, header_,
+def create_registry_asset(edc_upload_urls_, edc_bpns_, edc_asset_path_, edc_contract_definition_path_, catalog_path_, header_,
                           session_, edc_urls_, policy_, registry_asset_id_, aas_url_):
     for edc_upload_url_ in edc_upload_urls_:
         index = edc_upload_urls_.index(edc_upload_url_)
         edc_url_ = edc_urls_[index]
+        edc_bpn_ = edc_bpns_[index]
         print(edc_url_)
         print(edc_upload_url_)
 
@@ -212,7 +236,8 @@ def create_registry_asset(edc_upload_urls_, edc_asset_path_, edc_contract_defini
         payload_ = {
             "@context": edc_context(),
             "edc:protocol": "dataspace-protocol-http",
-            "edc:providerUrl": f"{edc_url_}/api/v1/dsp",
+            "edc:counterPartyAddress": f"{edc_url_}/api/v1/dsp",
+            "edc:counterPartyId": f"{edc_bpn_}",
             "edc:querySpec": {
                 "edc:filterExpression": {
                     "@type": "edc:Criterion",
@@ -224,14 +249,14 @@ def create_registry_asset(edc_upload_urls_, edc_asset_path_, edc_contract_defini
         }
         print(f"Query Catalog for registry asset {catalog_url_}")
         response_ = session_.request(method="POST", url=catalog_url_, headers=header_, data=json.dumps(payload_))
-
+        print_response(response_)
         asset_url_ = edc_upload_url_ + edc_asset_path_
         print(response_.status_code)
         catalog_response_ = response_.json()
         if response_.status_code == 200 and len(catalog_response_['dcat:dataset']) >= 1:
             first_offer_ = catalog_response_['dcat:dataset']
             print(
-                f"Offer with type {first_offer_['edc:type']} already exists. Skipping creation.")
+                f"Offer with type {first_offer_['type']} already exists. Skipping creation.")
         else:
             payload_ = create_edc_registry_asset_payload(aas_url_, registry_asset_id_)
             response_ = session_.request(method="POST", url=asset_url_,
@@ -249,17 +274,6 @@ def create_registry_asset(edc_upload_urls_, edc_asset_path_, edc_contract_defini
                                          headers=header_,
                                          data=payload_)
             print_response(response_)
-
-
-def edc_context():
-    return {
-        "dct": "https://purl.org/dc/terms/",
-        "tx": "https://w3id.org/tractusx/v0.0.1/ns/",
-        "edc": "https://w3id.org/edc/v0.0.1/ns/",
-        "odrl": "http://www.w3.org/ns/odrl/2/",
-        "dcat": "https://www.w3.org/ns/dcat/",
-        "dspace": "https://w3id.org/dspace/v0.8/"
-    }
 
 
 def search_for_asset_in_catalog(edc_catalog_path_, edc_upload_url_, edc_url_, headers_, session_, asset_id_):
@@ -293,6 +307,7 @@ if __name__ == "__main__":
     parser.add_argument("-au", "--aasupload", type=str, help="aas url", required=False)
     parser.add_argument("-edc", "--edc", type=str, nargs="*", help="EDC provider control plane display URLs",
                         required=True)
+    parser.add_argument("--edcBPN", type=str, nargs="*", help="The BPN of the provider EDC", required=True)
     parser.add_argument("-eu", "--edcupload", type=str, nargs="*", help="EDC provider control plane upload URLs",
                         required=False)
     parser.add_argument("-k", "--apikey", type=str, help="EDC provider api key", required=True)
@@ -315,6 +330,7 @@ if __name__ == "__main__":
     aas_url = config.get("aas")
     aas_upload_url = config.get("aasupload")
     edc_urls = config.get("edc")
+    edc_bpns = config.get("edcBPN")
     edc_upload_urls = config.get("edcupload")
     edc_api_key = config.get("apikey")
     bpnl_fail = config.get("bpn")
@@ -342,7 +358,8 @@ if __name__ == "__main__":
 
     registry_path = "/shell-descriptors"
 
-    check_url_args(submodel_server_upload_urls, submodel_server_urls, edc_upload_urls, edc_urls, dataplane_urls)
+    check_url_args(submodel_server_upload_urls, submodel_server_urls, edc_upload_urls, edc_urls, dataplane_urls,
+                   edc_bpns)
 
     edc_asset_path = "/management/v3/assets"
     edc_policy_path = "/management/v2/policydefinitions"
@@ -367,10 +384,9 @@ if __name__ == "__main__":
             "@context": {
                 "odrl": "http://www.w3.org/ns/odrl/2/"
             },
-            "@type": "PolicyDefinitionRequestDto",
             "@id": "default-policy",
             "policy": {
-                "@type": "Policy",
+                "@type": "odrl:Set",
                 "odrl:permission": []
             }
         }
@@ -390,15 +406,15 @@ if __name__ == "__main__":
     retries = Retry(total=5,
                     backoff_factor=0.1)
     session = requests.Session()
-    session.mount('https://', HTTPAdapter(max_retries=retries))
-    session.verify = False
+    session.mount('http://', HTTPAdapter(max_retries=retries))
+    # session.verify = False
 
     if policies:
         for policy in policies.keys():
             for url in edc_upload_urls:
                 create_policy(policies[policy], url, edc_policy_path, headers_with_api_key, session)
 
-    create_registry_asset(edc_upload_urls, edc_asset_path, edc_contract_definition_path, edc_catalog_path,
+    create_registry_asset(edc_upload_urls, edc_bpns, edc_asset_path, edc_contract_definition_path, edc_catalog_path,
                           headers_with_api_key, session, edc_urls, default_policy, registry_asset_id, aas_url)
 
     edc_asset_ids = []
@@ -478,12 +494,12 @@ if __name__ == "__main__":
                     dataplane_url = dataplane_urls[contract_number % len(dataplane_urls)]
                     edc_asset_id = edc_asset_ids[contract_number % len(edc_asset_ids)]
 
-                    submodel_name = tmp_key[tmp_key.index("#") + 1: len(tmp_key)]
+                    id_short = uuid.uuid4().urn
                     submodel_identification = uuid.uuid4().urn
                     semantic_id = tmp_key
 
                     endpoint_address = f"{dataplane_url}{dataplane_public_path}/{submodel_identification}"
-                    descriptor = create_submodel_descriptor_3_0(submodel_name, submodel_identification, semantic_id,
+                    descriptor = create_submodel_descriptor_3_0(id_short, submodel_identification, semantic_id,
                                                                 endpoint_address,
                                                                 edc_asset_id,
                                                                 edc_url)
@@ -516,7 +532,8 @@ if __name__ == "__main__":
 
             if submodel_descriptors:
                 print("Create aas shell")
-                payload = create_aas_shell_3_0(catenax_id, name_at_manufacturer, identification, specific_asset_ids,
+                id_short = uuid.uuid4().urn
+                payload = create_aas_shell_3_0(catenax_id, id_short, identification, specific_asset_ids,
                                                submodel_descriptors)
                 response = session.request(method="POST", url=f"{aas_upload_url}{registry_path}",
                                            headers=headers,
