@@ -109,11 +109,11 @@ digital-twin-registry:
     authentication: false
     livenessProbe:
       failureThreshold: 10
-      initialDelaySeconds: 60
+      initialDelaySeconds: 200
       periodSeconds: 10
     readinessProbe:
       failureThreshold: 10
-      initialDelaySeconds: 60
+      initialDelaySeconds: 200
       periodSeconds: 10
 
 simple-data-backend:
