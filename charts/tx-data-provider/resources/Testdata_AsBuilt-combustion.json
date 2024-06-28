@@ -36,30 +36,30 @@
       "bpnl": "null",
       "PlainObject": [
         {
-          "BPN_OEM_C": "BPNL00000003AZQP",
+          "BPN_OEM_C": "BPNL00000003AYRE",
           "BPN_OEM_A": "BPNL00000003AYRE",
-          "BPN_OEM_B": "BPNL00000003AVTH",
-          "BPN_IRS_TEST": "BPNL00000003AWSS",
-          "BPN_N_TIER_A": "BPNL00000003B0Q0",
+          "BPN_OEM_B": "BPNL00000003AYRE",
+          "BPN_IRS_TEST": "BPNL00000003AYRE",
+          "BPN_N_TIER_A": "BPNL00000003AYRE",
           "BATCH_SEALANT_1": "urn:uuid:e3b2f5e2-5be5-4ea6-98f0-6876de0fca4f",
           "BATCH_SEALANT_2": "urn:uuid:533543fb-5d09-4270-b4d5-0323de239d9a",
           "AUTHOR": "T-Systems",
           "BATCH_GLUE_2": "urn:uuid:8e08eaba-cd33-49ae-bde7-2cd64e88f30b",
           "BATCH_GLUE_1": "urn:uuid:14dcdfbd-73ba-43e9-8b5c-547e19271213",
           "BPN_TRACEX_A_SITE_A": "BPNS0000000008ZZ",
-          "BPN_TRACEX_B": "BPNL00000003CNKC",
-          "BPN_DISMANTLER": "BPNL00000003B6LU",
-          "BPN_TRACEX_A": "BPNL00000003CML1",
+          "BPN_TRACEX_B": "BPNL00000003AYRE",
+          "BPN_DISMANTLER": "BPNL00000003AYRE",
+          "BPN_TRACEX_A": "BPNL00000003AYRE",
           "BPN_TRACEX_B_SITE_A": "BPNS00000008BDFH",
-          "BPN_TIER_A": "BPNL00000003B2OM",
-          "BPN_TIER_C": "BPNL00000003CSGV",
+          "BPN_TIER_A": "BPNL00000003AYRE",
+          "BPN_TIER_C": "BPNL00000003AYRE",
           "SPT_MPO_LINK": "urn:uuid:029cff7f-2abe-4033-bece-62b55f17fbc4",
-          "BPN_TIER_B": "BPNL00000003B5MJ",
-          "BPN_SUB_TIER_B": "BPNL00000003AXS3",
-          "BPN_SUB_TIER_A": "BPNL00000003B3NX",
+          "BPN_TIER_B": "BPNL00000003AYRE",
+          "BPN_SUB_TIER_B": "BPNL00000003AYRE",
+          "BPN_SUB_TIER_A": "BPNL00000003AYRE",
           "BATCH_CATHODE_1": "urn:uuid:98a8a7e9-b265-479c-a11e-77219f94d659",
           "BATCH_CATHODE_2": "urn:uuid:e3754252-85e0-4b50-98a0-b4010565fa07",
-          "BPN_SUB_TIER_C": "BPNL00000000BJTL",
+          "BPN_SUB_TIER_C": "BPNL00000003AYRE",
           "CREATION_DATE": "2023-09-29T10:20:58.926Z",
           "BATCH_POLYAMID_1": "urn:uuid:6b54b8a3-d7e7-43ab-8e31-59e852af6a11",
           "BATCH_POLYAMID_2": "urn:uuid:943b225b-47b9-429f-a00c-e5034749220d"
@@ -96,7 +96,7 @@
                 "unit": "unit:piece",
                 "value": 1
               },
-              "businessPartner": "BPNL00000003B2OM",
+              "businessPartner": "BPNL00000003AYRE",
               "createdOn": "2022-02-03T14:48:54.709Z",
               "lastModifiedOn": "2022-02-03T14:48:54.709Z"
             },
@@ -110,7 +110,7 @@
                 "unit": "unit:piece",
                 "value": 1
               },
-              "businessPartner": "BPNL00000003B5MJ",
+              "businessPartner": "BPNL00000003AYRE",
               "createdOn": "2022-02-03T14:48:54.709Z",
               "lastModifiedOn": "2022-02-03T14:48:54.709Z"
             }
@@ -327,7 +327,7 @@
                 "unit": "unit:kilogram",
                 "value": 0.11
               },
-              "businessPartner": "BPNL00000003AXS3",
+              "businessPartner": "BPNL00000003AYRE",
               "createdOn": "2022-02-03T14:48:54.709Z",
               "lastModifiedOn": "2022-02-03T14:48:54.709Z"
             }
@@ -474,7 +474,7 @@
                 "unit": "unit:piece",
                 "value": 1
               },
-              "businessPartner": "BPNL00000003B0Q0",
+              "businessPartner": "BPNL00000003AYRE",
               "createdOn": "2022-02-03T14:48:54.709Z",
               "lastModifiedOn": "2022-02-03T14:48:54.709Z"
             }
@@ -613,7 +613,7 @@
           "childItems": []
         }
       ],
-      "bpnl": "BPNL00000003B0Q0",
+      "bpnl": "BPNL00000003AYRE",
       "urn:samm:io.catenax.part_as_planned:2.0.0#PartAsPlanned": [
         {
           "catenaXId": "urn:uuid:4f7b1cf2-a598-4027-bc78-63f6d8e55699",
@@ -745,7 +745,7 @@
           "childItems": []
         }
       ],
-      "bpnl": "BPNL00000003AXS3",
+      "bpnl": "BPNL00000003AYRE",
       "urn:samm:io.catenax.part_as_planned:2.0.0#PartAsPlanned": [
         {
           "catenaXId": "urn:uuid:15d2fcc8-6439-4d1e-904b-e62b4d3bf323",
@@ -885,7 +885,7 @@
                 "unit": "unit:piece",
                 "value": 1
               },
-              "businessPartner": "BPNL00000003B3NX",
+              "businessPartner": "BPNL00000003AYRE",
               "createdOn": "2022-02-03T14:48:54.709Z",
               "lastModifiedOn": "2022-02-03T14:48:54.709Z"
             },
@@ -899,14 +899,14 @@
                 "unit": "unit:piece",
                 "value": 1
               },
-              "businessPartner": "BPNL00000003B0Q0",
+              "businessPartner": "BPNL00000003AYRE",
               "createdOn": "2022-02-03T14:48:54.709Z",
               "lastModifiedOn": "2022-02-03T14:48:54.709Z"
             }
           ]
         }
       ],
-      "bpnl": "BPNL00000003B2OM",
+      "bpnl": "BPNL00000003AYRE",
       "urn:samm:io.catenax.part_as_planned:2.0.0#PartAsPlanned": [
         {
           "catenaXId": "urn:uuid:2c57b0e9-a653-411d-bdcd-64787e9fd3a7",
@@ -1059,14 +1059,14 @@
                 "unit": "unit:piece",
                 "value": 1
               },
-              "businessPartner": "BPNL00000003B0Q0",
+              "businessPartner": "BPNL00000003AYRE",
               "createdOn": "2022-02-03T14:48:54.709Z",
               "lastModifiedOn": "2022-02-03T14:48:54.709Z"
             }
           ]
         }
       ],
-      "bpnl": "BPNL00000003B3NX",
+      "bpnl": "BPNL00000003AYRE",
       "urn:samm:io.catenax.part_as_planned:2.0.0#PartAsPlanned": [
         {
           "catenaXId": "urn:uuid:bee5614f-9e46-4c98-9209-61a6f2b2a7fc",
@@ -1165,7 +1165,7 @@
           "childItems": []
         }
       ],
-      "bpnl": "BPNL00000003B0Q0",
+      "bpnl": "BPNL00000003AYRE",
       "urn:samm:io.catenax.part_as_planned:2.0.0#PartAsPlanned": [
         {
           "catenaXId": "urn:uuid:86f69643-3b90-4e34-90bf-789edcf40e7e",
@@ -1297,7 +1297,7 @@
           "childItems": []
         }
       ],
-      "bpnl": "BPNL00000003B0Q0",
+      "bpnl": "BPNL00000003AYRE",
       "urn:samm:io.catenax.part_as_planned:2.0.0#PartAsPlanned": [
         {
           "catenaXId": "urn:uuid:4518c080-14fb-4252-b8de-4362d615868d",
@@ -1437,7 +1437,7 @@
                 "unit": "unit:piece",
                 "value": 1
               },
-              "businessPartner": "BPNL00000003B3NX",
+              "businessPartner": "BPNL00000003AYRE",
               "createdOn": "2022-02-03T14:48:54.709Z",
               "lastModifiedOn": "2022-02-03T14:48:54.709Z"
             },
@@ -1451,14 +1451,14 @@
                 "unit": "unit:kilogram",
                 "value": 0.3301
               },
-              "businessPartner": "BPNL00000003AXS3",
+              "businessPartner": "BPNL00000003AYRE",
               "createdOn": "2022-02-03T14:48:54.709Z",
               "lastModifiedOn": "2022-02-03T14:48:54.709Z"
             }
           ]
         }
       ],
-      "bpnl": "BPNL00000003B5MJ",
+      "bpnl": "BPNL00000003AYRE",
       "urn:samm:io.catenax.part_as_planned:2.0.0#PartAsPlanned": [
         {
           "catenaXId": "urn:uuid:07cb071f-8716-45fe-89f1-f2f77a1ce93b",
@@ -1603,7 +1603,7 @@
           "childItems": []
         }
       ],
-      "bpnl": "BPNL00000003AXS3",
+      "bpnl": "BPNL00000003AYRE",
       "urn:samm:io.catenax.part_as_planned:2.0.0#PartAsPlanned": [
         {
           "catenaXId": "urn:uuid:3cdd2826-5df0-4c7b-b540-9eeccecb2301",
@@ -1770,7 +1770,7 @@
                 "unit": "unit:piece",
                 "value": 1
               },
-              "businessPartner": "BPNL00000003B2OM",
+              "businessPartner": "BPNL00000003AYRE",
               "createdOn": "2022-02-03T14:48:54.709Z",
               "lastModifiedOn": "2022-02-03T14:48:54.709Z"
             },
@@ -1784,7 +1784,7 @@
                 "unit": "unit:piece",
                 "value": 1
               },
-              "businessPartner": "BPNL00000003B5MJ",
+              "businessPartner": "BPNL00000003AYRE",
               "createdOn": "2022-02-03T14:48:54.709Z",
               "lastModifiedOn": "2022-02-03T14:48:54.709Z"
             }
@@ -2001,7 +2001,7 @@
                 "unit": "unit:kilogram",
                 "value": 0.11
               },
-              "businessPartner": "BPNL00000003AXS3",
+              "businessPartner": "BPNL00000003AYRE",
               "createdOn": "2022-02-03T14:48:54.709Z",
               "lastModifiedOn": "2022-02-03T14:48:54.709Z"
             }
@@ -2148,7 +2148,7 @@
                 "unit": "unit:piece",
                 "value": 1
               },
-              "businessPartner": "BPNL00000003B0Q0",
+              "businessPartner": "BPNL00000003AYRE",
               "createdOn": "2022-02-03T14:48:54.709Z",
               "lastModifiedOn": "2022-02-03T14:48:54.709Z"
             }
@@ -2287,7 +2287,7 @@
           "childItems": []
         }
       ],
-      "bpnl": "BPNL00000003B0Q0",
+      "bpnl": "BPNL00000003AYRE",
       "urn:samm:io.catenax.part_as_planned:2.0.0#PartAsPlanned": [
         {
           "catenaXId": "urn:uuid:4f7b1cf2-a598-4027-bc78-63f6d8e55699",
@@ -2419,7 +2419,7 @@
           "childItems": []
         }
       ],
-      "bpnl": "BPNL00000003AXS3",
+      "bpnl": "BPNL00000003AYRE",
       "urn:samm:io.catenax.part_as_planned:2.0.0#PartAsPlanned": [
         {
           "catenaXId": "urn:uuid:15d2fcc8-6439-4d1e-904b-e62b4d3bf323",
@@ -2559,7 +2559,7 @@
                 "unit": "unit:piece",
                 "value": 1
               },
-              "businessPartner": "BPNL00000003B3NX",
+              "businessPartner": "BPNL00000003AYRE",
               "createdOn": "2022-02-03T14:48:54.709Z",
               "lastModifiedOn": "2022-02-03T14:48:54.709Z"
             },
@@ -2573,14 +2573,14 @@
                 "unit": "unit:piece",
                 "value": 1
               },
-              "businessPartner": "BPNL00000003B0Q0",
+              "businessPartner": "BPNL00000003AYRE",
               "createdOn": "2022-02-03T14:48:54.709Z",
               "lastModifiedOn": "2022-02-03T14:48:54.709Z"
             }
           ]
         }
       ],
-      "bpnl": "BPNL00000003B2OM",
+      "bpnl": "BPNL00000003AYRE",
       "urn:samm:io.catenax.part_as_planned:2.0.0#PartAsPlanned": [
         {
           "catenaXId": "urn:uuid:2c57b0e9-a653-411d-bdcd-64787e9fd3a7",
@@ -2733,14 +2733,14 @@
                 "unit": "unit:piece",
                 "value": 1
               },
-              "businessPartner": "BPNL00000003B0Q0",
+              "businessPartner": "BPNL00000003AYRE",
               "createdOn": "2022-02-03T14:48:54.709Z",
               "lastModifiedOn": "2022-02-03T14:48:54.709Z"
             }
           ]
         }
       ],
-      "bpnl": "BPNL00000003B3NX",
+      "bpnl": "BPNL00000003AYRE",
       "urn:samm:io.catenax.part_as_planned:2.0.0#PartAsPlanned": [
         {
           "catenaXId": "urn:uuid:bee5614f-9e46-4c98-9209-61a6f2b2a7fc",
@@ -2839,7 +2839,7 @@
           "childItems": []
         }
       ],
-      "bpnl": "BPNL00000003B0Q0",
+      "bpnl": "BPNL00000003AYRE",
       "urn:samm:io.catenax.part_as_planned:2.0.0#PartAsPlanned": [
         {
           "catenaXId": "urn:uuid:86f69643-3b90-4e34-90bf-789edcf40e7e",
@@ -2971,7 +2971,7 @@
           "childItems": []
         }
       ],
-      "bpnl": "BPNL00000003B0Q0",
+      "bpnl": "BPNL00000003AYRE",
       "urn:samm:io.catenax.part_as_planned:2.0.0#PartAsPlanned": [
         {
           "catenaXId": "urn:uuid:4518c080-14fb-4252-b8de-4362d615868d",
@@ -3111,7 +3111,7 @@
                 "unit": "unit:piece",
                 "value": 1
               },
-              "businessPartner": "BPNL00000003B3NX",
+              "businessPartner": "BPNL00000003AYRE",
               "createdOn": "2022-02-03T14:48:54.709Z",
               "lastModifiedOn": "2022-02-03T14:48:54.709Z"
             },
@@ -3125,14 +3125,14 @@
                 "unit": "unit:kilogram",
                 "value": 0.3301
               },
-              "businessPartner": "BPNL00000003AXS3",
+              "businessPartner": "BPNL00000003AYRE",
               "createdOn": "2022-02-03T14:48:54.709Z",
               "lastModifiedOn": "2022-02-03T14:48:54.709Z"
             }
           ]
         }
       ],
-      "bpnl": "BPNL00000003B5MJ",
+      "bpnl": "BPNL00000003AYRE",
       "urn:samm:io.catenax.part_as_planned:2.0.0#PartAsPlanned": [
         {
           "catenaXId": "urn:uuid:07cb071f-8716-45fe-89f1-f2f77a1ce93b",
@@ -3277,7 +3277,7 @@
           "childItems": []
         }
       ],
-      "bpnl": "BPNL00000003AXS3",
+      "bpnl": "BPNL00000003AYRE",
       "urn:samm:io.catenax.part_as_planned:2.0.0#PartAsPlanned": [
         {
           "catenaXId": "urn:uuid:3cdd2826-5df0-4c7b-b540-9eeccecb2301",
