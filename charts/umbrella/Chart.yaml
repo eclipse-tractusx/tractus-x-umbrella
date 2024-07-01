@@ -93,4 +93,10 @@ dependencies:
   - condition: pgadmin4.enabled
     name: pgadmin4
     repository: https://helm.runix.net
-    version: 1.25.x
+    version: "1.25.x"
+    # SDE
+  - condition: sdeapp.enabled
+    name: sde
+    alias: simple-data-exchanger
+    repository: https://eclipse-tractusx.github.io/charts/dev
+    version: 0.1.9
