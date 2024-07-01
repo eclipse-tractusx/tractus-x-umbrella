@@ -18,9 +18,6 @@
 # #############################################################################
 ---
 
-portal:
-  enabled: false
-
 centralidp:
   enabled: true
 
@@ -37,6 +34,8 @@ discoveryfinder:
 
 semantic-hub:
   enabled: true
+  graphdb:
+    imagePullPolicy: IfNotPresent
 
 iatpmock:
   enabled: true
