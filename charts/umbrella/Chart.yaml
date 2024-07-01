@@ -28,7 +28,7 @@ sources:
   - https://github.com/eclipse-tractusx/tractus-x-umbrella
 
 type: application
-version: 0.16.0
+version: 0.17.0
 
 # when adding or updating versions of dependencies, also update list under README.md#Install
 dependencies:
@@ -50,12 +50,12 @@ dependencies:
   - condition: discoveryfinder.enabled
     name: discoveryfinder
     repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 0.2.2
+    version: 0.2.5
     # bpn-discovery
   - condition: bpndiscovery.enabled
     name: bpndiscovery
     repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 0.2.2
+    version: 0.2.6
     # sd-factory
   - condition: selfdescription.enabled
     name: sdfactory
@@ -71,7 +71,7 @@ dependencies:
   - condition: semantic-hub.enabled
     name: semantic-hub
     repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 0.2.2
+    version: 0.2.3
     # TX Data Consumer 1
   - name: tx-data-provider
     alias: dataconsumerOne
