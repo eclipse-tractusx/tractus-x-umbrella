@@ -54,5 +54,5 @@ discovery-mock:
   enabled: true
   wiremock:
     connectorEndpoints: [
-      "http://umbrella-dataprovider-edc-dataplane:8084"
+      "http://umbrella-dataprovider-edc-controlplane:8084"
     ]
