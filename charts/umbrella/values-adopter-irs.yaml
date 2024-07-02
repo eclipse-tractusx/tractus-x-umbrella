@@ -24,6 +24,7 @@ centralidp:
 discoveryfinder:
   enabled: true
   discoveryfinder:
+    authentication: false
     properties:
       discoveryfinder:
         initialEndpoints:
