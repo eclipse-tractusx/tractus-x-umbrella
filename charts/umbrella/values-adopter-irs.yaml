@@ -46,9 +46,24 @@ bdrs-server-memory:
 
 dataconsumerOne:
   enabled: true
+  tractusx-connector:
+    controlplane:
+      ingresses:
+        - enabled: false
+    dataplane:
+      ingresses:
+        - enabled: false
 
 tx-data-provider:
   enabled: true
+  tractusx-connector:
+    controlplane:
+      ingresses:
+        - enabled: false
+    dataplane:
+      ingresses:
+        - enabled: false
+
 
 discovery-mock:
   enabled: true
