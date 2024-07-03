@@ -664,6 +664,12 @@ Build fuseki docker image by following the below steps:
 - Unzip the jena-fuseki-docker-4.7.0.zip.
 - Build the docker image by running the command - `docker build --build-arg JENA_VERSION=4.7.0 -t jena-fuseki-docker:4.7.0 --platform linux/amd64 .`
 
+## Precondition for IATP Mock
+
+in case of enabling `iatpmock` (e.g. by using [values-adopter-data-exchange.yaml](values-adopter-data-exchange.yaml)), the iatp-mock docker image must be built first:
+
+`docker build iatp-mock/ -t tractusx/iatp-mock:testing --platform linux/amd64`
+
 ## How to contribute
 
 Before contributing, make sure, you read and understand our [contributing guidelines](/CONTRIBUTING.md).
