@@ -34,7 +34,7 @@ discoveryfinder:
             documentation: http://portal-backend.tx.test/api/administration/swagger/index.html
 
 semantic-hub:
-  enabled: true
+  enabled: false
   graphdb:
     imagePullPolicy: IfNotPresent
 
@@ -56,6 +56,7 @@ dataconsumerOne:
 
 tx-data-provider:
   enabled: true
+  seedTestdata: false
   tractusx-connector:
     controlplane:
       ingresses:
@@ -63,7 +64,6 @@ tx-data-provider:
     dataplane:
       ingresses:
         - enabled: false
-
 
 discovery-mock:
   enabled: true
