@@ -942,3 +942,139 @@ pgadmin4:
         paths:
         - path: /
           pathType: Prefix
+
+sdeapp:
+  enabled: false
+  postgresql:
+  fullnameOverride: "product-sde-postgres"
+  primary:
+    persistence:
+      enabled: false
+      size: 1Gi
+  auth:
+    postgresPassword: ""
+    username: "sdeuser"
+    password: ""
+    database: "sdedb"
+    port: 5432
+    existingSecret: ""
+  
+  backend:
+    ingresses:
+    - enabled: false
+      className: "nginx"
+      annotations: {}
+#      kubernetes.io/ingress.class: nginx
+#      kubernetes.io/tls-acme: "true"
+      hostname: ""
+      endpoints:
+        - default
+      tls:
+        enabled: true
+        secretName: ""
+      # -- If present overwrites the default secret name
+      certManager:
+      # -- If preset enables certificate generation via cert-manager namespace scoped issuer
+      # issuer: ""
+      # -- If preset enables certificate generation via cert-manager cluster-wide issuer
+        clusterIssuer: "letsencrypt-prod"
+    configuration:
+      properties: |-
+        keycloak.clientid=default
+        spring.security.oauth2.resourceserver.jwt.issuer-uri=default
+        management.endpoint.health.probes.enabled=true
+        management.health.readinessstate.enabled=true
+        management.health.livenessstate.enabled=true
+        management.endpoints.web.exposure.include=*
+        spring.lifecycle.timeout-per-shutdown-phase=30s
+        logging.level.org.springframework.security.web.csrf=INFO
+        spring.servlet.multipart.enabled=true
+        spring.main.allow-bean-definition-overriding=true
+        spring.servlet.multipart.file-size-threshold=2KB
+        spring.servlet.multipart.max-file-size=200MB
+        spring.servlet.multipart.max-request-size=215MB
+        server.servlet.context-path=/api
+        spring.flyway.baseline-on-migrate=true
+        spring.flyway.locations=classpath:/flyway
+        spring.datasource.driver-class-name=org.postgresql.Driver
+        spring.jpa.hibernate.ddl-auto=update
+        spring.jpa.open-in-view=false
+        file.upload-dir=./temp/
+        logging.level.org.apache.http=info
+        logging.level.root=info
+        digital-twins.hostname=default
+        digital-twins.authentication.url=default
+        digital-twins.authentication.clientId=default
+        digital-twins.authentication.clientSecret=default
+        digital-twins.authentication.grantType=client_credentials
+        edc.hostname=default
+        edc.apiKeyHeader=default
+        edc.apiKey=default
+        edc.consumer.hostname=default
+        edc.consumer.apikeyheader=default
+        edc.consumer.apikey=default
+        edc.consumer.datauri=/api/v1/ids/data
+        dft.hostname=default
+        dft.apiKeyHeader=default
+        dft.apiKey=default
+        manufacturerId=default
+        partner.pool.hostname=default
+        connector.discovery.token-url=default
+        connector.discovery.clientId=default
+        connector.discovery.clientSecret=default
+        portal.backend.hostname=default
+        springdoc.api-docs.path=/api-docs
+        bpndiscovery.hostname=default
+        discovery.authentication.url=default
+        discovery.clientId=default
+        discovery.clientSecret=default
+        discovery.grantType=default
+        edc.consumer.protocol.path=default
+        edc.consumer.managementpath=default
+        edc.managementpath=default
+        partner.pool.hostname=default
+        partner.pool.authentication.url=default
+        partner.pool.clientId=default
+        partner.pool.clientSecret=default
+        partner.pool.grantType=default
+        portal.backend.hostname=default
+        portal.backend.authentication.url=default
+        portal.backend.clientId=default
+        portal.backend.clientSecret=default
+        portal.backend.grantType=default
+        policy.hub.hostname=default
+        policy.hub.authentication.url=default
+        policy.hub.clientId=default
+        policy.hub.clientSecret=default
+        policy.hub.grantType=client_credentials
+        bpdm.provider.edc.dataspace.api=default
+        bpdm.provider.bpnl=default
+        bpdm.provider.edc.public.api=default
+
+  frontend:
+    ingresses:
+      - enabled: false
+        className: "nginx"
+        annotations:
+          kubernetes.io/tls-acme: "true"
+        hostname: ""
+        endpoints:
+          - default
+        tls:
+          enabled: true
+
+          secretName: ""
+            # -- If present overwrites the default secret name
+        certManager:
+            # -- If preset enables certificate generation via cert-manager namespace scoped issuer
+        # issuer: ""
+            # -- If preset enables certificate generation via cert-manager cluster-wide issuer
+          clusterIssuer: "letsencrypt-prod"
+    configuration:
+      properties: |-
+        REACT_APP_API_URL=
+        REACT_APP_KEYCLOAK_URL=
+        REACT_APP_KEYCLOAK_REALM=
+        REACT_APP_CLIENT_ID=
+        REACT_APP_FILESIZE=
+        REACT_APP_DEFAULT_COMPANY_BPN=
