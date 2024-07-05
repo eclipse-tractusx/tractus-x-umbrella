@@ -604,7 +604,7 @@ dataconsumerOne:
         dim:
           url: http://mock-util-service/sts
         oauth:
-          token_url: http://umbrella-centralidp:80/auth/realms/CX-Central/protocol/openid-connect/token
+          token_url: http://centralidp.tx.test/auth/realms/CX-Central/protocol/openid-connect/token
           client:
             id: satest01
             secret_alias: edc-miw-keycloak-secret
@@ -614,7 +614,7 @@ dataconsumerOne:
         EDC_IAM_DID_WEB_USE_HTTPS: false
       bdrs:
         server:
-          url: http://bdrs-server:8082/api/directory
+          url: http://bdrs-server.tx.test/api/directory
       endpoints:
         management:
           authKey: TEST1
@@ -696,7 +696,7 @@ tx-data-provider:
         dim:
           url: http://mock-util-service/sts
         oauth:
-          token_url: http://umbrella-centralidp:80/auth/realms/CX-Central/protocol/openid-connect/token
+          token_url: http://centralidp.tx.test/auth/realms/CX-Central/protocol/openid-connect/token
           client:
             id: satest02
             secret_alias: edc-miw-keycloak-secret
@@ -706,7 +706,7 @@ tx-data-provider:
         EDC_IAM_DID_WEB_USE_HTTPS: false
       bdrs:
         server:
-          url: http://bdrs-server:8082/api/directory
+          url: http://bdrs-server.tx.test/api/directory
       endpoints:
         management:
           authKey: TEST2
@@ -814,7 +814,7 @@ dataconsumerTwo:
         dim:
           url: http://mock-util-service/sts
         oauth:
-          token_url: http://umbrella-centralidp:80/auth/realms/CX-Central/protocol/openid-connect/token
+          token_url: http://centralidp.tx.test/auth/realms/CX-Central/protocol/openid-connect/token
           client:
             id: satest03
             secret_alias: edc-miw-keycloak-secret
@@ -824,7 +824,7 @@ dataconsumerTwo:
         EDC_IAM_DID_WEB_USE_HTTPS: false
       bdrs:
         server:
-          url: http://bdrs-server:8082/api/directory
+          url: http://bdrs-server.tx.test/api/directory
       endpoints:
         management:
           authKey: TEST3

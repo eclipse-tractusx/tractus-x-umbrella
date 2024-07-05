@@ -43,6 +43,24 @@ bdrs-server-memory:
 
 dataconsumerOne:
   enabled: true
+  tractusx-connector:
+    iatp:
+      sts:
+        oauth:
+          token_url: http://umbrella-centralidp:80/auth/realms/CX-Central/protocol/openid-connect/token
+    controlplane:
+      bdrs:
+        server:
+          url: http://bdrs-server:8082/api/directory
 
 tx-data-provider:
   enabled: true
+  tractusx-connector:
+    iatp:
+      sts:
+        oauth:
+          token_url: http://umbrella-centralidp:80/auth/realms/CX-Central/protocol/openid-connect/token
+    controlplane:
+      bdrs:
+        server:
+          url: http://bdrs-server:8082/api/directory

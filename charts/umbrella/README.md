@@ -115,7 +115,6 @@ If you still face DNS issues, add the hosts to your /etc/hosts file:
 192.168.49.2    sharedidp.tx.test
 192.168.49.2    portal.tx.test
 192.168.49.2    portal-backend.tx.test
-192.168.49.2    managed-identity-wallets.tx.test
 192.168.49.2    semantics.tx.test
 192.168.49.2    sdfactory.tx.test
 192.168.49.2    dataconsumer-1-dataplane.tx.test
@@ -123,6 +122,8 @@ If you still face DNS issues, add the hosts to your /etc/hosts file:
 192.168.49.2    dataprovider-dataplane.tx.test
 192.168.49.2    dataconsumer-2-dataplane.tx.test
 192.168.49.2    dataconsumer-2-controlplane.tx.test
+192.168.49.2    bdrs-server.tx.test
+192.168.49.2    iatpmock.tx.test
 ```
 
 **Additional network setup for Mac**
@@ -140,7 +141,6 @@ For Windows edit the hosts file under `C:\Windows\System32\drivers\etc\hosts`:
 192.168.49.2    sharedidp.tx.test
 192.168.49.2    portal.tx.test
 192.168.49.2    portal-backend.tx.test
-192.168.49.2    managed-identity-wallets.tx.test
 192.168.49.2    semantics.tx.test
 192.168.49.2    sdfactory.tx.test
 192.168.49.2    dataconsumer-1-dataplane.tx.test
@@ -148,6 +148,8 @@ For Windows edit the hosts file under `C:\Windows\System32\drivers\etc\hosts`:
 192.168.49.2    dataprovider-dataplane.tx.test
 192.168.49.2    dataconsumer-2-dataplane.tx.test
 192.168.49.2    dataconsumer-2-controlplane.tx.test
+192.168.49.2    bdrs-server.tx.test
+192.168.49.2    iatpmock.tx.test
 ```
 
 ### Install
@@ -164,9 +166,11 @@ The currently available components are following:
 - [sdfactory](https://github.com/eclipse-tractusx/sd-factory/tree/sdfactory-2.1.12)
 - [managed-identity-wallet](https://github.com/eclipse-tractusx/managed-identity-wallet/tree/v0.4.0)
 - [semantic-hub](https://github.com/eclipse-tractusx/sldt-semantic-hub/tree/semantic-hub-0.2.2)
-- [dataconsumerOne](https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/tx-data-provider) ([tractusx-edc](https://github.com/eclipse-tractusx/tractusx-edc/tree/0.5.3), [vault](https://github.com/hashicorp/vault-helm/tree/v0.20.0))
-- [tx-data-provider](https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/tx-data-provider) ([tractusx-edc](https://github.com/eclipse-tractusx/tractusx-edc/tree/0.5.3), [digital-twin-registry](https://github.com/eclipse-tractusx/sldt-digital-twin-registry/tree/digital-twin-registry-0.4.5), [vault](https://github.com/hashicorp/vault-helm/tree/v0.20.0), [simple-data-backend](https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/simple-data-backend))
-- [dataconsumerTwo](https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/tx-data-provider) ([tractusx-edc](https://github.com/eclipse-tractusx/tractusx-edc/tree/0.5.3), [vault](https://github.com/hashicorp/vault-helm/tree/v0.20.0))
+- [dataconsumerOne](https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/tx-data-provider) ([tractusx-edc](https://github.com/eclipse-tractusx/tractusx-edc/tree/0.7.1), [vault](https://github.com/hashicorp/vault-helm/tree/v0.20.0))
+- [tx-data-provider](https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/tx-data-provider) ([tractusx-edc](https://github.com/eclipse-tractusx/tractusx-edc/tree/0.7.1), [digital-twin-registry](https://github.com/eclipse-tractusx/sldt-digital-twin-registry/tree/digital-twin-registry-0.4.5), [vault](https://github.com/hashicorp/vault-helm/tree/v0.20.0), [simple-data-backend](https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/simple-data-backend))
+- [dataconsumerTwo](https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/tx-data-provider) ([tractusx-edc](https://github.com/eclipse-tractusx/tractusx-edc/tree/0.7.1), [vault](https://github.com/hashicorp/vault-helm/tree/v0.20.0))
+- [bdrs](https://github.com/eclipse-tractusx/bpn-did-resolution-service/tree/0.0.4)
+- [iatp-mock](https://github.com/eclipse-tractusx/tractus-x-umbrella/blob/upgrade/24.05/charts/umbrella/charts/iatpmock/Chart.yaml)
 
 > :warning: **Note**
 >
@@ -409,7 +413,6 @@ Currently enabled ingresses:
   - http://portal-backend.tx.test/api/services/swagger/index.html
   - http://portal-backend.tx.test/api/notification/swagger/index.html
 - http://portal.tx.test
-- http://managed-identity-wallets.tx.test/ui/swagger-ui/index.html
 - http://semantics.tx.test/discoveryfinder/swagger-ui/index.html
 - http://dataconsumer-1-controlplane.tx.test
 - http://dataconsumer-1-dataplane.tx.test
@@ -417,6 +420,8 @@ Currently enabled ingresses:
 - http://dataconsumer-2-controlplane.tx.test
 - http://dataconsumer-2-dataplane.tx.test
 - http://pgadmin4.tx.test
+- http://bdrs-server.tx.test
+- http://iatpmock.tx.test
 
 ### Database Access
 

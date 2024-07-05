@@ -1,4 +1,4 @@
-This small project uses fast api to provide basic iam local deployment.
+This small project uses fast api to provide basic IATP local deployment.
 
 `mock_util.py` -> provides cx util capabilities
 
@@ -41,4 +41,4 @@ Following services are now reachable:
 | mock-util-service | http://mock-util-service:8080/{did-name}          | docker compose (miw net) |
 | mock-util-service | localhost:8888/*                                  | host machine             |
 
-Use the service to either simulate the central IAM or just to got some logging api
+Use the service to either simulate the IATP Service or just to got some logging api
