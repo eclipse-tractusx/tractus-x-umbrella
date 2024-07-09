@@ -31,6 +31,7 @@ type: application
 version: 0.16.0
 
 # when adding or updating versions of dependencies, also update list under README.md#Install
+# change
 dependencies:
   # portal
   - condition: portal.enabled
