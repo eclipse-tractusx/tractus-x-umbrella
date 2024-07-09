@@ -75,15 +75,15 @@ jobs:
       id: set-target-branch
       run: |
         if [ -n "${{ github.event.pull_request.base.ref }}" ]; then
-          echo "traget-branch=${{ github.event.pull_request.base.ref }}" >> $GITHUB_ENV
+          echo "target-branch=${{ github.event.pull_request.base.ref }}" >> $GITHUB_ENV
         else
-          echo "traget-branch=${{ github.event.repository.default_branch }}" >> $GITHUB_ENV
+          echo "target-branch=${{ github.event.repository.default_branch }}" >> $GITHUB_ENV
         fi
 
     - name: Run chart-testing (list-changed)
       id: list-changed
       run: |
-        changed=$(ct list-changed --target-branch ${{ steps.set-target-branch.outputs.traget-branch }})
+        changed=$(ct list-changed --target-branch ${{ steps.set-target-branch.outputs.target-branch }})
         if [[ -n "$changed" ]]; then
           echo "changed=true" >> $GITHUB_OUTPUT
         fi
@@ -150,26 +150,26 @@ jobs:
       id: set-target-branch
       run: |
         if [ -n "${{ github.event.pull_request.base.ref }}" ]; then
-          echo "traget-branch=${{ github.event.pull_request.base.ref }}" >> $GITHUB_ENV
+          echo "target-branch=${{ github.event.pull_request.base.ref }}" >> $GITHUB_ENV
         else
-          echo "traget-branch=${{ github.event.repository.default_branch }}" >> $GITHUB_ENV
+          echo "target-branch=${{ github.event.repository.default_branch }}" >> $GITHUB_ENV
         fi
 
     - name: Set up chart-testing
       uses: helm/chart-testing-action@v2.6.1
 
     - name: Lint chart
-      run: ct lint --validate-maintainers=false --target-branch ${{ steps.set-target-branch.outputs.traget-branch }}
+      run: ct lint --validate-maintainers=false --target-branch ${{ steps.set-target-branch.outputs.target-branch }}
     
     - name: Download chart dependencies (recursive)
       shell: bash
       run: hack/helm-dependencies.bash
 
     - name: Install chart and run tests (simple-data-backend)
-      run: ct install --charts charts/simple-data-backend --target-branch ${{ steps.set-target-branch.outputs.traget-branch }} --helm-extra-set-args "--set image.repository=kind-registry:5000/simple-data-backend --set image.tag=testing"
+      run: ct install --charts charts/simple-data-backend --target-branch ${{ steps.set-target-branch.outputs.target-branch }} --helm-extra-set-args "--set image.repository=kind-registry:5000/simple-data-backend --set image.tag=testing"
 
     - name: Install chart and run tests (tx-data-provider)
-      run: ct install --charts charts/tx-data-provider --target-branch ${{ steps.set-target-branch.outputs.traget-branch }}
+      run: ct install --charts charts/tx-data-provider --target-branch ${{ steps.set-target-branch.outputs.target-branch }}
 
     - name: Install chart for shared services (umbrella)
       run: |
