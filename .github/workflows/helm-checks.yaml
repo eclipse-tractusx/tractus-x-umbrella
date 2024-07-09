@@ -75,9 +75,9 @@ jobs:
       id: set-target-branch
       run: |
         if [ -n "${{ github.event.pull_request.base.ref }}" ]; then
-          echo "target-branch=${{ github.event.pull_request.base.ref }}" >> $GITHUB_ENV
+          echo "target-branch=${{ github.event.pull_request.base.ref }}" >> "$GITHUB_OUTPUT"
         else
-          echo "target-branch=${{ github.event.repository.default_branch }}" >> $GITHUB_ENV
+          echo "target-branch=${{ github.event.repository.default_branch }}" >> "$GITHUB_OUTPUT"
         fi
 
     - name: Run chart-testing (list-changed)
@@ -150,9 +150,9 @@ jobs:
       id: set-target-branch
       run: |
         if [ -n "${{ github.event.pull_request.base.ref }}" ]; then
-          echo "target-branch=${{ github.event.pull_request.base.ref }}" >> $GITHUB_ENV
+          echo "target-branch=${{ github.event.pull_request.base.ref }}" >> "$GITHUB_OUTPUT"
         else
-          echo "target-branch=${{ github.event.repository.default_branch }}" >> $GITHUB_ENV
+          echo "target-branch=${{ github.event.repository.default_branch }}" >> "$GITHUB_OUTPUT"
         fi
 
     - name: Set up chart-testing
