@@ -123,6 +123,7 @@ If you still face DNS issues, add the hosts to your /etc/hosts file:
 192.168.49.2    dataprovider-dataplane.tx.test
 192.168.49.2    dataconsumer-2-dataplane.tx.test
 192.168.49.2    dataconsumer-2-controlplane.tx.test
+192.168.49.2    business-partners.tx.test
 ```
 
 **Additional network setup for Mac**
@@ -148,6 +149,7 @@ For Windows edit the hosts file under `C:\Windows\System32\drivers\etc\hosts`:
 192.168.49.2    dataprovider-dataplane.tx.test
 192.168.49.2    dataconsumer-2-dataplane.tx.test
 192.168.49.2    dataconsumer-2-controlplane.tx.test
+192.168.49.2    business-partners.tx.test
 ```
 
 ### Install
@@ -167,6 +169,7 @@ The currently available components are following:
 - [dataconsumerOne](https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/tx-data-provider) ([tractusx-edc](https://github.com/eclipse-tractusx/tractusx-edc/tree/0.5.3), [vault](https://github.com/hashicorp/vault-helm/tree/v0.20.0))
 - [tx-data-provider](https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/tx-data-provider) ([tractusx-edc](https://github.com/eclipse-tractusx/tractusx-edc/tree/0.5.3), [digital-twin-registry](https://github.com/eclipse-tractusx/sldt-digital-twin-registry/tree/digital-twin-registry-0.4.5), [vault](https://github.com/hashicorp/vault-helm/tree/v0.20.0), [simple-data-backend](https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/simple-data-backend))
 - [dataconsumerTwo](https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/tx-data-provider) ([tractusx-edc](https://github.com/eclipse-tractusx/tractusx-edc/tree/0.5.3), [vault](https://github.com/hashicorp/vault-helm/tree/v0.20.0))
+- [bpdm](https://github.com/eclipse-tractusx/bpdm/tree/release/6.0.x)
 
 > :warning: **Note**
 >
@@ -239,6 +242,15 @@ helm install \
 ```bash
 helm install \
   --set portal.enabled=true,centralidp.enabled=true,sharedidp.enabled=true \
+  umbrella tractusx-dev/umbrella \
+  --namespace umbrella \
+  --create-namespace
+```
+
+**BPDM Subset**
+```bash
+helm install \
+  --set bpdm.enabled=true,centralidp.enabled=true \
   umbrella tractusx-dev/umbrella \
   --namespace umbrella \
   --create-namespace
@@ -417,6 +429,9 @@ Currently enabled ingresses:
 - http://dataconsumer-2-controlplane.tx.test
 - http://dataconsumer-2-dataplane.tx.test
 - http://pgadmin4.tx.test
+- http://business-partners.tx.test/pool
+- http://business-partners.tx.test/companies/test-company
+- http://business-partners.tx.test/orchestrator
 
 ### Database Access
 
@@ -549,6 +564,21 @@ Password:
 ```
 dbpassworddataconsumertwo
 ```
+
+- bpdm
+
+Host:
+
+```
+umbrella-bpdm-postgres
+```
+
+Password:
+
+```
+dbpasswordbpdm
+```
+
 ### Keycloak Admin Console
 
 Access to admin consoles:

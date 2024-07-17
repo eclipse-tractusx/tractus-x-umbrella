@@ -163,6 +163,11 @@ jobs:
         helm install umbrella charts/umbrella -f charts/values-test-data-exchange.yaml -f charts/values-test-iam-init-container.yaml --namespace data-exchange --create-namespace --debug --timeout 10m
         helm uninstall umbrella --namespace data-exchange
 
+    - name: Install chart for bpdm (umbrella)
+      run: |
+        helm install umbrella charts/umbrella -f charts/values-test-bpdm.yaml --namespace bpdm --create-namespace --debug --timeout 10m
+        helm uninstall umbrella --namespace bpdm
+
     ## Skip upgrade for now until a working chart is released
     #- name: Run helm upgrade
     #  run: |
