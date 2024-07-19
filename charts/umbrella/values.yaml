@@ -593,7 +593,7 @@ selfdescription:
 managed-identity-wallet:
   enabled: false
   seeding:
-    enabled: false
+    enabled: true
     # -- Map of company BPN and company name. For each of these Companies, a MIW wallet will be created.
     companies:
       BPNL00000003AZQP: "BPN_OEM_C"
