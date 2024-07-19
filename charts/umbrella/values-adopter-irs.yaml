@@ -46,11 +46,11 @@ bdrs-server-memory:
 
 dataconsumerOne:
   enabled: true
-  iatp:
-    sts:
-      oauth:
-        token_url: http://umbrella-centralidp:80/auth/realms/CX-Central/protocol/openid-connect/token
   tractusx-connector:
+    iatp:
+      sts:
+        oauth:
+          token_url: http://umbrella-centralidp:80/auth/realms/CX-Central/protocol/openid-connect/token
     controlplane:
       bdrs:
         server:
@@ -64,11 +64,11 @@ dataconsumerOne:
 tx-data-provider:
   enabled: true
   seedTestdata: false
-  iatp:
-    sts:
-      oauth:
-        token_url: http://umbrella-centralidp:80/auth/realms/CX-Central/protocol/openid-connect/token
   tractusx-connector:
+    iatp:
+      sts:
+        oauth:
+          token_url: http://umbrella-centralidp:80/auth/realms/CX-Central/protocol/openid-connect/token
     controlplane:
       bdrs:
         server:
