@@ -42,6 +42,7 @@ portal:
   sdfactoryAddress: "http://sdfactory.tx.test"
   clearinghouseAddress: "http://validation.tx.test"
   clearinghouseTokenAddress: "http://keycloak.tx.test/realms/example/protocol/openid-connect/token"
+  issuerComponentAddress: "http://ssi.tx.test"
   frontend:
     ingress:
       enabled: true
@@ -680,6 +681,126 @@ managed-identity-wallet:
       nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
       nginx.ingress.kubernetes.io/cors-allow-methods: GET
       nginx.ingress.kubernetes.io/enable-cors: "true"
+
+ssi-credential-issuer:
+  enabled: false
+  portalBackendAddress: "http://portal-backend.tx.test"
+  walletAddress: "http://managed-identity-wallets.tx.test"
+  walletTokenAddress: "http://centralidp.tx.test/auth/realms/CX-Central/protocol/openid-connect/token"
+
+  issuer:
+    swaggerEnabled: true
+    logging:
+      businessLogic: "Debug"
+      default: "Debug"
+    portal:
+      # -- Provide portal client-id from CX IAM centralidp.
+      # You must specify the technical user with the required roles for the interaction with the portal
+      clientId: "sa-cl24-01"
+      # -- Client-secret for portal client-id. Secret-key 'portal-client-secret'.
+      clientSecret: "VRHQM2NOA4176Vrscxey1DdO4P7ikUQc"
+    credential:
+      issuerDid: "did:web:managed-identity-wallets.tx.test:BPNL00000003CRHK"
+      issuerBpn: *authority-bpn
+      # statusListUrl: "https://example.org/statuslist"
+      encryptionConfigIndex: 0
+      encryptionConfigs:
+        index0:
+          # EncryptionKey for wallet. Secret-key 'credential-encryption-key0'. Expected format is 256 bit (64 digits) hex.
+          encryptionKey: "deb8261ec7b89c344f1c5ef5a11606e305f14e0d231b1357d90ad0180c5081d3"
+
+  processesworker:
+    portal:
+      # -- Provide portal client-id from CX IAM centralidp.
+      # You must specify the technical user with the required roles for the interaction with the portal
+      clientId: "sa-cl24-01"
+      # -- Client-secret for portal client-id. Secret-key 'portal-client-secret'.
+      clientSecret: "VRHQM2NOA4176Vrscxey1DdO4P7ikUQc"
+    logging:
+      default: "Debug"
+    processIdentity:
+      identityId: ac1cf001-7fbc-1f2f-817f-bce058020006
+    wallet:
+      # -- Provide wallet client-id from CX IAM centralidp.
+      # You must specify the technical user with the required roles for the interaction with the managed-identity-wallet
+      clientId: "sa-cl5-custodian-2"
+      # -- Client-secret for wallet client-id. Secret-key 'wallet-client-secret'.
+      clientSecret: "UIqawwoohsvZ6AZOd1llLhnsUTKMWe4D"
+      encryptionConfigIndex: 0
+      encryptionConfigs:
+        index0:
+          # EncryptionKey for wallet. Secret-key 'process-wallet-encryption-key0'. Expected format is 256 bit (64 digits) hex.
+          encryptionKey: "deb8261ec7b89c344f1c5ef5a11606e305f14e0d231b1357d90ad0180c5081d3"
+    
+  issuermigrations:
+    logging:
+      default: "Debug"
+
+  credentialExpiry:
+    expiry:
+      expiredVcsToDeleteInMonth: 12
+      inactiveVcsToDeleteInWeeks: 12
+    logging:
+      default: "Debug"
+
+  dbConnection:
+    schema: "issuer"
+    sslMode: "Disable"
+
+  postgresql:
+    enabled: true
+    architecture: standalone
+    primary:
+      persistence:
+        enabled: true
+    auth:
+      # -- Non-root username.
+      username: issuer
+      # -- Database name.
+      database: issuer
+      # -- Secret containing the passwords for root usernames postgres and non-root username issuer.
+      # Should not be changed without changing the "issuer-postgresSecretName" template as well.
+      existingSecret: "{{ .Release.Name }}-issuer-postgres"
+      # -- Password for the root username 'postgres'. Secret-key 'postgres-password'.
+      postgrespassword: "rootissuerpassword"
+      # -- Password for the non-root username 'issuer'. Secret-key 'password'.
+      password: "issuerpassword"
+
+  centralidp:
+    # -- Provide centralidp base address (CX IAM), without trailing '/auth'.
+    address: "http://centralidp.tx.test"
+    authRealm: "CX-Central"
+    jwtBearerOptions:
+      requireHttpsMetadata: "false"
+      metadataPath: "/auth/realms/CX-Central/.well-known/openid-configuration"
+      tokenValidationParameters:
+        validIssuerPath: "/auth/realms/CX-Central"
+        validAudience: "Cl24-CX-SSI-CredentialIssuer"
+      refreshInterval: "00:00:30"
+    tokenPath: "/auth/realms/CX-Central/protocol/openid-connect/token"
+    # -- Flag if the api should be used with an leading /auth path
+    useAuthTrail: true
+
+  ingress:
+    enabled: true
+    className: "nginx"
+    annotations:
+      nginx.ingress.kubernetes.io/use-regex: "true"
+      nginx.ingress.kubernetes.io/enable-cors: "true"
+      nginx.ingress.kubernetes.io/proxy-body-size: "8m"
+      nginx.ingress.kubernetes.io/cors-allow-origin: "http://*.tx.test"
+    # -- Ingress TLS configuration
+    tls: []
+      # - secretName: ""
+      #   hosts:
+      #     - ""
+    hosts:
+      - host: "ssi.tx.test"
+        paths:
+          - path: "/"
+            pathType: "Prefix"
+            backend:
+              port: 8080
 
 dataconsumerOne:
   enabled: false
