@@ -1,4 +1,4 @@
-###############################################################
+# #############################################################################
 # Copyright (c) 2024 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
@@ -15,37 +15,38 @@
 # under the License.
 #
 # SPDX-License-Identifier: Apache-2.0
-###############################################################
+# #############################################################################
+---
 
 portal:
-  enabled: true
+  enabled: false
 
 centralidp:
   enabled: true
 
 sharedidp:
-  enabled: true
+  enabled: false
 
 bpndiscovery:
-  enabled: true
+  enabled: false
 
 discoveryfinder:
-  enabled: true
+  enabled: false
 
 selfdescription:
-  enabled: true
-
-semantic-hub:
-  enabled: true
+  enabled: false
 
 managed-identity-wallet:
-  enabled: true
-
-bpdm:
-  enabled: true
+  enabled: false
 
 dataconsumer:
   enabled: false
 
 tx-data-provider:
   enabled: false
+
+pgadmin4:
+  enabled: false
+
+bpdm:
+  enabled: true

@@ -36,8 +36,8 @@ portal:
   centralidpAddress: "http://centralidp.tx.test"
   sharedidpAddress: "http://sharedidp.tx.test"
   semanticsAddress: "http://semantics.tx.test"
-  bpdmPartnersPoolAddress: "http://business-partners.tx.test"
-  bpdmPortalGateAddress: "http://business-partners.tx.test"
+  bpdmPartnersPoolAddress: "http://partners-pool.tx.test/v6"
+  bpdmPortalGateAddress: "http://partners-gate.tx.test/v6"
   custodianAddress: "http://managed-identity-wallets.tx.test"
   sdfactoryAddress: "http://sdfactory.tx.test"
   clearinghouseAddress: "http://validation.tx.test"
@@ -126,8 +126,8 @@ portal:
         sdfactoryLibrary: "Debug"
         offerProvider: "Debug"
       bpdm:
-        clientId: "sa-cl7-cx-5"
-        clientSecret: "bWSck103qNJ0jZ1LVtG9mUAlcL7R5RLg"
+        clientId: &bpdmAdminClientId "sa-cl7-cx-5"
+        clientSecret: &bpdmAdminClientSecret "bWSck103qNJ0jZ1LVtG9mUAlcL7R5RLg"
       # -- no configuration for clearinghouse because it's an external component
       # clientId and clientSecret aren't in the centralidp Keycloak
       # clearinghouse:
@@ -680,6 +680,196 @@ managed-identity-wallet:
       nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
       nginx.ingress.kubernetes.io/cors-allow-methods: GET
       nginx.ingress.kubernetes.io/enable-cors: "true"
+
+# Set up services for a business partner pool, golden record process
+# and a gate with which the Portal and the users can share business partner data
+bpdm:
+  enabled: false
+  postgres:
+    # We use the default name for BPDM postgres
+    fullnameOverride:
+    nameOverride: bpdm-postgres
+    auth:
+      # BPDM can't handle random initial passwords at the moment
+      # so need to set a fixed one here and use it in the app configs later
+      password: &bpdmPostgresPassword "dbpasswordbpdm"
+      postgresPassword: *bpdmPostgresPassword
+    architecture: standalone
+    primary:
+      persistence:
+        enabled: false
+  keycloak:
+    # We use Central-IDP as authentication server
+    enabled: false
+  # Set up a Gate that acts as the Portal's Gate
+  bpdm-gate:
+    postgres:
+      # App uses BPDM postgres default name to find connection to the Postgres
+      fullnameOverride:
+      nameOverride: bpdm-postgres
+    ingress:
+      enabled: true
+      annotations:
+        nginx.ingress.kubernetes.io/rewrite-target: "/$2"
+        nginx.ingress.kubernetes.io/use-regex: "true"
+        nginx.ingress.kubernetes.io/x-forwarded-prefix: "/gate"
+      # The Portal expects its Gate on that specific url path so we provide it here through ingress
+      hosts:
+        - host: "business-partners.tx.test"
+          paths:
+            - path: "/gate(/|$)(.*)"
+              pathType: "ImplementationSpecific"
+    applicationConfig:
+      server:
+        # App should take the x-forward-header-prefix into account for Swagger-UI and redirects to work correctly
+        forward-headers-strategy: "FRAMEWORK"
+      bpdm:
+        bpn:
+          # This Gate has no owner restriction as other companies can write into the Gate under their own tenant
+          owner-bpn-l:
+        tasks:
+          creation:
+            fromSharingMember:
+              # Portal needs to set uploaded business partner data as ready to be shared by itself (disables setting it automatically as ready)
+              starts-as-ready: false
+        security:
+          # App's API is authenticated over Central-IDP
+          auth-server-url: "http://centralidp.tx.test/auth"
+          realm: "CX-Central"
+          # Is Central-IDPs name for the Gate client
+          # The Gate will use that name to check for existing client permissions here
+          client-id: "Cl16-CX-BPDMGate"
+        # The Gate needs to connect to the Pool and Orchestrator to realize the Golden Record Process
+        # Setup client connection for both here (where to connect and the authentication)
+        # By default the Gate assumes that the authentication server of the Pool and Orchestrator are the same as its own
+        # We will reuse the general BPDM admin technical user to establish connection between the services
+        client:
+          pool:
+            registration:
+              client-id: *bpdmAdminClientId
+          orchestrator:
+            registration:
+              client-id: *bpdmAdminClientId
+    applicationSecrets:
+      spring:
+        datasource:
+          # Set the password of the postgres BPDM user here (Currently, BPDM can't deal with random initial passwords)
+          password: *bpdmPostgresPassword
+      bpdm:
+        client:
+          orchestrator:
+            registration:
+              client-secret: *bpdmAdminClientSecret
+          pool:
+            registration:
+              client-secret: *bpdmAdminClientSecret
+
+  # Configures the central business partner Pool
+  bpdm-pool:
+    postgres:
+      # App uses BPDM postgres default name to find connection to the Postgres
+      fullnameOverride:
+      nameOverride: bpdm-postgres
+    ingress:
+      enabled: true
+      annotations:
+        nginx.ingress.kubernetes.io/rewrite-target: "/$2"
+        nginx.ingress.kubernetes.io/use-regex: "true"
+        nginx.ingress.kubernetes.io/x-forwarded-prefix: "/pool"
+      hosts:
+        - host: "business-partners.tx.test"
+          paths:
+            - path: "/pool(/|$)(.*)"
+              pathType: "ImplementationSpecific"
+    applicationConfig:
+      server:
+        # App should take the x-forward-header-prefix into account for Swagger-UI and redirects to work correctly
+        forward-headers-strategy: "FRAMEWORK"
+      bpdm:
+        security:
+          # App's API is authenticated over Central-IDP
+          auth-server-url: "http://centralidp.tx.test/auth"
+          realm: "CX-Central"
+          # Is Central-IDPs name for the Pool client
+          # The Pool will use that name to check for existing client permissions here
+          client-id: "Cl7-CX-BPDM"
+        # The Pool needs to connect to the Orchestrator to realize the Golden Record Process
+        # Setup client connection (where to connect and the authentication)
+        # By default the Pool assumes that the authentication server of the Orchestrator matches that one of the Pool
+        # We will reuse the general BPDM admin technical user to establish connection between the services
+        client:
+          orchestrator:
+            registration:
+              client-id: *bpdmAdminClientId
+    applicationSecrets:
+      bpdm:
+        client:
+          orchestrator:
+            registration:
+              client-secret: *bpdmAdminClientSecret
+      spring:
+        datasource:
+          # Set the password of the postgres BPDM user here (Currently, BPDM can't deal with random initial passwords)
+          password: *bpdmPostgresPassword
+
+  # Configures the central service for orchestrating the Golden Record Process
+  bpdm-orchestrator:
+    ingress:
+      enabled: true
+      annotations:
+        nginx.ingress.kubernetes.io/rewrite-target: "/$2"
+        nginx.ingress.kubernetes.io/use-regex: "true"
+        nginx.ingress.kubernetes.io/x-forwarded-prefix: "/orchestrator"
+      hosts:
+        - host: "business-partners.tx.test"
+          paths:
+            - path: "/orchestrator(/|$)(.*)"
+              pathType: "ImplementationSpecific"
+    applicationConfig:
+      server:
+        # App should take the x-forward-header-prefix into account for Swagger-UI and redirects to work correctly
+        forward-headers-strategy: "FRAMEWORK"
+      bpdm:
+        security:
+          auth-server-url: "http://centralidp.tx.test/auth"
+          realm: "CX-Central"
+          # The Central-IDP does not yet have dedicated Orchestrator permissions
+          # Therefore, we just reuse the permissions from the Pool for now
+          # Basically it is saying: If you would be able to write into the Pool directly,
+          # you are also able to create golden record tasks which eventually will write data into the Pool
+          # (We are stricter with the permissions now than we will have to be when using dedicated permissions)
+          client-id: "Cl7-CX-BPDM"
+          permissions:
+            createTask: "write_partner"
+            readTask: "write_partner"
+            reservation:
+              clean: "write_partner"
+              cleanAndSync: "write_partner"
+              poolSync: "write_partner"
+            result:
+              clean: "write_partner"
+              cleanAndSync: "write_partner"
+              poolSync: "write_partner"
+
+  # This installs a dummy cleaning service which performs rudimentary cleaning operations in order to realize the golden record process
+  bpdm-cleaning-service-dummy:
+    applicationConfig:
+      bpdm:
+        # The cleaning dummy needs to connect to the Orchestrator to realize the Golden Record Process
+        # Setup client connection (where to connect and the authentication)
+        # We reuse the general BPDM admin technical user to establish connection between the services
+        client:
+          orchestrator:
+            provider:
+              issuer-uri: "http://centralidp.tx.test/auth/realms/CX-Central"
+            registration:
+              client-id: *bpdmAdminClientId
+    applicationSecrets:
+      bpdm:
+        client:
+          orchestrator:
+            registration:
+              client-secret: *bpdmAdminClientSecret
 
 dataconsumerOne:
   enabled: false
