@@ -730,7 +730,7 @@ tx-data-provider:
   enabled: false
   seedTestdata: true
   backendUrl: http://{{ .Release.Name }}-dataprovider-submodelserver:8080
-  registryUrl: http://{{ .Release.Name }}-dataprovider-dtr:8080/api/v3.0
+  registryUrl: http://{{ .Release.Name }}-dataprovider-dtr:8080/api/v3
   controlplanePublicUrl: http://{{ .Release.Name }}-dataprovider-edc-controlplane:8084
   controlplaneManagementUrl: http://{{ .Release.Name }}-dataprovider-edc-controlplane:8081
   dataplaneUrl: http://{{ .Release.Name }}-dataprovider-edc-dataplane:8081
