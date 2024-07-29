@@ -71,10 +71,19 @@ jobs:
     - name: Set up chart-testing
       uses: helm/chart-testing-action@v2.6.1
 
+    - name: Set target branch
+      id: set-target-branch
+      run: |
+        if [ -n "${{ github.event.pull_request.base.ref }}" ]; then
+          echo "target-branch=${{ github.event.pull_request.base.ref }}" >> "$GITHUB_OUTPUT"
+        else
+          echo "target-branch=${{ github.event.repository.default_branch }}" >> "$GITHUB_OUTPUT"
+        fi
+
     - name: Run chart-testing (list-changed)
       id: list-changed
       run: |
-        changed=$(ct list-changed --target-branch ${{ github.event.repository.default_branch }})
+        changed=$(ct list-changed --target-branch ${{ steps.set-target-branch.outputs.target-branch }})
         if [[ -n "$changed" ]]; then
           echo "changed=true" >> $GITHUB_OUTPUT
         fi
@@ -137,26 +146,35 @@ jobs:
         python-version: '3.10'
         check-latest: true
 
+    - name: Set target branch
+      id: set-target-branch
+      run: |
+        if [ -n "${{ github.event.pull_request.base.ref }}" ]; then
+          echo "target-branch=${{ github.event.pull_request.base.ref }}" >> "$GITHUB_OUTPUT"
+        else
+          echo "target-branch=${{ github.event.repository.default_branch }}" >> "$GITHUB_OUTPUT"
+        fi
+
     - name: Set up chart-testing
       uses: helm/chart-testing-action@v2.6.1
 
     - name: Lint chart
-      run: ct lint --validate-maintainers=false --target-branch ${{ github.event.repository.default_branch }}
+      run: ct lint --validate-maintainers=false --target-branch ${{ steps.set-target-branch.outputs.target-branch }}
     
     - name: Download chart dependencies (recursive)
       shell: bash
       run: hack/helm-dependencies.bash
 
     - name: Install chart and run tests (simple-data-backend)
-      run: ct install --charts charts/simple-data-backend --target-branch ${{ github.event.repository.default_branch }} --helm-extra-set-args "--set image.repository=kind-registry:5000/simple-data-backend --set image.tag=testing"
+      run: ct install --charts charts/simple-data-backend --target-branch ${{ steps.set-target-branch.outputs.target-branch }} --helm-extra-set-args "--set image.repository=kind-registry:5000/simple-data-backend --set image.tag=testing"
 
     - name: Install chart and run tests (tx-data-provider)
-      run: ct install --charts charts/tx-data-provider --target-branch ${{ github.event.repository.default_branch }}
+      run: ct install --charts charts/tx-data-provider --target-branch ${{ steps.set-target-branch.outputs.target-branch }}
 
-    - name: Install chart for shared services (umbrella)
+    - name: Install chart for data exchange (umbrella)
       run: |
-        helm install umbrella charts/umbrella -f charts/values-test-shared-services.yaml -f charts/values-test-iam-init-container.yaml --namespace shared-services --create-namespace --debug --timeout 10m  --set semantic-hub.graphdb.image=kind-registry:5000/jena-fuseki-docker:4.7.0
-        helm uninstall umbrella --namespace shared-services
+        helm install umbrella charts/umbrella -f charts/values-test-data-exchange.yaml -f charts/values-test-iam-init-container.yaml --namespace data-exchange --create-namespace --debug --timeout 10m
+        helm uninstall umbrella --namespace data-exchange
 
     - name: Install chart for shared services one (umbrella)
       run: |
@@ -167,11 +185,6 @@ jobs:
       run: |
         helm install umbrella charts/umbrella -f charts/values-test-shared-services-2.yaml -f charts/values-test-iam-init-container.yaml --namespace shared-services --create-namespace --debug --timeout 10m  --set semantic-hub.graphdb.image=kind-registry:5000/jena-fuseki-docker:4.7.0
         helm uninstall umbrella --namespace shared-services
-
-    - name: Install chart for data exchange (umbrella)
-      run: |
-        helm install umbrella charts/umbrella -f charts/values-test-data-exchange.yaml -f charts/values-test-iam-init-container.yaml --namespace data-exchange --create-namespace --debug --timeout 10m
-        helm uninstall umbrella --namespace data-exchange
 
     ## Skip upgrade for now until a working chart is released
     #- name: Run helm upgrade

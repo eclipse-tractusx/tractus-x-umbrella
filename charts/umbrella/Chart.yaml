@@ -28,7 +28,7 @@ sources:
   - https://github.com/eclipse-tractusx/tractus-x-umbrella
 
 type: application
-version: 0.18.0
+version: 0.19.0
 
 # when adding or updating versions of dependencies, also update list under README.md#Install
 dependencies:
@@ -36,16 +36,16 @@ dependencies:
   - condition: portal.enabled
     name: portal
     repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 1.8.1
+    version: 2.0.0
   # cx-iam
   - condition: centralidp.enabled
     name: centralidp
     repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 2.1.0
+    version: 3.0.0
   - condition: sharedidp.enabled
     name: sharedidp
     repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 2.1.0
+    version: 3.0.0
   # discovery-finder
   - condition: discoveryfinder.enabled
     name: discoveryfinder
@@ -80,19 +80,19 @@ dependencies:
     # TX Data Consumer 1
   - name: tx-data-provider
     alias: dataconsumerOne
-    version: 0.0.5
-    repository: https://eclipse-tractusx.github.io/charts/dev
+    version: 0.0.6
+    repository: file://../tx-data-provider
     condition: dataconsumerOne.enabled
     # TX Data Providers
   - name: tx-data-provider
-    version: 0.0.5
-    repository: https://eclipse-tractusx.github.io/charts/dev
+    version: 0.0.6
+    repository: file://../tx-data-provider
     condition: tx-data-provider.enabled
     # TX Data Consumer 2
   - name: tx-data-provider
     alias: dataconsumerTwo
-    version: 0.0.5
-    repository: https://eclipse-tractusx.github.io/charts/dev
+    version: 0.0.6
+    repository: file://../tx-data-provider
     condition: dataconsumerTwo.enabled
     # pgadmin4 as helper tool for easy database access
   - condition: pgadmin4.enabled

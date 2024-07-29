@@ -17,35 +17,11 @@
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################
 
-portal:
-  enabled: true
-
-centralidp:
-  enabled: true
-
-sharedidp:
-  enabled: true
-
 bpndiscovery:
   enabled: true
 
 discoveryfinder:
   enabled: true
 
-selfdescription:
-  enabled: true
-
 semantic-hub:
   enabled: true
-
-managed-identity-wallet:
-  enabled: true
-
-bpdm:
-  enabled: true
-
-dataconsumer:
-  enabled: false
-
-tx-data-provider:
-  enabled: false
