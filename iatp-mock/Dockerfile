@@ -1,4 +1,5 @@
-###############################################################
+#
+# Copyright (c) 2024 Volkswagen AG
 # Copyright (c) 2024 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
@@ -15,25 +16,15 @@
 # under the License.
 #
 # SPDX-License-Identifier: Apache-2.0
-###############################################################
+#
+FROM python:3.10
 
-portal:
-  enabled: true
+WORKDIR /code
+COPY ./requirements.txt /code/requirements.txt
+RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
+COPY ./ /code
+COPY ./keys /code/keys
+RUN useradd -u 1000 nonroot
+USER nonroot
 
-centralidp:
-  enabled: true
-
-sharedidp:
-  enabled: true
-
-selfdescription:
-  enabled: true
-
-iatpmock:
-  enabled: true
-
-bdrs-server-memory:
-  enabled: true
-
-bpdm:
-  enabled: true
+CMD ["uvicorn", "mock_util:app", "--host", "0.0.0.0", "--port", "8080"]

@@ -28,7 +28,7 @@ sources:
   - https://github.com/eclipse-tractusx/tractus-x-umbrella
 
 type: application
-version: 0.19.0
+version: 0.20.0
 
 # when adding or updating versions of dependencies, also update list under README.md#Install
 dependencies:
@@ -62,11 +62,6 @@ dependencies:
     alias: selfdescription
     repository: https://eclipse-tractusx.github.io/charts/dev
     version: 2.1.19
-    # miw
-  - name: managed-identity-wallet
-    repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 0.4.0
-    condition: managed-identity-wallet.enabled
   # semantic-hub
   - condition: semantic-hub.enabled
     name: semantic-hub
@@ -80,18 +75,18 @@ dependencies:
     # TX Data Consumer 1
   - name: tx-data-provider
     alias: dataconsumerOne
-    version: 0.0.6
+    version: 0.1.0
     repository: file://../tx-data-provider
     condition: dataconsumerOne.enabled
     # TX Data Providers
   - name: tx-data-provider
-    version: 0.0.6
+    version: 0.1.0
     repository: file://../tx-data-provider
     condition: tx-data-provider.enabled
     # TX Data Consumer 2
   - name: tx-data-provider
     alias: dataconsumerTwo
-    version: 0.0.6
+    version: 0.1.0
     repository: file://../tx-data-provider
     condition: dataconsumerTwo.enabled
     # pgadmin4 as helper tool for easy database access
@@ -99,3 +94,13 @@ dependencies:
     name: pgadmin4
     repository: https://helm.runix.net
     version: 1.25.x
+    # bdrs
+  - name: bdrs-server-memory
+    repository: https://eclipse-tractusx.github.io/charts/dev
+    version: 0.0.4
+    condition: bdrs-server-memory.enabled
+    # iatp
+  - name: iatpmock
+    version: 0.1.0
+    repository: file://charts/iatpmock
+    condition: iatpmock.enabled
