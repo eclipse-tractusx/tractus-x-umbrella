@@ -622,112 +622,23 @@ selfdescription:
     #   # uncomment the following line for tls
     #   cert-manager.io/cluster-issuer: "my-ca-issuer"
 
-managed-identity-wallet:
+iatpmock:
   enabled: false
-  seeding:
-    enabled: false
-    # -- Map of company BPN and company name. For each of these Companies, a MIW wallet will be created.
-    companies:
-      BPNL00000003AZQP: "BPN_OEM_C"
-      BPNL00000003AYRE: "BPN_OEM_A"
-      BPNL00000003AVTH: "BPN_OEM_B"
-      BPNL00000003AWSS: "BPN_IRS_TEST"
-      BPNL00000003B0Q0: "BPN_N_TIER_A"
-      BPNS0000000008ZZ: "BPN_TRACEX_A_SITE_A"
-      BPNL00000003CNKC: "BPN_TRACEX_B"
-      BPNL00000003B6LU: "BPN_DISMANTLER"
-      BPNL00000003CML1: "BPN_TRACEX_A"
-      BPNS00000008BDFH: "BPN_TRACEX_B_SITE_A"
-      BPNL00000003B2OM: "BPN_TIER_A"
-      BPNL00000003CSGV: "BPN_TIER_C"
-      BPNL00000003B5MJ: "BPN_TIER_B"
-      BPNL00000003AXS3: "BPN_SUB_TIER_B"
-      BPNL00000003B3NX: "BPN_SUB_TIER_A"
-      BPNL00000000BJTL: "BPN_SUB_TIER_C"
-    clientId: sa-cl5-custodian-2
-    clientSecret: UIqawwoohsvZ6AZOd1llLhnsUTKMWe4D
-  # TLS to trust centralidp Keycloak instance of TLS enabled
-  # uncomment the following line for tls
-  # initContainers:
-  #   - name: init-certs
-  #     image: docker.io/tractusx/managed-identity-wallet:0.4.0
-  #     imagePullPolicy: IfNotPresent
-  #     command: ["sh"]
-  #     args:
-  #       - -ec
-  #       - |-
-  #         cp -R /opt/java/openjdk/lib/security/* /cacerts/
-  #         echo "Copying done"
-  #         keytool -import -noprompt -trustcacerts -alias local -file /certs/tls.crt -keystore /cacerts/cacerts -storepass changeit
-  #         keytool -list -keystore /cacerts/cacerts -alias local
-  #     volumeMounts:
-  #       - name: certificates
-  #         mountPath: /certs
-  #       - name: shared-certs
-  #         mountPath: /cacerts
-  # extraVolumes:
-  #   - name: certificates
-  #     secret:
-  #       secretName: root-secret
-  #       defaultMode: 420
-  #   - name: shared-certs
-  #     emptyDir: {}
-  # extraVolumeMounts:
-  #   - name: certificates
-  #     mountPath: /certs
-  #   - name: shared-certs
-  #     mountPath: /opt/java/openjdk/lib/security
-  miw:
-    host: "managed-identity-wallets.tx.test"
-    authorityWallet:
-      bpn: &authority-bpn "BPNL00000003CRHK"
-      name: "Catena-X"
-    database:
-      host: "{{ .Release.Name }}-miw-postgres"
-      secret: "{{ .Release.Name }}-miw-postgres"
-    keycloak:
-      url: "http://centralidp.tx.test/auth"
-      realm: "CX-Central"
-      clientId: "Cl5-CX-Custodian"
-    ssi:
-      enforceHttpsInDidWebResolution: "false"
-  postgresql:
-    nameOverride: miw-postgres
-    primary:
-      persistence:
-        enabled: false
-        size: 1Gi
-    auth:
-      password: "dbpasswordmiw"
-      enablePostgresUser: true
-      postgresPassword: "dbpasswordmiw"
-  keycloak:
-    enabled: false
-  livenessProbe:
-    initialDelaySeconds: 90
-  readinessProbe:
-    initialDelaySeconds: 90
-  # -- docs: http://managed-identity-wallets.tx.test/ui/swagger-ui/index.html
+  nameOverride: mock-util-service
+  fullnameOverride: mock-util-service
+  # -- see README ## Precondition for IATP Mock
+  image:
+    # override with locally built image if needed, default "tractusx/iatp-mock"
+    repository: ""
+    # override tag if needed, default "testing"
+    tag: ""
   ingress:
     enabled: true
     hosts:
-      - host: "managed-identity-wallets.tx.test"
+      - host: iatpmock.tx.test
         paths:
-          - path: "/"
-            pathType: "ImplementationSpecific"
-    # uncomment the following lines for tls
-    # tls:
-    #   - secretName: "managed-identity-wallets.tx.test-tls"
-    #     hosts:
-    #       - "managed-identity-wallets.tx.test"
-    className: "nginx"
-    annotations:
-      # uncomment the following line for tls
-      # cert-manager.io/cluster-issuer: "my-ca-issuer"
-      nginx.ingress.kubernetes.io/cors-allow-origin: http://portal.tx.test
-      nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
-      nginx.ingress.kubernetes.io/cors-allow-methods: GET
-      nginx.ingress.kubernetes.io/enable-cors: "true"
+          - path: /
+            pathType: ImplementationSpecific
 
 ssi-credential-issuer:
   enabled: false
@@ -859,16 +770,25 @@ dataconsumerOne:
     nameOverride: dataconsumer-1-edc
     participant:
       id: BPNL00000003AZQP
-    controlplane:
-      ssi:
-        miw:
-          url: http://managed-identity-wallets.tx.test
-          authorityId: *authority-bpn
+    iatp:
+      id: did:web:mock-util-service/BPNL00000003AZQP
+      trustedIssuers:
+        - did:web:mock-util-service/trusted-issuer
+      sts:
+        dim:
+          url: http://mock-util-service/sts
         oauth:
-          tokenurl: http://centralidp.tx.test/auth/realms/CX-Central/protocol/openid-connect/token
+          token_url: http://centralidp.tx.test/auth/realms/CX-Central/protocol/openid-connect/token
           client:
             id: satest01
-            secretAlias: edc-miw-keycloak-secret
+            secret_alias: edc-miw-keycloak-secret
+    controlplane:
+      env:
+        TX_IAM_IATP_CREDENTIALSERVICE_URL: http://mock-util-service
+        EDC_IAM_DID_WEB_USE_HTTPS: false
+      bdrs:
+        server:
+          url: http://bdrs-server.tx.test/api/directory
       endpoints:
         management:
           authKey: TEST1
@@ -883,6 +803,9 @@ dataconsumerOne:
           tls:
             enabled: false
     dataplane:
+      env:
+        TX_IAM_IATP_CREDENTIALSERVICE_URL: http://mock-util-service
+        EDC_IAM_DID_WEB_USE_HTTPS: false
       ingresses:
         - enabled: true
           hostname: "dataconsumer-1-dataplane.tx.test"
@@ -892,6 +815,11 @@ dataconsumerOne:
           className: "nginx"
           tls:
             enabled: false
+      token:
+        signer:
+          privatekey_alias: tokenSignerPrivateKey
+        verifier:
+          publickey_alias: tokenSignerPublicKey
     postgresql:
       nameOverride: dataconsumer-1-db
       jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-dataconsumer-1-db:5432/edc"
@@ -934,16 +862,25 @@ tx-data-provider:
     nameOverride: dataprovider-edc
     participant:
       id: BPNL00000003AYRE
-    controlplane:
-      ssi:
-        miw:
-          url: http://managed-identity-wallets.tx.test
-          authorityId: *authority-bpn
+    iatp:
+      id: did:web:mock-util-service/BPNL00000003AYRE
+      trustedIssuers:
+        - did:web:mock-util-service/trusted-issuer
+      sts:
+        dim:
+          url: http://mock-util-service/sts
         oauth:
-          tokenurl: http://centralidp.tx.test/auth/realms/CX-Central/protocol/openid-connect/token
+          token_url: http://centralidp.tx.test/auth/realms/CX-Central/protocol/openid-connect/token
           client:
             id: satest02
-            secretAlias: edc-miw-keycloak-secret
+            secret_alias: edc-miw-keycloak-secret
+    controlplane:
+      env:
+        TX_IAM_IATP_CREDENTIALSERVICE_URL: http://mock-util-service
+        EDC_IAM_DID_WEB_USE_HTTPS: false
+      bdrs:
+        server:
+          url: http://bdrs-server.tx.test/api/directory
       endpoints:
         management:
           authKey: TEST2
@@ -958,6 +895,9 @@ tx-data-provider:
           tls:
             enabled: false
     dataplane:
+      env:
+        TX_IAM_IATP_CREDENTIALSERVICE_URL: http://mock-util-service
+        EDC_IAM_DID_WEB_USE_HTTPS: false
       ingresses:
         - enabled: true
           hostname: "dataprovider-dataplane.tx.test"
@@ -967,6 +907,11 @@ tx-data-provider:
           className: "nginx"
           tls:
             enabled: false
+      token:
+        signer:
+          privatekey_alias: tokenSignerPrivateKey
+        verifier:
+          publickey_alias: tokenSignerPublicKey
     postgresql:
       nameOverride: dataprovider-db
       jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-dataprovider-db:5432/edc"
@@ -1035,16 +980,25 @@ dataconsumerTwo:
     nameOverride: dataconsumer-2-edc
     participant:
       id: BPNL00000003AVTH
-    controlplane:
-      ssi:
-        miw:
-          url: http://managed-identity-wallets.tx.test
-          authorityId: *authority-bpn
+    iatp:
+      id: did:web:mock-util-service/BPNL00000003AVTH
+      trustedIssuers:
+        - did:web:mock-util-service/trusted-issuer
+      sts:
+        dim:
+          url: http://mock-util-service/sts
         oauth:
-          tokenurl: http://centralidp.tx.test/auth/realms/CX-Central/protocol/openid-connect/token
+          token_url: http://centralidp.tx.test/auth/realms/CX-Central/protocol/openid-connect/token
           client:
             id: satest03
-            secretAlias: edc-miw-keycloak-secret
+            secret_alias: edc-miw-keycloak-secret
+    controlplane:
+      env:
+        TX_IAM_IATP_CREDENTIALSERVICE_URL: http://mock-util-service
+        EDC_IAM_DID_WEB_USE_HTTPS: false
+      bdrs:
+        server:
+          url: http://bdrs-server.tx.test/api/directory
       endpoints:
         management:
           authKey: TEST3
@@ -1059,6 +1013,9 @@ dataconsumerTwo:
           tls:
             enabled: false
     dataplane:
+      env:
+        TX_IAM_IATP_CREDENTIALSERVICE_URL: http://mock-util-service
+        EDC_IAM_DID_WEB_USE_HTTPS: false
       ingresses:
         - enabled: true
           hostname: "dataconsumer-2-dataplane.tx.test"
@@ -1068,6 +1025,11 @@ dataconsumerTwo:
           className: "nginx"
           tls:
             enabled: false
+      token:
+        signer:
+          privatekey_alias: tokenSignerPrivateKey
+        verifier:
+          publickey_alias: tokenSignerPublicKey
     postgresql:
       nameOverride: dataconsumer-2-db
       jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-dataconsumer-2-db:5432/edc"
@@ -1110,3 +1072,63 @@ pgadmin4:
         paths:
         - path: /
           pathType: Prefix
+
+bdrs-server-memory:
+  nameOverride: bdrs-server
+  fullnameOverride: bdrs-server
+  enabled: false
+  seeding:
+    url: "http://bdrs-server:8081"
+    enabled: true
+    bpnList:
+      - bpn: "BPNL00000003B3NX"
+        did: "did:web:mock-util-service/BPNL00000003B3NX"
+      - bpn: "BPNL00000003CSGV"
+        did: "did:web:mock-util-service/BPNL00000003CSGV"
+      - bpn: "BPNL00000003B6LU"
+        did: "did:web:mock-util-service/BPNL00000003B6LU"
+      - bpn: "BPNL00000003AXS3"
+        did: "did:web:mock-util-service/BPNL00000003AXS3"
+      - bpn: "BPNL00000003AZQP"
+        did: "did:web:mock-util-service/BPNL00000003AZQP"
+      - bpn: "BPNL00000003AWSS"
+        did: "did:web:mock-util-service/BPNL00000003AWSS"
+      - bpn: "BPNL00000003AYRE"
+        did: "did:web:mock-util-service/BPNL00000003AYRE"
+      - bpn: "BPNL00000003AVTH"
+        did: "did:web:mock-util-service/BPNL00000003AVTH"
+      - bpn: "BPNL00000000BJTL"
+        did: "did:web:mock-util-service/BPNL00000000BJTL"
+      - bpn: "BPNL00000003CML1"
+        did: "did:web:mock-util-service/BPNL00000003CML1"
+      - bpn: "BPNL00000003B2OM"
+        did: "did:web:mock-util-service/BPNL00000003B2OM"
+      - bpn: "BPNL00000003B0Q0"
+        did: "did:web:mock-util-service/BPNL00000003B0Q0"
+      - bpn: "BPNL00000003B5MJ"
+        did: "did:web:mock-util-service/BPNL00000003B5MJ"
+      - bpn: "BPNS0000000008ZZ"
+        did: "did:web:mock-util-service/BPNS0000000008ZZ"
+      - bpn: "BPNL00000003CNKC"
+        did: "did:web:mock-util-service/BPNL00000003CNKC"
+      - bpn: "BPNS00000008BDFH"
+        did: "did:web:mock-util-service/BPNS00000008BDFH"
+
+  server:
+    trustedIssuers:
+      - did:web:mock-util-service/trusted-issuer
+    env:
+      EDC_IAM_DID_WEB_USE_HTTPS: false
+
+    endpoints:
+      management:
+        authKey: TEST
+    ingresses:
+      - enabled: true
+        hostname: bdrs-server.tx.test
+        endpoints:
+          - directory
+          - management
+        className: "nginx"
+        tls:
+          enabled: false
