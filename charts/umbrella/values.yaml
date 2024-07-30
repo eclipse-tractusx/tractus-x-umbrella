@@ -33,11 +33,15 @@ portal:
         enabled: false
   portalAddress: "http://portal.tx.test"
   portalBackendAddress: "http://portal-backend.tx.test"
-  centralidpAddress: "http://centralidp.tx.test"
+  centralidp:
+    address: "http://centralidp.tx.test"
   sharedidpAddress: "http://sharedidp.tx.test"
   semanticsAddress: "http://semantics.tx.test"
-  bpdmPartnersPoolAddress: "http://business-partners.tx.test"
-  bpdmPortalGateAddress: "http://business-partners.tx.test"
+  bpdm:
+    poolAddress: "http://business-partners.tx.test"
+    poolApiPath: "/pool/v6"
+    portalGateAddress: "http://business-partners.tx.test"
+    portalGateApiPath: "/gate/v6"
   custodianAddress: "http://managed-identity-wallets.tx.test"
   sdfactoryAddress: "http://sdfactory.tx.test"
   clearinghouseAddress: "http://validation.tx.test"
@@ -102,6 +106,11 @@ portal:
         sdfactoryLibrary: "Debug"
         bpdmLibrary: "Debug"
         custodianLibrary: "Debug"
+      serviceAccount:
+        encryptionConfigs:
+          index0:
+            encryptionKey: "deb8261ec7b89c344f1c5ef5a11606e305f14e0d231b1357d90ad0180c5081d3"
+      issuerdid: "did:web:managed-identity-wallets.tx.test:BPNL00000003CRHK"
       swaggerEnabled: true
     appmarketplace:
       logging:
@@ -127,8 +136,8 @@ portal:
         sdfactoryLibrary: "Debug"
         offerProvider: "Debug"
       bpdm:
-        clientId: "sa-cl7-cx-5"
-        clientSecret: "bWSck103qNJ0jZ1LVtG9mUAlcL7R5RLg"
+        clientId: &bpdmAdminClientId "sa-cl7-cx-5"
+        clientSecret: &bpdmAdminClientSecret "bWSck103qNJ0jZ1LVtG9mUAlcL7R5RLg"
       # -- no configuration for clearinghouse because it's an external component
       # clientId and clientSecret aren't in the centralidp Keycloak
       # clearinghouse:
@@ -144,6 +153,44 @@ portal:
       offerprovider:
         clientId: "sa-cl2-03"
         clientSecret: "wyNYzSnyu4iGvj17XgLSl0aQxAPjTjmI"
+      dim:
+        clientId: "dim-client-id"
+        clientSecret: ""
+        universalResolverAddress: "https://dev.uniresolver.io/"
+        encryptionConfigs:
+          index0:
+            encryptionKey:
+              "6cbaf47ee30c778088e6faa44e2f0eed98beda86db06c7d2e37e32ab78e14b33"
+      issuerComponent:
+        clientId: "sa-cl2-04"
+        clientSecret: "c0gFPfWWUpeOr7MP6DIqdRPhUfaX4GRC"
+        encryptionConfigs:
+          index0:
+            encryptionKey:
+              "39ffab76f99ece1e4ac72f973d5c703737324a75c6445e84fa317a7833476a15"
+      bpnDidResolver:
+        # -- ApiKey for management endpoint of the bpnDidResolver. Secret-key 'bpndidresolver-api-key'.
+        apiKey: ""
+      onboardingServiceProvider:
+        encryptionConfigs:
+          index0:
+            cipherMode: "CBC"
+            paddingMode: "PKCS7"
+            encryptionKey:
+              "f7bc3d99f1ace73e7a75b794affbbc26206ab29909821a102aaccb2e95e45f7c"
+          index1:
+            encryptionKey:
+              "8027152fe7a869c88acc86981760acd70ff1d660c2bd129eece94edef933caf7"
+      invitation:
+        encryptionConfigs:
+          index0:
+            encryptionKey:
+              "d84fea29d6eac0fa51e36682b164e7d61693cd4202ed04306d2d9c5d46655e2c"
+      mailing:
+        encryptionConfigs:
+          index0:
+            encryptionKey:
+              "d2e27d71b018cb36029184852f1baa3e26891be94718f77de4c7cc6c882fe317"
     mailing:
       host: "smtp.tx.test"
       port: "587"
@@ -240,12 +287,12 @@ centralidp:
           - -c
           - |
             echo "Copying realms..."
-            cp -R /import/catenax-central/R2403/realms/* /realms
+            cp -R /import/catenax-central/R2405/realms/* /realms
         volumeMounts:
         - name: realms
           mountPath: "/realms"
       - name: theme-import
-        image: docker.io/tractusx/portal-iam:v2.1.0
+        image: docker.io/tractusx/portal-iam:v3.0.0
         imagePullPolicy: IfNotPresent
         command:
           - sh
@@ -259,7 +306,7 @@ centralidp:
           mountPath: "/themes"
       # uncomment the following line for tls
       # - name: init-certs
-      #   image: docker.io/bitnami/keycloak:22.0.3-debian-11-r14
+      #   image: docker.io/bitnami/keycloak:23.0.7-debian-12-r1
       #   imagePullPolicy: IfNotPresent
       #   command: ["/bin/bash"]
       #   args:
@@ -362,7 +409,7 @@ sharedidp:
         - name: realms
           mountPath: "/realms"
       - name: theme-import
-        image: docker.io/tractusx/portal-iam:v2.1.0
+        image: docker.io/tractusx/portal-iam:v3.0.0
         imagePullPolicy: IfNotPresent
         command:
           - sh
@@ -380,7 +427,7 @@ sharedidp:
           mountPath: "/themes-catenax-shared-portal"
       # uncomment the following line for tls
       # - name: init-certs
-      #   image: docker.io/bitnami/keycloak:22.0.3-debian-11-r14
+      #   image: docker.io/bitnami/keycloak:23.0.7-debian-12-r1
       #   imagePullPolicy: IfNotPresent
       #   command: ["/bin/bash"]
       #   args:
@@ -876,7 +923,7 @@ tx-data-provider:
   enabled: false
   seedTestdata: true
   backendUrl: http://{{ .Release.Name }}-dataprovider-submodelserver:8080
-  registryUrl: http://{{ .Release.Name }}-dataprovider-dtr:8080/api/v3.0
+  registryUrl: http://{{ .Release.Name }}-dataprovider-dtr:8080/api/v3
   controlplanePublicUrl: http://{{ .Release.Name }}-dataprovider-edc-controlplane:8084
   controlplaneManagementUrl: http://{{ .Release.Name }}-dataprovider-edc-controlplane:8081
   dataplaneUrl: http://{{ .Release.Name }}-dataprovider-edc-dataplane:8081
