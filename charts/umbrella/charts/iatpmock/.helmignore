@@ -17,29 +17,27 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 # #############################################################################
----
-apiVersion: v2
-name: tx-data-provider
-description: A Helm chart for Kubernetes
 
-type: application
-version: 0.1.0
-appVersion: 0.0.1
-
-dependencies:
-  - name: digital-twin-registry
-    version: 0.4.11
-    repository: https://eclipse-tractusx.github.io/charts/dev
-    condition: digital-twin-registry.enabled
-  - name: simple-data-backend
-    repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 0.1.0
-    condition: simple-data-backend.enabled
-  - name: tractusx-connector
-    repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 0.7.1
-    condition: tractusx-connector.enabled
-  - name: vault
-    version: 0.20.0
-    repository: https://helm.releases.hashicorp.com
-    condition: vault.enabled
+# Patterns to ignore when building packages.
+# This supports shell glob matching, relative path matching, and
+# negation (prefixed with !). Only one pattern per line.
+.DS_Store
+# Common VCS dirs
+.git/
+.gitignore
+.bzr/
+.bzrignore
+.hg/
+.hgignore
+.svn/
+# Common backup files
+*.swp
+*.bak
+*.tmp
+*.orig
+*~
+# Various IDEs
+.project
+.idea/
+*.tmproj
+.vscode/

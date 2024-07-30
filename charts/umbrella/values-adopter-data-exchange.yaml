@@ -35,41 +35,34 @@ centralidp:
         nginx.ingress.kubernetes.io/proxy-buffers-number: "20"
         nginx.ingress.kubernetes.io/use-regex: "true"
       tls: false
-    # -- uncomment the following for persistance
+    # -- uncomment the following for persistence
     # postgresql:
     #   primary:
     #     persistence:
     #       enabled: true
 
-managed-identity-wallet:
+iatpmock:
   enabled: true
-  seeding:
-    enabled: true
-  miw:
-    keycloak:
-      url: "http://centralidp.tx.test/auth"
-  livenessProbe:
-    initialDelaySeconds: 60
-  readinessProbe:
-    initialDelaySeconds: 60
   ingress:
     enabled: true
     hosts:
-      - host: "managed-identity-wallets.tx.test"
+      - host: iatpmock.tx.test
         paths:
-          - path: "/"
-            pathType: "ImplementationSpecific"
-    className: "nginx"
-    annotations:
-      nginx.ingress.kubernetes.io/cors-allow-origin: http://portal.tx.test
-      nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
-      nginx.ingress.kubernetes.io/cors-allow-methods: GET
-      nginx.ingress.kubernetes.io/enable-cors: "true"
-  # -- uncomment the following for persistance
-  # postgresql:
-  #   primary:
-  #     persistence:
-  #       enabled: true
+          - path: /
+            pathType: ImplementationSpecific
+
+bdrs-server-memory:
+  enabled: true
+  hostname: &hostname bdrs-server.tx.test
+  server:
+    ingresses:
+      - enabled: true
+        hostname: *hostname
+        endpoints:
+          - directory
+          - management
+        tls:
+          enabled: false
 
 dataconsumerOne:
   enabled: true
@@ -78,15 +71,15 @@ dataconsumerOne:
   tractusx-connector:
     participant:
       id: BPNL00000003AZQP
-    controlplane:
-      ssi:
-        miw:
-          url: http://managed-identity-wallets.tx.test
-          authorityId: BPNL00000003CRHK
+    iatp:
+      id: did:web:mock-util-service/BPNL00000003AZQP
+      trustedIssuers:
+        - did:web:mock-util-service/trusted-issuer
+      sts:
         oauth:
-          tokenurl: http://centralidp.tx.test/auth/realms/CX-Central/protocol/openid-connect/token
           client:
             id: satest01
+    controlplane:
       endpoints:
         management:
           authKey: TEST1
@@ -108,7 +101,7 @@ dataconsumerOne:
             - public
           tls:
             enabled: false
-    # -- uncomment the following for persistance
+    # -- uncomment the following for persistence
     # postgresql:
     #   primary:
     #     persistence:
@@ -122,15 +115,18 @@ tx-data-provider:
   tractusx-connector:
     participant:
       id: BPNL00000003AYRE
-    controlplane:
-      ssi:
-        miw:
-          url: http://managed-identity-wallets.tx.test
-          authorityId: BPNL00000003CRHK
+    iatp:
+      id: did:web:mock-util-service/BPNL00000003AYRE
+      trustedIssuers:
+        - did:web:mock-util-service/trusted-issuer
+      sts:
         oauth:
-          tokenurl: http://centralidp.tx.test/auth/realms/CX-Central/protocol/openid-connect/token
           client:
             id: satest02
+    controlplane:
+      endpoints:
+        management:
+          authKey: TEST2
       ingresses:
         - enabled: true
           hostname: "dataprovider-controlplane.tx.test"
@@ -149,7 +145,7 @@ tx-data-provider:
             - public
           tls:
             enabled: false
-  # -- uncomment the following for persistance
+  # -- uncomment the following for persistence
     # postgresql:
     #   primary:
     #     persistence:
@@ -167,15 +163,15 @@ dataconsumerTwo:
   tractusx-connector:
     participant:
       id: BPNL00000003AVTH
-    controlplane:
-      ssi:
-        miw:
-          url: http://managed-identity-wallets.tx.test
-          authorityId: BPNL00000003CRHK
+    iatp:
+      id: did:web:mock-util-service/BPNL00000003AVTH
+      trustedIssuers:
+        - did:web:mock-util-service/trusted-issuer
+      sts:
         oauth:
-          tokenurl: http://centralidp.tx.test/auth/realms/CX-Central/protocol/openid-connect/token
           client:
             id: satest03
+    controlplane:
       endpoints:
         management:
           authKey: TEST3
@@ -197,7 +193,7 @@ dataconsumerTwo:
             - public
           tls:
             enabled: false
-    # -- uncomment the following for persistance
+    # -- uncomment the following for persistence
     # postgresql:
     #   primary:
     #     persistence:
@@ -205,6 +201,6 @@ dataconsumerTwo:
 
 pgadmin4:
   enabled: true
-  # -- uncomment the following for persistance
+  # -- uncomment the following for persistence
   # persistentVolume:
   #   enabled: true
