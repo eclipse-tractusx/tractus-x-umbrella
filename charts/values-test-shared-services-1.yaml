@@ -34,3 +34,6 @@ iatpmock:
 
 bdrs-server-memory:
   enabled: true
+
+bpdm:
+  enabled: true
