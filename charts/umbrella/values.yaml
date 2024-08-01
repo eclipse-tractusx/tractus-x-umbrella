@@ -659,7 +659,7 @@ ssi-credential-issuer:
       clientSecret: "VRHQM2NOA4176Vrscxey1DdO4P7ikUQc"
     credential:
       issuerDid: "did:web:managed-identity-wallets.tx.test:BPNL00000003CRHK"
-      issuerBpn: *authority-bpn
+      issuerBpn: "BPNL00000003CRHK"
       # statusListUrl: "https://example.org/statuslist"
       encryptionConfigIndex: 0
       encryptionConfigs:
