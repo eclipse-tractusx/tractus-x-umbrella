@@ -62,14 +62,11 @@ dependencies:
     alias: selfdescription
     repository: https://eclipse-tractusx.github.io/charts/dev
     version: 2.1.19
-<<<<<<< HEAD
     # ssi-credential-issuer
   - name: ssi-credential-issuer
     condition: ssi-credential-issuer.enabled
     repository: https://eclipse-tractusx.github.io/charts/dev
     version: 1.0.0
-=======
->>>>>>> upstream/upgrade/24.05
   # semantic-hub
   - condition: semantic-hub.enabled
     name: semantic-hub
