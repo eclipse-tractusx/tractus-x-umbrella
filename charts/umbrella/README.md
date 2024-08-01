@@ -125,6 +125,7 @@ If you still face DNS issues, add the hosts to your /etc/hosts file:
 192.168.49.2    dataconsumer-2-controlplane.tx.test
 192.168.49.2    bdrs-server.tx.test
 192.168.49.2    iatpmock.tx.test
+192.168.49.2    business-partners.tx.test
 ```
 
 **Additional network setup for Mac**
@@ -152,6 +153,7 @@ For Windows edit the hosts file under `C:\Windows\System32\drivers\etc\hosts`:
 192.168.49.2    dataconsumer-2-controlplane.tx.test
 192.168.49.2    bdrs-server.tx.test
 192.168.49.2    iatpmock.tx.test
+192.168.49.2    business-partners.tx.test
 ```
 
 ### Install
@@ -174,6 +176,7 @@ The currently available components are following:
 - [dataconsumerTwo](https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/tx-data-provider) ([tractusx-edc](https://github.com/eclipse-tractusx/tractusx-edc/tree/0.7.1), [vault](https://github.com/hashicorp/vault-helm/tree/v0.20.0))
 - [bdrs](https://github.com/eclipse-tractusx/bpn-did-resolution-service/tree/0.0.4)
 - [iatp-mock](https://github.com/eclipse-tractusx/tractus-x-umbrella/blob/upgrade/24.05/charts/umbrella/charts/iatpmock/Chart.yaml)
+- [bpdm](https://github.com/eclipse-tractusx/bpdm/tree/release/6.0.x)
 
 > :warning: **Note**
 >
@@ -246,6 +249,15 @@ helm install \
 ```bash
 helm install \
   --set portal.enabled=true,centralidp.enabled=true,sharedidp.enabled=true \
+  umbrella tractusx-dev/umbrella \
+  --namespace umbrella \
+  --create-namespace
+```
+
+**BPDM Subset**
+```bash
+helm install \
+  --set bpdm.enabled=true,centralidp.enabled=true \
   umbrella tractusx-dev/umbrella \
   --namespace umbrella \
   --create-namespace
@@ -424,6 +436,8 @@ Currently enabled ingresses:
 - http://dataconsumer-2-controlplane.tx.test
 - http://dataconsumer-2-dataplane.tx.test
 - http://pgadmin4.tx.test
+- http://business-partners.tx.test/pool
+- http://business-partners.tx.test/orchestrator
 - http://bdrs-server.tx.test
 - http://iatpmock.tx.test
 
@@ -558,6 +572,21 @@ Password:
 ```
 dbpassworddataconsumertwo
 ```
+
+- bpdm
+
+Host:
+
+```
+umbrella-bpdm-postgres
+```
+
+Password:
+
+```
+dbpasswordbpdm
+```
+
 ### Keycloak Admin Console
 
 Access to admin consoles:

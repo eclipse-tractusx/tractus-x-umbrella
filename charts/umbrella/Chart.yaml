@@ -28,7 +28,7 @@ sources:
   - https://github.com/eclipse-tractusx/tractus-x-umbrella
 
 type: application
-version: 0.19.0
+version: 0.20.0
 
 # when adding or updating versions of dependencies, also update list under README.md#Install
 dependencies:
@@ -72,6 +72,11 @@ dependencies:
     name: semantic-hub
     repository: https://eclipse-tractusx.github.io/charts/dev
     version: 0.2.2
+  # Business Partner Data Management
+  - name: bpdm
+    condition: bpdm.enabled
+    repository: https://eclipse-tractusx.github.io/charts/dev
+    version: 5.0.3
     # TX Data Consumer 1
   - name: tx-data-provider
     alias: dataconsumerOne
