@@ -21,7 +21,6 @@ wiremock:
 image:
   repository: wiremock/wiremock
   pullPolicy: IfNotPresent
-  tag: "2.35.0"
 
 imagePullSecrets: []
 nameOverride: ""

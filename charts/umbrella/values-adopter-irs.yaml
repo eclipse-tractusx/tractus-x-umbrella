@@ -33,11 +33,6 @@ discoveryfinder:
             description: Service to discover connector endpoints based on bpns
             documentation: http://portal-backend.tx.test/api/administration/swagger/index.html
 
-semantic-hub:
-  enabled: false
-  graphdb:
-    imagePullPolicy: IfNotPresent
-
 iatpmock:
   enabled: true
 
