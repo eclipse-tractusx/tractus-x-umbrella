@@ -645,7 +645,6 @@ ssi-credential-issuer:
   portalBackendAddress: "http://portal-backend.tx.test"
   walletAddress: "http://iatpmock.tx.test"
   walletTokenAddress: "https://iatpmock-token-address.tx.test/oauth/token"
-
   issuer:
     swaggerEnabled: true
     logging:
@@ -666,7 +665,6 @@ ssi-credential-issuer:
         index0:
           # EncryptionKey for wallet. Secret-key 'credential-encryption-key0'. Expected format is 256 bit (64 digits) hex.
           encryptionKey: "deb8261ec7b89c344f1c5ef5a11606e305f14e0d231b1357d90ad0180c5081d3"
-
   processesworker:
     portal:
       # -- Provide portal client-id from CX IAM centralidp.
@@ -689,15 +687,12 @@ ssi-credential-issuer:
         index0:
           # EncryptionKey for wallet. Secret-key 'process-wallet-encryption-key0'. Expected format is 256 bit (64 digits) hex.
           encryptionKey: "deb8261ec7b89c344f1c5ef5a11606e305f14e0d231b1357d90ad0180c5081d3"
-    
   issuermigrations:
     logging:
       default: "Debug"
-
   credentialExpiry:
     logging:
       default: "Debug"
-
   postgresql:
     enabled: true
     architecture: standalone
@@ -713,7 +708,6 @@ ssi-credential-issuer:
   centralidp:
     # -- Provide centralidp base address (CX IAM), without trailing '/auth'.
     address: "http://centralidp.tx.test"
-
   ingress:
     enabled: true
     className: "nginx"
@@ -734,6 +728,7 @@ ssi-credential-issuer:
             pathType: "Prefix"
             backend:
               port: 8080
+
 # Set up services for a business partner pool, golden record process
 # and a gate with which the Portal and the users can share business partner data
 bpdm:
