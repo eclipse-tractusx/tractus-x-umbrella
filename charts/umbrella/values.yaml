@@ -46,7 +46,7 @@ portal:
   sdfactoryAddress: "http://sdfactory.tx.test"
   clearinghouseAddress: "http://validation.tx.test"
   clearinghouseTokenAddress: "http://keycloak.tx.test/realms/example/protocol/openid-connect/token"
-  issuerComponentAddress: "http://ssi.tx.test"
+  issuerComponentAddress: "http://ssi-credential-issuer.tx.test"
   frontend:
     ingress:
       enabled: true
@@ -643,8 +643,8 @@ iatpmock:
 ssi-credential-issuer:
   enabled: false
   portalBackendAddress: "http://portal-backend.tx.test"
-  walletAddress: "http://managed-identity-wallets.tx.test"
-  walletTokenAddress: "http://centralidp.tx.test/auth/realms/CX-Central/protocol/openid-connect/token"
+  walletAddress: "http://iatpmock.tx.test"
+  walletTokenAddress: "https://iatpmock-token-address.tx.test/oauth/token"
 
   issuer:
     swaggerEnabled: true
@@ -681,9 +681,9 @@ ssi-credential-issuer:
     wallet:
       # -- Provide wallet client-id from CX IAM centralidp.
       # You must specify the technical user with the required roles for the interaction with the managed-identity-wallet
-      clientId: "sa-cl5-custodian-2"
+      clientId: "wallet-client-id"
       # -- Client-secret for wallet client-id. Secret-key 'wallet-client-secret'.
-      clientSecret: "UIqawwoohsvZ6AZOd1llLhnsUTKMWe4D"
+      clientSecret: ""
       encryptionConfigIndex: 0
       encryptionConfigs:
         index0:
@@ -695,30 +695,16 @@ ssi-credential-issuer:
       default: "Debug"
 
   credentialExpiry:
-    expiry:
-      expiredVcsToDeleteInMonth: 12
-      inactiveVcsToDeleteInWeeks: 12
     logging:
       default: "Debug"
-
-  dbConnection:
-    schema: "issuer"
-    sslMode: "Disable"
 
   postgresql:
     enabled: true
     architecture: standalone
     primary:
       persistence:
-        enabled: true
+        enabled: false
     auth:
-      # -- Non-root username.
-      username: issuer
-      # -- Database name.
-      database: issuer
-      # -- Secret containing the passwords for root usernames postgres and non-root username issuer.
-      # Should not be changed without changing the "issuer-postgresSecretName" template as well.
-      existingSecret: "{{ .Release.Name }}-issuer-postgres"
       # -- Password for the root username 'postgres'. Secret-key 'postgres-password'.
       postgrespassword: "rootissuerpassword"
       # -- Password for the non-root username 'issuer'. Secret-key 'password'.
@@ -727,17 +713,6 @@ ssi-credential-issuer:
   centralidp:
     # -- Provide centralidp base address (CX IAM), without trailing '/auth'.
     address: "http://centralidp.tx.test"
-    authRealm: "CX-Central"
-    jwtBearerOptions:
-      requireHttpsMetadata: "false"
-      metadataPath: "/auth/realms/CX-Central/.well-known/openid-configuration"
-      tokenValidationParameters:
-        validIssuerPath: "/auth/realms/CX-Central"
-        validAudience: "Cl24-CX-SSI-CredentialIssuer"
-      refreshInterval: "00:00:30"
-    tokenPath: "/auth/realms/CX-Central/protocol/openid-connect/token"
-    # -- Flag if the api should be used with an leading /auth path
-    useAuthTrail: true
 
   ingress:
     enabled: true
@@ -753,7 +728,7 @@ ssi-credential-issuer:
       #   hosts:
       #     - ""
     hosts:
-      - host: "ssi.tx.test"
+      - host: "ssi-credential-issuer.tx.test"
         paths:
           - path: "/"
             pathType: "Prefix"

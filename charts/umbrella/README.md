@@ -117,7 +117,7 @@ If you still face DNS issues, add the hosts to your /etc/hosts file:
 192.168.49.2    portal-backend.tx.test
 192.168.49.2    semantics.tx.test
 192.168.49.2    sdfactory.tx.test
-192.168.49.2    ssi.tx.test
+192.168.49.2    ssi-credential-issuer.tx.test
 192.168.49.2    dataconsumer-1-dataplane.tx.test
 192.168.49.2    dataconsumer-1-controlplane.tx.test
 192.168.49.2    dataprovider-dataplane.tx.test
@@ -145,7 +145,7 @@ For Windows edit the hosts file under `C:\Windows\System32\drivers\etc\hosts`:
 192.168.49.2    portal-backend.tx.test
 192.168.49.2    semantics.tx.test
 192.168.49.2    sdfactory.tx.test
-192.168.49.2    ssi.tx.test
+192.168.49.2    ssi-credential-issuer.tx.test
 192.168.49.2    dataconsumer-1-dataplane.tx.test
 192.168.49.2    dataconsumer-1-controlplane.tx.test
 192.168.49.2    dataprovider-dataplane.tx.test
@@ -429,7 +429,7 @@ Currently enabled ingresses:
   - http://portal-backend.tx.test/api/notification/swagger/index.html
 - http://portal.tx.test
 - http://semantics.tx.test/discoveryfinder/swagger-ui/index.html
-- http://ssi.tx.test/
+- http://ssi-credential-issuer.tx.test/
 - http://dataconsumer-1-controlplane.tx.test
 - http://dataconsumer-1-dataplane.tx.test
 - http://dataprovider-dataplane.tx.test
