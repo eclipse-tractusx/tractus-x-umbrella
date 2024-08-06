@@ -25,3 +25,6 @@ discoveryfinder:
 
 semantic-hub:
   enabled: true
+
+ssi-credential-issuer:
+  enabled: true
