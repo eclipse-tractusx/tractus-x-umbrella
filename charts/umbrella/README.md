@@ -356,7 +356,7 @@ updated AS (
      WHERE application_id IN (SELECT Id FROM applications)
      RETURNING *
 )
-INSERT INTO process_steps (id, process_step_type_id, process_step_status_id, date_created, date_last_changed, process_id, message)
+INSERT INTO portal.process_steps (id, process_step_type_id, process_step_status_id, date_created, date_last_changed, process_id, message)
 SELECT gen_random_uuid(), 12, 1, now(), NULL, a.ChecklistId, NULL
 FROM applications a;
 ```
