@@ -16,7 +16,7 @@
     - [E2E Adopter Journeys](#e2e-adopter-journeys)
       - [Data exchange](#data-exchange)
       - [Get to know the Portal](#get-to-know-the-portal)
-      - [Note for onboarding process](#note-for-onboarding-process)
+        - [Note for onboarding process](#note-for-onboarding-process)
     - [Uninstall](#uninstall)
     - [Ingresses](#ingresses)
     - [Database Access](#database-access)
@@ -392,7 +392,7 @@ In case that you have TLS enabled (see [Self-signed TLS setup (Optional)](#self-
 - <https://portal-backend.tx.test>
 - <https://portal.tx.test>
 
-#### Note for onboarding process
+##### Note for onboarding process
 
  Since the onboarding process requires the [Clearinghouse](https://github.com/eclipse-tractusx/portal-assets/blob/v2.1.0/docs/developer/Technical%20Documentation/Interface%20Contracts/Clearinghouse.md) to work properly, but ClearingHouse currently isn't available as a FOSS application you can skip the step with the following SQL Script which must be executed against the portal database.
 
