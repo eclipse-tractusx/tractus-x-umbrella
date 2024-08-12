@@ -1,18 +1,20 @@
 - [Umbrella Chart](#umbrella-chart)
   - [Usage](#usage)
     - [Cluster setup](#cluster-setup)
-      - [Linux \& Mac](#linux--mac)
-      - [Windows](#windows)
+      - [Linux \& Mac](#cluster-setup-on-linux--mac)
+      - [Windows](#cluster-setup-on-windows)
     - [Network setup](#network-setup)
-      - [Linux \& Mac](#linux--mac-1)
-      - [Windows](#windows-1)
+      - [Linux](#network-setup-on-linux)
+      - [Mac](#network-setup-on-mac)
+      - [Windows](#network-setup-on-windows)
+      - [Hosts](#hosts)
     - [Install](#install)
       - [Use released chart](#use-released-chart)
-        - [Option 1](#option-1)
-        - [Option 2](#option-2)
+        - [Install selected components](#option-1)
+        - [Install predefined subsets of components](#option-2)
       - [Use local repository](#use-local-repository)
-        - [Option 1](#option-1-1)
-        - [Option 2](#option-2-1)
+        - [Install selected components](#option-1-1)
+        - [Install predefined subsets of components](#option-2-1)
     - [E2E Adopter Journeys](#e2e-adopter-journeys)
       - [Data exchange](#data-exchange)
       - [Get to know the Portal](#get-to-know-the-portal)
@@ -58,13 +60,13 @@ Assuming you have a running cluster and your `kubectl` context is set to that cl
 > minikube dashboard
 > ```
 
-#### Linux & Mac
+#### Cluster setup on Linux & Mac
 
 ```bash
 minikube start --cpus=4 --memory 6gb
 ```
 
-#### Windows
+#### Cluster setup on Windows
 
 For DNS resolution to work you need to either use `--driver=hyperv` option which requires administrator privileges:
 
@@ -99,15 +101,7 @@ minikube addons enable ingress-dns
 
 And execute installation step [3 Add the `minikube ip` as a DNS server](https://minikube.sigs.k8s.io/docs/handbook/addons/ingress-dns) for your OS:
 
-To find out the IP address of your Minikube execute:
-
-```bash
-minikube ip
-```
-
-In the following steps, replace `192.168.49.2` with your `minikube ip` if it differs.
-
-#### Linux
+#### Network setup on Linux
 
 On Linux, you should identify your domain name resolver configuration, and update its configuration accordingly. To that end, look at the first lines of `/etc/resolv.conf`:
 
@@ -185,7 +179,10 @@ EOF
 sudo systemctl restart systemd-resolved
 ```
 
-#### Mac
+If you still face DNS issues, add [the hosts](#hosts) to your `/etc/hosts` file.
+
+#### Network setup on Mac
+
 Create a file in /etc/resolver/minikube-test with the following contents.
 
 ```
@@ -195,7 +192,23 @@ search_order 1
 timeout 5
 ```
 
-#### Windows
+Replace `192.168.49.2` with your `minikube ip` if it differs.
+
+To find out the IP address of your Minikube execute:
+
+```bash
+minikube ip
+```
+
+If you still face DNS issues, add [the hosts](#hosts) to your `/etc/hosts` file.
+
+**Additional network setup for Mac**
+
+Install and start [Docker Mac Net Connect](https://github.com/chipmk/docker-mac-net-connect#installation).
+
+We also recommend to execute the usage example after install to check proper setup.
+
+#### Network setup on Windows
 
 Open `Powershell` as Administrator and execute the following.
 
@@ -209,7 +222,11 @@ The following will remove any matching rules before creating a new one. This is 
 Get-DnsClientNrptRule | Where-Object {$_.Namespace -eq '.test'} | Remove-DnsClientNrptRule -Force; Add-DnsClientNrptRule -Namespace ".test" -NameServers "$(minikube ip)"
 ```
 
-If you still face DNS issues, add the hosts to your /etc/hosts file:
+If you still face DNS issues, add [the hosts](#hosts) to your `C:\Windows\System32\drivers\etc\hosts` file.
+
+#### Hosts
+
+Collection of hosts to be added to the `/etc/hosts` (Linux and Mac) or the `C:\Windows\System32\drivers\etc\hosts` (Windows) file, in case [Network setup#Linux](#network-setup-on-linux), [Network setup#Mac](#network-setup-on-mac) or [Network setup#Windows](#network-setup-on-windows) doesn't work:
 
 ```
 192.168.49.2    centralidp.tx.test
@@ -226,29 +243,12 @@ If you still face DNS issues, add the hosts to your /etc/hosts file:
 192.168.49.2    dataconsumer-2-controlplane.tx.test
 ```
 
-**Additional network setup for Mac**
+Replace `192.168.49.2` with your `minikube ip` if it differs.
 
-Install and start [Docker Mac Net Connect](https://github.com/chipmk/docker-mac-net-connect#installation).
+To find out the IP address of your Minikube execute:
 
-We also recommend to execute the usage example after install to check proper setup.
-
-#### Windows
-
-For Windows edit the hosts file under `C:\Windows\System32\drivers\etc\hosts`:
-
-```
-192.168.49.2    centralidp.tx.test
-192.168.49.2    sharedidp.tx.test
-192.168.49.2    portal.tx.test
-192.168.49.2    portal-backend.tx.test
-192.168.49.2    managed-identity-wallets.tx.test
-192.168.49.2    semantics.tx.test
-192.168.49.2    sdfactory.tx.test
-192.168.49.2    dataconsumer-1-dataplane.tx.test
-192.168.49.2    dataconsumer-1-controlplane.tx.test
-192.168.49.2    dataprovider-dataplane.tx.test
-192.168.49.2    dataconsumer-2-dataplane.tx.test
-192.168.49.2    dataconsumer-2-controlplane.tx.test
+```bash
+minikube ip
 ```
 
 ### Install
