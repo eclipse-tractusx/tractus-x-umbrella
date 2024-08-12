@@ -117,6 +117,7 @@ If you still face DNS issues, add the hosts to your /etc/hosts file:
 192.168.49.2    portal-backend.tx.test
 192.168.49.2    semantics.tx.test
 192.168.49.2    sdfactory.tx.test
+192.168.49.2    ssi-credential-issuer.tx.test
 192.168.49.2    dataconsumer-1-dataplane.tx.test
 192.168.49.2    dataconsumer-1-controlplane.tx.test
 192.168.49.2    dataprovider-dataplane.tx.test
@@ -144,6 +145,7 @@ For Windows edit the hosts file under `C:\Windows\System32\drivers\etc\hosts`:
 192.168.49.2    portal-backend.tx.test
 192.168.49.2    semantics.tx.test
 192.168.49.2    sdfactory.tx.test
+192.168.49.2    ssi-credential-issuer.tx.test
 192.168.49.2    dataconsumer-1-dataplane.tx.test
 192.168.49.2    dataconsumer-1-controlplane.tx.test
 192.168.49.2    dataprovider-dataplane.tx.test
@@ -168,6 +170,7 @@ The currently available components are following:
 - [sdfactory](https://github.com/eclipse-tractusx/sd-factory/tree/sdfactory-2.1.12)
 - [managed-identity-wallet](https://github.com/eclipse-tractusx/managed-identity-wallet/tree/v0.4.0)
 - [semantic-hub](https://github.com/eclipse-tractusx/sldt-semantic-hub/tree/semantic-hub-0.2.2)
+- [ssi credential issuer](https://github.com/eclipse-tractusx/ssi-credential-issuer/tree/v1.0.0)
 - [dataconsumerOne](https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/tx-data-provider) ([tractusx-edc](https://github.com/eclipse-tractusx/tractusx-edc/tree/0.7.1), [vault](https://github.com/hashicorp/vault-helm/tree/v0.20.0))
 - [tx-data-provider](https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/tx-data-provider) ([tractusx-edc](https://github.com/eclipse-tractusx/tractusx-edc/tree/0.7.1), [digital-twin-registry](https://github.com/eclipse-tractusx/sldt-digital-twin-registry/tree/digital-twin-registry-0.4.5), [vault](https://github.com/hashicorp/vault-helm/tree/v0.20.0), [simple-data-backend](https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/simple-data-backend))
 - [dataconsumerTwo](https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/tx-data-provider) ([tractusx-edc](https://github.com/eclipse-tractusx/tractusx-edc/tree/0.7.1), [vault](https://github.com/hashicorp/vault-helm/tree/v0.20.0))
@@ -426,6 +429,7 @@ Currently enabled ingresses:
   - http://portal-backend.tx.test/api/notification/swagger/index.html
 - http://portal.tx.test
 - http://semantics.tx.test/discoveryfinder/swagger-ui/index.html
+- http://ssi-credential-issuer.tx.test/
 - http://dataconsumer-1-controlplane.tx.test
 - http://dataconsumer-1-dataplane.tx.test
 - http://dataprovider-dataplane.tx.test

@@ -28,7 +28,7 @@ sources:
   - https://github.com/eclipse-tractusx/tractus-x-umbrella
 
 type: application
-version: 0.20.0
+version: 0.21.0
 
 # when adding or updating versions of dependencies, also update list under README.md#Install
 dependencies:
@@ -62,6 +62,11 @@ dependencies:
     alias: selfdescription
     repository: https://eclipse-tractusx.github.io/charts/dev
     version: 2.1.19
+    # ssi-credential-issuer
+  - name: ssi-credential-issuer
+    condition: ssi-credential-issuer.enabled
+    repository: https://eclipse-tractusx.github.io/charts/dev
+    version: 1.0.0
   # semantic-hub
   - condition: semantic-hub.enabled
     name: semantic-hub

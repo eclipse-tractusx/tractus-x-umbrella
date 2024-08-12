@@ -46,6 +46,7 @@ portal:
   sdfactoryAddress: "http://sdfactory.tx.test"
   clearinghouseAddress: "http://validation.tx.test"
   clearinghouseTokenAddress: "http://keycloak.tx.test/realms/example/protocol/openid-connect/token"
+  issuerComponentAddress: "http://ssi-credential-issuer.tx.test"
   frontend:
     ingress:
       enabled: true
@@ -638,6 +639,95 @@ iatpmock:
         paths:
           - path: /
             pathType: ImplementationSpecific
+
+ssi-credential-issuer:
+  enabled: false
+  portalBackendAddress: "http://portal-backend.tx.test"
+  walletAddress: "http://iatpmock.tx.test"
+  walletTokenAddress: "https://iatpmock-token-address.tx.test/oauth/token"
+  issuer:
+    swaggerEnabled: true
+    logging:
+      businessLogic: "Debug"
+      default: "Debug"
+    portal:
+      # -- Provide portal client-id from CX IAM centralidp.
+      # You must specify the technical user with the required roles for the interaction with the portal
+      clientId: "sa-cl24-01"
+      # -- Client-secret for portal client-id. Secret-key 'portal-client-secret'.
+      clientSecret: "VRHQM2NOA4176Vrscxey1DdO4P7ikUQc"
+    credential:
+      issuerDid: "did:web:managed-identity-wallets.tx.test:BPNL00000003CRHK"
+      issuerBpn: "BPNL00000003CRHK"
+      # statusListUrl: "https://example.org/statuslist"
+      encryptionConfigIndex: 0
+      encryptionConfigs:
+        index0:
+          # EncryptionKey for wallet. Secret-key 'credential-encryption-key0'. Expected format is 256 bit (64 digits) hex.
+          encryptionKey: "deb8261ec7b89c344f1c5ef5a11606e305f14e0d231b1357d90ad0180c5081d3"
+  processesworker:
+    portal:
+      # -- Provide portal client-id from CX IAM centralidp.
+      # You must specify the technical user with the required roles for the interaction with the portal
+      clientId: "sa-cl24-01"
+      # -- Client-secret for portal client-id. Secret-key 'portal-client-secret'.
+      clientSecret: "VRHQM2NOA4176Vrscxey1DdO4P7ikUQc"
+    logging:
+      default: "Debug"
+    processIdentity:
+      identityId: ac1cf001-7fbc-1f2f-817f-bce058020006
+    wallet:
+      # -- Provide wallet client-id from CX IAM centralidp.
+      # You must specify the technical user with the required roles for the interaction with the managed-identity-wallet
+      clientId: "wallet-client-id"
+      # -- Client-secret for wallet client-id. Secret-key 'wallet-client-secret'.
+      clientSecret: ""
+      encryptionConfigIndex: 0
+      encryptionConfigs:
+        index0:
+          # EncryptionKey for wallet. Secret-key 'process-wallet-encryption-key0'. Expected format is 256 bit (64 digits) hex.
+          encryptionKey: "deb8261ec7b89c344f1c5ef5a11606e305f14e0d231b1357d90ad0180c5081d3"
+  issuermigrations:
+    logging:
+      default: "Debug"
+  credentialExpiry:
+    logging:
+      default: "Debug"
+  postgresql:
+    enabled: true
+    architecture: standalone
+    primary:
+      persistence:
+        enabled: false
+    auth:
+      # -- Password for the root username 'postgres'. Secret-key 'postgres-password'.
+      postgrespassword: "rootissuerpassword"
+      # -- Password for the non-root username 'issuer'. Secret-key 'password'.
+      password: "issuerpassword"
+
+  centralidp:
+    # -- Provide centralidp base address (CX IAM), without trailing '/auth'.
+    address: "http://centralidp.tx.test"
+  ingress:
+    enabled: true
+    className: "nginx"
+    annotations:
+      nginx.ingress.kubernetes.io/use-regex: "true"
+      nginx.ingress.kubernetes.io/enable-cors: "true"
+      nginx.ingress.kubernetes.io/proxy-body-size: "8m"
+      nginx.ingress.kubernetes.io/cors-allow-origin: "http://*.tx.test"
+    # -- Ingress TLS configuration
+    tls: []
+      # - secretName: ""
+      #   hosts:
+      #     - ""
+    hosts:
+      - host: "ssi-credential-issuer.tx.test"
+        paths:
+          - path: "/"
+            pathType: "Prefix"
+            backend:
+              port: 8080
 
 # Set up services for a business partner pool, golden record process
 # and a gate with which the Portal and the users can share business partner data
