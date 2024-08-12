@@ -1,13 +1,22 @@
 - [Umbrella Chart](#umbrella-chart)
   - [Usage](#usage)
     - [Cluster setup](#cluster-setup)
+      - [Linux \& Mac](#linux--mac)
+      - [Windows](#windows)
     - [Network setup](#network-setup)
+      - [Linux \& Mac](#linux--mac-1)
+      - [Windows](#windows-1)
     - [Install](#install)
-      - [Released chart](#use-released-chart)
-      - [Repository](#use-local-repository)
+      - [Use released chart](#use-released-chart)
+        - [Option 1](#option-1)
+        - [Option 2](#option-2)
+      - [Use local repository](#use-local-repository)
+        - [Option 1](#option-1-1)
+        - [Option 2](#option-2-1)
     - [E2E Adopter Journeys](#e2e-adopter-journeys)
       - [Data exchange](#data-exchange)
       - [Get to know the Portal](#get-to-know-the-portal)
+        - [Note for onboarding process](#note-for-onboarding-process)
     - [Uninstall](#uninstall)
     - [Ingresses](#ingresses)
     - [Database Access](#database-access)
@@ -474,6 +483,31 @@ In case that you have TLS enabled (see [Self-signed TLS setup (Optional)](#self-
 - <https://sharedidp.tx.test/auth/>
 - <https://portal-backend.tx.test>
 - <https://portal.tx.test>
+
+##### Note for onboarding process
+
+ Since the onboarding process requires the [Clearinghouse](https://github.com/eclipse-tractusx/portal-assets/blob/v2.1.0/docs/developer/Technical%20Documentation/Interface%20Contracts/Clearinghouse.md) to work properly, but ClearingHouse currently isn't available as a FOSS application you can skip the step with the following SQL Script which must be executed against the portal database.
+
+```sql
+WITH applications AS (
+    SELECT distinct ca.id as Id, ca.checklist_process_id as ChecklistId
+    FROM portal.company_applications as ca
+             JOIN portal.application_checklist as ac ON ca.id = ac.application_id
+    WHERE 
+      ca.application_status_id = 7 
+    AND ac.application_checklist_entry_type_id = 6
+    AND (ac.application_checklist_entry_status_id = 4 OR ac.application_checklist_entry_status_id = 1)
+),
+updated AS (
+ UPDATE portal.application_checklist
+     SET application_checklist_entry_status_id = 3
+     WHERE application_id IN (SELECT Id FROM applications)
+     RETURNING *
+)
+INSERT INTO portal.process_steps (id, process_step_type_id, process_step_status_id, date_created, date_last_changed, process_id, message)
+SELECT gen_random_uuid(), 12, 1, now(), NULL, a.ChecklistId, NULL
+FROM applications a;
+```
 
 ### Uninstall
 
