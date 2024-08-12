@@ -1291,3 +1291,6 @@ bdrs-server-memory:
         className: "nginx"
         tls:
           enabled: false
+
+discovery-mock:
+  enabled: false
