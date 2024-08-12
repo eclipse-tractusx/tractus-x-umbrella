@@ -40,6 +40,10 @@ semantic-hub:
 
 managed-identity-wallet:
   enabled: true
+  miw:
+    host: "umbrella-managed-identity-wallet:8080"
+    keycloak:
+      url: "http://umbrella-centralidp/auth"
 
 dataconsumer:
   enabled: false
