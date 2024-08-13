@@ -84,6 +84,7 @@ portal:
                 port: 8080
   backend:
     dotnetEnvironment: "Development"
+    useDimWallet: true
     keycloak:
       central:
         clientId: "sa-cl1-reg-2"
