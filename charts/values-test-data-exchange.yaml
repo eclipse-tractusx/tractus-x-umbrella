@@ -17,30 +17,11 @@
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################
 
-portal:
-  enabled: false
-
 centralidp:
   enabled: true
 
-sharedidp:
-  enabled: false
-
-bpndiscovery:
-  enabled: false
-
-discoveryfinder:
-  enabled: false
-
-selfdescription:
-  enabled: false
-
 iatpmock:
   enabled: true
-  miw:
-    host: "umbrella-managed-identity-wallet:8080"
-    keycloak:
-      url: "http://umbrella-centralidp/auth"
 
 bdrs-server-memory:
   enabled: true
