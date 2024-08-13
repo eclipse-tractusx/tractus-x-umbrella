@@ -37,6 +37,10 @@ selfdescription:
 
 iatpmock:
   enabled: true
+  miw:
+    host: "umbrella-managed-identity-wallet:8080"
+    keycloak:
+      url: "http://umbrella-centralidp/auth"
 
 bdrs-server-memory:
   enabled: true

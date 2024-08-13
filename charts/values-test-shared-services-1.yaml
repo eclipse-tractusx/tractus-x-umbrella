@@ -34,6 +34,10 @@ iatpmock:
 
 bdrs-server-memory:
   enabled: true
+  miw:
+    host: "umbrella-managed-identity-wallet:8080"
+    keycloak:
+      url: "http://umbrella-centralidp/auth"
 
 bpdm:
   enabled: true

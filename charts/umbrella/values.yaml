@@ -511,7 +511,23 @@ bpndiscovery:
   enabled: false
   enablePostgres: true
   bpndiscovery:
-    authentication: false
+    host: semantics.tx.test
+    ingress:
+      enabled: true
+      tls: false
+      urlPrefix: "/bpndiscovery"
+      className: "nginx"
+      annotations:
+        cert-manager.io/cluster-issuer: "my-ca-issuer"
+        nginx.ingress.kubernetes.io/rewrite-target: "/$2"
+        nginx.ingress.kubernetes.io/use-regex: "true"
+        nginx.ingress.kubernetes.io/enable-cors: "true"
+        nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
+        nginx.ingress.kubernetes.io/x-forwarded-prefix: "/bpndiscovery"
+    authentication: true
+    idp:
+      issuerUri: "http://centralidp.tx.test/auth/realms/CX-Central"
+      publicClientId: "Cl22-CX-BPND"
     bpndiscoverEndpoint:
       allowedTypes: oen,wmi,passtype,manufacturerPartId
       description: Service to discover BPN for different kind of type numbers
@@ -1122,6 +1138,19 @@ semantic-hub:
       initialDelaySeconds: 200
     readinessProbe:
       initialDelaySeconds: 200
+    host: semantics.tx.test
+    ingress:
+      enabled: true
+      tls: false
+      urlPrefix: "/hub"
+      className: "nginx"
+      annotations:
+        cert-manager.io/cluster-issuer: "my-ca-issuer"
+        nginx.ingress.kubernetes.io/rewrite-target: "/$2"
+        nginx.ingress.kubernetes.io/use-regex: "true"
+        nginx.ingress.kubernetes.io/enable-cors: "true"
+        nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
+        nginx.ingress.kubernetes.io/x-forwarded-prefix: "/hub"
   graphdb:
     enabled: true
     image: jena-fuseki-docker:4.7.0
