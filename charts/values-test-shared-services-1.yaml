@@ -22,6 +22,21 @@ portal:
 
 centralidp:
   enabled: true
+  keycloak:
+    initContainers:
+      - name: import
+        image: kind-registry:5000/init-container:testing
+        imagePullPolicy: Always
+        command:
+          - sh
+        args:
+          - -c
+          - |
+            echo "Copying realms..."
+            cp -R /import/catenax-central/realms/* /realms
+        volumeMounts:
+        - name: realms
+          mountPath: "/realms"
 
 sharedidp:
   enabled: true
