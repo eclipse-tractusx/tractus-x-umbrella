@@ -289,6 +289,8 @@ The currently available components are following:
 
 > :warning: **Note**
 >
+> Please be aware of [Note for R24.05](#note-for-r2405)
+>
 > - Due to resource restrictions, it's **not recommended** to install the helm chart with all components enabled.
 >
 > - It is to be expected that some pods - which run as post-install hooks, like for instance the **portal-migrations job - will run into errors until another component**, like for instance a database, is ready to take connections.
@@ -456,6 +458,8 @@ helm install -f values-adopter-portal.yaml umbrella . --namespace umbrella --cre
 
 #### Data exchange
 
+:warning: Please be aware of [Note for R24.05](#note-for-r2405)
+
 Involved components:
 
 EDC, MIW, DTR, Vault (data provider and consumer in tx-data-provider), CentralIdP.
@@ -516,6 +520,8 @@ In case that you have TLS enabled (see [Self-signed TLS setup (Optional)](#self-
 - <https://sharedidp.tx.test/auth/>
 - <https://portal-backend.tx.test>
 - <https://portal.tx.test>
+
+:warning: Please be aware of [Note for R24.05](#note-for-r2405)
 
 ##### Note for onboarding process
 
