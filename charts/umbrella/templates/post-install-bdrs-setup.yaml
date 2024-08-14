@@ -17,18 +17,15 @@
   # SPDX-License-Identifier: Apache-2.0
   # #############################################################################
 ---
-{{ if index .Values "managed-identity-wallet" "seeding" "enabled" }}
-{{- $miwUrl := printf "http://%s" (index .Values "managed-identity-wallet" "miw" "host") -}}
-{{- $keycloakUrl := index .Values "managed-identity-wallet" "miw" "keycloak" "url" -}}
-{{- $keycloakRealm := index .Values "managed-identity-wallet" "miw" "keycloak" "realm" -}}
-{{- $keycloakPath := printf "%s/realms/%s/protocol/openid-connect/token" $keycloakUrl $keycloakRealm -}}
-{{- $miwUser := index .Values "managed-identity-wallet" "seeding" "clientId" -}}
-{{- $miwSecret := index .Values "managed-identity-wallet" "seeding" "clientSecret" -}}
+{{ if index .Values "bdrs-server-memory" "enabled" }}
+{{ if index .Values "bdrs-server-memory" "seeding" "enabled" }}
+{{- $bdrsUrl := tpl (index .Values "bdrs-server-memory" "seeding" "url") . -}}
+{{- $bdrsKey := index .Values "bdrs-server-memory" "server" "endpoints" "management" "authKey" -}}
 {{- $fullName := include "app.fullname" . -}}
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ $fullName }}-post-install-miw-setup
+  name: {{ $fullName }}-post-install-bdrs-setup
   labels:
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
@@ -57,14 +54,9 @@ spec:
             - "/bin/sh"
             - "-c"
             - |
-              echo "Waiting 30s to start MIW wallet creation..."
-              sleep 30
-              wget {{ $keycloakPath }} --header 'Content-Type: application/x-www-form-urlencoded' \
-              --post-data 'grant_type=client_credentials&client_id={{ $miwUser }}&client_secret={{ $miwSecret }}'
-              TOKEN=`cat token | grep -o '"access_token": *"[^"]*"' | sed 's#"access_token":"\(.*\)"#\1#'` && export TOKEN
-
-              {{- range $bpn, $companyName := index .Values "managed-identity-wallet" "seeding" "companies" }}
-              wget --header "Content-Type: application/json" --header "Authorization: Bearer $TOKEN" \
-              --post-data '{"bpn": "{{ $bpn }}", "name": "{{ $companyName }}"}' "{{ $miwUrl }}/api/wallets" -S -O -
+              {{- range $index, $element := index .Values "bdrs-server-memory" "seeding" "bpnList" }}
+              wget --header "Content-Type: application/json" --header "x-api-key: {{ $bdrsKey }}" \
+              --post-data '{"bpn": "{{ $element.bpn }}","did": "{{ $element.did }}"}' "{{ $bdrsUrl }}/api/management/bpn-directory" -S -O -
               {{- end }}
+{{ end }}
 {{ end }}

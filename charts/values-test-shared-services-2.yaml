@@ -17,36 +17,14 @@
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################
 
-centralidp:
-  keycloak:
-    initContainers:
-      - name: import
-        image: kind-registry:5000/init-container:testing
-        imagePullPolicy: Always
-        command:
-          - sh
-        args:
-          - -c
-          - |
-            echo "Copying realms..."
-            cp -R /import/catenax-central/realms/* /realms
-        volumeMounts:
-        - name: realms
-          mountPath: "/realms"
+bpndiscovery:
+  enabled: true
 
-sharedidp:
-  keycloak:
-    initContainers:
-      - name: import
-        image: kind-registry:5000/init-container:testing
-        imagePullPolicy: Always
-        command:
-          - sh
-        args:
-          - -c
-          - |
-            echo "Copying realms..."
-            cp -R /import/catenax-shared/realms/* /realms
-        volumeMounts:
-        - name: realms
-          mountPath: "/realms"
+discoveryfinder:
+  enabled: true
+
+semantic-hub:
+  enabled: true
+
+ssi-credential-issuer:
+  enabled: true

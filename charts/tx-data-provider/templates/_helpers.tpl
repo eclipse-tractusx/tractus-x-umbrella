@@ -73,7 +73,7 @@ Registry URL helpers
     {{- if .Values.registryUrl }}
         {{- tpl .Values.registryUrl . }}
     {{ else }}
-        {{- printf "%s%s%s" (include "registry.host" .) (include "registry.path" .) "/api/v3.0" }}
+        {{- printf "%s%s%s" (include "registry.host" .) (include "registry.path" .) "/api/v3" }}
     {{- end }}
 {{- end }}
 

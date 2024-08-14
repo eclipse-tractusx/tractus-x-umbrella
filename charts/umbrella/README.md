@@ -1,4 +1,7 @@
+[![OverarchingRelease](https://img.shields.io/badge/Release_24.05-blue)](https://github.com/eclipse-tractusx/tractus-x-release/blob/24.05/CHANGELOG.md#2405---2024-05-29)
+
 - [Umbrella Chart](#umbrella-chart)
+  - [Note for R24.05](#note-for-r2405)
   - [Usage](#usage)
     - [Cluster setup](#cluster-setup)
       - [Linux \& Mac](#cluster-setup-on-linux--mac)
@@ -26,13 +29,20 @@
     - [Seeding](#seeding)
     - [Self-signed TLS setup (Optional)](#self-signed-tls-setup-optional)
   - [Precondition for Semantic Hub](#precondition-for-semantic-hub)
+  - [Precondition for IATP Mock](#precondition-for-iatp-mock)
   - [How to contribute](#how-to-contribute)
 
 # Umbrella Chart
 
-This umbrella chart provides a basis for running end-to-end tests or creating a sandbox environment of the [Catena-X](https://catena-x.net/en/) automotive dataspace network consisting of [Tractus-X](https://projects.eclipse.org/projects/automotive.tractusx) OSS components.
+This umbrella chart provides a basis for running end-to-end tests or creating a sandbox environment of the [Catena-X](https://catena-x.net/en/) automotive dataspace network consisting of [Eclipse Tractus-X](https://projects.eclipse.org/projects/automotive.tractusx) OSS components.
 
 The Chart aims for a completely automated setup of a fully functional network, that does not require manual setup steps.
+
+## Note for R24.05
+
+The versions of integrated components correspond to the **overarching [Release 24.05](https://github.com/eclipse-tractusx/tractus-x-release/blob/24.05/CHANGELOG.md#2405---2024-05-29)**.
+
+:warning: The 24.05 Release does not include a Managed Identity Wallet (MIW) - aka the FOSS Wallet of Tractus-X - as it was not yet able to cover functionalities required for the Self-Sovereign Identity Flow introduced with R24.05. To test and ship R24.05, a commercial solution was used: the Decentralized Identity Management (DIM) Wallet. To cover the wallet functionalities in the [E2E Adopter Journey Data exchange](#data-exchange) the [iatp-mock](https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/umbrella/charts/iatpmock/Chart.yaml) was added to the umbrella helm chart, please also see [Precondition for IATP Mock](#precondition-for-iatp-mock). For the [E2E Adopter Journey Portal](#portal), there isn't a mock available yet to cover the wallet functionalities.
 
 ## Usage
 
@@ -233,14 +243,18 @@ Collection of hosts to be added to the `/etc/hosts` (Linux and Mac) or the `C:\W
 192.168.49.2    sharedidp.tx.test
 192.168.49.2    portal.tx.test
 192.168.49.2    portal-backend.tx.test
-192.168.49.2    managed-identity-wallets.tx.test
 192.168.49.2    semantics.tx.test
 192.168.49.2    sdfactory.tx.test
+192.168.49.2    ssi-credential-issuer.tx.test
 192.168.49.2    dataconsumer-1-dataplane.tx.test
 192.168.49.2    dataconsumer-1-controlplane.tx.test
 192.168.49.2    dataprovider-dataplane.tx.test
 192.168.49.2    dataconsumer-2-dataplane.tx.test
 192.168.49.2    dataconsumer-2-controlplane.tx.test
+192.168.49.2    bdrs-server.tx.test
+192.168.49.2    iatpmock.tx.test
+192.168.49.2    business-partners.tx.test
+192.168.49.2    pgadmin4.tx.test
 ```
 
 Replace `192.168.49.2` with your `minikube ip` if it differs.
@@ -257,19 +271,25 @@ Select a subset of components which are designed to integrate with each other fo
 
 The currently available components are following:
 
-- [portal](https://github.com/eclipse-tractusx/portal/tree/portal-1.8.1)
-- [centralidp](https://github.com/eclipse-tractusx/portal-iam/tree/v2.1.0)
-- [sharedidp](https://github.com/eclipse-tractusx/portal-iam/tree/v2.1.0)
+- [portal](https://github.com/eclipse-tractusx/portal/tree/portal-2.0.0)
+- [centralidp](https://github.com/eclipse-tractusx/portal-iam/tree/v3.0.0)
+- [sharedidp](https://github.com/eclipse-tractusx/portal-iam/tree/v3.0.0)
 - [bpndiscovery](https://github.com/eclipse-tractusx/sldt-bpn-discovery/tree/bpndiscovery-0.2.2)
 - [discoveryfinder](https://github.com/eclipse-tractusx/sldt-discovery-finder/tree/discoveryfinder-0.2.2)
 - [sdfactory](https://github.com/eclipse-tractusx/sd-factory/tree/sdfactory-2.1.12)
 - [managed-identity-wallet](https://github.com/eclipse-tractusx/managed-identity-wallet/tree/v0.4.0)
 - [semantic-hub](https://github.com/eclipse-tractusx/sldt-semantic-hub/tree/semantic-hub-0.2.2)
-- [dataconsumerOne](https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/tx-data-provider) ([tractusx-edc](https://github.com/eclipse-tractusx/tractusx-edc/tree/0.5.3), [vault](https://github.com/hashicorp/vault-helm/tree/v0.20.0))
-- [tx-data-provider](https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/tx-data-provider) ([tractusx-edc](https://github.com/eclipse-tractusx/tractusx-edc/tree/0.5.3), [digital-twin-registry](https://github.com/eclipse-tractusx/sldt-digital-twin-registry/tree/digital-twin-registry-0.4.5), [vault](https://github.com/hashicorp/vault-helm/tree/v0.20.0), [simple-data-backend](https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/simple-data-backend))
-- [dataconsumerTwo](https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/tx-data-provider) ([tractusx-edc](https://github.com/eclipse-tractusx/tractusx-edc/tree/0.5.3), [vault](https://github.com/hashicorp/vault-helm/tree/v0.20.0))
+- [ssi credential issuer](https://github.com/eclipse-tractusx/ssi-credential-issuer/tree/v1.0.0)
+- [dataconsumerOne](https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/tx-data-provider) ([tractusx-edc](https://github.com/eclipse-tractusx/tractusx-edc/tree/0.7.1), [vault](https://github.com/hashicorp/vault-helm/tree/v0.20.0))
+- [tx-data-provider](https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/tx-data-provider) ([tractusx-edc](https://github.com/eclipse-tractusx/tractusx-edc/tree/0.7.1), [digital-twin-registry](https://github.com/eclipse-tractusx/sldt-digital-twin-registry/tree/digital-twin-registry-0.4.5), [vault](https://github.com/hashicorp/vault-helm/tree/v0.20.0), [simple-data-backend](https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/simple-data-backend))
+- [dataconsumerTwo](https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/tx-data-provider) ([tractusx-edc](https://github.com/eclipse-tractusx/tractusx-edc/tree/0.7.1), [vault](https://github.com/hashicorp/vault-helm/tree/v0.20.0))
+- [bdrs](https://github.com/eclipse-tractusx/bpn-did-resolution-service/tree/0.0.4) (**in memory** - no persistance possible)
+- [iatp-mock](https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/umbrella/charts/iatpmock/Chart.yaml)
+- [bpdm](https://github.com/eclipse-tractusx/bpdm/tree/release/6.0.x)
 
 > :warning: **Note**
+>
+> Please be aware of [Note for R24.05](#note-for-r2405)
 >
 > - Due to resource restrictions, it's **not recommended** to install the helm chart with all components enabled.
 >
@@ -345,6 +365,15 @@ helm install \
   --create-namespace
 ```
 
+**BPDM Subset**
+```bash
+helm install \
+  --set bpdm.enabled=true,centralidp.enabled=true \
+  umbrella tractusx-dev/umbrella \
+  --namespace umbrella \
+  --create-namespace
+```
+
 To set your own configuration and secret values, install the helm chart with your own values file:
 
 ```bash
@@ -361,7 +390,13 @@ Then navigate to the chart directory:
 cd charts/umbrella/
 ```
 
-Download the chart dependencies:
+Download the dependencies of the tx-data-provder subchart:
+
+```bash
+helm dependency update ../tx-data-provider
+```
+
+Download the chart dependencies of the umbrella helm chart:
 
 ```bash
 helm dependency update
@@ -422,6 +457,8 @@ helm install -f values-adopter-portal.yaml umbrella . --namespace umbrella --cre
 ### E2E Adopter Journeys
 
 #### Data exchange
+
+:warning: Please be aware of [Note for R24.05](#note-for-r2405)
 
 Involved components:
 
@@ -484,6 +521,8 @@ In case that you have TLS enabled (see [Self-signed TLS setup (Optional)](#self-
 - <https://portal-backend.tx.test>
 - <https://portal.tx.test>
 
+:warning: Please be aware of [Note for R24.05](#note-for-r2405)
+
 ##### Note for onboarding process
 
  Since the onboarding process requires the [Clearinghouse](https://github.com/eclipse-tractusx/portal-assets/blob/v2.1.0/docs/developer/Technical%20Documentation/Interface%20Contracts/Clearinghouse.md) to work properly, but ClearingHouse currently isn't available as a FOSS application you can skip the step with the following SQL Script which must be executed against the portal database.
@@ -535,13 +574,17 @@ Currently enabled ingresses:
   - http://portal-backend.tx.test/api/services/swagger/index.html
   - http://portal-backend.tx.test/api/notification/swagger/index.html
 - http://portal.tx.test
-- http://managed-identity-wallets.tx.test/ui/swagger-ui/index.html
 - http://semantics.tx.test/discoveryfinder/swagger-ui/index.html
+- http://ssi-credential-issuer.tx.test/api/issuer/swagger/index.html
 - http://dataconsumer-1-controlplane.tx.test
 - http://dataconsumer-1-dataplane.tx.test
 - http://dataprovider-dataplane.tx.test
 - http://dataconsumer-2-controlplane.tx.test
 - http://dataconsumer-2-dataplane.tx.test
+- http://business-partners.tx.test/pool
+- http://business-partners.tx.test/orchestrator
+- http://bdrs-server.tx.test
+- http://iatpmock.tx.test
 - http://pgadmin4.tx.test
 
 ### Database Access
@@ -675,6 +718,21 @@ Password:
 ```
 dbpassworddataconsumertwo
 ```
+
+- bpdm
+
+Host:
+
+```
+umbrella-bpdm-postgres
+```
+
+Password:
+
+```
+dbpasswordbpdm
+```
+
 ### Keycloak Admin Console
 
 Access to admin consoles:
@@ -789,6 +847,12 @@ Build fuseki docker image by following the below steps:
 - Download [jena-fuseki-docker-4.7.0.zip](https://repo1.maven.org/maven2/org/apache/jena/jena-fuseki-docker/4.7.0/jena-fuseki-docker-4.7.0.zip)
 - Unzip the jena-fuseki-docker-4.7.0.zip.
 - Build the docker image by running the command - `docker build --build-arg JENA_VERSION=4.7.0 -t jena-fuseki-docker:4.7.0 --platform linux/amd64 .`
+
+## Precondition for IATP Mock
+
+In case of enabling `iatpmock` (e.g. by using [values-adopter-data-exchange.yaml](values-adopter-data-exchange.yaml)), the iatp-mock docker image must be built first:
+
+`docker build iatp-mock/ -t tractusx/iatp-mock:testing --platform linux/amd64`
 
 ## How to contribute
 

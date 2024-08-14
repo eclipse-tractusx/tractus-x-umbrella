@@ -33,15 +33,20 @@ portal:
         enabled: false
   portalAddress: "http://portal.tx.test"
   portalBackendAddress: "http://portal-backend.tx.test"
-  centralidpAddress: "http://centralidp.tx.test"
+  centralidp:
+    address: "http://centralidp.tx.test"
   sharedidpAddress: "http://sharedidp.tx.test"
   semanticsAddress: "http://semantics.tx.test"
-  bpdmPartnersPoolAddress: "http://business-partners.tx.test"
-  bpdmPortalGateAddress: "http://business-partners.tx.test"
+  bpdm:
+    poolAddress: "http://business-partners.tx.test"
+    poolApiPath: "/pool/v6"
+    portalGateAddress: "http://business-partners.tx.test"
+    portalGateApiPath: "/gate/v6"
   custodianAddress: "http://managed-identity-wallets.tx.test"
   sdfactoryAddress: "http://sdfactory.tx.test"
   clearinghouseAddress: "http://validation.tx.test"
   clearinghouseTokenAddress: "http://keycloak.tx.test/realms/example/protocol/openid-connect/token"
+  issuerComponentAddress: "http://ssi-credential-issuer.tx.test"
   frontend:
     ingress:
       enabled: true
@@ -79,6 +84,7 @@ portal:
                 port: 8080
   backend:
     dotnetEnvironment: "Development"
+    useDimWallet: true
     keycloak:
       central:
         clientId: "sa-cl1-reg-2"
@@ -101,6 +107,11 @@ portal:
         sdfactoryLibrary: "Debug"
         bpdmLibrary: "Debug"
         custodianLibrary: "Debug"
+      serviceAccount:
+        encryptionConfigs:
+          index0:
+            encryptionKey: "deb8261ec7b89c344f1c5ef5a11606e305f14e0d231b1357d90ad0180c5081d3"
+      issuerdid: "did:web:managed-identity-wallets.tx.test:BPNL00000003CRHK"
       swaggerEnabled: true
     appmarketplace:
       logging:
@@ -126,8 +137,8 @@ portal:
         sdfactoryLibrary: "Debug"
         offerProvider: "Debug"
       bpdm:
-        clientId: "sa-cl7-cx-5"
-        clientSecret: "bWSck103qNJ0jZ1LVtG9mUAlcL7R5RLg"
+        clientId: &bpdmAdminClientId "sa-cl7-cx-5"
+        clientSecret: &bpdmAdminClientSecret "bWSck103qNJ0jZ1LVtG9mUAlcL7R5RLg"
       # -- no configuration for clearinghouse because it's an external component
       # clientId and clientSecret aren't in the centralidp Keycloak
       # clearinghouse:
@@ -143,6 +154,44 @@ portal:
       offerprovider:
         clientId: "sa-cl2-03"
         clientSecret: "wyNYzSnyu4iGvj17XgLSl0aQxAPjTjmI"
+      dim:
+        clientId: "dim-client-id"
+        clientSecret: ""
+        universalResolverAddress: "https://dev.uniresolver.io/"
+        encryptionConfigs:
+          index0:
+            encryptionKey:
+              "6cbaf47ee30c778088e6faa44e2f0eed98beda86db06c7d2e37e32ab78e14b33"
+      issuerComponent:
+        clientId: "sa-cl2-04"
+        clientSecret: "c0gFPfWWUpeOr7MP6DIqdRPhUfaX4GRC"
+        encryptionConfigs:
+          index0:
+            encryptionKey:
+              "39ffab76f99ece1e4ac72f973d5c703737324a75c6445e84fa317a7833476a15"
+      bpnDidResolver:
+        # -- ApiKey for management endpoint of the bpnDidResolver. Secret-key 'bpndidresolver-api-key'.
+        apiKey: ""
+      onboardingServiceProvider:
+        encryptionConfigs:
+          index0:
+            cipherMode: "CBC"
+            paddingMode: "PKCS7"
+            encryptionKey:
+              "f7bc3d99f1ace73e7a75b794affbbc26206ab29909821a102aaccb2e95e45f7c"
+          index1:
+            encryptionKey:
+              "8027152fe7a869c88acc86981760acd70ff1d660c2bd129eece94edef933caf7"
+      invitation:
+        encryptionConfigs:
+          index0:
+            encryptionKey:
+              "d84fea29d6eac0fa51e36682b164e7d61693cd4202ed04306d2d9c5d46655e2c"
+      mailing:
+        encryptionConfigs:
+          index0:
+            encryptionKey:
+              "d2e27d71b018cb36029184852f1baa3e26891be94718f77de4c7cc6c882fe317"
     mailing:
       host: "smtp.tx.test"
       port: "587"
@@ -231,7 +280,7 @@ centralidp:
     proxy: edge
     initContainers:
       - name: realm-import
-        image: docker.io/tractusx/umbrella-init-container:0.1.0-init
+        image: docker.io/tractusx/umbrella-init-container:1.0.0-init
         imagePullPolicy: IfNotPresent
         command:
           - sh
@@ -239,12 +288,12 @@ centralidp:
           - -c
           - |
             echo "Copying realms..."
-            cp -R /import/catenax-central/R2403/realms/* /realms
+            cp -R /import/catenax-central/realms/* /realms
         volumeMounts:
         - name: realms
           mountPath: "/realms"
       - name: theme-import
-        image: docker.io/tractusx/portal-iam:v2.1.0
+        image: docker.io/tractusx/portal-iam:v3.0.0
         imagePullPolicy: IfNotPresent
         command:
           - sh
@@ -258,7 +307,7 @@ centralidp:
           mountPath: "/themes"
       # uncomment the following line for tls
       # - name: init-certs
-      #   image: docker.io/bitnami/keycloak:22.0.3-debian-11-r14
+      #   image: docker.io/bitnami/keycloak:23.0.7-debian-12-r1
       #   imagePullPolicy: IfNotPresent
       #   command: ["/bin/bash"]
       #   args:
@@ -348,7 +397,7 @@ sharedidp:
     proxy: edge
     initContainers:
       - name: realm-import
-        image: docker.io/tractusx/umbrella-init-container:0.1.0-init
+        image: docker.io/tractusx/umbrella-init-container:1.0.0-init
         imagePullPolicy: IfNotPresent
         command:
           - sh
@@ -361,7 +410,7 @@ sharedidp:
         - name: realms
           mountPath: "/realms"
       - name: theme-import
-        image: docker.io/tractusx/portal-iam:v2.1.0
+        image: docker.io/tractusx/portal-iam:v3.0.0
         imagePullPolicy: IfNotPresent
         command:
           - sh
@@ -379,7 +428,7 @@ sharedidp:
           mountPath: "/themes-catenax-shared-portal"
       # uncomment the following line for tls
       # - name: init-certs
-      #   image: docker.io/bitnami/keycloak:22.0.3-debian-11-r14
+      #   image: docker.io/bitnami/keycloak:23.0.7-debian-12-r1
       #   imagePullPolicy: IfNotPresent
       #   command: ["/bin/bash"]
       #   args:
@@ -590,112 +639,302 @@ selfdescription:
     #   # uncomment the following line for tls
     #   cert-manager.io/cluster-issuer: "my-ca-issuer"
 
-managed-identity-wallet:
+iatpmock:
   enabled: false
-  seeding:
-    enabled: true
-    # -- Map of company BPN and company name. For each of these Companies, a MIW wallet will be created.
-    companies:
-      BPNL00000003AZQP: "BPN_OEM_C"
-      BPNL00000003AYRE: "BPN_OEM_A"
-      BPNL00000003AVTH: "BPN_OEM_B"
-      BPNL00000003AWSS: "BPN_IRS_TEST"
-      BPNL00000003B0Q0: "BPN_N_TIER_A"
-      BPNS0000000008ZZ: "BPN_TRACEX_A_SITE_A"
-      BPNL00000003CNKC: "BPN_TRACEX_B"
-      BPNL00000003B6LU: "BPN_DISMANTLER"
-      BPNL00000003CML1: "BPN_TRACEX_A"
-      BPNS00000008BDFH: "BPN_TRACEX_B_SITE_A"
-      BPNL00000003B2OM: "BPN_TIER_A"
-      BPNL00000003CSGV: "BPN_TIER_C"
-      BPNL00000003B5MJ: "BPN_TIER_B"
-      BPNL00000003AXS3: "BPN_SUB_TIER_B"
-      BPNL00000003B3NX: "BPN_SUB_TIER_A"
-      BPNL00000000BJTL: "BPN_SUB_TIER_C"
-    clientId: sa-cl5-custodian-2
-    clientSecret: UIqawwoohsvZ6AZOd1llLhnsUTKMWe4D
-  # TLS to trust centralidp Keycloak instance of TLS enabled
-  # uncomment the following line for tls
-  # initContainers:
-  #   - name: init-certs
-  #     image: docker.io/tractusx/managed-identity-wallet:0.4.0
-  #     imagePullPolicy: IfNotPresent
-  #     command: ["sh"]
-  #     args:
-  #       - -ec
-  #       - |-
-  #         cp -R /opt/java/openjdk/lib/security/* /cacerts/
-  #         echo "Copying done"
-  #         keytool -import -noprompt -trustcacerts -alias local -file /certs/tls.crt -keystore /cacerts/cacerts -storepass changeit
-  #         keytool -list -keystore /cacerts/cacerts -alias local
-  #     volumeMounts:
-  #       - name: certificates
-  #         mountPath: /certs
-  #       - name: shared-certs
-  #         mountPath: /cacerts
-  # extraVolumes:
-  #   - name: certificates
-  #     secret:
-  #       secretName: root-secret
-  #       defaultMode: 420
-  #   - name: shared-certs
-  #     emptyDir: {}
-  # extraVolumeMounts:
-  #   - name: certificates
-  #     mountPath: /certs
-  #   - name: shared-certs
-  #     mountPath: /opt/java/openjdk/lib/security
-  miw:
-    host: "managed-identity-wallets.tx.test"
-    authorityWallet:
-      bpn: &authority-bpn "BPNL00000003CRHK"
-      name: "Catena-X"
-    database:
-      host: "{{ .Release.Name }}-miw-postgres"
-      secret: "{{ .Release.Name }}-miw-postgres"
-    keycloak:
-      url: "http://centralidp.tx.test/auth"
-      realm: "CX-Central"
-      clientId: "Cl5-CX-Custodian"
-    ssi:
-      enforceHttpsInDidWebResolution: "false"
-  postgresql:
-    nameOverride: miw-postgres
-    primary:
-      persistence:
-        enabled: false
-        size: 1Gi
-    auth:
-      password: "dbpasswordmiw"
-      enablePostgresUser: true
-      postgresPassword: "dbpasswordmiw"
-  keycloak:
-    enabled: false
-  livenessProbe:
-    initialDelaySeconds: 90
-  readinessProbe:
-    initialDelaySeconds: 90
-  # -- docs: http://managed-identity-wallets.tx.test/ui/swagger-ui/index.html
+  nameOverride: mock-util-service
+  fullnameOverride: mock-util-service
+  # -- see README ## Precondition for IATP Mock
+  image:
+    # override with locally built image if needed, default "tractusx/iatp-mock"
+    repository: ""
+    # override tag if needed, default "testing"
+    tag: ""
   ingress:
     enabled: true
     hosts:
-      - host: "managed-identity-wallets.tx.test"
+      - host: iatpmock.tx.test
         paths:
-          - path: "/"
-            pathType: "ImplementationSpecific"
-    # uncomment the following lines for tls
-    # tls:
-    #   - secretName: "managed-identity-wallets.tx.test-tls"
-    #     hosts:
-    #       - "managed-identity-wallets.tx.test"
+          - path: /
+            pathType: ImplementationSpecific
+
+ssi-credential-issuer:
+  enabled: false
+  portalBackendAddress: "http://portal-backend.tx.test"
+  walletAddress: "http://iatpmock.tx.test"
+  walletTokenAddress: "https://iatpmock-token-address.tx.test/oauth/token"
+  issuer:
+    swaggerEnabled: true
+    logging:
+      businessLogic: "Debug"
+      default: "Debug"
+    portal:
+      # -- Provide portal client-id from CX IAM centralidp.
+      # You must specify the technical user with the required roles for the interaction with the portal
+      clientId: "sa-cl24-01"
+      # -- Client-secret for portal client-id. Secret-key 'portal-client-secret'.
+      clientSecret: "VRHQM2NOA4176Vrscxey1DdO4P7ikUQc"
+    credential:
+      issuerDid: "did:web:managed-identity-wallets.tx.test:BPNL00000003CRHK"
+      issuerBpn: "BPNL00000003CRHK"
+      # statusListUrl: "https://example.org/statuslist"
+      encryptionConfigIndex: 0
+      encryptionConfigs:
+        index0:
+          # EncryptionKey for wallet. Secret-key 'credential-encryption-key0'. Expected format is 256 bit (64 digits) hex.
+          encryptionKey: "deb8261ec7b89c344f1c5ef5a11606e305f14e0d231b1357d90ad0180c5081d3"
+  processesworker:
+    portal:
+      # -- Provide portal client-id from CX IAM centralidp.
+      # You must specify the technical user with the required roles for the interaction with the portal
+      clientId: "sa-cl24-01"
+      # -- Client-secret for portal client-id. Secret-key 'portal-client-secret'.
+      clientSecret: "VRHQM2NOA4176Vrscxey1DdO4P7ikUQc"
+    logging:
+      default: "Debug"
+    processIdentity:
+      identityId: ac1cf001-7fbc-1f2f-817f-bce058020006
+    wallet:
+      # -- Provide wallet client-id from CX IAM centralidp.
+      # You must specify the technical user with the required roles for the interaction with the managed-identity-wallet
+      clientId: "wallet-client-id"
+      # -- Client-secret for wallet client-id. Secret-key 'wallet-client-secret'.
+      clientSecret: ""
+      encryptionConfigIndex: 0
+      encryptionConfigs:
+        index0:
+          # EncryptionKey for wallet. Secret-key 'process-wallet-encryption-key0'. Expected format is 256 bit (64 digits) hex.
+          encryptionKey: "deb8261ec7b89c344f1c5ef5a11606e305f14e0d231b1357d90ad0180c5081d3"
+  issuermigrations:
+    logging:
+      default: "Debug"
+  credentialExpiry:
+    logging:
+      default: "Debug"
+  postgresql:
+    enabled: true
+    architecture: standalone
+    primary:
+      persistence:
+        enabled: false
+    auth:
+      # -- Password for the root username 'postgres'. Secret-key 'postgres-password'.
+      postgrespassword: "rootissuerpassword"
+      # -- Password for the non-root username 'issuer'. Secret-key 'password'.
+      password: "issuerpassword"
+
+  centralidp:
+    # -- Provide centralidp base address (CX IAM), without trailing '/auth'.
+    address: "http://centralidp.tx.test"
+  ingress:
+    enabled: true
     className: "nginx"
     annotations:
-      # uncomment the following line for tls
-      # cert-manager.io/cluster-issuer: "my-ca-issuer"
-      nginx.ingress.kubernetes.io/cors-allow-origin: http://portal.tx.test
-      nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
-      nginx.ingress.kubernetes.io/cors-allow-methods: GET
+      nginx.ingress.kubernetes.io/use-regex: "true"
       nginx.ingress.kubernetes.io/enable-cors: "true"
+      nginx.ingress.kubernetes.io/proxy-body-size: "8m"
+      nginx.ingress.kubernetes.io/cors-allow-origin: "http://*.tx.test"
+    # -- Ingress TLS configuration
+    tls: []
+      # - secretName: ""
+      #   hosts:
+      #     - ""
+    hosts:
+      - host: "ssi-credential-issuer.tx.test"
+        paths:
+          - path: "/"
+            pathType: "Prefix"
+            backend:
+              port: 8080
+
+# Set up services for a business partner pool, golden record process
+# and a gate with which the Portal and the users can share business partner data
+bpdm:
+  enabled: false
+  postgres:
+    # We use the default name for BPDM postgres
+    fullnameOverride:
+    nameOverride: bpdm-postgres
+    auth:
+      # BPDM can't handle random initial passwords at the moment
+      # so need to set a fixed one here and use it in the app configs later
+      password: &bpdmPostgresPassword "dbpasswordbpdm"
+      postgresPassword: *bpdmPostgresPassword
+    architecture: standalone
+    primary:
+      persistence:
+        enabled: false
+  keycloak:
+    # We use Central-IDP as authentication server
+    enabled: false
+  # Set up a Gate that acts as the Portal's Gate
+  bpdm-gate:
+    postgres:
+      # App uses BPDM postgres default name to find connection to the Postgres
+      fullnameOverride:
+      nameOverride: bpdm-postgres
+    ingress:
+      enabled: true
+      annotations:
+        nginx.ingress.kubernetes.io/rewrite-target: "/$2"
+        nginx.ingress.kubernetes.io/use-regex: "true"
+        nginx.ingress.kubernetes.io/x-forwarded-prefix: "/gate"
+      # The Portal expects its Gate on that specific url path so we provide it here through ingress
+      hosts:
+        - host: "business-partners.tx.test"
+          paths:
+            - path: "/gate(/|$)(.*)"
+              pathType: "ImplementationSpecific"
+    applicationConfig:
+      server:
+        # App should take the x-forward-header-prefix into account for Swagger-UI and redirects to work correctly
+        forward-headers-strategy: "FRAMEWORK"
+      bpdm:
+        bpn:
+          # This Gate has no owner restriction as other companies can write into the Gate under their own tenant
+          owner-bpn-l:
+        tasks:
+          creation:
+            fromSharingMember:
+              # Portal needs to set uploaded business partner data as ready to be shared by itself (disables setting it automatically as ready)
+              starts-as-ready: false
+        security:
+          # App's API is authenticated over Central-IDP
+          auth-server-url: "http://centralidp.tx.test/auth"
+          realm: "CX-Central"
+          # Is Central-IDPs name for the Gate client
+          # The Gate will use that name to check for existing client permissions here
+          client-id: "Cl16-CX-BPDMGate"
+        # The Gate needs to connect to the Pool and Orchestrator to realize the Golden Record Process
+        # Setup client connection for both here (where to connect and the authentication)
+        # By default the Gate assumes that the authentication server of the Pool and Orchestrator are the same as its own
+        # We will reuse the general BPDM admin technical user to establish connection between the services
+        client:
+          pool:
+            registration:
+              client-id: *bpdmAdminClientId
+          orchestrator:
+            registration:
+              client-id: *bpdmAdminClientId
+    applicationSecrets:
+      spring:
+        datasource:
+          # Set the password of the postgres BPDM user here (Currently, BPDM can't deal with random initial passwords)
+          password: *bpdmPostgresPassword
+      bpdm:
+        client:
+          orchestrator:
+            registration:
+              client-secret: *bpdmAdminClientSecret
+          pool:
+            registration:
+              client-secret: *bpdmAdminClientSecret
+
+  # Configures the central business partner Pool
+  bpdm-pool:
+    postgres:
+      # App uses BPDM postgres default name to find connection to the Postgres
+      fullnameOverride:
+      nameOverride: bpdm-postgres
+    ingress:
+      enabled: true
+      annotations:
+        nginx.ingress.kubernetes.io/rewrite-target: "/$2"
+        nginx.ingress.kubernetes.io/use-regex: "true"
+        nginx.ingress.kubernetes.io/x-forwarded-prefix: "/pool"
+      hosts:
+        - host: "business-partners.tx.test"
+          paths:
+            - path: "/pool(/|$)(.*)"
+              pathType: "ImplementationSpecific"
+    applicationConfig:
+      server:
+        # App should take the x-forward-header-prefix into account for Swagger-UI and redirects to work correctly
+        forward-headers-strategy: "FRAMEWORK"
+      bpdm:
+        security:
+          # App's API is authenticated over Central-IDP
+          auth-server-url: "http://centralidp.tx.test/auth"
+          realm: "CX-Central"
+          # Is Central-IDPs name for the Pool client
+          # The Pool will use that name to check for existing client permissions here
+          client-id: "Cl7-CX-BPDM"
+        # The Pool needs to connect to the Orchestrator to realize the Golden Record Process
+        # Setup client connection (where to connect and the authentication)
+        # By default the Pool assumes that the authentication server of the Orchestrator matches that one of the Pool
+        # We will reuse the general BPDM admin technical user to establish connection between the services
+        client:
+          orchestrator:
+            registration:
+              client-id: *bpdmAdminClientId
+    applicationSecrets:
+      bpdm:
+        client:
+          orchestrator:
+            registration:
+              client-secret: *bpdmAdminClientSecret
+      spring:
+        datasource:
+          # Set the password of the postgres BPDM user here (Currently, BPDM can't deal with random initial passwords)
+          password: *bpdmPostgresPassword
+
+  # Configures the central service for orchestrating the Golden Record Process
+  bpdm-orchestrator:
+    ingress:
+      enabled: true
+      annotations:
+        nginx.ingress.kubernetes.io/rewrite-target: "/$2"
+        nginx.ingress.kubernetes.io/use-regex: "true"
+        nginx.ingress.kubernetes.io/x-forwarded-prefix: "/orchestrator"
+      hosts:
+        - host: "business-partners.tx.test"
+          paths:
+            - path: "/orchestrator(/|$)(.*)"
+              pathType: "ImplementationSpecific"
+    applicationConfig:
+      server:
+        # App should take the x-forward-header-prefix into account for Swagger-UI and redirects to work correctly
+        forward-headers-strategy: "FRAMEWORK"
+      bpdm:
+        security:
+          auth-server-url: "http://centralidp.tx.test/auth"
+          realm: "CX-Central"
+          # The Central-IDP does not yet have dedicated Orchestrator permissions
+          # Therefore, we just reuse the permissions from the Pool for now
+          # Basically it is saying: If you would be able to write into the Pool directly,
+          # you are also able to create golden record tasks which eventually will write data into the Pool
+          # (We are stricter with the permissions now than we will have to be when using dedicated permissions)
+          client-id: "Cl7-CX-BPDM"
+          permissions:
+            createTask: "write_partner"
+            readTask: "write_partner"
+            reservation:
+              clean: "write_partner"
+              cleanAndSync: "write_partner"
+              poolSync: "write_partner"
+            result:
+              clean: "write_partner"
+              cleanAndSync: "write_partner"
+              poolSync: "write_partner"
+
+  # This installs a dummy cleaning service which performs rudimentary cleaning operations in order to realize the golden record process
+  bpdm-cleaning-service-dummy:
+    applicationConfig:
+      bpdm:
+        # The cleaning dummy needs to connect to the Orchestrator to realize the Golden Record Process
+        # Setup client connection (where to connect and the authentication)
+        # We reuse the general BPDM admin technical user to establish connection between the services
+        client:
+          orchestrator:
+            provider:
+              issuer-uri: "http://centralidp.tx.test/auth/realms/CX-Central"
+            registration:
+              client-id: *bpdmAdminClientId
+    applicationSecrets:
+      bpdm:
+        client:
+          orchestrator:
+            registration:
+              client-secret: *bpdmAdminClientSecret
 
 dataconsumerOne:
   enabled: false
@@ -707,16 +946,25 @@ dataconsumerOne:
     nameOverride: dataconsumer-1-edc
     participant:
       id: BPNL00000003AZQP
-    controlplane:
-      ssi:
-        miw:
-          url: http://managed-identity-wallets.tx.test
-          authorityId: *authority-bpn
+    iatp:
+      id: did:web:mock-util-service/BPNL00000003AZQP
+      trustedIssuers:
+        - did:web:mock-util-service/trusted-issuer
+      sts:
+        dim:
+          url: http://mock-util-service/sts
         oauth:
-          tokenurl: http://centralidp.tx.test/auth/realms/CX-Central/protocol/openid-connect/token
+          token_url: http://centralidp.tx.test/auth/realms/CX-Central/protocol/openid-connect/token
           client:
             id: satest01
-            secretAlias: edc-miw-keycloak-secret
+            secret_alias: edc-miw-keycloak-secret
+    controlplane:
+      env:
+        TX_IAM_IATP_CREDENTIALSERVICE_URL: http://mock-util-service
+        EDC_IAM_DID_WEB_USE_HTTPS: false
+      bdrs:
+        server:
+          url: http://bdrs-server.tx.test/api/directory
       endpoints:
         management:
           authKey: TEST1
@@ -731,6 +979,9 @@ dataconsumerOne:
           tls:
             enabled: false
     dataplane:
+      env:
+        TX_IAM_IATP_CREDENTIALSERVICE_URL: http://mock-util-service
+        EDC_IAM_DID_WEB_USE_HTTPS: false
       ingresses:
         - enabled: true
           hostname: "dataconsumer-1-dataplane.tx.test"
@@ -740,6 +991,11 @@ dataconsumerOne:
           className: "nginx"
           tls:
             enabled: false
+      token:
+        signer:
+          privatekey_alias: tokenSignerPrivateKey
+        verifier:
+          publickey_alias: tokenSignerPublicKey
     postgresql:
       nameOverride: dataconsumer-1-db
       jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-dataconsumer-1-db:5432/edc"
@@ -771,7 +1027,7 @@ tx-data-provider:
   enabled: false
   seedTestdata: true
   backendUrl: http://{{ .Release.Name }}-dataprovider-submodelserver:8080
-  registryUrl: http://{{ .Release.Name }}-dataprovider-dtr:8080/api/v3.0
+  registryUrl: http://{{ .Release.Name }}-dataprovider-dtr:8080/api/v3
   controlplanePublicUrl: http://{{ .Release.Name }}-dataprovider-edc-controlplane:8084
   controlplaneManagementUrl: http://{{ .Release.Name }}-dataprovider-edc-controlplane:8081
   dataplaneUrl: http://{{ .Release.Name }}-dataprovider-edc-dataplane:8081
@@ -782,16 +1038,25 @@ tx-data-provider:
     nameOverride: dataprovider-edc
     participant:
       id: BPNL00000003AYRE
-    controlplane:
-      ssi:
-        miw:
-          url: http://managed-identity-wallets.tx.test
-          authorityId: *authority-bpn
+    iatp:
+      id: did:web:mock-util-service/BPNL00000003AYRE
+      trustedIssuers:
+        - did:web:mock-util-service/trusted-issuer
+      sts:
+        dim:
+          url: http://mock-util-service/sts
         oauth:
-          tokenurl: http://centralidp.tx.test/auth/realms/CX-Central/protocol/openid-connect/token
+          token_url: http://centralidp.tx.test/auth/realms/CX-Central/protocol/openid-connect/token
           client:
             id: satest02
-            secretAlias: edc-miw-keycloak-secret
+            secret_alias: edc-miw-keycloak-secret
+    controlplane:
+      env:
+        TX_IAM_IATP_CREDENTIALSERVICE_URL: http://mock-util-service
+        EDC_IAM_DID_WEB_USE_HTTPS: false
+      bdrs:
+        server:
+          url: http://bdrs-server.tx.test/api/directory
       endpoints:
         management:
           authKey: TEST2
@@ -806,6 +1071,9 @@ tx-data-provider:
           tls:
             enabled: false
     dataplane:
+      env:
+        TX_IAM_IATP_CREDENTIALSERVICE_URL: http://mock-util-service
+        EDC_IAM_DID_WEB_USE_HTTPS: false
       ingresses:
         - enabled: true
           hostname: "dataprovider-dataplane.tx.test"
@@ -815,6 +1083,11 @@ tx-data-provider:
           className: "nginx"
           tls:
             enabled: false
+      token:
+        signer:
+          privatekey_alias: tokenSignerPrivateKey
+        verifier:
+          publickey_alias: tokenSignerPublicKey
     postgresql:
       nameOverride: dataprovider-db
       jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-dataprovider-db:5432/edc"
@@ -896,16 +1169,25 @@ dataconsumerTwo:
     nameOverride: dataconsumer-2-edc
     participant:
       id: BPNL00000003AVTH
-    controlplane:
-      ssi:
-        miw:
-          url: http://managed-identity-wallets.tx.test
-          authorityId: *authority-bpn
+    iatp:
+      id: did:web:mock-util-service/BPNL00000003AVTH
+      trustedIssuers:
+        - did:web:mock-util-service/trusted-issuer
+      sts:
+        dim:
+          url: http://mock-util-service/sts
         oauth:
-          tokenurl: http://centralidp.tx.test/auth/realms/CX-Central/protocol/openid-connect/token
+          token_url: http://centralidp.tx.test/auth/realms/CX-Central/protocol/openid-connect/token
           client:
             id: satest03
-            secretAlias: edc-miw-keycloak-secret
+            secret_alias: edc-miw-keycloak-secret
+    controlplane:
+      env:
+        TX_IAM_IATP_CREDENTIALSERVICE_URL: http://mock-util-service
+        EDC_IAM_DID_WEB_USE_HTTPS: false
+      bdrs:
+        server:
+          url: http://bdrs-server.tx.test/api/directory
       endpoints:
         management:
           authKey: TEST3
@@ -920,6 +1202,9 @@ dataconsumerTwo:
           tls:
             enabled: false
     dataplane:
+      env:
+        TX_IAM_IATP_CREDENTIALSERVICE_URL: http://mock-util-service
+        EDC_IAM_DID_WEB_USE_HTTPS: false
       ingresses:
         - enabled: true
           hostname: "dataconsumer-2-dataplane.tx.test"
@@ -929,6 +1214,11 @@ dataconsumerTwo:
           className: "nginx"
           tls:
             enabled: false
+      token:
+        signer:
+          privatekey_alias: tokenSignerPrivateKey
+        verifier:
+          publickey_alias: tokenSignerPublicKey
     postgresql:
       nameOverride: dataconsumer-2-db
       jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-dataconsumer-2-db:5432/edc"
@@ -971,3 +1261,63 @@ pgadmin4:
         paths:
         - path: /
           pathType: Prefix
+
+bdrs-server-memory:
+  nameOverride: bdrs-server
+  fullnameOverride: bdrs-server
+  enabled: false
+  seeding:
+    url: "http://bdrs-server:8081"
+    enabled: true
+    bpnList:
+      - bpn: "BPNL00000003B3NX"
+        did: "did:web:mock-util-service/BPNL00000003B3NX"
+      - bpn: "BPNL00000003CSGV"
+        did: "did:web:mock-util-service/BPNL00000003CSGV"
+      - bpn: "BPNL00000003B6LU"
+        did: "did:web:mock-util-service/BPNL00000003B6LU"
+      - bpn: "BPNL00000003AXS3"
+        did: "did:web:mock-util-service/BPNL00000003AXS3"
+      - bpn: "BPNL00000003AZQP"
+        did: "did:web:mock-util-service/BPNL00000003AZQP"
+      - bpn: "BPNL00000003AWSS"
+        did: "did:web:mock-util-service/BPNL00000003AWSS"
+      - bpn: "BPNL00000003AYRE"
+        did: "did:web:mock-util-service/BPNL00000003AYRE"
+      - bpn: "BPNL00000003AVTH"
+        did: "did:web:mock-util-service/BPNL00000003AVTH"
+      - bpn: "BPNL00000000BJTL"
+        did: "did:web:mock-util-service/BPNL00000000BJTL"
+      - bpn: "BPNL00000003CML1"
+        did: "did:web:mock-util-service/BPNL00000003CML1"
+      - bpn: "BPNL00000003B2OM"
+        did: "did:web:mock-util-service/BPNL00000003B2OM"
+      - bpn: "BPNL00000003B0Q0"
+        did: "did:web:mock-util-service/BPNL00000003B0Q0"
+      - bpn: "BPNL00000003B5MJ"
+        did: "did:web:mock-util-service/BPNL00000003B5MJ"
+      - bpn: "BPNS0000000008ZZ"
+        did: "did:web:mock-util-service/BPNS0000000008ZZ"
+      - bpn: "BPNL00000003CNKC"
+        did: "did:web:mock-util-service/BPNL00000003CNKC"
+      - bpn: "BPNS00000008BDFH"
+        did: "did:web:mock-util-service/BPNS00000008BDFH"
+
+  server:
+    trustedIssuers:
+      - did:web:mock-util-service/trusted-issuer
+    env:
+      EDC_IAM_DID_WEB_USE_HTTPS: false
+
+    endpoints:
+      management:
+        authKey: TEST
+    ingresses:
+      - enabled: true
+        hostname: bdrs-server.tx.test
+        endpoints:
+          - directory
+          - management
+        className: "nginx"
+        tls:
+          enabled: false
