@@ -49,6 +49,25 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Install Helm
+        uses: azure/setup-helm@fe7b79cd5ee1e45176fcad797de68ecaf3ca4814 # v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Update helm dependencies for tx-data-provider
+        run: |
+          cd charts/tx-data-provider
+          helm repo add tractusx-dev https://eclipse-tractusx.github.io/charts/dev
+          helm repo add hashicorp https://helm.releases.hashicorp.com
+          helm dependency update
+
+      - name: Update helm dependencies for umbrella
+        run: |
+          cd charts/umbrella
+          helm repo add tractusx-dev https://eclipse-tractusx.github.io/charts/dev
+          helm repo add pgadmin4 https://helm.runix.net
+          helm dependency update
+
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.6.0
         env:

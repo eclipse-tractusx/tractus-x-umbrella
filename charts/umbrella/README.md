@@ -388,7 +388,13 @@ Then navigate to the chart directory:
 cd charts/umbrella/
 ```
 
-Download the chart dependencies:
+Download the dependencies of the tx-data-provder subchart:
+
+```bash
+helm dependency update ../tx-data-provider
+```
+
+Download the chart dependencies of the umbrella helm chart:
 
 ```bash
 helm dependency update
