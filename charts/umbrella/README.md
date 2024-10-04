@@ -249,6 +249,7 @@ Collection of hosts to be added to the `/etc/hosts` (Linux and Mac) or the `C:\W
 192.168.49.2    dataconsumer-1-dataplane.tx.test
 192.168.49.2    dataconsumer-1-controlplane.tx.test
 192.168.49.2    dataprovider-dataplane.tx.test
+192.168.49.2    dataprovider-controlplane.tx.test
 192.168.49.2    dataconsumer-2-dataplane.tx.test
 192.168.49.2    dataconsumer-2-controlplane.tx.test
 192.168.49.2    bdrs-server.tx.test
