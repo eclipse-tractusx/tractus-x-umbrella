@@ -725,6 +725,8 @@ ssi-credential-issuer:
   centralidp:
     # -- Provide centralidp base address (CX IAM), without trailing '/auth'.
     address: "http://centralidp.tx.test"
+    jwtBearerOptions:
+      requireHttpsMetadata: "false"
   ingress:
     enabled: true
     className: "nginx"
@@ -947,9 +949,9 @@ dataconsumerOne:
     participant:
       id: BPNL00000003AZQP
     iatp:
-      id: did:web:mock-util-service/BPNL00000003AZQP
+      id: did:web:mock-util-service:BPNL00000003AZQP
       trustedIssuers:
-        - did:web:mock-util-service/trusted-issuer
+        - did:web:mock-util-service:trusted-issuer
       sts:
         dim:
           url: http://mock-util-service/sts
@@ -1039,9 +1041,9 @@ tx-data-provider:
     participant:
       id: BPNL00000003AYRE
     iatp:
-      id: did:web:mock-util-service/BPNL00000003AYRE
+      id: did:web:mock-util-service:BPNL00000003AYRE
       trustedIssuers:
-        - did:web:mock-util-service/trusted-issuer
+        - did:web:mock-util-service:trusted-issuer
       sts:
         dim:
           url: http://mock-util-service/sts
@@ -1170,9 +1172,9 @@ dataconsumerTwo:
     participant:
       id: BPNL00000003AVTH
     iatp:
-      id: did:web:mock-util-service/BPNL00000003AVTH
+      id: did:web:mock-util-service:BPNL00000003AVTH
       trustedIssuers:
-        - did:web:mock-util-service/trusted-issuer
+        - did:web:mock-util-service:trusted-issuer
       sts:
         dim:
           url: http://mock-util-service/sts
@@ -1271,41 +1273,41 @@ bdrs-server-memory:
     enabled: true
     bpnList:
       - bpn: "BPNL00000003B3NX"
-        did: "did:web:mock-util-service/BPNL00000003B3NX"
+        did: "did:web:mock-util-service:BPNL00000003B3NX"
       - bpn: "BPNL00000003CSGV"
-        did: "did:web:mock-util-service/BPNL00000003CSGV"
+        did: "did:web:mock-util-service:BPNL00000003CSGV"
       - bpn: "BPNL00000003B6LU"
-        did: "did:web:mock-util-service/BPNL00000003B6LU"
+        did: "did:web:mock-util-service:BPNL00000003B6LU"
       - bpn: "BPNL00000003AXS3"
-        did: "did:web:mock-util-service/BPNL00000003AXS3"
+        did: "did:web:mock-util-service:BPNL00000003AXS3"
       - bpn: "BPNL00000003AZQP"
-        did: "did:web:mock-util-service/BPNL00000003AZQP"
+        did: "did:web:mock-util-service:BPNL00000003AZQP"
       - bpn: "BPNL00000003AWSS"
-        did: "did:web:mock-util-service/BPNL00000003AWSS"
+        did: "did:web:mock-util-service:BPNL00000003AWSS"
       - bpn: "BPNL00000003AYRE"
-        did: "did:web:mock-util-service/BPNL00000003AYRE"
+        did: "did:web:mock-util-service:BPNL00000003AYRE"
       - bpn: "BPNL00000003AVTH"
-        did: "did:web:mock-util-service/BPNL00000003AVTH"
+        did: "did:web:mock-util-service:BPNL00000003AVTH"
       - bpn: "BPNL00000000BJTL"
-        did: "did:web:mock-util-service/BPNL00000000BJTL"
+        did: "did:web:mock-util-service:BPNL00000000BJTL"
       - bpn: "BPNL00000003CML1"
-        did: "did:web:mock-util-service/BPNL00000003CML1"
+        did: "did:web:mock-util-service:BPNL00000003CML1"
       - bpn: "BPNL00000003B2OM"
-        did: "did:web:mock-util-service/BPNL00000003B2OM"
+        did: "did:web:mock-util-service:BPNL00000003B2OM"
       - bpn: "BPNL00000003B0Q0"
-        did: "did:web:mock-util-service/BPNL00000003B0Q0"
+        did: "did:web:mock-util-service:BPNL00000003B0Q0"
       - bpn: "BPNL00000003B5MJ"
-        did: "did:web:mock-util-service/BPNL00000003B5MJ"
+        did: "did:web:mock-util-service:BPNL00000003B5MJ"
       - bpn: "BPNS0000000008ZZ"
-        did: "did:web:mock-util-service/BPNS0000000008ZZ"
+        did: "did:web:mock-util-service:BPNS0000000008ZZ"
       - bpn: "BPNL00000003CNKC"
-        did: "did:web:mock-util-service/BPNL00000003CNKC"
+        did: "did:web:mock-util-service:BPNL00000003CNKC"
       - bpn: "BPNS00000008BDFH"
-        did: "did:web:mock-util-service/BPNS00000008BDFH"
+        did: "did:web:mock-util-service:BPNS00000008BDFH"
 
   server:
     trustedIssuers:
-      - did:web:mock-util-service/trusted-issuer
+      - did:web:mock-util-service:trusted-issuer
     env:
       EDC_IAM_DID_WEB_USE_HTTPS: false
 
@@ -1321,3 +1323,50 @@ bdrs-server-memory:
         className: "nginx"
         tls:
           enabled: false
+
+ssi-dim-wallet-stub:
+  enabled: false
+  wallet:
+    replicaCount: 1
+    host: ssi-dim-wallet-stub.tx.test
+    nameSpace: "umbrella"
+    appName: "ssi-dim-wallet-stub"
+    configName: "ssi-dim-wallet-config"
+    serviceName: "ssi-dim-wallet-service"
+    secretName: "ssi-dim-wallet-secret"
+    ingressName: "ssi-dim-wallet-ingress"
+    image:
+      repository: tractusx/ssi-dim-wallet-stub
+      pullPolicy: IfNotPresent
+      tag: "latest"
+    ingress:
+      enabled: true
+      tls: false
+      urlPrefix: /
+      className: nginx
+      annotations: {}
+    swagger:
+        ui:
+          status: true
+        apiDoc:
+          status: true
+    logLevel: "debug"
+    environment: "default"
+    baseWalletBpn: "BPNL000000000000"
+    didHost: "ssi-dim-wallet-stub.tx.test"
+    stubUrl: "http://ssi-dim-wallet-stub.tx.test"
+    statusListVcId: "8a6c7486-1e1f-4555-bdd2-1a178182651e"
+    tokenExpiryTime: "5"
+    portal:
+      waitTime: "60"
+      host: "http://portal-backend.tx.test"
+      clientId: "sa-cl2-05"
+      clientSecret: "zuBGfr67Tj0WJ5fAJSIRvoPEP5hSQFMT"
+    keycloak:
+      realm: "CX-Central"
+      authServerUrl: "http://centralidp.tx.test/auth"
+    service:
+      type: ClusterIP
+      port: 8080
+  keycloak:
+    enabled: false

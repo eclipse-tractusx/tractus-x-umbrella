@@ -1,0 +1,100 @@
+# #############################################################################
+# Copyright (c) 2024 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Apache License, Version 2.0 which is available at
+# https://www.apache.org/licenses/LICENSE-2.0.
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+# License for the specific language governing permissions and limitations
+# under the License.
+#
+# SPDX-License-Identifier: Apache-2.0
+# #############################################################################
+---
+
+portal:
+  enabled: true
+  custodianAddress: "http://ssi-dim-wallet-stub.tx.test"
+  dimWrapper:
+    baseAddress: "http://ssi-dim-wallet-stub.tx.test"
+    apiPath: "/api/dim"  
+  backend:
+    decentralIdentityManagementAuthAddress: "http://ssi-dim-wallet-stub.tx.test/api/sts"
+    administration:
+      issuerdid: "did:web:managed-identity-wallets.tx.test:BPNL000000000000"
+    processesworker:  
+      sdfactory:
+          issuerBpn: "BPNL000000000000"
+      dim:
+        clientId: "sa-cl2-05"
+        clientSecret: "zuBGfr67Tj0WJ5fAJSIRvoPEP5hSQFMT"
+        grantType: "client_credentials"
+        scope: "openid"
+        baseAddress: "http://ssi-dim-wallet-stub.tx.test"
+        
+    
+  # -- uncomment the following for persistance
+  # postgresql:
+  #   primary:
+  #     persistence:
+  #       enabled: true
+
+centralidp:
+  enabled: true
+  # -- uncomment the following for persistance
+  # keycloak:
+  #   postgresql:
+  #     primary:
+  #       persistence:
+  #         enabled: true
+
+sharedidp:
+  enabled: true
+  # -- uncomment the following for persistance
+  # keycloak:
+  #   postgresql:
+  #     primary:
+  #       persistence:
+  #         enabled: true
+
+pgadmin4:
+  enabled: true
+  # -- uncomment the following for persistance
+  # persistentVolume:
+  #   enabled: true
+
+# Interfaces are disabled by default (other than IAM)
+
+# Set 'enabled' to true if onboarding is required
+bpdm:
+  enabled: false
+
+selfdescription:
+  enabled: false
+
+bpndiscovery:
+  enabled: false
+
+discoveryfinder:
+  enabled: false
+
+# Set 'enabled' to true if onboarding is required
+ssi-credential-issuer:
+  enabled: false
+  walletAddress: "http://ssi-dim-wallet-stub.tx.test"
+  walletTokenAddress: "http://ssi-dim-wallet-stub.tx.test/oauth/token"
+  issuer:
+    credential:
+      issuerDid: "did:web:ssi-dim-wallet-stub.tx.test:BPNL000000000000"
+      issuerBpn: "BPNL000000000000"
+      statusListUrl: "http://ssi-dim-wallet-stub.tx.test/status-list/BPNL000000000000/8a6c7486-1e1f-4555-bdd2-1a178182651e"
+
+# Set 'enabled' to true if onboarding is required
+ssi-dim-wallet-stub:
+  enabled: false

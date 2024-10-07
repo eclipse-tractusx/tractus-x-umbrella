@@ -255,6 +255,7 @@ Collection of hosts to be added to the `/etc/hosts` (Linux and Mac) or the `C:\W
 192.168.49.2    iatpmock.tx.test
 192.168.49.2    business-partners.tx.test
 192.168.49.2    pgadmin4.tx.test
+192.168.49.2    ssi-dim-wallet-stub.tx.test
 ```
 
 Replace `192.168.49.2` with your `minikube ip` if it differs.
@@ -286,6 +287,7 @@ The currently available components are following:
 - [bdrs](https://github.com/eclipse-tractusx/bpn-did-resolution-service/tree/0.0.4) (**in memory** - no persistance possible)
 - [iatp-mock](https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/umbrella/charts/iatpmock/Chart.yaml)
 - [bpdm](https://github.com/eclipse-tractusx/bpdm/tree/release/6.0.x)
+- [ssi-dim-wallet-stub](https://github.com/eclipse-tractusx/ssi-dim-wallet-stub)
 
 > :warning: **Note**
 >
@@ -448,10 +450,22 @@ dataconsumerTwo:
 helm upgrade -f values-adopter-data-exchange.yaml umbrella . --namespace umbrella
 ```
 
+*ssi-dim-wallet-stub Version*
+
+```bash
+helm install -f values-adopter-data-exchange-stub.yaml umbrella . --namespace umbrella --create-namespace
+```
+
 **Portal Subset**
 
 ```bash
 helm install -f values-adopter-portal.yaml umbrella . --namespace umbrella --create-namespace
+```
+
+*ssi-dim-wallet-stub Version*
+
+```bash
+helm install -f values-adopter-portal-stub.yaml umbrella . --namespace umbrella --create-namespace
 ```
 
 ### E2E Adopter Journeys
@@ -586,6 +600,7 @@ Currently enabled ingresses:
 - http://bdrs-server.tx.test
 - http://iatpmock.tx.test
 - http://pgadmin4.tx.test
+- http://ssi-dim-wallet-stub.tx.test
 
 ### Database Access
 

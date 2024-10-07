@@ -109,3 +109,8 @@ dependencies:
     version: 0.1.0
     repository: file://charts/iatpmock
     condition: iatpmock.enabled
+    # ssi-dim-wallet-stub
+  - name: ssi-dim-wallet-stub
+    repository: https://eclipse-tractusx.github.io/charts/dev
+    version: 0.1.1
+    condition: ssi-dim-wallet-stub.enabled
