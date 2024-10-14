@@ -99,9 +99,9 @@ dataconsumerOne:
     edc-miw-keycloak-secret: BPNL000000000000
   tractusx-connector:
     participant:
-      id: BPNL000000000000
+      id: BPNL00000003AZQP
     iatp:
-      id: did:web:ssi-dim-wallet-stub.tx.test:BPNL000000000000
+      id: did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003AZQP
       trustedIssuers:
         - did:web:ssi-dim-wallet-stub.tx.test:BPNL000000000000
       sts:

@@ -71,9 +71,8 @@ pgadmin4:
 
 # Interfaces are disabled by default (other than IAM)
 
-# Set 'enabled' to true if onboarding is required
 bpdm:
-  enabled: false
+  enabled: true
 
 selfdescription:
   enabled: false
@@ -84,9 +83,8 @@ bpndiscovery:
 discoveryfinder:
   enabled: false
 
-# Set 'enabled' to true if onboarding is required
 ssi-credential-issuer:
-  enabled: false
+  enabled: true
   walletAddress: "http://ssi-dim-wallet-stub.tx.test"
   walletTokenAddress: "http://ssi-dim-wallet-stub.tx.test/oauth/token"
   issuer:
@@ -95,6 +93,5 @@ ssi-credential-issuer:
       issuerBpn: "BPNL000000000000"
       statusListUrl: "http://ssi-dim-wallet-stub.tx.test/status-list/BPNL000000000000/8a6c7486-1e1f-4555-bdd2-1a178182651e"
 
-# Set 'enabled' to true if onboarding is required
 ssi-dim-wallet-stub:
-  enabled: false
+  enabled: true
