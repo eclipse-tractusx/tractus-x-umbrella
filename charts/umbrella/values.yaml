@@ -88,12 +88,12 @@ portal:
     keycloak:
       central:
         clientId: "sa-cl1-reg-2"
-        clientSecret: "aEoUADDw2aNPa0WAaKGAyKfC80n8sKxJ"
+        clientSecret: "changeme"
         jwtBearerOptions:
           requireHttpsMetadata: "false"
       shared:
         clientId: "sa-cl1-reg-1"
-        clientSecret: "YPA1t6BMQtPtaG3fpH8Sa8Ac6KYbPUM7"
+        clientSecret: "changeme"
     registration:
       logging:
         default: "Debug"
@@ -138,7 +138,7 @@ portal:
         offerProvider: "Debug"
       bpdm:
         clientId: &bpdmAdminClientId "sa-cl7-cx-5"
-        clientSecret: &bpdmAdminClientSecret "bWSck103qNJ0jZ1LVtG9mUAlcL7R5RLg"
+        clientSecret: &bpdmAdminClientSecret "changeme"
       # -- no configuration for clearinghouse because it's an external component
       # clientId and clientSecret aren't in the centralidp Keycloak
       # clearinghouse:
@@ -146,14 +146,14 @@ portal:
       #   clientSecret: ""
       custodian:
         clientId: "sa-cl5-custodian-2"
-        clientSecret: "UIqawwoohsvZ6AZOd1llLhnsUTKMWe4D"
+        clientSecret: "changeme"
       sdfactory:
         issuerBpn: "BPNL00000003CRHK"
         clientId: "sa-cl8-cx-1"
-        clientSecret: "clbQOPHcVKY9tUUd068vyf8CrsPZ8BgZ"
+        clientSecret: "changeme"
       offerprovider:
         clientId: "sa-cl2-03"
-        clientSecret: "wyNYzSnyu4iGvj17XgLSl0aQxAPjTjmI"
+        clientSecret: "changeme"
       dim:
         clientId: "dim-client-id"
         clientSecret: ""
@@ -164,7 +164,7 @@ portal:
               "6cbaf47ee30c778088e6faa44e2f0eed98beda86db06c7d2e37e32ab78e14b33"
       issuerComponent:
         clientId: "sa-cl2-04"
-        clientSecret: "c0gFPfWWUpeOr7MP6DIqdRPhUfaX4GRC"
+        clientSecret: "changeme"
         encryptionConfigs:
           index0:
             encryptionKey:
@@ -713,7 +713,7 @@ ssi-credential-issuer:
       # You must specify the technical user with the required roles for the interaction with the portal
       clientId: "sa-cl24-01"
       # -- Client-secret for portal client-id. Secret-key 'portal-client-secret'.
-      clientSecret: "VRHQM2NOA4176Vrscxey1DdO4P7ikUQc"
+      clientSecret: "changeme"
     credential:
       issuerDid: "did:web:managed-identity-wallets.tx.test:BPNL00000003CRHK"
       issuerBpn: "BPNL00000003CRHK"
@@ -729,7 +729,7 @@ ssi-credential-issuer:
       # You must specify the technical user with the required roles for the interaction with the portal
       clientId: "sa-cl24-01"
       # -- Client-secret for portal client-id. Secret-key 'portal-client-secret'.
-      clientSecret: "VRHQM2NOA4176Vrscxey1DdO4P7ikUQc"
+      clientSecret: "changeme"
     logging:
       default: "Debug"
     processIdentity:
