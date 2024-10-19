@@ -23,20 +23,3 @@ centralidp:
       image:
         name: kind-registry:5000/iam:testing
         pullPolicy: Always
-
-sharedidp:
-  keycloak:
-    initContainers:
-      - name: import
-        image: kind-registry:5000/init-container:testing
-        imagePullPolicy: Always
-        command:
-          - sh
-        args:
-          - -c
-          - |
-            echo "Copying realms..."
-            cp -R /import/catenax-shared/realms/* /realms
-        volumeMounts:
-        - name: realms
-          mountPath: "/realms"

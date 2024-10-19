@@ -462,99 +462,17 @@ sharedidp:
   enabled: false
   keycloak:
     nameOverride: "sharedidp"
-    replicaCount: 1
+    auth:
+      adminPassword: "adminconsolepwsharedidp"
     postgresql:
       nameOverride: "sharedidp-postgresql"
+      auth:
+        password: "dbpasswordsharedidp"
+        postgresPassword: "dbpasswordsharedidp"
       architecture: standalone
       primary:
         persistence:
           enabled: false
-    proxy: edge
-    initContainers:
-      - name: realm-import
-        image: docker.io/tractusx/umbrella-init-container:1.0.0-init
-        imagePullPolicy: IfNotPresent
-        command:
-          - sh
-        args:
-          - -c
-          - |
-            echo "Copying realms..."
-            cp -R /import/catenax-shared/realms/* /realms
-        volumeMounts:
-        - name: realms
-          mountPath: "/realms"
-      - name: theme-import
-        image: docker.io/tractusx/portal-iam:v3.0.0
-        imagePullPolicy: IfNotPresent
-        command:
-          - sh
-        args:
-          - -c
-          - |
-            echo "Copying themes-catenax-shared..."
-            cp -R /import/themes/catenax-shared/* /themes-catenax-shared
-            echo "Copying themes-catenax-shared-portal..."
-            cp -R /import/themes/catenax-shared-portal/* /themes-catenax-shared-portal
-        volumeMounts:
-        - name: themes-catenax-shared
-          mountPath: "/themes-catenax-shared"
-        - name: themes-catenax-shared-portal
-          mountPath: "/themes-catenax-shared-portal"
-      # uncomment the following line for tls
-      # - name: init-certs
-      #   image: docker.io/bitnami/keycloak:23.0.7-debian-12-r1
-      #   imagePullPolicy: IfNotPresent
-      #   command: ["/bin/bash"]
-      #   args:
-      #     - -ec
-      #     - |-
-      #       keytool -import -file "/certs/tls.crt" \
-      #               -keystore "/opt/bitnami/keycloak/certs/keycloak.truststore.jks" \
-      #               -storepass "${KEYCLOAK_SPI_TRUSTSTORE_PASSWORD}" \
-      #               -noprompt
-      #   env:
-      #     - name: KEYCLOAK_SPI_TRUSTSTORE_PASSWORD
-      #       value: "changeit"
-      #   volumeMounts:
-      #     - name: certificates
-      #       mountPath: /certs
-      #     - name: shared-certs
-      #       mountPath: "/opt/bitnami/keycloak/certs"
-    extraEnvVars:
-      - name: KEYCLOAK_EXTRA_ARGS
-        value: "-Dkeycloak.migration.action=import -Dkeycloak.migration.provider=dir -Dkeycloak.migration.dir=/realms -Dkeycloak.migration.strategy=IGNORE_EXISTING"
-      # uncomment the following line for tls
-      # - name: KEYCLOAK_SPI_TRUSTSTORE_FILE
-      #   value: "/opt/bitnami/keycloak/certs/keycloak.truststore.jks"
-      # - name: KEYCLOAK_SPI_TRUSTSTORE_PASSWORD
-      #   value: "changeit"
-    extraVolumes:
-      - name: realms
-        emptyDir: {}
-      - name: themes-catenax-shared
-        emptyDir: {}
-      - name: themes-catenax-shared-portal
-        emptyDir: {}
-      # uncomment the following line for tls
-      # - name: certificates
-      #   secret:
-      #     secretName: root-secret
-      #     defaultMode: 420
-      # - name: shared-certs
-      #   emptyDir: {}
-    extraVolumeMounts:
-      - name: realms
-        mountPath: "/realms"
-      - name: themes-catenax-shared
-        mountPath: "/opt/bitnami/keycloak/themes/catenax-shared"
-      - name: themes-catenax-shared-portal
-        mountPath: "/opt/bitnami/keycloak/themes/catenax-shared-portal"
-      # uncomment the following line for tls
-      # - name: certificates
-      #   mountPath: /certs
-      # - name: shared-certs
-      #   mountPath: "/opt/bitnami/keycloak/certs"
     ingress:
       enabled: true
       ingressClassName: "nginx"
@@ -571,17 +489,65 @@ sharedidp:
         nginx.ingress.kubernetes.io/proxy-buffers-number: "20"
         nginx.ingress.kubernetes.io/use-regex: "true"
       tls: false
-  secrets:
-    postgresql:
-      auth:
-        existingSecret:
-          postgrespassword: "dbpasswordsharedidp"
-          password: "dbpasswordsharedidp"
-          replicationPassword: "dbpasswordsharedidp"
-    auth:
-      existingSecret:
-        # -- Password for the admin username 'admin'. Secret-key 'admin-password'.
-        adminpassword: "adminconsolepwsharedidp"
+    # uncomment the following line for tls
+    # initContainers:
+    #   - name: init-certs
+    #     image: docker.io/bitnami/keycloak:23.0.7-debian-12-r1
+    #     imagePullPolicy: IfNotPresent
+    #     command: ["/bin/bash"]
+    #     args:
+    #       - -ec
+    #       - |-
+    #         keytool -import -file "/certs/tls.crt" \
+    #                 -keystore "/opt/bitnami/keycloak/certs/keycloak.truststore.jks" \
+    #                 -storepass "${KEYCLOAK_SPI_TRUSTSTORE_PASSWORD}" \
+    #                 -noprompt
+    #     env:
+    #       - name: KEYCLOAK_SPI_TRUSTSTORE_PASSWORD
+    #         value: "changeit"
+    #     volumeMounts:
+    #       - name: certificates
+    #         mountPath: /certs
+    #       - name: shared-certs
+    #         mountPath: "/opt/bitnami/keycloak/certs"
+    # extraEnvVars:
+    #   - name: KEYCLOAK_SPI_TRUSTSTORE_FILE
+    #     value: "/opt/bitnami/keycloak/certs/keycloak.truststore.jks"
+    #   - name: KEYCLOAK_SPI_TRUSTSTORE_PASSWORD
+    #     value: "changeit"
+    # extraVolumes:
+    #   - name: certificates
+    #     secret:
+    #       secretName: root-secret
+    #       defaultMode: 420
+    #   - name: shared-certs
+    #     emptyDir: {}
+    # extraVolumeMounts:
+    #   - name: certificates
+    #     mountPath: /certs
+    #   - name: shared-certs
+    #     mountPath: "/opt/bitnami/keycloak/certs"
+  realmSeeding:
+    realms:
+      cxOperator:
+        sslRequired: "none"
+        centralidp: "http://centralidp.tx.test"
+        initialUser:
+          username: "cx-operator@tx.test"
+          password: "tractusx-umbr3lla!"
+        mailing:
+          host: "smtp.tx.test"
+          port: "587"
+          username: "smtp-user"
+          password: ""
+          from: "smtp@tx.test"
+          replyTo: "smtp@tx.test"
+      master:
+        serviceAccounts:
+          provisioning:
+            clientSecret: "changeme"
+          saCxOperator:
+            clientSecret: "changeme"
 
 bpndiscovery:
   enabled: false
