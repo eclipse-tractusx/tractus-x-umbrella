@@ -1,4 +1,4 @@
-# Overall Seed Data
+# Seeded Test Data
 
 ## Addresses
 
@@ -20,7 +20,7 @@
 
 - "<https://centralidp.tx.test/auth/realms/CX-Central/protocol/openid-connect/token>"
 
-## Companies and BPNs
+## Test Companies and BPNs
 
 - "BPN_OEM_C" : "BPNL00000003AZQP",
 - "BPN_OEM_A" : "BPNL00000003AYRE",
@@ -39,9 +39,7 @@
 - "BPN_SUB_TIER_A" : "BPNL00000003B3NX",
 - "BPN_SUB_TIER_C" : "BPNL00000000BJTL",
 
-## Keycloak (CentralIdP and SharedIdP) Seeding
-
-### CentralIdP: service Accounts for EDC - MIW (test data)
+## CentralIdP Keycloak: Test Service Accounts for EDC - MIW  (obsolete since R24.05)
 
 - "BPN_OEM_C" : "BPNL00000003AZQP"
     - name: EDC-MIW BPN_OEM_C
@@ -107,68 +105,3 @@
     - name: EDC-MIW BPN_SUB_TIER_C
     - client id: satest16
     - client secret: d2sqUurBH9Vd8DNRmjiMfObU67ajorCq
-
-### Client secrets in base seeding
-
-#### CentralIdP (Release 24.03)
-
-- Confidential client for BPDM
-    - client id: Cl7-CX-BPDM
-    - client secret: 4pJIiaUsLeQsSH6OEqoZmq6aEsZkeBj2
-- Confidential client for BPDM Portal Gate
-    - client id: Cl16-CX-BPDMGate
-    - client secret: q0ma25iV6bfqV6ho3kyWKnR1trp0IRez
-- Confidential client for Managed Identity Wallet
-    - client id: Cl5-CX-Custodian
-    - client secret: XzZNs56cadY8b2P253By8GS4jbY7QCui
-- Service account for Portal-Backend to call Keycloak (portal helm chart: backend.keycloak.central.clientId)
-    - client id: sa-cl1-reg-2
-    - client secret: aEoUADDw2aNPa0WAaKGAyKfC80n8sKxJ
-- Service account Clearinghouse update application
-    - client id: sa-cl2-01
-    - client secret: w6Ib6d7hdltXwkdtsJYF3Cb6fEywia7S
-- Service account SelfDescription (SD) update application
-    - client id: sa-cl2-02
-    - client secret: T1oUdErz8w7VbIbpAHDnTLeyssZ8wTmj
-- Service account AutoSetup trigger - Portal to Vendor Autosetup (portal helm chart: backend.processesworker.offerprovider.clientId)
-    - client id: sa-cl2-03
-    - client secret: wyNYzSnyu4iGvj17XgLSl0aQxAPjTjmI
-- Service account Discovery Finder
-    - client id: sa-cl21-01
-    - client secret: oFbXttMA7vI5MysN7AiEpobX5o3Jfbhp
-- Service account BPN Discovery
-    - client id: sa-cl22-01
-    - client secret: 1yDWW7BNwouRGxYRkDmzkpzqz5FG748f
-- Service account internal - communication GitHub and Semantic Hub
-    - client id: sa-cl3-cx-1
-    - client secret: jzTX8jBBpDCag224ihfhmBP5NABGqdsf
-- Service account for SD Hub Call to Custodian for SD signature
-    - client id: sa-cl5-custodian-1
-    - client secret: 6pnnap7byS1TImL9Uj7g2psud9Fdq4tJ
-- Service account for Portal to call Custodian Wallet (portal helm chart: backend.processesworker.custodian.clientId)
-    - client id: sa-cl5-custodian-2
-    - client secret: UIqawwoohsvZ6AZOd1llLhnsUTKMWe4D
-- Service account for Portal to access BPDM for Company Address publishing into the BPDM (portal helm chart: backend.processesworker.bpdm.clientId)
-    - client id: sa-cl7-cx-5
-    - client secret: bWSck103qNJ0jZ1LVtG9mUAlcL7R5RLg
-- Service account for Portal to SD (portal helm chart: backend.processesworker.sdfactory.clientId)
-    - client id: sa-cl8-cx-1
-    - client secret: clbQOPHcVKY9tUUd068vyf8CrsPZ8BgZ
-
-##### New with release 24.05
-
-- Service account for SSI Credential Issuer (credential issuer helm chart: processesworker.portal.clientId)
-    - client id: sa-cl24-01
-    - client secret: VRHQM2NOA4176Vrscxey1DdO4P7ikUQc
-- Service account for SSI Credential Issuer - Portal to SSI Credential Issuer (portal helm chart: backend.processesworker.issuerComponent.clientId)
-    - client id: sa-cl2-04
-    - client secret: c0gFPfWWUpeOr7MP6DIqdRPhUfaX4GRC
-- Service account for Dim Layer - Dim Layer to Portal (dim helm chart: processesworker.callback.clientId)
-    - client id: sa-cl2-05
-    - client secret: zuBGfr67Tj0WJ5fAJSIRvoPEP5hSQFMT
-
-#### SharedIdP
-
-- Service account in sharedidp master realm for portal backend to call Keycloak (portal helm chart: backend.keycloak.shared.clientId)
-    - client id: sa-cl1-reg-1
-    - client secret: YPA1t6BMQtPtaG3fpH8Sa8Ac6KYbPUM7

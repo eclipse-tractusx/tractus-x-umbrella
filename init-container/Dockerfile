@@ -25,4 +25,3 @@ RUN chown -R 1000:3000 /import
 USER 1000:3000
 
 COPY iam/centralidp/ import/catenax-central/realms
-COPY iam/sharedidp/ import/catenax-shared/realms
