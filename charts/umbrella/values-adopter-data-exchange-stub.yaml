@@ -96,7 +96,7 @@ bdrs-server-memory:
 dataconsumerOne:
   enabled: true
   secrets:
-    edc-miw-keycloak-secret: BPNL000000000000
+    edc-miw-keycloak-secret: BPNL00000003AZQP
   tractusx-connector:
     participant:
       id: BPNL00000003AZQP
@@ -110,7 +110,7 @@ dataconsumerOne:
         oauth:
           token_url: http://ssi-dim-wallet-stub.tx.test/oauth/token
           client:
-            id: BPNL000000000000
+            id: BPNL00000003AZQP
             secret_alias: edc-miw-keycloak-secret
     controlplane:
       env:
@@ -128,7 +128,7 @@ tx-data-provider:
   seedTestdata: true
   enabled: true
   secrets:
-    edc-miw-keycloak-secret: BPNL000000000000
+    edc-miw-keycloak-secret: BPNL00000003AYRE
   tractusx-connector:
     participant:
       id: BPNL00000003AYRE
@@ -142,7 +142,7 @@ tx-data-provider:
         oauth:
           token_url: http://ssi-dim-wallet-stub.tx.test/oauth/token
           client:
-            id: BPNL000000000000
+            id: BPNL00000003AYRE
             secret_alias: edc-miw-keycloak-secret
     controlplane:
       env:
