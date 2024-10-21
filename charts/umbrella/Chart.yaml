@@ -40,7 +40,7 @@ dependencies:
   # cx-iam
   - condition: centralidp.enabled
     name: centralidp
-    repository: file://../../../portal-iam/charts/centralidp
+    repository: https://eclipse-tractusx.github.io/charts/dev
     version: 4.0.0-alpha.2
   - condition: sharedidp.enabled
     name: sharedidp
