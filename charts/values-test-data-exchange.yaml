@@ -19,21 +19,11 @@
 
 centralidp:
   enabled: true
-  keycloak:
-    initContainers:
-      - name: import
-        image: kind-registry:5000/init-container:testing
-        imagePullPolicy: Always
-        command:
-          - sh
-        args:
-          - -c
-          - |
-            echo "Copying realms..."
-            cp -R /import/catenax-central/realms/* /realms
-        volumeMounts:
-        - name: realms
-          mountPath: "/realms"
+  realmSeeding:
+    initContainer:
+      image:
+        name: kind-registry:5000/iam:testing
+        pullPolicy: Always
 
 iatpmock:
   enabled: true
