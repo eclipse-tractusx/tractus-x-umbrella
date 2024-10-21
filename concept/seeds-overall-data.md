@@ -20,7 +20,7 @@
 
 - "<https://centralidp.tx.test/auth/realms/CX-Central/protocol/openid-connect/token>"
 
-## Companies and BPNs
+## Test Companies and BPNs
 
 - "BPN_OEM_C" : "BPNL00000003AZQP",
 - "BPN_OEM_A" : "BPNL00000003AYRE",
@@ -39,7 +39,7 @@
 - "BPN_SUB_TIER_A" : "BPNL00000003B3NX",
 - "BPN_SUB_TIER_C" : "BPNL00000000BJTL",
 
-## CentralIdP Keycloak: Service Accounts for EDC - MIW (test data)
+## CentralIdP Keycloak: Test Service Accounts for EDC - MIW  (obsolete since R24.05)
 
 - "BPN_OEM_C" : "BPNL00000003AZQP"
     - name: EDC-MIW BPN_OEM_C
