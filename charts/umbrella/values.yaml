@@ -690,9 +690,9 @@ iatpmock:
   # -- see README ## Precondition for IATP Mock
   image:
     # override with locally built image if needed, default "tractusx/iatp-mock"
-    repository: "192.168.49.2:5000/iatp-mock"
+    repository: ""
     # override tag if needed, default "testing"
-    tag: "latest"
+    tag: ""
   ingress:
     enabled: true
     hosts:
