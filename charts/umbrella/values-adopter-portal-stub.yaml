@@ -27,7 +27,7 @@ portal:
   backend:
     decentralIdentityManagementAuthAddress: "http://ssi-dim-wallet-stub.tx.test/api/sts"
     administration:
-      issuerdid: "did:web:managed-identity-wallets.tx.test:BPNL00000003CRHK"
+      issuerdid: "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003CRHK"
     processesworker:  
       sdfactory:
           issuerBpn: "BPNL00000003CRHK"
