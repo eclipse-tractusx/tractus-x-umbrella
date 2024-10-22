@@ -19,27 +19,7 @@
 ---
 
 centralidp:
-  enabled: true
-  keycloak:
-    ingress:
-      enabled: true
-      ingressClassName: "nginx"
-      hostname: "centralidp.tx.test"
-      annotations:
-        nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
-        nginx.ingress.kubernetes.io/cors-allow-methods: "PUT, GET, POST, OPTIONS"
-        nginx.ingress.kubernetes.io/cors-allow-origin: "http://centralidp.tx.test"
-        nginx.ingress.kubernetes.io/enable-cors: "true"
-        nginx.ingress.kubernetes.io/proxy-buffer-size: "128k"
-        nginx.ingress.kubernetes.io/proxy-buffering: "on"
-        nginx.ingress.kubernetes.io/proxy-buffers-number: "20"
-        nginx.ingress.kubernetes.io/use-regex: "true"
-      tls: false
-    # -- uncomment the following for persistence
-    # postgresql:
-    #   primary:
-    #     persistence:
-    #       enabled: true
+  enabled: false
 
 
 bdrs-server-memory:
@@ -83,7 +63,7 @@ bdrs-server-memory:
   hostname: &hostname bdrs-server.tx.test
   server:
     trustedIssuers:
-      - did:web:ssi-dim-wallet-stub.tx.test:BPNL000000000000
+      - did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003CRHK
     ingresses:
       - enabled: true
         hostname: *hostname
@@ -96,14 +76,14 @@ bdrs-server-memory:
 dataconsumerOne:
   enabled: true
   secrets:
-    edc-miw-keycloak-secret: BPNL00000003AZQP
+    edc-miw-keycloak-secret: changeme
   tractusx-connector:
     participant:
       id: BPNL00000003AZQP
     iatp:
       id: did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003AZQP
       trustedIssuers:
-        - did:web:ssi-dim-wallet-stub.tx.test:BPNL000000000000
+        - did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003CRHK
       sts:
         dim:
           url: http://ssi-dim-wallet-stub.tx.test/api/sts
@@ -128,14 +108,14 @@ tx-data-provider:
   seedTestdata: true
   enabled: true
   secrets:
-    edc-miw-keycloak-secret: BPNL00000003AYRE
+    edc-miw-keycloak-secret: changeme
   tractusx-connector:
     participant:
       id: BPNL00000003AYRE
     iatp:
       id: did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003AYRE
       trustedIssuers:
-        - did:web:ssi-dim-wallet-stub.tx.test:BPNL000000000000
+        - did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003CRHK
       sts:
         dim:
           url: http://ssi-dim-wallet-stub.tx.test/api/sts
@@ -164,14 +144,14 @@ tx-data-provider:
 dataconsumerTwo:
   enabled: false
   secrets:
-    edc-miw-keycloak-secret: BPNL000000000000
+    edc-miw-keycloak-secret: changeme
   tractusx-connector:
     participant:
       id: BPNL00000003AVTH
     iatp:
       id: did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003AVTH
       trustedIssuers:
-        - did:web:ssi-dim-wallet-stub.tx.test:BPNL000000000000
+        - did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003CRHK
       sts:
         dim:
           url: http://ssi-dim-wallet-stub.tx.test/api/sts
@@ -199,14 +179,7 @@ pgadmin4:
   #   enabled: true
 
 ssi-credential-issuer:
-  enabled: true
-  walletAddress: "http://ssi-dim-wallet-stub.tx.test"
-  walletTokenAddress: "http://ssi-dim-wallet-stub.tx.test/oauth/token"
-  issuer:
-    credential:
-      issuerDid: "did:web:ssi-dim-wallet-stub.tx.test:BPNL000000000000"
-      issuerBpn: "BPNL000000000000"
-      statusListUrl: "http://ssi-dim-wallet-stub.tx.test/status-list/BPNL000000000000/8a6c7486-1e1f-4555-bdd2-1a178182651e"
+  enabled: false
 
 ssi-dim-wallet-stub:
   enabled: true

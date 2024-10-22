@@ -27,13 +27,13 @@ portal:
   backend:
     decentralIdentityManagementAuthAddress: "http://ssi-dim-wallet-stub.tx.test/api/sts"
     administration:
-      issuerdid: "did:web:managed-identity-wallets.tx.test:BPNL000000000000"
+      issuerdid: "did:web:managed-identity-wallets.tx.test:BPNL00000003CRHK"
     processesworker:  
       sdfactory:
-          issuerBpn: "BPNL000000000000"
+          issuerBpn: "BPNL00000003CRHK"
       dim:
         clientId: "sa-cl2-05"
-        clientSecret: "zuBGfr67Tj0WJ5fAJSIRvoPEP5hSQFMT"
+        clientSecret: "changeme"
         grantType: "client_credentials"
         scope: "openid"
         baseAddress: "http://ssi-dim-wallet-stub.tx.test"
@@ -89,9 +89,9 @@ ssi-credential-issuer:
   walletTokenAddress: "http://ssi-dim-wallet-stub.tx.test/oauth/token"
   issuer:
     credential:
-      issuerDid: "did:web:ssi-dim-wallet-stub.tx.test:BPNL000000000000"
-      issuerBpn: "BPNL000000000000"
-      statusListUrl: "http://ssi-dim-wallet-stub.tx.test/status-list/BPNL000000000000/8a6c7486-1e1f-4555-bdd2-1a178182651e"
+      issuerDid: "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003CRHK"
+      issuerBpn: "BPNL00000003CRHK"
+      statusListUrl: "http://ssi-dim-wallet-stub.tx.test/status-list/BPNL00000003CRHK/8a6c7486-1e1f-4555-bdd2-1a178182651e"
 
 ssi-dim-wallet-stub:
   enabled: true

@@ -1353,7 +1353,7 @@ ssi-dim-wallet-stub:
           status: true
     logLevel: "debug"
     environment: "default"
-    baseWalletBpn: "BPNL000000000000"
+    baseWalletBpn: "BPNL00000003CRHK"
     didHost: "ssi-dim-wallet-stub.tx.test"
     stubUrl: "http://ssi-dim-wallet-stub.tx.test"
     statusListVcId: "8a6c7486-1e1f-4555-bdd2-1a178182651e"
@@ -1362,7 +1362,7 @@ ssi-dim-wallet-stub:
       waitTime: "60"
       host: "http://portal-backend.tx.test"
       clientId: "sa-cl2-05"
-      clientSecret: "zuBGfr67Tj0WJ5fAJSIRvoPEP5hSQFMT"
+      clientSecret: "changeme"
     keycloak:
       realm: "CX-Central"
       authServerUrl: "http://centralidp.tx.test/auth"
