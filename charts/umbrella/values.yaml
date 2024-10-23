@@ -1336,10 +1336,6 @@ ssi-dim-wallet-stub:
     serviceName: "ssi-dim-wallet-service"
     secretName: "ssi-dim-wallet-secret"
     ingressName: "ssi-dim-wallet-ingress"
-    image:
-      repository: tractusx/ssi-dim-wallet-stub
-      pullPolicy: IfNotPresent
-      tag: "0.0.2"
     ingress:
       enabled: true
       tls: false
