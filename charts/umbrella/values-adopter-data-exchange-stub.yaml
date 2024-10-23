@@ -26,8 +26,8 @@ bdrs-server-memory:
   enabled: true
   seeding:
     bpnList:
-      - bpn: "BPNL000000000000"
-        did: "did:web:ssi-dim-wallet-stub.tx.test:BPNL000000000000"
+      - bpn: "BPNL00000003CRHK"
+        did: "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003CRHK"
       - bpn: "BPNL00000003B3NX"
         did: "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003B3NX"
       - bpn: "BPNL00000003CSGV"
@@ -158,7 +158,7 @@ dataconsumerTwo:
         oauth:
           token_url: http://ssi-dim-wallet-stub.tx.test/oauth/token
           client:
-            id: BPNL000000000000
+            id: BPNL00000003AVTH
             secret_alias: edc-miw-keycloak-secret
     controlplane:
       env:
