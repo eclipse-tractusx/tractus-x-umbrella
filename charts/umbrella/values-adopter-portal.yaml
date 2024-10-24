@@ -53,7 +53,7 @@ pgadmin4:
 # Interfaces are disabled by default (other than IAM)
 
 bpdm:
-  enabled: false
+  enabled: true
 
 selfdescription:
   enabled: false
@@ -64,8 +64,8 @@ bpndiscovery:
 discoveryfinder:
   enabled: false
 
-iatpmock:
-  enabled: false
-
 ssi-credential-issuer:
-  enabled: false
+  enabled: true
+
+ssi-dim-wallet-stub:
+  enabled: true
