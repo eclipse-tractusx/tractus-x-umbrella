@@ -201,34 +201,23 @@ portal:
             encryptionKey:
               "d2e27d71b018cb36029184852f1baa3e26891be94718f77de4c7cc6c882fe317"
     mailing:
-      # We need a valid SMTP server to send emails from the portal
-      host: "smtp4dev"
-      port: "25"
-      user: "portal-user"
-      senderEmail: "portal-admin@lksnext.com"
-      password: "portal-password"
+      host: "smtp.tx.test"
+      port: "587"
+      user: "smtp-user"
+      senderEmail: "smtp@tx.test"
+      password: ""
     portalmigrations:
       logging:
         default: "Debug"
-    portalmaintenance:
-      logging:
-        default: "Debug"
     provisioning:
-      # Seeds centralidp and sharedidp
-      centralRealmId: "CX-Central"
-      serviceAccountClientPrefix: "sa"
-      centralIdentityProvider:
-        clientId: "central-idp"
-      sharedRealmClient:
-        clientId: "central-idp"
       sharedRealm:
         smtpServer:
-          host: "smtp4dev"
-          port: "25"
-          user: "portal-user"
-          password: "portal-password"
-          from: "portal-admin@lksnext.com"
-          replyTo: "portal-replt@lksnext.com"
+          host: "smtp.tx.test"
+          port: "587"
+          user: "smtp-user"
+          password: ""
+          from: "smtp@tx.test"
+          replyTo: "smtp@tx.test"
     # -- docs: http://portal-backend.tx.test/api/administration/swagger/index.html
     # http://portal-backend.tx.test/api/registration/swagger/index.html
     # http://portal-backend.tx.test/api/apps/swagger/index.html
