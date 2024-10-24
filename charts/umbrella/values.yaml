@@ -42,7 +42,11 @@ portal:
     poolApiPath: "/pool/v6"
     portalGateAddress: "http://business-partners.tx.test"
     portalGateApiPath: "/gate/v6"
-  custodianAddress: "http://managed-identity-wallets.tx.test"
+  custodianAddress: "http://ssi-dim-wallet-stub.tx.test"
+  dimWrapper:
+    baseAddress: "http://ssi-dim-wallet-stub.tx.test"
+    apiPath: "/api/dim"  
+  decentralIdentityManagementAuthAddress: "http://ssi-dim-wallet-stub.tx.test/api/sts"
   sdfactoryAddress: "http://sdfactory.tx.test"
   clearinghouseAddress: "http://validation.tx.test"
   clearinghouseTokenAddress: "http://keycloak.tx.test/realms/example/protocol/openid-connect/token"
@@ -111,7 +115,7 @@ portal:
         encryptionConfigs:
           index0:
             encryptionKey: "deb8261ec7b89c344f1c5ef5a11606e305f14e0d231b1357d90ad0180c5081d3"
-      issuerdid: "did:web:managed-identity-wallets.tx.test:BPNL00000003CRHK"
+      issuerdid: "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003CRHK"
       swaggerEnabled: true
     appmarketplace:
       logging:
@@ -156,8 +160,11 @@ portal:
         clientId: "sa-cl2-03"
         clientSecret: "wyNYzSnyu4iGvj17XgLSl0aQxAPjTjmI"
       dim:
-        clientId: "dim-client-id"
-        clientSecret: ""
+        clientId: "sa-cl2-05"
+        clientSecret: "zuBGfr67Tj0WJ5fAJSIRvoPEP5hSQFMT"
+        grantType: "client_credentials"
+        scope: "openid"
+        baseAddress: "http://ssi-dim-wallet-stub.tx.test"
         universalResolverAddress: "https://dev.uniresolver.io/"
         encryptionConfigs:
           index0:
@@ -194,23 +201,34 @@ portal:
             encryptionKey:
               "d2e27d71b018cb36029184852f1baa3e26891be94718f77de4c7cc6c882fe317"
     mailing:
-      host: "smtp.tx.test"
-      port: "587"
-      user: "smtp-user"
-      senderEmail: "smtp@tx.test"
-      password: ""
+      # We need a valid SMTP server to send emails from the portal
+      host: "smtp4dev"
+      port: "25"
+      user: "portal-user"
+      senderEmail: "portal-admin@lksnext.com"
+      password: "portal-password"
     portalmigrations:
       logging:
         default: "Debug"
+    portalmaintenance:
+      logging:
+        default: "Debug"
     provisioning:
+      # Seeds centralidp and sharedidp
+      centralRealmId: "CX-Central" # El realm de centralidp que se va a utilizar
+      serviceAccountClientPrefix: "sa" # Prefijo para los technical users (service accounts)
+      centralIdentityProvider:
+        clientId: "central-idp"
+      sharedRealmClient:
+        clientId: "central-idp"
       sharedRealm:
         smtpServer:
-          host: "smtp.tx.test"
-          port: "587"
-          user: "smtp-user"
-          password: ""
-          from: "smtp@tx.test"
-          replyTo: "smtp@tx.test"
+          host: "smtp4dev"
+          port: "25"
+          user: "portal-user"
+          password: "portal-password"
+          from: "portal-admin@lksnext.com"
+          replyTo: "portal-replt@lksnext.com"
     # -- docs: http://portal-backend.tx.test/api/administration/swagger/index.html
     # http://portal-backend.tx.test/api/registration/swagger/index.html
     # http://portal-backend.tx.test/api/apps/swagger/index.html
@@ -645,11 +663,11 @@ iatpmock:
   nameOverride: mock-util-service
   fullnameOverride: mock-util-service
   # -- see README ## Precondition for IATP Mock
-  image:
-    # override with locally built image if needed, default "tractusx/iatp-mock"
-    repository: ""
-    # override tag if needed, default "testing"
-    tag: ""
+  # image:
+  #   # override with locally built image if needed, default "tractusx/iatp-mock"
+  #   repository: ""
+  #   # override tag if needed, default "testing"
+  #   tag: ""
   ingress:
     enabled: true
     hosts:
@@ -661,8 +679,8 @@ iatpmock:
 ssi-credential-issuer:
   enabled: false
   portalBackendAddress: "http://portal-backend.tx.test"
-  walletAddress: "http://iatpmock.tx.test"
-  walletTokenAddress: "https://iatpmock-token-address.tx.test/oauth/token"
+  walletAddress: "http://ssi-dim-wallet-stub.tx.test"
+  walletTokenAddress: "http://ssi-dim-wallet-stub.tx.test/oauth/token"
   issuer:
     swaggerEnabled: true
     logging:
@@ -675,9 +693,9 @@ ssi-credential-issuer:
       # -- Client-secret for portal client-id. Secret-key 'portal-client-secret'.
       clientSecret: "VRHQM2NOA4176Vrscxey1DdO4P7ikUQc"
     credential:
-      issuerDid: "did:web:managed-identity-wallets.tx.test:BPNL00000003CRHK"
+      issuerDid: "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003CRHK"
       issuerBpn: "BPNL00000003CRHK"
-      # statusListUrl: "https://example.org/statuslist"
+      statusListUrl: "http://ssi-dim-wallet-stub.tx.test/status-list/BPNL00000003CRHK/8a6c7486-1e1f-4555-bdd2-1a178182651e"
       encryptionConfigIndex: 0
       encryptionConfigs:
         index0:
@@ -944,26 +962,26 @@ dataconsumerOne:
   seedTestdata: false
   nameOverride: dataconsumer-1
   secrets:
-    edc-miw-keycloak-secret: UbfW4CR1xH4OskkovqJ2JzcwnQIrG7oj
+    edc-miw-keycloak-secret: changeme
   tractusx-connector:
     nameOverride: dataconsumer-1-edc
     participant:
       id: BPNL00000003AZQP
     iatp:
-      id: did:web:mock-util-service:BPNL00000003AZQP
+      id: did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003AZQP
       trustedIssuers:
-        - did:web:mock-util-service:trusted-issuer
+        - did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003CRHK
       sts:
         dim:
-          url: http://mock-util-service/sts
+          url: http://ssi-dim-wallet-stub.tx.test/api/sts
         oauth:
-          token_url: http://centralidp.tx.test/auth/realms/CX-Central/protocol/openid-connect/token
+          token_url: http://ssi-dim-wallet-stub.tx.test/oauth/token
           client:
-            id: satest01
+            id: BPNL00000003AZQP
             secret_alias: edc-miw-keycloak-secret
     controlplane:
       env:
-        TX_IAM_IATP_CREDENTIALSERVICE_URL: http://mock-util-service
+        TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-stub.tx.test/api
         EDC_IAM_DID_WEB_USE_HTTPS: false
       bdrs:
         server:
@@ -983,7 +1001,7 @@ dataconsumerOne:
             enabled: false
     dataplane:
       env:
-        TX_IAM_IATP_CREDENTIALSERVICE_URL: http://mock-util-service
+        TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-stub.tx.test/api
         EDC_IAM_DID_WEB_USE_HTTPS: false
       ingresses:
         - enabled: true
@@ -1036,26 +1054,26 @@ tx-data-provider:
   dataplaneUrl: http://{{ .Release.Name }}-dataprovider-edc-dataplane:8081
   nameOverride: dataprovider
   secrets:
-    edc-miw-keycloak-secret: pyFUZP2L9UCSVJUScHcN3ZEgy2PGyEpg
+    edc-miw-keycloak-secret: changeme
   tractusx-connector:
     nameOverride: dataprovider-edc
     participant:
       id: BPNL00000003AYRE
     iatp:
-      id: did:web:mock-util-service:BPNL00000003AYRE
+      id: did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003AYRE
       trustedIssuers:
-        - did:web:mock-util-service:trusted-issuer
+        - did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003CRHK
       sts:
         dim:
-          url: http://mock-util-service/sts
+          url: http://ssi-dim-wallet-stub.tx.test/api/sts
         oauth:
-          token_url: http://centralidp.tx.test/auth/realms/CX-Central/protocol/openid-connect/token
+          token_url: http://ssi-dim-wallet-stub.tx.test/oauth/token
           client:
-            id: satest02
+            id: BPNL00000003AYRE
             secret_alias: edc-miw-keycloak-secret
     controlplane:
       env:
-        TX_IAM_IATP_CREDENTIALSERVICE_URL: http://mock-util-service
+        TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-stub.tx.test/api
         EDC_IAM_DID_WEB_USE_HTTPS: false
       bdrs:
         server:
@@ -1075,7 +1093,7 @@ tx-data-provider:
             enabled: false
     dataplane:
       env:
-        TX_IAM_IATP_CREDENTIALSERVICE_URL: http://mock-util-service
+        TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-stub.tx.test/api
         EDC_IAM_DID_WEB_USE_HTTPS: false
       ingresses:
         - enabled: true
@@ -1167,26 +1185,26 @@ dataconsumerTwo:
   seedTestdata: false
   nameOverride: dataconsumer-2
   secrets:
-    edc-miw-keycloak-secret: tPwy4exxH1sXBRQouobSA2nNVaaPuwCs
+    edc-miw-keycloak-secret: changeme
   tractusx-connector:
     nameOverride: dataconsumer-2-edc
     participant:
       id: BPNL00000003AVTH
     iatp:
-      id: did:web:mock-util-service:BPNL00000003AVTH
+      id: did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003AVTH
       trustedIssuers:
-        - did:web:mock-util-service:trusted-issuer
+        - did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003CRHK
       sts:
         dim:
-          url: http://mock-util-service/sts
+          url: http://ssi-dim-wallet-stub.tx.test/api/sts
         oauth:
-          token_url: http://centralidp.tx.test/auth/realms/CX-Central/protocol/openid-connect/token
+          token_url: http://ssi-dim-wallet-stub.tx.test/oauth/token
           client:
-            id: satest03
+            id: BPNL00000003AVTH
             secret_alias: edc-miw-keycloak-secret
     controlplane:
       env:
-        TX_IAM_IATP_CREDENTIALSERVICE_URL: http://mock-util-service
+        TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-stub.tx.test/api
         EDC_IAM_DID_WEB_USE_HTTPS: false
       bdrs:
         server:
@@ -1206,7 +1224,7 @@ dataconsumerTwo:
             enabled: false
     dataplane:
       env:
-        TX_IAM_IATP_CREDENTIALSERVICE_URL: http://mock-util-service
+        TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-stub.tx.test/api
         EDC_IAM_DID_WEB_USE_HTTPS: false
       ingresses:
         - enabled: true
@@ -1273,45 +1291,46 @@ bdrs-server-memory:
     url: "http://bdrs-server:8081"
     enabled: true
     bpnList:
+      - bpn: "BPNL00000003CRHK"
+        did: "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003CRHK"
       - bpn: "BPNL00000003B3NX"
-        did: "did:web:mock-util-service:BPNL00000003B3NX"
+        did: "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003B3NX"
       - bpn: "BPNL00000003CSGV"
-        did: "did:web:mock-util-service:BPNL00000003CSGV"
+        did: "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003CSGV"
       - bpn: "BPNL00000003B6LU"
-        did: "did:web:mock-util-service:BPNL00000003B6LU"
+        did: "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003B6LU"
       - bpn: "BPNL00000003AXS3"
-        did: "did:web:mock-util-service:BPNL00000003AXS3"
+        did: "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003AXS3"
       - bpn: "BPNL00000003AZQP"
-        did: "did:web:mock-util-service:BPNL00000003AZQP"
+        did: "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003AZQP"
       - bpn: "BPNL00000003AWSS"
-        did: "did:web:mock-util-service:BPNL00000003AWSS"
+        did: "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003AWSS"
       - bpn: "BPNL00000003AYRE"
-        did: "did:web:mock-util-service:BPNL00000003AYRE"
+        did: "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003AYRE"
       - bpn: "BPNL00000003AVTH"
-        did: "did:web:mock-util-service:BPNL00000003AVTH"
+        did: "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003AVTH"
       - bpn: "BPNL00000000BJTL"
-        did: "did:web:mock-util-service:BPNL00000000BJTL"
+        did: "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000000BJTL"
       - bpn: "BPNL00000003CML1"
-        did: "did:web:mock-util-service:BPNL00000003CML1"
+        did: "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003CML1"
       - bpn: "BPNL00000003B2OM"
-        did: "did:web:mock-util-service:BPNL00000003B2OM"
+        did: "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003B2OM"
       - bpn: "BPNL00000003B0Q0"
-        did: "did:web:mock-util-service:BPNL00000003B0Q0"
+        did: "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003B0Q0"
       - bpn: "BPNL00000003B5MJ"
-        did: "did:web:mock-util-service:BPNL00000003B5MJ"
+        did: "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003B5MJ"
       - bpn: "BPNS0000000008ZZ"
-        did: "did:web:mock-util-service:BPNS0000000008ZZ"
+        did: "did:web:ssi-dim-wallet-stub.tx.test:BPNS0000000008ZZ"
       - bpn: "BPNL00000003CNKC"
-        did: "did:web:mock-util-service:BPNL00000003CNKC"
+        did: "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003CNKC"
       - bpn: "BPNS00000008BDFH"
-        did: "did:web:mock-util-service:BPNS00000008BDFH"
-
+        did: "did:web:ssi-dim-wallet-stub.tx.test:BPNS00000008BDFH"
+  
   server:
     trustedIssuers:
-      - did:web:mock-util-service:trusted-issuer
+      - did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003CRHK
     env:
       EDC_IAM_DID_WEB_USE_HTTPS: false
-
     endpoints:
       management:
         authKey: TEST
@@ -1358,7 +1377,7 @@ ssi-dim-wallet-stub:
       waitTime: "60"
       host: "http://portal-backend.tx.test"
       clientId: "sa-cl2-05"
-      clientSecret: "changeme"
+      clientSecret: "zuBGfr67Tj0WJ5fAJSIRvoPEP5hSQFMT"
     keycloak:
       realm: "CX-Central"
       authServerUrl: "http://centralidp.tx.test/auth"

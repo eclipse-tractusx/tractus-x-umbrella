@@ -183,13 +183,21 @@ jobs:
         helm dep up charts/tx-data-provider
         helm dep up charts/umbrella
         helm install umbrella charts/umbrella --namespace data-exchange --create-namespace --debug --timeout 10m \
-        -f charts/values-test-data-exchange.yaml -f charts/values-test-iam-init-container.yaml \
+        -f charts/values-test-data-exchange.yaml 
+        helm uninstall umbrella --namespace data-exchange
+
+    - name: Install chart for data exchange with iatp-mock (umbrella)
+      run: |
+        helm dep up charts/tx-data-provider
+        helm dep up charts/umbrella
+        helm install umbrella charts/umbrella --namespace data-exchange --create-namespace --debug --timeout 10m \
+        -f charts/values-test-data-exchange-iatp-mock.yaml -f charts/values-test-iam-init-container.yaml \
         --set iatpmock.image.repository=kind-registry:5000/iatp-mock --set iatpmock.image.tag=testing
         helm uninstall umbrella --namespace data-exchange
 
     - name: Install chart for shared services one (umbrella)
       run: |
-        helm install umbrella charts/umbrella -f charts/values-test-shared-services-1.yaml -f charts/values-test-iam-init-container.yaml --namespace shared-services --create-namespace --debug --timeout 10m --set iatpmock.image.repository=kind-registry:5000/iatp-mock --set iatpmock.image.tag=testing
+        helm install umbrella charts/umbrella -f charts/values-test-shared-services-1.yaml -f charts/values-test-iam-init-container.yaml --namespace shared-services --create-namespace --debug --timeout 10m
         helm uninstall umbrella --namespace shared-services
 
     - name: Install chart for shared services two (umbrella)

@@ -44,7 +44,7 @@ sharedidp:
 selfdescription:
   enabled: true
 
-iatpmock:
+ssi-dim-wallet-stub:
   enabled: true
 
 bdrs-server-memory:

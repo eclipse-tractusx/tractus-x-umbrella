@@ -17,25 +17,7 @@
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################
 
-centralidp:
-  enabled: true
-  keycloak:
-    initContainers:
-      - name: import
-        image: kind-registry:5000/init-container:testing
-        imagePullPolicy: Always
-        command:
-          - sh
-        args:
-          - -c
-          - |
-            echo "Copying realms..."
-            cp -R /import/catenax-central/realms/* /realms
-        volumeMounts:
-        - name: realms
-          mountPath: "/realms"
-
-iatpmock:
+ssi-dim-wallet-stub:
   enabled: true
 
 bdrs-server-memory:
@@ -44,10 +26,6 @@ bdrs-server-memory:
 dataconsumerOne:
   enabled: true
   tractusx-connector:
-    iatp:
-      sts:
-        oauth:
-          token_url: http://umbrella-centralidp:80/auth/realms/CX-Central/protocol/openid-connect/token
     controlplane:
       bdrs:
         server:
@@ -56,10 +34,6 @@ dataconsumerOne:
 tx-data-provider:
   enabled: true
   tractusx-connector:
-    iatp:
-      sts:
-        oauth:
-          token_url: http://umbrella-centralidp:80/auth/realms/CX-Central/protocol/openid-connect/token
     controlplane:
       bdrs:
         server:
