@@ -45,7 +45,7 @@ portal:
   custodianAddress: "http://ssi-dim-wallet-stub.tx.test"
   dimWrapper:
     baseAddress: "http://ssi-dim-wallet-stub.tx.test"
-    apiPath: "/api/dim"  
+    apiPath: "/api/dim"
   decentralIdentityManagementAuthAddress: "http://ssi-dim-wallet-stub.tx.test/api/sts"
   sdfactoryAddress: "http://sdfactory.tx.test"
   clearinghouseAddress: "http://validation.tx.test"
@@ -215,8 +215,8 @@ portal:
         default: "Debug"
     provisioning:
       # Seeds centralidp and sharedidp
-      centralRealmId: "CX-Central" # El realm de centralidp que se va a utilizar
-      serviceAccountClientPrefix: "sa" # Prefijo para los technical users (service accounts)
+      centralRealmId: "CX-Central"
+      serviceAccountClientPrefix: "sa"
       centralIdentityProvider:
         clientId: "central-idp"
       sharedRealmClient:
@@ -1325,7 +1325,7 @@ bdrs-server-memory:
         did: "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003CNKC"
       - bpn: "BPNS00000008BDFH"
         did: "did:web:ssi-dim-wallet-stub.tx.test:BPNS00000008BDFH"
-  
+
   server:
     trustedIssuers:
       - did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003CRHK
