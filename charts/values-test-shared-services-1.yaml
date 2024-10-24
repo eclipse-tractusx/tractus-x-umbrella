@@ -46,6 +46,8 @@ selfdescription:
 
 ssi-dim-wallet-stub:
   enabled: true
+  wallet:
+    nameSpace: "shared-services"
 
 bdrs-server-memory:
   enabled: true

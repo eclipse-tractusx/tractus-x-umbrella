@@ -19,6 +19,8 @@
 
 ssi-dim-wallet-stub:
   enabled: true
+  wallet:
+    nameSpace: "data-exchange"
 
 bdrs-server-memory:
   enabled: true
