@@ -21,14 +21,32 @@ ssi-dim-wallet-stub:
   enabled: true
   wallet:
     nameSpace: "data-exchange"
+    didHost: "ssi-dim-wallet-service"
 
 bdrs-server-memory:
   enabled: true
+  seeding:
+    url: "http://bdrs-server:8081"
+    enabled: true
+    bpnList:
+      - bpn: "BPNL00000003CRHK"
+        did: "did:web:ssi-dim-wallet-service:BPNL00000003CRHK"
+      - bpn: "BPNL00000003AZQP"
+        did: "did:web:ssi-dim-wallet-service:BPNL00000003AZQP"
+      - bpn: "BPNL00000003AYRE"
+        did: "did:web:ssi-dim-wallet-service:BPNL00000003AYRE"
+
+  server:
+    trustedIssuers:
+      - did:web:ssi-dim-wallet-service:BPNL00000003CRHK
 
 dataconsumerOne:
   enabled: true
   tractusx-connector:
     iatp:
+      id: did:web:ssi-dim-wallet-service:BPNL00000003AZQP
+      trustedIssuers:
+        - did:web:ssi-dim-wallet-service:BPNL00000003CRHK
       sts:
         dim:
           url: http://ssi-dim-wallet-service:8080/api/sts
@@ -48,6 +66,9 @@ tx-data-provider:
   enabled: true
   tractusx-connector:
     iatp:
+      id: did:web:ssi-dim-wallet-service:BPNL00000003AYRE
+      trustedIssuers:
+        - did:web:ssi-dim-wallet-service:BPNL00000003CRHK
       sts:
         dim:
           url: http://ssi-dim-wallet-service:8080/api/sts
