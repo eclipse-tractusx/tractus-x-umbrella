@@ -22,6 +22,10 @@ ssi-dim-wallet-stub:
   wallet:
     nameSpace: "data-exchange"
     didHost: "ssi-dim-wallet-service"
+    stubUrl: "http://ssi-dim-wallet-service"
+    service:
+      type: ClusterIP
+      port: 80
 
 bdrs-server-memory:
   enabled: true
@@ -49,18 +53,18 @@ dataconsumerOne:
         - did:web:ssi-dim-wallet-service:BPNL00000003CRHK
       sts:
         dim:
-          url: http://ssi-dim-wallet-service:8080/api/sts
+          url: http://ssi-dim-wallet-service/api/sts
         oauth:
-          token_url: http://ssi-dim-wallet-service:8080/oauth/token
+          token_url: http://ssi-dim-wallet-service/oauth/token
     controlplane:
       env:
-        TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-stub:8080/api
+        TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-stub/api
       bdrs:
         server:
           url: http://bdrs-server:8082/api/directory
     dataplane:
       env:
-        TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-service:8080/api
+        TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-service/api
 
 tx-data-provider:
   enabled: true
@@ -71,15 +75,15 @@ tx-data-provider:
         - did:web:ssi-dim-wallet-service:BPNL00000003CRHK
       sts:
         dim:
-          url: http://ssi-dim-wallet-service:8080/api/sts
+          url: http://ssi-dim-wallet-service/api/sts
         oauth:
-          token_url: http://ssi-dim-wallet-service:8080/oauth/token
+          token_url: http://ssi-dim-wallet-service/oauth/token
     controlplane:
       env:
-        TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-service:8080/api
+        TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-service/api
       bdrs:
         server:
           url: http://bdrs-server:8082/api/directory
     dataplane:
       env:
-        TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-service:8080/api
+        TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-service/api
