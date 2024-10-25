@@ -450,22 +450,16 @@ dataconsumerTwo:
 helm upgrade -f values-adopter-data-exchange.yaml umbrella . --namespace umbrella
 ```
 
-*ssi-dim-wallet-stub Version*
+*iatp-mock Version*
 
 ```bash
-helm install -f values-adopter-data-exchange-stub.yaml umbrella . --namespace umbrella --create-namespace
+helm install -f values-adopter-data-exchange-iatp-mock.yaml umbrella . --namespace umbrella --create-namespace
 ```
 
 **Portal Subset**
 
 ```bash
 helm install -f values-adopter-portal.yaml umbrella . --namespace umbrella --create-namespace
-```
-
-*ssi-dim-wallet-stub Version*
-
-```bash
-helm install -f values-adopter-portal-stub.yaml umbrella . --namespace umbrella --create-namespace
 ```
 
 ### E2E Adopter Journeys

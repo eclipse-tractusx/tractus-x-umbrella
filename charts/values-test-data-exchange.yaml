@@ -28,15 +28,37 @@ bdrs-server-memory:
 dataconsumerOne:
   enabled: true
   tractusx-connector:
+    iatp:
+      sts:
+        dim:
+          url: http://ssi-dim-wallet-service:8080/api/sts
+        oauth:
+          token_url: http://ssi-dim-wallet-service:8080/oauth/token
     controlplane:
+      env:
+        TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-stub:8080/api
       bdrs:
         server:
           url: http://bdrs-server:8082/api/directory
+    dataplane:
+      env:
+        TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-service:8080/api
 
 tx-data-provider:
   enabled: true
   tractusx-connector:
+    iatp:
+      sts:
+        dim:
+          url: http://ssi-dim-wallet-service:8080/api/sts
+        oauth:
+          token_url: http://ssi-dim-wallet-service:8080/oauth/token
     controlplane:
+      env:
+        TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-service:8080/api
       bdrs:
         server:
           url: http://bdrs-server:8082/api/directory
+    dataplane:
+      env:
+        TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-service:8080/api
