@@ -33,7 +33,7 @@ controlplanePublicUrl: ""  # Override the edc controlplane protocol url
 controlplaneManagementUrl: ""  # Override the edc controlplane management url
 dataplaneUrl: ""  # Override the edc dataplane public url
 secrets:
-  edc-miw-keycloak-secret: changeme
+  edc-secret: changeme
 
 tractusx-connector:
   enabled: true
