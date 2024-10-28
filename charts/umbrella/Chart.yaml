@@ -28,7 +28,7 @@ sources:
   - https://github.com/eclipse-tractusx/tractus-x-umbrella
 
 type: application
-version: 1.0.0
+version: 1.1.0
 
 # when adding or updating versions of dependencies, also update list under README.md#Install
 dependencies:
@@ -41,11 +41,11 @@ dependencies:
   - condition: centralidp.enabled
     name: centralidp
     repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 3.0.0
+    version: 4.0.0-alpha.2
   - condition: sharedidp.enabled
     name: sharedidp
     repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 3.0.0
+    version: 4.0.0-alpha.1
   # discovery-finder
   - condition: discoveryfinder.enabled
     name: discoveryfinder
