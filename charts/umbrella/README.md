@@ -249,6 +249,7 @@ Collection of hosts to be added to the `/etc/hosts` (Linux and Mac) or the `C:\W
 192.168.49.2    dataconsumer-1-dataplane.tx.test
 192.168.49.2    dataconsumer-1-controlplane.tx.test
 192.168.49.2    dataprovider-dataplane.tx.test
+192.168.49.2    dataprovider-controlplane.tx.test
 192.168.49.2    dataconsumer-2-dataplane.tx.test
 192.168.49.2    dataconsumer-2-controlplane.tx.test
 192.168.49.2    bdrs-server.tx.test
@@ -272,8 +273,8 @@ Select a subset of components which are designed to integrate with each other fo
 The currently available components are following:
 
 - [portal](https://github.com/eclipse-tractusx/portal/tree/portal-2.0.0)
-- [centralidp](https://github.com/eclipse-tractusx/portal-iam/tree/v3.0.0)
-- [sharedidp](https://github.com/eclipse-tractusx/portal-iam/tree/v3.0.0)
+- [centralidp](https://github.com/eclipse-tractusx/portal-iam/tree/v4.0.0-alpha.2)
+- [sharedidp](https://github.com/eclipse-tractusx/portal-iam/tree/v4.0.0-alpha.1)
 - [bpndiscovery](https://github.com/eclipse-tractusx/sldt-bpn-discovery/tree/bpndiscovery-0.2.2)
 - [discoveryfinder](https://github.com/eclipse-tractusx/sldt-discovery-finder/tree/discoveryfinder-0.2.2)
 - [sdfactory](https://github.com/eclipse-tractusx/sd-factory/tree/sdfactory-2.1.12)
@@ -626,7 +627,7 @@ In the following some of the available connections:
 Host:
 
 ```
-portal-backend-postgresql
+umbrella-portal-backend-postgresql
 ```
 
 Password:
