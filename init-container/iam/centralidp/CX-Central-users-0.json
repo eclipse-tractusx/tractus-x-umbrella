@@ -1,0 +1,34 @@
+{
+  "realm" : "CX-Central",
+  "users" : [
+    {
+      "id" : "502dabcf-01c7-47d9-a88e-0be4279097b5",
+      "createdTimestamp" : 1652788086549,
+      "username" : "ac1cf001-7fbc-1f2f-817f-bce058020006",
+      "enabled" : true,
+      "totp" : false,
+      "emailVerified" : false,
+      "firstName" : "Operator",
+      "lastName" : "CX Admin",
+      "email" : "cx-operator@tx.org",
+      "attributes" : {
+        "bpn" : [ "BPNL00000003CRHK" ],
+        "organisation" : [ "CX-Operator" ]
+      },
+      "credentials" : [ ],
+      "disableableCredentialTypes" : [ ],
+      "requiredActions" : [ ],
+      "federatedIdentities" : [ {
+        "identityProvider" : "CX-Operator",
+        "userId" : "656e8a94-188b-4a3e-9eec-b45d8efd8347",
+        "userName" : "cx-operator@tx.org"
+      } ],
+      "realmRoles" : [ "default-roles-cx-central" ],
+      "clientRoles" : {
+        "Cl2-CX-Portal" : [ "CX Admin" ]
+      },
+      "notBefore" : 0,
+      "groups" : [ ]
+    }
+  ]
+}

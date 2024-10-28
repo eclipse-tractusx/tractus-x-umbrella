@@ -92,12 +92,12 @@ portal:
     keycloak:
       central:
         clientId: "sa-cl1-reg-2"
-        clientSecret: "aEoUADDw2aNPa0WAaKGAyKfC80n8sKxJ"
+        clientSecret: "changeme"
         jwtBearerOptions:
           requireHttpsMetadata: "false"
       shared:
         clientId: "sa-cl1-reg-1"
-        clientSecret: "YPA1t6BMQtPtaG3fpH8Sa8Ac6KYbPUM7"
+        clientSecret: "changeme"
     registration:
       logging:
         default: "Debug"
@@ -143,7 +143,7 @@ portal:
         offerProvider: "Debug"
       bpdm:
         clientId: &bpdmAdminClientId "sa-cl7-cx-5"
-        clientSecret: &bpdmAdminClientSecret "bWSck103qNJ0jZ1LVtG9mUAlcL7R5RLg"
+        clientSecret: &bpdmAdminClientSecret "changeme"
       # -- no configuration for clearinghouse because it's an external component
       # clientId and clientSecret aren't in the centralidp Keycloak
       # clearinghouse:
@@ -151,14 +151,14 @@ portal:
       #   clientSecret: ""
       custodian:
         clientId: "sa-cl5-custodian-2"
-        clientSecret: "UIqawwoohsvZ6AZOd1llLhnsUTKMWe4D"
+        clientSecret: "changeme"
       sdfactory:
         issuerBpn: "BPNL00000003CRHK"
         clientId: "sa-cl8-cx-1"
-        clientSecret: "clbQOPHcVKY9tUUd068vyf8CrsPZ8BgZ"
+        clientSecret: "changeme"
       offerprovider:
         clientId: "sa-cl2-03"
-        clientSecret: "wyNYzSnyu4iGvj17XgLSl0aQxAPjTjmI"
+        clientSecret: "changeme"
       dim:
         clientId: "sa-cl2-05"
         clientSecret: "zuBGfr67Tj0WJ5fAJSIRvoPEP5hSQFMT"
@@ -172,7 +172,7 @@ portal:
               "6cbaf47ee30c778088e6faa44e2f0eed98beda86db06c7d2e37e32ab78e14b33"
       issuerComponent:
         clientId: "sa-cl2-04"
-        clientSecret: "c0gFPfWWUpeOr7MP6DIqdRPhUfaX4GRC"
+        clientSecret: "changeme"
         encryptionConfigs:
           index0:
             encryptionKey:
@@ -279,90 +279,17 @@ centralidp:
   keycloak:
     nameOverride: "centralidp"
     replicaCount: 1
+    auth:
+      adminPassword: "adminconsolepwcentralidp"
     postgresql:
       nameOverride: "centralidp-postgresql"
+      auth:
+        password: "dbpasswordcentralidp"
+        postgresPassword: "dbpasswordcentralidp"
       architecture: standalone
       primary:
         persistence:
           enabled: false
-    proxy: edge
-    initContainers:
-      - name: realm-import
-        image: docker.io/tractusx/umbrella-init-container:1.0.0-init
-        imagePullPolicy: IfNotPresent
-        command:
-          - sh
-        args:
-          - -c
-          - |
-            echo "Copying realms..."
-            cp -R /import/catenax-central/realms/* /realms
-        volumeMounts:
-        - name: realms
-          mountPath: "/realms"
-      - name: theme-import
-        image: docker.io/tractusx/portal-iam:v3.0.0
-        imagePullPolicy: IfNotPresent
-        command:
-          - sh
-        args:
-          - -c
-          - |
-            echo "Copying themes..."
-            cp -R /import/themes/catenax-central/* /themes
-        volumeMounts:
-        - name: themes
-          mountPath: "/themes"
-      # uncomment the following line for tls
-      # - name: init-certs
-      #   image: docker.io/bitnami/keycloak:23.0.7-debian-12-r1
-      #   imagePullPolicy: IfNotPresent
-      #   command: ["/bin/bash"]
-      #   args:
-      #     - -ec
-      #     - |-
-      #       keytool -import -file "/certs/tls.crt" \
-      #               -keystore "/opt/bitnami/keycloak/certs/keycloak.truststore.jks" \
-      #               -storepass "${KEYCLOAK_SPI_TRUSTSTORE_PASSWORD}" \
-      #               -noprompt
-      #   env:
-      #     - name: KEYCLOAK_SPI_TRUSTSTORE_PASSWORD
-      #       value: "changeit"
-      #   volumeMounts:
-      #     - name: certificates
-      #       mountPath: /certs
-      #     - name: shared-certs
-      #       mountPath: "/opt/bitnami/keycloak/certs"
-    extraEnvVars:
-      - name: KEYCLOAK_EXTRA_ARGS
-        value: "-Dkeycloak.migration.action=import -Dkeycloak.migration.provider=singleFile -Dkeycloak.migration.file=/realms/CX-Central-realm.json -Dkeycloak.migration.strategy=IGNORE_EXISTING"
-      # uncomment the following line for tls
-      # - name: KEYCLOAK_SPI_TRUSTSTORE_FILE
-      #   value: "/opt/bitnami/keycloak/certs/keycloak.truststore.jks"
-      # - name: KEYCLOAK_SPI_TRUSTSTORE_PASSWORD
-      #   value: "changeit"
-    extraVolumes:
-      - name: realms
-        emptyDir: {}
-      - name: themes
-        emptyDir: {}
-      # uncomment the following line for tls
-      # - name: certificates
-      #   secret:
-      #     secretName: root-secret
-      #     defaultMode: 420
-      # - name: shared-certs
-      #   emptyDir: {}
-    extraVolumeMounts:
-      - name: realms
-        mountPath: "/realms"
-      - name: themes
-        mountPath: "/opt/bitnami/keycloak/themes/catenax-central"
-      # uncomment the following line for tls
-      # - name: certificates
-      #   mountPath: /certs
-      # - name: shared-certs
-      #   mountPath: "/opt/bitnami/keycloak/certs"
     ingress:
       enabled: true
       ingressClassName: "nginx"
@@ -379,115 +306,184 @@ centralidp:
         nginx.ingress.kubernetes.io/proxy-buffers-number: "20"
         nginx.ingress.kubernetes.io/use-regex: "true"
       tls: false
-  secrets:
-    postgresql:
-      auth:
-        existingSecret:
-          postgrespassword: "dbpasswordcentralidp"
-          password: "dbpasswordcentralidp"
-          replicationPassword: "dbpasswordcentralidp"
-    auth:
-      existingSecret:
-        # -- Password for the admin username 'admin'. Secret-key 'admin-password'.
-        adminpassword: "adminconsolepwcentralidp"
+    # uncomment the following line for tls
+    # initContainers:
+    #   - name: init-certs
+    #     image: docker.io/bitnami/keycloak:23.0.7-debian-12-r1
+    #     imagePullPolicy: IfNotPresent
+    #     command: ["/bin/bash"]
+    #     args:
+    #       - -ec
+    #       - |-
+    #         keytool -import -file "/certs/tls.crt" \
+    #                 -keystore "/opt/bitnami/keycloak/certs/keycloak.truststore.jks" \
+    #                 -storepass "${KEYCLOAK_SPI_TRUSTSTORE_PASSWORD}" \
+    #                 -noprompt
+    #     env:
+    #       - name: KEYCLOAK_SPI_TRUSTSTORE_PASSWORD
+    #         value: "changeit"
+    #     volumeMounts:
+    #       - name: certificates
+    #         mountPath: /certs
+    #       - name: shared-certs
+    #         mountPath: "/opt/bitnami/keycloak/certs"
+    # extraEnvVars:
+    #   - name: KEYCLOAK_SPI_TRUSTSTORE_FILE
+    #     value: "/opt/bitnami/keycloak/certs/keycloak.truststore.jks"
+    #   - name: KEYCLOAK_SPI_TRUSTSTORE_PASSWORD
+    #     value: "changeit"
+    # extraVolumes:
+    #   - name: certificates
+    #     secret:
+    #       secretName: root-secret
+    #       defaultMode: 420
+    #   - name: shared-certs
+    #     emptyDir: {}
+    # extraVolumeMounts:
+    #   - name: certificates
+    #     mountPath: /certs
+    #   - name: shared-certs
+    #     mountPath: "/opt/bitnami/keycloak/certs"
+  realmSeeding:
+    sslRequired: "none"
+    clients:
+      registration:
+        redirects:
+          - http://portal.tx.test/*
+      portal:
+        rootUrl: http://portal.tx.test/home
+        redirects:
+          - http://portal.tx.test/*
+      semantics:
+        redirects:
+          - http://portal.tx.test/*
+      miw:
+        clientSecret: "changeme"
+        redirects:
+          - http://managed-identity-wallets.tx.test/*
+      bpdm:
+        clientSecret: "changeme"
+        redirects:
+          - http://partners-pool.tx.test/*
+      bpdmGate:
+        clientSecret: "changeme"
+        redirects:
+          - http://partners-gate.tx.test/*
+      bpdmOrchestrator:
+        clientSecret: "changeme"
+    serviceAccounts:
+      clientSecrets:
+        - clientId: "sa-cl1-reg-2"
+          clientSecret: "changeme"
+        - clientId: "sa-cl2-01"
+          clientSecret: "changeme"
+        - clientId: "sa-cl2-02"
+          clientSecret: "changeme"
+        - clientId: "sa-cl2-03"
+          clientSecret: "changeme"
+        - clientId: "sa-cl2-04"
+          clientSecret: "changeme"
+        - clientId: "sa-cl2-05"
+          clientSecret: "changeme"
+        - clientId: "sa-cl3-cx-1"
+          clientSecret: "changeme"
+        - clientId: "sa-cl5-custodian-2"
+          clientSecret: "changeme"
+        - clientId: "sa-cl7-cx-1"
+          clientSecret: "changeme"
+        - clientId: "sa-cl7-cx-5"
+          clientSecret: "changeme"
+        - clientId: "sa-cl7-cx-7"
+          clientSecret: "changeme"
+        - clientId: "sa-cl8-cx-1"
+          clientSecret: "changeme"
+        - clientId: "sa-cl21-01"
+          clientSecret: "changeme"
+        - clientId: "sa-cl22-01"
+          clientSecret: "changeme"
+        - clientId: "sa-cl24-01"
+          clientSecret: "changeme"
+        - clientId: "sa-cl25-cx-1"
+          clientSecret: "changeme"
+        - clientId: "sa-cl25-cx-2"
+          clientSecret: "changeme"
+        - clientId: "sa-cl25-cx-3"
+          clientSecret: "changeme"
+    bpn: "BPNL00000003CRHK"
+    sharedidp: "http://sharedidp.tx.test"
+    # -- test service accounts for EDC - MIW which are obsolete since R24.05;
+    # uncomment once EDC uses SSI DIM Wallet Stub and the helm chart testing has been updated;
+    # currently the post-install testdata-upload-job fails if not available
+    extraServiceAccounts:
+      clientSecretsAndBpn:
+        - clientId: satest01
+          clientSecret: UbfW4CR1xH4OskkovqJ2JzcwnQIrG7oj
+          bpn: BPNL00000003AZQP
+        - clientId: satest02
+          clientSecret: pyFUZP2L9UCSVJUScHcN3ZEgy2PGyEpg
+          bpn: BPNL00000003AYRE
+        - clientId: satest03
+          clientSecret: tPwy4exxH1sXBRQouobSA2nNVaaPuwCs
+          bpn: BPNL00000003AVTH
+        - clientId: satest04
+          clientSecret: BxZ3cwYUPJKK7gI4wq7q6Hgoxel6MphF
+          bpn: BPNL00000003AWSS
+        - clientId: satest05
+          clientSecret: dR00GN1AWCYbRGbZY8TXjs2YEPMeCxLF
+          bpn: BPNL00000003B0Q0
+        - clientId: satest06
+          clientSecret: pDSziT0TUFAkMx0qGFcvpE4XkMqPh13v
+          bpn: BPNS0000000008ZZ
+        - clientId: satest07
+          clientSecret: GY5a44sNuNIjrTyjHvdEPLeNRHH0Kt39
+          bpn: BPNL00000003CNKC
+        - clientId: satest08
+          clientSecret: WUXpQx1aIclA7enqtk4o2uvLDLMreUMI
+          bpn: BPNL00000003B6LU
+        - clientId: satest09
+          clientSecret: N08TGNdhUskJcmVEnOh1tAGwr9oca9PU
+          bpn: BPNL00000003CML1
+        - clientId: satest10
+          clientSecret: gzdSG0CBDJrtv1gje0zUASu1S9P4I7xP
+          bpn: BPNS00000008BDFH
+        - clientId: satest11
+          clientSecret: CC3fz3dQGZsBp2NCbowOV65efBFZTgEO
+          bpn: BPNL00000003B2OM
+        - clientId: satest12
+          clientSecret: 2gjSlFxBO7spEM4aTz3f8CqDS0klbt7C
+          bpn: BPNL00000003CSGV
+        - clientId: satest13
+          clientSecret: 3YQzDqEsdUZ83DVHSIRYUCK4pot61r5M
+          bpn: BPNL00000003B5MJ
+        - clientId: satest14
+          clientSecret: 7qtMpfN3otq5dGiEPssVongXK56lb9LE
+          bpn: BPNL00000003AXS3
+        - clientId: satest15
+          clientSecret: 8QiZ8ineW0Lt8ZOlC2MYuCR0TvM6vMYX
+          bpn: BPNL00000003B3NX
+        - clientId: satest16
+          clientSecret: d2sqUurBH9Vd8DNRmjiMfObU67ajorCq
+          bpn: BPNL00000000BJTL
+    initContainer:
+      image:
+        name: docker.io/tractusx/umbrella-init-container:1.1.0-init
+        pullPolicy: IfNotPresent
 
 sharedidp:
   enabled: false
   keycloak:
     nameOverride: "sharedidp"
-    replicaCount: 1
+    auth:
+      adminPassword: "adminconsolepwsharedidp"
     postgresql:
       nameOverride: "sharedidp-postgresql"
+      auth:
+        password: "dbpasswordsharedidp"
+        postgresPassword: "dbpasswordsharedidp"
       architecture: standalone
       primary:
         persistence:
           enabled: false
-    proxy: edge
-    initContainers:
-      - name: realm-import
-        image: docker.io/tractusx/umbrella-init-container:1.0.0-init
-        imagePullPolicy: IfNotPresent
-        command:
-          - sh
-        args:
-          - -c
-          - |
-            echo "Copying realms..."
-            cp -R /import/catenax-shared/realms/* /realms
-        volumeMounts:
-        - name: realms
-          mountPath: "/realms"
-      - name: theme-import
-        image: docker.io/tractusx/portal-iam:v3.0.0
-        imagePullPolicy: IfNotPresent
-        command:
-          - sh
-        args:
-          - -c
-          - |
-            echo "Copying themes-catenax-shared..."
-            cp -R /import/themes/catenax-shared/* /themes-catenax-shared
-            echo "Copying themes-catenax-shared-portal..."
-            cp -R /import/themes/catenax-shared-portal/* /themes-catenax-shared-portal
-        volumeMounts:
-        - name: themes-catenax-shared
-          mountPath: "/themes-catenax-shared"
-        - name: themes-catenax-shared-portal
-          mountPath: "/themes-catenax-shared-portal"
-      # uncomment the following line for tls
-      # - name: init-certs
-      #   image: docker.io/bitnami/keycloak:23.0.7-debian-12-r1
-      #   imagePullPolicy: IfNotPresent
-      #   command: ["/bin/bash"]
-      #   args:
-      #     - -ec
-      #     - |-
-      #       keytool -import -file "/certs/tls.crt" \
-      #               -keystore "/opt/bitnami/keycloak/certs/keycloak.truststore.jks" \
-      #               -storepass "${KEYCLOAK_SPI_TRUSTSTORE_PASSWORD}" \
-      #               -noprompt
-      #   env:
-      #     - name: KEYCLOAK_SPI_TRUSTSTORE_PASSWORD
-      #       value: "changeit"
-      #   volumeMounts:
-      #     - name: certificates
-      #       mountPath: /certs
-      #     - name: shared-certs
-      #       mountPath: "/opt/bitnami/keycloak/certs"
-    extraEnvVars:
-      - name: KEYCLOAK_EXTRA_ARGS
-        value: "-Dkeycloak.migration.action=import -Dkeycloak.migration.provider=dir -Dkeycloak.migration.dir=/realms -Dkeycloak.migration.strategy=IGNORE_EXISTING"
-      # uncomment the following line for tls
-      # - name: KEYCLOAK_SPI_TRUSTSTORE_FILE
-      #   value: "/opt/bitnami/keycloak/certs/keycloak.truststore.jks"
-      # - name: KEYCLOAK_SPI_TRUSTSTORE_PASSWORD
-      #   value: "changeit"
-    extraVolumes:
-      - name: realms
-        emptyDir: {}
-      - name: themes-catenax-shared
-        emptyDir: {}
-      - name: themes-catenax-shared-portal
-        emptyDir: {}
-      # uncomment the following line for tls
-      # - name: certificates
-      #   secret:
-      #     secretName: root-secret
-      #     defaultMode: 420
-      # - name: shared-certs
-      #   emptyDir: {}
-    extraVolumeMounts:
-      - name: realms
-        mountPath: "/realms"
-      - name: themes-catenax-shared
-        mountPath: "/opt/bitnami/keycloak/themes/catenax-shared"
-      - name: themes-catenax-shared-portal
-        mountPath: "/opt/bitnami/keycloak/themes/catenax-shared-portal"
-      # uncomment the following line for tls
-      # - name: certificates
-      #   mountPath: /certs
-      # - name: shared-certs
-      #   mountPath: "/opt/bitnami/keycloak/certs"
     ingress:
       enabled: true
       ingressClassName: "nginx"
@@ -504,17 +500,65 @@ sharedidp:
         nginx.ingress.kubernetes.io/proxy-buffers-number: "20"
         nginx.ingress.kubernetes.io/use-regex: "true"
       tls: false
-  secrets:
-    postgresql:
-      auth:
-        existingSecret:
-          postgrespassword: "dbpasswordsharedidp"
-          password: "dbpasswordsharedidp"
-          replicationPassword: "dbpasswordsharedidp"
-    auth:
-      existingSecret:
-        # -- Password for the admin username 'admin'. Secret-key 'admin-password'.
-        adminpassword: "adminconsolepwsharedidp"
+    # uncomment the following line for tls
+    # initContainers:
+    #   - name: init-certs
+    #     image: docker.io/bitnami/keycloak:23.0.7-debian-12-r1
+    #     imagePullPolicy: IfNotPresent
+    #     command: ["/bin/bash"]
+    #     args:
+    #       - -ec
+    #       - |-
+    #         keytool -import -file "/certs/tls.crt" \
+    #                 -keystore "/opt/bitnami/keycloak/certs/keycloak.truststore.jks" \
+    #                 -storepass "${KEYCLOAK_SPI_TRUSTSTORE_PASSWORD}" \
+    #                 -noprompt
+    #     env:
+    #       - name: KEYCLOAK_SPI_TRUSTSTORE_PASSWORD
+    #         value: "changeit"
+    #     volumeMounts:
+    #       - name: certificates
+    #         mountPath: /certs
+    #       - name: shared-certs
+    #         mountPath: "/opt/bitnami/keycloak/certs"
+    # extraEnvVars:
+    #   - name: KEYCLOAK_SPI_TRUSTSTORE_FILE
+    #     value: "/opt/bitnami/keycloak/certs/keycloak.truststore.jks"
+    #   - name: KEYCLOAK_SPI_TRUSTSTORE_PASSWORD
+    #     value: "changeit"
+    # extraVolumes:
+    #   - name: certificates
+    #     secret:
+    #       secretName: root-secret
+    #       defaultMode: 420
+    #   - name: shared-certs
+    #     emptyDir: {}
+    # extraVolumeMounts:
+    #   - name: certificates
+    #     mountPath: /certs
+    #   - name: shared-certs
+    #     mountPath: "/opt/bitnami/keycloak/certs"
+  realmSeeding:
+    realms:
+      cxOperator:
+        sslRequired: "none"
+        centralidp: "http://centralidp.tx.test"
+        initialUser:
+          username: "cx-operator@tx.test"
+          password: "tractusx-umbr3lla!"
+        mailing:
+          host: "smtp.tx.test"
+          port: "587"
+          username: "smtp-user"
+          password: ""
+          from: "smtp@tx.test"
+          replyTo: "smtp@tx.test"
+      master:
+        serviceAccounts:
+          provisioning:
+            clientSecret: "changeme"
+          saCxOperator:
+            clientSecret: "changeme"
 
 bpndiscovery:
   enabled: false
@@ -680,7 +724,7 @@ ssi-credential-issuer:
       # You must specify the technical user with the required roles for the interaction with the portal
       clientId: "sa-cl24-01"
       # -- Client-secret for portal client-id. Secret-key 'portal-client-secret'.
-      clientSecret: "VRHQM2NOA4176Vrscxey1DdO4P7ikUQc"
+      clientSecret: "changeme"
     credential:
       issuerDid: "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003CRHK"
       issuerBpn: "BPNL00000003CRHK"
@@ -696,7 +740,7 @@ ssi-credential-issuer:
       # You must specify the technical user with the required roles for the interaction with the portal
       clientId: "sa-cl24-01"
       # -- Client-secret for portal client-id. Secret-key 'portal-client-secret'.
-      clientSecret: "VRHQM2NOA4176Vrscxey1DdO4P7ikUQc"
+      clientSecret: "changeme"
     logging:
       default: "Debug"
     processIdentity:
