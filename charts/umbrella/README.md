@@ -627,7 +627,7 @@ In the following some of the available connections:
 Host:
 
 ```
-portal-backend-postgresql
+umbrella-portal-backend-postgresql
 ```
 
 Password:
