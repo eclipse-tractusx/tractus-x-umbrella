@@ -28,7 +28,7 @@ sources:
   - https://github.com/eclipse-tractusx/tractus-x-umbrella
 
 type: application
-version: 1.1.0
+version: 1.1.1
 
 # when adding or updating versions of dependencies, also update list under README.md#Install
 dependencies:
@@ -36,7 +36,7 @@ dependencies:
   - condition: portal.enabled
     name: portal
     repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 2.0.0
+    version: 2.2.0
   # cx-iam
   - condition: centralidp.enabled
     name: centralidp
@@ -109,3 +109,8 @@ dependencies:
     version: 0.1.0
     repository: file://charts/iatpmock
     condition: iatpmock.enabled
+    # ssi-dim-wallet-stub
+  - name: ssi-dim-wallet-stub
+    repository: https://eclipse-tractusx.github.io/charts/dev
+    version: 0.1.2
+    condition: ssi-dim-wallet-stub.enabled
