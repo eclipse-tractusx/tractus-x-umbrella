@@ -18,7 +18,7 @@
 # #############################################################################
 ---
 portal:
-  enabled: true
+  enabled: false
   replicaCount: 1
   postgresql:
     nameOverride: "portal-backend-postgresql"
@@ -31,45 +31,45 @@ portal:
     primary:
       persistence:
         enabled: false
-  portalAddress: "https://portal.dd0929a713804ca78962.germanywestcentral.aksapp.io"
-  portalBackendAddress: "https://portal-backend.dd0929a713804ca78962.germanywestcentral.aksapp.io"
+  portalAddress: "http://portal.tx.test"
+  portalBackendAddress: "http://portal-backend.tx.test"
   centralidp:
-    address: "https://centralidp.dd0929a713804ca78962.germanywestcentral.aksapp.io"
-  sharedidpAddress: "https://sharedidp.dd0929a713804ca78962.germanywestcentral.aksapp.io"
-  semanticsAddress: "https://semantics.dd0929a713804ca78962.germanywestcentral.aksapp.io"
+    address: "http://centralidp.tx.test"
+  sharedidpAddress: "http://sharedidp.tx.test"
+  semanticsAddress: "http://semantics.tx.test"
   bpdm:
-    poolAddress: "https://business-partners.dd0929a713804ca78962.germanywestcentral.aksapp.io"
+    poolAddress: "http://business-partners.tx.test"
     poolApiPath: "/pool/v6"
-    portalGateAddress: "https://business-partners.dd0929a713804ca78962.germanywestcentral.aksapp.io"
+    portalGateAddress: "http://business-partners.tx.test"
     portalGateApiPath: "/gate/v6"
-  custodianAddress: "https://ssi-dim-wallet-stub.dd0929a713804ca78962.germanywestcentral.aksapp.io"
+  custodianAddress: "http://ssi-dim-wallet-stub.tx.test"
   dimWrapper:
-    baseAddress: "https://ssi-dim-wallet-stub.dd0929a713804ca78962.germanywestcentral.aksapp.io"
+    baseAddress: "http://ssi-dim-wallet-stub.tx.test"
     apiPath: "/api/dim"
-  decentralIdentityManagementAuthAddress: "https://ssi-dim-wallet-stub.dd0929a713804ca78962.germanywestcentral.aksapp.io/api/sts"
-  sdfactoryAddress: "https://sdfactory.dd0929a713804ca78962.germanywestcentral.aksapp.io"
-  clearinghouseAddress: "https://validation.dd0929a713804ca78962.germanywestcentral.aksapp.io"
-  clearinghouseTokenAddress: "https://keycloak.dd0929a713804ca78962.germanywestcentral.aksapp.io/realms/example/protocol/openid-connect/token"
-  issuerComponentAddress: "https://ssi-credential-issuer.dd0929a713804ca78962.germanywestcentral.aksapp.io"
+  decentralIdentityManagementAuthAddress: "http://ssi-dim-wallet-stub.tx.test/api/sts"
+  sdfactoryAddress: "http://sdfactory.tx.test"
+  clearinghouseAddress: "http://validation.tx.test"
+  clearinghouseTokenAddress: "http://keycloak.tx.test/realms/example/protocol/openid-connect/token"
+  issuerComponentAddress: "http://ssi-credential-issuer.tx.test"
   frontend:
     ingress:
       enabled: true
-      className : "addon-http-application-routing"
       annotations:
-        cert-manager.io/cluster-issuer: letsencrypt-prod
-        kubernetes.io/ingress.class: addon-http-application-routing
+        # uncomment the following line for tls
+        # cert-manager.io/cluster-issuer: "my-ca-issuer"
         nginx.ingress.kubernetes.io/rewrite-target: "/$1"
         nginx.ingress.kubernetes.io/use-regex: "true"
         nginx.ingress.kubernetes.io/enable-cors: "true"
-        nginx.ingress.kubernetes.io/cors-allow-origin: "https://*.dd0929a713804ca78962.germanywestcentral.aksapp.io"
-      tls:
-        # -- Provide tls secret.
-        - secretName: "portal.tx.test-tls"
-          # -- Provide host for tls secret.
-          hosts:
-            - "portal.dd0929a713804ca78962.germanywestcentral.aksapp.io"
+        nginx.ingress.kubernetes.io/cors-allow-origin: "http://*.tx.test"
+      # uncomment the following lines for tls
+      # tls:
+      #   # -- Provide tls secret.
+      #   - secretName: "portal.tx.test-tls"
+      #     # -- Provide host for tls secret.
+      #     hosts:
+      #       - "portal.tx.test"
       hosts:
-        - host: "portal.dd0929a713804ca78962.germanywestcentral.aksapp.io"
+        - host: "portal.tx.test"
           paths:
             - path: "/(.*)"
               pathType: "ImplementationSpecific"
@@ -115,7 +115,7 @@ portal:
         encryptionConfigs:
           index0:
             encryptionKey: "deb8261ec7b89c344f1c5ef5a11606e305f14e0d231b1357d90ad0180c5081d3"
-      issuerdid: "did:web:ssi-dim-wallet-stub.dd0929a713804ca78962.germanywestcentral.aksapp.io:BPNL00000003CRHK"
+      issuerdid: "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003CRHK"
       swaggerEnabled: true
     appmarketplace:
       logging:
@@ -164,7 +164,7 @@ portal:
         clientSecret: "zuBGfr67Tj0WJ5fAJSIRvoPEP5hSQFMT"
         grantType: "client_credentials"
         scope: "openid"
-        baseAddress: "https://ssi-dim-wallet-stub.dd0929a713804ca78962.germanywestcentral.aksapp.io"
+        baseAddress: "http://ssi-dim-wallet-stub.tx.test"
         universalResolverAddress: "https://dev.uniresolver.io/"
         encryptionConfigs:
           index0:
@@ -201,10 +201,10 @@ portal:
             encryptionKey:
               "d2e27d71b018cb36029184852f1baa3e26891be94718f77de4c7cc6c882fe317"
     mailing:
-      host: "smtp.dd0929a713804ca78962.germanywestcentral.aksapp.io"
+      host: "smtp.tx.test"
       port: "587"
       user: "smtp-user"
-      senderEmail: "smtp@23961bac374844fd9fe0.germanywestcentral.aksapp.io"
+      senderEmail: "smtp@tx.test"
       password: ""
     portalmigrations:
       logging:
@@ -212,36 +212,36 @@ portal:
     provisioning:
       sharedRealm:
         smtpServer:
-          host: "smtp.dd0929a713804ca78962.germanywestcentral.aksapp.io"
+          host: "smtp.tx.test"
           port: "587"
           user: "smtp-user"
           password: ""
-          from: "smtp@23961bac374844fd9fe0.germanywestcentral.aksapp.io"
-          replyTo: "smtp@23961bac374844fd9fe0.germanywestcentral.aksapp.io"
-    # -- docs: https://portal-backend.dd0929a713804ca78962.germanywestcentral.aksapp.io/api/administration/swagger/index.html
-    # https://portal-backend.dd0929a713804ca78962.germanywestcentral.aksapp.io/api/registration/swagger/index.html
-    # https://portal-backend.dd0929a713804ca78962.germanywestcentral.aksapp.io/api/apps/swagger/index.html
-    # https://portal-backend.dd0929a713804ca78962.germanywestcentral.aksapp.io/api/services/swagger/index.html
-    # https://portal-backend.dd0929a713804ca78962.germanywestcentral.aksapp.io/api/notification/swagger/index.html
+          from: "smtp@tx.test"
+          replyTo: "smtp@tx.test"
+    # -- docs: http://portal-backend.tx.test/api/administration/swagger/index.html
+    # http://portal-backend.tx.test/api/registration/swagger/index.html
+    # http://portal-backend.tx.test/api/apps/swagger/index.html
+    # http://portal-backend.tx.test/api/services/swagger/index.html
+    # http://portal-backend.tx.test/api/notification/swagger/index.html
     ingress:
       enabled: true
-      className : "addon-http-application-routing"
       name: "portal-backend"
       annotations:
-        cert-manager.io/cluster-issuer: letsencrypt-prod
-        kubernetes.io/ingress.class: addon-http-application-routing
+        # uncomment the following line for tls
+        # cert-manager.io/cluster-issuer: "my-ca-issuer"
         nginx.ingress.kubernetes.io/use-regex: "true"
         nginx.ingress.kubernetes.io/enable-cors: "true"
         nginx.ingress.kubernetes.io/proxy-body-size: "8m"
-        nginx.ingress.kubernetes.io/cors-allow-origin: "http://localhost:3000, https://*.dd0929a713804ca78962.germanywestcentral.aksapp.io"
-      tls:
-        # -- Provide tls secret.
-        - secretName: "portal-backend.tx.test-tls"
-          # -- Provide host for tls secret.
-          hosts:
-            - "portal-backend.dd0929a713804ca78962.germanywestcentral.aksapp.io"
+        nginx.ingress.kubernetes.io/cors-allow-origin: "http://localhost:3000, http://*.tx.test"
+      # uncomment the following lines for tls
+      # tls:
+      #   # -- Provide tls secret.
+      #   - secretName: "portal-backend.tx.test-tls"
+      #     # -- Provide host for tls secret.
+      #     hosts:
+      #       - "portal-backend.tx.test"
       hosts:
-        - host: "portal-backend.dd0929a713804ca78962.germanywestcentral.aksapp.io"
+        - host: "portal-backend.tx.test"
           paths:
             - path: "/api/registration"
               pathType: "Prefix"
@@ -275,7 +275,7 @@ portal:
                 port: 8080
 
 centralidp:
-  enabled: true
+  enabled: false
   keycloak:
     nameOverride: "centralidp"
     replicaCount: 1
@@ -292,20 +292,20 @@ centralidp:
           enabled: false
     ingress:
       enabled: true
-      ingressClassName: ""
-      hostname: "centralidp.dd0929a713804ca78962.germanywestcentral.aksapp.io"
+      ingressClassName: "nginx"
+      hostname: "centralidp.tx.test"
       annotations:
-        cert-manager.io/cluster-issuer: letsencrypt-prod
-        kubernetes.io/ingress.class: addon-http-application-routing
+        # uncomment the following line for tls
+        # cert-manager.io/cluster-issuer: "my-ca-issuer"
         nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
         nginx.ingress.kubernetes.io/cors-allow-methods: "PUT, GET, POST, OPTIONS"
-        nginx.ingress.kubernetes.io/cors-allow-origin: "https://centralidp.dd0929a713804ca78962.germanywestcentral.aksapp.io"
+        nginx.ingress.kubernetes.io/cors-allow-origin: "http://centralidp.tx.test"
         nginx.ingress.kubernetes.io/enable-cors: "true"
         nginx.ingress.kubernetes.io/proxy-buffer-size: "128k"
         nginx.ingress.kubernetes.io/proxy-buffering: "on"
         nginx.ingress.kubernetes.io/proxy-buffers-number: "20"
         nginx.ingress.kubernetes.io/use-regex: "true"
-      tls: true
+      tls: false
     # uncomment the following line for tls
     # initContainers:
     #   - name: init-certs
@@ -349,26 +349,26 @@ centralidp:
     clients:
       registration:
         redirects:
-          - https://portal.dd0929a713804ca78962.germanywestcentral.aksapp.io/*
+          - http://portal.tx.test/*
       portal:
-        rootUrl: https://portal.dd0929a713804ca78962.germanywestcentral.aksapp.io/home
+        rootUrl: http://portal.tx.test/home
         redirects:
-          - https://portal.dd0929a713804ca78962.germanywestcentral.aksapp.io/*
+          - http://portal.tx.test/*
       semantics:
         redirects:
-          - https://portal.dd0929a713804ca78962.germanywestcentral.aksapp.io/*
+          - http://portal.tx.test/*
       miw:
         clientSecret: "changeme"
         redirects:
-          - https://managed-identity-wallets.dd0929a713804ca78962.germanywestcentral.aksapp.io/*
+          - http://managed-identity-wallets.tx.test/*
       bpdm:
         clientSecret: "changeme"
         redirects:
-          - https://partners-pool.dd0929a713804ca78962.germanywestcentral.aksapp.io/*
+          - http://partners-pool.tx.test/*
       bpdmGate:
         clientSecret: "changeme"
         redirects:
-          - https://partners-gate.dd0929a713804ca78962.germanywestcentral.aksapp.io/*
+          - http://partners-gate.tx.test/*
       bpdmOrchestrator:
         clientSecret: "changeme"
     serviceAccounts:
@@ -410,7 +410,7 @@ centralidp:
         - clientId: "sa-cl25-cx-3"
           clientSecret: "changeme"
     bpn: "BPNL00000003CRHK"
-    sharedidp: "https://sharedidp.dd0929a713804ca78962.germanywestcentral.aksapp.io"
+    sharedidp: "http://sharedidp.tx.test"
     # -- test service accounts for EDC - MIW which are obsolete since R24.05;
     # uncomment once EDC uses SSI DIM Wallet Stub and the helm chart testing has been updated;
     # currently the post-install testdata-upload-job fails if not available
@@ -470,7 +470,7 @@ centralidp:
         pullPolicy: IfNotPresent
 
 sharedidp:
-  enabled: true
+  enabled: false
   keycloak:
     nameOverride: "sharedidp"
     auth:
@@ -486,20 +486,20 @@ sharedidp:
           enabled: false
     ingress:
       enabled: true
-      ingressClassName: ""
-      hostname: "sharedidp.dd0929a713804ca78962.germanywestcentral.aksapp.io"
+      ingressClassName: "nginx"
+      hostname: "sharedidp.tx.test"
       annotations:
-        cert-manager.io/cluster-issuer: letsencrypt-prod
-        kubernetes.io/ingress.class: addon-http-application-routing
+        # uncomment the following line for tls
+        # cert-manager.io/cluster-issuer: "my-ca-issuer"
         nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
         nginx.ingress.kubernetes.io/cors-allow-methods: "PUT, GET, POST, OPTIONS"
-        nginx.ingress.kubernetes.io/cors-allow-origin: "https://sharedidp.dd0929a713804ca78962.germanywestcentral.aksapp.io"
+        nginx.ingress.kubernetes.io/cors-allow-origin: "http://sharedidp.tx.test"
         nginx.ingress.kubernetes.io/enable-cors: "true"
         nginx.ingress.kubernetes.io/proxy-buffer-size: "128k"
         nginx.ingress.kubernetes.io/proxy-buffering: "on"
         nginx.ingress.kubernetes.io/proxy-buffers-number: "20"
         nginx.ingress.kubernetes.io/use-regex: "true"
-      tls: true
+      tls: false
     # uncomment the following line for tls
     # initContainers:
     #   - name: init-certs
@@ -542,12 +542,12 @@ sharedidp:
     realms:
       cxOperator:
         sslRequired: "none"
-        centralidp: "https://centralidp.dd0929a713804ca78962.germanywestcentral.aksapp.io"
+        centralidp: "http://centralidp.tx.test"
         initialUser:
           username: "cx-operator@tx.test"
           password: "tractusx-umbr3lla!"
         mailing:
-          host: "smtp.dd0929a713804ca78962.germanywestcentral.aksapp.io"
+          host: "smtp.tx.test"
           port: "587"
           username: "smtp-user"
           password: ""
@@ -561,18 +561,17 @@ sharedidp:
             clientSecret: "changeme"
 
 bpndiscovery:
-  enabled: true
+  enabled: false
   enablePostgres: true
   bpndiscovery:
-    host: semantics.dd0929a713804ca78962.germanywestcentral.aksapp.io
+    host: semantics.tx.test
     ingress:
       enabled: true
-      tls: true
+      tls: false
       urlPrefix: "/bpndiscovery"
-      className: ""
+      className: "nginx"
       annotations:
-        cert-manager.io/cluster-issuer: letsencrypt-prod
-        kubernetes.io/ingress.class: addon-http-application-routing
+        cert-manager.io/cluster-issuer: "my-ca-issuer"
         nginx.ingress.kubernetes.io/rewrite-target: "/$2"
         nginx.ingress.kubernetes.io/use-regex: "true"
         nginx.ingress.kubernetes.io/enable-cors: "true"
@@ -580,7 +579,7 @@ bpndiscovery:
         nginx.ingress.kubernetes.io/x-forwarded-prefix: "/bpndiscovery"
     authentication: true
     idp:
-      issuerUri: "https://centralidp.dd0929a713804ca78962.germanywestcentral.aksapp.io/auth/realms/CX-Central"
+      issuerUri: "http://centralidp.tx.test/auth/realms/CX-Central"
       publicClientId: "Cl22-CX-BPND"
     bpndiscoverEndpoint:
       allowedTypes: oen,wmi,passtype,manufacturerPartId
@@ -603,7 +602,7 @@ bpndiscovery:
       postgresPassword: "dbpasswordbpndiscovery"
 
 discoveryfinder:
-  enabled: true
+  enabled: false
   enablePostgres: true
   discoveryfinder:
     authentication: true
@@ -611,28 +610,28 @@ discoveryfinder:
       initialDelaySeconds: 200
     readinessProbe:
       initialDelaySeconds: 200
-    host: semantics.dd0929a713804ca78962.germanywestcentral.aksapp.io
+    host: semantics.tx.test
     properties:
       discoveryfinder:
         initialEndpoints:
           - type: bpn
-            endpointAddress: https://portal-backend.dd0929a713804ca78962.germanywestcentral.aksapp.io/api/administration/Connectors/discovery
+            endpointAddress: http://portal-backend.tx.test/api/administration/Connectors/discovery
             description: Service to discover connector endpoints based on bpns
-            documentation: https://portal-backend.dd0929a713804ca78962.germanywestcentral.aksapp.io/api/administration/swagger/index.html
+            documentation: http://portal-backend.tx.test/api/administration/swagger/index.html
     idp:
-      issuerUri: "https://centralidp.dd0929a713804ca78962.germanywestcentral.aksapp.io/auth/realms/CX-Central"
+      issuerUri: "http://centralidp.tx.test/auth/realms/CX-Central"
       publicClientId: "Cl21-CX-DF"
     dataSource:
       url: "jdbc:postgresql://{{ .Release.Name }}-discoveryfinder-postgresql:5432/discoveryfinder"
-    # -- docs: https://semantics.dd0929a713804ca78962.germanywestcentral.aksapp.io/discoveryfinder/swagger-ui/index.html
+    # -- docs: http://semantics.tx.test/discoveryfinder/swagger-ui/index.html
     ingress:
       enabled: true
-      tls: true
+      tls: false
       urlPrefix: "/discoveryfinder"
-      className: ""
+      className: "nginx"
       annotations:
-        cert-manager.io/cluster-issuer: letsencrypt-prod
-        kubernetes.io/ingress.class: addon-http-application-routing
+        cert-manager.io/cluster-issuer: "my-ca-issuer"
+        nginx.ingress.kubernetes.io/rewrite-target: "/$2"
         nginx.ingress.kubernetes.io/use-regex: "true"
         nginx.ingress.kubernetes.io/enable-cors: "true"
         nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
@@ -648,17 +647,17 @@ discoveryfinder:
       postgresPassword: "dbpassworddiscoveryfinder"
 
 selfdescription:
-  enabled: true
+  enabled: false
   sdfactory:
     secret:
       # -- JWK Set URI
-      jwkSetUri: "https://centralidp.dd0929a713804ca78962.germanywestcentral.aksapp.io/auth/realms/CX-Central/protocol/openid-connect/certs"
+      jwkSetUri: "http://centralidp.tx.test/auth/realms/CX-Central/protocol/openid-connect/certs"
       # -- Custodian wallet client id
       clientId: "sa-cl5-custodian-1"
       # -- Custodian wallet client secret
       clientSecret: "6pnnap7byS1TImL9Uj7g2psud9Fdq4tJ"
       # -- Keycloak URL
-      authServerUrl: "https://centralidp.dd0929a713804ca78962.germanywestcentral.aksapp.io/auth"
+      authServerUrl: "http://centralidp.tx.test/auth"
       # -- Keycloak Realm detail
       realm: "CX-Central"
       # -- Keycloak Resource detail
@@ -678,16 +677,16 @@ selfdescription:
   ingress:
     enabled: true
     hosts:
-      - host: "sdfactory.dd0929a713804ca78962.germanywestcentral.aksapp.io"
+      - host: "sdfactory.tx.test"
         paths:
           - path: "/"
             pathType: "Prefix"
     # uncomment the following lines for tls
-    tls:
-    - tlsName: sdfactory.tx.test-tls
-      hosts:
-        - sdfactory.dd0929a713804ca78962.germanywestcentral.aksapp.io
-    className: ""
+    # tls:
+    # - tlsName: sdfactory.tx.test-tls
+    #   hosts:
+    #     - sdfactory.tx.test.net
+    className: "nginx"
     # annotations:
     #   # uncomment the following line for tls
     #   cert-manager.io/cluster-issuer: "my-ca-issuer"
@@ -705,16 +704,16 @@ iatpmock:
   ingress:
     enabled: true
     hosts:
-      - host: iatpmock.dd0929a713804ca78962.germanywestcentral.aksapp.io
+      - host: iatpmock.tx.test
         paths:
           - path: /
             pathType: ImplementationSpecific
 
 ssi-credential-issuer:
-  enabled: true
-  portalBackendAddress: "https://portal-backend.dd0929a713804ca78962.germanywestcentral.aksapp.io"
-  walletAddress: "https://ssi-dim-wallet-stub.dd0929a713804ca78962.germanywestcentral.aksapp.io"
-  walletTokenAddress: "https://ssi-dim-wallet-stub.dd0929a713804ca78962.germanywestcentral.aksapp.io/oauth/token"
+  enabled: false
+  portalBackendAddress: "http://portal-backend.tx.test"
+  walletAddress: "http://ssi-dim-wallet-stub.tx.test"
+  walletTokenAddress: "http://ssi-dim-wallet-stub.tx.test/oauth/token"
   issuer:
     swaggerEnabled: true
     logging:
@@ -727,9 +726,9 @@ ssi-credential-issuer:
       # -- Client-secret for portal client-id. Secret-key 'portal-client-secret'.
       clientSecret: "changeme"
     credential:
-      issuerDid: "did:web:ssi-dim-wallet-stub.dd0929a713804ca78962.germanywestcentral.aksapp.io:BPNL00000003CRHK"
+      issuerDid: "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003CRHK"
       issuerBpn: "BPNL00000003CRHK"
-      statusListUrl: "https://ssi-dim-wallet-stub.dd0929a713804ca78962.germanywestcentral.aksapp.io/status-list/BPNL00000003CRHK/8a6c7486-1e1f-4555-bdd2-1a178182651e"
+      statusListUrl: "http://ssi-dim-wallet-stub.tx.test/status-list/BPNL00000003CRHK/8a6c7486-1e1f-4555-bdd2-1a178182651e"
       encryptionConfigIndex: 0
       encryptionConfigs:
         index0:
@@ -777,26 +776,24 @@ ssi-credential-issuer:
 
   centralidp:
     # -- Provide centralidp base address (CX IAM), without trailing '/auth'.
-    address: "https://centralidp.dd0929a713804ca78962.germanywestcentral.aksapp.io"
+    address: "http://centralidp.tx.test"
     jwtBearerOptions:
       requireHttpsMetadata: "false"
   ingress:
     enabled: true
-    className: ""
+    className: "nginx"
     annotations:
-      cert-manager.io/cluster-issuer: letsencrypt-prod
-      kubernetes.io/ingress.class: addon-http-application-routing
       nginx.ingress.kubernetes.io/use-regex: "true"
       nginx.ingress.kubernetes.io/enable-cors: "true"
       nginx.ingress.kubernetes.io/proxy-body-size: "8m"
-      nginx.ingress.kubernetes.io/cors-allow-origin: "https://*.dd0929a713804ca78962.germanywestcentral.aksapp.io"
+      nginx.ingress.kubernetes.io/cors-allow-origin: "http://*.tx.test"
     # -- Ingress TLS configuration
-    tls:
-      - secretName: "ssi-credential-issuer.tx.test-tls"
-        hosts:
-          - "ssi-credential-issuer.dd0929a713804ca78962.germanywestcentral.aksapp.io"
+    tls: []
+      # - secretName: ""
+      #   hosts:
+      #     - ""
     hosts:
-      - host: "ssi-credential-issuer.dd0929a713804ca78962.germanywestcentral.aksapp.io"
+      - host: "ssi-credential-issuer.tx.test"
         paths:
           - path: "/"
             pathType: "Prefix"
@@ -837,7 +834,7 @@ bpdm:
         nginx.ingress.kubernetes.io/x-forwarded-prefix: "/gate"
       # The Portal expects its Gate on that specific url path so we provide it here through ingress
       hosts:
-        - host: "business-partners.dd0929a713804ca78962.germanywestcentral.aksapp.io"
+        - host: "business-partners.tx.test"
           paths:
             - path: "/gate(/|$)(.*)"
               pathType: "ImplementationSpecific"
@@ -856,7 +853,7 @@ bpdm:
               starts-as-ready: false
         security:
           # App's API is authenticated over Central-IDP
-          auth-server-url: "https://centralidp.dd0929a713804ca78962.germanywestcentral.aksapp.io/auth"
+          auth-server-url: "http://centralidp.tx.test/auth"
           realm: "CX-Central"
           # Is Central-IDPs name for the Gate client
           # The Gate will use that name to check for existing client permissions here
@@ -899,7 +896,7 @@ bpdm:
         nginx.ingress.kubernetes.io/use-regex: "true"
         nginx.ingress.kubernetes.io/x-forwarded-prefix: "/pool"
       hosts:
-        - host: "business-partners.dd0929a713804ca78962.germanywestcentral.aksapp.io"
+        - host: "business-partners.tx.test"
           paths:
             - path: "/pool(/|$)(.*)"
               pathType: "ImplementationSpecific"
@@ -910,7 +907,7 @@ bpdm:
       bpdm:
         security:
           # App's API is authenticated over Central-IDP
-          auth-server-url: "https://centralidp.dd0929a713804ca78962.germanywestcentral.aksapp.io/auth"
+          auth-server-url: "http://centralidp.tx.test/auth"
           realm: "CX-Central"
           # Is Central-IDPs name for the Pool client
           # The Pool will use that name to check for existing client permissions here
@@ -943,7 +940,7 @@ bpdm:
         nginx.ingress.kubernetes.io/use-regex: "true"
         nginx.ingress.kubernetes.io/x-forwarded-prefix: "/orchestrator"
       hosts:
-        - host: "business-partners.dd0929a713804ca78962.germanywestcentral.aksapp.io"
+        - host: "business-partners.tx.test"
           paths:
             - path: "/orchestrator(/|$)(.*)"
               pathType: "ImplementationSpecific"
@@ -953,7 +950,7 @@ bpdm:
         forward-headers-strategy: "FRAMEWORK"
       bpdm:
         security:
-          auth-server-url: "https://centralidp.dd0929a713804ca78962.germanywestcentral.aksapp.io/auth"
+          auth-server-url: "http://centralidp.tx.test/auth"
           realm: "CX-Central"
           # The Central-IDP does not yet have dedicated Orchestrator permissions
           # Therefore, we just reuse the permissions from the Pool for now
@@ -983,7 +980,7 @@ bpdm:
         client:
           orchestrator:
             provider:
-              issuer-uri: "https://centralidp.dd0929a713804ca78962.germanywestcentral.aksapp.io/auth/realms/CX-Central"
+              issuer-uri: "http://centralidp.tx.test/auth/realms/CX-Central"
             registration:
               client-id: *bpdmAdminClientId
     applicationSecrets:
@@ -994,7 +991,7 @@ bpdm:
               client-secret: *bpdmAdminClientSecret
 
 dataconsumerOne:
-  enabled: true
+  enabled: false
   seedTestdata: false
   nameOverride: dataconsumer-1
   secrets:
@@ -1004,56 +1001,50 @@ dataconsumerOne:
     participant:
       id: BPNL00000003AZQP
     iatp:
-      id: did:web:ssi-dim-wallet-stub.dd0929a713804ca78962.germanywestcentral.aksapp.io:BPNL00000003AZQP
+      id: did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003AZQP
       trustedIssuers:
-        - did:web:ssi-dim-wallet-stub.dd0929a713804ca78962.germanywestcentral.aksapp.io:BPNL00000003CRHK
+        - did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003CRHK
       sts:
         dim:
-          url: https://ssi-dim-wallet-stub.dd0929a713804ca78962.germanywestcentral.aksapp.io/api/sts
+          url: http://ssi-dim-wallet-stub.tx.test/api/sts
         oauth:
-          token_url: https://ssi-dim-wallet-stub.dd0929a713804ca78962.germanywestcentral.aksapp.io/oauth/token
+          token_url: http://ssi-dim-wallet-stub.tx.test/oauth/token
           client:
             id: BPNL00000003AZQP
             secret_alias: edc-miw-keycloak-secret
     controlplane:
       env:
-        TX_IAM_IATP_CREDENTIALSERVICE_URL: https://ssi-dim-wallet-stub.dd0929a713804ca78962.germanywestcentral.aksapp.io/api
+        TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-stub.tx.test/api
         EDC_IAM_DID_WEB_USE_HTTPS: false
       bdrs:
         server:
-          url: https://bdrs-server.dd0929a713804ca78962.germanywestcentral.aksapp.io/api/directory
+          url: http://bdrs-server.tx.test/api/directory
       endpoints:
         management:
           authKey: TEST1
       ingresses:
         - enabled: true
-          annotations:
-            cert-manager.io/cluster-issuer: letsencrypt-prod
-            kubernetes.io/ingress.class: addon-http-application-routing
-          hostname: "dataconsumer-1-controlplane.dd0929a713804ca78962.germanywestcentral.aksapp.io"
+          hostname: "dataconsumer-1-controlplane.tx.test"
           endpoints:
             - default
             - protocol
             - management
-          # className: ""
+          className: "nginx"
           tls:
-            enabled: true
+            enabled: false
     dataplane:
       env:
-        TX_IAM_IATP_CREDENTIALSERVICE_URL: https://ssi-dim-wallet-stub.dd0929a713804ca78962.germanywestcentral.aksapp.io/api
+        TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-stub.tx.test/api
         EDC_IAM_DID_WEB_USE_HTTPS: false
       ingresses:
         - enabled: true
-          annotations:
-            cert-manager.io/cluster-issuer: letsencrypt-prod
-            kubernetes.io/ingress.class: addon-http-application-routing
-          hostname: "dataconsumer-1-dataplane.dd0929a713804ca78962.germanywestcentral.aksapp.io"
+          hostname: "dataconsumer-1-dataplane.tx.test"
           endpoints:
             - default
             - public
-          # className: ""
+          className: "nginx"
           tls:
-            enabled: true
+            enabled: false
       token:
         signer:
           privatekey_alias: tokenSignerPrivateKey
@@ -1087,7 +1078,7 @@ dataconsumerOne:
     enabled: false
 
 tx-data-provider:
-  enabled: true
+  enabled: false
   seedTestdata: true
   backendUrl: http://{{ .Release.Name }}-dataprovider-submodelserver:8080
   registryUrl: http://{{ .Release.Name }}-dataprovider-dtr:8080/api/v3
@@ -1102,56 +1093,50 @@ tx-data-provider:
     participant:
       id: BPNL00000003AYRE
     iatp:
-      id: did:web:ssi-dim-wallet-stub.dd0929a713804ca78962.germanywestcentral.aksapp.io:BPNL00000003AYRE
+      id: did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003AYRE
       trustedIssuers:
-        - did:web:ssi-dim-wallet-stub.dd0929a713804ca78962.germanywestcentral.aksapp.io:BPNL00000003CRHK
+        - did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003CRHK
       sts:
         dim:
-          url: https://ssi-dim-wallet-stub.dd0929a713804ca78962.germanywestcentral.aksapp.io/api/sts
+          url: http://ssi-dim-wallet-stub.tx.test/api/sts
         oauth:
-          token_url: https://ssi-dim-wallet-stub.dd0929a713804ca78962.germanywestcentral.aksapp.io/oauth/token
+          token_url: http://ssi-dim-wallet-stub.tx.test/oauth/token
           client:
             id: BPNL00000003AYRE
             secret_alias: edc-miw-keycloak-secret
     controlplane:
       env:
-        TX_IAM_IATP_CREDENTIALSERVICE_URL: https://ssi-dim-wallet-stub.dd0929a713804ca78962.germanywestcentral.aksapp.io/api
+        TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-stub.tx.test/api
         EDC_IAM_DID_WEB_USE_HTTPS: false
       bdrs:
         server:
-          url: https://bdrs-server.dd0929a713804ca78962.germanywestcentral.aksapp.io/api/directory
+          url: http://bdrs-server.tx.test/api/directory
       endpoints:
         management:
           authKey: TEST2
       ingresses:
         - enabled: true
-          annotations:
-            cert-manager.io/cluster-issuer: letsencrypt-prod
-            kubernetes.io/ingress.class: addon-http-application-routing
-          hostname: "dataprovider-controlplane.dd0929a713804ca78962.germanywestcentral.aksapp.io"
+          hostname: "dataprovider-controlplane.tx.test"
           endpoints:
             - default
             - protocol
             - management
-          # className: ""
+          className: "nginx"
           tls:
-            enabled: true
+            enabled: false
     dataplane:
       env:
-        TX_IAM_IATP_CREDENTIALSERVICE_URL: https://ssi-dim-wallet-stub.dd0929a713804ca78962.germanywestcentral.aksapp.io/api
+        TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-stub.tx.test/api
         EDC_IAM_DID_WEB_USE_HTTPS: false
       ingresses:
         - enabled: true
-          annotations:
-            cert-manager.io/cluster-issuer: letsencrypt-prod
-            kubernetes.io/ingress.class: addon-http-application-routing
-          hostname: "dataprovider-dataplane.dd0929a713804ca78962.germanywestcentral.aksapp.io"
+          hostname: "dataprovider-dataplane.tx.test"
           endpoints:
             - default
             - public
-          # className: ""
+          className: "nginx"
           tls:
-            enabled: true
+            enabled: false
       token:
         signer:
           privatekey_alias: tokenSignerPrivateKey
@@ -1191,29 +1176,7 @@ tx-data-provider:
   simple-data-backend:
     nameOverride: dataprovider-submodelserver
     ingress:
-      enabled: true
-      ingressClassName: ""
-      annotations:
-        # uncomment the following line for tls
-        kubernetes.io/ingress.class: addon-http-application-routing
-        # nginx.ingress.kubernetes.io/proxy-body-size: 50m
-        cert-manager.io/cluster-issuer: letsencrypt-prod
-      hosts:
-      - host: "submodelserver.dd0929a713804ca78962.germanywestcentral.aksapp.io"
-        paths:
-          - path: "/"
-            pathType: "ImplementationSpecific"
-      tls:
-        - secretName: "submodelserver.tx.test-tls"
-          hosts:
-            - "submodelserver.dd0929a713804ca78962.germanywestcentral.aksapp.io"
-    resources:
-      limits:
-        cpu: 500m
-        memory: 1024Mi
-      requests:
-        cpu: 500m
-        memory: 1024Mi
+      enabled: false
 
 semantic-hub:
   enabled: false
@@ -1230,7 +1193,7 @@ semantic-hub:
       initialDelaySeconds: 200
     readinessProbe:
       initialDelaySeconds: 200
-    host: semantics.dd0929a713804ca78962.germanywestcentral.aksapp.io
+    host: semantics.tx.test
     ingress:
       enabled: true
       tls: false
@@ -1261,30 +1224,30 @@ dataconsumerTwo:
     participant:
       id: BPNL00000003AVTH
     iatp:
-      id: did:web:ssi-dim-wallet-stub.dd0929a713804ca78962.germanywestcentral.aksapp.io:BPNL00000003AVTH
+      id: did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003AVTH
       trustedIssuers:
-        - did:web:ssi-dim-wallet-stub.dd0929a713804ca78962.germanywestcentral.aksapp.io:BPNL00000003CRHK
+        - did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003CRHK
       sts:
         dim:
-          url: https://ssi-dim-wallet-stub.dd0929a713804ca78962.germanywestcentral.aksapp.io/api/sts
+          url: http://ssi-dim-wallet-stub.tx.test/api/sts
         oauth:
-          token_url: https://ssi-dim-wallet-stub.dd0929a713804ca78962.germanywestcentral.aksapp.io/oauth/token
+          token_url: http://ssi-dim-wallet-stub.tx.test/oauth/token
           client:
             id: BPNL00000003AVTH
             secret_alias: edc-miw-keycloak-secret
     controlplane:
       env:
-        TX_IAM_IATP_CREDENTIALSERVICE_URL: https://ssi-dim-wallet-stub.dd0929a713804ca78962.germanywestcentral.aksapp.io/api
+        TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-stub.tx.test/api
         EDC_IAM_DID_WEB_USE_HTTPS: false
       bdrs:
         server:
-          url: https://bdrs-server.dd0929a713804ca78962.germanywestcentral.aksapp.io/api/directory
+          url: http://bdrs-server.tx.test/api/directory
       endpoints:
         management:
           authKey: TEST3
       ingresses:
         - enabled: true
-          hostname: "dataconsumer-2-controlplane.dd0929a713804ca78962.germanywestcentral.aksapp.io"
+          hostname: "dataconsumer-2-controlplane.tx.test"
           endpoints:
             - default
             - protocol
@@ -1294,11 +1257,11 @@ dataconsumerTwo:
             enabled: false
     dataplane:
       env:
-        TX_IAM_IATP_CREDENTIALSERVICE_URL: https://ssi-dim-wallet-stub.dd0929a713804ca78962.germanywestcentral.aksapp.io/api
+        TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-stub.tx.test/api
         EDC_IAM_DID_WEB_USE_HTTPS: false
       ingresses:
         - enabled: true
-          hostname: "dataconsumer-2-dataplane.dd0929a713804ca78962.germanywestcentral.aksapp.io"
+          hostname: "dataconsumer-2-dataplane.tx.test"
           endpoints:
             - default
             - public
@@ -1338,7 +1301,7 @@ dataconsumerTwo:
     enabled: false
 
 pgadmin4:
-  enabled: true
+  enabled: false
   env:
     email: pgadmin4@txtest.org
     password: tractusxpgdamin4
@@ -1346,69 +1309,59 @@ pgadmin4:
     enabled: false
   ingress:
     enabled: true
-    ingressClassName: ""
-    annotations:
-        # uncomment the following line for tls
-        kubernetes.io/ingress.class: addon-http-application-routing
-        # nginx.ingress.kubernetes.io/proxy-body-size: 50m
-        cert-manager.io/cluster-issuer: letsencrypt-prod
+    ingressClassName: "nginx"
     hosts:
-      - host: pgadmin4.dd0929a713804ca78962.germanywestcentral.aksapp.io
+      - host: pgadmin4.tx.test
         paths:
         - path: /
           pathType: Prefix
-    tls:
-      - secretName: "pgadmin4.tx.test-tls"
-        hosts:
-          - "pgadmin4.dd0929a713804ca78962.germanywestcentral.aksapp.io"
-
 
 bdrs-server-memory:
   nameOverride: bdrs-server
   fullnameOverride: bdrs-server
-  enabled: true
+  enabled: false
   seeding:
     url: "http://bdrs-server:8081"
     enabled: true
     bpnList:
       - bpn: "BPNL00000003CRHK"
-        did: "did:web:ssi-dim-wallet-stub.dd0929a713804ca78962.germanywestcentral.aksapp.io:BPNL00000003CRHK"
+        did: "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003CRHK"
       - bpn: "BPNL00000003B3NX"
-        did: "did:web:ssi-dim-wallet-stub.dd0929a713804ca78962.germanywestcentral.aksapp.io:BPNL00000003B3NX"
+        did: "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003B3NX"
       - bpn: "BPNL00000003CSGV"
-        did: "did:web:ssi-dim-wallet-stub.dd0929a713804ca78962.germanywestcentral.aksapp.io:BPNL00000003CSGV"
+        did: "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003CSGV"
       - bpn: "BPNL00000003B6LU"
-        did: "did:web:ssi-dim-wallet-stub.dd0929a713804ca78962.germanywestcentral.aksapp.io:BPNL00000003B6LU"
+        did: "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003B6LU"
       - bpn: "BPNL00000003AXS3"
-        did: "did:web:ssi-dim-wallet-stub.dd0929a713804ca78962.germanywestcentral.aksapp.io:BPNL00000003AXS3"
+        did: "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003AXS3"
       - bpn: "BPNL00000003AZQP"
-        did: "did:web:ssi-dim-wallet-stub.dd0929a713804ca78962.germanywestcentral.aksapp.io:BPNL00000003AZQP"
+        did: "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003AZQP"
       - bpn: "BPNL00000003AWSS"
-        did: "did:web:ssi-dim-wallet-stub.dd0929a713804ca78962.germanywestcentral.aksapp.io:BPNL00000003AWSS"
+        did: "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003AWSS"
       - bpn: "BPNL00000003AYRE"
-        did: "did:web:ssi-dim-wallet-stub.dd0929a713804ca78962.germanywestcentral.aksapp.io:BPNL00000003AYRE"
+        did: "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003AYRE"
       - bpn: "BPNL00000003AVTH"
-        did: "did:web:ssi-dim-wallet-stub.dd0929a713804ca78962.germanywestcentral.aksapp.io:BPNL00000003AVTH"
+        did: "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003AVTH"
       - bpn: "BPNL00000000BJTL"
-        did: "did:web:ssi-dim-wallet-stub.dd0929a713804ca78962.germanywestcentral.aksapp.io:BPNL00000000BJTL"
+        did: "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000000BJTL"
       - bpn: "BPNL00000003CML1"
-        did: "did:web:ssi-dim-wallet-stub.dd0929a713804ca78962.germanywestcentral.aksapp.io:BPNL00000003CML1"
+        did: "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003CML1"
       - bpn: "BPNL00000003B2OM"
-        did: "did:web:ssi-dim-wallet-stub.dd0929a713804ca78962.germanywestcentral.aksapp.io:BPNL00000003B2OM"
+        did: "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003B2OM"
       - bpn: "BPNL00000003B0Q0"
-        did: "did:web:ssi-dim-wallet-stub.dd0929a713804ca78962.germanywestcentral.aksapp.io:BPNL00000003B0Q0"
+        did: "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003B0Q0"
       - bpn: "BPNL00000003B5MJ"
-        did: "did:web:ssi-dim-wallet-stub.dd0929a713804ca78962.germanywestcentral.aksapp.io:BPNL00000003B5MJ"
+        did: "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003B5MJ"
       - bpn: "BPNS0000000008ZZ"
-        did: "did:web:ssi-dim-wallet-stub.dd0929a713804ca78962.germanywestcentral.aksapp.io:BPNS0000000008ZZ"
+        did: "did:web:ssi-dim-wallet-stub.tx.test:BPNS0000000008ZZ"
       - bpn: "BPNL00000003CNKC"
-        did: "did:web:ssi-dim-wallet-stub.dd0929a713804ca78962.germanywestcentral.aksapp.io:BPNL00000003CNKC"
+        did: "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003CNKC"
       - bpn: "BPNS00000008BDFH"
-        did: "did:web:ssi-dim-wallet-stub.dd0929a713804ca78962.germanywestcentral.aksapp.io:BPNS00000008BDFH"
+        did: "did:web:ssi-dim-wallet-stub.tx.test:BPNS00000008BDFH"
 
   server:
     trustedIssuers:
-      - did:web:ssi-dim-wallet-stub.dd0929a713804ca78962.germanywestcentral.aksapp.io:BPNL00000003CRHK
+      - did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003CRHK
     env:
       EDC_IAM_DID_WEB_USE_HTTPS: false
     endpoints:
@@ -1416,26 +1369,20 @@ bdrs-server-memory:
         authKey: TEST
     ingresses:
       - enabled: true
-        annotations:
-          # uncomment the following line for tls
-          kubernetes.io/ingress.class: addon-http-application-routing
-          # nginx.ingress.kubernetes.io/proxy-body-size: 50m
-          cert-manager.io/cluster-issuer: letsencrypt-prod
-        hostname: bdrs-server.dd0929a713804ca78962.germanywestcentral.aksapp.io
+        hostname: bdrs-server.tx.test
         endpoints:
           - directory
           - management
-        # className: "nginx"
+        className: "nginx"
         tls:
-          enabled: true
-
+          enabled: false
 
 ssi-dim-wallet-stub:
-  enabled: true
+  enabled: false
   wallet:
     replicaCount: 1
-    host: ssi-dim-wallet-stub.dd0929a713804ca78962.germanywestcentral.aksapp.io
-    nameSpace: "umbrella-saud"
+    host: ssi-dim-wallet-stub.tx.test
+    nameSpace: "umbrella"
     appName: "ssi-dim-wallet-stub"
     configName: "ssi-dim-wallet-config"
     serviceName: "ssi-dim-wallet-service"
@@ -1443,13 +1390,10 @@ ssi-dim-wallet-stub:
     ingressName: "ssi-dim-wallet-ingress"
     ingress:
       enabled: true
-      tls: true
+      tls: false
       urlPrefix: /
-      className: "addon-http-application-routing"
-      annotations:
-        # uncomment the following line for tls
-        kubernetes.io/ingress.class: addon-http-application-routing
-        cert-manager.io/cluster-issuer: letsencrypt-prod
+      className: nginx
+      annotations: {}
     swagger:
       ui:
         status: true
@@ -1458,18 +1402,18 @@ ssi-dim-wallet-stub:
     logLevel: "debug"
     environment: "default"
     baseWalletBpn: "BPNL00000003CRHK"
-    didHost: "ssi-dim-wallet-stub.dd0929a713804ca78962.germanywestcentral.aksapp.io"
-    stubUrl: "https://ssi-dim-wallet-stub.dd0929a713804ca78962.germanywestcentral.aksapp.io"
+    didHost: "ssi-dim-wallet-stub.tx.test"
+    stubUrl: "http://ssi-dim-wallet-stub.tx.test"
     statusListVcId: "8a6c7486-1e1f-4555-bdd2-1a178182651e"
     tokenExpiryTime: "5"
     portal:
       waitTime: "60"
-      host: "https://portal-backend.dd0929a713804ca78962.germanywestcentral.aksapp.io"
+      host: "http://portal-backend.tx.test"
       clientId: "sa-cl2-05"
       clientSecret: "zuBGfr67Tj0WJ5fAJSIRvoPEP5hSQFMT"
     keycloak:
       realm: "CX-Central"
-      authServerUrl: "https://centralidp.dd0929a713804ca78962.germanywestcentral.aksapp.io/auth"
+      authServerUrl: "http://centralidp.tx.test/auth"
     service:
       type: ClusterIP
       port: 8080
