@@ -81,7 +81,7 @@ bdrs-server-memory:
 dataconsumerOne:
   enabled: true
   secrets:
-    eedc-wallet-secret: UbfW4CR1xH4OskkovqJ2JzcwnQIrG7oj
+    edc-wallet-secret: UbfW4CR1xH4OskkovqJ2JzcwnQIrG7oj
   tractusx-connector:
     iatp:
       id: did:web:mock-util-service/BPNL00000003AZQP
