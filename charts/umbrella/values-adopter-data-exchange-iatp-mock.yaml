@@ -84,7 +84,7 @@ bdrs-server-memory:
 dataconsumerOne:
   enabled: true
   secrets:
-    edc-miw-keycloak-secret: UbfW4CR1xH4OskkovqJ2JzcwnQIrG7oj
+    edc-wallet-secret: UbfW4CR1xH4OskkovqJ2JzcwnQIrG7oj
   tractusx-connector:
     participant:
       id: BPNL00000003AZQP
@@ -135,7 +135,7 @@ tx-data-provider:
   seedTestdata: true
   enabled: true
   secrets:
-    edc-miw-keycloak-secret: pyFUZP2L9UCSVJUScHcN3ZEgy2PGyEpg
+    edc-wallet-secret: pyFUZP2L9UCSVJUScHcN3ZEgy2PGyEpg
   tractusx-connector:
     participant:
       id: BPNL00000003AYRE
@@ -190,7 +190,7 @@ tx-data-provider:
 dataconsumerTwo:
   enabled: false
   secrets:
-    edc-miw-keycloak-secret: tPwy4exxH1sXBRQouobSA2nNVaaPuwCs
+    edc-wallet-secret: tPwy4exxH1sXBRQouobSA2nNVaaPuwCs
   tractusx-connector:
     participant:
       id: BPNL00000003AVTH

@@ -81,7 +81,7 @@ bdrs-server-memory:
 dataconsumerOne:
   enabled: true
   secrets:
-    edc-miw-keycloak-secret: UbfW4CR1xH4OskkovqJ2JzcwnQIrG7oj
+    eedc-wallet-secret: UbfW4CR1xH4OskkovqJ2JzcwnQIrG7oj
   tractusx-connector:
     iatp:
       id: did:web:mock-util-service/BPNL00000003AZQP
@@ -107,7 +107,7 @@ dataconsumerOne:
 tx-data-provider:
   enabled: true
   secrets:
-    edc-miw-keycloak-secret: pyFUZP2L9UCSVJUScHcN3ZEgy2PGyEpg
+    edc-wallet-secret: pyFUZP2L9UCSVJUScHcN3ZEgy2PGyEpg
   tractusx-connector:
     iatp:
       id: did:web:mock-util-service/BPNL00000003AYRE
