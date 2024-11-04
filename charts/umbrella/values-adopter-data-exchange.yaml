@@ -21,7 +21,6 @@
 centralidp:
   enabled: false
 
-
 bdrs-server-memory:
   enabled: true
 
