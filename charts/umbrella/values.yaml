@@ -985,7 +985,7 @@ dataconsumerOne:
   seedTestdata: false
   nameOverride: dataconsumer-1
   secrets:
-    edc-secret: UbfW4CR1xH4OskkovqJ2JzcwnQIrG7oj
+    edc-wallet-secret: UbfW4CR1xH4OskkovqJ2JzcwnQIrG7oj
   tractusx-connector:
     nameOverride: dataconsumer-1-edc
     participant:
@@ -1001,7 +1001,7 @@ dataconsumerOne:
           token_url: http://centralidp.tx.test/auth/realms/CX-Central/protocol/openid-connect/token
           client:
             id: satest01
-            secret_alias: edc-secret
+            secret_alias: edc-wallet-secret
     controlplane:
       env:
         TX_IAM_IATP_CREDENTIALSERVICE_URL: http://mock-util-service
@@ -1077,7 +1077,7 @@ tx-data-provider:
   dataplaneUrl: http://{{ .Release.Name }}-dataprovider-edc-dataplane:8081
   nameOverride: dataprovider
   secrets:
-    edc-secret: pyFUZP2L9UCSVJUScHcN3ZEgy2PGyEpg
+    edc-wallet-secret: pyFUZP2L9UCSVJUScHcN3ZEgy2PGyEpg
   tractusx-connector:
     nameOverride: dataprovider-edc
     participant:
@@ -1093,7 +1093,7 @@ tx-data-provider:
           token_url: http://centralidp.tx.test/auth/realms/CX-Central/protocol/openid-connect/token
           client:
             id: satest02
-            secret_alias: edc-secret
+            secret_alias: edc-wallet-secret
     controlplane:
       env:
         TX_IAM_IATP_CREDENTIALSERVICE_URL: http://mock-util-service
@@ -1208,7 +1208,7 @@ dataconsumerTwo:
   seedTestdata: false
   nameOverride: dataconsumer-2
   secrets:
-    edc-secret: tPwy4exxH1sXBRQouobSA2nNVaaPuwCs
+    edc-wallet-secret: tPwy4exxH1sXBRQouobSA2nNVaaPuwCs
   tractusx-connector:
     nameOverride: dataconsumer-2-edc
     participant:
@@ -1224,7 +1224,7 @@ dataconsumerTwo:
           token_url: http://centralidp.tx.test/auth/realms/CX-Central/protocol/openid-connect/token
           client:
             id: satest03
-            secret_alias: edc-secret
+            secret_alias: edc-wallet-secret
     controlplane:
       env:
         TX_IAM_IATP_CREDENTIALSERVICE_URL: http://mock-util-service
