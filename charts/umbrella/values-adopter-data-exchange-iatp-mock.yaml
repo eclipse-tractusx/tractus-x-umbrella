@@ -21,7 +21,6 @@
 centralidp:
   enabled: true
 
-
 iatpmock:
   enabled: true
   ingress:

@@ -161,7 +161,7 @@ portal:
         clientSecret: "changeme"
       dim:
         clientId: "sa-cl2-05"
-        clientSecret: "zuBGfr67Tj0WJ5fAJSIRvoPEP5hSQFMT"
+        clientSecret: "changeme"
         grantType: "client_credentials"
         scope: "openid"
         baseAddress: "http://ssi-dim-wallet-stub.tx.test"
@@ -1410,7 +1410,7 @@ ssi-dim-wallet-stub:
       waitTime: "60"
       host: "http://portal-backend.tx.test"
       clientId: "sa-cl2-05"
-      clientSecret: "zuBGfr67Tj0WJ5fAJSIRvoPEP5hSQFMT"
+      clientSecret: "changeme"
     keycloak:
       realm: "CX-Central"
       authServerUrl: "http://centralidp.tx.test/auth"

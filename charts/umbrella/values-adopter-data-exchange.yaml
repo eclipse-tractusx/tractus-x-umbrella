@@ -24,16 +24,6 @@ centralidp:
 
 bdrs-server-memory:
   enabled: true
-  hostname: &hostname bdrs-server.tx.test
-  server:
-    ingresses:
-      - enabled: true
-        hostname: *hostname
-        endpoints:
-          - directory
-          - management
-        tls:
-          enabled: false
 
 dataconsumerOne:
   enabled: true
