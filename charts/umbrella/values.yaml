@@ -995,7 +995,7 @@ dataconsumerOne:
   seedTestdata: false
   nameOverride: dataconsumer-1
   secrets:
-    edc-miw-keycloak-secret: changeme
+    edc-wallet-secret: changeme
   tractusx-connector:
     nameOverride: dataconsumer-1-edc
     participant:
@@ -1011,7 +1011,7 @@ dataconsumerOne:
           token_url: http://ssi-dim-wallet-stub.tx.test/oauth/token
           client:
             id: BPNL00000003AZQP
-            secret_alias: edc-miw-keycloak-secret
+            secret_alias: edc-wallet-secret
     controlplane:
       env:
         TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-stub.tx.test/api
@@ -1087,7 +1087,7 @@ tx-data-provider:
   dataplaneUrl: http://{{ .Release.Name }}-dataprovider-edc-dataplane:8081
   nameOverride: dataprovider
   secrets:
-    edc-miw-keycloak-secret: changeme
+    edc-wallet-secret: changeme
   tractusx-connector:
     nameOverride: dataprovider-edc
     participant:
@@ -1103,7 +1103,7 @@ tx-data-provider:
           token_url: http://ssi-dim-wallet-stub.tx.test/oauth/token
           client:
             id: BPNL00000003AYRE
-            secret_alias: edc-miw-keycloak-secret
+            secret_alias: edc-wallet-secret
     controlplane:
       env:
         TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-stub.tx.test/api
@@ -1218,7 +1218,7 @@ dataconsumerTwo:
   seedTestdata: false
   nameOverride: dataconsumer-2
   secrets:
-    edc-miw-keycloak-secret: changeme
+    edc-wallet-secret: changeme
   tractusx-connector:
     nameOverride: dataconsumer-2-edc
     participant:
@@ -1234,7 +1234,7 @@ dataconsumerTwo:
           token_url: http://ssi-dim-wallet-stub.tx.test/oauth/token
           client:
             id: BPNL00000003AVTH
-            secret_alias: edc-miw-keycloak-secret
+            secret_alias: edc-wallet-secret
     controlplane:
       env:
         TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-stub.tx.test/api
