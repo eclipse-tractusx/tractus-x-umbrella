@@ -19,88 +19,13 @@
 ---
 
 centralidp:
-  enabled: true
-  keycloak:
-    ingress:
-      enabled: true
-      ingressClassName: "nginx"
-      hostname: "centralidp.tx.test"
-      annotations:
-        nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
-        nginx.ingress.kubernetes.io/cors-allow-methods: "PUT, GET, POST, OPTIONS"
-        nginx.ingress.kubernetes.io/cors-allow-origin: "http://centralidp.tx.test"
-        nginx.ingress.kubernetes.io/enable-cors: "true"
-        nginx.ingress.kubernetes.io/proxy-buffer-size: "128k"
-        nginx.ingress.kubernetes.io/proxy-buffering: "on"
-        nginx.ingress.kubernetes.io/proxy-buffers-number: "20"
-        nginx.ingress.kubernetes.io/use-regex: "true"
-      tls: false
-    # -- uncomment the following for persistence
-    # postgresql:
-    #   primary:
-    #     persistence:
-    #       enabled: true
-
-iatpmock:
-  enabled: true
-  ingress:
-    enabled: true
-    hosts:
-      - host: iatpmock.tx.test
-        paths:
-          - path: /
-            pathType: ImplementationSpecific
+  enabled: false
 
 bdrs-server-memory:
   enabled: true
-  hostname: &hostname bdrs-server.tx.test
-  server:
-    ingresses:
-      - enabled: true
-        hostname: *hostname
-        endpoints:
-          - directory
-          - management
-        tls:
-          enabled: false
 
 dataconsumerOne:
   enabled: true
-  secrets:
-    edc-miw-keycloak-secret: UbfW4CR1xH4OskkovqJ2JzcwnQIrG7oj
-  tractusx-connector:
-    participant:
-      id: BPNL00000003AZQP
-    iatp:
-      id: did:web:mock-util-service/BPNL00000003AZQP
-      trustedIssuers:
-        - did:web:mock-util-service/trusted-issuer
-      sts:
-        oauth:
-          client:
-            id: satest01
-    controlplane:
-      endpoints:
-        management:
-          authKey: TEST1
-      ingresses:
-        - enabled: true
-          hostname: "dataconsumer-1-controlplane.tx.test"
-          endpoints:
-            - default
-            - protocol
-            - management
-          tls:
-            enabled: false
-    dataplane:
-      ingresses:
-        - enabled: true
-          hostname: "dataconsumer-1-dataplane.tx.test"
-          endpoints:
-            - default
-            - public
-          tls:
-            enabled: false
     # -- uncomment the following for persistence
     # postgresql:
     #   primary:
@@ -110,41 +35,6 @@ dataconsumerOne:
 tx-data-provider:
   seedTestdata: true
   enabled: true
-  secrets:
-    edc-miw-keycloak-secret: pyFUZP2L9UCSVJUScHcN3ZEgy2PGyEpg
-  tractusx-connector:
-    participant:
-      id: BPNL00000003AYRE
-    iatp:
-      id: did:web:mock-util-service/BPNL00000003AYRE
-      trustedIssuers:
-        - did:web:mock-util-service/trusted-issuer
-      sts:
-        oauth:
-          client:
-            id: satest02
-    controlplane:
-      endpoints:
-        management:
-          authKey: TEST2
-      ingresses:
-        - enabled: true
-          hostname: "dataprovider-controlplane.tx.test"
-          endpoints:
-            - default
-            - protocol
-            - management
-          tls:
-            enabled: false
-    dataplane:
-      ingresses:
-        - enabled: true
-          hostname: "dataprovider-dataplane.tx.test"
-          endpoints:
-            - default
-            - public
-          tls:
-            enabled: false
   # -- uncomment the following for persistence
     # postgresql:
     #   primary:
@@ -158,41 +48,6 @@ tx-data-provider:
 
 dataconsumerTwo:
   enabled: false
-  secrets:
-    edc-miw-keycloak-secret: tPwy4exxH1sXBRQouobSA2nNVaaPuwCs
-  tractusx-connector:
-    participant:
-      id: BPNL00000003AVTH
-    iatp:
-      id: did:web:mock-util-service/BPNL00000003AVTH
-      trustedIssuers:
-        - did:web:mock-util-service/trusted-issuer
-      sts:
-        oauth:
-          client:
-            id: satest03
-    controlplane:
-      endpoints:
-        management:
-          authKey: TEST3
-      ingresses:
-        - enabled: true
-          hostname: "dataconsumer-2-controlplane.tx.test"
-          endpoints:
-            - default
-            - protocol
-            - management
-          tls:
-            enabled: false
-    dataplane:
-      ingresses:
-        - enabled: true
-          hostname: "dataconsumer-2-dataplane.tx.test"
-          endpoints:
-            - default
-            - public
-          tls:
-            enabled: false
     # -- uncomment the following for persistence
     # postgresql:
     #   primary:
@@ -204,3 +59,9 @@ pgadmin4:
   # -- uncomment the following for persistence
   # persistentVolume:
   #   enabled: true
+
+ssi-credential-issuer:
+  enabled: false
+
+ssi-dim-wallet-stub:
+  enabled: true
