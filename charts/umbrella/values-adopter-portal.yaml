@@ -52,6 +52,7 @@ pgadmin4:
 
 # Interfaces are disabled by default (other than IAM)
 
+# Set 'enabled' to true if onboarding is required
 bpdm:
   enabled: false
 
@@ -64,8 +65,10 @@ bpndiscovery:
 discoveryfinder:
   enabled: false
 
-iatpmock:
+# Set 'enabled' to true if onboarding is required
+ssi-credential-issuer:
   enabled: false
 
-ssi-credential-issuer:
+# Set 'enabled' to true if onboarding is required
+ssi-dim-wallet-stub:
   enabled: false

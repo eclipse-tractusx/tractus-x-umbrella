@@ -42,7 +42,7 @@ The Chart aims for a completely automated setup of a fully functional network, t
 
 The versions of integrated components correspond to the **overarching [Release 24.05](https://github.com/eclipse-tractusx/tractus-x-release/blob/24.05/CHANGELOG.md#2405---2024-05-29)**.
 
-:warning: The 24.05 Release does not include a Managed Identity Wallet (MIW) - aka the FOSS Wallet of Tractus-X - as it was not yet able to cover functionalities required for the Self-Sovereign Identity Flow introduced with R24.05. To test and ship R24.05, a commercial solution was used: the Decentralized Identity Management (DIM) Wallet. To cover the wallet functionalities in the [E2E Adopter Journey Data exchange](#data-exchange) the [iatp-mock](https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/umbrella/charts/iatpmock/Chart.yaml) was added to the umbrella helm chart, please also see [Precondition for IATP Mock](#precondition-for-iatp-mock). For the [E2E Adopter Journey Portal](#portal), there isn't a mock available yet to cover the wallet functionalities.
+:warning: The 24.05 Release does not include a Managed Identity Wallet (MIW) - aka the FOSS Wallet of Tractus-X - as it was not yet able to cover functionalities required for the Self-Sovereign Identity Flow introduced with R24.05. To test and ship R24.05, a commercial solution was used: the Decentralized Identity Management (DIM) Wallet. To cover the wallet functionalities in the [E2E Adopter Journey Data exchange](#data-exchange) and [E2E Adopter Journey Portal](#portal), the [SSI DIM WALLET STUB](https://github.com/eclipse-tractusx/ssi-dim-wallet-stub/tree/main/charts/ssi-dim-wallet-stub) was added to the umbrella helm chart.
 
 ## Usage
 
@@ -256,6 +256,7 @@ Collection of hosts to be added to the `/etc/hosts` (Linux and Mac) or the `C:\W
 192.168.49.2    iatpmock.tx.test
 192.168.49.2    business-partners.tx.test
 192.168.49.2    pgadmin4.tx.test
+192.168.49.2    ssi-dim-wallet-stub.tx.test
 ```
 
 Replace `192.168.49.2` with your `minikube ip` if it differs.
@@ -287,6 +288,7 @@ The currently available components are following:
 - [bdrs](https://github.com/eclipse-tractusx/bpn-did-resolution-service/tree/0.0.4) (**in memory** - no persistance possible)
 - [iatp-mock](https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/umbrella/charts/iatpmock/Chart.yaml)
 - [bpdm](https://github.com/eclipse-tractusx/bpdm/tree/release/6.0.x)
+- [ssi-dim-wallet-stub](https://github.com/eclipse-tractusx/ssi-dim-wallet-stub/releases/tag/ssi-dim-wallet-stub-0.1.2)
 
 > :warning: **Note**
 >
@@ -449,6 +451,12 @@ dataconsumerTwo:
 helm upgrade -f values-adopter-data-exchange.yaml umbrella . --namespace umbrella
 ```
 
+*iatp-mock Version*
+
+```bash
+helm install -f values-adopter-data-exchange-iatp-mock.yaml umbrella . --namespace umbrella --create-namespace
+```
+
 **Portal Subset**
 
 ```bash
@@ -463,9 +471,19 @@ helm install -f values-adopter-portal.yaml umbrella . --namespace umbrella --cre
 
 Involved components:
 
-EDC, MIW, DTR, Vault (data provider and consumer in tx-data-provider), CentralIdP.
+CentralIdP, DBRS-Server-Memory, Data Consumer, Data Provider, SSI Credential Issuer, SSI Dim Wallet Stub.
 
-TBD.
+To start the Data Exchange, it is necessary to execute the involved components:
+```
+helm install -f values-adopter-data-exchange.yaml umbrella . --namespace umbrella --create-namespace
+```
+There are two ways to test and execute the Data Exchange:
+
+**1. Postman**
+You can import the Umbrella [Postman Collection](../../docs/api/postman/UmbrellaConnectorData-Exchange.postman_collection.json)
+
+**2. Curl**
+You can follow the [Curl Steps](../../docs/api/curl/UmbrellaConectorDataExchange.md)
 
 #### Get to know the Portal
 
@@ -587,6 +605,7 @@ Currently enabled ingresses:
 - http://bdrs-server.tx.test
 - http://iatpmock.tx.test
 - http://pgadmin4.tx.test
+- http://ssi-dim-wallet-stub.tx.test
 
 ### Database Access
 

@@ -34,8 +34,15 @@ sharedidp:
 selfdescription:
   enabled: true
 
-iatpmock:
+ssi-dim-wallet-stub:
   enabled: true
+  wallet:
+    nameSpace: "shared-services"
+    didHost: "ssi-dim-wallet-service"
+    stubUrl: "http://ssi-dim-wallet-service"
+    service:
+      type: ClusterIP
+      port: 80
 
 bdrs-server-memory:
   enabled: true
