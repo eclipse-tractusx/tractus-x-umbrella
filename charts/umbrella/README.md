@@ -473,7 +473,7 @@ Involved components:
 
 > DBRS-Server-Memory, Data Consumer, Data Provider, SSI Dim Wallet Stub.
 
-To start the Data Exchange, it is necessary to execute the [involved components](https://github.com/eclipse-tractusx/tractus-x-umbrella/blob/umbrella-2.0.0/charts/umbrella/README.md#option-2-1)
+To start the Data Exchange, it is necessary to execute the [Data Exchange Subset](https://github.com/eclipse-tractusx/tractus-x-umbrella/blob/umbrella-2.0.0/charts/umbrella/README.md#option-2-1)
 
 There are two ways to test and execute the Data Exchange tutorial:
 
@@ -486,6 +486,16 @@ You can import the Umbrella [Postman Collection](../../docs/api/postman/Umbrella
 You can follow the [Curl Steps](../../docs/api/curl/UmbrellaConectorDataExchange.md)
 
 #### Get to know the Portal
+
+Involved components:
+
+> Portal, Centralidp, sharedidp, pgadmin4 
+
+Some components are disabled, as they are not necessary for the exclusive use of the portal. If you want to perform the onboarding of a participant, it would be necessary to enable the following components:
+
+> BPDM, SSI-Credential-Issuer, SSI-DIM-WALLET-STUB
+
+To start the Portal, it is necessary to execute the [Portal Subset](https://github.com/eclipse-tractusx/tractus-x-umbrella/blob/umbrella-2.0.0/charts/umbrella/README.md#option-2-1)
 
 Perform first login and send out an invitation to a company to join the network (SMTP account required to be configured in custom values.yaml file).
 
