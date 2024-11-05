@@ -1,9 +1,6 @@
 ## Data Exchange Tutorial
 
-In order to start exchanging data, it will be necessary to install the subset with the necessary components for data exchange:
-```
-helm install umbrella -f ./charts/umbrella/values-adopter-data-exchange.yaml ./charts/umbrella/ --namespace umbrella
-```
+In order to start exchanging data, it will be necessary to install the subset with the necessary components for data exchange with the [Data Exchange Subset](https://github.com/eclipse-tractusx/tractus-x-umbrella/blob/umbrella-2.0.0/charts/umbrella/README.md#option-2-1):
 
 #### Prerequisites
 
