@@ -8,7 +8,6 @@ helm install umbrella -f ./charts/umbrella/values-adopter-data-exchange.yaml ./c
 As a Backend Service, we are using [Webhook.site](https://webhook.site/), as it is easier to work with. In the variables {{webhook}}, use your own one.
 > But you can also use the one given in the MXD [Backend-service](https://github.com/eclipse-tractusx/tutorial-resources/tree/main/mxd/backend-service)
 
-
 ### Steps
 Once the data space has been launched, we will execute the following calls to perform the communication between the components
 
@@ -74,7 +73,6 @@ curl -L -X POST 'http://dataprovider-controlplane.tx.test/management/v2/policyde
   }
 }'
 ```
-
 
 4. Get Policies by ID
 To check if the Policies are correctly created.
@@ -176,6 +174,8 @@ We get {{negotiation_id}} from the response.
 curl -L -X GET 'http://dataconsumer-1-controlplane.tx.test/management/v2/contractnegotiations/{{negotiation_id}} \
 -H 'X-Api-Key: TEST1'
 ```
+You should be able to see in the response, that the _state_ value is equal to _FINALIZED_.
+
 We get {{contractagreement_id}} from the response.
 
 10. Initiate Transfer
@@ -212,6 +212,7 @@ We get {{transfer_id}} from the response
 curl -L -X GET 'http://dataconsumer-1-controlplane.tx.test/management/v2/transferprocesses/{{transfer_id}}' \
 -H 'X-Api-Key: TEST1'
 ```
+You should be able to see in the response that the _state_ value is equal to _STARTED_.
 
 12. Validate Transfer
 ```
