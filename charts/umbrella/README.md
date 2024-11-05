@@ -471,7 +471,7 @@ helm install -f values-adopter-portal.yaml umbrella . --namespace umbrella --cre
 
 Involved components:
 
-CentralIdP, DBRS-Server-Memory, Data Consumer, Data Provider, SSI Credential Issuer, SSI Dim Wallet Stub.
+> DBRS-Server-Memory, Data Consumer, Data Provider, SSI Dim Wallet Stub.
 
 To start the Data Exchange, it is necessary to execute the [involved components](https://github.com/eclipse-tractusx/tractus-x-umbrella/blob/umbrella-2.0.0/charts/umbrella/README.md#option-2-1)
 
