@@ -480,6 +480,7 @@ helm install -f values-adopter-data-exchange.yaml umbrella . --namespace umbrell
 There are two ways to test and execute the Data Exchange:
 
 **1. Postman**
+
 You can import the Umbrella [Postman Collection](../../docs/api/postman/UmbrellaConnectorData-Exchange.postman_collection.json)
 
 **2. Curl**
