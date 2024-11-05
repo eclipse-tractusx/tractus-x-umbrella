@@ -10,6 +10,7 @@ As a Backend Service, we are using [Webhook.site](https://webhook.site/), as it 
 > But you can also use the one given in the MXD [Backend-service](https://github.com/eclipse-tractusx/tutorial-resources/tree/main/mxd/backend-service)
 
 ### Steps
+
 Once the data space has been launched, we will execute the following calls to perform the communication between the components
 
 > Variables enclosed in {{ }} mean that they are whose content has been obtained from the answers of previous calls.
