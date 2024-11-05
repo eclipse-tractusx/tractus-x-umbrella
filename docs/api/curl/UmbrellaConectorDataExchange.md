@@ -170,6 +170,7 @@ curl -L -X POST 'http://dataconsumer-1-controlplane.tx.test/management/v2/contra
 }'
 ```
 We get {{negotiation_id}} from the response.
+
 9. Get Negotiation By ID
 ```
 curl -L -X GET 'http://dataconsumer-1-controlplane.tx.test/management/v2/contractnegotiations/{{negotiation_id}} \
