@@ -477,7 +477,7 @@ To start the Data Exchange, it is necessary to execute the involved components:
 ```
 helm install -f values-adopter-data-exchange.yaml umbrella . --namespace umbrella --create-namespace
 ```
-There are two ways to test and execute the Data Exchange:
+There are two ways to test and execute the Data Exchange tutorial:
 
 **1. Postman**
 
