@@ -469,16 +469,12 @@ helm install -f values-adopter-portal.yaml umbrella . --namespace umbrella --cre
 
 #### Data exchange
 
-:warning: Please be aware of [Note for R24.05](#note-for-r2405)
-
 Involved components:
 
 CentralIdP, DBRS-Server-Memory, Data Consumer, Data Provider, SSI Credential Issuer, SSI Dim Wallet Stub.
 
-To start the Data Exchange, it is necessary to execute the involved components:
-```
-helm install -f values-adopter-data-exchange.yaml umbrella . --namespace umbrella --create-namespace
-```
+To start the Data Exchange, it is necessary to execute the [involved components](https://github.com/eclipse-tractusx/tractus-x-umbrella/blob/umbrella-2.0.0/charts/umbrella/README.md#option-2-1)
+
 There are two ways to test and execute the Data Exchange tutorial:
 
 **1. Postman**
@@ -543,8 +539,6 @@ In case that you have TLS enabled (see [Self-signed TLS setup (Optional)](#self-
 - <https://sharedidp.tx.test/auth/>
 - <https://portal-backend.tx.test>
 - <https://portal.tx.test>
-
-:warning: Please be aware of [Note for R24.05](#note-for-r2405)
 
 ##### Note for onboarding process
 
