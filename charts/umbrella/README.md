@@ -484,6 +484,7 @@ There are two ways to test and execute the Data Exchange tutorial:
 You can import the Umbrella [Postman Collection](../../docs/api/postman/UmbrellaConnectorData-Exchange.postman_collection.json)
 
 **2. Curl**
+
 You can follow the [Curl Steps](../../docs/api/curl/UmbrellaConectorDataExchange.md)
 
 #### Get to know the Portal
