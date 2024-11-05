@@ -28,7 +28,7 @@ sources:
   - https://github.com/eclipse-tractusx/tractus-x-umbrella
 
 type: application
-version: 2.0.0
+version: 2.0.1
 
 # when adding or updating versions of dependencies, also update list under README.md#Install
 dependencies:
