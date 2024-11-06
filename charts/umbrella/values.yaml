@@ -652,18 +652,6 @@ selfdescription:
     secret:
       # -- JWK Set URI
       jwkSetUri: "http://centralidp.tx.test/auth/realms/CX-Central/protocol/openid-connect/certs"
-      # -- Custodian wallet client id
-      clientId: "sa-cl5-custodian-1"
-      # -- Custodian wallet client secret
-      clientSecret: "6pnnap7byS1TImL9Uj7g2psud9Fdq4tJ"
-      # -- Keycloak URL
-      authServerUrl: "http://centralidp.tx.test/auth"
-      # -- Keycloak Realm detail
-      realm: "CX-Central"
-      # -- Keycloak Resource detail
-      resource: "Cl5-CX-Custodian"
-      # -- Details for Custodian wallet URI
-      custodianWalletUri: ""
       # -- Details for Clearing House URI
       clearingHouseUri: ""
       # -- Details for Clearing House URL
