@@ -102,7 +102,7 @@ dependencies:
     # bdrs
   - name: bdrs-server-memory
     repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 0.0.4
+    version: 0.5.2
     condition: bdrs-server-memory.enabled
     # iatp
   - name: iatpmock
