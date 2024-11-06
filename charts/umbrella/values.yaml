@@ -944,6 +944,9 @@ bpdm:
           paths:
             - path: "/orchestrator(/|$)(.*)"
               pathType: "ImplementationSpecific"
+    postgres:
+      enabled: false
+      fullnameOverride: bpdm-postgres
     applicationConfig:
       server:
         # App should take the x-forward-header-prefix into account for Swagger-UI and redirects to work correctly

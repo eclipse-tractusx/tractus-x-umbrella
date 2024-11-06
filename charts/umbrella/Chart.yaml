@@ -28,7 +28,7 @@ sources:
   - https://github.com/eclipse-tractusx/tractus-x-umbrella
 
 type: application
-version: 2.0.0
+version: 2.0.1
 
 # when adding or updating versions of dependencies, also update list under README.md#Install
 dependencies:
@@ -76,7 +76,7 @@ dependencies:
   - name: bpdm
     condition: bpdm.enabled
     repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 5.0.3
+    version: 5.1.0
     # TX Data Consumer 1
   - name: tx-data-provider
     alias: dataconsumerOne
