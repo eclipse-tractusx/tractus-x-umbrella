@@ -1,6 +1,6 @@
 # API Requests for Data Exchange
 
-This document provides information on the endpoints.
+This document provides about API requests for the Data Exchange.
 
 ## Postman
 
