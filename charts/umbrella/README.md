@@ -491,7 +491,6 @@ Involved components:
 - SSI DIM Wallet Stub
 - SSI Credential Issuer
 - pgadmin4
-- Simple Data Backend
 
 #### Get to know the Portal
 

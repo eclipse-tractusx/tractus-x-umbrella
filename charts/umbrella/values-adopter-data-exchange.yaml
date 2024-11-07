@@ -65,6 +65,3 @@ ssi-credential-issuer:
 
 ssi-dim-wallet-stub:
   enabled: true
-
-simple-data-backend:
-  enabled: true
