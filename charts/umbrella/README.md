@@ -494,7 +494,10 @@ You can follow the [Curl Steps](../../docs/api/curl/UmbrellaConectorDataExchange
 
 Involved components:
 
-> Portal, Centralidp, sharedidp, pgadmin4 
+- Portal
+- CentralIdP (Keycloak)
+- SharedIdP (Keycloak)
+- pgadmin4 
 
 Some components are disabled, as they are not necessary for the exclusive use of the portal. If you want to perform the onboarding of a participant, it would be necessary to enable the following components:
 
