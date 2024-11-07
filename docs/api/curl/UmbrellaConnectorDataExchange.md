@@ -225,3 +225,11 @@ You should be able to see in the response that the _state_ value is equal to _ST
 ```
 curl -L -X GET 'http://dataprovider-submodelserver.tx.test/api/v1/transfers/TEST1/contents'
 ```
+
+## NOTICE
+
+This work is licensed under the [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0).
+
+* SPDX-License-Identifier: Apache-2.0
+* SPDX-FileCopyrightText: 2024 Contributors to the Eclipse Foundation
+* Source URL: <https://github.com/eclipse-tractusx/tractus-x-umbrella>
