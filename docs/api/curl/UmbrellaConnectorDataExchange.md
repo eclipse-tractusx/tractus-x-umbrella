@@ -2,11 +2,6 @@
 
 In order to start exchanging data, it will be necessary to install the subset with the necessary components for data exchange with the [Data Exchange Subset](https://github.com/eclipse-tractusx/tractus-x-umbrella/blob/umbrella-2.0.0/charts/umbrella/README.md#option-2-1):
 
-#### Prerequisites
-
-As a Backend Service, we are using [Webhook.site](https://webhook.site/), as it is easier to work with. In the variables {{webhook}}, use your own one.
-> But you can also use the one given in the MXD [Backend-service](https://github.com/eclipse-tractusx/tutorial-resources/tree/main/mxd/backend-service)
-
 ### Steps
 
 Once the data space has been launched, we will execute the following calls to perform the communication between the components
@@ -15,21 +10,21 @@ Once the data space has been launched, we will execute the following calls to pe
 
 1. Create Asset
 ```
-curl -L -X POST "http://dataprovider-controlplane.tx.test/management/v3/assets" \
-  -H "X-Api-Key: TEST2" \
-  -H "Content-Type: application/json" \
-  --data-raw '{
-    "@context": {},
-    "@id": "200",
-    "properties": {
-      "description": "Product EDC Demo Asset"
-    },
-    "dataAddress": {
-      "@type": "DataAddress",
-      "type": "HttpData",
-      "baseUrl": "{{webhook}}/api/v1/contents"
-    }
-  }'
+curl -L -X POST 'http://dataprovider-controlplane.tx.test/management/v3/assets' \
+-H 'Content-Type: application/json' \
+-H 'X-Api-Key: TEST2' \
+--data-raw '{
+  "@context": {},
+  "@id": "200",
+  "properties": {
+    "description": "Product EDC Demo Asset"
+  },
+  "dataAddress": {
+    "@type": "DataAddress",
+    "type": "HttpData",
+    "baseUrl": "http://dataprovider-submodelserver.tx.test/200"
+  }
+}'
 ```
 
 2. Get Asset by ID
@@ -144,7 +139,7 @@ curl -L -X POST 'http://dataconsumer-1-controlplane.tx.test/management/v2/contra
 	"policy": {
 		"@context": "http://www.w3.org/ns/odrl.jsonld",
 		"@type": "odrl:Offer",
-		"@id": "{{offer_id}}",
+		"@id": "",
          "assigner": "BPNL00000003AYRE",
 		"permission": {
 			"odrl:target": "200",
@@ -171,7 +166,7 @@ We get {{negotiation_id}} from the response.
 
 9. Get Negotiation By ID
 ```
-curl -L -X GET 'http://dataconsumer-1-controlplane.tx.test/management/v2/contractnegotiations/{{negotiation_id}} \
+curl -L -X GET 'http://dataconsumer-1-controlplane.tx.test/management/v2/contractnegotiations/' \
 -H 'X-Api-Key: TEST1'
 ```
 You should be able to see in the response, that the _state_ value is equal to _FINALIZED_.
@@ -190,7 +185,7 @@ curl -L -X POST 'http://dataconsumer-1-controlplane.tx.test/management/v2/transf
   "@type": "TransferRequest",
   "protocol": "dataspace-protocol-http",
   "counterPartyAddress": "http://dataprovider-controlplane.tx.test/api/v1/dsp",
-  "contractId": "{{contractagreement_id}}",
+  "contractId": "",
   "assetId": "200",
   "transferType": "HttpData-PULL",
   "dataDestination":  {
@@ -200,7 +195,7 @@ curl -L -X POST 'http://dataconsumer-1-controlplane.tx.test/management/v2/transf
   "callbackAddresses": [
     {
       "transactional": true,
-      "uri": "{{webhook}}/api/v1/transfers"
+      "uri": "http://dataprovider-submodelserver.tx.test/api/v1/transfers"
     }
   ]
 }'
@@ -216,8 +211,5 @@ You should be able to see in the response that the _state_ value is equal to _ST
 
 12. Validate Transfer
 ```
-curl -L -X POST 'http://webhook.site/e443ea0e-365a-436e-8f84-fad002e630e1/api/v1/contents' \
--H 'Content-Type: application/json' \
--H 'Cookie: XSRF-TOKEN=eyJpdiI6IjRyVklnVGltRE1XT3Jsbk03Yng1dnc9PSIsInZhbHVlIjoidHFCTSt0b1N3TzBkZmwvaGpmRTlCNEpNa3Z3TXRFa29jMmtwZ083RU1GV3h5MHlweWFPbjFDajNJMnFpSTdvV2hZY2tXSVpBQ05Vb29ueG5VM05mNHhEUzNwemZrcnMvRWxsOEtXZng1L1UraVNZYnhiTndXTFlkSDNlUHBHOFIiLCJtYWMiOiJjOTVkY2YzOTYyMDE2MTVhNGY2Zjc1NGU3NzUxZGQzMDVhYzIzY2E4NDNiNmJiMTY4MjFjMGRjYjM0MDBlYjEwIiwidGFnIjoiIn0%3D; webhooksite_session=Bm6cSCI0WnXRAoVUByiyoJrZiVlMrVPfYvqkkVXG' \
--d '{"userId": 918704604,"title": "agwng","text": "oz"}'
+curl -L -X GET 'http://dataprovider-submodelserver.tx.test/api/v1/transfers/TEST1/contents'
 ```

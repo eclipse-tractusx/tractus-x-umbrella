@@ -1,10 +1,10 @@
 {
 	"info": {
-		"_postman_id": "973c3d8e-28f2-4667-95bf-f75a9492b425",
-		"name": "Umbrella Connector Data-Exchange",
+		"_postman_id": "f50a31fa-39cd-476b-a0f4-25b77299da8e",
+		"name": "Tractus-X Connector Data Exchange",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "31338309",
-		"_collection_link": "https://web.postman.co/workspace/LKSNext-Umbrella~f4be5514-1d11-45aa-8480-95f8eaef5027/collection/31338309-973c3d8e-28f2-4667-95bf-f75a9492b425?action=share&source=collection_link&creator=31338309"
+		"_collection_link": "https://bold-desert-566723.postman.co/workspace/LKSNext-Umbrella~f4be5514-1d11-45aa-8480-95f8eaef5027/collection/31338309-f50a31fa-39cd-476b-a0f4-25b77299da8e?action=share&source=collection_link&creator=31338309"
 	},
 	"item": [
 		{
@@ -42,14 +42,12 @@
 					}
 				},
 				"url": {
-					"raw": "{{BACKEND_SERVICE}}/api/v1/contents",
+					"raw": "{{BACKEND_SERVICE}}/{{CONTENT_ID}}",
 					"host": [
 						"{{BACKEND_SERVICE}}"
 					],
 					"path": [
-						"api",
-						"v1",
-						"contents"
+						"{{CONTENT_ID}}"
 					]
 				}
 			},
@@ -106,7 +104,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"@context\": {},\n  \"@id\": \"{{ASSET_ID}}\",\n  \"properties\": {\n    \"description\": \"Product EDC Demo Asset\"\n  },\n  \"dataAddress\": {\n    \"@type\": \"DataAddress\",\n    \"type\": \"HttpData\",\n    \"baseUrl\": \"{{BACKEND_SERVICE_PROTOCOL}}/api/v1/contents/{{CONTENT_ID}}\"\n  }\n}",
+					"raw": "{\n  \"@context\": {},\n  \"@id\": \"{{ASSET_ID}}\",\n  \"properties\": {\n    \"description\": \"Product EDC Demo Asset\"\n  },\n  \"dataAddress\": {\n    \"@type\": \"DataAddress\",\n    \"type\": \"HttpData\",\n    \"baseUrl\": \"{{BACKEND_SERVICE_PROTOCOL}}/{{CONTENT_ID}}\"\n  }\n}",
 					"options": {
 						"raw": {
 							"language": "json"
@@ -438,9 +436,6 @@
 					}
 				}
 			],
-			"protocolProfileBehavior": {
-				"disabledSystemHeaders": {}
-			},
 			"request": {
 				"auth": {
 					"type": "apikey",
@@ -939,12 +934,12 @@
 		},
 		{
 			"key": "BACKEND_SERVICE",
-			"value": "https://webhook.site/03e288ed-1045-4a1e-94c9-992677294cdb",
+			"value": "http://dataprovider-submodelserver.tx.test",
 			"type": "string"
 		},
 		{
 			"key": "BACKEND_SERVICE_PROTOCOL",
-			"value": "https://webhook.site/03e288ed-1045-4a1e-94c9-992677294cdb",
+			"value": "http://dataprovider-submodelserver.tx.test",
 			"type": "string"
 		},
 		{
@@ -953,7 +948,7 @@
 		},
 		{
 			"key": "CONTENT_ID",
-			"value": "DATA"
+			"value": "200"
 		},
 		{
 			"key": "OFFER_ID",
