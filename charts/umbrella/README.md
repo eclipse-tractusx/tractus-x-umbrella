@@ -469,15 +469,6 @@ helm install -f values-adopter-portal.yaml umbrella . --namespace umbrella --cre
 
 #### Data exchange
 
-Involved components:
-
-- Data Provider
-- Data Consumer 1
-- Data Consumer 2 (Optional)
-- BPN-DID-Resolution-Service (BDRS)
-- SSI DIM Wallet Stub
-- pgadmin4
-
 To start the Data Exchange, it is necessary to execute the [Data Exchange Subset](https://github.com/eclipse-tractusx/tractus-x-umbrella/blob/umbrella-2.0.0/charts/umbrella/README.md#option-2-1)
 
 There are two ways to test and execute the Data Exchange tutorial:
@@ -489,6 +480,15 @@ You can import the Umbrella [Postman Collection](../../docs/api/postman/Umbrella
 **2. Curl**
 
 You can follow the [Curl Steps](../../docs/api/curl/UmbrellaConectorDataExchange.md)
+
+Involved components:
+
+- Data Provider
+- Data Consumer 1
+- Data Consumer 2 (Optional)
+- BPN-DID-Resolution-Service (BDRS)
+- SSI DIM Wallet Stub
+- pgadmin4
 
 #### Get to know the Portal
 
