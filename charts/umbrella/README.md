@@ -492,23 +492,6 @@ Involved components:
 
 #### Get to know the Portal
 
-Involved components:
-
-- Portal
-- CentralIdP (Keycloak)
-- SharedIdP (Keycloak)
-- pgadmin4 
-
-Some components are disabled, as they are not necessary for the exclusive use of the portal. If you want to perform the onboarding of a participant, it would be necessary to enable the following components:
-
-- BPDM
-- SSI DIM Wallet Stub
-- BPN-DID-Resolution-Service (BDRS)
-- SSI-Credential-Issuer
-- Self Description Factory
-- Discovery Finder
-- BPN Discovery
-
 To start the Portal, it is necessary to execute the [Portal Subset](https://github.com/eclipse-tractusx/tractus-x-umbrella/blob/umbrella-2.0.0/charts/umbrella/README.md#option-2-1)
 
 Perform first login and send out an invitation to a company to join the network (SMTP account required to be configured in custom values.yaml file).
@@ -549,6 +532,23 @@ tractusx-umbr3lla!
             end
           linkStyle 0,1 stroke:lightblue
 ```
+
+Involved components:
+
+- Portal
+- CentralIdP (Keycloak)
+- SharedIdP (Keycloak)
+- pgadmin4 
+
+Some components are disabled, as they are not necessary for the exclusive use of the portal. If you want to perform the onboarding of a participant, it would be necessary to enable the following components:
+
+- BPDM
+- SSI DIM Wallet Stub
+- BPN-DID-Resolution-Service (BDRS)
+- SSI-Credential-Issuer
+- Self Description Factory
+- Discovery Finder
+- BPN Discovery
 
 The relevant hosts are the following:
 
