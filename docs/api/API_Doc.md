@@ -1,4 +1,4 @@
-# API Documentation
+# API Requests for Data Exchange
 
 This document provides information on the endpoints.
 
