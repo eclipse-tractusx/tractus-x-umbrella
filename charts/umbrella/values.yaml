@@ -1064,6 +1064,15 @@ dataconsumerOne:
 
   simple-data-backend:
     enabled: false
+    nameOverride: dataprovider-submodelserver
+    ingress:
+      enabled: true
+      className: "nginx"
+      hosts:
+        - host: "dataprovider-submodelserver.tx.test"
+          paths:
+            - path: "/"
+              pathType: "Prefix"
 
 tx-data-provider:
   enabled: false

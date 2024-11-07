@@ -486,9 +486,12 @@ Involved components:
 - Data Provider
 - Data Consumer 1
 - Data Consumer 2 (Optional)
+- BDRS Server Memory
 - BPN-DID-Resolution-Service (BDRS)
 - SSI DIM Wallet Stub
+- SSI Credential Issuer
 - pgadmin4
+- Simple Data Backend
 
 #### Get to know the Portal
 
