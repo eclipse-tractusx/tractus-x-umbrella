@@ -6,8 +6,6 @@ This document provides about API requests for the Data Exchange.
 
 There is a [postman collection](./postman) containing information on how to exchange data between provider and consumer.
 
-⚠️ _Change de webhook.site variable value to your respective one._
-
 ## Curl
 
 There is a [curl tutorial](./curl) containing step by step tutorial on how to exchange data between provider and consumer, using the console.
