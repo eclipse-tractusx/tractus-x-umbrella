@@ -6,7 +6,7 @@ The following table links you to the respective documentations.
 
 | Documentation                                                    | Purpose                                                                                 |
 |------------------------------------------------------------------|-----------------------------------------------------------------------------------------|
-| [API Requests](api/API_Doc.md)                              | API Requests for Data Exchange.                                                        |
+| [API Requests](api/API_Doc.md)                                   | API Requests for Data Exchange.                                                         |
 
 ## NOTICE
 

@@ -15,9 +15,14 @@
       - [Use released chart](#use-released-chart)
         - [Install selected components](#option-1)
         - [Install predefined subsets of components](#option-2)
+          - [Data Exchange](#data-exchange-subset)
+          - [Portal](#portal-subset)
+          - [BPDM](#bpdm-subset)
       - [Use local repository](#use-local-repository)
         - [Install selected components](#option-1-1)
         - [Install predefined subsets of components](#option-2-1)
+          - [Data Exchange](#data-exchange-subset-1)
+          - [Portal](#portal-subset-1)
     - [E2E Adopter Journeys](#e2e-adopter-journeys)
       - [Data exchange](#data-exchange)
       - [Get to know the Portal](#get-to-know-the-portal)
@@ -38,9 +43,9 @@ This umbrella chart provides a basis for running end-to-end tests or creating a 
 
 The Chart aims for a completely automated setup of a fully functional network, that does not require manual setup steps.
 
-## Note for R24.05
+The versions of integrated components correspond to the **overarching [Release 24.05](https://github.com/eclipse-tractusx/tractus-x-release/blob/24.05/CHANGELOG.md#2405---2024-05-29)**. The upgrade to [Release 24.08](https://github.com/eclipse-tractusx/tractus-x-release/blob/24.08/CHANGELOG.md#2408---2024-08-05)** is currently in progress, some components have already been upgraded.
 
-The versions of integrated components correspond to the **overarching [Release 24.05](https://github.com/eclipse-tractusx/tractus-x-release/blob/24.05/CHANGELOG.md#2405---2024-05-29)**.
+## Note from R24.05 onwards
 
 :warning: The 24.05 Release does not include a Managed Identity Wallet (MIW) - aka the FOSS Wallet of Eclipse Tractus-X - as it was not - yet - able to cover functionalities required for the Self-Sovereign Identity Flow introduced with R24.05. To test and ship R24.05, a commercial solution was used: the Decentralized Identity Management (DIM) Wallet. To cover the wallet functionalities in the [E2E Adopter Journey Data exchange](#data-exchange) and [E2E Adopter Journey Portal](#portal), the [SSI DIM Wallet Stub](https://github.com/eclipse-tractusx/ssi-dim-wallet-stub) was added to the umbrella helm chart.
 
@@ -339,7 +344,7 @@ helm install \
 
 Choose to install one of the predefined subsets (currently in focus of the **E2E Adopter Journey**):
 
-**Data Exchange Subset**
+###### **Data Exchange Subset**
 
 ```bash
 helm install \
@@ -360,7 +365,7 @@ helm install \
   --namespace umbrella
 ```
 
-**Portal Subset**
+###### **Portal Subset**
 
 ```bash
 helm install \
@@ -370,7 +375,7 @@ helm install \
   --create-namespace
 ```
 
-**BPDM Subset**
+###### **BPDM Subset**
 ```bash
 helm install \
   --set bpdm.enabled=true,centralidp.enabled=true \
@@ -434,7 +439,7 @@ helm install -f your-values.yaml umbrella . --namespace umbrella --create-namesp
 
 Choose to install one of the predefined subsets (currently in focus of the **E2E Adopter Journey**):
 
-**Data Exchange Subset**
+###### **Data Exchange Subset**
 
 ```bash
 helm install -f values-adopter-data-exchange.yaml umbrella . --namespace umbrella --create-namespace
@@ -459,7 +464,7 @@ helm upgrade -f values-adopter-data-exchange.yaml umbrella . --namespace umbrell
 helm install -f values-adopter-data-exchange-iatp-mock.yaml umbrella . --namespace umbrella --create-namespace
 ```
 
-**Portal Subset**
+###### **Portal Subset**
 
 ```bash
 helm install -f values-adopter-portal.yaml umbrella . --namespace umbrella --create-namespace
@@ -469,17 +474,15 @@ helm install -f values-adopter-portal.yaml umbrella . --namespace umbrella --cre
 
 #### Data exchange
 
-To start the Data Exchange, it is necessary to execute the [Data Exchange Subset](https://github.com/eclipse-tractusx/tractus-x-umbrella/blob/umbrella-2.0.0/charts/umbrella/README.md#option-2-1)
-
 There are two ways to test and execute the Data Exchange tutorial:
 
 **1. Postman**
 
-You can import the Umbrella [Postman Collection](../../docs/api/postman/UmbrellaConnectorData-Exchange.postman_collection.json)
+You can import the Umbrella [Postman Collection](../../docs/api/postman/UmbrellaConnectorData-Exchange.postman_collection.json).
 
 **2. Curl**
 
-You can follow the [Curl Steps](../../docs/api/curl/UmbrellaConectorDataExchange.md)
+You can follow the [Curl Steps](../../docs/api/curl/UmbrellaConnectorDataExchange.md).
 
 Involved components:
 
@@ -493,8 +496,6 @@ Involved components:
 - pgadmin4
 
 #### Get to know the Portal
-
-To start the Portal, it is necessary to execute the [Portal Subset](https://github.com/eclipse-tractusx/tractus-x-umbrella/blob/umbrella-2.0.0/charts/umbrella/README.md#option-2-1)
 
 Perform first login and send out an invitation to a company to join the network (SMTP account required to be configured in custom values.yaml file).
 

@@ -1,14 +1,11 @@
 ## Data Exchange Tutorial
 
-In order to start exchanging data, it will be necessary to install the subset with the necessary components for data exchange with the [Data Exchange Subset](https://github.com/eclipse-tractusx/tractus-x-umbrella/blob/umbrella-2.0.0/charts/umbrella/README.md#option-2-1):
-
-### Steps
-
-Once the data space has been launched, we will execute the following calls to perform the communication between the components
+Once the data space has been launched (please see [charts/umbrella/README.md](../../../charts/umbrella/README.md) until **Install --> Data Exchange Subset**), we will execute the following steps/calls to perform the communication between the components.
 
 > Variables enclosed in {{ }} mean that they are whose content has been obtained from the answers of previous calls.
 
-1. Create Asset
+### 1. Create Asset
+
 ```
 curl -L -X POST 'http://dataprovider-controlplane.tx.test/management/v3/assets' \
 -H 'Content-Type: application/json' \
@@ -27,14 +24,17 @@ curl -L -X POST 'http://dataprovider-controlplane.tx.test/management/v3/assets' 
 }'
 ```
 
-2. Get Asset by ID
+### 2. Get Asset by ID
+
 To check if the asset is correctly created.
+
 ```
 curl -L -X GET 'http://dataprovider-controlplane.tx.test/management/v3/assets/200' \
 -H 'X-Api-Key: TEST2'
 ```
 
-3. Create Policy
+### 3. Create Policy
+
 ```
 curl -L -X POST 'http://dataprovider-controlplane.tx.test/management/v2/policydefinitions' \
 -H 'Content-Type: application/json' \
@@ -69,14 +69,16 @@ curl -L -X POST 'http://dataprovider-controlplane.tx.test/management/v2/policyde
 }'
 ```
 
-4. Get Policies by ID
+### 4. Get Policies by ID
+
 To check if the Policies are correctly created.
 ```
 curl -L -X GET 'http://dataprovider-controlplane.tx.test/management/v2/policydefinitions/200' \
 -H 'X-Api-Key: TEST2'
 ```
 
-5. Create Contract Definition
+### 5. Create Contract Definition
+
 ```
 curl -L -X POST 'http://dataprovider-controlplane.tx.test/management/v2/contractdefinitions' \
 -H 'Content-Type: application/json' \
@@ -96,14 +98,16 @@ curl -L -X POST 'http://dataprovider-controlplane.tx.test/management/v2/contract
 }'
 ```
 
-6. Get Contract Definition by ID
+### 6. Get Contract Definition by ID
+
 To check if the Contract Definition is correctly executed
 ```
 curl -L -X GET 'http://dataprovider-controlplane.tx.test/management/v2/contractdefinitions/200' \
 -H 'X-Api-Key: TEST2'
 ```
 
-7. Query Catalog
+### 7. Query Catalog
+
 ```
 curl -L -X POST 'http://dataconsumer-1-controlplane.tx.test/management/v2/catalog/request' \
 -H 'Content-Type: application/json' \
@@ -122,9 +126,10 @@ curl -L -X POST 'http://dataconsumer-1-controlplane.tx.test/management/v2/catalo
   }
 }'
 ```
+
 We get the {{offer_id}} from the response.
 
-8. Initiate Negotiation
+### 8. Initiate Negotiation
 ```
 curl -L -X POST 'http://dataconsumer-1-controlplane.tx.test/management/v2/contractnegotiations' \
 -H 'Content-Type: application/json' \
@@ -162,9 +167,11 @@ curl -L -X POST 'http://dataconsumer-1-controlplane.tx.test/management/v2/contra
 	}
 }'
 ```
+
 We get {{negotiation_id}} from the response.
 
-9. Get Negotiation By ID
+### 9. Get Negotiation By ID
+
 ```
 curl -L -X GET 'http://dataconsumer-1-controlplane.tx.test/management/v2/contractnegotiations/' \
 -H 'X-Api-Key: TEST1'
@@ -173,7 +180,8 @@ You should be able to see in the response, that the _state_ value is equal to _F
 
 We get {{contractagreement_id}} from the response.
 
-10. Initiate Transfer
+### 10. Initiate Transfer
+
 ```
 curl -L -X POST 'http://dataconsumer-1-controlplane.tx.test/management/v2/transferprocesses' \
 -H 'Content-Type: application/json' \
@@ -200,16 +208,20 @@ curl -L -X POST 'http://dataconsumer-1-controlplane.tx.test/management/v2/transf
   ]
 }'
 ```
+
 We get {{transfer_id}} from the response
 
-11. Get Transfer by ID
+### 11. Get Transfer by ID
+
 ```
 curl -L -X GET 'http://dataconsumer-1-controlplane.tx.test/management/v2/transferprocesses/{{transfer_id}}' \
 -H 'X-Api-Key: TEST1'
 ```
+
 You should be able to see in the response that the _state_ value is equal to _STARTED_.
 
-12. Validate Transfer
+### 12. Validate Transfer
+
 ```
 curl -L -X GET 'http://dataprovider-submodelserver.tx.test/api/v1/transfers/TEST1/contents'
 ```
