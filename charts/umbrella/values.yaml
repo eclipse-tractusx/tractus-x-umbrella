@@ -1164,7 +1164,13 @@ tx-data-provider:
   simple-data-backend:
     nameOverride: dataprovider-submodelserver
     ingress:
-      enabled: false
+      enabled: true
+      className: "nginx"
+      hosts:
+        - host: "dataprovider-submodelserver.tx.test"
+          paths:
+            - path: "/"
+              pathType: "Prefix"
 
 semantic-hub:
   enabled: false
