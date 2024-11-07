@@ -1,6 +1,6 @@
 # Introduction
 
-This repository provides the API requests to provide a tutorial for the Data exchange.
+This repository provides the API requests to provide a tutorial for the Data Exchange.
 
 The following table links you to the respective documentations.
 
