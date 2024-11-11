@@ -66,7 +66,7 @@ dependencies:
   - name: ssi-credential-issuer
     condition: ssi-credential-issuer.enabled
     repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 1.0.0
+    version: 1.1.0
   # semantic-hub
   - condition: semantic-hub.enabled
     name: semantic-hub
