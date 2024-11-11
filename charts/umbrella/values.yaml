@@ -739,11 +739,6 @@ ssi-credential-issuer:
       clientId: "wallet-client-id"
       # -- Client-secret for wallet client-id. Secret-key 'wallet-client-secret'.
       clientSecret: ""
-      encryptionConfigIndex: 0
-      encryptionConfigs:
-        index0:
-          # EncryptionKey for wallet. Secret-key 'process-wallet-encryption-key0'. Expected format is 256 bit (64 digits) hex.
-          encryptionKey: "deb8261ec7b89c344f1c5ef5a11606e305f14e0d231b1357d90ad0180c5081d3"
   migrations:
     logging:
       default: "Debug"
