@@ -17,7 +17,9 @@
               "odrl:or": [
                 {
                   "@type": "Constraint",
-                  "odrl:leftOperand": "cx-policy:UsagePurpose",
+                  "odrl:leftOperand":   {
+                    "@id": "cx-policy:UsagePurpose"
+                  },
                   "odrl:operator": {
                     "@id": "odrl:eq"
                   },
