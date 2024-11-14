@@ -826,6 +826,8 @@ bpdm:
         # App should take the x-forward-header-prefix into account for Swagger-UI and redirects to work correctly
         forward-headers-strategy: "FRAMEWORK"
       bpdm:
+        datasource:
+          host: umbrella-bpdm-postgres
         bpn:
           # This Gate has no owner restriction as other companies can write into the Gate under their own tenant
           owner-bpn-l:
@@ -848,10 +850,10 @@ bpdm:
         client:
           pool:
             registration:
-              client-id: *bpdmAdminClientId
+              client-id: "sa-cl7-cx-1"
           orchestrator:
             registration:
-              client-id: *bpdmAdminClientId
+              client-id: "sa-cl25-cx-3"
     applicationSecrets:
       spring:
         datasource:
@@ -861,10 +863,10 @@ bpdm:
         client:
           orchestrator:
             registration:
-              client-secret: *bpdmAdminClientSecret
+              client-secret: "changeme"
           pool:
             registration:
-              client-secret: *bpdmAdminClientSecret
+              client-secret: "changeme"
 
   # Configures the central business partner Pool
   bpdm-pool:
@@ -888,6 +890,8 @@ bpdm:
         # App should take the x-forward-header-prefix into account for Swagger-UI and redirects to work correctly
         forward-headers-strategy: "FRAMEWORK"
       bpdm:
+        datasource:
+          host: umbrella-bpdm-postgres
         security:
           # App's API is authenticated over Central-IDP
           auth-server-url: "http://centralidp.tx.test/auth"
@@ -902,13 +906,13 @@ bpdm:
         client:
           orchestrator:
             registration:
-              client-id: *bpdmAdminClientId
+              client-id: "sa-cl25-cx-2"
     applicationSecrets:
       bpdm:
         client:
           orchestrator:
             registration:
-              client-secret: *bpdmAdminClientSecret
+              client-secret: "changeme"
       spring:
         datasource:
           # Set the password of the postgres BPDM user here (Currently, BPDM can't deal with random initial passwords)
@@ -935,26 +939,16 @@ bpdm:
         # App should take the x-forward-header-prefix into account for Swagger-UI and redirects to work correctly
         forward-headers-strategy: "FRAMEWORK"
       bpdm:
+        datasource:
+          host: umbrella-bpdm-postgres
         security:
           auth-server-url: "http://centralidp.tx.test/auth"
           realm: "CX-Central"
-          # The Central-IDP does not yet have dedicated Orchestrator permissions
-          # Therefore, we just reuse the permissions from the Pool for now
-          # Basically it is saying: If you would be able to write into the Pool directly,
-          # you are also able to create golden record tasks which eventually will write data into the Pool
-          # (We are stricter with the permissions now than we will have to be when using dedicated permissions)
-          client-id: "Cl7-CX-BPDM"
-          permissions:
-            createTask: "write_partner"
-            readTask: "write_partner"
-            reservation:
-              clean: "write_partner"
-              cleanAndSync: "write_partner"
-              poolSync: "write_partner"
-            result:
-              clean: "write_partner"
-              cleanAndSync: "write_partner"
-              poolSync: "write_partner"
+    applicationSecrets:
+      spring:
+        datasource:
+          # Set the password of the postgres BPDM user here (Currently, BPDM can't deal with random initial passwords)
+          password: *bpdmPostgresPassword
 
   # This installs a dummy cleaning service which performs rudimentary cleaning operations in order to realize the golden record process
   bpdm-cleaning-service-dummy:
@@ -968,13 +962,13 @@ bpdm:
             provider:
               issuer-uri: "http://centralidp.tx.test/auth/realms/CX-Central"
             registration:
-              client-id: *bpdmAdminClientId
+              client-id: "sa-cl25-cx-1"
     applicationSecrets:
       bpdm:
         client:
           orchestrator:
             registration:
-              client-secret: *bpdmAdminClientSecret
+              client-secret: "changeme"
 
 dataconsumerOne:
   enabled: false
