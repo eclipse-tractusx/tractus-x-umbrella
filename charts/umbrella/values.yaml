@@ -852,6 +852,7 @@ bpdm:
             registration:
               client-id: "sa-cl7-cx-1"
           orchestrator:
+            base-url: http://umbrella-bpdm-orchestrator
             registration:
               client-id: "sa-cl25-cx-3"
     applicationSecrets:
@@ -905,6 +906,7 @@ bpdm:
         # We will reuse the general BPDM admin technical user to establish connection between the services
         client:
           orchestrator:
+            base-url: http://umbrella-bpdm-orchestrator
             registration:
               client-id: "sa-cl25-cx-2"
     applicationSecrets:
@@ -944,6 +946,7 @@ bpdm:
         security:
           auth-server-url: "http://centralidp.tx.test/auth"
           realm: "CX-Central"
+          client-id: "Cl7-CX-BPDM"
     applicationSecrets:
       spring:
         datasource:
@@ -959,6 +962,7 @@ bpdm:
         # We reuse the general BPDM admin technical user to establish connection between the services
         client:
           orchestrator:
+            base-url: http://umbrella-bpdm-orchestrator
             provider:
               issuer-uri: "http://centralidp.tx.test/auth/realms/CX-Central"
             registration:
