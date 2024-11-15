@@ -587,6 +587,15 @@ bpndiscovery:
       endpointAddress: /bpndiscovery
       documentation: /bpndiscovery/swagger-ui/index.html
       timeToLive: "31536000"
+    discoveryfinderClient:
+      baseUrl: "semantics.tx.test/discoveryfinder"
+      registration:
+        clientId: sa-cl22-01
+        clientSecret: "client-secret"
+        authorizationGrantType: changeme
+      schedulerCronFrequency: "0 0 */1 * * *"
+      provider:
+        tokenUri: "http://centralidp.tx.test/auth/realms/CX-Central/protocol/openid-connect/token"
     livenessProbe:
       initialDelaySeconds: 200
     readinessProbe:
