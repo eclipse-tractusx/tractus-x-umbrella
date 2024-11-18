@@ -28,7 +28,8 @@ sources:
   - https://github.com/eclipse-tractusx/tractus-x-umbrella
 
 type: application
-version: 2.0.5
+version: 2.0.7
+
 
 # when adding or updating versions of dependencies, also update list under README.md#Install
 dependencies:
@@ -50,12 +51,12 @@ dependencies:
   - condition: discoveryfinder.enabled
     name: discoveryfinder
     repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 0.2.5
+    version: 0.3.1
     # bpn-discovery
   - condition: bpndiscovery.enabled
     name: bpndiscovery
     repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 0.2.6
+    version: 0.3.1
     # sd-factory
   - condition: selfdescription.enabled
     name: sdfactory
@@ -71,7 +72,7 @@ dependencies:
   - condition: semantic-hub.enabled
     name: semantic-hub
     repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 0.2.3
+    version: 0.3.1
   # Business Partner Data Management
   - name: bpdm
     condition: bpdm.enabled
@@ -80,18 +81,18 @@ dependencies:
     # TX Data Consumer 1
   - name: tx-data-provider
     alias: dataconsumerOne
-    version: 0.1.1
+    version: 0.1.2
     repository: file://../tx-data-provider
     condition: dataconsumerOne.enabled
     # TX Data Providers
   - name: tx-data-provider
-    version: 0.1.1
+    version: 0.1.2
     repository: file://../tx-data-provider
     condition: tx-data-provider.enabled
     # TX Data Consumer 2
   - name: tx-data-provider
     alias: dataconsumerTwo
-    version: 0.1.1
+    version: 0.1.2
     repository: file://../tx-data-provider
     condition: dataconsumerTwo.enabled
     # pgadmin4 as helper tool for easy database access
