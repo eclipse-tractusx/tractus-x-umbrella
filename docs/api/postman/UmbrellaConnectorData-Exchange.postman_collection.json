@@ -220,7 +220,7 @@
 				"header": [],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n  \"@context\": {\n    \"odrl\": \"http://www.w3.org/ns/odrl/2/\"\n  },\n  \"@type\": \"PolicyDefinitionRequestDto\",\n  \"@id\": \"{{POLICY_ID}}\",\n  \"policy\": {\n    \"@type\": \"odrl:Set\",\n    \"odrl:permission\": [\n      {\n        \"odrl:action\": \"USE\",\n        \"odrl:constraint\": {\n          \"@type\": \"LogicalConstraint\",\n          \"odrl:or\": [\n            {\n              \"@type\": \"Constraint\",\n              \"odrl:leftOperand\": \"BusinessPartnerNumber\",\n              \"odrl:operator\": {\n                \"@id\": \"odrl:eq\"\n              },\n              \"odrl:rightOperand\": \"{{CONSUMER_ID}}\"\n            }\n          ]\n        }\n      }\n    ]\n  }\n}",
+					"raw": "{\n  \"@context\": {\n    \"odrl\": \"http://www.w3.org/ns/odrl/2/\"\n  },\n  \"@type\": \"PolicyDefinitionRequestDto\",\n  \"@id\": \"{{POLICY_ID}}\",\n  \"policy\": {\n    \"@type\": \"odrl:Set\",\n    \"odrl:permission\": [\n      {\n        \"odrl:action\": \"USE\",\n        \"odrl:constraint\": {\n          \"@type\": \"LogicalConstraint\",\n          \"odrl:or\": [\n            {\n              \"@type\": \"Constraint\",\n              \"odrl:leftOperand\": {\n \"@id\": \"BusinessPartnerNumber\"\n},\n              \"odrl:operator\": {\n                \"@id\": \"odrl:eq\"\n              },\n              \"odrl:rightOperand\": \"{{CONSUMER_ID}}\"\n            }\n          ]\n        }\n      }\n    ]\n  }\n}",
 					"options": {
 						"raw": {
 							"language": "json"
