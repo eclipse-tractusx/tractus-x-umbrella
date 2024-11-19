@@ -798,8 +798,8 @@ bpdm:
   enabled: false
   postgres:
     # We use the default name for BPDM postgres
-    fullnameOverride:
-    nameOverride: bpdm-postgres
+    fullnameOverride: &bpdmPostgresName "bpdm-postgres"
+    nameOverride: 
     auth:
       # BPDM can't handle random initial passwords at the moment
       # so need to set a fixed one here and use it in the app configs later
@@ -836,7 +836,7 @@ bpdm:
         forward-headers-strategy: "FRAMEWORK"
       bpdm:
         datasource:
-          host: umbrella-bpdm-postgres
+          host: *bpdmPostgresName
         bpn:
           # This Gate has no owner restriction as other companies can write into the Gate under their own tenant
           owner-bpn-l:
@@ -858,10 +858,11 @@ bpdm:
         # We will reuse the general BPDM admin technical user to establish connection between the services
         client:
           pool:
+            base-url: http://business-partners.tx.test/pool
             registration:
               client-id: "sa-cl7-cx-1"
           orchestrator:
-            base-url: http://umbrella-bpdm-orchestrator
+            base-url: http://business-partners.tx.test/orchestrator
             registration:
               client-id: "sa-cl25-cx-3"
     applicationSecrets:
@@ -901,7 +902,7 @@ bpdm:
         forward-headers-strategy: "FRAMEWORK"
       bpdm:
         datasource:
-          host: umbrella-bpdm-postgres
+          host: *bpdmPostgresName
         security:
           # App's API is authenticated over Central-IDP
           auth-server-url: "http://centralidp.tx.test/auth"
@@ -915,7 +916,7 @@ bpdm:
         # We will reuse the general BPDM admin technical user to establish connection between the services
         client:
           orchestrator:
-            base-url: http://umbrella-bpdm-orchestrator
+            base-url: http://business-partners.tx.test/orchestrator
             registration:
               client-id: "sa-cl25-cx-2"
     applicationSecrets:
@@ -951,11 +952,11 @@ bpdm:
         forward-headers-strategy: "FRAMEWORK"
       bpdm:
         datasource:
-          host: umbrella-bpdm-postgres
+          host: *bpdmPostgresName
         security:
           auth-server-url: "http://centralidp.tx.test/auth"
           realm: "CX-Central"
-          client-id: "Cl7-CX-BPDM"
+          client-id: "Cl25-CX-BPDM-Orchestrator"
     applicationSecrets:
       spring:
         datasource:
@@ -971,7 +972,7 @@ bpdm:
         # We reuse the general BPDM admin technical user to establish connection between the services
         client:
           orchestrator:
-            base-url: http://umbrella-bpdm-orchestrator
+            base-url: http://business-partners.tx.test/orchestrator
             provider:
               issuer-uri: "http://centralidp.tx.test/auth/realms/CX-Central"
             registration:
