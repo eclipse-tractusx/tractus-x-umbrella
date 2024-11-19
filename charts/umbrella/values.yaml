@@ -799,7 +799,7 @@ bpdm:
   postgres:
     # We use the default name for BPDM postgres
     fullnameOverride: &bpdmPostgresName "bpdm-postgres"
-    nameOverride: 
+    nameOverride:
     auth:
       # BPDM can't handle random initial passwords at the moment
       # so need to set a fixed one here and use it in the app configs later
