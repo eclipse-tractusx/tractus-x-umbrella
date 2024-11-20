@@ -28,7 +28,7 @@ sources:
   - https://github.com/eclipse-tractusx/tractus-x-umbrella
 
 type: application
-version: 2.0.6
+version: 2.0.7
 
 # when adding or updating versions of dependencies, also update list under README.md#Install
 dependencies:
@@ -112,5 +112,5 @@ dependencies:
     # ssi-dim-wallet-stub
   - name: ssi-dim-wallet-stub
     repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 0.1.2
+    version: 0.1.3
     condition: ssi-dim-wallet-stub.enabled
