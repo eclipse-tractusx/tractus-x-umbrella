@@ -798,8 +798,8 @@ bpdm:
   enabled: false
   postgres:
     # We use the default name for BPDM postgres
-    fullnameOverride:
-    nameOverride: bpdm-postgres
+    fullnameOverride: &bpdmPostgresName "bpdm-postgres"
+    nameOverride:
     auth:
       # BPDM can't handle random initial passwords at the moment
       # so need to set a fixed one here and use it in the app configs later
@@ -835,6 +835,8 @@ bpdm:
         # App should take the x-forward-header-prefix into account for Swagger-UI and redirects to work correctly
         forward-headers-strategy: "FRAMEWORK"
       bpdm:
+        datasource:
+          host: *bpdmPostgresName
         bpn:
           # This Gate has no owner restriction as other companies can write into the Gate under their own tenant
           owner-bpn-l:
@@ -856,11 +858,13 @@ bpdm:
         # We will reuse the general BPDM admin technical user to establish connection between the services
         client:
           pool:
+            base-url: http://business-partners.tx.test/pool
             registration:
-              client-id: *bpdmAdminClientId
+              client-id: "sa-cl7-cx-1"
           orchestrator:
+            base-url: http://business-partners.tx.test/orchestrator
             registration:
-              client-id: *bpdmAdminClientId
+              client-id: "sa-cl25-cx-3"
     applicationSecrets:
       spring:
         datasource:
@@ -870,10 +874,10 @@ bpdm:
         client:
           orchestrator:
             registration:
-              client-secret: *bpdmAdminClientSecret
+              client-secret: "changeme"
           pool:
             registration:
-              client-secret: *bpdmAdminClientSecret
+              client-secret: "changeme"
 
   # Configures the central business partner Pool
   bpdm-pool:
@@ -897,6 +901,8 @@ bpdm:
         # App should take the x-forward-header-prefix into account for Swagger-UI and redirects to work correctly
         forward-headers-strategy: "FRAMEWORK"
       bpdm:
+        datasource:
+          host: *bpdmPostgresName
         security:
           # App's API is authenticated over Central-IDP
           auth-server-url: "http://centralidp.tx.test/auth"
@@ -910,14 +916,15 @@ bpdm:
         # We will reuse the general BPDM admin technical user to establish connection between the services
         client:
           orchestrator:
+            base-url: http://business-partners.tx.test/orchestrator
             registration:
-              client-id: *bpdmAdminClientId
+              client-id: "sa-cl25-cx-2"
     applicationSecrets:
       bpdm:
         client:
           orchestrator:
             registration:
-              client-secret: *bpdmAdminClientSecret
+              client-secret: "changeme"
       spring:
         datasource:
           # Set the password of the postgres BPDM user here (Currently, BPDM can't deal with random initial passwords)
@@ -936,31 +943,25 @@ bpdm:
           paths:
             - path: "/orchestrator(/|$)(.*)"
               pathType: "ImplementationSpecific"
+    postgres:
+      enabled: false
+      fullnameOverride: bpdm-postgres
     applicationConfig:
       server:
         # App should take the x-forward-header-prefix into account for Swagger-UI and redirects to work correctly
         forward-headers-strategy: "FRAMEWORK"
       bpdm:
+        datasource:
+          host: *bpdmPostgresName
         security:
           auth-server-url: "http://centralidp.tx.test/auth"
           realm: "CX-Central"
-          # The Central-IDP does not yet have dedicated Orchestrator permissions
-          # Therefore, we just reuse the permissions from the Pool for now
-          # Basically it is saying: If you would be able to write into the Pool directly,
-          # you are also able to create golden record tasks which eventually will write data into the Pool
-          # (We are stricter with the permissions now than we will have to be when using dedicated permissions)
-          client-id: "Cl7-CX-BPDM"
-          permissions:
-            createTask: "write_partner"
-            readTask: "write_partner"
-            reservation:
-              clean: "write_partner"
-              cleanAndSync: "write_partner"
-              poolSync: "write_partner"
-            result:
-              clean: "write_partner"
-              cleanAndSync: "write_partner"
-              poolSync: "write_partner"
+          client-id: "Cl25-CX-BPDM-Orchestrator"
+    applicationSecrets:
+      spring:
+        datasource:
+          # Set the password of the postgres BPDM user here (Currently, BPDM can't deal with random initial passwords)
+          password: *bpdmPostgresPassword
 
   # This installs a dummy cleaning service which performs rudimentary cleaning operations in order to realize the golden record process
   bpdm-cleaning-service-dummy:
@@ -971,16 +972,17 @@ bpdm:
         # We reuse the general BPDM admin technical user to establish connection between the services
         client:
           orchestrator:
+            base-url: http://business-partners.tx.test/orchestrator
             provider:
               issuer-uri: "http://centralidp.tx.test/auth/realms/CX-Central"
             registration:
-              client-id: *bpdmAdminClientId
+              client-id: "sa-cl25-cx-1"
     applicationSecrets:
       bpdm:
         client:
           orchestrator:
             registration:
-              client-secret: *bpdmAdminClientSecret
+              client-secret: "changeme"
 
 dataconsumerOne:
   enabled: false
