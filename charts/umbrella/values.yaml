@@ -209,7 +209,7 @@ portal:
     portalmigrations:
       seeding:
         useDefault: true
-        testDataEnvironments: "test"
+        testDataEnvironments: ""
         # -- Option to seed test data provided in a configMap
         testData:
           # -- ConfigMap containing json files for the tables to seed, e.g. companies.test.json, addresses.test.json, etc.
