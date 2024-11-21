@@ -21,10 +21,10 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name:  "portal-default-testdata"
+  name:  "portal-testdata"
   namespace: {{ .Release.Namespace }}
 data:
-  addresses.defaulttest.json: |-
+  addresses.test.json: |-
     [
       {
         "id": "b4db3945-19a7-4a50-97d6-e66e8dfd04fe",
@@ -111,7 +111,7 @@ data:
         "country_alpha2code": "AT"
       }
     ]
-  companies.defaulttest.json: |-
+  companies.test.json: |-
     [
       {
         "id": "2dc4249f-b5ca-4d42-bef1-7a7a950a4f88",
@@ -184,7 +184,7 @@ data:
         "self_description_document_id": "f90962ee-a358-4381-8947-c56268ff32c7"
       }
     ]
-  connectors.defaulttest.json: |-
+  connectors.test.json: |-
     [
       {
         "id": "7e86a0b8-6903-496b-96d1-0ef508206833",
@@ -242,7 +242,7 @@ data:
         "self_description_document_id": null
       }
     ]
-  documents.defaulttest.json: |-
+  documents.test.json: |-
     [
       {
         "id": "f90962ee-a358-4381-8947-c56268ff32c7",

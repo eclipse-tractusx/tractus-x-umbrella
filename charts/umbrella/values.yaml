@@ -210,12 +210,9 @@ portal:
       seeding:
         useDefault: true
         testDataEnvironments: ""
-        # -- Option to seed test data provided in a configMap
         testData:
-          # -- ConfigMap containing json files for the tables to seed, e.g. companies.test.json, addresses.test.json, etc.
-          configMap: "portal-default-testdata"
-          # -- Filename identifying the test data files e.g. for companies.test.json the value would be "test"
-          filename: "defaulttest"
+          configMap: "portal-testdata"
+          filename: "test"
       logging:
         default: "Debug"
     provisioning:
