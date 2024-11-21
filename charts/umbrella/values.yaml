@@ -1011,6 +1011,7 @@ dataconsumerOne:
         TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-stub.tx.test/api
         EDC_IAM_DID_WEB_USE_HTTPS: false
       bdrs:
+        cache_validity_seconds: 60
         server:
           url: http://ssi-dim-wallet-stub.tx.test/api/v1/directory
       endpoints:
@@ -1103,6 +1104,7 @@ tx-data-provider:
         TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-stub.tx.test/api
         EDC_IAM_DID_WEB_USE_HTTPS: false
       bdrs:
+        cache_validity_seconds: 60
         server:
           url: http://ssi-dim-wallet-stub.tx.test/api/v1/directory
       endpoints:
@@ -1240,6 +1242,7 @@ dataconsumerTwo:
         TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-stub.tx.test/api
         EDC_IAM_DID_WEB_USE_HTTPS: false
       bdrs:
+        cache_validity_seconds: 60
         server:
           url: http://ssi-dim-wallet-stub.tx.test/api/v1/directory
       endpoints:
