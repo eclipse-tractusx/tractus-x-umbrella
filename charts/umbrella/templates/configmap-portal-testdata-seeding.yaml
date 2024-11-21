@@ -116,7 +116,7 @@ data:
       {
         "id": "2dc4249f-b5ca-4d42-bef1-7a7a950a4f88",
         "date_created": "2022-03-24 18:01:33.306000 +00:00",
-        "business_partner_number": "BPNL00000003AYRE",
+        "business_partner_number": "{{ index .Values "dataconsumerOne" "tractusx-connector" "participant" "id" }}",
         "name": "OEM_A",
         "shortname": "OEM_A",
         "company_status_id": 2,
@@ -126,7 +126,7 @@ data:
       {
         "id": "220330ac-170d-4e22-8d72-9467ed042149",
         "date_created": "2022-03-24 18:01:33.393000 +00:00",
-        "business_partner_number": "BPNL00000003AVTH",
+        "business_partner_number": "{{ index .Values "tx-data-provider" "tractusx-connector" "participant" "id" }}",
         "name": "OEM_B",
         "shortname": "OEM_B",
         "company_status_id": 1,
@@ -136,51 +136,11 @@ data:
       {
         "id": "bdac6865-2a8d-4bfd-9373-9dfce8190895",
         "date_created": "2022-03-24 18:01:33.430000 +00:00",
-        "business_partner_number": "BPNL00000003AZQP",
+        "business_partner_number": "{{ index .Values "dataconsumerTwo" "tractusx-connector" "participant" "id" }}",
         "name": "OEM_C",
         "shortname": "OEM_C",
         "company_status_id": 1,
         "address_id": "0f562ea7-4cc1-47a9-bfee-b41b0ac67ebb",
-        "self_description_document_id": "f90962ee-a358-4381-8947-c56268ff32c7"
-      },
-      {
-        "id": "41fd2ab8-71cd-4546-9bef-a388d91b2542",
-        "date_created": "2022-03-24 18:01:33.438000 +00:00",
-        "business_partner_number": "BPNL00000003B0Q0",
-        "name": "N_TIER_A",
-        "shortname": "N_TIER_A",
-        "company_status_id": 1,
-        "address_id": "86da3e1c-a634-41a6-ad44-9880746123e4",
-        "self_description_document_id": "f90962ee-a358-4381-8947-c56268ff32c7"
-      },
-      {
-        "id": "3390c2d7-75c1-4169-aa27-6ce00e1f3cdd",
-        "date_created": "2022-10-01 00:00:00.000000 +00:00",
-        "business_partner_number": "BPNL0000000012RP",
-        "name": "Service Provider",
-        "shortname": "SP",
-        "company_status_id": 2,
-        "address_id": "081c8bfd-c6d1-4119-a5f8-a69726dfc11e",
-        "self_description_document_id": "f90962ee-a358-4381-8947-c56268ff32c7"
-      },
-      {
-        "id": "3390c2d7-75c1-4169-aa27-6ce00e1f3cde",
-        "date_created": "2022-10-01 00:00:00.000000 +00:00",
-        "business_partner_number": "BPNL00000003CSLL",
-        "name": "App Provider",
-        "shortname": "SP",
-        "company_status_id": 2,
-        "address_id": "081c8bfd-c6d1-4119-a5f8-a69726dfc11f",
-        "self_description_document_id": "f90962ee-a358-4381-8947-c56268ff32c7"
-      },
-      {
-        "id": "2647e4f9-0d11-479f-b927-643cd9321c00",
-        "date_created": "2022-10-01 00:00:00.000000 +00:00",
-        "business_partner_number": "BPNL000000001OSP",
-        "name": "Onboarding-Provider",
-        "shortname": "Onboarding-Provider",
-        "company_status_id": 2,
-        "address_id": "f267f020-2caf-4d64-9aa1-20a6c123fe15",
         "self_description_document_id": "f90962ee-a358-4381-8947-c56268ff32c7"
       }
     ]
@@ -189,7 +149,7 @@ data:
       {
         "id": "7e86a0b8-6903-496b-96d1-0ef508206833",
         "name": "OEM A Connector",
-        "connector_url": "http://dataprovider-controlplane.tx.test",
+        "connector_url": "http://{{ index .Values "dataconsumerOne" "tractusx-connector" "controlplane" "ingresses" 0 "hostname" }}",
         "type_id": 1,
         "status_id": 2,
         "provider_id": "2dc4249f-b5ca-4d42-bef1-7a7a950a4f88",
@@ -200,44 +160,22 @@ data:
       {
         "id": "7e86a0b8-6903-496b-96d1-0ef508206834",
         "name": "N_TIER_A Connector",
-        "connector_url": "http://umbrella-dataprovider-edc-controlplane:8084",
+        "connector_url": "http://{{ index .Values "tx-data-provider" "tractusx-connector" "controlplane" "ingresses" 0 "hostname" }}",
         "type_id": 1,
         "status_id": 2,
-        "provider_id": "41fd2ab8-71cd-4546-9bef-a388d91b2542",
-        "host_id": "41fd2ab8-71cd-4546-9bef-a388d91b2542",
+        "provider_id": "220330ac-170d-4e22-8d72-9467ed042149",
+        "host_id": "220330ac-170d-4e22-8d72-9467ed042149",
         "location_id": "DE",
         "self_description_document_id": null
       },
       {
         "id": "7e86a0b8-6903-496b-96d1-0ef508206835",
         "name": "Test Connector 1",
-        "connector_url": "http://dataprovider-controlplane.tx.test",
+        "connector_url": "http://{{ index .Values "dataconsumerTwo" "tractusx-connector" "controlplane" "ingresses" 0 "hostname" }}",
         "type_id": 1,
         "status_id": 2,
-        "provider_id": "2dc4249f-b5ca-4d42-bef1-7a7a950a4f87",
-        "host_id": "2dc4249f-b5ca-4d42-bef1-7a7a950a4f87",
-        "location_id": "DE",
-        "self_description_document_id": null
-      },
-      {
-        "id": "7e86a0b8-6903-496b-96d1-0ef508206836",
-        "name": "Test Connector 2",
-        "connector_url": "http://dataprovider-controlplane.tx.test",
-        "type_id": 1,
-        "status_id": 2,
-        "provider_id": "2dc4249f-b5ca-4d42-bef1-7a7a950a4f87",
-        "host_id": "2dc4249f-b5ca-4d42-bef1-7a7a950a4f87",
-        "location_id": "DE",
-        "self_description_document_id": null
-      },
-      {
-        "id": "7e86a0b8-6903-496b-96d1-0ef508206837",
-        "name": "Test Connector 3",
-        "connector_url": "http://dataprovider-controlplane.tx.test",
-        "type_id": 1,
-        "status_id": 1,
-        "provider_id": "2dc4249f-b5ca-4d42-bef1-7a7a950a4f87",
-        "host_id": "2dc4249f-b5ca-4d42-bef1-7a7a950a4f87",
+        "provider_id": "bdac6865-2a8d-4bfd-9373-9dfce8190895",
+        "host_id": "bdac6865-2a8d-4bfd-9373-9dfce8190895",
         "location_id": "DE",
         "self_description_document_id": null
       }
