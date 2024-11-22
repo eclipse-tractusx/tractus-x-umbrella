@@ -217,17 +217,17 @@ portal:
             dataconsumerOne:
               name: "BPN_OEM_C"
               connectorUrl: "http://dataconsumer-1-dataplane.tx.test/api/v1/dsp"
-              connectorName: "OEM C Connector"
+              connectorName: "BPN OEM C Connector"
             # BPN is retrieved from participant id of the tx-data-provider
             tx-data-provider:
               name: "BPN_OEM_A"
               connectorUrl: "http://dataprovider-dataplane.tx.test/api/v1/dsp"
-              connectorName: "OEM A Connector"
+              connectorName: "BPN OEM A Connector"
             # BPN is retrieved from participant id of the dataconsumerTwo
             dataconsumerTwo:
               name: "BPN_OEM_B"
               connectorUrl: "http://dataconsumer-2-dataplane.tx.test/api/v1/dsp"
-              connectorName: "OEM B Connector"
+              connectorName: "BPN OEM B Connector"
             company4:
               name: "BPN_IRS_TEST"
               bpn: "BPNL00000003AWSS"
@@ -237,7 +237,7 @@ portal:
               name: "BPN_N_TIER_A"
               bpn: "BPNL00000003B0Q0"
               connectorUrl: "http://company5-dataplane.tx.test/api/v1/dsp"
-              connectorName: "BPND N TIER A Connector"
+              connectorName: "BPN N TIER A Connector"
             company6:
               name: "BPN_TRACEX_A_SITE_A"
               bpn: "BPNS0000000008ZZ"
