@@ -208,8 +208,6 @@ portal:
       password: ""
     portalmigrations:
       seeding:
-        useDefault: true
-        testDataEnvironments: ""
         testData:
           configMap: "portal-testdata"
           filename: "test"
@@ -247,7 +245,7 @@ portal:
             company7:
               name: "BPN_TRACEX_B"
               bpn: "BPNL00000003CNKC"
-              connectorUrl: "http://company7-dataplane.tx.tes/api/v1/dsp"
+              connectorUrl: "http://company7-dataplane.tx.test/api/v1/dsp"
               connectorName: "BPN TRACEX B Connector"
             company8:
               name: "BPN_DISMANTLER"
