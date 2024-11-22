@@ -1118,7 +1118,7 @@ dataconsumerOne:
         EDC_IAM_DID_WEB_USE_HTTPS: false
       ingresses:
         - enabled: true
-          hostname: "dataconsumer-1"
+          hostname: "dataconsumer-1-dataplane.tx.test"
           endpoints:
             - default
             - public
