@@ -55,7 +55,9 @@ curl -L -X POST 'http://dataprovider-controlplane.tx.test/management/v2/policyde
           "odrl:or": [
             {
               "@type": "Constraint",
-              "odrl:leftOperand": "BusinessPartnerNumber",
+              "odrl:leftOperand": {
+                "@id": "BusinessPartnerNumber"
+              },
               "odrl:operator": {
                 "@id": "odrl:eq"
               },
