@@ -213,6 +213,87 @@ portal:
         testData:
           configMap: "portal-testdata"
           filename: "test"
+          companies:
+            # BPN is retrieved from participant id of the dataconsumerOne
+            dataconsumerOne:
+              name: "BPN_OEM_C"
+              connectorUrl: "http://dataconsumer-1-dataplane.tx.test/endpoint"
+              connectorName: "OEM C Connector"
+            # BPN is retrieved from participant id of the tx-data-provider
+            tx-data-provider:
+              name: "BPN_OEM_A"
+              connectorUrl: "http://dataprovider-dataplane.tx.test/endpoint"
+              connectorName: "OEM A Connector"
+            # BPN is retrieved from participant id of the dataconsumerTwo
+            dataconsumerTwo:
+              name: "BPN_OEM_B"
+              connectorUrl: "http://dataconsumer-2-dataplane.tx.test/endpoint"
+              connectorName: "OEM B Connector"
+            company4:
+              name: "BPN_IRS_TEST"
+              bpn: "BPNL00000003AWSS"
+              connectorUrl: "http://company4-dataplane.tx.test/endpoint"
+              connectorName: "BPN IRS TEST Connector"
+            company5:
+              name: "BPN_N_TIER_A"
+              bpn: "BPNL00000003B0Q0"
+              connectorUrl: "http://company5-dataplane.tx.test/endpoint"
+              connectorName: "BPND N TIER A Connector"
+            company6:
+              name: "BPN_TRACEX_A_SITE_A"
+              bpn: "BPNS0000000008ZZ"
+              connectorUrl: "http://company6-dataplane.tx.test/endpoint"
+              connectorName: "BPN TRACEX A SITE A Connector"
+            company7:
+              name: "BPN_TRACEX_B"
+              bpn: "BPNL00000003CNKC"
+              connectorUrl: "http://company7-dataplane.tx.test/endpoint"
+              connectorName: "BPN TRACEX B Connector"
+            company8:
+              name: "BPN_DISMANTLER"
+              bpn: "BPNL00000003B6LU"
+              connectorUrl: "http://company8-dataplane.tx.test/endpoint"
+              connectorName: "BPN DISMANTLER Connector"
+            company9:
+              name: "BPN_TRACEX_A"
+              bpn: "BPNL00000003CML1"
+              connectorUrl: "http://company9-dataplane.tx.test/endpoint"
+              connectorName: "BPN TRACEX A Connector"
+            company10:
+              name: "BPN_TRACEX_B_SITE_A"
+              bpn: "BPNS00000008BDFH"
+              connectorUrl: "http://company10-dataplane.tx.test/endpoint"
+              connectorName: "BPN TRACEX B SITE A Connector"
+            company11:
+              name: "BPN_TIER_A"
+              bpn: "BPNL00000003B2OM"
+              connectorUrl: "http://company11-dataplane.tx.test/endpoint"
+              connectorName: "BPN TIER A Connector"
+            company12:
+              name: "BPN_TIER_C"
+              bpn: "BPNL00000003CSGV"
+              connectorUrl: "http://company12-dataplane.tx.test/endpoint"
+              connectorName: "BPN TIER C Connector"
+            company13:
+              name: "BPN_TIER_B"
+              bpn: "BPNL00000003B5MJ"
+              connectorUrl: "http://company13-dataplane.tx.test/endpoint"
+              connectorName: "BPN TIER B Connector"
+            company14:
+              name: "BPN_SUB_TIER_B"
+              bpn: "BPNL00000003AXS3"
+              connectorUrl: "http://company14-dataplane.tx.test/endpoint"
+              connectorName: "BPN SUB TIER B Connector"
+            company15:
+              name: "BPN_SUB_TIER_A"
+              bpn: "BPNL00000003B3NX"
+              connectorUrl: "http://company15-dataplane.tx.test/endpoint"
+              connectorName: "BPN SUB TIER A Connector"
+            company16:
+              name: "BPN_SUB_TIER_C"
+              bpn: "BPNL00000000BJTL"
+              connectorUrl: "http://company16-dataplane.tx.test/endpoint"
+              connectorName: "BPN SUB TIER C Connector"
       logging:
         default: "Debug"
     provisioning:
