@@ -209,6 +209,7 @@ portal:
     portalmigrations:
       seeding:
         testData:
+          enabled: true
           configMap: "portal-testdata"
           filename: "test"
           companies:
