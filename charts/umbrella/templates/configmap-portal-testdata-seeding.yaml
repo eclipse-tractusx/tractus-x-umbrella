@@ -17,6 +17,7 @@
 * SPDX-License-Identifier: Apache-2.0
 */}}
 
+{{- if .Values.portal.backend.portalmigrations.seeding.testData.enabled -}}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -466,3 +467,4 @@ data:
         "media_type_id": 7
       }
     ]
+{{- end }}
