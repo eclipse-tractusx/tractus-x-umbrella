@@ -1,0 +1,79 @@
+# #############################################################################
+  # Copyright (c) 2021,2024 Contributors to the Eclipse Foundation
+  #
+  # See the NOTICE file(s) distributed with this work for additional
+  # information regarding copyright ownership.
+  #
+  # This program and the accompanying materials are made available under the
+  # terms of the Apache License, Version 2.0 which is available at
+  # https://www.apache.org/licenses/LICENSE-2.0.
+  #
+  # Unless required by applicable law or agreed to in writing, software
+  # distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+  # WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+  # License for the specific language governing permissions and limitations
+  # under the License.
+  #
+  # SPDX-License-Identifier: Apache-2.0
+  # #############################################################################
+---
+{{ if index .Values "ssi-dim-wallet-stub" "enabled" }}
+{{- $stubUrl := tpl (index .Values "ssi-dim-wallet-stub" "wallet" "didHost") . -}}
+{{- $fullName := include "app.fullname" . -}}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ $fullName }}-post-install-wallet-stub-bdrs-setup
+  labels:
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+  annotations:
+    # This is what defines this resource as a hook. Without this line, the
+    # job is considered part of the release.
+    "helm.sh/hook": post-install
+    "helm.sh/hook-weight": "-5"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+spec:
+  template:
+    metadata:
+      name: "{{ .Release.Name }}"
+      labels:
+        app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+        app.kubernetes.io/instance: {{ .Release.Name | quote }}
+        helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    spec:
+      restartPolicy: Never
+      containers:
+        - name: post-install-job
+          image: "alpine:3.19"
+          imagePullPolicy: IfNotPresent
+          command:
+            - "/bin/sh"
+            - "-c"
+            - |
+              {{- if index .Values "dataconsumerOne" "enabled" }}
+              wget \
+              --header="accept: */*" \
+              --header="Authorization: {{ index .Values "ssi-dim-wallet-stub" "wallet" "baseWalletBpn" }}" \
+              --post-data="" \
+              "http://{{ $stubUrl }}/api/dim/setup-dim?companyName={{ index .Values "dataconsumerOne" "tractusx-connector" "nameOverride" }}&bpn={{ index .Values "dataconsumerOne" "tractusx-connector" "participant" "id" }}&didDocumentLocation=did%3Aweb%3A{{ $stubUrl }}%3A{{ index .Values "dataconsumerOne" "tractusx-connector" "participant" "id" }}" \
+              -S -O -
+              {{- end }}
+              {{- if index .Values "tx-data-provider" "enabled" }}
+              wget \
+              --header="accept: */*" \
+              --header="Authorization: {{ index .Values "ssi-dim-wallet-stub" "wallet" "baseWalletBpn" }}" \
+              --post-data="" \
+              "http://{{ $stubUrl }}/api/dim/setup-dim?companyName={{ index .Values "tx-data-provider" "tractusx-connector" "nameOverride" }}&bpn={{ index .Values "tx-data-provider" "tractusx-connector" "participant" "id" }}&didDocumentLocation=did%3Aweb%3A{{ $stubUrl }}%3A{{ index .Values "tx-data-provider" "tractusx-connector" "participant" "id" }}" \
+              -S -O -
+              {{- end }}
+              {{- if index .Values "dataconsumerTwo" "enabled" }}
+              wget \
+              --header="accept: */*" \
+              --header="Authorization: {{ index .Values "ssi-dim-wallet-stub" "wallet" "baseWalletBpn" }}" \
+              --post-data="" \
+              "http://{{ $stubUrl }}/api/dim/setup-dim?companyName={{ index .Values "dataconsumerTwo" "tractusx-connector" "nameOverride" }}&bpn={{ index .Values "dataconsumerTwo" "tractusx-connector" "participant" "id" }}&didDocumentLocation=did%3Aweb%3A{{ $stubUrl }}%3A{{ index .Values "dataconsumerTwo" "tractusx-connector" "participant" "id" }}" \
+              -S -O -
+              {{- end }}
+{{ end }}
