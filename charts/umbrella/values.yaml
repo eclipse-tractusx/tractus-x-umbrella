@@ -667,7 +667,7 @@ bpndiscovery:
     idp:
       issuerUri: "http://centralidp.tx.test/auth/realms/CX-Central"
       publicClientId: "Cl22-CX-BPND"
-    bpndiscoverEndpoint:
+    bpndiscoveryEndpoint:
       allowedTypes: oen,wmi,passtype,manufacturerPartId
       description: Service to discover BPN for different kind of type numbers
       endpointAddress: /bpndiscovery
