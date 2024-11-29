@@ -28,7 +28,7 @@ discoveryfinder:
     properties:
       discoveryfinder:
         initialEndpoints:
-          - type: bpn
+          - type: bpnl
             endpointAddress: http://umbrella-discovery-mock:8080/api/administration/connectors/discovery
             description: Service to discover connector endpoints based on bpns
             documentation: http://portal-backend.tx.test/api/administration/swagger/index.html
@@ -36,6 +36,14 @@ discoveryfinder:
       requests:
         cpu: 50m
         memory: 1024Mi
+    livenessProbe:
+      failureThreshold: 20
+      periodSeconds: 5
+      initialDelaySeconds: 60
+    readinessProbe:
+      failureThreshold: 20
+      periodSeconds: 5
+      initialDelaySeconds: 60
   postgresql:
     primary:
       resources:
