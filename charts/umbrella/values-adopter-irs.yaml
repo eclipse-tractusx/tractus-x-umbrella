@@ -32,12 +32,31 @@ discoveryfinder:
             endpointAddress: http://umbrella-discovery-mock:8080/api/administration/connectors/discovery
             description: Service to discover connector endpoints based on bpns
             documentation: http://portal-backend.tx.test/api/administration/swagger/index.html
+    resources:
+      requests:
+        cpu: 50m
+        memory: 1024Mi
+  postgresql:
+    primary:
+      resources:
+        requests:
+          memory: 256Mi
+          cpu: 50m
 
 iatpmock:
   enabled: true
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+
 
 bdrs-server-memory:
   enabled: true
+  server:
+    requests:
+      cpu: 50m
+      memory: 128Mi
 
 dataconsumerOne:
   enabled: true
@@ -73,6 +92,18 @@ tx-data-provider:
     dataplane:
       ingresses:
         - enabled: false
+  digital-twin-registry:
+    registry:
+      resources:
+        requests:
+          cpu: 50m
+          memory: 1024Mi
+    postgresql:
+      primary:
+        resources:
+          requests:
+            memory: 256Mi
+            cpu: 50m
 
 discovery-mock:
   enabled: true
