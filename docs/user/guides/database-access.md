@@ -60,7 +60,7 @@ Seeding is the process of populating the system with initial data required for t
 
 ## Instructions
 
-Refer to the [Overall Seeding Documentation](../../../../concept/seeds-overall-data.md) for detailed steps on how to perform seeding in your deployment.
+Refer to the [Overall Seeding Documentation](../../../concept/seeds-overall-data.md) for detailed steps on how to perform seeding in your deployment.
 
 ## NOTICE
 
