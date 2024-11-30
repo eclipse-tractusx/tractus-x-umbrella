@@ -1,4 +1,3 @@
-
 # Data Exchange Usage
 
 This guide provides instructions for using the Data Exchange subset of the Umbrella Chart.

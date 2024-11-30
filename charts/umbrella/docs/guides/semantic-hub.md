@@ -1,4 +1,3 @@
-
 # Semantic Hub Setup
 
 This guide provides instructions to configure and enable the Semantic Hub component.
