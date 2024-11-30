@@ -1,4 +1,4 @@
-[![OverarchingRelease](https://img.shields.io/badge/Release_24.05-blue)](https://github.com/eclipse-tractusx/tractus-x-release/blob/24.05/CHANGELOG.md#2405---2024-05-29)
+[![OverarchingRelease](https://img.shields.io/badge/Release_24.08-blue)](https://github.com/eclipse-tractusx/tractus-x-release/blob/24.08/CHANGELOG.md#2408---2024-08-05)
 
 # Umbrella Chart
 
@@ -8,7 +8,7 @@ The Chart enables automated setups for a fully functional network without manual
 
 > **Note**
 > 
-> The versions of integrated components correspond to the **overarching [Release 24.05](https://github.com/eclipse-tractusx/tractus-x-release/blob/24.05/CHANGELOG.md#2405---2024-05-29)**. The upgrade to **[Release 24.08](https://github.com/eclipse-tractusx/tractus-x-release/blob/24.08/CHANGELOG.md#2408---2024-08-05)** is currently in progress, some components have already been upgraded.
+> The versions of integrated components correspond to the **overarching [Release 24.08](https://github.com/eclipse-tractusx/tractus-x-release/blob/24.08/CHANGELOG.md#2408---2024-08-05)** .
 ---
 
 ## **Table of Contents**
