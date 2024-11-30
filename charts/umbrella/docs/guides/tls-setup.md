@@ -101,6 +101,12 @@ helm upgrade --install umbrella . --namespace umbrella
    ```
 2. Accept the risk for the self-signed certificate in your browser or import the root certificate into your trusted store.
 
----
-
 For more details, refer to the [cert-manager documentation](https://cert-manager.io/docs/configuration/selfsigned).
+
+## NOTICE
+
+This work is licensed under the [CC-BY-4.0](https://www.apache.org/licenses/LICENSE-2.0).
+
+* SPDX-License-Identifier: CC-BY-4.0
+* SPDX-FileCopyrightText: 2024 Contributors to the Eclipse Foundation
+* Source URL: <https://github.com/eclipse-tractusx/tractus-x-umbrella>

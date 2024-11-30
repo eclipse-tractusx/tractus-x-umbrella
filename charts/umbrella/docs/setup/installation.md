@@ -216,3 +216,11 @@ helm install -f values-adopter-portal.yaml umbrella . --namespace umbrella --cre
 - Ensure your Kubernetes cluster meets the minimum system requirements.
 - Some pods may take time to initialize as they wait for dependencies to become ready.
 - Persistence is disabled by default but can be enabled through custom values.
+
+## NOTICE
+
+This work is licensed under the [CC-BY-4.0](https://www.apache.org/licenses/LICENSE-2.0).
+
+* SPDX-License-Identifier: CC-BY-4.0
+* SPDX-FileCopyrightText: 2024 Contributors to the Eclipse Foundation
+* Source URL: <https://github.com/eclipse-tractusx/tractus-x-umbrella>

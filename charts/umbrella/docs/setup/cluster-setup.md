@@ -68,3 +68,11 @@ After starting Minikube or Docker Desktop Kubernetes, verify the cluster setup:
 Use tools like [Open Lens](https://k8slens.dev/) or the Minikube dashboard to visualize your cluster and deployed components.
 
 For networking setup, proceed to the [Network Setup Guide](network-setup).
+
+## NOTICE
+
+This work is licensed under the [CC-BY-4.0](https://www.apache.org/licenses/LICENSE-2.0).
+
+* SPDX-License-Identifier: CC-BY-4.0
+* SPDX-FileCopyrightText: 2024 Contributors to the Eclipse Foundation
+* Source URL: <https://github.com/eclipse-tractusx/tractus-x-umbrella>

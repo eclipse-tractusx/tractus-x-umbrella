@@ -21,6 +21,11 @@ The Umbrella Chart is intended for:
 2. **Sandbox Environments**: Create local environments to evaluate and experiment with Catena-X components.
 3. **Development**: Provide a unified setup for contributors and developers working on Tractus-X projects.
 
+## Cluster Setup
+- Ensure your cluster meets the updated system requirements:
+    - Kubernetes version `>1.24.x`
+    - Helm version `3.8+`
+
 ## Pre-Requisites
 
 Running this helm chart **requires** a kubernetes cluster (`>1.24.x`), it's recommended to run it on [**Minikube**](https://minikube.sigs.k8s.io/docs/start/).

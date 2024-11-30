@@ -53,3 +53,11 @@ Follow the Curl Steps for direct interaction with the APIs to:
 - If additional data consumers are required, enable `dataconsumerTwo` in the `values.yaml` file and redeploy the chart.
 
 For further details, refer to the [Data Exchange Installation Guide](../setup/installation.md#data-exchange-subset).
+
+## NOTICE
+
+This work is licensed under the [CC-BY-4.0](https://www.apache.org/licenses/LICENSE-2.0).
+
+* SPDX-License-Identifier: CC-BY-4.0
+* SPDX-FileCopyrightText: 2024 Contributors to the Eclipse Foundation
+* Source URL: <https://github.com/eclipse-tractusx/tractus-x-umbrella>
