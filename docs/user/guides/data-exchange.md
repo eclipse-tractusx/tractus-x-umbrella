@@ -56,7 +56,7 @@ For further details, refer to the [Data Exchange Installation Guide](../setup/in
 
 ## NOTICE
 
-This work is licensed under the [CC-BY-4.0](https://www.apache.org/licenses/LICENSE-2.0).
+This work is licensed under the [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/legalcode).
 
 * SPDX-License-Identifier: CC-BY-4.0
 * SPDX-FileCopyrightText: 2024 Contributors to the Eclipse Foundation

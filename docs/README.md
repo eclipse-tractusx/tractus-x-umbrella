@@ -4,14 +4,28 @@ This repository provides the API requests to provide a tutorial for the Data Exc
 
 The following table links you to the respective documentations.
 
-| Documentation                                                    | Purpose                                                                                 |
-|------------------------------------------------------------------|-----------------------------------------------------------------------------------------|
-| [API Requests](api/API_Doc.md)                                   | API Requests for Data Exchange.                                                         |
+## **Table of Contents**
+- [Release Notes](release-notes)
+- [Setup](setup)
+    - [Cluster Setup](user/setup/cluster-setup.md)
+    - [Network Setup](user/setup/network-setup.md)
+    - [Installation](user/setup/installation.md)
+    - [Uninstallation](user/setup/uninstallation.md)
+- [Guides](user/guides)
+    - [Data Exchange](user/guides/data-exchange.md)
+        - [Data Provider](user/guides/data-exchange/provide-data.md)
+        - [Data Consumer](user/guides/data-exchange/consume-data.md)
+    - [Portal Usage](user/guides/portal-usage.md)
+    - [Database Access](user/guides/database-access.md)
+    - [TLS Setup (Optional)](user/guides/tls-setup.md)
+    - [Semantic Hub Precondition](user/guides/semantic-hub.md)
+    - [IATP Mock Precondition](user/guides/iatp-mock.md)
+- [API Requests](api/API_Doc.md)
 
 ## NOTICE
 
-This work is licensed under the [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0).
+This work is licensed under the [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/legalcode).
 
-- SPDX-License-Identifier: Apache-2.0
-- SPDX-FileCopyrightText: 2024 Contributors to the Eclipse Foundation
-- Source URL: <https://github.com/eclipse-tractusx/tractus-x-umbrella>
+* SPDX-License-Identifier: CC-BY-4.0
+* SPDX-FileCopyrightText: 2024 Contributors to the Eclipse Foundation
+* Source URL: <https://github.com/eclipse-tractusx/tractus-x-umbrella>
