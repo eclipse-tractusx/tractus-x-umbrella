@@ -5,8 +5,9 @@ This repository provides the API requests to provide a tutorial for the Data Exc
 The following table links you to the respective documentations.
 
 ## **Table of Contents**
-- [Release Notes](release-notes)
-- [Setup](setup)
+- [Release Notes](user/note-r2405-onwards)
+    - [R24.05](user/note-r2405-onwards/R24.05.md)
+- [Setup](user/setup)
     - [Cluster Setup](user/setup/cluster-setup.md)
     - [Network Setup](user/setup/network-setup.md)
     - [Installation](user/setup/installation.md)

@@ -168,17 +168,25 @@ Proper DNS resolution is required to map local domain names to the Minikube IP a
 If DNS resolution does not work, update the `/etc/hosts` (Linux/macOS) or `C:\Windows\System32\drivers\etc\hosts` (Windows) file with the following entries:
 
 ```
-<MINIKUBE_IP> centralidp.tx.test
-<MINIKUBE_IP> sharedidp.tx.test
-<MINIKUBE_IP> portal.tx.test
-<MINIKUBE_IP> portal-backend.tx.test
-<MINIKUBE_IP> semantics.tx.test
-<MINIKUBE_IP> sdfactory.tx.test
-<MINIKUBE_IP> ssi-credential-issuer.tx.test
-<MINIKUBE_IP> dataconsumer-1-dataplane.tx.test
-<MINIKUBE_IP> dataconsumer-1-controlplane.tx.test
-<MINIKUBE_IP> dataprovider-dataplane.tx.test
-<MINIKUBE_IP> dataprovider-controlplane.tx.test
+<MINIKUBE_IP>    centralidp.tx.test
+<MINIKUBE_IP>    sharedidp.tx.test
+<MINIKUBE_IP>    portal.tx.test
+<MINIKUBE_IP>    portal-backend.tx.test
+<MINIKUBE_IP>    semantics.tx.test
+<MINIKUBE_IP>    sdfactory.tx.test
+<MINIKUBE_IP>    ssi-credential-issuer.tx.test
+<MINIKUBE_IP>    dataconsumer-1-dataplane.tx.test
+<MINIKUBE_IP>    dataconsumer-1-controlplane.tx.test
+<MINIKUBE_IP>    dataprovider-dataplane.tx.test
+<MINIKUBE_IP>    dataprovider-controlplane.tx.test
+<MINIKUBE_IP>    dataprovider-submodelserver.tx.test
+<MINIKUBE_IP>    dataconsumer-2-dataplane.tx.test
+<MINIKUBE_IP>    dataconsumer-2-controlplane.tx.test
+<MINIKUBE_IP>    bdrs-server.tx.test
+<MINIKUBE_IP>    iatpmock.tx.test
+<MINIKUBE_IP>    business-partners.tx.test
+<MINIKUBE_IP>    pgadmin4.tx.test
+<MINIKUBE_IP>    ssi-dim-wallet-stub.tx.test
 ```
 
 Replace `<MINIKUBE_IP>` with the output of the following command:
