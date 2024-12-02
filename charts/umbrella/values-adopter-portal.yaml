@@ -56,9 +56,8 @@ pgadmin4:
 bpdm:
   enabled: false
 
-# Set 'enabled' to true if onboarding is required
 bdrs-server-memory:
-  enabled: true
+  enabled: false
 
 # Set 'enabled' to true if onboarding is required
 selfdescription:

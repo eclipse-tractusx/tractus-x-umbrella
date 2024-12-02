@@ -1098,7 +1098,7 @@ dataconsumerOne:
         EDC_IAM_DID_WEB_USE_HTTPS: false
       bdrs:
         server:
-          url: http://bdrs-server.tx.test/api/directory
+          url: http://ssi-dim-wallet-stub.tx.test/api/v1/directory
       endpoints:
         management:
           authKey: TEST1
@@ -1190,7 +1190,7 @@ tx-data-provider:
         EDC_IAM_DID_WEB_USE_HTTPS: false
       bdrs:
         server:
-          url: http://bdrs-server.tx.test/api/directory
+          url: http://ssi-dim-wallet-stub.tx.test/api/v1/directory
       endpoints:
         management:
           authKey: TEST2
@@ -1327,7 +1327,7 @@ dataconsumerTwo:
         EDC_IAM_DID_WEB_USE_HTTPS: false
       bdrs:
         server:
-          url: http://bdrs-server.tx.test/api/directory
+          url: http://ssi-dim-wallet-stub.tx.test/api/v1/directory
       endpoints:
         management:
           authKey: TEST3
@@ -1474,6 +1474,8 @@ ssi-dim-wallet-stub:
     serviceName: "ssi-dim-wallet-service"
     secretName: "ssi-dim-wallet-secret"
     ingressName: "ssi-dim-wallet-ingress"
+    seeding:
+      bpnList: "BPNL00000003AZQP,BPNL00000003AYRE"
     ingress:
       enabled: true
       tls: false
