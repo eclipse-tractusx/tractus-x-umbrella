@@ -1,5 +1,5 @@
 # Consume Data
-
+In order to be able to consume data, it is necessary to have previously [provided](./provide-data.md).
 > Variables enclosed in {{ }} mean that they are whose content has been obtained from the answers of previous calls.
 
 ## 1. Query Catalog

@@ -5,7 +5,7 @@ This repository provides the API requests to provide a tutorial for the Data Exc
 The following table links you to the respective documentations.
 
 ## **Table of Contents**
-- [Release Notes](user/note-r2405-onwards)
+- [Note from R24.05 onwards](user/note-r2405-onwards)
     - [R24.05](user/note-r2405-onwards/R24.05.md)
 - [Setup](user/setup)
     - [Cluster Setup](user/setup/cluster-setup.md)

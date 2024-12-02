@@ -58,9 +58,6 @@ For further assistance, refer to the [pgAdmin documentation](https://www.pgadmin
 
 Seeding is the process of populating the system with initial data required for the proper functioning of various components.
 
-## Instructions
-
-Refer to the [Overall Seeding Documentation](../../../concept/seeds-overall-data.md) for detailed steps on how to perform seeding in your deployment.
 
 ## NOTICE
 

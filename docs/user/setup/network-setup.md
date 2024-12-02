@@ -1,4 +1,3 @@
-
 # Network Setup
 
 This guide provides instructions to configure the network setup required for running the Umbrella Chart in a Kubernetes cluster.

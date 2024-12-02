@@ -1,4 +1,3 @@
-
 # Portal Usage
 
 This guide provides instructions for accessing and using the Portal subset of the Umbrella Chart.

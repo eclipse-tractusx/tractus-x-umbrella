@@ -1,4 +1,4 @@
-[![OverarchingRelease](https://img.shields.io/badge/Release_24.05-blue)](https://github.com/eclipse-tractusx/tractus-x-release/blob/24.05/CHANGELOG.md#2405---2024-05-29)
+[![OverarchingRelease](https://img.shields.io/badge/Release_24.08-blue)](https://github.com/eclipse-tractusx/tractus-x-release/blob/24.08/CHANGELOG.md#2408---2024-08-05)
 
 # Eclipse Tractus-X Umbrella
 
@@ -21,17 +21,18 @@ Also have a look in the [docs](docs/README.md) section to get more information a
 - **Cross-Platform Support**: Tested on Linux, macOS, and partial on Windows systems.
 
 ### Release Compatibility
-The versions of integrated components correspond to:
-- **[Release 24.05](https://github.com/eclipse-tractusx/tractus-x-release/blob/24.05/CHANGELOG.md#2405---2024-05-29)**: Current stable release.
-- **[Release 24.08](https://github.com/eclipse-tractusx/tractus-x-release/blob/24.08/CHANGELOG.md#2408---2024-08-05)**: Partial upgrades for some components.
+
+The versions of integrated components correspond to the **overarching [Release 24.08](https://github.com/eclipse-tractusx/tractus-x-release/blob/24.08/CHANGELOG.md#2408---2024-08-05)** 
 
 ### Purpose
+
 The Umbrella Chart is intended for:
 1. **Testing**: Run end-to-end tests for Catena-X services.
 2. **Sandbox Environments**: Create local environments to evaluate and experiment with Catena-X components.
 3. **Development**: Provide a unified setup for contributors and developers working on Tractus-X projects.
 
 ### Cluster Setup
+
 - Ensure your cluster meets the updated system requirements:
     - Kubernetes version `>1.24.x`
     - Helm version `3.8+`
@@ -74,6 +75,15 @@ An local example run via `act` could look like the following: `act -e .act/pr_ev
 
 ## Contributing
 
+See [CONTRIBUTING](CONTRIBUTING.md).
+
+## License
+
+Distributed under the Apache 2.0 License.
+See [LICENSE](./LICENSE) for more information.
+
+## Contributing
+
 Thank you for your interest in contributing to the Umbrella Chart project! Your contributions are vital to the success and growth of the project.
 Before contributing, make sure, you read and understand our [contributing guidelines](CONTRIBUTING.md).
 
@@ -104,10 +114,3 @@ We welcome contributions in the following areas:
 
 We appreciate every contribution and look forward to collaborating with you!
 
-## NOTICE
-
-This work is licensed under the [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/legalcode).
-
-* SPDX-License-Identifier: CC-BY-4.0
-* SPDX-FileCopyrightText: 2024 Contributors to the Eclipse Foundation
-* Source URL: <https://github.com/eclipse-tractusx/tractus-x-umbrella>

@@ -1,4 +1,3 @@
-
 # Installation
 
 This guide provides instructions to install the Umbrella Chart and its predefined subsets.
