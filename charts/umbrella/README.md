@@ -6,7 +6,6 @@ This umbrella chart provides a foundation for running end-to-end tests or creati
 >
 > The versions of integrated components correspond to the **overarching [Release 24.08](https://github.com/eclipse-tractusx/tractus-x-release/blob/24.08/CHANGELOG.md#2408---2024-08-05)** .
 
-
 ## **Quick Links**
 - [Latest Release Notes](../../docs/user/note-r2405-onwards/R24.05.md)
 - [Setup Instructions](../../docs/user/setup)

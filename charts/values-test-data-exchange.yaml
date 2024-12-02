@@ -27,19 +27,6 @@ ssi-dim-wallet-stub:
       type: ClusterIP
       port: 80
 
-bdrs-server-memory:
-  enabled: true
-  seeding:
-    url: "http://bdrs-server:8081"
-    enabled: true
-    bpnList:
-      - bpn: "BPNL00000003CRHK"
-        did: "did:web:ssi-dim-wallet-service:BPNL00000003CRHK"
-      - bpn: "BPNL00000003AZQP"
-        did: "did:web:ssi-dim-wallet-service:BPNL00000003AZQP"
-      - bpn: "BPNL00000003AYRE"
-        did: "did:web:ssi-dim-wallet-service:BPNL00000003AYRE"
-
   server:
     trustedIssuers:
       - did:web:ssi-dim-wallet-service:BPNL00000003CRHK
@@ -58,10 +45,10 @@ dataconsumerOne:
           token_url: http://ssi-dim-wallet-service/oauth/token
     controlplane:
       env:
-        TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-stub/api
+        TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-service/api
       bdrs:
         server:
-          url: http://bdrs-server:8082/api/directory
+          url: http://ssi-dim-wallet-service/api/v1/directory
     dataplane:
       env:
         TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-service/api
@@ -83,7 +70,7 @@ tx-data-provider:
         TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-service/api
       bdrs:
         server:
-          url: http://bdrs-server:8082/api/directory
+          url: http://ssi-dim-wallet-service/api/v1/directory
     dataplane:
       env:
         TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-service/api
