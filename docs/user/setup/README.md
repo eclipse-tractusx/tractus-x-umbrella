@@ -15,7 +15,7 @@ The above specifications are the minimum requirements for a local development se
 ### 1. Linux & Mac
 
 > **Note**
-> As already mentioned, this is the recommondation, since these two variants are the most tested ones.
+> As already mentioned, this is the recommendation, since these two variants are the most tested ones.
 
 Start a Minikube cluster with the following command:
 ```bash
@@ -65,7 +65,7 @@ After starting Minikube or Docker Desktop Kubernetes, verify the cluster setup:
 
 ## Recommendations
 
-Use tools like [Open Lens](https://k8slens.dev/) or the Minikube dashboard to visualize your cluster and deployed components.
+Use tools like the Minikube dashboard (or [Open Lens](https://k8slens.dev/)) to visualize your cluster and deployed components.
 
 For networking setup, proceed to the [Network Setup Guide](../network/setup).
 

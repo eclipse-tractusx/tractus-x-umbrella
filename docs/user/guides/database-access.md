@@ -33,16 +33,16 @@ For all connections:
 
 ### Database Connection Details
 
-| Component         | Host                              | Password                   |
+| Component         | Host                              |Password                   |
 |-------------------|-----------------------------------|---------------------------|
-| Portal            | `umbrella-portal-backend-postgresql` | `dbpasswordportal`         |
-| CentralIdP        | `umbrella-centralidp-postgresql`    | `dbpasswordcentralidp`     |
-| SharedIdP         | `umbrella-sharedidp-postgresql`    | `dbpasswordsharedidp`      |
-| MIW               | `umbrella-miw-postgres`            | `dbpasswordmiw`            |
-| Data Provider     | `umbrella-dataprovider-db`         | `dbpasswordtxdataprovider` |
-| Data Consumer 1   | `umbrella-dataconsumer-1-db`       | `dbpassworddataconsumerone`|
-| Data Consumer 2   | `umbrella-dataconsumer-2-db`       | `dbpassworddataconsumertwo`|
-| BPDM              | `umbrella-bpdm-postgres`           | `dbpasswordbpdm`           |
+| Portal            | `umbrella-portal-backend-postgresql` |`dbpasswordportal`         |
+| CentralIdP        | `umbrella-centralidp-postgresql`    |`dbpasswordcentralidp`     |
+| SharedIdP         | `umbrella-sharedidp-postgresql`    |`dbpasswordsharedidp`      |
+| MIW               | `umbrella-miw-postgres`            |`dbpasswordmiw`            |
+| Data Provider     | `umbrella-dataprovider-db`         |`dbpasswordtxdataprovider` |
+| Data Consumer 1   | `umbrella-dataconsumer-1-db`       |`dbpassworddataconsumerone`|
+| Data Consumer 2   | `umbrella-dataconsumer-2-db`       |`dbpassworddataconsumertwo`|
+| BPDM              | `umbrella-bpdm-postgres`           |`dbpasswordbpdm`           |
 
 ## Verifying Database Access
 
@@ -53,11 +53,6 @@ To verify access, follow these steps:
 3. Test the connection by browsing schemas and running queries.
 
 For further assistance, refer to the [pgAdmin documentation](https://www.pgadmin.org/docs/).
-
-## Seeding Databases
-
-Seeding is the process of populating the system with initial data required for the proper functioning of various components.
-
 
 ## NOTICE
 

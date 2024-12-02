@@ -155,7 +155,7 @@ FROM applications a;
 - Ensure DNS resolution is correctly configured for the `*.tx.test` domains.
 - If TLS is enabled, access the endpoints over `https://` and accept the self-signed certificate in your browser.
 
-For more details on Portal configuration, refer to the [Portal Subset Installation Guide](../setup/installation.md#portal-subset).
+For more details on Portal configuration, refer to the [Portal Subset Installation Guide](../setup/README.md#portal-subset).
 
 ## NOTICE
 

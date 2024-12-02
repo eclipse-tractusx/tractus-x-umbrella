@@ -7,18 +7,17 @@ The following table links you to the respective documentations.
 
 ## **Table of Contents**
 - [Note from R24.05 onwards](user/note-r2405-onwards)
-    - [R24.05](user/note-r2405-onwards/R24.05.md)
 - [Setup](user/setup)
-    - [Cluster](user/setup/cluster.md)
+    - [Cluster](user/setup/README.md)
     - [Semantic Hub Precondition](user/setup/semantic-hub.md)
     - [IATP Mock Precondition](user/setup/iatp-mock.md)
 - [Network](user/network)
-    - [Setup](user/network/setup.md)
+    - [Setup](user/network/README.md)
     - [TLS (Optional)](user/network/tls)
-- [Installation](user/installation/installation.md)
+- [Installation](user/installation/README.md)
     - [Released Charts](user/installation/released-charts.md)
     - [Local Charts](user/installation/local-charts.md)
-    - [Uninstallation](user/installation/uninstallation.md)
+    - [Uninstallation](user/installation/unREADME.md)
 - [Guides](user/guides)
     - [Data Exchange](user/guides/data-exchange.md)
         - [Data Provider](user/guides/data-exchange/provide-data.md)
@@ -26,6 +25,7 @@ The following table links you to the respective documentations.
     - [Portal Usage](user/guides/portal-usage.md)
     - [Database Access](user/guides/database-access.md)
 - [API Requests](api/API_Doc.md)
+- [Test Data Seeding](test-data-seeding)
 
 ## NOTICE
 

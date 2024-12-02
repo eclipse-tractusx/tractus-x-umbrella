@@ -1,8 +1,6 @@
-# Predefined Subsets (released charts)
+# Install from released chart
 
-The Umbrella Chart supports predefined subsets designed for specific use cases. Choose the subset based on your requirements.
-
-## Install with your chosen components enabled
+Add the Eclipse Tractus-X [charts repository](https://github.com/eclipse-tractusx/charts):
 
 ```bash
 helm repo add tractusx-dev https://eclipse-tractusx.github.io/charts/dev
@@ -21,6 +19,8 @@ name.
 > > `--namespace umbrella` specifies the namespace in which to install the chart.
 >
 > > `--create-namespace` create a namespace with the name `umbrella`.
+
+## Install with your chosen components enabled
 
 ```bash
 helm install \

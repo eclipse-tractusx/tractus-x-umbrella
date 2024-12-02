@@ -52,7 +52,7 @@ Follow the Curl Steps for direct interaction with the APIs to:
 - Refer to the [Cluster Setup Guide](../setup/cluster) if there are issues with service connectivity.
 - If additional data consumers are required, enable `dataconsumerTwo` in the `values.yaml` file and redeploy the chart.
 
-For further details, refer to the [Data Exchange Installation Guide](../setup/installation.md#data-exchange-subset).
+For further details, refer to the [Data Exchange Installation Guide](../setup/README.md#data-exchange-subset).
 
 ## NOTICE
 

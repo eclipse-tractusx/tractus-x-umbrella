@@ -30,7 +30,7 @@ sources:
 type: application
 version: 2.0.13
 
-# when adding or updating versions of dependencies, also update list under docs/user/installation/installation.md
+# when adding or updating versions of dependencies, also update list under /docs/user/installation/README.md
 dependencies:
   # portal
   - condition: portal.enabled

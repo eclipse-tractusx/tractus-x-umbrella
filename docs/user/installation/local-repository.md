@@ -1,4 +1,4 @@
-# Predefined Subsets (local repository)
+# Install from local repository
 
 Make sure to clone the [tractus-x-umbrella](https://github.com/eclipse-tractusx/tractus-x-umbrella) repository beforehand and navigate to the `charts/umbrella` directory.
 ```bash

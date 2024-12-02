@@ -1,6 +1,6 @@
 # Self-Signed TLS Setup (optional)
 
-Some of the components are prepared to be configured with TLS enabled (see "uncomment the following line for tls" comments in [values.yaml](./values.yaml)).
+Some of the components are prepared to be configured with TLS enabled (see "uncomment the following line for tls" comments in [values.yaml](/charts/umbrella/values.yaml)).
 
 If you'd like to make use of that, make sure to to execute this step beforehand.
 
