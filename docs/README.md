@@ -24,7 +24,7 @@ The following table links you to the respective documentations.
         - [Data Consumer](user/guides/data-exchange/consume-data.md)
     - [Portal Usage](user/guides/portal-usage.md)
     - [Database Access](user/guides/database-access.md)
-- [API Requests](api/API_Doc.md)
+- [API Requests](api/README.md)
 - [Test Data Seeding](test-data-seeding)
 
 ## NOTICE
