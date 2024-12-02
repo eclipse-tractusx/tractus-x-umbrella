@@ -15,5 +15,3 @@
 | oauth_token_url|Only if not default is used |
 | partners_pool_url|Used for IRS |
 | semantic_hub_url|Used for IRS |
-
-
