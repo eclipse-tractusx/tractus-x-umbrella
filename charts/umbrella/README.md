@@ -295,7 +295,7 @@ The currently available components are following:
 - [bdrs](https://github.com/eclipse-tractusx/bpn-did-resolution-service/tree/0.5.2) (**in memory** - no persistance possible)
 - [iatp-mock](https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/umbrella/charts/iatpmock/Chart.yaml)
 - [bpdm](https://github.com/eclipse-tractusx/bpdm/tree/release/6.0.x)
-- [ssi-dim-wallet-stub](https://github.com/eclipse-tractusx/ssi-dim-wallet-stub/releases/tag/ssi-dim-wallet-stub-0.1.2)
+- [ssi-dim-wallet-stub](https://github.com/eclipse-tractusx/ssi-dim-wallet-stub/releases/tag/ssi-dim-wallet-stub-0.1.4)
 
 > :warning: **Note**
 >
@@ -489,10 +489,7 @@ Involved components:
 - Data Provider
 - Data Consumer 1
 - Data Consumer 2 (Optional)
-- BDRS Server Memory
-- BPN-DID-Resolution-Service (BDRS)
 - SSI DIM Wallet Stub
-- SSI Credential Issuer
 - pgadmin4
 
 #### Get to know the Portal
@@ -547,7 +544,6 @@ Some components are disabled, as they are not necessary for the exclusive use of
 
 - BPDM
 - SSI DIM Wallet Stub
-- BPN-DID-Resolution-Service (BDRS)
 - SSI-Credential-Issuer
 - Self Description Factory
 - Discovery Finder
