@@ -1,6 +1,7 @@
-# Introduction
+# Umbrella Chart
 
-This repository provides the API requests to provide a tutorial for the Data Exchange.
+This umbrella chart provides a foundation for running end-to-end tests or creating sandbox environments of the [Catena-X](https://catena-x.net/en/) automotive dataspace using
+[Eclipse Tractus-X](https://projects.eclipse.org/projects/automotive.tractusx) OSS components.
 
 The following table links you to the respective documentations.
 
@@ -8,19 +9,22 @@ The following table links you to the respective documentations.
 - [Note from R24.05 onwards](user/note-r2405-onwards)
     - [R24.05](user/note-r2405-onwards/R24.05.md)
 - [Setup](user/setup)
-    - [Cluster Setup](user/setup/cluster-setup.md)
-    - [Network Setup](user/setup/network-setup.md)
-    - [Installation](user/setup/installation.md)
-    - [Uninstallation](user/setup/uninstallation.md)
+    - [Cluster](user/setup/cluster.md)
+    - [Semantic Hub Precondition](user/setup/semantic-hub.md)
+    - [IATP Mock Precondition](user/setup/iatp-mock.md)
+- [Network](user/network)
+    - [Setup](user/network/setup.md)
+    - [TLS (Optional)](user/network/tls)
+- [Installation](user/installation/installation.md)
+    - [Released Charts](user/installation/released-charts.md)
+    - [Local Charts](user/installation/local-charts.md)
+    - [Uninstallation](user/installation/uninstallation.md)
 - [Guides](user/guides)
     - [Data Exchange](user/guides/data-exchange.md)
         - [Data Provider](user/guides/data-exchange/provide-data.md)
         - [Data Consumer](user/guides/data-exchange/consume-data.md)
     - [Portal Usage](user/guides/portal-usage.md)
     - [Database Access](user/guides/database-access.md)
-    - [TLS Setup (Optional)](user/guides/tls-setup.md)
-    - [Semantic Hub Precondition](user/guides/semantic-hub.md)
-    - [IATP Mock Precondition](user/guides/iatp-mock.md)
 - [API Requests](api/API_Doc.md)
 
 ## NOTICE

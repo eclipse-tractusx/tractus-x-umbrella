@@ -1,4 +1,4 @@
-# IATP Mock Setup
+# IATP Mock Setup (Optional)
 
 This guide provides instructions to configure and enable the IATP Mock component, which serves as a placeholder for testing and simulating functionalities related to the IATP workflow.
 

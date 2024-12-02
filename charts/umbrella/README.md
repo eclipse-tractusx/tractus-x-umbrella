@@ -3,8 +3,9 @@
 This umbrella chart provides a foundation for running end-to-end tests or creating sandbox environments of the [Catena-X](https://catena-x.net/en/) automotive dataspace using [Eclipse Tractus-X](https://projects.eclipse.org/projects/automotive.tractusx) OSS components.
 
 > **Note**
-> 
-> The versions of integrated components correspond to the **overarching [Release 24.05](https://github.com/eclipse-tractusx/tractus-x-release/blob/24.05/CHANGELOG.md#2405---2024-05-29)**. The upgrade to **[Release 24.08](https://github.com/eclipse-tractusx/tractus-x-release/blob/24.08/CHANGELOG.md#2408---2024-08-05)** is currently in progress, some components have already been upgraded.
+>
+> The versions of integrated components correspond to the **overarching [Release 24.08](https://github.com/eclipse-tractusx/tractus-x-release/blob/24.08/CHANGELOG.md#2408---2024-08-05)** .
+
 
 ## **Quick Links**
 - [Latest Release Notes](../../docs/user/note-r2405-onwards/R24.05.md)
