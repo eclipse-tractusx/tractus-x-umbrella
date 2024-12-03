@@ -67,7 +67,7 @@ After starting Minikube or Docker Desktop Kubernetes, verify the cluster setup:
 
 Use tools like the Minikube dashboard (or [Open Lens](https://k8slens.dev/)) to visualize your cluster and deployed components.
 
-For networking setup, proceed to the [Network Setup Guide](../network/setup).
+For networking setup, proceed to the [Network Setup Guide](network/README.md).
 
 ## NOTICE
 
