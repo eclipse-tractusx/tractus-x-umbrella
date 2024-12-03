@@ -135,7 +135,7 @@ The second request will return all assets. It's called `request catalog` and wil
 
 ## Request the catalog
 
-Once the asset is created, Alice (the data consumer) can try request a catalog of available (offered) data.
+Once the asset is created, Alice (the data consumer) can try to request a catalog of available (offered) data.
 
 > **Note**
 > 
@@ -357,7 +357,7 @@ The policy was successfully created, if the response is something like this
 
 ### Step 2: Request catalog - second try
 
-Now that Bob created an access policy, Alice can once again try to access Bob's offer by running this `curl`.
+Now that Bob has created an access policy, Alice can once again try to access Bob's offer by running this `curl`.
 
 ```shell
 curl -L -X POST 'http://dataconsumer-1-controlplane.tx.test/management/v2/catalog/request' \
