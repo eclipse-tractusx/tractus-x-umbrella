@@ -131,7 +131,7 @@ The result for the first command shows just the newly created asset:
 }
 ```
 
-The second request will return all assets. It`s called `request catalog` and will be explained in the next step.
+The second request will return all assets. It's called `request catalog` and will be explained in the next step.
 
 ## Request the catalog
 
