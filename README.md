@@ -9,6 +9,16 @@ The umbrella helm chart is located in the [charts/umbrella](./charts/umbrella) d
 
 Have a look in the [docs](/docs) section for user manuals and guides.
 
+## Usage
+
+Execute the following steps:
+
+1. [Cluster Setup](/docs/user/setup/)
+2. [Network Setup](/docs/user/network/)
+3. [Installation](/docs/user/installation/)
+
+After the installation, you can refer to the [user guides and tutorials sections](/docs/user/guides/).
+
 ## Key Features
 
 - **Automated Setup**: Provides a fully functional network with minimal manual intervention.
