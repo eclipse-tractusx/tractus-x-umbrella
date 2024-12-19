@@ -16,7 +16,7 @@ The following table links you to the respective documentations.
     - [TLS (Optional)](user/network/tls)
 - [Installation](user/installation/README.md)
     - [Released Charts](user/installation/released-charts.md)
-    - [Local Charts](user/installation/local-charts.md)
+    - [Local Charts](user/installation/local-repository.md)
     - [Uninstallation](user/installation/unREADME.md)
 - [Guides](user/guides)
     - [Data Exchange](user/guides/data-exchange.md)
