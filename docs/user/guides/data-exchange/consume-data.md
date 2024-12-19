@@ -7,6 +7,44 @@ In order to be able to consume data, it is necessary to have previously [provide
 This step continues the journey of our data consumer Alice. After the data provider Bob has successfully provided his data as a contract definition in his catalog. Alice will now consume the data.
 We will use plain CLI tools (`curl`) for this, but feel free to use graphical tools such as Postman or Insomnia.
 
+```mermaid
+sequenceDiagram
+    participant Alice as Alice (Consumer)
+    participant EDC_C as EDC Consumer
+    participant EDC_P as EDC Provider
+    participant Bob as Bob (Provider)
+
+    Alice->>EDC_C: 1. Query Catalog
+    EDC_C->>EDC_P: 2. Request Catalog
+    EDC_P-->>EDC_C: 3. Return Available Assets
+    EDC_C-->>Alice: 4. Display Assets
+
+    Alice->>EDC_C: 5. Negotiate Contract
+    EDC_C->>EDC_P: 6. Contract Offer
+    EDC_P-->>EDC_C: 7. Contract Agreement
+    
+    Alice->>EDC_C: 8. Request Data
+    EDC_C->>EDC_P: 9. EDR Request
+    Note over EDC_C,EDC_P: Include auth token & endpoint
+    EDC_P->>Bob: 10. Validate EDR
+    Bob-->>EDC_P: 11. EDR Authorization
+    EDC_P-->>EDC_C: 12. EDR Response
+    Note over EDC_P,EDC_C: Contains data endpoint & token
+
+    EDC_C->>EDC_P: 13. Data Transfer Request
+    Note over EDC_C,EDC_P: With EDR token
+    EDC_P->>Bob: 14. Fetch Data
+    Bob-->>EDC_P: 15. Return Data
+    EDC_P-->>EDC_C: 16. Transfer Data
+    EDC_C-->>Alice: 17. Deliver Data
+```
+This diagram illustrates the three main phases of data consumption:
+1. **Catalog Query**: Alice discovers available assets
+2. **Contract Negotiation**: Alice negotiates access terms
+3. **Data Transfer**: Alice receives the requested data
+
+The default life time of the EDR token is 300s, its recommended for manual tests to extend the expiration time. 
+
 ## Step 1: Request the catalog
 
 To see Bob's data offerings, Alice must request access to his catalog. The catalog shows all the assets that Alice can consume from Bob.
@@ -66,7 +104,7 @@ that Alice needs to reference in the negotiation.
 
 ## Step 2: Initiate an edr
 
-To consume the data, Alice uses the `OFFER_ID` `MjAw:MjAw:Y2ZjMzdlNmUtODAwNi00NGJjLWJhMWYtNjJkOWIzZWM0ZTQ3` from the previous catalog response and the target `ASSET_ID` `200` to initiate an [EDR](https://github.com/eclipse-tractusx/tractusx-edc/blob/main/docs/usage/management-api-walkthrough/07_edrs.md).
+To consume the data, Alice uses the `OFFER_ID` `MjAw:MjAw:Y2ZjMzdlNmUtODAwNi00NGJjLWJhMWYtNjJkOWIzZWM0ZTQ3` from the previous catalog response and the target `ASSET_ID` `200` to initiate an Endpoint Data Reference ([EDR](https://github.com/eclipse-tractusx/tractusx-edc/blob/main/docs/usage/management-api-walkthrough/07_edrs.md)).
 
 ### EDR request
 
