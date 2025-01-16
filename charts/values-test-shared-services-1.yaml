@@ -46,6 +46,3 @@ ssi-dim-wallet-stub:
 
 bdrs-server-memory:
   enabled: true
-
-bpdm:
-  enabled: true
