@@ -178,32 +178,38 @@ jobs:
     - name: Install chart and run tests (tx-data-provider)
       run: ct install --charts charts/tx-data-provider --target-branch ${{ steps.set-target-branch.outputs.target-branch }}
 
+    - name: Install chart for centralidp Keycloak (umbrella)
+      run: |
+        helm dep up charts/umbrella
+        helm install centralidp charts/umbrella --namespace umbrella --create-namespace --debug --timeout 10m \
+        -f charts/values-test-iam-init-container.yaml
+
     - name: Install chart for data exchange (umbrella)
       run: |
         helm dep up charts/tx-data-provider
         helm dep up charts/umbrella
-        helm install umbrella charts/umbrella --namespace data-exchange --create-namespace --debug --timeout 10m \
-        -f charts/values-test-data-exchange.yaml 
-        helm uninstall umbrella --namespace data-exchange
+        helm install umbrella charts/umbrella --namespace umbrella --create-namespace --debug --timeout 10m \
+        -f charts/values-test-data-exchange.yaml
+        helm uninstall umbrella --namespace umbrella
 
     - name: Install chart for data exchange with iatp-mock (umbrella)
       run: |
         helm dep up charts/tx-data-provider
         helm dep up charts/umbrella
-        helm install umbrella charts/umbrella --namespace data-exchange --create-namespace --debug --timeout 10m \
-        -f charts/values-test-data-exchange-iatp-mock.yaml -f charts/values-test-iam-init-container.yaml \
+        helm install umbrella charts/umbrella --namespace umbrella --create-namespace --debug --timeout 10m \
+        -f charts/values-test-data-exchange-iatp-mock.yaml \
         --set iatpmock.image.repository=kind-registry:5000/iatp-mock --set iatpmock.image.tag=testing
-        helm uninstall umbrella --namespace data-exchange
+        helm uninstall umbrella --namespace umbrella
 
     - name: Install chart for shared services one (umbrella)
       run: |
-        helm install umbrella charts/umbrella -f charts/values-test-shared-services-1.yaml -f charts/values-test-iam-init-container.yaml --namespace shared-services --create-namespace --debug --timeout 10m
-        helm uninstall umbrella --namespace shared-services
+        helm install umbrella charts/umbrella -f charts/values-test-shared-services-1.yaml --namespace umbrella --create-namespace --debug --timeout 10m
+        helm uninstall umbrella --namespace umbrella
 
     - name: Install chart for shared services two (umbrella)
       run: |
-        helm install umbrella charts/umbrella -f charts/values-test-shared-services-2.yaml -f charts/values-test-iam-init-container.yaml --namespace shared-services --create-namespace --debug --timeout 10m  --set semantic-hub.graphdb.image=kind-registry:5000/jena-fuseki-docker:4.7.0
-        helm uninstall umbrella --namespace shared-services
+        helm install umbrella charts/umbrella -f charts/values-test-shared-services-2.yaml --namespace umbrella --create-namespace --debug --timeout 10m  --set semantic-hub.graphdb.image=kind-registry:5000/jena-fuseki-docker:4.7.0
+        helm uninstall umbrella --namespace umbrella
 
     ## Skip upgrade for now until a working chart is released
     #- name: Run helm upgrade
