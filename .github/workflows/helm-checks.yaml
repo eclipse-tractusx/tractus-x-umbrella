@@ -178,12 +178,6 @@ jobs:
     - name: Install chart and run tests (tx-data-provider)
       run: ct install --charts charts/tx-data-provider --target-branch ${{ steps.set-target-branch.outputs.target-branch }}
 
-    - name: Install chart for centralidp Keycloak (umbrella)
-      run: |
-        helm dep up charts/umbrella
-        helm install centralidp charts/umbrella --namespace umbrella --create-namespace --debug --timeout 10m \
-        -f charts/values-test-iam-init-container.yaml
-
     - name: Install chart for data exchange (umbrella)
       run: |
         helm dep up charts/tx-data-provider
@@ -191,6 +185,12 @@ jobs:
         helm install umbrella charts/umbrella --namespace umbrella --create-namespace --debug --timeout 10m \
         -f charts/values-test-data-exchange.yaml
         helm uninstall umbrella --namespace umbrella
+
+    - name: Install chart for centralidp Keycloak (umbrella)
+      run: |
+        helm dep up charts/umbrella
+        helm install centralidp charts/umbrella --namespace umbrella --create-namespace --debug --timeout 10m \
+        -f charts/values-test-iam-init-container.yaml
 
     - name: Install chart for data exchange with iatp-mock (umbrella)
       run: |
@@ -205,6 +205,7 @@ jobs:
       run: |
         helm install umbrella charts/umbrella -f charts/values-test-shared-services-1.yaml --namespace umbrella --create-namespace --debug --timeout 10m
         helm uninstall umbrella --namespace umbrella
+        helm uninstall centralidp --namespace umbrella
 
     - name: Install chart for shared services two (umbrella)
       run: |
