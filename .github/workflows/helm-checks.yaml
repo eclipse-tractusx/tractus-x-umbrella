@@ -190,7 +190,7 @@ jobs:
       run: |
         helm dep up charts/umbrella
         helm install centralidp charts/umbrella --namespace umbrella --create-namespace --debug --timeout 10m \
-        -f charts/values-test-iam-init-container.yaml
+        -f charts/values-test-iam-init-container.yaml --wait --wait-for-jobs
 
     - name: Install chart for data exchange with iatp-mock (umbrella)
       run: |
