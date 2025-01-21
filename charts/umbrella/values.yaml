@@ -298,7 +298,7 @@ portal:
     provisioning:
       sharedRealm:
         smtpServer:
-          host: "smtp4dev"
+          host: "smtp.tx.test"
           port: "587"
           user: "smtp-user"
           password: ""

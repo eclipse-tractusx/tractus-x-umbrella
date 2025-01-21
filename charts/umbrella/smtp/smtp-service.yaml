@@ -8,8 +8,8 @@ spec:
   ports:
     - name: smtp
       protocol: TCP
-      port: 587
-      targetPort: 587
+      port: 25
+      targetPort: 25
     - name: http
       protocol: TCP
       port: 80
