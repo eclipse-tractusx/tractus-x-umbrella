@@ -20,14 +20,6 @@
 portal:
   enabled: true
 
-centralidp:
-  enabled: true
-  realmSeeding:
-    initContainer:
-      image:
-        name: kind-registry:5000/init-container:testing
-        pullPolicy: Always
-
 sharedidp:
   enabled: true
 
@@ -37,7 +29,7 @@ selfdescription:
 ssi-dim-wallet-stub:
   enabled: true
   wallet:
-    nameSpace: "shared-services"
+    nameSpace: "umbrella"
     didHost: "ssi-dim-wallet-service"
     stubUrl: "http://ssi-dim-wallet-service"
     service:
@@ -45,7 +37,4 @@ ssi-dim-wallet-stub:
       port: 80
 
 bdrs-server-memory:
-  enabled: true
-
-bpdm:
   enabled: true

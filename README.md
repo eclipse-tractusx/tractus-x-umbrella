@@ -30,6 +30,8 @@ After the installation, you can refer to the [user guides and tutorials sections
 
 The versions of the [integrated components](/docs/user/installation/README.md#available-components) correspond to the **overarching [Release 24.08](https://github.com/eclipse-tractusx/tractus-x-release/blob/24.08/CHANGELOG.md#2408---2024-08-05)**.
 
+Be aware that the **upgrade to the overarching [Release 24.12](https://github.com/eclipse-tractusx/tractus-x-release/blob/24.12/CHANGELOG.md#2412---2024-12-02) is in progress** and some components have already been upgraded.
+
 ## Purpose
 
 The Umbrella Chart is intended for:

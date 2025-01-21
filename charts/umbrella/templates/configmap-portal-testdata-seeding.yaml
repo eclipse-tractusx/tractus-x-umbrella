@@ -17,7 +17,8 @@
 * SPDX-License-Identifier: Apache-2.0
 */}}
 
-{{- if .Values.portal.backend.portalmigrations.seeding.testData.enabled -}}
+{{ if index .Values "portal" "enabled" }}
+{{ if .Values.portal.backend.portalmigrations.seeding.seedTestData.enabled }}
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -117,8 +118,8 @@ data:
         "id": "2dc4249f-b5ca-4d42-bef1-7a7a950a4f88",
         "date_created": "2022-03-24 18:01:33.306000 +00:00",
         "business_partner_number": "{{ index .Values "dataconsumerOne" "tractusx-connector" "participant" "id" }}",
-        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "dataconsumerOne" "name" }}",
-        "shortname": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "dataconsumerOne" "name" }}",
+        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "dataconsumerOne" "name" }}",
+        "shortname": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "dataconsumerOne" "name" }}",
         "company_status_id": 2,
         "address_id": "b4db3945-19a7-4a50-97d6-e66e8dfd04fe",
         "self_description_document_id": "f90962ee-a358-4381-8947-c56268ff32c7"
@@ -127,8 +128,8 @@ data:
         "id": "220330ac-170d-4e22-8d72-9467ed042149",
         "date_created": "2022-03-24 18:01:33.393000 +00:00",
         "business_partner_number": "{{ index .Values "tx-data-provider" "tractusx-connector" "participant" "id" }}",
-        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "tx-data-provider" "name" }}",
-        "shortname": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "tx-data-provider" "name" }}",
+        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "tx-data-provider" "name" }}",
+        "shortname": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "tx-data-provider" "name" }}",
         "company_status_id": 1,
         "address_id": "aa49c0ec-4e65-4115-a01c-7adfc36d220e",
         "self_description_document_id": "f90962ee-a358-4381-8947-c56268ff32c7"
@@ -137,8 +138,8 @@ data:
         "id": "bdac6865-2a8d-4bfd-9373-9dfce8190895",
         "date_created": "2022-03-24 18:01:33.430000 +00:00",
         "business_partner_number": "{{ index .Values "dataconsumerTwo" "tractusx-connector" "participant" "id" }}",
-        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "dataconsumerTwo" "name" }}",
-        "shortname": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "dataconsumerTwo" "name" }}",
+        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "dataconsumerTwo" "name" }}",
+        "shortname": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "dataconsumerTwo" "name" }}",
         "company_status_id": 1,
         "address_id": "0f562ea7-4cc1-47a9-bfee-b41b0ac67ebb",
         "self_description_document_id": "f90962ee-a358-4381-8947-c56268ff32c7"
@@ -146,9 +147,9 @@ data:
       {
         "id": "8d39f219-ec52-458f-b208-46ac0d5fcff9",
         "date_created": "2022-03-24 18:01:33.430000 +00:00",
-        "business_partner_number": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company4" "bpn" }}",
-        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company4" "name" }}",
-        "shortname": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company4" "name" }}",
+        "business_partner_number": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company4" "bpn" }}",
+        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company4" "name" }}",
+        "shortname": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company4" "name" }}",
         "company_status_id": 1,
         "address_id": "0f562ea7-4cc1-47a9-bfee-b41b0ac67ebb",
         "self_description_document_id": "f90962ee-a358-4381-8947-c56268ff32c7"
@@ -156,9 +157,9 @@ data:
       {
         "id": "6491f342-c715-49d7-b3cf-7b7f765c2ac4",
         "date_created": "2022-03-24 18:01:33.430000 +00:00",
-        "business_partner_number": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company5" "bpn" }}",
-        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company5" "name" }}",
-        "shortname": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company5" "name" }}",
+        "business_partner_number": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company5" "bpn" }}",
+        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company5" "name" }}",
+        "shortname": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company5" "name" }}",
         "company_status_id": 1,
         "address_id": "0f562ea7-4cc1-47a9-bfee-b41b0ac67ebb",
         "self_description_document_id": "f90962ee-a358-4381-8947-c56268ff32c7"
@@ -166,9 +167,9 @@ data:
       {
         "id": "4e2abacb-8434-43df-a358-46082c69d3f8",
         "date_created": "2022-03-24 18:01:33.430000 +00:00",
-        "business_partner_number": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company6" "bpn" }}",
-        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company6" "name" }}",
-        "shortname": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company6" "name" }}",
+        "business_partner_number": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company6" "bpn" }}",
+        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company6" "name" }}",
+        "shortname": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company6" "name" }}",
         "company_status_id": 1,
         "address_id": "0f562ea7-4cc1-47a9-bfee-b41b0ac67ebb",
         "self_description_document_id": "f90962ee-a358-4381-8947-c56268ff32c7"
@@ -176,9 +177,9 @@ data:
       {
         "id": "2533487e-907a-4de9-ac59-d5b885e65346",
         "date_created": "2022-03-24 18:01:33.430000 +00:00",
-        "business_partner_number": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company7" "bpn" }}",
-        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company7" "name" }}",
-        "shortname": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company7" "name" }}",
+        "business_partner_number": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company7" "bpn" }}",
+        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company7" "name" }}",
+        "shortname": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company7" "name" }}",
         "company_status_id": 1,
         "address_id": "0f562ea7-4cc1-47a9-bfee-b41b0ac67ebb",
         "self_description_document_id": "f90962ee-a358-4381-8947-c56268ff32c7"
@@ -186,9 +187,9 @@ data:
       {
         "id": "42cbfff7-f259-4862-9eaf-cbe6233e6e59",
         "date_created": "2022-03-24 18:01:33.430000 +00:00",
-        "business_partner_number": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company8" "bpn" }}",
-        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company8" "name" }}",
-        "shortname": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company8" "name" }}",
+        "business_partner_number": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company8" "bpn" }}",
+        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company8" "name" }}",
+        "shortname": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company8" "name" }}",
         "company_status_id": 1,
         "address_id": "0f562ea7-4cc1-47a9-bfee-b41b0ac67ebb",
         "self_description_document_id": "f90962ee-a358-4381-8947-c56268ff32c7"
@@ -196,9 +197,9 @@ data:
       {
         "id": "1805898a-2625-48a0-8cf3-7c876d8cb069",
         "date_created": "2022-03-24 18:01:33.430000 +00:00",
-        "business_partner_number": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company9" "bpn" }}",
-        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company9" "name" }}",
-        "shortname": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company9" "name" }}",
+        "business_partner_number": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company9" "bpn" }}",
+        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company9" "name" }}",
+        "shortname": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company9" "name" }}",
         "company_status_id": 1,
         "address_id": "0f562ea7-4cc1-47a9-bfee-b41b0ac67ebb",
         "self_description_document_id": "f90962ee-a358-4381-8947-c56268ff32c7"
@@ -206,9 +207,9 @@ data:
       {
         "id": "0c946b81-147b-4ccd-b174-124ac14ab979",
         "date_created": "2022-03-24 18:01:33.430000 +00:00",
-        "business_partner_number": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company10" "bpn" }}",
-        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company10" "name" }}",
-        "shortname": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company10" "name" }}",
+        "business_partner_number": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company10" "bpn" }}",
+        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company10" "name" }}",
+        "shortname": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company10" "name" }}",
         "company_status_id": 1,
         "address_id": "0f562ea7-4cc1-47a9-bfee-b41b0ac67ebb",
         "self_description_document_id": "f90962ee-a358-4381-8947-c56268ff32c7"
@@ -216,9 +217,9 @@ data:
       {
         "id": "c11ee5ee-dc2e-4551-b76f-9f6ac6edd9c9",
         "date_created": "2022-03-24 18:01:33.430000 +00:00",
-        "business_partner_number": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company11" "bpn" }}",
-        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company11" "name" }}",
-        "shortname": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company11" "name" }}",
+        "business_partner_number": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company11" "bpn" }}",
+        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company11" "name" }}",
+        "shortname": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company11" "name" }}",
         "company_status_id": 1,
         "address_id": "0f562ea7-4cc1-47a9-bfee-b41b0ac67ebb",
         "self_description_document_id": "f90962ee-a358-4381-8947-c56268ff32c7"
@@ -226,9 +227,9 @@ data:
       {
         "id": "5914194c-1031-4070-b484-cf217a012609",
         "date_created": "2022-03-24 18:01:33.430000 +00:00",
-        "business_partner_number": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company12" "bpn" }}",
-        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company12" "name" }}",
-        "shortname": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company12" "name" }}",
+        "business_partner_number": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company12" "bpn" }}",
+        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company12" "name" }}",
+        "shortname": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company12" "name" }}",
         "company_status_id": 1,
         "address_id": "0f562ea7-4cc1-47a9-bfee-b41b0ac67ebb",
         "self_description_document_id": "f90962ee-a358-4381-8947-c56268ff32c7"
@@ -236,9 +237,9 @@ data:
       {
         "id": "ed60c36c-0855-4341-bd0b-0872566aeabe",
         "date_created": "2022-03-24 18:01:33.430000 +00:00",
-        "business_partner_number": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company13" "bpn" }}",
-        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company13" "name" }}",
-        "shortname": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company13" "name" }}",
+        "business_partner_number": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company13" "bpn" }}",
+        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company13" "name" }}",
+        "shortname": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company13" "name" }}",
         "company_status_id": 1,
         "address_id": "0f562ea7-4cc1-47a9-bfee-b41b0ac67ebb",
         "self_description_document_id": "f90962ee-a358-4381-8947-c56268ff32c7"
@@ -246,9 +247,9 @@ data:
       {
         "id": "d5fde96a-65f1-45b3-9605-360909ed25c3",
         "date_created": "2022-03-24 18:01:33.430000 +00:00",
-        "business_partner_number": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company14" "bpn" }}",
-        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company14" "name" }}",
-        "shortname": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company14" "name" }}",
+        "business_partner_number": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company14" "bpn" }}",
+        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company14" "name" }}",
+        "shortname": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company14" "name" }}",
         "company_status_id": 1,
         "address_id": "0f562ea7-4cc1-47a9-bfee-b41b0ac67ebb",
         "self_description_document_id": "f90962ee-a358-4381-8947-c56268ff32c7"
@@ -256,9 +257,9 @@ data:
       {
         "id": "d4234ab0-910f-47e2-b3e7-08fa1ddf505c",
         "date_created": "2022-03-24 18:01:33.430000 +00:00",
-        "business_partner_number": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company15" "bpn" }}",
-        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company15" "name" }}",
-        "shortname": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company15" "name" }}",
+        "business_partner_number": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company15" "bpn" }}",
+        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company15" "name" }}",
+        "shortname": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company15" "name" }}",
         "company_status_id": 1,
         "address_id": "0f562ea7-4cc1-47a9-bfee-b41b0ac67ebb",
         "self_description_document_id": "f90962ee-a358-4381-8947-c56268ff32c7"
@@ -266,9 +267,9 @@ data:
       {
         "id": "aa85d559-81d5-4632-98b6-4f4df4ad20d9",
         "date_created": "2022-03-24 18:01:33.430000 +00:00",
-        "business_partner_number": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company16" "bpn" }}",
-        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company16" "name" }}",
-        "shortname": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company16" "name" }}",
+        "business_partner_number": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company16" "bpn" }}",
+        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company16" "name" }}",
+        "shortname": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company16" "name" }}",
         "company_status_id": 1,
         "address_id": "0f562ea7-4cc1-47a9-bfee-b41b0ac67ebb",
         "self_description_document_id": "f90962ee-a358-4381-8947-c56268ff32c7"
@@ -278,8 +279,8 @@ data:
     [
       {
         "id": "7e86a0b8-6903-496b-96d1-0ef508206833",
-        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "dataconsumerOne" "connectorName" }}",
-        "connector_url": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "dataconsumerOne" "connectorUrl" }}",
+        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "dataconsumerOne" "connectorName" }}",
+        "connector_url": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "dataconsumerOne" "connectorUrl" }}",
         "type_id": 1,
         "status_id": 2,
         "provider_id": "2dc4249f-b5ca-4d42-bef1-7a7a950a4f88",
@@ -289,8 +290,8 @@ data:
       },
       {
         "id": "7e86a0b8-6903-496b-96d1-0ef508206834",
-        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "tx-data-provider" "connectorName" }}",
-        "connector_url": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "tx-data-provider" "connectorUrl" }}",
+        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "tx-data-provider" "connectorName" }}",
+        "connector_url": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "tx-data-provider" "connectorUrl" }}",
         "type_id": 1,
         "status_id": 2,
         "provider_id": "220330ac-170d-4e22-8d72-9467ed042149",
@@ -300,8 +301,8 @@ data:
       },
       {
         "id": "7e86a0b8-6903-496b-96d1-0ef508206835",
-        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "dataconsumerTwo" "connectorName" }}",
-        "connector_url": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "dataconsumerTwo" "connectorUrl" }}",
+        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "dataconsumerTwo" "connectorName" }}",
+        "connector_url": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "dataconsumerTwo" "connectorUrl" }}",
         "type_id": 1,
         "status_id": 2,
         "provider_id": "bdac6865-2a8d-4bfd-9373-9dfce8190895",
@@ -311,8 +312,8 @@ data:
       },
       {
         "id": "7e86a0b8-6903-496b-96d1-0ef508206836",
-        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company4" "connectorName" }}",
-        "connector_url": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company4" "connectorUrl" }}",
+        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company4" "connectorName" }}",
+        "connector_url": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company4" "connectorUrl" }}",
         "type_id": 1,
         "status_id": 2,
         "provider_id": "8d39f219-ec52-458f-b208-46ac0d5fcff9",
@@ -322,8 +323,8 @@ data:
       },
       {
         "id": "7e86a0b8-6903-496b-96d1-0ef508206837",
-        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company5" "connectorName" }}",
-        "connector_url": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company5" "connectorUrl" }}",
+        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company5" "connectorName" }}",
+        "connector_url": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company5" "connectorUrl" }}",
         "type_id": 1,
         "status_id": 2,
         "provider_id": "6491f342-c715-49d7-b3cf-7b7f765c2ac4",
@@ -333,8 +334,8 @@ data:
       },
       {
         "id": "7e86a0b8-6903-496b-96d1-0ef508206838",
-        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company6" "connectorName" }}",
-        "connector_url": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company6" "connectorUrl" }}",
+        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company6" "connectorName" }}",
+        "connector_url": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company6" "connectorUrl" }}",
         "type_id": 1,
         "status_id": 2,
         "provider_id": "4e2abacb-8434-43df-a358-46082c69d3f8",
@@ -344,8 +345,8 @@ data:
       },
       {
         "id": "7e86a0b8-6903-496b-96d1-0ef508206839",
-        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company7" "connectorName" }}",
-        "connector_url": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company7" "connectorUrl" }}",
+        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company7" "connectorName" }}",
+        "connector_url": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company7" "connectorUrl" }}",
         "type_id": 1,
         "status_id": 2,
         "provider_id": "2533487e-907a-4de9-ac59-d5b885e65346",
@@ -355,8 +356,8 @@ data:
       },
       {
         "id": "7e86a0b8-6903-496b-96d1-0ef508206840",
-        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company8" "connectorName" }}",
-        "connector_url": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company8" "connectorUrl" }}",
+        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company8" "connectorName" }}",
+        "connector_url": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company8" "connectorUrl" }}",
         "type_id": 1,
         "status_id": 2,
         "provider_id": "42cbfff7-f259-4862-9eaf-cbe6233e6e59",
@@ -366,8 +367,8 @@ data:
       },
       {
         "id": "7e86a0b8-6903-496b-96d1-0ef508206841",
-        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company9" "connectorName" }}",
-        "connector_url": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company9" "connectorUrl" }}",
+        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company9" "connectorName" }}",
+        "connector_url": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company9" "connectorUrl" }}",
         "type_id": 1,
         "status_id": 2,
         "provider_id": "1805898a-2625-48a0-8cf3-7c876d8cb069",
@@ -377,8 +378,8 @@ data:
       },
       {
         "id": "7e86a0b8-6903-496b-96d1-0ef508206842",
-        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company10" "connectorName" }}",
-        "connector_url": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company10" "connectorUrl" }}",
+        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company10" "connectorName" }}",
+        "connector_url": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company10" "connectorUrl" }}",
         "type_id": 1,
         "status_id": 2,
         "provider_id": "0c946b81-147b-4ccd-b174-124ac14ab979",
@@ -388,8 +389,8 @@ data:
       },
       {
         "id": "7e86a0b8-6903-496b-96d1-0ef508206843",
-        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company11" "connectorName" }}",
-        "connector_url": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company11" "connectorUrl" }}",
+        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company11" "connectorName" }}",
+        "connector_url": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company11" "connectorUrl" }}",
         "type_id": 1,
         "status_id": 2,
         "provider_id": "c11ee5ee-dc2e-4551-b76f-9f6ac6edd9c9",
@@ -399,8 +400,8 @@ data:
       },
       {
         "id": "7e86a0b8-6903-496b-96d1-0ef508206844",
-        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company12" "connectorName" }}",
-        "connector_url": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company12" "connectorUrl" }}",
+        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company12" "connectorName" }}",
+        "connector_url": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company12" "connectorUrl" }}",
         "type_id": 1,
         "status_id": 2,
         "provider_id": "5914194c-1031-4070-b484-cf217a012609",
@@ -410,8 +411,8 @@ data:
       },
       {
         "id": "7e86a0b8-6903-496b-96d1-0ef508206845",
-        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company13" "connectorName" }}",
-        "connector_url": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company13" "connectorUrl" }}",
+        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company13" "connectorName" }}",
+        "connector_url": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company13" "connectorUrl" }}",
         "type_id": 1,
         "status_id": 2,
         "provider_id": "ed60c36c-0855-4341-bd0b-0872566aeabe",
@@ -421,8 +422,8 @@ data:
       },
       {
         "id": "7e86a0b8-6903-496b-96d1-0ef508206846",
-        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company14" "connectorName" }}",
-        "connector_url": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company14" "connectorUrl" }}",
+        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company14" "connectorName" }}",
+        "connector_url": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company14" "connectorUrl" }}",
         "type_id": 1,
         "status_id": 2,
         "provider_id": "d5fde96a-65f1-45b3-9605-360909ed25c3",
@@ -432,8 +433,8 @@ data:
       },
       {
         "id": "7e86a0b8-6903-496b-96d1-0ef508206847",
-        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company15" "connectorName" }}",
-        "connector_url": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company15" "connectorUrl" }}",
+        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company15" "connectorName" }}",
+        "connector_url": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company15" "connectorUrl" }}",
         "type_id": 1,
         "status_id": 2,
         "provider_id": "d4234ab0-910f-47e2-b3e7-08fa1ddf505c",
@@ -443,8 +444,8 @@ data:
       },
       {
         "id": "7e86a0b8-6903-496b-96d1-0ef508206848",
-        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company16" "connectorName" }}",
-        "connector_url": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "testData" "companies" "company16" "connectorUrl" }}",
+        "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company16" "connectorName" }}",
+        "connector_url": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "company16" "connectorUrl" }}",
         "type_id": 1,
         "status_id": 2,
         "provider_id": "aa85d559-81d5-4632-98b6-4f4df4ad20d9",
@@ -467,4 +468,5 @@ data:
         "media_type_id": 7
       }
     ]
-{{- end }}
+{{ end }}
+{{ end }}

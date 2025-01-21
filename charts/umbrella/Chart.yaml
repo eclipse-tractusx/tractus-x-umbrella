@@ -36,16 +36,16 @@ dependencies:
   - condition: portal.enabled
     name: portal
     repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 2.2.0
+    version: 2.3.0
   # cx-iam
   - condition: centralidp.enabled
     name: centralidp
     repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 4.0.0-alpha.2
+    version: 4.0.1
   - condition: sharedidp.enabled
     name: sharedidp
     repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 4.0.0-alpha.1
+    version: 4.0.1
   # discovery-finder
   - condition: discoveryfinder.enabled
     name: discoveryfinder
@@ -66,7 +66,7 @@ dependencies:
   - name: ssi-credential-issuer
     condition: ssi-credential-issuer.enabled
     repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 1.1.0
+    version: 1.2.0
   # semantic-hub
   - condition: semantic-hub.enabled
     name: semantic-hub

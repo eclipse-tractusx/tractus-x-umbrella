@@ -17,14 +17,6 @@
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################
 
-centralidp:
-  enabled: true
-  realmSeeding:
-    initContainer:
-      image:
-        name: kind-registry:5000/init-container:testing
-        pullPolicy: Always
-
 iatpmock:
   enabled: true
 
@@ -91,7 +83,7 @@ dataconsumerOne:
         dim:
           url: http://mock-util-service/sts
         oauth:
-          token_url: http://umbrella-centralidp:80/auth/realms/CX-Central/protocol/openid-connect/token
+          token_url: http://centralidp:80/auth/realms/CX-Central/protocol/openid-connect/token
           client:
             id: satest01
     controlplane:
@@ -117,7 +109,7 @@ tx-data-provider:
         dim:
           url: http://mock-util-service/sts
         oauth:
-          token_url: http://umbrella-centralidp:80/auth/realms/CX-Central/protocol/openid-connect/token
+          token_url: http://centralidp:80/auth/realms/CX-Central/protocol/openid-connect/token
           client:
             id: satest02
     controlplane:
