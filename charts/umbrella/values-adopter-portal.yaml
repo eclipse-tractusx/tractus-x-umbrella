@@ -63,14 +63,14 @@ pgadmin4:
 
 # Set 'enabled' to true if onboarding is required
 bpdm:
-  enabled: true
+  enabled: false
 
 bdrs-server-memory:
   enabled: false
 
 # Set 'enabled' to true if onboarding is required
 selfdescription:
-  enabled: true
+  enabled: false
 
 bpndiscovery:
   enabled: false
@@ -80,8 +80,8 @@ discoveryfinder:
 
 # Set 'enabled' to true if onboarding is required
 ssi-credential-issuer:
-  enabled: true
+  enabled: false
 
 # Set 'enabled' to true if onboarding is required
 ssi-dim-wallet-stub:
-  enabled: true
+  enabled: false
