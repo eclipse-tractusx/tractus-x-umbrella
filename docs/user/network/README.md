@@ -2,7 +2,7 @@
 
 This guide provides instructions to configure the network setup required for running the Umbrella Chart in a Kubernetes cluster.
 
-## Enable Ingress
+## Enabled Ingresses
 
 To enable ingress for local access, use the following command with Minikube:
 
@@ -48,9 +48,10 @@ The following ingresses are configured and available:
    - [Business Partners Pool](http://business-partners.tx.test/pool)
    - [Business Partners Orchestrator](http://business-partners.tx.test/orchestrator)
    - [BDRS Server](http://bdrs-server.tx.test)
+   - [SSI Credential Issuer](http://ssi-credential-issuer.tx.test/api/issuer/swagger/index.html)
+   - [SSI DIM Wallet Stub](http://ssi-dim-wallet-stub.tx.test)
    - [IATP Mock](http://iatpmock.tx.test)
    - [pgAdmin4](http://pgadmin4.tx.test)
-   - [SSI DIM Wallet Stub](http://ssi-dim-wallet-stub.tx.test)
 
 ## DNS Resolution Setup
 

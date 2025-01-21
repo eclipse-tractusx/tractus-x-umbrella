@@ -18,6 +18,7 @@
 ###############################################################
 
 centralidp:
+  enabled: true
   realmSeeding:
     initContainer:
       image:
