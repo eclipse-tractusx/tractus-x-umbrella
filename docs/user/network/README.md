@@ -255,9 +255,9 @@ Once we have the cluster deployed, before launching the data space, it is first 
 ### Apply the files to your kubernetes cluster
 
 ```shell
-kubectl apply -f ./charts/umbrella/smtp-deployment.yaml -n umbrella
-kubectl apply -f ./charts/umbrella/smtp-service.yaml -n umbrella
-kubectl apply -f ./charts/umbrella/smtp-ingress.yaml -n umbrella
+kubectl apply -f ./charts/umbrella/smtp/smtp-deployment.yaml -n umbrella
+kubectl apply -f ./charts/umbrella/smtp/smtp-service.yaml -n umbrella
+kubectl apply -f ./charts/umbrella/smtp/smtp-ingress.yaml -n umbrella
 ```
 
 You can now access your SMTP server using this hostname: [smtp.tx.test](http://smtp.tx.test)
