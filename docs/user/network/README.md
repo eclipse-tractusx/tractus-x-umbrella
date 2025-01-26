@@ -57,13 +57,29 @@ The following ingresses are configured and available:
 
 Proper DNS resolution is required to map local domain names to the Minikube IP address. Follow the steps for your operating system:
 
-- [Linus](#linux)
+- [Linux](#linux)
 - [mac](#macos)
   - [using Minikube](#option-1-minikube)
   - [using K3s](#option-2-k3s)
 - [Windows](#windows)
 
 ### Linux
+
+There are different ways to configure DNS in Linux. 
+
+#### Option 1: Adapt `/etc/hosts` file
+
+The easiest way is to adapt `/etc/hosts` file on your system. 
+ > **Note**
+ > There are two things to consider here. 
+ > Firstly, the existing entries should not be changed. 
+ > Secondly, the adjustments made should be undone when the tutorial is no longer needed.
+
+You can find the necessary steps here: [host-file-configuration](#hosts-file-configuration-fallback).
+
+#### Option 2: Further approaches
+
+Below you will find further approaches for setting the DNS resolution. 
 
 1. Identify your DNS resolver by checking the contents of `/etc/resolv.conf`.
 2. Update the resolver configuration based on your system:
@@ -121,7 +137,7 @@ Proper DNS resolution is required to map local domain names to the Minikube IP a
       sudo systemctl restart systemd-resolved
       ```
 
-      If you still face DNS issues, add [the hosts](#hosts-file-configuration-fallback) to your `/etc/hosts` file.
+
 
 3. Test DNS resolution by pinging one of the configured hostnames.
 
@@ -248,6 +264,8 @@ Replace `<MINIKUBE_IP>` with the output of the following command:
 ```bash
 minikube ip
 ```
+
+Test DNS resolution by pinging one of the configured hostnames.
 
 ## Verify Network Setup
 
