@@ -69,7 +69,8 @@ There are different ways to configure DNS in Linux.
 
 #### Option 1: Adapt `/etc/hosts` file
 
-The easiest way is to adapt `/etc/hosts` file on your system. 
+The most reliable way is to adapt `/etc/hosts` file on your system. 
+
  > **Note**
  > There are two things to consider here. 
  > Firstly, the existing entries should not be changed. 
