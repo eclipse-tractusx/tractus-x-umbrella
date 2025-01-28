@@ -16,4 +16,3 @@ spec:
             name: smtp4dev
             port: 
               number: 80
-              

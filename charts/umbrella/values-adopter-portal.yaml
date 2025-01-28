@@ -85,4 +85,3 @@ ssi-credential-issuer:
 # Set 'enabled' to true if onboarding is required
 ssi-dim-wallet-stub:
   enabled: false
-  
