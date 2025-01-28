@@ -23,6 +23,8 @@ The above specifications are the minimum requirements for a local development se
 
 ### 1. Linux
 
+> There is a tutorial video available to help with the set-up: [set-up video tutorial](../video-tutorials/setup.mp4)
+
 Start a Minikube cluster with the following command:
 
 ```bash
