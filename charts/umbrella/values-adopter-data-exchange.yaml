@@ -48,7 +48,7 @@ tx-data-provider:
   #         enabled: true
 
 dataconsumerTwo:
-  enabled: false
+  enabled: true
     # -- uncomment the following for persistence
     # postgresql:
     #   primary:
@@ -62,7 +62,7 @@ pgadmin4:
   #   enabled: true
 
 ssi-credential-issuer:
-  enabled: false
+  enabled: true
 
 ssi-dim-wallet-stub:
   enabled: true
