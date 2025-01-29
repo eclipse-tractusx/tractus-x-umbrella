@@ -26,7 +26,7 @@ portal:
         # host: "smtp4dev"
         # port: "25"
         # user: "portal-user"
-        # senderEmail: "portal-admin@lksnext.com"
+        # senderEmail: "portal-admin@tx.test"
         # password: "portal-password"
 
   # -- uncomment the following for persistance
