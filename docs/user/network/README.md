@@ -166,8 +166,6 @@ Below you find alternative approaches for setting the DNS resolution. Follow the
       sudo systemctl restart systemd-resolved
       ```
 
-
-
 3. Test DNS resolution by pinging one of the configured hostnames.
 
 #### macOS
@@ -188,8 +186,6 @@ Please refer to [option 1](#option-1-minikube) for the dns setup in case you're 
    search_order 1
    timeout 5
    ```
-
-   If you still face DNS issues, add [the hosts](#hosts-file-configuration-fallback) to your `/etc/hosts` file.
 
 2. Additional network setup for macOS
 
@@ -256,8 +252,6 @@ Here the easiest solution is the configuration via hosts:
    ```shell
    Get-DnsClientNrptRule | Where-Object {$_.Namespace -eq '.test'} | Remove-DnsClientNrptRule -Force; Add-DnsClientNrptRule -Namespace ".test" -NameServers "$(minikube ip)"
    ```
-
-   If you still face DNS issues, add [the hosts](#hosts-file-configuration-fallback) to your `C:\Windows\System32\drivers\etc\hosts` file.
 
 3. Test DNS resolution by pinging one of the configured hostnames.
 
