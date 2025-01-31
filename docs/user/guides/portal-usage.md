@@ -133,6 +133,11 @@ SELECT gen_random_uuid(), 12, 1, now(), NULL, a.ChecklistId, NULL
 FROM applications a;
 ```
 
+### Wallet Creation
+
+The `didDocumentPath` in portal-backend values file is set to `/api/administration/staticdata/did`, which is pointing the resolver [here](https://github.com/eclipse-tractusx/portal-backend/blob/b840a3bac42038b2a9ff133f6821e15554e5ebcd/src/administration/Administration.Service/Controllers/StaticDataController.cs#L130). Therefore, the endpoint `http://ssi-dim-wallet-stub.tx.test/{bpn}/did.json` needs to set to an empty string in values file of the ssi-dim-wallet-stub.
+
+
 ## Testing the Setup
 
 ### Verifying Frontend Access
