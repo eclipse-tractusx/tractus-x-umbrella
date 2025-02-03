@@ -112,6 +112,9 @@ The Portal allows onboarding participants by inviting them to join the network. 
 > **Note**
 > Since the onboarding process requires the [Clearinghouse](https://github.com/eclipse-tractusx/portal-assets/blob/v2.1.0/docs/developer/Technical%20Documentation/Interface%20Contracts/Clearinghouse.md) to work properly, but ClearingHouse currently isn't available as a FOSS application you can skip the step with the following SQL Script which must be executed against the portal database.
 
+> **Note**
+> The Identity wallet is currently not working due to the issue in the portal backend described [here](https://github.com/eclipse-tractusx/portal/issues/499). The following sql statement supports the current workaround.
+
 ```sql
 WITH applications AS (
     SELECT distinct ca.id as Id, ca.checklist_process_id as ChecklistId
@@ -133,9 +136,7 @@ SELECT gen_random_uuid(), 12, 1, now(), NULL, a.ChecklistId, NULL
 FROM applications a;
 ```
 
-### Wallet Creation
 
-The `didDocumentPath` in portal-backend values file is set to `/api/administration/staticdata/did`, which is pointing the resolver [here](https://github.com/eclipse-tractusx/portal-backend/blob/b840a3bac42038b2a9ff133f6821e15554e5ebcd/src/administration/Administration.Service/Controllers/StaticDataController.cs#L130). Therefore, the endpoint `http://ssi-dim-wallet-stub.tx.test/{bpn}/did.json` needs to set to an empty string in values file of the ssi-dim-wallet-stub.
 
 
 ## Testing the Setup
