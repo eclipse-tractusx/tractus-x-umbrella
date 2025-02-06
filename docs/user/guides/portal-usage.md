@@ -113,7 +113,7 @@ The Portal allows onboarding participants by inviting them to join the network. 
 > Since the onboarding process requires the [Clearinghouse](https://github.com/eclipse-tractusx/portal-assets/blob/v2.1.0/docs/developer/Technical%20Documentation/Interface%20Contracts/Clearinghouse.md) to work properly, but ClearingHouse currently isn't available as a FOSS application you can skip the step with the following SQL Script which must be executed against the portal database.
 
 > **Note**
-> The Identity wallet is currently not working due to the issue in the portal backend described [here](https://github.com/eclipse-tractusx/portal/issues/499). The following sql statement supports the current workaround.
+> The Identity wallet is currently not working due to the issue in the portal backend described [here](https://github.com/eclipse-tractusx/portal/issues/499). The below sql statement supports the current workaround until the issue is resolved.
 
 ```sql
 WITH applications AS (
