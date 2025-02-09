@@ -57,45 +57,129 @@ The following ingresses are configured and available:
 
 Proper DNS resolution is required to map local domain names to the Minikube IP address. There are different ways to configure DNS. The most reliable way is to adapt the [hosts file configuration](#hosts-file-configuration) on your system. [Here](#alternative-approaches), you find alternative approaches  for the resolution setup. 
 
+
 ### Hosts File Configuration 
 
-Update the `/etc/hosts` (Linux/macOS) or `C:\Windows\System32\drivers\etc\hosts` (Windows) file 
+For this approach you have to insert new entries to your hosts file.  
+> **Note**
+> There are two things to consider here. 
+> Firstly, the existing entries should not be changed. 
+> Secondly, the adjustments made should be undone when the tutorial is no longer needed.
 
- > **Note**
- > There are two things to consider here. 
- > Firstly, the existing entries should not be changed. 
- > Secondly, the adjustments made should be undone when the tutorial is no longer needed.
+Below you will find the different procedures for [Linux using minikube](#Linux-using-minikube), [macOS using minikube](#macOS-using-minikube), [macOS using  K3s](#macOS-using-K3s) and [Windows](#windows). 
 
-Insert the following entries:
+The following values need to be added in each case:
 
-```
-<MINIKUBE_IP>    centralidp.tx.test
-<MINIKUBE_IP>    sharedidp.tx.test
-<MINIKUBE_IP>    portal.tx.test
-<MINIKUBE_IP>    portal-backend.tx.test
-<MINIKUBE_IP>    semantics.tx.test
-<MINIKUBE_IP>    sdfactory.tx.test
-<MINIKUBE_IP>    ssi-credential-issuer.tx.test
-<MINIKUBE_IP>    dataconsumer-1-dataplane.tx.test
-<MINIKUBE_IP>    dataconsumer-1-controlplane.tx.test
-<MINIKUBE_IP>    dataprovider-dataplane.tx.test
-<MINIKUBE_IP>    dataprovider-controlplane.tx.test
-<MINIKUBE_IP>    dataprovider-submodelserver.tx.test
-<MINIKUBE_IP>    dataconsumer-2-dataplane.tx.test
-<MINIKUBE_IP>    dataconsumer-2-controlplane.tx.test
-<MINIKUBE_IP>    bdrs-server.tx.test
-<MINIKUBE_IP>    iatpmock.tx.test
-<MINIKUBE_IP>    business-partners.tx.test
-<MINIKUBE_IP>    pgadmin4.tx.test
-<MINIKUBE_IP>    ssi-dim-wallet-stub.tx.test
-```
+   ```
+   <MINIKUBE_IP>    centralidp.tx.test
+   <MINIKUBE_IP>    sharedidp.tx.test
+   <MINIKUBE_IP>    portal.tx.test
+   <MINIKUBE_IP>    portal-backend.tx.test
+   <MINIKUBE_IP>    semantics.tx.test
+   <MINIKUBE_IP>    sdfactory.tx.test
+   <MINIKUBE_IP>    ssi-credential-issuer.tx.test
+   <MINIKUBE_IP>    dataconsumer-1-dataplane.tx.test
+   <MINIKUBE_IP>    dataconsumer-1-controlplane.tx.test
+   <MINIKUBE_IP>    dataprovider-dataplane.tx.test
+   <MINIKUBE_IP>    dataprovider-controlplane.tx.test
+   <MINIKUBE_IP>    dataprovider-submodelserver.tx.test
+   <MINIKUBE_IP>    dataconsumer-2-dataplane.tx.test
+   <MINIKUBE_IP>    dataconsumer-2-controlplane.tx.test
+   <MINIKUBE_IP>    bdrs-server.tx.test
+   <MINIKUBE_IP>    iatpmock.tx.test
+   <MINIKUBE_IP>    business-partners.tx.test
+   <MINIKUBE_IP>    pgadmin4.tx.test
+   <MINIKUBE_IP>    ssi-dim-wallet-stub.tx.test
+   ```
 
-Replace `<MINIKUBE_IP>` with the output of the following command:
-```bash
-minikube ip
-```
+   #### Linux using minikube
 
-Test DNS resolution by pinging one of the configured hostnames.
+   1. Open the hosts file you find here `/etc/hosts` and insert the values from above.
+   
+   2. Replace `<MINIKUBE_IP>` with the output of the following command:
+
+      
+      ```bash
+         minikube ip
+      ```
+
+   3. Test DNS resolution by pinging one of the configured hostnames.
+
+
+   #### macOS using minikube
+
+   1. Open the hosts file you find here: `/etc/hosts` and insert the values from above.
+   
+   2. Replace `<MINIKUBE_IP>` with the output of the following command:
+      
+      ```bash
+         minikube ip
+      ```
+
+   3. Install and start [Docker Mac Net Connect](https://github.com/chipmk/docker-mac-net-connect#installation).
+
+      We recommend to execute the usage example that can be found there after installation to check proper setup.
+   
+   4. Test DNS resolution by pinging one of the configured hostnames.
+
+
+   #### macOS using K3s
+
+1. add the values from above to your `/etc/hosts` file of your **Mac**, use `127.0.0.1` to replace the placeholder `<MINIKUBE_IP>`
+
+2. add the values from above to your `/etc/hosts` file of your **lima vm**, use `192.168.5.15` to replace the placeholder `<MINIKUBE_IP>`
+
+   ```bash
+   #to login to your limavm
+   limactl shell k3s
+   ```
+
+3. add the values from aboveto your coredns configuration of your **k3s-cluster**, use `192.168.5.15` to replace the placeholder `<MINIKUBE_IP>`
+
+   ```bash
+   kubectl edit cm coredns -n kube-system
+   ```
+
+   ```yaml
+   apiVersion: v1
+   data:
+   Corefile: |
+      .:53 {
+         log
+         errors
+         health
+         ready
+         kubernetes cluster.local in-addr.arpa ip6.arpa {
+            pods insecure
+            fallthrough in-addr.arpa ip6.arpa
+         }
+         hosts /etc/coredns/NodeHosts {
+            #ADD THE HOSTS HERE
+            ttl 60
+            reload 15s
+            fallthrough
+         }
+   ```
+
+   > **Note**
+   > If you do this step, after you already deployed the helm charts, make sure to  restart your java backend pods (controlplane and dataplane) to refresh their dns resolution.
+   > To make this change permanent in your vm, make sure to update `/var/lib/rancher/k3s/server/manifests/coredns.yaml` in the install script of your vm template
+
+3. Test DNS resolution by pinging one of the configured hostnames.
+
+
+   #### Windows 
+
+   1. Open the hosts file you find here: `C:\Windows\System32\drivers\etc\hosts` and insert the values from above. 
+   
+   2. Replace `<MINIKUBE_IP>` with the output of the following command:
+
+      
+      ```bash
+         minikube ip
+      ```
+
+   3. Test DNS resolution by pinging one of the configured hostnames.
 
 
 ### Alternative approaches 
@@ -103,10 +187,8 @@ Test DNS resolution by pinging one of the configured hostnames.
 Below you find alternative approaches for setting the DNS resolution. Follow the steps for your operating system:
 
 - [Linux](#linux)
-- [mac](#macos)
-  - [using Minikube](#option-1-minikube)
-  - [using K3s](#option-2-k3s)
-- [Windows](#windows)
+- [macOS using Minikube](#macOS-using-Minikube)
+- [Windows](#windows-alternative)
 
 #### Linux
 
@@ -168,12 +250,9 @@ Below you find alternative approaches for setting the DNS resolution. Follow the
 
 3. Test DNS resolution by pinging one of the configured hostnames.
 
-#### macOS
+#### macOS using Minikube
 
-Please refer to [option 1](#option-1-minikube) for the dns setup in case you're using Minikube, which is the most tested and therefore the recommended option.
-[Option 2](#option-2-k3s) outlines the dns setup in case you're using K3s.
-
-##### Option 1: Minikube
+Please refer to the following instructions for the dns setup in case you're using Minikube, which is the most tested and therefore the recommended option.
 
 1. Create a resolver configuration for `.test` domains:
    ```bash
@@ -191,56 +270,11 @@ Please refer to [option 1](#option-1-minikube) for the dns setup in case you're 
 
    Install and start [Docker Mac Net Connect](https://github.com/chipmk/docker-mac-net-connect#installation).
 
-   We also recommend to execute the usage example after install to check proper setup.
+   We recommend to execute the usage example that can be found there after installation to check proper setup.
 
 3. Test DNS resolution by pinging one of the configured hostnames.
 
-##### Option 2: K3s
-
-Here the easiest solution is the configuration via hosts:
-
-1. add [the hosts](#hosts-file-configuration-fallback) to your `/etc/hosts` file of your **Mac**, use `127.0.0.1` to replace the placeholder `<MINIKUBE_IP>`
-
-2. add [the hosts](#hosts-file-configuration-fallback) to your `/etc/hosts` file of your **lima vm**, use `192.168.5.15` to replace the placeholder `<MINIKUBE_IP>`
-
-   ```bash
-   #to login to your limavm
-   limactl shell k3s
-   ```
-
-3. add [the hosts](#hosts-file-configuration-fallback) to your coredns configuration of your **k3s-cluster**, use `192.168.5.15` to replace the placeholder `<MINIKUBE_IP>`
-
-   ```bash
-   kubectl edit cm coredns -n kube-system
-   ```
-
-   ```yaml
-   apiVersion: v1
-   data:
-   Corefile: |
-      .:53 {
-         log
-         errors
-         health
-         ready
-         kubernetes cluster.local in-addr.arpa ip6.arpa {
-            pods insecure
-            fallthrough in-addr.arpa ip6.arpa
-         }
-         hosts /etc/coredns/NodeHosts {
-            #ADD THE HOSTS HERE
-            ttl 60
-            reload 15s
-            fallthrough
-         }
-   ```
-
-   > **Note**
-   > If you do this step, after you already deployed the helm charts, make sure to  restart your java backend pods (controlplane and dataplane) to refresh their dns resolution.
-   > To make this change permanent in your vm, make sure to update `/var/lib/rancher/k3s/server/manifests/coredns.yaml` in the install script of your vm template
-4. Test DNS resolution by pinging one of the configured hostnames.
-
-#### Windows
+#### Windows alternative
 
 1. Open PowerShell as Administrator.
 2. Add a DNS client rule for `.test` domains:
