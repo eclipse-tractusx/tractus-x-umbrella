@@ -112,5 +112,5 @@ dependencies:
     # ssi-dim-wallet-stub
   - name: ssi-dim-wallet-stub
     repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 0.1.7
+    version: 0.1.8
     condition: ssi-dim-wallet-stub.enabled
