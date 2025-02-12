@@ -46,7 +46,7 @@ portal:
   dimWrapper:
     baseAddress: "http://ssi-dim-wallet-stub.tx.test"
     apiPath: "/api/dim"
-    tokenAddress: "http://someiam.tx.test/realms/example/protocol/openid-connect/token"
+    tokenAddress: "http://ssi-dim-wallet-stub.tx.test/oauth/token"
   decentralIdentityManagementAuthAddress: "http://ssi-dim-wallet-stub.tx.test/api/sts"
   sdfactoryAddress: "http://sdfactory.tx.test"
   clearinghouseAddress: "http://validation.tx.test"
@@ -910,11 +910,6 @@ bpdm:
         bpn:
           # This Gate has no owner restriction as other companies can write into the Gate under their own tenant
           owner-bpn-l:
-        tasks:
-          creation:
-            fromSharingMember:
-              # Portal needs to set uploaded business partner data as ready to be shared by itself (disables setting it automatically as ready)
-              starts-as-ready: false
         security:
           # App's API is authenticated over Central-IDP
           auth-server-url: "http://centralidp.tx.test/auth"
