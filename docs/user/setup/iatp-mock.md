@@ -10,7 +10,7 @@ The IATP Mock requires a compatible Docker image. Follow these steps to build th
    Clone the Umbrella Chart repository and navigate to the IATP Mock directory:
    ```bash
    git clone https://github.com/eclipse-tractusx/tractus-x-umbrella.git
-   cd tractus-x-umbrella/charts/umbrella/charts/iatpmock
+   cd tractus-x-umbrella/iatp-mock/
    ```
 
 2. **Build the Docker Image**:

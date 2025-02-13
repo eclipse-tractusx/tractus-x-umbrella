@@ -46,10 +46,11 @@ portal:
   dimWrapper:
     baseAddress: "http://ssi-dim-wallet-stub.tx.test"
     apiPath: "/api/dim"
+    tokenAddress: "http://ssi-dim-wallet-stub.tx.test/oauth/token"
   decentralIdentityManagementAuthAddress: "http://ssi-dim-wallet-stub.tx.test/api/sts"
   sdfactoryAddress: "http://sdfactory.tx.test"
   clearinghouseAddress: "http://validation.tx.test"
-  clearinghouseTokenAddress: "http://keycloak.tx.test/realms/example/protocol/openid-connect/token"
+  clearinghouseTokenAddress: "http://someiam.tx.test/realms/example/protocol/openid-connect/token"
   issuerComponentAddress: "http://ssi-credential-issuer.tx.test"
   frontend:
     ingress:
@@ -208,91 +209,92 @@ portal:
       password: ""
     portalmigrations:
       seeding:
-        testData:
+        seedTestData:
           enabled: true
-          configMap: "portal-testdata"
-          filename: "test"
-          companies:
-            # BPN is retrieved from participant id of the dataconsumerOne
-            dataconsumerOne:
-              name: "BPN_OEM_C"
-              connectorUrl: "http://dataconsumer-1-controlplane.tx.test/api/v1/dsp"
-              connectorName: "BPN OEM C Connector"
-            # BPN is retrieved from participant id of the tx-data-provider
-            tx-data-provider:
-              name: "BPN_OEM_A"
-              connectorUrl: "http://dataprovider-controlplane.tx.test/api/v1/dsp"
-              connectorName: "BPN OEM A Connector"
-            # BPN is retrieved from participant id of the dataconsumerTwo
-            dataconsumerTwo:
-              name: "BPN_OEM_B"
-              connectorUrl: "http://dataconsumer-2-controlplane.tx.test/api/v1/dsp"
-              connectorName: "BPN OEM B Connector"
-            company4:
-              name: "BPN_IRS_TEST"
-              bpn: "BPNL00000003AWSS"
-              connectorUrl: "http://company4-controlplane.tx.test/api/v1/dsp"
-              connectorName: "BPN IRS TEST Connector"
-            company5:
-              name: "BPN_N_TIER_A"
-              bpn: "BPNL00000003B0Q0"
-              connectorUrl: "http://company5-controlplane.tx.test/api/v1/dsp"
-              connectorName: "BPN N TIER A Connector"
-            company6:
-              name: "BPN_TRACEX_A_SITE_A"
-              bpn: "BPNS0000000008ZZ"
-              connectorUrl: "http://company6-controlplane.tx.test/api/v1/dsp"
-              connectorName: "BPN TRACEX A SITE A Connector"
-            company7:
-              name: "BPN_TRACEX_B"
-              bpn: "BPNL00000003CNKC"
-              connectorUrl: "http://company7-controlplane.tx.test/api/v1/dsp"
-              connectorName: "BPN TRACEX B Connector"
-            company8:
-              name: "BPN_DISMANTLER"
-              bpn: "BPNL00000003B6LU"
-              connectorUrl: "http://company8-controlplane.tx.test/api/v1/dsp"
-              connectorName: "BPN DISMANTLER Connector"
-            company9:
-              name: "BPN_TRACEX_A"
-              bpn: "BPNL00000003CML1"
-              connectorUrl: "http://company9-controlplane.tx.test/api/v1/dsp"
-              connectorName: "BPN TRACEX A Connector"
-            company10:
-              name: "BPN_TRACEX_B_SITE_A"
-              bpn: "BPNS00000008BDFH"
-              connectorUrl: "http://company10-controlplane.tx.test/api/v1/dsp"
-              connectorName: "BPN TRACEX B SITE A Connector"
-            company11:
-              name: "BPN_TIER_A"
-              bpn: "BPNL00000003B2OM"
-              connectorUrl: "http://company11-controlplane.tx.test/api/v1/dsp"
-              connectorName: "BPN TIER A Connector"
-            company12:
-              name: "BPN_TIER_C"
-              bpn: "BPNL00000003CSGV"
-              connectorUrl: "http://company12-controlplane.tx.test/api/v1/dsp"
-              connectorName: "BPN TIER C Connector"
-            company13:
-              name: "BPN_TIER_B"
-              bpn: "BPNL00000003B5MJ"
-              connectorUrl: "http://company13-controlplane.tx.test/api/v1/dsp"
-              connectorName: "BPN TIER B Connector"
-            company14:
-              name: "BPN_SUB_TIER_B"
-              bpn: "BPNL00000003AXS3"
-              connectorUrl: "http://company14-controlplane.tx.test/api/v1/dsp"
-              connectorName: "BPN SUB TIER B Connector"
-            company15:
-              name: "BPN_SUB_TIER_A"
-              bpn: "BPNL00000003B3NX"
-              connectorUrl: "http://company15-controlplane.tx.test/api/v1/dsp"
-              connectorName: "BPN SUB TIER A Connector"
-            company16:
-              name: "BPN_SUB_TIER_C"
-              bpn: "BPNL00000000BJTL"
-              connectorUrl: "http://company16-controlplane.tx.test/api/v1/dsp"
-              connectorName: "BPN SUB TIER C Connector"
+          useOwnConfigMap:
+            configMap: "portal-testdata"
+            filename: "test"
+            companies:
+              # BPN is retrieved from participant id of the dataconsumerOne
+              dataconsumerOne:
+                name: "BPN_OEM_C"
+                connectorUrl: "http://dataconsumer-1-controlplane.tx.test/api/v1/dsp"
+                connectorName: "BPN OEM C Connector"
+              # BPN is retrieved from participant id of the tx-data-provider
+              tx-data-provider:
+                name: "BPN_OEM_A"
+                connectorUrl: "http://dataprovider-controlplane.tx.test/api/v1/dsp"
+                connectorName: "BPN OEM A Connector"
+              # BPN is retrieved from participant id of the dataconsumerTwo
+              dataconsumerTwo:
+                name: "BPN_OEM_B"
+                connectorUrl: "http://dataconsumer-2-controlplane.tx.test/api/v1/dsp"
+                connectorName: "BPN OEM B Connector"
+              company4:
+                name: "BPN_IRS_TEST"
+                bpn: "BPNL00000003AWSS"
+                connectorUrl: "http://company4-controlplane.tx.test/api/v1/dsp"
+                connectorName: "BPN IRS TEST Connector"
+              company5:
+                name: "BPN_N_TIER_A"
+                bpn: "BPNL00000003B0Q0"
+                connectorUrl: "http://company5-controlplane.tx.test/api/v1/dsp"
+                connectorName: "BPN N TIER A Connector"
+              company6:
+                name: "BPN_TRACEX_A_SITE_A"
+                bpn: "BPNS0000000008ZZ"
+                connectorUrl: "http://company6-controlplane.tx.test/api/v1/dsp"
+                connectorName: "BPN TRACEX A SITE A Connector"
+              company7:
+                name: "BPN_TRACEX_B"
+                bpn: "BPNL00000003CNKC"
+                connectorUrl: "http://company7-controlplane.tx.test/api/v1/dsp"
+                connectorName: "BPN TRACEX B Connector"
+              company8:
+                name: "BPN_DISMANTLER"
+                bpn: "BPNL00000003B6LU"
+                connectorUrl: "http://company8-controlplane.tx.test/api/v1/dsp"
+                connectorName: "BPN DISMANTLER Connector"
+              company9:
+                name: "BPN_TRACEX_A"
+                bpn: "BPNL00000003CML1"
+                connectorUrl: "http://company9-controlplane.tx.test/api/v1/dsp"
+                connectorName: "BPN TRACEX A Connector"
+              company10:
+                name: "BPN_TRACEX_B_SITE_A"
+                bpn: "BPNS00000008BDFH"
+                connectorUrl: "http://company10-controlplane.tx.test/api/v1/dsp"
+                connectorName: "BPN TRACEX B SITE A Connector"
+              company11:
+                name: "BPN_TIER_A"
+                bpn: "BPNL00000003B2OM"
+                connectorUrl: "http://company11-controlplane.tx.test/api/v1/dsp"
+                connectorName: "BPN TIER A Connector"
+              company12:
+                name: "BPN_TIER_C"
+                bpn: "BPNL00000003CSGV"
+                connectorUrl: "http://company12-controlplane.tx.test/api/v1/dsp"
+                connectorName: "BPN TIER C Connector"
+              company13:
+                name: "BPN_TIER_B"
+                bpn: "BPNL00000003B5MJ"
+                connectorUrl: "http://company13-controlplane.tx.test/api/v1/dsp"
+                connectorName: "BPN TIER B Connector"
+              company14:
+                name: "BPN_SUB_TIER_B"
+                bpn: "BPNL00000003AXS3"
+                connectorUrl: "http://company14-controlplane.tx.test/api/v1/dsp"
+                connectorName: "BPN SUB TIER B Connector"
+              company15:
+                name: "BPN_SUB_TIER_A"
+                bpn: "BPNL00000003B3NX"
+                connectorUrl: "http://company15-controlplane.tx.test/api/v1/dsp"
+                connectorName: "BPN SUB TIER A Connector"
+              company16:
+                name: "BPN_SUB_TIER_C"
+                bpn: "BPNL00000000BJTL"
+                connectorUrl: "http://company16-controlplane.tx.test/api/v1/dsp"
+                connectorName: "BPN SUB TIER C Connector"
       logging:
         default: "Debug"
     provisioning:
@@ -395,7 +397,7 @@ centralidp:
     # uncomment the following line for tls
     # initContainers:
     #   - name: init-certs
-    #     image: docker.io/bitnami/keycloak:23.0.7-debian-12-r1
+    #     image: docker.io/bitnami/keycloak:25.0.6-debian-12-r0
     #     imagePullPolicy: IfNotPresent
     #     command: ["/bin/bash"]
     #     args:
@@ -552,7 +554,7 @@ centralidp:
           bpn: BPNL00000000BJTL
     initContainer:
       image:
-        name: docker.io/tractusx/umbrella-init-container:1.1.0-init
+        name: docker.io/tractusx/umbrella-init-container:2.0.0-init
         pullPolicy: IfNotPresent
 
 sharedidp:
@@ -589,7 +591,7 @@ sharedidp:
     # uncomment the following line for tls
     # initContainers:
     #   - name: init-certs
-    #     image: docker.io/bitnami/keycloak:23.0.7-debian-12-r1
+    #     image: docker.io/bitnami/keycloak:25.0.6-debian-12-r0
     #     imagePullPolicy: IfNotPresent
     #     command: ["/bin/bash"]
     #     args:
@@ -926,11 +928,6 @@ bpdm:
         bpn:
           # This Gate has no owner restriction as other companies can write into the Gate under their own tenant
           owner-bpn-l:
-        tasks:
-          creation:
-            fromSharingMember:
-              # Portal needs to set uploaded business partner data as ready to be shared by itself (disables setting it automatically as ready)
-              starts-as-ready: false
         security:
           # App's API is authenticated over Central-IDP
           auth-server-url: "http://centralidp.tx.test/auth"
@@ -1390,7 +1387,7 @@ pgadmin4:
   enabled: false
   env:
     email: pgadmin4@txtest.org
-    password: tractusxpgdamin4
+    password: tractusxpgadmin4
   persistentVolume:
     enabled: false
   ingress:
