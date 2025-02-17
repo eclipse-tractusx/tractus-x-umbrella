@@ -10,7 +10,6 @@ The following table links you to the respective documentations.
 - [Setup](user/setup)
     - [Cluster](user/setup/README.md)
     - [Semantic Hub Precondition](user/setup/semantic-hub.md)
-    - [IATP Mock Precondition](user/setup/iatp-mock.md)
 - [Network](user/network)
     - [Setup](user/network/README.md)
     - [TLS (Optional)](user/network/tls.md)

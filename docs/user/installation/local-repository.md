@@ -63,13 +63,6 @@ To enable an additional data consumer (`dataconsumerTwo`), follow these steps:
    helm upgrade -f values-adopter-data-exchange.yaml umbrella . --namespace umbrella
    ```
 
-### Using the IATP-Mock Version
-
-To use the IATP-Mock version of the Data Exchange subset, run:
-```bash
-helm install -f values-adopter-data-exchange-iatp-mock.yaml umbrella . --namespace umbrella --create-namespace
-```
-
 ## Portal Subset
 
 The Portal subset provides a user-friendly interface for participant onboarding and management.

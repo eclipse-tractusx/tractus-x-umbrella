@@ -778,24 +778,6 @@ selfdescription:
     #   # uncomment the following line for tls
     #   cert-manager.io/cluster-issuer: "my-ca-issuer"
 
-iatpmock:
-  enabled: false
-  nameOverride: mock-util-service
-  fullnameOverride: mock-util-service
-  # -- see /docs/user/setup/iatp-mock.md Precondition for IATP Mock
-  # image:
-  #   # override with locally built image if needed, default "tractusx/iatp-mock"
-  #   repository: ""
-  #   # override tag if needed, default "testing"
-  #   tag: ""
-  ingress:
-    enabled: true
-    hosts:
-      - host: iatpmock.tx.test
-        paths:
-          - path: /
-            pathType: ImplementationSpecific
-
 ssi-credential-issuer:
   enabled: false
   portalBackendAddress: "http://portal-backend.tx.test"
