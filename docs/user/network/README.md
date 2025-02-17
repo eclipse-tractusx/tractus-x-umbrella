@@ -240,6 +240,7 @@ If DNS resolution does not work, update the `/etc/hosts` (Linux/macOS) or `C:\Wi
 <MINIKUBE_IP>    business-partners.tx.test
 <MINIKUBE_IP>    pgadmin4.tx.test
 <MINIKUBE_IP>    ssi-dim-wallet-stub.tx.test
+<MINIKUBE_IP>    smtp.tx.test
 ```
 
 Replace `<MINIKUBE_IP>` with the output of the following command:

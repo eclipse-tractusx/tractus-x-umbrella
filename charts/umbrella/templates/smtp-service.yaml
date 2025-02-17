@@ -1,0 +1,18 @@
+{{ if index .Values "smtp4dev" "enabled" }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: smtp4dev
+spec:
+  selector:
+    app: smtp4dev
+  ports:
+    - name: smtp
+      protocol: TCP
+      port: {{ .Values.smtp4dev.ports.smtp }}
+      targetPort: 25
+    - name: http
+      protocol: TCP
+      port: {{ .Values.smtp4dev.ports.http }}
+      targetPort: 80
+{{ end }}

@@ -1,0 +1,38 @@
+{{ if index .Values "smtp4dev" "enabled" }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: smtp4dev
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app: smtp4dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: smtp4dev
+  template:
+    metadata:
+      labels:
+        app: smtp4dev
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: kubernetes.io/os
+                    operator: In
+                    values:
+                      - linux
+      containers:
+        - name: smtp4dev
+          image: rnwood/smtp4dev:3.6.1
+          resources:
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: {{ .Values.smtp4dev.ports.http }}
+            - containerPort: {{ .Values.smtp4dev.ports.smtp }}
+{{ end }}
