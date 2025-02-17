@@ -28,7 +28,7 @@ sources:
   - https://github.com/eclipse-tractusx/tractus-x-umbrella
 
 type: application
-version: 2.1.1
+version: 2.2.0
 
 # when adding or updating versions of dependencies, also update list under /docs/user/installation/README.md
 dependencies:
@@ -104,11 +104,6 @@ dependencies:
     repository: https://eclipse-tractusx.github.io/charts/dev
     version: 0.5.2
     condition: bdrs-server-memory.enabled
-    # iatp
-  - name: iatpmock
-    version: 0.1.0
-    repository: file://charts/iatpmock
-    condition: iatpmock.enabled
     # ssi-dim-wallet-stub
   - name: ssi-dim-wallet-stub
     repository: https://eclipse-tractusx.github.io/charts/dev
