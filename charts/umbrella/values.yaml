@@ -759,6 +759,8 @@ selfdescription:
       clearingHouseClientId: ""
       # -- Details for Clearing House Client Secret
       clearingHouseClientSecret: ""
+      # -- Details for Verifying Client uri
+      verifycredentialsUri: ""
   ingress:
     enabled: true
     hosts:
