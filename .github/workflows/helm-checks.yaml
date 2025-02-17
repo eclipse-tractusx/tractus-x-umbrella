@@ -136,13 +136,6 @@ jobs:
         push: true
         tags: kind-registry:5000/init-container:testing
 
-    - name: Build iatp mock
-      uses: docker/build-push-action@4a13e500e55cf31b7a5d59a38ab2040ab0f42f56 # v5.1.0
-      with:
-        context: ./iatp-mock/
-        push: true
-        tags: kind-registry:5000/iatp-mock:testing
-
     - name: Set up Helm
       uses: azure/setup-helm@b7246b12e77f7134dc2d460a3d5bad15bbe29390 # v4.1.0
       with:
@@ -191,15 +184,6 @@ jobs:
         helm dep up charts/umbrella
         helm install centralidp charts/umbrella --namespace umbrella --create-namespace --debug --timeout 10m \
         -f charts/values-test-iam-init-container.yaml --wait --wait-for-jobs
-
-    - name: Install chart for data exchange with iatp-mock (umbrella)
-      run: |
-        helm dep up charts/tx-data-provider
-        helm dep up charts/umbrella
-        helm install umbrella charts/umbrella --namespace umbrella --create-namespace --debug --timeout 10m \
-        -f charts/values-test-data-exchange-iatp-mock.yaml \
-        --set iatpmock.image.repository=kind-registry:5000/iatp-mock --set iatpmock.image.tag=testing
-        helm uninstall umbrella --namespace umbrella
 
     - name: Install chart for shared services one (umbrella)
       run: |
