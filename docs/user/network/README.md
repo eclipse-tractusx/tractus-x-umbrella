@@ -50,7 +50,6 @@ The following ingresses are configured and available:
    - [BDRS Server](http://bdrs-server.tx.test)
    - [SSI Credential Issuer](http://ssi-credential-issuer.tx.test/api/issuer/swagger/index.html)
    - [SSI DIM Wallet Stub](http://ssi-dim-wallet-stub.tx.test)
-   - [IATP Mock](http://iatpmock.tx.test)
    - [pgAdmin4](http://pgadmin4.tx.test)
 
 ## DNS Resolution Setup
@@ -238,7 +237,6 @@ If DNS resolution does not work, update the `/etc/hosts` (Linux/macOS) or `C:\Wi
 <MINIKUBE_IP>    dataconsumer-2-dataplane.tx.test
 <MINIKUBE_IP>    dataconsumer-2-controlplane.tx.test
 <MINIKUBE_IP>    bdrs-server.tx.test
-<MINIKUBE_IP>    iatpmock.tx.test
 <MINIKUBE_IP>    business-partners.tx.test
 <MINIKUBE_IP>    pgadmin4.tx.test
 <MINIKUBE_IP>    ssi-dim-wallet-stub.tx.test
