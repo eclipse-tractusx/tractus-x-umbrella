@@ -1396,8 +1396,8 @@ pgadmin4:
     hosts:
       - host: pgadmin4.tx.test
         paths:
-        - path: /
-          pathType: Prefix
+          - path: /
+            pathType: Prefix
 
 bdrs-server-memory:
   nameOverride: bdrs-server
@@ -1463,6 +1463,10 @@ bdrs-server-memory:
 ssi-dim-wallet-stub:
   enabled: false
   wallet:
+    livenessProbe:
+      enabled: false
+    readinessProbe:
+      enabled: false
     replicaCount: 1
     host: ssi-dim-wallet-stub.tx.test
     nameSpace: "umbrella"
@@ -1475,7 +1479,8 @@ ssi-dim-wallet-stub:
       bpnList: "BPNL00000003AZQP,BPNL00000003AYRE"
     ingress:
       enabled: true
-      tls: false
+      tls:
+        enabled: false
       urlPrefix: /
       className: nginx
       annotations: {}
