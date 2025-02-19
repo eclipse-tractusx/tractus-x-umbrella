@@ -37,7 +37,7 @@ dependencies:
     condition: simple-data-backend.enabled
   - name: tractusx-connector
     repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 0.7.1
+    version: 0.7.7
     condition: tractusx-connector.enabled
   - name: vault
     version: 0.20.0
