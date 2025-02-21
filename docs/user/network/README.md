@@ -86,7 +86,7 @@ The following values need to be added in each case:
    <MINIKUBE_IP>    dataconsumer-2-dataplane.tx.test
    <MINIKUBE_IP>    dataconsumer-2-controlplane.tx.test
    <MINIKUBE_IP>    bdrs-server.tx.test
-   <MINIKUBE_IP>    iatpmock.tx.test
+
    <MINIKUBE_IP>    business-partners.tx.test
    <MINIKUBE_IP>    pgadmin4.tx.test
    <MINIKUBE_IP>    ssi-dim-wallet-stub.tx.test
@@ -125,16 +125,16 @@ The following values need to be added in each case:
 
    #### macOS using K3s
 
-1. add the values from above to your `/etc/hosts` file of your **Mac**, use `127.0.0.1` to replace the placeholder `<MINIKUBE_IP>`
+1. Add the values from above to your `/etc/hosts` file of your **Mac**, use `127.0.0.1` to replace the placeholder `<MINIKUBE_IP>`
 
-2. add the values from above to your `/etc/hosts` file of your **lima vm**, use `192.168.5.15` to replace the placeholder `<MINIKUBE_IP>`
+2. Add the values from above to your `/etc/hosts` file of your **lima vm**, use `192.168.5.15` to replace the placeholder `<MINIKUBE_IP>`
 
    ```bash
    #to login to your limavm
    limactl shell k3s
    ```
 
-3. add the values from aboveto your coredns configuration of your **k3s-cluster**, use `192.168.5.15` to replace the placeholder `<MINIKUBE_IP>`
+3. Add the values from aboveto your coredns configuration of your **k3s-cluster**, use `192.168.5.15` to replace the placeholder `<MINIKUBE_IP>`
 
    ```bash
    kubectl edit cm coredns -n kube-system
@@ -187,7 +187,7 @@ The following values need to be added in each case:
 Below you find alternative approaches for setting the DNS resolution. Follow the steps for your operating system:
 
 - [Linux](#linux)
-- [macOS using Minikube](#macOS-using-Minikube)
+- [macOS using Minikube](#macos-using-minikube-1)
 - [Windows](#windows-alternative)
 
 #### Linux
