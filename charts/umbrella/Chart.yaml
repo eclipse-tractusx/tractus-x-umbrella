@@ -61,7 +61,7 @@ dependencies:
     name: sdfactory
     alias: selfdescription
     repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 2.1.21
+    version: 2.1.22
     # ssi-credential-issuer
   - name: ssi-credential-issuer
     condition: ssi-credential-issuer.enabled
