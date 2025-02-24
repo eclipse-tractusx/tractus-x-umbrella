@@ -46,7 +46,7 @@ portal:
   dimWrapper:
     baseAddress: "http://ssi-dim-wallet-stub.tx.test"
     apiPath: "/api/dim"
-    tokenAddress: "http://someiam.tx.test/realms/example/protocol/openid-connect/token"
+    tokenAddress: "http://ssi-dim-wallet-stub.tx.test/oauth/token"
   decentralIdentityManagementAuthAddress: "http://ssi-dim-wallet-stub.tx.test/api/sts"
   sdfactoryAddress: "http://sdfactory.tx.test"
   clearinghouseAddress: "http://validation.tx.test"
@@ -776,24 +776,6 @@ selfdescription:
     #   # uncomment the following line for tls
     #   cert-manager.io/cluster-issuer: "my-ca-issuer"
 
-iatpmock:
-  enabled: false
-  nameOverride: mock-util-service
-  fullnameOverride: mock-util-service
-  # -- see /docs/user/setup/iatp-mock.md Precondition for IATP Mock
-  # image:
-  #   # override with locally built image if needed, default "tractusx/iatp-mock"
-  #   repository: ""
-  #   # override tag if needed, default "testing"
-  #   tag: ""
-  ingress:
-    enabled: true
-    hosts:
-      - host: iatpmock.tx.test
-        paths:
-          - path: /
-            pathType: ImplementationSpecific
-
 ssi-credential-issuer:
   enabled: false
   portalBackendAddress: "http://portal-backend.tx.test"
@@ -928,11 +910,6 @@ bpdm:
         bpn:
           # This Gate has no owner restriction as other companies can write into the Gate under their own tenant
           owner-bpn-l:
-        tasks:
-          creation:
-            fromSharingMember:
-              # Portal needs to set uploaded business partner data as ready to be shared by itself (disables setting it automatically as ready)
-              starts-as-ready: false
         security:
           # App's API is authenticated over Central-IDP
           auth-server-url: "http://centralidp.tx.test/auth"
@@ -1480,7 +1457,9 @@ ssi-dim-wallet-stub:
       bpnList: "BPNL00000003AZQP,BPNL00000003AYRE"
     ingress:
       enabled: true
-      tls: false
+      tls:
+        enabled: false
+        name: ""
       urlPrefix: /
       className: nginx
       annotations: {}
