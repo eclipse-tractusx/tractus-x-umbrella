@@ -1459,7 +1459,9 @@ ssi-dim-wallet-stub:
       bpnList: "BPNL00000003AZQP,BPNL00000003AYRE"
     ingress:
       enabled: true
-      tls: false
+      tls:
+        enabled: false
+        name: ""
       urlPrefix: /
       className: nginx
       annotations: {}
