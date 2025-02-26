@@ -61,7 +61,7 @@ dependencies:
     name: sdfactory
     alias: selfdescription
     repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 2.1.21
+    version: 2.1.22
     # ssi-credential-issuer
   - name: ssi-credential-issuer
     condition: ssi-credential-issuer.enabled
@@ -107,5 +107,5 @@ dependencies:
     # ssi-dim-wallet-stub
   - name: ssi-dim-wallet-stub
     repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 0.1.4
+    version: 0.1.8
     condition: ssi-dim-wallet-stub.enabled
