@@ -881,7 +881,7 @@ bpdm:
     primary:
       persistence:
         enabled: false
-  keycloak:
+  centralidp:
     # We use Central-IDP as authentication server
     enabled: false
   # Set up a Gate that acts as the Portal's Gate
