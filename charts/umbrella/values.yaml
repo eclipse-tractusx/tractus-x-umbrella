@@ -1490,3 +1490,11 @@ ssi-dim-wallet-stub:
       port: 8080
   keycloak:
     enabled: false
+
+smtp4dev:
+  enabled: false
+  ingress:
+    url: smtp.tx.test
+  ports:
+    smtp: 25
+    http: 80
