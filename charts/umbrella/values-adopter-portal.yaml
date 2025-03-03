@@ -20,6 +20,15 @@
 
 portal:
   enabled: true
+  # -- uncomment the following for SMTP mail mock 
+  # backend:
+      # mailing:
+        # host: "smtp4dev"
+        # port: "25"
+        # user: "portal-user"
+        # senderEmail: "portal-admin@tx.test"
+        # password: "portal-password"
+
   # -- uncomment the following for persistance
   # postgresql:
   #   primary:

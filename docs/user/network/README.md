@@ -92,6 +92,7 @@ The following values need to be added in each case:
    <MINIKUBE_IP>    business-partners.tx.test
    <MINIKUBE_IP>    pgadmin4.tx.test
    <MINIKUBE_IP>    ssi-dim-wallet-stub.tx.test
+   <MINIKUBE_IP>    smtp.tx.test
    ```
 
    #### Linux using minikube
