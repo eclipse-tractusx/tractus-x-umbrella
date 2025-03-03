@@ -76,7 +76,7 @@ dependencies:
   - name: bpdm
     condition: bpdm.enabled
     repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 5.1.0
+    version: 5.2.0
     # TX Data Consumer 1
   - name: tx-data-provider
     alias: dataconsumerOne
