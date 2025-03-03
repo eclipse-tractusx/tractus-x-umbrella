@@ -57,16 +57,9 @@ Assuming you have a running cluster and your `kubectl` context is set to that cl
 > In its current state of development, this chart as well as the following installation guide have been tested on Linux and Mac.
 >
 > **Linux** is the **preferred platform** to install this chart on, as the network setup with Minikube is very straightforward on Linux.
->
-> We are working on testing the chart's reliability on Windows as well and updating the installation guide accordingly.
 
-> **Note**
->
-> In its current state of development, this chart as well as the following installation guide have been tested on Linux and Mac.
->
-> **Linux** is the **preferred platform** to install this chart on, as the network setup with Minikube is very straightforward on Linux.
->
-> We are working on testing the chart's reliability on Windows as well and updating the installation guide accordingly.
+> [!WARNING]
+> As we do not currently test on Windows, we would greatly appreciate any contributions from those who successfully deploy it on Windows.
 
 For detailed setup instructions, refer to the [Setup Guide](/docs/user/setup/README.md).
 
