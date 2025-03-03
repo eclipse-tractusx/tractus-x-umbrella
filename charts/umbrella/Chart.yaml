@@ -76,22 +76,22 @@ dependencies:
   - name: bpdm
     condition: bpdm.enabled
     repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 5.1.0
+    version: 5.2.0
     # TX Data Consumer 1
   - name: tx-data-provider
     alias: dataconsumerOne
-    version: 0.1.3
+    version: 0.1.4
     repository: file://../tx-data-provider
     condition: dataconsumerOne.enabled
     # TX Data Providers
   - name: tx-data-provider
-    version: 0.1.3
+    version: 0.1.4
     repository: file://../tx-data-provider
     condition: tx-data-provider.enabled
     # TX Data Consumer 2
   - name: tx-data-provider
     alias: dataconsumerTwo
-    version: 0.1.3
+    version: 0.1.4
     repository: file://../tx-data-provider
     condition: dataconsumerTwo.enabled
     # pgadmin4 as helper tool for easy database access
