@@ -1276,7 +1276,7 @@ semantic-hub:
   graphdb:
     enabled: true
     image: jena-fuseki-docker:5.0.0
-    imagePullPolicy: IfNotPresent
+    imagePullPolicy: Never
     storageClassName: ""
     storageSize: 8Gi
 
