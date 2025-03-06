@@ -15,11 +15,14 @@ The above specifications are the minimum requirements for a local development se
 > **Note**
 > It is recommended to use Linux or macOS because those two are the most tested platforms with the umbrella.
 
+> [!WARNING]
+> As we do not currently test on Windows, we would greatly appreciate any contributions from those who successfully deploy it on Windows.
+
 - [Linux](#1-linux)
 - [macOS](#2-macos)
   - [using Minikube with Docker Desktop](#option-1-docker-desktop-available)
   - [using K3s with lima](#option-2-no-docker-desktop-available)
-- [Windows](#2-macos)
+- [Windows](#3-windows)
 
 ### 1. Linux
 
@@ -144,6 +147,9 @@ export KUBECONFIG="/Users/YOURUSER/.lima/docker/copied-from-guest/kubeconfig.yam
 ```
 
 ### 3. Windows
+
+> [!WARNING]
+> As we do not currently test on Windows, we would greatly appreciate any contributions from those who successfully deploy it on Windows.
 
 For DNS resolution to work correctly on Windows, you have two options:
 
