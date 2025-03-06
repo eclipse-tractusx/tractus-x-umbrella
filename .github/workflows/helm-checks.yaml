@@ -112,15 +112,15 @@ jobs:
       # Pull and build Jena Fuseki DB for semantic-hub
     - name: Pull Fuseki sources
       run: |
-        curl https://repo1.maven.org/maven2/org/apache/jena/jena-fuseki-docker/4.7.0/jena-fuseki-docker-4.7.0.zip > ./jena-fuseki.zip
+        curl https://repo1.maven.org/maven2/org/apache/jena/jena-fuseki-docker/5.0.0/jena-fuseki-docker-5.0.0.zip > ./jena-fuseki.zip
         unzip jena-fuseki.zip
     - name: Build and push Fuseki DB
       uses: docker/build-push-action@4a13e500e55cf31b7a5d59a38ab2040ab0f42f56
       with:
-        context: jena-fuseki-docker-4.7.0
+        context: jena-fuseki-docker-5.0.0
         push: true
-        tags: kind-registry:5000/jena-fuseki-docker:4.7.0
-        build-args: JENA_VERSION=4.7.0
+        tags: kind-registry:5000/jena-fuseki-docker:5.0.0
+        build-args: JENA_VERSION=5.0.0
 
     - name: Build simple data backend
       uses: docker/build-push-action@4a13e500e55cf31b7a5d59a38ab2040ab0f42f56 # v5.1.0
@@ -193,7 +193,7 @@ jobs:
 
     - name: Install chart for shared services two (umbrella)
       run: |
-        helm install umbrella charts/umbrella -f charts/values-test-shared-services-2.yaml --namespace umbrella --create-namespace --debug --timeout 10m  --set semantic-hub.graphdb.image=kind-registry:5000/jena-fuseki-docker:4.7.0
+        helm install umbrella charts/umbrella -f charts/values-test-shared-services-2.yaml --namespace umbrella --create-namespace --debug --timeout 10m  --set semantic-hub.graphdb.image=kind-registry:5000/jena-fuseki-docker:5.0.0
         helm uninstall umbrella --namespace umbrella
 
     ## Skip upgrade for now until a working chart is released
