@@ -24,6 +24,7 @@ on:
     paths:
       - 'charts/**'
       - '!**/README.md'
+      - 'helm-checks.yaml'
     # branches:
     #   - main
   workflow_dispatch:
