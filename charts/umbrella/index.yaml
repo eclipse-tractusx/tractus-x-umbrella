@@ -3,7 +3,7 @@ entries:
   bdrs-server-memory:
   - apiVersion: v2
     appVersion: 0.5.2
-    created: "2025-03-05T14:22:39.5815356+01:00"
+    created: "2025-03-07T11:09:29.9507889+01:00"
     description: A Helm chart for the Tractus-X BPN-DID Resolution Service (only in-memory
       persistence)
     digest: e30518d620a608fec24e054899dc456e4f6cce8dce5b5516a33c34b3bb3c433f
@@ -18,7 +18,7 @@ entries:
   bpdm:
   - apiVersion: v2
     appVersion: 6.2.0
-    created: "2025-03-05T14:22:39.5977861+01:00"
+    created: "2025-03-07T11:09:29.9797856+01:00"
     dependencies:
     - alias: bpdm-gate
       condition: bpdm-gate.enabled
@@ -69,7 +69,7 @@ entries:
   bpndiscovery:
   - apiVersion: v2
     appVersion: 0.4.0
-    created: "2025-03-05T14:22:39.6018127+01:00"
+    created: "2025-03-07T11:09:29.9903095+01:00"
     dependencies:
     - condition: enablePostgres
       name: postgresql
@@ -88,7 +88,7 @@ entries:
   centralidp:
   - apiVersion: v2
     appVersion: 25.0.6
-    created: "2025-03-05T14:22:39.6159094+01:00"
+    created: "2025-03-07T11:09:30.0008389+01:00"
     dependencies:
     - name: keycloak
       repository: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
@@ -106,7 +106,7 @@ entries:
   discoveryfinder:
   - apiVersion: v2
     appVersion: 0.4.0
-    created: "2025-03-05T14:22:39.6204901+01:00"
+    created: "2025-03-07T11:09:30.0073699+01:00"
     dependencies:
     - condition: enablePostgres
       name: postgresql
@@ -125,7 +125,7 @@ entries:
   pgadmin4:
   - apiVersion: v1
     appVersion: "8.6"
-    created: "2025-03-05T14:22:39.6214735+01:00"
+    created: "2025-03-07T11:09:30.0093594+01:00"
     description: pgAdmin4 is a web based administration tool for PostgreSQL database
     digest: 3ce2cc7e6a7f3a2715a1e975fc511478f8c30664b255caaac40ad8da4707b50c
     home: https://www.pgadmin.org/
@@ -147,7 +147,7 @@ entries:
   portal:
   - apiVersion: v2
     appVersion: 2.3.0
-    created: "2025-03-05T14:22:39.6311526+01:00"
+    created: "2025-03-07T11:09:30.0188716+01:00"
     dependencies:
     - condition: postgresql.enabled
       name: postgresql
@@ -169,7 +169,7 @@ entries:
   sdfactory:
   - apiVersion: v2
     appVersion: 2.1.14
-    created: "2025-03-05T14:22:39.633068+01:00"
+    created: "2025-03-07T11:09:30.0198703+01:00"
     description: Helm Charts for SD Factory application. Self-Description Factory
       component is responsible for the creation of Self Descriptions.
     digest: 3c65361ede8ee342c728c6da608a4e20f5e03a6ba1f1c4c17cfbbcd593bae689
@@ -183,7 +183,7 @@ entries:
   semantic-hub:
   - apiVersion: v2
     appVersion: 0.4.0
-    created: "2025-03-05T14:22:39.6389926+01:00"
+    created: "2025-03-07T11:09:30.0289178+01:00"
     dependencies:
     - condition: enableKeycloak
       name: keycloak
@@ -202,7 +202,7 @@ entries:
   sharedidp:
   - apiVersion: v2
     appVersion: 25.0.6
-    created: "2025-03-05T14:22:39.6492473+01:00"
+    created: "2025-03-07T11:09:30.0384386+01:00"
     dependencies:
     - name: keycloak
       repository: https://raw.githubusercontent.com/bitnami/charts/archive-full-index/bitnami
@@ -220,7 +220,7 @@ entries:
   ssi-credential-issuer:
   - apiVersion: v2
     appVersion: 1.2.0
-    created: "2025-03-05T14:22:39.6532884+01:00"
+    created: "2025-03-07T11:09:30.0454384+01:00"
     dependencies:
     - condition: postgresql.enabled
       name: postgresql
@@ -237,7 +237,7 @@ entries:
   ssi-dim-wallet-stub:
   - apiVersion: v2
     appVersion: 0.0.5
-    created: "2025-03-05T14:22:39.6649094+01:00"
+    created: "2025-03-07T11:09:30.0553796+01:00"
     dependencies:
     - condition: keycloak.enabled
       name: centralidp
@@ -256,7 +256,7 @@ entries:
   tx-data-provider:
   - apiVersion: v2
     appVersion: 0.0.1
-    created: "2025-03-05T14:22:39.6649094+01:00"
+    created: "2025-03-07T11:09:30.0581978+01:00"
     dependencies:
     - condition: digital-twin-registry.enabled
       name: digital-twin-registry
@@ -283,7 +283,7 @@ entries:
     version: 0.1.4
   umbrella:
   - apiVersion: v2
-    created: "2025-03-05T14:22:39.5765701+01:00"
+    created: "2025-03-07T11:09:29.9488037+01:00"
     dependencies:
     - condition: portal.enabled
       name: portal
@@ -351,7 +351,7 @@ entries:
     description: 'A Helm chart to spin up Tractus-X OSS components to simulate a complete
       dataspace network.  With this Helm chart you are able to run end-to-end or create
       a sandbox environment. '
-    digest: 05ca8b2b11a9b38a9ceda77890d34654a0281efabc363b0f789eb00b628e3bda
+    digest: f574651bc080c503760b794a79103e1055a0935f1a5fb42cc5487fa42d065b9e
     name: umbrella
     sources:
     - https://github.com/eclipse-tractusx/tractus-x-umbrella
@@ -359,4 +359,4 @@ entries:
     urls:
     - umbrella-2.6.0.tgz
     version: 2.6.0
-generated: "2025-03-05T14:22:39.4966211+01:00"
+generated: "2025-03-07T11:09:29.8582757+01:00"
