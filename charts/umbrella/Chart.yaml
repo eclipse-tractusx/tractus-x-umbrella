@@ -28,7 +28,7 @@ sources:
   - https://github.com/eclipse-tractusx/tractus-x-umbrella
 
 type: application
-version: 2.1.1
+version: 2.8.0
 
 # when adding or updating versions of dependencies, also update list under /docs/user/installation/README.md
 dependencies:
@@ -50,18 +50,18 @@ dependencies:
   - condition: discoveryfinder.enabled
     name: discoveryfinder
     repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 0.3.1
+    version: 0.4.2
     # bpn-discovery
   - condition: bpndiscovery.enabled
     name: bpndiscovery
     repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 0.3.1
+    version: 0.4.2
     # sd-factory
   - condition: selfdescription.enabled
     name: sdfactory
     alias: selfdescription
     repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 2.1.21
+    version: 2.1.22
     # ssi-credential-issuer
   - name: ssi-credential-issuer
     condition: ssi-credential-issuer.enabled
@@ -71,27 +71,27 @@ dependencies:
   - condition: semantic-hub.enabled
     name: semantic-hub
     repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 0.3.1
+    version: 0.4.4
   # Business Partner Data Management
   - name: bpdm
     condition: bpdm.enabled
     repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 5.1.0
+    version: 5.2.0
     # TX Data Consumer 1
   - name: tx-data-provider
     alias: dataconsumerOne
-    version: 0.1.3
+    version: 0.1.5
     repository: file://../tx-data-provider
     condition: dataconsumerOne.enabled
     # TX Data Providers
   - name: tx-data-provider
-    version: 0.1.3
+    version: 0.1.5
     repository: file://../tx-data-provider
     condition: tx-data-provider.enabled
     # TX Data Consumer 2
   - name: tx-data-provider
     alias: dataconsumerTwo
-    version: 0.1.3
+    version: 0.1.5
     repository: file://../tx-data-provider
     condition: dataconsumerTwo.enabled
     # pgadmin4 as helper tool for easy database access
@@ -104,11 +104,6 @@ dependencies:
     repository: https://eclipse-tractusx.github.io/charts/dev
     version: 0.5.2
     condition: bdrs-server-memory.enabled
-    # iatp
-  - name: iatpmock
-    version: 0.1.0
-    repository: file://charts/iatpmock
-    condition: iatpmock.enabled
     # ssi-dim-wallet-stub
   - name: ssi-dim-wallet-stub
     repository: https://eclipse-tractusx.github.io/charts/dev

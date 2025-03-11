@@ -7,18 +7,18 @@ This guide provides instructions to configure and enable the Semantic Hub compon
 The Semantic Hub requires a compatible Fuseki Docker image. Follow these steps to build the image:
 
 1. **Download the Fuseki Docker Files**:
-   Download the `jena-fuseki-docker-4.7.0.zip` file from the Maven repository:
-   [Download Fuseki Docker](https://repo1.maven.org/maven2/org/apache/jena/jena-fuseki-docker/4.7.0/jena-fuseki-docker-4.7.0.zip).
+   Download the `jena-fuseki-docker-5.0.0.zip` file from the Maven repository:
+   [Download Fuseki Docker](https://repo1.maven.org/maven2/org/apache/jena/jena-fuseki-docker/5.0.0/jena-fuseki-docker-5.0.0.zip).
 
 2. **Extract the Zip File**:
    ```bash
-   unzip jena-fuseki-docker-4.7.0.zip
-   cd jena-fuseki-docker-4.7.0
+   unzip jena-fuseki-docker-5.0.0.zip
+   cd jena-fuseki-docker-5.0.0
    ```
 
 3. **Build the Docker Image**:
    ```bash
-   docker build --build-arg JENA_VERSION=4.7.0 -t jena-fuseki-docker:4.7.0 --platform linux/amd64 .
+   docker build --build-arg JENA_VERSION=5.0.0 -t jena-fuseki-docker:5.0.0 --platform linux/amd64 .
    ```
 
 ## Enabling Semantic Hub

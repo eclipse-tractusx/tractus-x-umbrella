@@ -108,6 +108,7 @@ Use the following credentials to log in to the admin consoles:
 The Portal allows onboarding participants by inviting them to join the network. To send invitations:
 1. Log in to the Portal at `http://portal.tx.test`.
 2. Navigate to the participant management section.
+3. When a new request is sent to a new participant, it will be received an email which can be viewed at `http://smtp.tx.test`. 
 
 > **Note**
 > Since the onboarding process requires the [Clearinghouse](https://github.com/eclipse-tractusx/portal-assets/blob/v2.1.0/docs/developer/Technical%20Documentation/Interface%20Contracts/Clearinghouse.md) to work properly, but ClearingHouse currently isn't available as a FOSS application you can skip the step with the following SQL Script which must be executed against the portal database.
