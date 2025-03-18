@@ -77,7 +77,7 @@ Use the following credentials for the initial login as a CX-Operator:
 - **Password**: `tractusx-umbr3lla!`
 
 > **Note**
-> In case that you have TLS enabled (see [Self-signed TLS setup (Optional)](../network/tls)), make sure to accept the risk of the self-signed certificates for all the hosts before performing the first login:
+> In case that you have TLS enabled (see [Self-signed TLS setup (Optional)](../setup/network/tls.md)), make sure to accept the risk of the self-signed certificates for all the hosts before performing the first login:
 >
 > - <https://centralidp.tx.test/auth/>
 > - <https://sharedidp.tx.test/auth/>
@@ -158,8 +158,6 @@ FROM applications a;
 
 - Ensure DNS resolution is correctly configured for the `*.tx.test` domains.
 - If TLS is enabled, access the endpoints over `https://` and accept the self-signed certificate in your browser.
-
-For more details on Portal configuration, refer to the [Portal Subset Installation Guide](../setup/README.md#portal-subset).
 
 ## NOTICE
 
