@@ -15,42 +15,36 @@ Make sure that the **DNS** resolution for the hosts is in place:
 minikube addons enable ingress-dns
 ```
 
-And execute installation step [3 Add the `minikube ip` as a DNS server](https://minikube.sigs.k8s.io/docs/handbook/addons/ingress-dns) for your OS
+And execute installation step [Add the `minikube ip` as a DNS server](https://minikube.sigs.k8s.io/docs/handbook/addons/ingress-dns) for your Operating System
 
 ### Enable Ingress
 
 The following ingresses are configured and available:
 
-- **Authentication Services**
-   - [CentralIdP](http://centralidp.tx.test/auth/)
-   - [SharedIdP](http://sharedidp.tx.test/auth/)
+| **Category**                 | **Service Name**                     | **URL**                                                             |
+|------------------------------|--------------------------------------|---------------------------------------------------------------------|
+| **Authentication Services**  | CentralIdP                           | http://centralidp.tx.test/auth/                                     |
+|                              | SharedIdP                            | http://sharedidp.tx.test/auth/                                      |
+| **Portal Services**          | Portal Frontend                      | http://portal.tx.test                                               |
+|                              | Portal Backend                       | http://portal-backend.tx.test                                       |
+|                              | Administration API                   | http://portal-backend.tx.test/api/administration/swagger/index.html |
+|                              | Registration API                     | http://portal-backend.tx.test/api/registration/swagger/index.html   |
+|                              | Apps API                             | http://portal-backend.tx.test/api/apps/swagger/index.html           |
+|                              | Services API                         | http://portal-backend.tx.test/api/services/swagger/index.html       |
+|                              | Notification API                     | http://portal-backend.tx.test/api/notification/swagger/index.html   |
+| **Discovery**                | Discovery Finder API                 | http://semantics.tx.test/discoveryfinder/swagger-ui/index.html      |
+| **Data Exchange Services**   | Data Consumer 1 Control Plane        | http://dataconsumer-1-controlplane.tx.test                          |
+|                              | Data Consumer 1 Data Plane           | http://dataconsumer-1-dataplane.tx.test                             |
+|                              | Data Provider Data Plane             | http://dataprovider-dataplane.tx.test                               |
+|                              | Data Consumer 2 Control Plane        | http://dataconsumer-2-controlplane.tx.test                          |
+|                              | Data Consumer 2 Data Plane           | http://dataconsumer-2-dataplane.tx.test                             |
+| **Additional Services**      | Business Partners Pool               | http://business-partners.tx.test/pool                               |
+|                              | Business Partners Orchestrator       | http://business-partners.tx.test/orchestrator                       |
+|                              | BDRS Server                          | http://bdrs-server.tx.test                                          |
+|                              | SSI Credential Issuer                | http://ssi-credential-issuer.tx.test/api/issuer/swagger/index.html  |
+|                              | SSI DIM Wallet Stub                  | http://ssi-dim-wallet-stub.tx.test                                  |
+|                              | pgAdmin4                             | http://pgadmin4.tx.test                                             |
 
-- **Portal Services**
-   - [Portal Frontend](http://portal.tx.test)
-   - [Portal Backend](http://portal-backend.tx.test)
-      - [Administration API](http://portal-backend.tx.test/api/administration/swagger/index.html)
-      - [Registration API](http://portal-backend.tx.test/api/registration/swagger/index.html)
-      - [Apps API](http://portal-backend.tx.test/api/apps/swagger/index.html)
-      - [Services API](http://portal-backend.tx.test/api/services/swagger/index.html)
-      - [Notification API](http://portal-backend.tx.test/api/notification/swagger/index.html)
-
-- **Discovery**
-   - [Discovery Finder API](http://semantics.tx.test/discoveryfinder/swagger-ui/index.html)
-
-- **Data Exchange Services**
-   - [Data Consumer 1 Control Plane](http://dataconsumer-1-controlplane.tx.test)
-   - [Data Consumer 1 Data Plane](http://dataconsumer-1-dataplane.tx.test)
-   - [Data Provider Data Plane](http://dataprovider-dataplane.tx.test)
-   - [Data Consumer 2 Control Plane](http://dataconsumer-2-controlplane.tx.test)
-   - [Data Consumer 2 Data Plane](http://dataconsumer-2-dataplane.tx.test)
-
-- **Additional Services**
-   - [Business Partners Pool](http://business-partners.tx.test/pool)
-   - [Business Partners Orchestrator](http://business-partners.tx.test/orchestrator)
-   - [BDRS Server](http://bdrs-server.tx.test)
-   - [SSI Credential Issuer](http://ssi-credential-issuer.tx.test/api/issuer/swagger/index.html)
-   - [SSI DIM Wallet Stub](http://ssi-dim-wallet-stub.tx.test)
-   - [pgAdmin4](http://pgadmin4.tx.test)
 
 ## DNS Resolution Setup
 
