@@ -36,7 +36,6 @@ dependencies:
     version: 0.1.0
     condition: simple-data-backend.enabled
   - name: tractusx-connector
-    # path to local folder of tractus-x-edc /home/someuser/dev/tractusx-edc/charts/tractusx-connector
     repository: https://eclipse-tractusx.github.io/charts/dev
     version: 0.8.0
     condition: tractusx-connector.enabled
