@@ -27,7 +27,7 @@ bdrs-server-memory:
 
 dataconsumerOne:
   enabled: true
-  tractus-x-connector:
+  tractusx-connector:
     dataplane:
       opentelemetry: |-
         otel.javaagent.enabled=true
@@ -37,15 +37,15 @@ dataconsumerOne:
         otel.metrics.exporter=prometheus
         otel.logs.exporter=otlp
         otel.exporter.otlp.endpoint=http://umbrella-opentelemetry-collector.umbrella:4318
-      controlplane:
-        opentelemetry: |-
-          otel.javaagent.enabled=true
-          otel.javaagent.debug=false
-          otel.traces.exporter=otlp
-          otel.exporter.jaeger.endpoint=http://umbrella-jaeger-collector.umbrella:4318
-          otel.metrics.exporter=prometheus
-          otel.logs.exporter=otlp
-          otel.exporter.otlp.endpoint=http://umbrella-opentelemetry-collector.umbrella:4318
+    controlplane:
+      opentelemetry: |-
+        otel.javaagent.enabled=true
+        otel.javaagent.debug=false
+        otel.traces.exporter=otlp
+        otel.exporter.jaeger.endpoint=http://umbrella-jaeger-collector.umbrella:4318
+        otel.metrics.exporter=prometheus
+        otel.logs.exporter=otlp
+        otel.exporter.otlp.endpoint=http://umbrella-opentelemetry-collector.umbrella:4318
     # -- uncomment the following for persistence
     # postgresql:
     #   primary:
@@ -55,7 +55,7 @@ dataconsumerOne:
 tx-data-provider:
   seedTestdata: true
   enabled: true
-  tractus-x-connector:
+  tractusx-connector:
     dataplane:
       opentelemetry: |-
         otel.javaagent.enabled=true
@@ -65,15 +65,15 @@ tx-data-provider:
         otel.metrics.exporter=prometheus
         otel.logs.exporter=otlp
         otel.exporter.otlp.endpoint=http://umbrella-opentelemetry-collector.umbrella:4318
-      controlplane:
-        opentelemetry: |-
-          otel.javaagent.enabled=true
-          otel.javaagent.debug=false
-          otel.traces.exporter=otlp
-          otel.exporter.jaeger.endpoint=http://umbrella-jaeger-collector.umbrella:4318
-          otel.metrics.exporter=prometheus
-          otel.logs.exporter=otlp
-          otel.exporter.otlp.endpoint=http://umbrella-opentelemetry-collector.umbrella:4318
+    controlplane:
+      opentelemetry: |-
+        otel.javaagent.enabled=true
+        otel.javaagent.debug=false
+        otel.traces.exporter=otlp
+        otel.exporter.jaeger.endpoint=http://umbrella-jaeger-collector.umbrella:4318
+        otel.metrics.exporter=prometheus
+        otel.logs.exporter=otlp
+        otel.exporter.otlp.endpoint=http://umbrella-opentelemetry-collector.umbrella:4318
     # -- uncomment the following for persistence
     # postgresql:
     #   primary:
