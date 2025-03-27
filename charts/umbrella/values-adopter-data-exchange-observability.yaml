@@ -35,6 +35,10 @@ dataconsumerOne:
         otel.traces.exporter=otlp
         otel.exporter.jaeger.endpoint=http://umbrella-jaeger-collector.umbrella:4318
         otel.metrics.exporter=prometheus
+        otel.metrics.protocol=http/protobuf
+        edc.metrics.enabled=true
+        edc.metrics.system.enabled=true
+        otel.instrumentation.micrometer.enabled=true
         otel.logs.exporter=otlp
         otel.exporter.otlp.endpoint=http://umbrella-opentelemetry-collector.umbrella:4318
     controlplane:
@@ -44,6 +48,10 @@ dataconsumerOne:
         otel.traces.exporter=otlp
         otel.exporter.jaeger.endpoint=http://umbrella-jaeger-collector.umbrella:4318
         otel.metrics.exporter=prometheus
+        otel.metrics.protocol=http/protobuf
+        edc.metrics.enabled=true
+        edc.metrics.system.enabled=true
+        otel.instrumentation.micrometer.enabled=true
         otel.logs.exporter=otlp
         otel.exporter.otlp.endpoint=http://umbrella-opentelemetry-collector.umbrella:4318
     # -- uncomment the following for persistence
@@ -63,6 +71,10 @@ tx-data-provider:
         otel.traces.exporter=otlp
         otel.exporter.jaeger.endpoint=http://umbrella-jaeger-collector.umbrella:4318
         otel.metrics.exporter=prometheus
+        otel.metrics.protocol=http/protobuf
+        edc.metrics.enabled=true
+        edc.metrics.system.enabled=true
+        otel.instrumentation.micrometer.enabled=true
         otel.logs.exporter=otlp
         otel.exporter.otlp.endpoint=http://umbrella-opentelemetry-collector.umbrella:4318
     controlplane:
@@ -72,6 +84,10 @@ tx-data-provider:
         otel.traces.exporter=otlp
         otel.exporter.jaeger.endpoint=http://umbrella-jaeger-collector.umbrella:4318
         otel.metrics.exporter=prometheus
+        otel.metrics.protocol=http/protobuf
+        edc.metrics.enabled=true
+        edc.metrics.system.enabled=true
+        otel.instrumentation.micrometer.enabled=true
         otel.logs.exporter=otlp
         otel.exporter.otlp.endpoint=http://umbrella-opentelemetry-collector.umbrella:4318
     # -- uncomment the following for persistence
@@ -180,24 +196,25 @@ opentelemetry-collector:
               scrape_interval: 30s
               static_configs:
                 - targets:
-                    - 'umbrella-dataconsumer-1-edc-controlplane.umbrella:9464'
+                    - 'umbrella-dataconsumer-1-edc-controlplane.umbrella:9090'
               metrics_path: /metrics
             - job_name: dataconsumer_dataplane
               scrape_interval: 30s
               static_configs:
                 - targets:
-                    - 'umbrella-dataconsumer-1-edc-dataplane.umbrella:9464'
+                    - 'umbrella-dataconsumer-1-edc-dataplane.umbrella:9090'
+              metrics_path: /metrics
             - job_name: dataprovider_controlplane
               scrape_interval: 30s
               static_configs:
                 - targets:
-                    - 'umbrella-dataprovider-edc-controlplane.umbrella:9464'
+                    - 'umbrella-dataprovider-edc-controlplane.umbrella:9090'
               metrics_path: /metrics
             - job_name: dataprovider_dataplane
               scrape_interval: 30s
               static_configs:
                 - targets:
-                    - 'umbrella-dataprovider-edc-dataplane.umbrella:9464'
+                    - 'umbrella-dataprovider-edc-dataplane.umbrella:9090'
               metrics_path: /metrics
     service:
       telemetry:
