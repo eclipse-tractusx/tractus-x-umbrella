@@ -201,7 +201,7 @@ Primary target groups:
 
 ### 4.2.1 Use Case View (high-level)
 
-## Group 1: Producte developer
+## Group 1: Product developer
 
 | ID  | Name                                    | Akteur            | Beschreibung                                                                                                       |
 |-----|-----------------------------------------|-------------------|--------------------------------------------------------------------------------------------------------------------|
