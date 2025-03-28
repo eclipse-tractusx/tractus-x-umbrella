@@ -211,7 +211,8 @@ Primary target groups:
 | Set Up Connection Infrastructure        | The actor sets up the connection infrastructure for linking to the central data space infrastructure.             | Product Developer |
 | Maintain Infrastructure Module          | The product developer maintains the modular architecture of the HELM Chart.                                       | Product Developer |
 | Ensure Scalability                      | The product developer ensures scalability to support growing numbers of users and data volumes.                   | Product Developer |
-| A/B Testing                             | The product tester executes A/B tests.                                                                            | Product Tester    |
+| Sandbox Environments                    | The product developer creates local environments to evaluate and experiment with Catena-X components.             | Product Developer |
+| E2E Testing                             | The product tester runs end-to-end tests for Catena-X services.                                                   | Product Tester    |
 
 ### 4.2.2 Business Process (SCC Artifact)
 
