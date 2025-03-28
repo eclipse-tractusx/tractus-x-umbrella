@@ -9,7 +9,7 @@ Connector (EDC), Digital Twin Registry (DTR), and their supporting components. B
 installation package, the project seeks to reduce deployment complexity and lower barriers to participation in the
 Catena‑X data space. This bundle will enable independent component updates and support a modular "bring your own"
 approach, ultimately fostering a more efficient and accessible ecosystem for diverse participants—such as testers,
-external developers, and small and medium-sized enterprises.
+external product developers, product testers, and small and medium-sized enterprises.
 
 ## 1.2 Business Need
 
