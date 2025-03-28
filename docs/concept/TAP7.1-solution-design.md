@@ -201,17 +201,24 @@ Primary target groups:
 
 ### 4.2.1 Use Case View (high-level)
 
-| Use Case                                | Description                                                                                                       | Actors            |
-|-----------------------------------------|-------------------------------------------------------------------------------------------------------------------|-------------------|
-| Configure HELM Chart                    | The product developer configures the HELM Chart for the specific environment.                                     | Product Developer |
-| Configure Secrets                       | The product developer manages and configures secrets.                                                             | Product Developer |
-| Execute Deployment Pipeline             | The product developer successfully executes the deployment pipeline for the HELM Chart.                           | Product Developer |
-| Integrate EDC, DTR, and Identity Wallet | The actors integrate the components EDC, Digital Twin Registry, and Identity Wallet for seamless interoperability | Product Developer |
-| Set Up Connection Infrastructure        | The actor sets up the connection infrastructure for linking to the central data space infrastructure.             | Product Developer |
-| Maintain Infrastructure Module          | The product developer maintains the modular architecture of the HELM Chart.                                       | Product Developer |
-| Ensure Scalability                      | The product developer ensures scalability to support growing numbers of users and data volumes.                   | Product Developer |
-| Sandbox Environments                    | The product developer creates local environments to evaluate and experiment with Catena-X components.             | Product Developer |
-| E2E Testing                             | The product tester runs end-to-end tests for Catena-X services.                                                   | Product Tester    |
+## Group 1: Producte developer
+
+| ID  | Name                                    | Akteur            | Beschreibung                                                                                                       |
+|-----|-----------------------------------------|-------------------|--------------------------------------------------------------------------------------------------------------------|
+| UC1 | Configure HELM Chart                    | Product Developer | The product developer configures the HELM Chart for the specific environment.                                      |
+| UC2 | Configure Secrets                       | Product Developer | The product developer manages and configures secrets.                                                              |
+| UC3 | Execute Deployment Pipeline             | Product Developer | The product developer successfully executes the deployment pipeline for the HELM Chart.                            |
+| UC4 | Integrate EDC, DTR, and Identity Wallet | Product Developer | The actors integrate the components EDC, Digital Twin Registry, and Identity Wallet for seamless interoperability. |
+| UC5 | Set Up Connection Infrastructure        | Product Developer | The actor sets up the connection infrastructure for linking to the central data space infrastructure.              |
+| UC6 | Maintain Infrastructure Module          | Product Developer | The product developer maintains the modular architecture of the HELM Chart.                                        |
+| UC7 | Ensure Scalability                      | Product Developer | The product developer ensures scalability to support growing numbers of users and data volumes.                    |
+| UC8 | Sandbox Environments                    | Product Developer | The product developer creates local environments to evaluate and experiment with Catena-X components.              |
+
+## Group 2: Product Tester
+
+| ID  | Name        | Actor          | Description                                                     |
+|-----|-------------|----------------|-----------------------------------------------------------------|
+| UC9 | E2E Testing | Product Tester | The product tester runs end-to-end tests for Catena-X services. |
 
 ### 4.2.2 Business Process (SCC Artifact)
 
@@ -378,14 +385,17 @@ flowchart BT
 
 ### 4.4.1 Context Delimitation / 4.4.2 Interface Documentation
 
+Interactions between an Application acting as Dataprovider or Dataconsumer and the Services which are part of the different Capability Bundles.
+
 ````mermaid
 flowchart LR
     Dataprovider["Dataprovider"] -->|stores data| SubmodelServer["Submodel Server"]
     Dataprovider -->|creates twins| DTR["DTR"]
     Dataprovider -->|creates contracts| EDC["EDC"]
+    EDC["EDC"] -->|needs| EdcPosgtres["PostgreSQL Database"]
     Dataconsumer["Dataconsumer"] -->|negotiate contracts| EDC
-    DTR -->|needs| IdentityWallet["Identity Wallet"]
-    IdentityWallet -->|needs| Postgres["PostgreSQL Database"]
+    DTR -->|needs| DtrPostgres["PostgreSQL Database"]
+    EDC["EDC"] -->|needs| IdentityWallet["Identity Wallet"]
 ````
 
 # 5 Build
