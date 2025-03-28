@@ -178,7 +178,7 @@ flowchart
 
 Overall data space roles: https://catena-x.net/en/1/catena-x-introduce-implement/how-to-operate-catena-x
 
-The relevant data space roles for us under requirement 7.1.1.1 are:
+The relevant data space roles for TAP 7.1 are:
 
 - Data Consumer
 - Data Provider
