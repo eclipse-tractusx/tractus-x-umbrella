@@ -18,7 +18,7 @@ addresses the need to:
 
 - **Reduce Complexity:** Simplify the deployment topology by bundling components into capabilities.
 - **Automate Deployment:** Provide an automated installation package using Kubernetes and HELM.
-- **Minimize Configuration Overhead:** Simplify the integration process by reducing the steps and effort required for configuration.
+- **Minimize Configuration Overhead:** Streamline the integration process by providing pre-configured bundles that require only minimal manual parameter adjustments.
 - **Extend Documentation:** Provide a detailed documentation tailored to the target groups.
 - **Enable Extension:** Design the system to allow the seamless addition of new components or capabilities.
 
@@ -302,23 +302,26 @@ Why this structure was proposed:
    for credential management, etc.). This clarity also helps new adopters navigate the ecosystem.
 
 ````mermaid
+%%{init: {"flowchart": {"subGraphTitleMargin": { "bottom": 10}}}}%%
 flowchart LR
-    subgraph "Core Services"
+    subgraph A["Core Services"]
         Vault["Vault"]
     end
 
-    subgraph "Capability Bundle: Identity & Trust"
+    subgraph B["Capability Bundle: Identity & Trust"]
         SSIWalletStub["SSI Wallet Stub"]
     end
 
-    subgraph "Capability Bundle: Dataspace Connector"
+    subgraph C["Capability Bundle: Dataspace Connector"]
         EDC["EDC"]
         EDCDB["EDC DB"]
+        EDC .-> EDCDB
     end
 
     subgraph "Capability Bundle: Digital Twin"
         DTR["DTR"]
         DTRDB["DTR DB"]
+        DTR .-> DTRDB
     end
 
     subgraph "Capability Bundle: Data Persitance Layer"
@@ -337,8 +340,8 @@ flowchart LR
         end
     end
 
-    EDC -.-> SSIWalletStub
-    EDC -.-> Vault
+    EDC -..-> SSIWalletStub
+    EDC -..-> Vault
     DataProvider --> EDC
     DataProvider --> DTR
     DataProvider --> SimpleSubmodelServer
@@ -359,8 +362,9 @@ flowchart BT
     B["Capability Bundle: Data Persistence Layer"]
     C["Capability Bundle: Dataspace Connector"]
     D["Capability Bundle: Digital Twin"]
-    E["Application to be tested/developed"]
-    F["Developer/Tester"]
+    E("Application to be tested/developed")
+    style E fill:#afafaf,color:black
+    F{{"Developer/Tester"}}
     E --> B
     E --> C
     E --> D
@@ -376,8 +380,9 @@ The standard data consumer role consists of only the EDC Bundle and the Identity
 flowchart BT
     A["Capability Bundle: Identity & Trust"]
     B["Capability Bundle: Dataspace Connector"]
-    C["Application to be tested/developed"]
-    D["Developer/Tester"]
+    C("Application to be tested/developed")
+    style C fill:#afafaf,color:black
+    D{{"Developer/Tester"}}
     C --> B
     B --> A
     D --> C
@@ -392,11 +397,12 @@ data and the consumtion of the provisioned data by a application.
 flowchart BT
     A["Capability Bundle: Identity & Trust"]
     B["Capability Bundle: Data Persitance Layer"]
-    C["Application to be tested/developed"]
+    C("Application to be tested/developed")
+    style C fill:#afafaf,color:black
     D["Capability Bundle: Digital Twin"]
     E["Capability Bundle: Dataspace Connector (Provider)"]
     F["Capability Bundle: Dataspace Connector (Consumer)"]
-    G["Developer/Tester"]
+    G{{"Developer/Tester"}}
     C --> B
     C --> D
     C --> E
@@ -415,11 +421,12 @@ In this example this would be the configuration of the Identity Wallet within th
 
 ````mermaid
 flowchart BT
-    A["Application to be tested/developed"]
+    A("Application to be tested/developed")
+    style A fill:#afafaf,color:black
     B["Capability Bundle: Dataspace Connector"]
     C["<s>Capability Bundle: Identity & Trust</s>"]
     D["Own Identity Wallet"]
-    E["Developer/Tester"]
+    E{{"Developer/Tester"}}
     A --> B
     B -- identitywallet - bundle . enabled = false --> C
     B -- configure --> D
