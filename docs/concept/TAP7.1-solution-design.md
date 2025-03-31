@@ -223,7 +223,7 @@ Primary target groups:
 |-----|-------------|----------------|-----------------------------------------------------------------|
 | UC9 | E2E Testing | Product Tester | The product tester runs end-to-end tests for Catena-X services. |
 
-## Group 3:
+## Group 3: Product Manager
 
 | ID   | Name                 | Actor           | Description                                                                                         |
 |------|----------------------|-----------------|-----------------------------------------------------------------------------------------------------|
