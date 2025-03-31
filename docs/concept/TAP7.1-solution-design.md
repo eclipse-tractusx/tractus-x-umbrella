@@ -360,10 +360,12 @@ flowchart BT
     C["Capability Bundle: Dataspace Connector"]
     D["Capability Bundle: Digital Twin"]
     E["Application to be tested/developed"]
+    F["Developer/Tester"]
     E --> B
     E --> C
     E --> D
     C --> A
+    F --> E
 ````
 
 ##### Role: Data Consumer
@@ -375,8 +377,10 @@ flowchart BT
     A["Capability Bundle: Identity & Trust"]
     B["Capability Bundle: Dataspace Connector"]
     C["Application to be tested/developed"]
+    D["Developer/Tester"]
     C --> B
     B --> A
+    D --> C
 ````
 
 ##### Role: Enablement Provider
@@ -392,12 +396,14 @@ flowchart BT
     D["Capability Bundle: Digital Twin"]
     E["Capability Bundle: Dataspace Connector (Provider)"]
     F["Capability Bundle: Dataspace Connector (Consumer)"]
+    G["Developer/Tester"]
     C --> B
     C --> D
     C --> E
     C --> F
     E --> A
     F --> A
+    G --> C
 ````
 
 ##### Bring you own
@@ -413,9 +419,11 @@ flowchart BT
     B["Capability Bundle: Dataspace Connector"]
     C["<s>Capability Bundle: Identity & Trust</s>"]
     D["Own Identity Wallet"]
+    E["Developer/Tester"]
     A --> B
     B -- identitywallet - bundle . enabled = false --> C
     B -- configure --> D
+    E --> A
 ````
 
 Using a "bring-your-own" component requires additional configuration. In this case, the identity wallet has to be configured in the EDC configuration section.
