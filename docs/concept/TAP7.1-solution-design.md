@@ -1,4 +1,4 @@
-# Solution Design Hausanschluss Bundle Konzept
+# Solution Design "Hausanschluss" Bundle Concept
 
 # 1 Business Case
 
@@ -18,7 +18,7 @@ addresses the need to:
 
 - **Reduce Complexity:** Simplify the deployment topology by bundling components into capabilities.
 - **Automate Deployment:** Provide an automated installation package using Kubernetes and HELM.
-- **Reduce Configuration Efforts:** Streamline and reduce the number of configuration steps required for integration.
+- **Minimize Configuration Overhead:** Simplify the integration process by reducing the steps and effort required for configuration.
 - **Extend Documentation:** Provide a detailed documentation tailored to the target groups.
 - **Enable Extension:** Design the system to allow the seamless addition of new components or capabilities.
 
@@ -128,6 +128,8 @@ Umbrella Chart is intended for the following Use Cases:
 
 ### 3.4.1 Context Delimitation
 
+#### Existing Umbrella Chart Structure
+
 ````mermaid
 flowchart
     subgraph "Umbrella Chart"
@@ -168,8 +170,6 @@ flowchart
     DataProvider --> DTR
     DataProvider --> SubmodelServer
 ````
-
-#### Existing Umbrella Chart Structure
 
 # 4 TO-BE Design
 
