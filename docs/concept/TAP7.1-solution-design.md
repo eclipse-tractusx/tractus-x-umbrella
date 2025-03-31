@@ -204,7 +204,7 @@ Primary target groups:
 
 ### 4.2.1 Use Case View (high-level)
 
-## Group 1: Product developer
+#### Group 1: Product developer
 
 | ID  | Name                                    | Actor             | Description                                                                                                        |
 |-----|-----------------------------------------|-------------------|--------------------------------------------------------------------------------------------------------------------|
@@ -217,19 +217,19 @@ Primary target groups:
 | UC7 | Ensure Scalability                      | Product Developer | The product developer ensures scalability to support growing numbers of users and data volumes.                    |
 | UC8 | Sandbox Environments                    | Product Developer | The product developer creates local environments to evaluate and experiment with Catena-X components.              |
 
-## Group 2: Product Tester
+#### Group 2: Product Tester
 
 | ID  | Name        | Actor          | Description                                                     |
 |-----|-------------|----------------|-----------------------------------------------------------------|
 | UC9 | E2E Testing | Product Tester | The product tester runs end-to-end tests for Catena-X services. |
 
-## Group 3: Product Manager
+#### Group 3: Product Manager
 
 | ID   | Name                 | Actor           | Description                                                                                         |
 |------|----------------------|-----------------|-----------------------------------------------------------------------------------------------------|
 | UC10 | Dataspace Evaluation | Product Manager | The Product manager evaluates the dataspace to assess if their product can be used within Catena-X. |
 
-## Use Case diagram
+#### Use Case diagram
 
 ````mermaid
 flowchart LR
@@ -427,6 +427,11 @@ flowchart BT
 ````
 
 Using a "bring-your-own" component requires additional configuration. In this case, the identity wallet has to be configured in the EDC configuration section.
+
+##### Interoperability
+
+To ensure interoperability, the [Tractus-X Release Guidelines](https://eclipse-tractusx.github.io/docs/release/) are followed and [Catena-X standards](https://catenax-ev.github.io/docs/standards/overview) are understood and applied.  
+Additionally, the existing functionality of the Umbrella Chart must be kept and verified to work.
 
 ## 4.4 System
 
