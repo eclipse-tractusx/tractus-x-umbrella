@@ -1,7 +1,9 @@
 # Observability usage
+
 This guide provides basic usage instruction of observability within umbrella deployment.
 
 ## Jaeger (Traces)
+
 Jaeger allows to observe traces of HTTP calls. 
 
 In order to be able to investigate traces locally we have to expose UI port (by default 16686)
@@ -17,7 +19,6 @@ kubectl port-forward umbrella-jaeger-6d57ffdf74-r864j 16686:16686 -n umbrella
 ```
 
 ![jaeger-example](./img/jaeger-example.png)
-
 
 ## Loki (Logs)
 
@@ -46,8 +47,8 @@ kubectl port-forward umbrella-prometheus-server-7b9f94f994-ffcnt 9090:9090 -n um
 
 ![prometheus-example](./img/prometheus-example.png)
 
- 
 ## Grafana (visualization + dashboards + alerting)
+
 Grafana allows to aggregate different datatypes from multiple datasources. In this example, we autoconfigured logs from Loki and metrics from Prometheus.
 
 In order to grant access to Grafana's UI 
@@ -77,3 +78,11 @@ Credentials can be altered in Grafana's values section:
 ![grafana-metrics-view](./img/grafana-example.png)
 
 ![grafana-detailed-metrics](./img/grafana-example-1.png)
+
+## NOTICE
+
+This work is licensed under the [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/legalcode).
+
+* SPDX-License-Identifier: CC-BY-4.0
+* SPDX-FileCopyrightText: 2025 Contributors to the Eclipse Foundation
+* Source URL: <https://github.com/eclipse-tractusx/tractus-x-umbrella>

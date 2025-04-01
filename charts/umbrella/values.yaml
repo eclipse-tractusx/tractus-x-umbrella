@@ -1077,7 +1077,6 @@ dataconsumerOne:
       env:
         TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-stub.tx.test/api
         EDC_IAM_DID_WEB_USE_HTTPS: false
-        OTEL_SERVICE_NAME: dataconsumer-1-edc-controplane
       bdrs:
         server:
           url: http://ssi-dim-wallet-stub.tx.test/api/v1/directory
@@ -1098,7 +1097,6 @@ dataconsumerOne:
       env:
         TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-stub.tx.test/api
         EDC_IAM_DID_WEB_USE_HTTPS: false
-        OTEL_SERVICE_NAME: dataconsumer-1-edc-dataplane
       ingresses:
         - enabled: true
           hostname: "dataconsumer-1-dataplane.tx.test"
@@ -1171,7 +1169,6 @@ tx-data-provider:
       env:
         TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-stub.tx.test/api
         EDC_IAM_DID_WEB_USE_HTTPS: false
-        OTEL_SERVICE_NAME: dataprovider-edc-controlplane
       bdrs:
         server:
           url: http://ssi-dim-wallet-stub.tx.test/api/v1/directory
@@ -1192,7 +1189,6 @@ tx-data-provider:
       env:
         TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-stub.tx.test/api
         EDC_IAM_DID_WEB_USE_HTTPS: false
-        OTEL_SERVICE_NAME: dataprovider-edc-dataplane
       ingresses:
         - enabled: true
           hostname: "dataprovider-dataplane.tx.test"

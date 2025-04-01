@@ -20,7 +20,6 @@
 ssi-dim-wallet-stub:
   enabled: true
   wallet:
-    nameSpace: "data-exchange"
     didHost: "ssi-dim-wallet-service"
     stubUrl: "http://ssi-dim-wallet-service"
     service:
@@ -68,11 +67,9 @@ tx-data-provider:
     controlplane:
       env:
         TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-service/api
-        EDC_METRICS_ENABLED: true
       bdrs:
         server:
           url: http://ssi-dim-wallet-service/api/v1/directory
     dataplane:
       env:
         TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-service/api
-        EDC_METRICS_ENABLED: true

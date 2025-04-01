@@ -29,6 +29,9 @@ dataconsumerOne:
   enabled: true
   tractusx-connector:
     dataplane:
+      env:
+        EDC_METRICS_ENABLED: true
+        OTEL_SERVICE_NAME: dataconsumer-1-edc-dataplane
       opentelemetry: |-
         otel.javaagent.enabled=true
         otel.javaagent.debug=false
@@ -42,6 +45,9 @@ dataconsumerOne:
         otel.logs.exporter=otlp
         otel.exporter.otlp.endpoint=http://umbrella-opentelemetry-collector.umbrella:4318
     controlplane:
+      env:
+        OTEL_SERVICE_NAME: dataconsumer-1-edc-controlplane
+        EDC_METRICS_ENABLED: true
       opentelemetry: |-
         otel.javaagent.enabled=true
         otel.javaagent.debug=false
@@ -65,6 +71,8 @@ tx-data-provider:
   enabled: true
   tractusx-connector:
     dataplane:
+      env:
+        OTEL_SERVICE_NAME: dataprovider-edc-dataplane
       opentelemetry: |-
         otel.javaagent.enabled=true
         otel.javaagent.debug=false
@@ -78,6 +86,8 @@ tx-data-provider:
         otel.logs.exporter=otlp
         otel.exporter.otlp.endpoint=http://umbrella-opentelemetry-collector.umbrella:4318
     controlplane:
+      env:
+        OTEL_SERVICE_NAME: dataprovider-edc-controlplane
       opentelemetry: |-
         otel.javaagent.enabled=true
         otel.javaagent.debug=false
