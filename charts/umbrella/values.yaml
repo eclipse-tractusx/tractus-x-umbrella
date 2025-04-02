@@ -759,6 +759,8 @@ selfdescription:
       clearingHouseClientId: ""
       # -- Details for Clearing House Client Secret
       clearingHouseClientSecret: ""
+      # -- Details for Verifying Client uri
+      verifycredentialsUri: ""
   ingress:
     enabled: true
     hosts:
@@ -775,24 +777,6 @@ selfdescription:
     # annotations:
     #   # uncomment the following line for tls
     #   cert-manager.io/cluster-issuer: "my-ca-issuer"
-
-iatpmock:
-  enabled: false
-  nameOverride: mock-util-service
-  fullnameOverride: mock-util-service
-  # -- see /docs/user/setup/iatp-mock.md Precondition for IATP Mock
-  # image:
-  #   # override with locally built image if needed, default "tractusx/iatp-mock"
-  #   repository: ""
-  #   # override tag if needed, default "testing"
-  #   tag: ""
-  ingress:
-    enabled: true
-    hosts:
-      - host: iatpmock.tx.test
-        paths:
-          - path: /
-            pathType: ImplementationSpecific
 
 ssi-credential-issuer:
   enabled: false
@@ -897,7 +881,7 @@ bpdm:
     primary:
       persistence:
         enabled: false
-  keycloak:
+  centralidp:
     # We use Central-IDP as authentication server
     enabled: false
   # Set up a Gate that acts as the Portal's Gate
@@ -1291,7 +1275,7 @@ semantic-hub:
         nginx.ingress.kubernetes.io/x-forwarded-prefix: "/hub"
   graphdb:
     enabled: true
-    image: jena-fuseki-docker:4.7.0
+    image: jena-fuseki-docker:5.0.0
     imagePullPolicy: Never
     storageClassName: ""
     storageSize: 8Gi
@@ -1475,7 +1459,9 @@ ssi-dim-wallet-stub:
       bpnList: "BPNL00000003AZQP,BPNL00000003AYRE"
     ingress:
       enabled: true
-      tls: false
+      tls:
+        enabled: false
+        name: ""
       urlPrefix: /
       className: nginx
       annotations: {}
@@ -1504,3 +1490,11 @@ ssi-dim-wallet-stub:
       port: 8080
   keycloak:
     enabled: false
+
+smtp4dev:
+  enabled: false
+  ingress:
+    url: smtp.tx.test
+  ports:
+    smtp: 25
+    http: 80
