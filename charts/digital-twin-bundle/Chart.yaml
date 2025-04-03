@@ -30,12 +30,12 @@ type: application
 version: 1.0.0
 
 dependencies:
-  - name: dt-registry
-    version: 0.4.0
+  - name: digital-twin-registry
+    version: 0.6.3
     repository: https://eclipse-tractusx.github.io/charts/dev
     condition: dt-registry.enabled
 
   - name: postgresql
-    version: 12.1.2
+    version: 15.2.1
     repository: https://charts.bitnami.com/bitnami
     condition: postgresql.enabled

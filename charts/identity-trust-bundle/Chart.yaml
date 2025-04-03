@@ -35,26 +35,6 @@ dependencies:
     repository: https://eclipse-tractusx.github.io/charts/dev
     condition: identity-wallet-mock.enabled
 
-  - name: oauth2-server
-    version: 0.1.0
-    repository: https://eclipse-tractusx.github.io/charts/dev
-    condition: oauth2-server.enabled
-
-  - name: ssi-credential-issuer
-    version: 1.2.0
-    repository: "file://./charts/ssi-credential-issuer"
-    condition: ssiCredentialIssuer.enabled
-
-  - name: sd-factory
-    version: 2.1.22
-    repository: "file://./charts/sd-factory"
-    condition: sdFactory.enabled
-
-  - name: bdrs-server-memory
-    version: 0.5.2
-    repository: "file://./charts/bdrs-server-memory"
-    condition: bdrs.enabled
-
   - name: ssi-dim-wallet-stub
     version: 0.1.8
     repository: "file://./charts/ssi-dim-wallet-stub"

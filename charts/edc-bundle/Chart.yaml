@@ -30,7 +30,7 @@ type: application
 version: 1.0.0
 
 dependencies:
-  - name: edc
+  - name: tractusx-connector
     version: 0.9.0
     repository: https://eclipse-tractusx.github.io/charts/dev
     condition: edc.enabled
