@@ -517,8 +517,8 @@ digital-twin-registry:
     dataSource:
       # replace this when using your own database
       # url: jdbc:postgresql://database:5432
-      # user: db-user
-      # password: db-pw
+      # user: 
+      # password: 
 ```
 
 #### Scalability
