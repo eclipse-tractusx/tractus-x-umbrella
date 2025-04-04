@@ -1,5 +1,58 @@
 # Solution Design "Hausanschluss" Bundle Concept
 
+<!-- TOC -->
+* [Solution Design "Hausanschluss" Bundle Concept](#solution-design-hausanschluss-bundle-concept)
+* [1 Business Case](#1-business-case)
+  * [1.1 Executive Summary](#11-executive-summary)
+  * [1.2 Business Need](#12-business-need)
+  * [1.3 Objectives](#13-objectives)
+  * [1.4 Expected Deliverables](#14-expected-deliverables)
+  * [1.5 Benefits](#15-benefits)
+  * [1.6. Dependencies](#16-dependencies)
+  * [1.7. Success Criteria](#17-success-criteria)
+  * [1.8. Out of Scope](#18-out-of-scope)
+* [2 Requirements Analysis](#2-requirements-analysis)
+  * [2.1 Assumptions](#21-assumptions)
+  * [2.2 Requirements Catalog](#22-requirements-catalog)
+* [3 AS-IS Analysis](#3-as-is-analysis)
+  * [3.1 People](#31-people)
+    * [3.1.1 Target Group Analysis](#311-target-group-analysis)
+  * [3.2 Process](#32-process)
+    * [3.2.1 Use Case View (high-level)](#321-use-case-view-high-level)
+  * [3.4 System](#34-system)
+    * [3.4.1 Context Delimitation](#341-context-delimitation)
+      * [Existing Umbrella Chart Structure](#existing-umbrella-chart-structure)
+* [4 TO-BE Design](#4-to-be-design)
+  * [4.1 People](#41-people)
+    * [4.1.1 Target Group Analysis](#411-target-group-analysis)
+  * [4.2 Process](#42-process)
+    * [4.2.1 Use Case View (high-level)](#421-use-case-view-high-level)
+      * [Group 1: Product developer](#group-1-product-developer)
+      * [Group 2: Product Tester](#group-2-product-tester)
+      * [Group 3: Product Manager](#group-3-product-manager)
+      * [Use Case diagram](#use-case-diagram)
+    * [4.2.2 Business Process (SCC Artifact)](#422-business-process-scc-artifact)
+      * [Chart Release Process](#chart-release-process)
+      * [Capability Bundle Structure](#capability-bundle-structure)
+      * [Deployment strategies](#deployment-strategies)
+        * [Role: Data Provider](#role-data-provider)
+        * [Role: Data Consumer](#role-data-consumer)
+        * [Role: Enablement Provider](#role-enablement-provider)
+      * [Bring your own](#bring-your-own)
+      * [Scalability](#scalability)
+      * [Interoperability](#interoperability)
+  * [4.4 System](#44-system)
+    * [4.4.1 Context Delimitation / 4.4.2 Interface Documentation](#441-context-delimitation--442-interface-documentation)
+* [5 Build](#5-build)
+  * [5.1 DevOps Setup Definition](#51-devops-setup-definition)
+    * [5.1.1 Tool Chain Definition](#511-tool-chain-definition)
+        * [Version Control & Source Code Management](#version-control--source-code-management)
+        * [Build and CI/CD Tools](#build-and-cicd-tools)
+        * [Testing and Validation Tools](#testing-and-validation-tools)
+        * [Release Management & Deployment](#release-management--deployment)
+* [NOTICE](#notice)
+<!-- TOC -->
+
 # 1 Business Case
 
 ## 1.1 Executive Summary
@@ -455,7 +508,18 @@ Components which can be replaced are:
 - Capability Bundle: Data Persistence Layer
     - simple-data-backend
 
-To make configuration of "bring-your-own" components easier, the bundle config has to highlight which values are related to which dependency and what to change, if the components should be replaced.
+To make configuration of "bring-your-own" components easier, the bundle config has to highlight which values are 
+related to which dependency and what to change, if the components should be replaced:
+
+```yaml
+digital-twin-registry:
+  registry:
+    dataSource:
+      # replace this when using your own database
+      # url: jdbc:postgresql://database:5432
+      # user: db-user
+      # password: db-pw
+```
 
 #### Scalability
 
