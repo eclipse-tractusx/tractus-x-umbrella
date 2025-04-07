@@ -516,7 +516,7 @@ digital-twin-registry:
   registry:
     dataSource:
       # replace this when using your own database
-      # url: jdbc:postgresql://database:5432
+      # url: 
       # user: 
       # password: 
 ```
