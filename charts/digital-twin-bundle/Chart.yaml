@@ -31,9 +31,9 @@ version: 1.0.0
 
 dependencies:
   - name: digital-twin-registry
-    version: 0.6.3
+    version: 0.6.2
     repository: https://eclipse-tractusx.github.io/charts/dev
-    condition: dt-registry.enabled
+    condition: digital-twin-registry.enabled
 
   - name: postgresql
     version: 15.2.1

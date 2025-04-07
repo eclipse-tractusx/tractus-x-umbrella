@@ -30,11 +30,6 @@ type: application
 version: 1.0.0
 
 dependencies:
-  - name: identity-wallet-mock
-    version: 1.0.0
-    repository: https://eclipse-tractusx.github.io/charts/dev
-    condition: identity-wallet-mock.enabled
-
   - name: ssi-dim-wallet-stub
     version: 0.1.8
     repository: "file://./charts/ssi-dim-wallet-stub"

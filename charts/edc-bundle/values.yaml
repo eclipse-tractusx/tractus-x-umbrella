@@ -27,7 +27,7 @@ enabled: true
 edc:
   enabled: true
   image:
-    repository: eclipse-tractusx/edc
+    repository: eclipse-tractusx/tractusx-connector
     tag: "0.9.0"
   service:
     type: ClusterIP
@@ -40,7 +40,7 @@ edc:
       memory: "1Gi"
       cpu: "500m"
   config:
-    edc:
+    tractusx-connector:
       dataspace:
         connector:
           name: "EDC Connector"
