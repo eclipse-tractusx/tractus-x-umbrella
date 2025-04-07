@@ -36,7 +36,7 @@ dependencies:
   - condition: portal.enabled
     name: portal
     repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 2.3.0
+    version: 2.4.0
   # cx-iam
   - condition: centralidp.enabled
     name: centralidp
