@@ -21,6 +21,11 @@ The currently available components are following:
 - [bdrs](https://github.com/eclipse-tractusx/bpn-did-resolution-service/tree/0.5.2) (**in memory** - no persistence possible)
 - [bpdm](https://github.com/eclipse-tractusx/bpdm/tree/release/6.2.x)
 - [ssi-dim-wallet-stub](https://github.com/eclipse-tractusx/ssi-dim-wallet-stub/releases/tag/ssi-dim-wallet-stub-0.1.2)
+
+## Auxiliary components
+
+The currently available optional components are following:
+
 - [opentelemetry-collector](https://github.com/open-telemetry/opentelemetry-helm-charts/tree/opentelemetry-collector-0.90.0)
 - [jaeger](https://github.com/jaegertracing/helm-charts/tree/jaeger-3.0.7)
 - [prometheus](https://github.com/prometheus-community/helm-charts/tree/prometheus-27.1.08)
