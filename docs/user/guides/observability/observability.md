@@ -2,6 +2,11 @@
 
 This guide provides basic usage instruction of observability within umbrella deployment.
 
+In order to deploy tractus-x-umbrella helm chart that provides data exchange between components connected with observability infrastructure run following command:
+```
+helm install -f values-adopter-data-exchange-observability.yaml umbrella . --namespace umbrella --create-namespace
+```
+
 ## Jaeger (Traces)
 
 Jaeger allows to observe traces of HTTP calls. 
