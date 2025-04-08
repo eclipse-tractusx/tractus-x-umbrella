@@ -360,7 +360,7 @@ Why this structure was proposed:
 
 | **Capability Bundle**     | **Default Components**                               | **Comments / Possible Replacements**                                             |
 |---------------------------|------------------------------------------------------|-----------------------------------------------------------------------------------|
-| **Identity Trust Bundle** | - SSI Wallet Stub<br/>- identity-wallet-mock         | Can be replaced by your own Identity Wallet.                                     |
+| **Identity Trust Bundle** | - ssi-dim-wallet-stub                                | Can be replaced by your own Identity Wallet.                                     |
 | **EDC Bundle**            | - tractusx-connector<br/>- PostgreSQL <br/>- Vault   | Vault can be replaced if you “bring your own” vault or secrets-manager solution.  |
 | **Digital Twin Bundle**   | - Digital Twin Registry (DTR)<br/>- PostgreSQL <br/> | DB can be replaced by your own DB solution.   |
 | **Semantic Model Bundle** | - Simple Submodel Server (aka simple-data-backend)   |   |
