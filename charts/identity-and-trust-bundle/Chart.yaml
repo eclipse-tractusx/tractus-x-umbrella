@@ -18,29 +18,15 @@
 # #############################################################################
 
 apiVersion: v2
-name: edc-bundle
+name: identity-and-trust-bundle
 description: |
-  EDC Bundle Chart for data transfer capabilities in Catena-X.
-  This bundle includes:
-  - Eclipse Dataspace Connector (EDC) v0.9.0
-  - PostgreSQL for EDC data storage
-  - HashiCorp Vault for secrets management
+  Helm chart for Capability Bundle: Identity and Trust
 
 type: application
 version: 1.0.0
 
 dependencies:
-  - name: tractusx-connector
-    version: 0.9.0
-    repository: https://eclipse-tractusx.github.io/charts/dev
-    condition: edc.enabled
-
-  - name: postgresql
-    version: 12.1.2
-    repository: https://charts.bitnami.com/bitnami
-    condition: postgresql.enabled
-
-  - name: vault
-    version: 0.24.0
-    repository: https://helm.releases.hashicorp.com
-    condition: vault.enabled
+  - name: ssi-dim-wallet-stub
+    version: 0.1.8
+    repository: "file://./charts/ssi-dim-wallet-stub"
+    condition: dimWalletStub.enabled

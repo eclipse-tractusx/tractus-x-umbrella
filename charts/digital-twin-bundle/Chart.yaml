@@ -20,11 +20,7 @@
 apiVersion: v2
 name: digital-twin-bundle
 description: |
-  Digital Twin Bundle Chart for Catena-X.
-  This bundle includes:
-  - Decentral DT Registry
-  - PostgreSQL for DT Registry data storage
-  - Digital Twin API services
+  Helm chart for Capability Bundle: Digital Twin
 
 type: application
 version: 1.0.0

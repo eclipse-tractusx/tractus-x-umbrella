@@ -43,7 +43,7 @@ edc:
     tractusx-connector:
       dataspace:
         connector:
-          name: "EDC Connector"
+          name: "Tractus-X EDC Connector"
       api:
         auth:
           key: "edc-api-key"

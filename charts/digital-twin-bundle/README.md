@@ -1,8 +1,8 @@
-# Digital Twin Bundle
+# Capability Bundle: Digital Twin
 
-The Digital Twin Bundle provides a complete solution for managing digital twins in the Catena-X ecosystem. It includes the Decentral DT Registry and its required dependencies.
+The Digital Twin Bundle provides a complete solution for managing digital twins in the Catena-X ecosystem. It includes the Digital Twin Registry and its required dependencies.
 
-For more information about the Digital Twin Registry check this documentation [Digital Twin Registry](https://github.com/eclipse-tractusx/sldt-digital-twin-registry/tree/main/charts/registry).
+For more information about the Digital Twin Registry check this documentation [Digital Twin Registry](https://github.com/eclipse-tractusx/sldt-digital-twin-registry/blob/main/charts/registry/README.md).
 
 ## Contributing
 

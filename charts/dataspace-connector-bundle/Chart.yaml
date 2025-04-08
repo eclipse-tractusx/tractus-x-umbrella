@@ -18,19 +18,25 @@
 # #############################################################################
 
 apiVersion: v2
-name: semantic-model-bundle
+name: dataspace-connector-bundle
 description: |
-  Semantic Model Bundle Chart for Catena-X.
-  This bundle includes:
-  - Submodel Mock
-  - Semantic Hub
-  - Semantic Model Registry
+  Helm chart for Capability Bundle: Dataspace Connector
 
 type: application
 version: 1.0.0
 
 dependencies:
-  - name: simple-data-backend
-    version: 0.1.0
+  - name: tractusx-connector
+    version: 0.9.0
     repository: https://eclipse-tractusx.github.io/charts/dev
-    condition: submodel-mock.enabled
+    condition: tractusx-connector.enabled
+
+  - name: postgresql
+    version: 12.1.2
+    repository: https://charts.bitnami.com/bitnami
+    condition: postgresql.enabled
+
+  - name: vault
+    version: 0.24.0
+    repository: https://helm.releases.hashicorp.com
+    condition: vault.enabled

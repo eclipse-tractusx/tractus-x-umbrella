@@ -18,19 +18,15 @@
 # #############################################################################
 
 apiVersion: v2
-name: identity-trust-bundle
+name: data-persitence-layer-bundle
 description: |
-  Identity & Trust Bundle Chart for Catena-X.
-  This bundle includes:
-  - Identity Wallet Mock
-  - OAuth2 Authorization Server
-  - Identity Provider Services
+  Helm chart for Capability Bundle: Data Persistence Layer
 
 type: application
 version: 1.0.0
 
 dependencies:
-  - name: ssi-dim-wallet-stub
-    version: 0.1.8
-    repository: "file://./charts/ssi-dim-wallet-stub"
-    condition: dimWalletStub.enabled
+  - name: simple-data-backend
+    version: 0.1.0
+    repository: https://eclipse-tractusx.github.io/charts/dev
+    condition: simple-data-backend.enabled

@@ -17,17 +17,17 @@
 # SPDX-License-Identifier: Apache-2.0
 # #############################################################################
 
-# Default values for identity-trust-bundle
+# Default values for identity-and-trust-bundle
 # This is a YAML-formatted file.
 
 # Enable/disable the entire bundle
 enabled: true
 
 # Identity Wallet Mock Configuration
-identity-wallet-mock:
+ssi-dim-wallet-stub:
   enabled: true
   image:
-    repository: eclipse-tractusx/identity-wallet-mock
+    repository: eclipse-tractusx/ssi-dim-wallet-stub
     tag: "1.0.0"
   service:
     type: ClusterIP
@@ -41,14 +41,14 @@ identity-wallet-mock:
       cpu: "500m"
   config:
     wallet:
-      didHost: "identity-wallet-mock"
-      stubUrl: "http://identity-wallet-mock"
+      didHost: "ssi-dim-wallet-stub"
+      stubUrl: "http://ssi-dim-wallet-stub"
       service:
         type: ClusterIP
         port: 80
     server:
       trustedIssuers:
-        - did:web:identity-wallet-mock:BPNL00000003CRHK
+        - did:web:ssi-dim-wallet-stub:BPNL00000003CRHK
 
 # OAuth2 Server Configuration
 oauth2-server:
