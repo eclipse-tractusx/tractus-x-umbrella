@@ -26,14 +26,7 @@ enabled: true
 ssi-dim-wallet-stub:
   enabled: false
   wallet:
-    replicaCount: 1
     host: ssi-dim-wallet-stub.tx.test
-    nameSpace: "identity-and-trust-bundle"
-    appName: "ssi-dim-wallet-stub"
-    configName: "ssi-dim-wallet-config"
-    serviceName: "ssi-dim-wallet-service"
-    secretName: "ssi-dim-wallet-secret"
-    ingressName: "ssi-dim-wallet-ingress"
     seeding:
       bpnList: "BPNL00000003AZQP,BPNL00000003AYRE"
     ingress:
@@ -44,18 +37,9 @@ ssi-dim-wallet-stub:
       urlPrefix: /
       className: nginx
       annotations: {}
-    swagger:
-      ui:
-        status: true
-      apiDoc:
-        status: true
-    logLevel: "debug"
-    environment: "default"
     baseWalletBpn: "BPNL00000003CRHK"
     didHost: "ssi-dim-wallet-stub.tx.test"
     stubUrl: "http://ssi-dim-wallet-stub.tx.test"
-    statusListVcId: "8a6c7486-1e1f-4555-bdd2-1a178182651e"
-    tokenExpiryTime: "5"
     portal:
       waitTime: "60"
       host: "http://portal-backend.tx.test"
@@ -64,8 +48,5 @@ ssi-dim-wallet-stub:
     keycloak:
       realm: "CX-Central"
       authServerUrl: "http://centralidp.tx.test/auth"
-    service:
-      type: ClusterIP
-      port: 8080
   keycloak:
     enabled: false
