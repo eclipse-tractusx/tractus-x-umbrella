@@ -17,68 +17,165 @@
 # SPDX-License-Identifier: Apache-2.0
 # #############################################################################
 
-# Default values for semantic-model-bundle
+# Default values for data-persistence-layer-bundle
 # This is a YAML-formatted file.
 
 # Enable/disable the entire bundle
 enabled: true
 
-# Submodel Mock Configuration
-submodel-mock:
+# BPDM Gate Configuration
+bpdm-gate:
   enabled: true
-  image:
-    repository: eclipse-tractusx/submodel-mock
-    tag: "0.4.0"
-  service:
-    type: ClusterIP
-    port: 8080
-  resources:
-    requests:
-      memory: "512Mi"
-      cpu: "250m"
-    limits:
-      memory: "1Gi"
-      cpu: "500m"
-  config:
-    submodel:
-      api:
-        baseUrl: "http://submodel-mock:8080"
-      persistence:
-        enabled: true
-        type: "memory"
+  postgres:
+    fullnameOverride: "bpdm-postgres"
+    nameOverride: "bpdm-postgres"
+  ingress:
+    enabled: true
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: "/$2"
+      nginx.ingress.kubernetes.io/use-regex: "true"
+      nginx.ingress.kubernetes.io/x-forwarded-prefix: "/gate"
+    hosts:
+      - host: "bpdm.example.org"
+        paths:
+          - path: "/gate(/|$)(.*)"
+            pathType: "ImplementationSpecific"
+  applicationConfig:
+    server:
+      forward-headers-strategy: "FRAMEWORK"
+    bpdm:
+      datasource:
+        host: "bpdm-postgres"
       security:
-        enabled: true
-        oauth2:
-          clientId: "submodel-mock-client"
-          clientSecret: "submodel-mock-secret"
-          tokenUrl: "http://identity-trust-bundle:8080/oauth/token"
+        auth-server-url: "http://keycloak.example.org/auth"
+        realm: "default"
+        client-id: "bpdm-gate"
+      client:
+        pool:
+          base-url: "http://bpdm.example.org/pool"
+          registration:
+            client-id: "bpdm-pool-client"
+        orchestrator:
+          base-url: "http://bpdm.example.org/orchestrator"
+          registration:
+            client-id: "bpdm-orchestrator-client"
+  applicationSecrets:
+    spring:
+      datasource:
+        password: "changeme"
+    bpdm:
+      client:
+        orchestrator:
+          registration:
+            client-secret: "changeme"
+        pool:
+          registration:
+            client-secret: "changeme"
 
-# Semantic Hub Configuration
-semantic-hub:
+# BPDM Pool Configuration
+bpdm-pool:
   enabled: true
-  image:
-    repository: eclipse-tractusx/semantic-hub
-    tag: "0.4.4"
+  postgres:
+    fullnameOverride: "bpdm-postgres"
+    nameOverride: "bpdm-postgres"
+  ingress:
+    enabled: true
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: "/$2"
+      nginx.ingress.kubernetes.io/use-regex: "true"
+      nginx.ingress.kubernetes.io/x-forwarded-prefix: "/pool"
+    hosts:
+      - host: "bpdm.example.org"
+        paths:
+          - path: "/pool(/|$)(.*)"
+            pathType: "ImplementationSpecific"
+  applicationConfig:
+    server:
+      forward-headers-strategy: "FRAMEWORK"
+    bpdm:
+      datasource:
+        host: "bpdm-postgres"
+      security:
+        auth-server-url: "http://keycloak.example.org/auth"
+        realm: "default"
+        client-id: "bpdm-pool"
+      client:
+        orchestrator:
+          base-url: "http://bpdm.example.org/orchestrator"
+          registration:
+            client-id: "bpdm-orchestrator-client"
+  applicationSecrets:
+    spring:
+      datasource:
+        password: "changeme"
+    bpdm:
+      client:
+        orchestrator:
+          registration:
+            client-secret: "changeme"
+
+# BPDM Orchestrator Configuration
+bpdm-orchestrator:
+  enabled: true
+  ingress:
+    enabled: true
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: "/$2"
+      nginx.ingress.kubernetes.io/use-regex: "true"
+      nginx.ingress.kubernetes.io/x-forwarded-prefix: "/orchestrator"
+    hosts:
+      - host: "bpdm.example.org"
+        paths:
+          - path: "/orchestrator(/|$)(.*)"
+            pathType: "ImplementationSpecific"
+  postgres:
+    enabled: false
+    fullnameOverride: "bpdm-postgres"
+  applicationConfig:
+    server:
+      forward-headers-strategy: "FRAMEWORK"
+    bpdm:
+      datasource:
+        host: "bpdm-postgres"
+      security:
+        auth-server-url: "http://keycloak.example.org/auth"
+        realm: "default"
+        client-id: "bpdm-orchestrator"
+  applicationSecrets:
+    spring:
+      datasource:
+        password: "changeme"
+
+# BPDM Cleaning Service Configuration
+bpdm-cleaning-service-dummy:
+  enabled: true
+  applicationConfig:
+    bpdm:
+      client:
+        orchestrator:
+          base-url: "http://bpdm.example.org/orchestrator"
+          provider:
+            issuer-uri: "http://keycloak.example.org/auth/realms/default"
+          registration:
+            client-id: "bpdm-cleaning-service"
+  applicationSecrets:
+    bpdm:
+      client:
+        orchestrator:
+          registration:
+            client-secret: "changeme"
+
+# PostgreSQL Configuration
+postgresql:
+  enabled: true
+  auth:
+    username: "bpdm"
+    password: "changeme"
+    database: "bpdm"
+  primary:
+    persistence:
+      enabled: true
+      size: "10Gi"
   service:
     type: ClusterIP
-    port: 8080
-  resources:
-    requests:
-      memory: "512Mi"
-      cpu: "250m"
-    limits:
-      memory: "1Gi"
-      cpu: "500m"
-  config:
-    hub:
-      api:
-        baseUrl: "http://semantic-hub:8080"
-      persistence:
-        enabled: true
-        type: "memory"
-      security:
-        enabled: true
-        oauth2:
-          clientId: "semantic-hub-client"
-          clientSecret: "semantic-hub-secret"
-          tokenUrl: "http://identity-trust-bundle:8080/oauth/token"
+    port: 5432

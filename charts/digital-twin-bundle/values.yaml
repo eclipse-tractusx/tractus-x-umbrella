@@ -23,15 +23,28 @@
 # Enable/disable the entire bundle
 enabled: true
 
-# DT Registry Configuration
-dt-registry:
+# Digital Twin Registry Configuration
+registry:
   enabled: true
   image:
-    repository: eclipse-tractusx/digital-twin-registry
-    tag: "0.6.2"
+    repository: "eclipse-tractusx/digital-twin-registry"
+    tag: "0.4.1"
   service:
     type: ClusterIP
     port: 8080
+  ingress:
+    enabled: true
+    className: "nginx"
+    annotations:
+      nginx.ingress.kubernetes.io/rewrite-target: "/$2"
+      nginx.ingress.kubernetes.io/use-regex: "true"
+      nginx.ingress.kubernetes.io/enable-cors: "true"
+    hosts:
+      - host: "dtr.example.org"
+        paths:
+          - path: "/registry(/|$)(.*)"
+            pathType: "ImplementationSpecific"
+    tls: []
   resources:
     requests:
       memory: "512Mi"
@@ -40,32 +53,29 @@ dt-registry:
       memory: "1Gi"
       cpu: "500m"
   config:
-    registry:
-      api:
-        baseUrl: "http://dt-registry:8080"
-      persistence:
-        type: "postgres"
-      security:
-        enabled: true
-        oauth2:
-          clientId: "dt-registry-client"
-          clientSecret: "dt-registry-secret"
-          tokenUrl: "http://identity-trust-bundle:8080/oauth/token"
+    oauth2:
+      clientId: "digital-twin-registry"
+      clientSecret: "changeme"
+      tokenUri: "http://example.org/auth/realms/default/protocol/openid-connect/token"
+    logging:
+      level: "INFO"
 
 # PostgreSQL Configuration
 postgresql:
   enabled: true
   auth:
-    username: dt
-    password: dt
+    username: "dt"
+    password: "changeme"
+    database: "digital_twin_registry"
   primary:
     persistence:
-      size: 10Gi
+      enabled: true
+      size: "10Gi"
   service:
     type: ClusterIP
     port: 5432
   config:
     postgresql:
-      database: postgresql
-      username: dt
-      password: dt
+      database: "digital_twin_registry"
+      username: "dt"
+      password: "changeme"

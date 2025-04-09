@@ -17,52 +17,104 @@
 # SPDX-License-Identifier: Apache-2.0
 # #############################################################################
 
-# Default values for edc-bundle
+# Default values for dataspace-connector-bundle
 # This is a YAML-formatted file.
 
 # Enable/disable the entire bundle
 enabled: true
 
-# EDC Configuration
-edc:
-  enabled: true
-  image:
-    repository: eclipse-tractusx/tractusx-connector
-    tag: "0.9.0"
-  service:
-    type: ClusterIP
-    port: 8181
-  resources:
-    requests:
-      memory: "512Mi"
-      cpu: "250m"
-    limits:
-      memory: "1Gi"
-      cpu: "500m"
-  config:
-    tractusx-connector:
-      dataspace:
-        connector:
-          name: "Tractus-X EDC Connector"
-      api:
-        auth:
-          key: "edc-api-key"
-      controlplane:
-        endpoint:
-          url: "http://edc-controlplane:8181"
-      dataplane:
-        endpoint:
-          url: "http://edc-dataplane:8182"
+# Installation options
+install:
+  # -- Deploying a PostgreSQL instance
+  postgresql: true
+  # -- Deploying a HashiCorp Vault instance
+  vault: true
+
+# Participant Configuration
+participant:
+  # -- Business Partner Number (BPN) for this participant
+  id: "BPNL00000003AYRE"
+
+# IATP (Identity and Trust Protocol) Configuration
+iatp:
+  # -- DID identifier for this participant
+  id: "did:web:example.org:BPNL00000003AYRE"
+  # -- List of trusted issuers' DIDs
+  trustedIssuers:
+    - "did:web:example.org:BPNL00000003CRHK"
+  # -- Security Token Service configuration
+  sts:
+    dim:
+      # -- DIM STS endpoint URL
+      url: "http://example.org/api/sts"
+    oauth:
+      # -- OAuth2 token endpoint URL
+      token_url: "http://example.org/oauth/token"
+      client:
+        # -- OAuth2 client ID (should match participant ID)
+        id: "BPNL00000003AYRE"
+        # -- Secret alias for the wallet
+        secret_alias: "edc-wallet-secret"
+
+# Control Plane Configuration
+controlplane:
+  env:
+    # -- Credential service URL
+    TX_IAM_IATP_CREDENTIALSERVICE_URL: "http://example.org/api"
+    # -- Disable HTTPS for DID Web (development only)
+    EDC_IAM_DID_WEB_USE_HTTPS: false
+  bdrs:
+    server:
+      # -- Business Directory Service URL
+      url: "http://example.org/api/v1/directory"
+  endpoints:
+    management:
+      # -- Authentication key for management API
+      authKey: "changeme"
+  ingresses:
+    - enabled: true
+      hostname: "controlplane.example.org"
+      endpoints:
+        - default
+        - protocol
+        - management
+      className: "nginx"
+      tls:
+        enabled: false
+
+# Data Plane Configuration
+dataplane:
+  env:
+    # -- Credential service URL
+    TX_IAM_IATP_CREDENTIALSERVICE_URL: "http://example.org/api"
+    # -- Disable HTTPS for DID Web (development only)
+    EDC_IAM_DID_WEB_USE_HTTPS: false
+  ingresses:
+    - enabled: true
+      hostname: "dataplane.example.org"
+      endpoints:
+        - default
+        - public
+      className: "nginx"
+      tls:
+        enabled: false
+  token:
+    signer:
+      privatekey_alias: "tokenSignerPrivateKey"
+    verifier:
+      publickey_alias: "tokenSignerPublicKey"
 
 # PostgreSQL Configuration
 postgresql:
   enabled: true
   auth:
-    username: edc
-    password: edc
+    username: "edc"
+    password: "changeme"
+    database: "edc"
   primary:
     persistence:
-      size: 10Gi
+      enabled: true
+      size: "10Gi"
   service:
     type: ClusterIP
     port: 5432
@@ -73,6 +125,12 @@ vault:
   server:
     standalone:
       enabled: true
+    dev:
+      enabled: false
   service:
     type: ClusterIP
     port: 8200
+  secretNames:
+    transferProxyTokenSignerPrivateKey: "tokenSignerPrivateKey"
+    transferProxyTokenSignerPublicKey: "tokenSignerPublicKey"
+    transferProxyTokenEncryptionAesKey: "tokenEncryptionAesKey"
