@@ -538,6 +538,82 @@ Every instance must maintain its own unique set of Kubernetes resources, ensurin
 To ensure interoperability, the [Tractus-X Release Guidelines](https://eclipse-tractusx.github.io/docs/release/) are followed and [Catena-X standards](https://catenax-ev.github.io/docs/standards/overview) are understood and applied.  
 Additionally, the existing functionality of the Umbrella Chart must be kept and verified to work.
 
+### 4.2.2.1 Reduction of Complexity in the Deployment Process
+
+#### 1. Standardization of Bundle Configuration
+
+Goal: Make "Bring-Your-Own" components easier to configure
+Each chart should provide clear default values for all optional components (e.g. postgresql.enabled=false, external.postgresql.url=...).
+
+Clearly mark all BYO-related config sections in values.yaml, like:
+
+```yaml
+# === Bring Your Own ===
+postgresql:
+  enabled: false
+  external:
+    host: my-own-db
+    port: 5432
+````
+Out of scope: Use central _helpers.tpl functions to standardize naming conventions across all charts. (technical feasability needs to be evaluated)
+
+
+#### 2. Automated Validation & Linting in CI
+
+Goal: Increase robustness & transparency
+
+Extend umbrella chart workflow with:
+* helm lint on subcharts and umbrella chart
+* helm template + kubeval for static validation
+* tests with both minimal and BYO configurations
+
+Example (GitHub Action or GitLab CI): yaml
+
+```
+script:
+  - helm lint charts/*
+  - helm template charts/my-bundle | kubeval
+````
+#### 3. CLI or Script Support for Custom Deployments
+
+Goal: Improve usability & reduce user error
+
+Create a simple CLI tool (e.g., Bash, Python, Go) that:
+* Loads environment variables
+* Generates values.yaml files from templates
+* Triggers the Helm deployment
+
+**Warning:** technical feasability needs to be evaluated
+
+#### 4. Dynamic Naming for Multiple Deployments
+
+Goal: Enable scalability
+
+Use a deploymentName prefix in templates: yaml
+
+```
+name: {{ .Values.deploymentName }}-edc
+````
+
+This allows deploying multiple instances of the same bundle in one cluster: bash
+
+```
+helm install edc-a . --set deploymentName=edc-a
+helm install edc-b . --set deploymentName=edc-b
+````
+
+**Warning:** technical feasability needs to be evaluated
+
+#### 5. Documentation & Visibility
+
+Goal: Transparency for users
+
+Structured README per bundle:
+* What is optional?
+* What must be configured?
+* How to replace a component with BYO?
+* Include tables listing supported overrides (Markdown or auto-generated)
+
 ## 4.4 System
 
 ### 4.4.1 Context Delimitation / 4.4.2 Interface Documentation
