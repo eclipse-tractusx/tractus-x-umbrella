@@ -22,6 +22,17 @@ The currently available components are following:
 - [bpdm](https://github.com/eclipse-tractusx/bpdm/tree/release/6.2.x)
 - [ssi-dim-wallet-stub](https://github.com/eclipse-tractusx/ssi-dim-wallet-stub/releases/tag/ssi-dim-wallet-stub-0.1.2)
 
+## Auxiliary components
+
+The currently available auxiliary components are following:
+
+- [pgadmin4](https://artifacthub.io/packages/helm/runix/pgadmin4/1.25.0)
+- [opentelemetry-collector](https://github.com/open-telemetry/opentelemetry-helm-charts/tree/opentelemetry-collector-0.90.0)
+- [jaeger](https://github.com/jaegertracing/helm-charts/tree/jaeger-3.0.7)
+- [prometheus](https://github.com/prometheus-community/helm-charts/tree/prometheus-27.1.08)
+- [grafana](https://github.com/grafana/helm-charts/tree/grafana-8.10.1)
+- [loki](https://github.com/grafana/loki/tree/helm-loki-6.27.0)
+
 > :warning: **Note**
 >
 > Please be aware of [Note for R24.05](/docs/user/note-r2405-onwards)
