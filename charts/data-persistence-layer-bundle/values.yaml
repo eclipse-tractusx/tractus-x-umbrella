@@ -17,26 +17,19 @@
 # SPDX-License-Identifier: Apache-2.0
 # #############################################################################
 
-# Default values for digital-twin-bundle
+# Default values for data-persistence-layer-bundle
 # This is a YAML-formatted file.
 
 # Enable/disable the entire bundle
 enabled: true
 
-digital-twin-registry:
-  nameOverride: dataprovider-dtr
-  enablePostgres: false
-  registry:
-    host: dataprovider-dtr.test
-
-# PostgreSQL Configuration
-postgresql:
-  enabled: true
-  auth:
-    username: "dt"
-    password: "changeme"
-    database: "digital_twin_registry"
-  primary:
-    persistence:
-      enabled: true
-      size: "10Gi"
+simple-data-backend:
+  nameOverride: dataprovider-submodelserver
+  ingress:
+    enabled: true
+    className: "nginx"
+    hosts:
+      - host: "dataprovider-submodelserver.tx.test"
+        paths:
+          - path: "/"
+            pathType: "Prefix"

@@ -25,12 +25,11 @@ enabled: true
 
 # SSI DIM Wallet Configuration
 ssi-dim-wallet-stub:
-  enabled: true
+  enabled: false
   wallet:
     replicaCount: 1
-    host: "wallet.example.org"
-    nameSpace: "identity-trust"
-    appName: "ssi-dim-wallet"
+    host: ssi-dim-wallet-stub.tx.test
+    appName: "ssi-dim-wallet-stub"
     configName: "ssi-dim-wallet-config"
     serviceName: "ssi-dim-wallet-service"
     secretName: "ssi-dim-wallet-secret"
@@ -41,8 +40,9 @@ ssi-dim-wallet-stub:
       enabled: true
       tls:
         enabled: false
-      urlPrefix: "/"
-      className: "nginx"
+        name: ""
+      urlPrefix: /
+      className: nginx
       annotations: {}
     swagger:
       ui:
@@ -52,44 +52,20 @@ ssi-dim-wallet-stub:
     logLevel: "debug"
     environment: "default"
     baseWalletBpn: "BPNL00000003CRHK"
-    didHost: "wallet.example.org"
-    stubUrl: "http://wallet.example.org"
+    didHost: "ssi-dim-wallet-stub.tx.test"
+    stubUrl: "http://ssi-dim-wallet-stub.tx.test"
     statusListVcId: "8a6c7486-1e1f-4555-bdd2-1a178182651e"
     tokenExpiryTime: "5"
     portal:
       waitTime: "60"
-      host: "http://portal.example.org"
-      clientId: "wallet-client"
+      host: "http://portal-backend.tx.test"
+      clientId: "sa-cl2-05"
       clientSecret: "changeme"
     keycloak:
-      enabled: true
-      realm: "default"
-      authServerUrl: "http://keycloak.example.org/auth"
+      realm: "CX-Central"
+      authServerUrl: "http://centralidp.tx.test/auth"
     service:
       type: ClusterIP
       port: 8080
-
-# Keycloak Configuration
-keycloak:
-  enabled: true
-  postgresql:
-    enabled: true
-    architecture: standalone
-    primary:
-      persistence:
-        enabled: true
-        size: "10Gi"
-    auth:
-      username: "keycloak"
-      password: "changeme"
-      database: "keycloak"
-  auth:
-    adminUser: "admin"
-    adminPassword: "changeme"
-  service:
-    type: ClusterIP
-    port: 8080
-  ingress:
-    enabled: true
-    className: "nginx"
-    hostname: "keycloak.example.org"
+  keycloak:
+    enabled: false
