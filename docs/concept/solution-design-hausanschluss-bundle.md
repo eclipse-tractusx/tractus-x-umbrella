@@ -12,19 +12,21 @@
   * [1.7. Success Criteria](#17-success-criteria)
   * [1.8. Out of Scope](#18-out-of-scope)
 * [2 Requirements Analysis](#2-requirements-analysis)
-  * [2.1 Assumptions](#21-assumptions)
-  * [2.2 Requirements Catalog](#22-requirements-catalog)
+  * [2.1 Requirements Catalog](#21-requirements-catalog)
 * [3 AS-IS Analysis](#3-as-is-analysis)
   * [3.1 People](#31-people)
     * [3.1.1 Target Group Analysis](#311-target-group-analysis)
   * [3.2 Process](#32-process)
     * [3.2.1 Use Case View (high-level)](#321-use-case-view-high-level)
-  * [3.4 System](#34-system)
-    * [3.4.1 Context Delimitation](#341-context-delimitation)
+  * [3.3 System](#33-system)
+    * [3.3.1 Context Delimitation](#331-context-delimitation)
       * [Existing Umbrella Chart Structure](#existing-umbrella-chart-structure)
 * [4 TO-BE Design](#4-to-be-design)
   * [4.1 People](#41-people)
     * [4.1.1 Target Group Analysis](#411-target-group-analysis)
+      * [Scope: Umbrella HELM Charts](#scope-umbrella-helm-charts)
+      * [Out of Scope:](#out-of-scope)
+      * [Primary target groups:](#primary-target-groups)
   * [4.2 Process](#42-process)
     * [4.2.1 Use Case View (high-level)](#421-use-case-view-high-level)
       * [Group 1: Product developer](#group-1-product-developer)
@@ -41,8 +43,15 @@
       * [Bring your own](#bring-your-own)
       * [Scalability](#scalability)
       * [Interoperability](#interoperability)
-  * [4.4 System](#44-system)
-    * [4.4.1 Context Delimitation / 4.4.2 Interface Documentation](#441-context-delimitation--442-interface-documentation)
+    * [4.2.2.1 Reduction of Complexity in the Deployment Process](#4221-reduction-of-complexity-in-the-deployment-process)
+      * [1. Standardization of Bundle Configuration](#1-standardization-of-bundle-configuration)
+      * [2. Automated Validation & Linting in CI](#2-automated-validation--linting-in-ci)
+      * [3. Reduction of configuration steps](#3-reduction-of-configuration-steps)
+      * [4. CLI or Script Support for Custom Deployments](#4-cli-or-script-support-for-custom-deployments)
+      * [5. Dynamic Naming for Multiple Deployments](#5-dynamic-naming-for-multiple-deployments)
+      * [6. Documentation & Visibility](#6-documentation--visibility)
+  * [4.3 System](#43-system)
+    * [4.3.1 Context Delimitation / 4.3.2 Interface Documentation](#431-context-delimitation--432-interface-documentation)
 * [5 Build](#5-build)
   * [5.1 DevOps Setup Definition](#51-devops-setup-definition)
     * [5.1.1 Tool Chain Definition](#511-tool-chain-definition)
@@ -71,7 +80,8 @@ addresses the need to:
 
 - **Reduce Complexity:** Simplify the deployment topology by bundling components into capabilities.
 - **Automate Deployment:** Provide an automated installation package using Kubernetes and HELM.
-- **Minimize Configuration Overhead:** Streamline the integration process by providing pre-configured bundles that require only minimal manual parameter adjustments.
+- **Minimize Configuration Overhead:** Streamline the integration process by providing pre-configured bundles that
+  require only minimal manual parameter adjustments.
 - **Extend Documentation:** Provide a detailed documentation tailored to the target groups.
 - **Enable Extension:** Design the system to allow the seamless addition of new components or capabilities.
 
@@ -81,8 +91,8 @@ addresses the need to:
   automation.
 - **Ensure Modularity:** Structure the bundle so that components can be independently installed, updated, or replaced
   without affecting other services.
-- **Facilitate Flexibility:** Implement a "bring your own" model for key components, such as EDC, PostgreSQL, and HashiCorp
-  Vault, to allow tailored deployments that meet specific needs.
+- **Facilitate Flexibility:** Implement a "bring your own" model for key components, such as EDC, PostgreSQL, and
+  HashiCorp Vault, to allow tailored deployments that meet specific needs.
 - **Increase Accessibility**: Lower entry barriers for new participants by reducing technical complexity and operational
   dependencies.
 - **Scalability:** Structure the bundles so that they can be deployed multiple times.
@@ -110,7 +120,8 @@ addresses the need to:
 
 ## 1.7. Success Criteria
 
-- **Technology Readiness Level:** Achievement of a Technology Readiness Level (TRL) of 3, as specified in the requirements.
+- **Technology Readiness Level:** Achievement of a Technology Readiness Level (TRL) of 3, as specified in the
+  requirements.
 - **Functional PoC Deployment:** Demonstrated automated, modular installation with reduced manual steps.
 - **Simplified Configuration:** Clear evidence of reduced configuration complexity.
 - **Positive Feedback:** End-user validation from a select group of demo participants and the Tractus-X community.
@@ -121,14 +132,12 @@ addresses the need to:
 - **Full Production Readiness:** This PoC is not intended to be a production-ready solution.
 - **Core Services Exclusion:** Core services are not part of the Hausanschluss Bundles.
 - **App Provider Role:** The role of App Provider is considered out of scope for this deployment.
-- **Alternative Deployment Techniques:** While the evaluation of alternative deployment methods is acknowledged, the primary
-  focus remains on Kubernetes and HELM-based deployment.
+- **Alternative Deployment Techniques:** While the evaluation of alternative deployment methods is acknowledged, the
+  primary focus remains on Kubernetes and HELM-based deployment.
 
 # 2 Requirements Analysis
 
-## 2.1 Assumptions
-
-## 2.2 Requirements Catalog
+## 2.1 Requirements Catalog
 
 | ID             | Requirement                                                                                                                                                                                                                                                                                                                                          | Description                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | Deliverables / Acceptance Criteria                                                                                                                                                                                                                                                                                                                                                                                   |
 |----------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -177,9 +186,9 @@ Umbrella Chart is intended for the following Use Cases:
 | Product Tester    | Testing: Run end-to-end tests for Catena-X services.                                                 |
 | Product Manager   | Evaluate the dataspace to assess if their product can be used within Catena-X.                       |
 
-## 3.4 System
+## 3.3 System
 
-### 3.4.1 Context Delimitation
+### 3.3.1 Context Delimitation
 
 #### Existing Umbrella Chart Structure
 
@@ -233,6 +242,7 @@ flowchart
 ### 4.1.1 Target Group Analysis
 
 Overall data space roles:
+
 - [Collaboration & Roles](https://catena-x.net/ecosystem/collaboration-roles/)
 - [Who: Roles in the Catena-X ecosystem](https://catenax-ev.github.io/docs/operating-model/who-roles-in-the-catena-x-ecosystem)
 
@@ -242,14 +252,16 @@ The relevant data space roles are:
 - Data Provider
 - Enablement Service Provider
 
-Scope: Umbrella HELM Charts
+#### Scope: Umbrella HELM Charts
 
 - Enablement Services: These services are included under the umbrella of HELM charts, focusing on enabling
   functionalities.
 
-Out of Scope: Core services such as Portal or BPDM are not considered within this scope.
+#### Out of Scope:
 
-Primary target groups:
+Core services such as Portal or BPDM are not considered within this scope.
+
+#### Primary target groups:
 
 | No. | Target group                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   | Data space roles                                                    | Target group differentiation                                                                                                                                                                                                                                                                            | Behaviour, Needs, Pains & Usage                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      |
 |-----|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -359,11 +371,11 @@ Why this structure was proposed:
    for credential management, etc.). This clarity also helps new adopters navigate the ecosystem.
 
 | **Capability Bundle**     | **Default Components**                               | **Comments / Possible Replacements**                                             |
-|---------------------------|------------------------------------------------------|-----------------------------------------------------------------------------------|
+|---------------------------|------------------------------------------------------|----------------------------------------------------------------------------------|
 | **Identity Trust Bundle** | - ssi-dim-wallet-stub                                | Can be replaced by your own Identity Wallet.                                     |
-| **EDC Bundle**            | - tractusx-connector<br/>- PostgreSQL <br/>- Vault   | Vault can be replaced if you “bring your own” vault or secrets-manager solution.  |
-| **Digital Twin Bundle**   | - Digital Twin Registry (DTR)<br/>- PostgreSQL <br/> | DB can be replaced by your own DB solution.   |
-| **Semantic Model Bundle** | - Simple Submodel Server (aka simple-data-backend)   |   |
+| **EDC Bundle**            | - tractusx-connector<br/>- PostgreSQL <br/>- Vault   | Vault can be replaced if you “bring your own” vault or secrets-manager solution. |
+| **Digital Twin Bundle**   | - Digital Twin Registry (DTR)<br/>- PostgreSQL <br/> | DB can be replaced by your own DB solution.                                      |
+| **Semantic Model Bundle** | - Simple Submodel Server (aka simple-data-backend)   |                                                                                  |
 
 ````mermaid
 %%{init: {"flowchart": {"subGraphTitleMargin": { "bottom": 10}}}}%%
@@ -418,7 +430,8 @@ flowchart LR
 
 ##### Role: Data Provider
 
-The standard data provider role consists of an EDC, DTR and Submodel Server Bundles. EDC uses the Identity Wallet Bundle.
+The standard data provider role consists of an EDC, DTR and Submodel Server Bundles. EDC uses the Identity Wallet
+Bundle.
 
 ````mermaid
 flowchart BT
@@ -427,7 +440,7 @@ flowchart BT
     C["Capability Bundle: Dataspace Connector"]
     D["Capability Bundle: Digital Twin"]
     E("Application to be tested/developed")
-    style E fill:#afafaf,color:black
+    style E fill: #afafaf, color: black
     F{{"Developer/Tester"}}
     E --> B
     E --> C
@@ -445,7 +458,7 @@ flowchart BT
     A["Capability Bundle: Identity & Trust"]
     B["Capability Bundle: Dataspace Connector"]
     C("Application to be tested/developed")
-    style C fill:#afafaf,color:black
+    style C fill: #afafaf, color: black
     D{{"Developer/Tester"}}
     C --> B
     B --> A
@@ -462,7 +475,7 @@ flowchart BT
     A["Capability Bundle: Identity & Trust"]
     B["Capability Bundle: Data Persistence Layer"]
     C("Application to be tested/developed")
-    style C fill:#afafaf,color:black
+    style C fill: #afafaf, color: black
     D["Capability Bundle: Digital Twin"]
     E["Capability Bundle: Dataspace Connector (Provider)"]
     F["Capability Bundle: Dataspace Connector (Consumer)"]
@@ -486,7 +499,7 @@ In this example this would be the configuration of the Identity Wallet within th
 ````mermaid
 flowchart BT
     A("Application to be tested/developed")
-    style A fill:#afafaf,color:black
+    style A fill: #afafaf, color: black
     B["Capability Bundle: Dataspace Connector"]
     C["<s>Capability Bundle: Identity & Trust</s>"]
     D["Own Identity Wallet"]
@@ -497,10 +510,12 @@ flowchart BT
     E --> A
 ````
 
-Using a "bring-your-own" component requires additional configuration. In this case, the identity wallet has to be configured in the EDC configuration section.
+Using a "bring-your-own" component requires additional configuration. In this case, the identity wallet has to be
+configured in the EDC configuration section.
 
 Replacing existing Charts with your own solution is not limited to the direct components of the Capability Bundles.  
-This also applies to the dependencies of the bundles which e.g. allows the user to choose another way of provisioning a database.
+This also applies to the dependencies of the bundles which e.g. allows the user to choose another way of provisioning a
+database.
 
 Components which can be replaced are:
 
@@ -515,35 +530,40 @@ Components which can be replaced are:
 - Capability Bundle: Data Persistence Layer
     - simple-data-backend
 
-To make configuration of "bring-your-own" components easier, the bundle config has to highlight which values are 
+To make configuration of "bring-your-own" components easier, the bundle config has to highlight which values are
 related to which dependency and what to change, if the components should be replaced:
 
 ```yaml
 digital-twin-registry:
   registry:
     dataSource:
-      # replace this when using your own database
-      # url: 
-      # user: 
-      # password: 
+    # replace this when using your own database
+    # url: 
+    # user: 
+    # password: 
 ```
 
 #### Scalability
 
-It is essential that the deployment of each bundle is entirely independent, allowing the same bundle to be deployed multiple times.
-Every instance must maintain its own unique set of Kubernetes resources, ensuring there is no overlap or shared dependencies between different deployments.
+It is essential that the deployment of each bundle is entirely independent, allowing the same bundle to be deployed
+multiple times.  
+Every instance must maintain its own unique set of Kubernetes resources, ensuring there is no overlap or shared
+dependencies between different deployments.
 
 #### Interoperability
 
-To ensure interoperability, the [Tractus-X Release Guidelines](https://eclipse-tractusx.github.io/docs/release/) are followed and [Catena-X standards](https://catenax-ev.github.io/docs/standards/overview) are understood and applied.  
+To ensure interoperability, the [Tractus-X Release Guidelines](https://eclipse-tractusx.github.io/docs/release/) are
+followed and [Catena-X standards](https://catenax-ev.github.io/docs/standards/overview) are understood and applied.  
 Additionally, the existing functionality of the Umbrella Chart must be kept and verified to work.
 
 ### 4.2.2.1 Reduction of Complexity in the Deployment Process
 
 #### 1. Standardization of Bundle Configuration
 
-Goal: Make "Bring-Your-Own" components easier to configure
-Each chart should provide clear default values for all optional components (e.g. postgresql.enabled=false, external.postgresql.url=...).
+**Goal: Make "Bring-Your-Own" components easier to configure**
+
+Each chart should provide clear default values for all optional components (e.g. `postgresql.enabled=false`,
+`external.postgresql.url=...`).
 
 Clearly mark all BYO-related config sections in values.yaml, like:
 
@@ -555,70 +575,87 @@ postgresql:
     host: my-own-db
     port: 5432
 ````
-Out of scope: Use central _helpers.tpl functions to standardize naming conventions across all charts. (technical feasability needs to be evaluated)
 
+**Out of scope:**
+
+Usage of central _helpers.tpl functions to standardize naming conventions across all charts. _(Helper functions can not
+be used as templates of 3rd party HELM charts can not be modified or extended)_
 
 #### 2. Automated Validation & Linting in CI
 
-Goal: Increase robustness & transparency
+**Goal: Increase robustness & transparency**
 
 Extend umbrella chart workflow with:
+
 * helm lint on subcharts and umbrella chart
-* helm template + kubeval for static validation
-* tests with both minimal and BYO configurations
+* automated ci tests with minimal configuration
 
-Example (GitHub Action or GitLab CI): yaml
+Example (GitHub Action or GitLab CI):
 
-```
-script:
-  - helm lint charts/*
-  - helm template charts/my-bundle | kubeval
+```yaml
+- run: ct lint --charts charts/my-bundle
+- run: ct install --charts charts/my-bundle
 ````
-#### 3. CLI or Script Support for Custom Deployments
 
-Goal: Improve usability & reduce user error
+#### 3. Reduction of configuration steps
+
+**Goal: Simplify deployment by minimizing manual configuration.**
+
+The Helm Charts provided for the components in the Capability Bundles offer extensive configuration options, which can
+be overwhelming when deploying for test or development purposes. By applying a pre-configuration that omits default
+values, the Bundles streamline their values.yaml files to display only the essential properties that require attention.
+
+This approach not only enhances the readability of the configuration but also clearly indicates what needs to be set.
+Supplementary documentation further clarifies the necessary configuration options and their corresponding values.
+
+#### 4. CLI or Script Support for Custom Deployments
+
+**Goal: Improve usability & reduce user error**
 
 Create a simple CLI tool (e.g., Bash, Python, Go) that:
+
 * Loads environment variables
 * Generates values.yaml files from templates
 * Triggers the Helm deployment
 
-**Warning:** technical feasability needs to be evaluated
+**Warning:** technical feasibility needs to be evaluated
 
-#### 4. Dynamic Naming for Multiple Deployments
+#### 5. Dynamic Naming for Multiple Deployments
 
-Goal: Enable scalability
+**Goal: Enable scalability**
 
-Use a deploymentName prefix in templates: yaml
+Use the chart installation name as prefix when the chart allows templating of values:
 
+```yaml
+name: {{ .Release.Name }}-edc
 ```
-name: {{ .Values.deploymentName }}-edc
-````
 
-This allows deploying multiple instances of the same bundle in one cluster: bash
+This allows deploying multiple instances of the same bundle in one cluster:
 
+```bash
+helm install edc-a .
+helm install edc-b .
 ```
-helm install edc-a . --set deploymentName=edc-a
-helm install edc-b . --set deploymentName=edc-b
-````
 
-**Warning:** technical feasability needs to be evaluated
+**Warning:** This is only possible if the Helm Chart supports templating for the specific property.
 
-#### 5. Documentation & Visibility
+#### 6. Documentation & Visibility
 
-Goal: Transparency for users
+**Goal: Transparency for users**
 
 Structured README per bundle:
+
 * What is optional?
 * What must be configured?
 * How to replace a component with BYO?
 * Include tables listing supported overrides (Markdown or auto-generated)
 
-## 4.4 System
+## 4.3 System
 
-### 4.4.1 Context Delimitation / 4.4.2 Interface Documentation
+### 4.3.1 Context Delimitation / 4.3.2 Interface Documentation
 
-Interactions between an Application acting as Dataprovider or Dataconsumer and the Services which are part of the different Capability Bundles.
+Interactions between an Application acting as Dataprovider or Dataconsumer and the Services which are part of the
+different Capability Bundles.
 
 ````mermaid
 flowchart LR
