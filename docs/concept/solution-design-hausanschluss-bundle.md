@@ -370,12 +370,12 @@ Why this structure was proposed:
    architectural vision. It’s clear which domain each set of microservices belongs to (EDC for data exchange, identity
    for credential management, etc.). This clarity also helps new adopters navigate the ecosystem.
 
-| **Capability Bundle**     | **Default Components**                               | **Comments / Possible Replacements**                                             |
-|---------------------------|------------------------------------------------------|----------------------------------------------------------------------------------|
-| **Identity Trust Bundle** | - ssi-dim-wallet-stub                                | Can be replaced by your own Identity Wallet.                                     |
-| **EDC Bundle**            | - tractusx-connector<br/>- PostgreSQL <br/>- Vault   | Vault can be replaced if you “bring your own” vault or secrets-manager solution. |
-| **Digital Twin Bundle**   | - Digital Twin Registry (DTR)<br/>- PostgreSQL <br/> | DB can be replaced by your own DB solution.                                      |
-| **Semantic Model Bundle** | - Simple Submodel Server (aka simple-data-backend)   |                                                                                  |
+| **Capability Bundle**             | **Default Components**                               | **Comments / Possible Replacements**                                             |
+|-----------------------------------|------------------------------------------------------|-----------------------------------------------------------------------------------|
+| **Identity and Trust bundle**     | - ssi-dim-wallet-stub                                | Can be replaced by your own Identity Wallet.                                     |
+| **Dataspace connector bundle**    | - Tractusx connector<br/>- PostgreSQL <br/>- Vault   | Vault can be replaced if you “bring your own” vault or secrets-manager solution.  |
+| **Digital twin bundle**           | - Digital Twin Registry (DTR)<br/>- PostgreSQL <br/> | DB can be replaced by your own DB solution.   |
+| **Data persistence layer bundle** | - Simple data backend                                |   |
 
 ````mermaid
 %%{init: {"flowchart": {"subGraphTitleMargin": { "bottom": 10}}}}%%
