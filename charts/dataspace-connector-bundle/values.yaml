@@ -32,20 +32,15 @@ tractusx-connector:
 
   # Participant Configuration
   participant:
-    # -- Business Partner Number (BPN) for this participant
-    id: "BPNL00000003AYRE"
+    id: BPNL00000003AZQP
 
   # IATP (Identity and Trust Protocol) Configuration
   iatp:
-    # -- DID identifier for this participant
-    id: "did:web:example.org:BPNL00000003AYRE"
-    # -- List of trusted issuers' DIDs
+    id: did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003AZQP
     trustedIssuers:
-      - "did:web:example.org:BPNL00000003CRHK"
-    # -- Security Token Service configuration
+      - did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003CRHK
     sts:
       dim:
-        # -- DIM STS endpoint URL
         url: http://ssi-dim-wallet-stub.tx.test/api/sts
       oauth:
         token_url: http://ssi-dim-wallet-stub.tx.test/oauth/token
@@ -56,21 +51,17 @@ tractusx-connector:
   # Control Plane Configuration
   controlplane:
     env:
-      # -- Credential service URL
-      TX_IAM_IATP_CREDENTIALSERVICE_URL: "http://example.org/api"
-      # -- Disable HTTPS for DID Web (development only)
+      TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-stub.tx.test/api
       EDC_IAM_DID_WEB_USE_HTTPS: false
     bdrs:
       server:
-        # -- Business Directory Service URL
-        url: "http://example.org/api/v1/directory"
+        url: http://ssi-dim-wallet-stub.tx.test/api/v1/directory
     endpoints:
       management:
-        # -- Authentication key for management API
-        authKey: "changeme"
+        authKey: TEST1
     ingresses:
       - enabled: true
-        hostname: "controlplane.example.org"
+        hostname: "dataconsumer-1-controlplane.tx.test"
         endpoints:
           - default
           - protocol
@@ -82,13 +73,11 @@ tractusx-connector:
   # Data Plane Configuration
   dataplane:
     env:
-      # -- Credential service URL
-      TX_IAM_IATP_CREDENTIALSERVICE_URL: "http://example.org/api"
-      # -- Disable HTTPS for DID Web (development only)
+      TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-stub.tx.test/api
       EDC_IAM_DID_WEB_USE_HTTPS: false
     ingresses:
       - enabled: true
-        hostname: "dataplane.example.org"
+        hostname: "dataconsumer-1-dataplane.tx.test"
         endpoints:
           - default
           - public
@@ -97,9 +86,15 @@ tractusx-connector:
           enabled: false
     token:
       signer:
-        privatekey_alias: "tokenSignerPrivateKey"
+        privatekey_alias: tokenSignerPrivateKey
       verifier:
-        publickey_alias: "tokenSignerPublicKey"
+        publickey_alias: tokenSignerPublicKey
+  postgresql:
+    jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-dataspace-connector-db:5432/edc"
+    auth:
+      database: "edc"
+      username: "user"
+      password: "password"
 
 
 
@@ -108,16 +103,13 @@ postgresql:
   nameOverride: dataspace-connector-db
   enabled: true
   auth:
-    username: "edc"
-    password: "changeme"
     database: "edc"
+    username: "user"
+    password: "password"
   primary:
     persistence:
-      enabled: true
+      enabled: false
       size: "10Gi"
-  service:
-    type: ClusterIP
-    port: 5432
 
 # Vault Configuration
 vault:
@@ -126,8 +118,4 @@ vault:
     standalone:
       enabled: true
     dev:
-      enabled: false
-  secretNames:
-    transferProxyTokenSignerPrivateKey: "tokenSignerPrivateKey"
-    transferProxyTokenSignerPublicKey: "tokenSignerPublicKey"
-    transferProxyTokenEncryptionAesKey: "tokenEncryptionAesKey"
+      enabled: true
