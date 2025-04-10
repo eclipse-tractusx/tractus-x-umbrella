@@ -242,12 +242,14 @@ The relevant data space roles are:
 - Data Provider
 - Enablement Service Provider
 
-Scope: Umbrella HELM Charts
+#### Scope: Umbrella HELM Charts
 
 - Enablement Services: These services are included under the umbrella of HELM charts, focusing on enabling
   functionalities.
 
-Out of Scope: Core services such as Portal or BPDM are not considered within this scope.
+##### Out of Scope: 
+
+Core services such as Portal or BPDM are not considered within this scope.
 
 Primary target groups:
 
@@ -542,7 +544,9 @@ Additionally, the existing functionality of the Umbrella Chart must be kept and 
 
 #### 1. Standardization of Bundle Configuration
 
-Goal: Make "Bring-Your-Own" components easier to configure
+#### Goal: 
+
+Make "Bring-Your-Own" components easier to configure
 Each chart should provide clear default values for all optional components (e.g. postgresql.enabled=false, external.postgresql.url=...).
 
 Clearly mark all BYO-related config sections in values.yaml, like:
@@ -555,7 +559,9 @@ postgresql:
     host: my-own-db
     port: 5432
 ````
-Out of scope: Use central _helpers.tpl functions to standardize naming conventions across all charts. (technical feasability needs to be evaluated)
+
+#### Out of scope: 
+* Usage of central _helpers.tpl functions to standardize naming conventions across all charts. _(Helper functions could not be applied as templates of 3rd party HELM charts could not be modified or extendes)_
 
 
 #### 2. Automated Validation & Linting in CI
@@ -564,8 +570,7 @@ Goal: Increase robustness & transparency
 
 Extend umbrella chart workflow with:
 * helm lint on subcharts and umbrella chart
-* helm template + kubeval for static validation
-* tests with both minimal and BYO configurations
+* automated ci tests with minimal configuration
 
 Example (GitHub Action or GitLab CI): yaml
 
@@ -574,6 +579,7 @@ script:
   - helm lint charts/*
   - helm template charts/my-bundle | kubeval
 ````
+
 #### 3. CLI or Script Support for Custom Deployments
 
 Goal: Improve usability & reduce user error
