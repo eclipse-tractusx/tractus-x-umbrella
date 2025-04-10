@@ -28,7 +28,7 @@ sources:
   - https://github.com/eclipse-tractusx/tractus-x-umbrella
 
 type: application
-version: 2.8.0
+version: 2.9.0
 
 # when adding or updating versions of dependencies, also update list under /docs/user/installation/README.md
 dependencies:
@@ -109,3 +109,33 @@ dependencies:
     repository: https://eclipse-tractusx.github.io/charts/dev
     version: 0.1.8
     condition: ssi-dim-wallet-stub.enabled
+  # OTEL Collector
+  - name: opentelemetry-collector
+    alias: opentelemetry-collector
+    version: "0.90.1"
+    repository: https://open-telemetry.github.io/opentelemetry-helm-charts
+    condition: opentelemetry-collector.enabled
+  # Jaeger
+  - name: jaeger
+    alias: jaeger
+    version: "3.0.7"
+    repository: https://jaegertracing.github.io/helm-charts
+    condition: jaeger.enabled
+  # Prometheus
+  - name: prometheus
+    alias: prometheus
+    repository: https://prometheus-community.github.io/helm-charts
+    version: "27.1.0"
+    condition: prometheus.enabled
+  # Loki
+  - name: loki
+    alias: loki
+    version: "6.27.0"
+    repository: https://grafana.github.io/helm-charts
+    condition: loki.enabled
+  # Grafana
+  - name: grafana
+    alias: grafana
+    version: "8.10.1"
+    repository: https://grafana.github.io/helm-charts
+    condition: grafana.enabled

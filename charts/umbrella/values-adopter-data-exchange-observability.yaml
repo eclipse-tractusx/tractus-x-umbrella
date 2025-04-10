@@ -1,0 +1,356 @@
+# #############################################################################
+# Copyright (c) 2025 Contributors to the Eclipse Foundation
+# Copyright (c) 2025 Schaeffler AG
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Apache License, Version 2.0 which is available at
+# https://www.apache.org/licenses/LICENSE-2.0.
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+# License for the specific language governing permissions and limitations
+# under the License.
+#
+# SPDX-License-Identifier: Apache-2.0
+# #############################################################################
+---
+
+centralidp:
+  enabled: false
+
+# Replace by ssi-dim-wallet-stub
+bdrs-server-memory:
+  enabled: false
+
+dataconsumerOne:
+  enabled: true
+  tractusx-connector:
+    dataplane:
+      env:
+        EDC_METRICS_ENABLED: true
+        OTEL_SERVICE_NAME: dataconsumer-1-edc-dataplane
+      opentelemetry: |-
+        otel.javaagent.enabled=true
+        otel.javaagent.debug=false
+        otel.traces.exporter=otlp
+        otel.exporter.jaeger.endpoint=http://umbrella-jaeger-collector.umbrella:4318
+        otel.metrics.exporter=prometheus
+        otel.metrics.protocol=http/protobuf
+        edc.metrics.enabled=true
+        edc.metrics.system.enabled=true
+        otel.instrumentation.micrometer.enabled=true
+        otel.logs.exporter=otlp
+        otel.exporter.otlp.endpoint=http://umbrella-opentelemetry-collector.umbrella:4318
+    controlplane:
+      env:
+        OTEL_SERVICE_NAME: dataconsumer-1-edc-controlplane
+        EDC_METRICS_ENABLED: true
+      opentelemetry: |-
+        otel.javaagent.enabled=true
+        otel.javaagent.debug=false
+        otel.traces.exporter=otlp
+        otel.exporter.jaeger.endpoint=http://umbrella-jaeger-collector.umbrella:4318
+        otel.metrics.exporter=prometheus
+        otel.metrics.protocol=http/protobuf
+        edc.metrics.enabled=true
+        edc.metrics.system.enabled=true
+        otel.instrumentation.micrometer.enabled=true
+        otel.logs.exporter=otlp
+        otel.exporter.otlp.endpoint=http://umbrella-opentelemetry-collector.umbrella:4318
+    # -- uncomment the following for persistence
+    # postgresql:
+    #   primary:
+    #     persistence:
+  #       enabled: true
+
+tx-data-provider:
+  seedTestdata: true
+  enabled: true
+  tractusx-connector:
+    dataplane:
+      env:
+        OTEL_SERVICE_NAME: dataprovider-edc-dataplane
+      opentelemetry: |-
+        otel.javaagent.enabled=true
+        otel.javaagent.debug=false
+        otel.traces.exporter=otlp
+        otel.exporter.jaeger.endpoint=http://umbrella-jaeger-collector.umbrella:4318
+        otel.metrics.exporter=prometheus
+        otel.metrics.protocol=http/protobuf
+        edc.metrics.enabled=true
+        edc.metrics.system.enabled=true
+        otel.instrumentation.micrometer.enabled=true
+        otel.logs.exporter=otlp
+        otel.exporter.otlp.endpoint=http://umbrella-opentelemetry-collector.umbrella:4318
+    controlplane:
+      env:
+        OTEL_SERVICE_NAME: dataprovider-edc-controlplane
+      opentelemetry: |-
+        otel.javaagent.enabled=true
+        otel.javaagent.debug=false
+        otel.traces.exporter=otlp
+        otel.exporter.jaeger.endpoint=http://umbrella-jaeger-collector.umbrella:4318
+        otel.metrics.exporter=prometheus
+        otel.metrics.protocol=http/protobuf
+        edc.metrics.enabled=true
+        edc.metrics.system.enabled=true
+        otel.instrumentation.micrometer.enabled=true
+        otel.logs.exporter=otlp
+        otel.exporter.otlp.endpoint=http://umbrella-opentelemetry-collector.umbrella:4318
+    # -- uncomment the following for persistence
+    # postgresql:
+    #   primary:
+    #     persistence:
+  #       enabled: true
+  # digital-twin-registry:
+  #   postgresql:
+  #     primary:
+  #       persistence:
+  #         enabled: true
+
+dataconsumerTwo:
+  enabled: false
+    # -- uncomment the following for persistence
+    # postgresql:
+    #   primary:
+    #     persistence:
+  #       enabled: true
+
+pgadmin4:
+  enabled: true
+  # -- uncomment the following for persistence
+  # persistentVolume:
+  #   enabled: true
+
+ssi-credential-issuer:
+  enabled: false
+
+ssi-dim-wallet-stub:
+  enabled: true
+
+jaeger:
+  enabled: true
+  provisionDataStore:
+    cassandra: false
+  allInOne:
+    enabled: true
+  args:
+    - "--memory.max-traces=5000"
+    - "--query.base-path=/jaeger/ui"
+    - "--prometheus.server-url=http://umbrella-prometheus-server.umbrella:9090"
+    - "--prometheus.query.normalize-calls=true"
+    - "--prometheus.query.normalize-duration=true"
+  storage:
+    type: memory
+  agent:
+    enabled: false
+  collector:
+    enabled: false
+    service:
+      type: ClusterIP
+    config:
+      collector:
+        zipkin:
+          host-port: ":9411"
+    replicaCount: 1
+  query:
+    enabled: false
+    service:
+      type: ClusterIP
+    replicaCount: 1
+    serviceAccount:
+      create: true
+  ingester:
+    enabled: false
+
+opentelemetry-collector:
+  enabled: true
+  image:
+    repository: "otel/opentelemetry-collector-k8s"
+  mode: "deployment"
+  config:
+    exporters:
+      debug: {}
+      otlp:
+        endpoint: ${env:MY_POD_IP}:4317
+        tls:
+          insecure: true
+      otlphttp/jaeger:
+        endpoint: "http://umbrella-jaeger-collector.umbrella:4318"
+      otlphttp/prometheus:
+        endpoint: http://umbrella-prometheus-server.umbrella:9090/api/v1/otlp
+        encoding: proto
+        tls:
+          insecure: true
+      otlphttp/loki:
+        endpoint: http://umbrella-loki.umbrella:3100/otlp
+        tls:
+          insecure: true
+    extensions:
+      health_check:
+        endpoint: ${env:MY_POD_IP}:13133
+    receivers:
+      otlp:
+        protocols:
+          grpc:
+            endpoint: ${env:MY_POD_IP}:4317
+          http:
+            endpoint: ${env:MY_POD_IP}:4318
+      prometheus:
+        config:
+          scrape_configs:
+            - job_name: dataconsumer_controlplane
+              scrape_interval: 30s
+              static_configs:
+                - targets:
+                    - 'umbrella-dataconsumer-1-edc-controlplane.umbrella:9090'
+              metrics_path: /metrics
+            - job_name: dataconsumer_dataplane
+              scrape_interval: 30s
+              static_configs:
+                - targets:
+                    - 'umbrella-dataconsumer-1-edc-dataplane.umbrella:9090'
+              metrics_path: /metrics
+            - job_name: dataprovider_controlplane
+              scrape_interval: 30s
+              static_configs:
+                - targets:
+                    - 'umbrella-dataprovider-edc-controlplane.umbrella:9090'
+              metrics_path: /metrics
+            - job_name: dataprovider_dataplane
+              scrape_interval: 30s
+              static_configs:
+                - targets:
+                    - 'umbrella-dataprovider-edc-dataplane.umbrella:9090'
+              metrics_path: /metrics
+    service:
+      telemetry:
+        metrics:
+          address: ${env:MY_POD_IP}:8888
+      pipelines:
+        logs:
+          exporters:
+            - debug
+            - otlphttp/loki
+          processors:
+            - memory_limiter
+            - batch
+          receivers:
+            - otlp
+        metrics:
+          exporters:
+            - debug
+            - otlphttp/prometheus
+          processors:
+            - memory_limiter
+            - batch
+          receivers:
+            - prometheus
+        traces:
+          exporters:
+            - debug
+            - otlphttp/jaeger
+          processors:
+            - memory_limiter
+            - batch
+          receivers:
+            - otlp
+            - jaeger
+prometheus:
+  enabled: true
+  logLevel: debug
+  server:
+    extraFlags:
+      - web.enable-otlp-receiver
+      - web.enable-lifecycle
+    otlp:
+      translation_strategy: NoUTF8EscapingWithSuffixes
+      # Recommended attributes to be promoted to labels.
+      promote_resource_attributes:
+        - service.instance.id
+        - service.name
+        - service.namespace
+        - cloud.availability_zone
+        - cloud.region
+        - container.name
+        - deployment.environment.name
+        - k8s.cluster.name
+        - k8s.container.name
+        - k8s.cronjob.name
+        - k8s.daemonset.name
+        - k8s.deployment.name
+        - k8s.job.name
+        - k8s.namespace.name
+        - k8s.pod.name
+        - k8s.replicaset.name
+        - k8s.statefulset.name
+    service:
+      servicePort: 9090
+
+
+loki:
+  enabled: true
+  deploymentMode: SingleBinary
+  loki:
+    commonConfig:
+      replication_factor: 1
+    storage:
+      type: 'filesystem'
+    auth_enabled: false
+    schemaConfig:
+      configs:
+        - from: 2024-01-01
+          store: tsdb
+          index:
+            prefix: loki_index_
+            period: 24h
+          object_store: filesystem # we're storing on filesystem so there's no real persistence here.
+          schema: v13
+  singleBinary:
+    replicas: 1
+  minio:
+    enabled: true
+  read:
+    replicas: 0
+  backend:
+    replicas: 0
+  write:
+    replicas: 0
+  monitoring:
+    lokiCanary:
+      enabled: false
+  gateway:
+    enabled: false
+  test:
+    enabled: false
+  selfMonitoring:
+    enabled: false
+
+grafana:
+  enabled: true
+  datasources:
+    datasources.yaml:
+      apiVersion: 1
+      datasources:
+        - name: Loki
+          type: loki
+          url: http://umbrella-loki.umbrella:3100/
+          access: proxy
+          isDefault: false
+        - name: Prometheus
+          type: prometheus
+          url: http://umbrella-prometheus-server.umbrella:9090/
+          access: proxy
+          isDefault: false
+  persistence:
+    type: pvc
+    enabled: true
+    storageClassName: standard
+    accessModes:
+      - ReadWriteOnce
+    size: 2Gi
+  adminUser: admin
+  adminPassword: admin
