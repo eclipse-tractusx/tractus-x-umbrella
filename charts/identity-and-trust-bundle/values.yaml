@@ -23,6 +23,8 @@
 # SSI DIM Wallet Configuration
 ssi-dim-wallet-stub:
   wallet:
+    enabled: true
+    nameSpace: "default"
     replicaCount: 1
     host: ssi-dim-wallet-stub.tx.test
     appName: "ssi-dim-wallet-stub"
