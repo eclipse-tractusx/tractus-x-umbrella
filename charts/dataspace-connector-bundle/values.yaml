@@ -20,8 +20,6 @@
 # Default values for dataspace-connector-bundle
 # This is a YAML-formatted file.
 
-# Enable/disable the entire bundle
-enabled: true
 tractusx-connector:
   # Installation options
   install:

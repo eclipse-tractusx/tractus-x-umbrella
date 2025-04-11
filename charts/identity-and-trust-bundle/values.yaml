@@ -20,12 +20,8 @@
 # Default values for identity-and-trust-bundle
 # This is a YAML-formatted file.
 
-# Enable/disable the entire bundle
-enabled: true
-
 # SSI DIM Wallet Configuration
 ssi-dim-wallet-stub:
-  enabled: false
   wallet:
     replicaCount: 1
     host: ssi-dim-wallet-stub.tx.test
@@ -44,13 +40,6 @@ ssi-dim-wallet-stub:
       urlPrefix: /
       className: nginx
       annotations: {}
-    swagger:
-      ui:
-        status: true
-      apiDoc:
-        status: true
-    logLevel: "debug"
-    environment: "default"
     baseWalletBpn: "BPNL00000003CRHK"
     didHost: "ssi-dim-wallet-stub.tx.test"
     stubUrl: "http://ssi-dim-wallet-stub.tx.test"
@@ -64,8 +53,5 @@ ssi-dim-wallet-stub:
     keycloak:
       realm: "CX-Central"
       authServerUrl: "http://centralidp.tx.test/auth"
-    service:
-      type: ClusterIP
-      port: 8080
   keycloak:
     enabled: false

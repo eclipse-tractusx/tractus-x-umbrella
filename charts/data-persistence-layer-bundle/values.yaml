@@ -20,9 +20,6 @@
 # Default values for data-persistence-layer-bundle
 # This is a YAML-formatted file.
 
-# Enable/disable the entire bundle
-enabled: true
-
 simple-data-backend:
   nameOverride: dataprovider-submodelserver
   ingress:

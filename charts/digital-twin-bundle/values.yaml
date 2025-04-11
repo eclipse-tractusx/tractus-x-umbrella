@@ -17,25 +17,23 @@
 # SPDX-License-Identifier: Apache-2.0
 # #############################################################################
 
-# Default values for digital-twin-bundle
-# This is a YAML-formatted file.
-
-# Enable/disable the entire bundle
-enabled: true
-
 digital-twin-registry:
   nameOverride: dataprovider-dtr
   enablePostgres: false
   registry:
     host: dataprovider-dtr.test
+    dataSource:
+      url: "jdbc:postgresql://digital-twin-digital-twin-registry-db:5432/dtr"
+      user: "user"
+      password: "password"
 
 # PostgreSQL Configuration
 postgresql:
-  enabled: true
+  nameOverride: digital-twin-registry-db
   auth:
-    username: "dt"
-    password: "changeme"
-    database: "digital_twin_registry"
+    username: "user"
+    password: "password"
+    database: "dtr"
   primary:
     persistence:
       enabled: true
