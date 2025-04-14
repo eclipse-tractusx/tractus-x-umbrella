@@ -156,6 +156,7 @@ For DNS resolution to work correctly on Windows, you have two options:
 #### Option 1: Use the Hyper-V Driver
 
 Start Minikube with administrator privileges using the `--driver=hyperv` flag:
+
 ```bash
 minikube start --cpus=4 --memory=6gb --driver=hyperv
 ```
@@ -168,6 +169,7 @@ Alternatively, you can use the native Kubernetes cluster provided by Docker Desk
     - Navigate to **Settings > Kubernetes** and enable the Kubernetes option.
 
 2. Install an NGINX Ingress Controller:
+
    ```bash
    helm upgrade --install ingress-nginx ingress-nginx --repo https://kubernetes.github.io/ingress-nginx --namespace ingress-nginx --create-namespace
    ```
@@ -181,11 +183,13 @@ Alternatively, you can use the native Kubernetes cluster provided by Docker Desk
 After starting Minikube or Docker Desktop Kubernetes, verify the cluster setup:
 
 - Check that your cluster is running:
+
   ```bash
   kubectl cluster-info
   ```
 
 - Open the Minikube dashboard to monitor resources:
+
   ```bash
   minikube dashboard
   ```
@@ -200,6 +204,6 @@ For networking setup, proceed to the [Network Setup Guide](../network/README.md)
 
 This work is licensed under the [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/legalcode).
 
-* SPDX-License-Identifier: CC-BY-4.0
-* SPDX-FileCopyrightText: 2024 Contributors to the Eclipse Foundation
-* Source URL: <https://github.com/eclipse-tractusx/tractus-x-umbrella>
+- SPDX-License-Identifier: CC-BY-4.0
+- SPDX-FileCopyrightText: 2024 Contributors to the Eclipse Foundation
+- Source URL: <https://github.com/eclipse-tractusx/tractus-x-umbrella>

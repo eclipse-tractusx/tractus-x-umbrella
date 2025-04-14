@@ -35,6 +35,7 @@ Be aware that the **upgrade to the overarching [Release 25.03](https://github.co
 ## Purpose
 
 The Umbrella Chart is intended for:
+
 1. **Testing**: Run end-to-end tests for Catena-X services.
 2. **Sandbox Environments**: Create local environments to evaluate and experiment with Catena-X components.
 3. **Development**: Provide a unified setup for contributors and developers working on Tractus-X projects.
@@ -42,8 +43,8 @@ The Umbrella Chart is intended for:
 ## Cluster Setup
 
 - Ensure your cluster meets the updated system requirements:
-    - Kubernetes version `>1.24.x`
-    - Helm version `3.8+`
+  - Kubernetes version `>1.24.x`
+  - Helm version `3.8+`
 
 For detailed setup instructions, refer to the [Setup Guide](/docs/user/setup/README.md).
 
