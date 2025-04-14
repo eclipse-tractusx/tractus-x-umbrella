@@ -3,13 +3,14 @@
 This guide provides basic usage instruction of observability within umbrella deployment.
 
 In order to deploy tractus-x-umbrella helm chart that provides data exchange between components connected with observability infrastructure run following command:
-```
+
+```helm
 helm install -f values-adopter-data-exchange-observability.yaml umbrella . --namespace umbrella --create-namespace
 ```
 
 ## Jaeger (Traces)
 
-Jaeger allows to observe traces of HTTP calls. 
+Jaeger allows to observe traces of HTTP calls.
 
 In order to be able to investigate traces locally we have to expose UI port (by default 16686)
 
@@ -40,6 +41,7 @@ In this guide Loki is configured in the way that allows otlp logs to be passed d
 
 Prometheus aggregates metrics produced by the pods. It also scrapes metrics from data providers / data consumers in 30s interval.
 In order to view Prometheus' UI use:
+
 ```bash
 kubectl get pods -n umbrella | grep "prometheus-server"
 ```
@@ -56,7 +58,7 @@ kubectl port-forward umbrella-prometheus-server-7b9f94f994-ffcnt 9090:9090 -n um
 
 Grafana allows to aggregate different datatypes from multiple datasources. In this example, we autoconfigured logs from Loki and metrics from Prometheus.
 
-In order to grant access to Grafana's UI 
+In order to grant access to Grafana's UI
 
 ```bash
 kubectl get pods -n umbrella | grep "grafana"
@@ -69,12 +71,15 @@ kubectl port-forward umbrella-grafana-79ff54ff6b-zh5r9 3000:3000 -n umbrella
 ```
 
 Credentials to login by default are:
-```
-u: admin
-p: admin 
+
+Username and password:
+
+```text
+admin
 ```
 
 Credentials can be altered in Grafana's values section:
+
 ```yaml
   adminUser: admin
   adminPassword: admin
@@ -88,6 +93,6 @@ Credentials can be altered in Grafana's values section:
 
 This work is licensed under the [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/legalcode).
 
-* SPDX-License-Identifier: CC-BY-4.0
-* SPDX-FileCopyrightText: 2025 Contributors to the Eclipse Foundation
-* Source URL: <https://github.com/eclipse-tractusx/tractus-x-umbrella>
+- SPDX-License-Identifier: CC-BY-4.0
+- SPDX-FileCopyrightText: 2025 Contributors to the Eclipse Foundation
+- Source URL: <https://github.com/eclipse-tractusx/tractus-x-umbrella>

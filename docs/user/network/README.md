@@ -9,6 +9,7 @@ To enable ingress for local access, use the following command with Minikube:
 ```bash
 minikube addons enable ingress
 ```
+
 Make sure that the **DNS** resolution for the hosts is in place:
 
 ```bash
@@ -22,57 +23,56 @@ And execute installation step [3 Add the `minikube ip` as a DNS server](https://
 The following ingresses are configured and available:
 
 - **Authentication Services**
-   - [CentralIdP](http://centralidp.tx.test/auth/)
-   - [SharedIdP](http://sharedidp.tx.test/auth/)
+  - [CentralIdP](http://centralidp.tx.test/auth/)
+  - [SharedIdP](http://sharedidp.tx.test/auth/)
 
 - **Portal Services**
-   - [Portal Frontend](http://portal.tx.test)
-   - [Portal Backend](http://portal-backend.tx.test)
-      - [Administration API](http://portal-backend.tx.test/api/administration/swagger/index.html)
-      - [Registration API](http://portal-backend.tx.test/api/registration/swagger/index.html)
-      - [Apps API](http://portal-backend.tx.test/api/apps/swagger/index.html)
-      - [Services API](http://portal-backend.tx.test/api/services/swagger/index.html)
-      - [Notification API](http://portal-backend.tx.test/api/notification/swagger/index.html)
+  - [Portal Frontend](http://portal.tx.test)
+  - [Portal Backend](http://portal-backend.tx.test)
+    - [Administration API](http://portal-backend.tx.test/api/administration/swagger/index.html)
+    - [Registration API](http://portal-backend.tx.test/api/registration/swagger/index.html)
+    - [Apps API](http://portal-backend.tx.test/api/apps/swagger/index.html)
+    - [Services API](http://portal-backend.tx.test/api/services/swagger/index.html)
+    - [Notification API](http://portal-backend.tx.test/api/notification/swagger/index.html)
 
 - **Discovery**
-   - [Discovery Finder API](http://semantics.tx.test/discoveryfinder/swagger-ui/index.html)
+  - [Discovery Finder API](http://semantics.tx.test/discoveryfinder/swagger-ui/index.html)
 
 - **Data Exchange Services**
-   - [Data Consumer 1 Control Plane](http://dataconsumer-1-controlplane.tx.test)
-   - [Data Consumer 1 Data Plane](http://dataconsumer-1-dataplane.tx.test)
-   - [Data Provider Data Plane](http://dataprovider-dataplane.tx.test)
-   - [Data Consumer 2 Control Plane](http://dataconsumer-2-controlplane.tx.test)
-   - [Data Consumer 2 Data Plane](http://dataconsumer-2-dataplane.tx.test)
+  - [Data Consumer 1 Control Plane](http://dataconsumer-1-controlplane.tx.test)
+  - [Data Consumer 1 Data Plane](http://dataconsumer-1-dataplane.tx.test)
+  - [Data Provider Data Plane](http://dataprovider-dataplane.tx.test)
+  - [Data Consumer 2 Control Plane](http://dataconsumer-2-controlplane.tx.test)
+  - [Data Consumer 2 Data Plane](http://dataconsumer-2-dataplane.tx.test)
 
 - **Additional Services**
-   - [Business Partners Pool](http://business-partners.tx.test/pool)
-   - [Business Partners Orchestrator](http://business-partners.tx.test/orchestrator)
-   - [BDRS Server](http://bdrs-server.tx.test)
-   - [SSI Credential Issuer](http://ssi-credential-issuer.tx.test/api/issuer/swagger/index.html)
-   - [SSI DIM Wallet Stub](http://ssi-dim-wallet-stub.tx.test)
-   - [pgAdmin4](http://pgadmin4.tx.test)
+  - [Business Partners Pool](http://business-partners.tx.test/pool)
+  - [Business Partners Orchestrator](http://business-partners.tx.test/orchestrator)
+  - [BDRS Server](http://bdrs-server.tx.test)
+  - [SSI Credential Issuer](http://ssi-credential-issuer.tx.test/api/issuer/swagger/index.html)
+  - [SSI DIM Wallet Stub](http://ssi-dim-wallet-stub.tx.test)
+  - [pgAdmin4](http://pgadmin4.tx.test)
 
 ## DNS Resolution Setup
 
-Proper DNS resolution is required to map local domain names to the Minikube IP address. There are different ways to configure DNS. The most reliable way is to adapt the [hosts file configuration](#hosts-file-configuration) on your system. [Here](#alternative-approaches), you find alternative approaches  for the resolution setup. 
+Proper DNS resolution is required to map local domain names to the Minikube IP address. There are different ways to configure DNS. The most reliable way is to adapt the [hosts file configuration](#hosts-file-configuration) on your system. [Here](#alternative-approaches), you find alternative approaches  for the resolution setup.
 
-
-### Hosts File Configuration 
+### Hosts File Configuration
 
 For this approach you have to insert new entries to your hosts file.  
 > **Note**
-> There are two things to consider here. 
-> Firstly, the existing entries should not be changed. 
+> There are two things to consider here.
+> Firstly, the existing entries should not be changed.
 > Secondly, the adjustments made should be undone when the tutorial is no longer needed.
 
 > [!WARNING]
 > As we do not currently test on Windows, we would greatly appreciate any contributions from those who successfully deploy it on Windows.
 
-Below you will find the different procedures for [Linux using minikube](#Linux-using-minikube), [macOS using minikube](#macOS-using-minikube), [macOS using  K3s](#macOS-using-K3s) and [Windows](#windows). 
+Below you will find the different procedures for [Linux using minikube](#linux-using-minikube), [macOS using minikube](#macos-using-minikube), [macOS using  K3s](#macos-using-k3s) and [Windows](#windows).
 
 The following values need to be added in each case:
 
-   ```
+   ```text
    <MINIKUBE_IP>    centralidp.tx.test
    <MINIKUBE_IP>    sharedidp.tx.test
    <MINIKUBE_IP>    portal.tx.test
@@ -88,33 +88,30 @@ The following values need to be added in each case:
    <MINIKUBE_IP>    dataconsumer-2-dataplane.tx.test
    <MINIKUBE_IP>    dataconsumer-2-controlplane.tx.test
    <MINIKUBE_IP>    bdrs-server.tx.test
-
    <MINIKUBE_IP>    business-partners.tx.test
    <MINIKUBE_IP>    pgadmin4.tx.test
    <MINIKUBE_IP>    ssi-dim-wallet-stub.tx.test
    <MINIKUBE_IP>    smtp.tx.test
    ```
 
-   #### Linux using minikube
+#### Linux using minikube
 
    1. Open the hosts file you find here `/etc/hosts` and insert the values from above.
-   
+
    2. Replace `<MINIKUBE_IP>` with the output of the following command:
 
-      
       ```bash
          minikube ip
       ```
 
    3. Test DNS resolution by pinging one of the configured hostnames.
 
-
-   #### macOS using minikube
+#### macOS using minikube
 
    1. Open the hosts file you find here: `/etc/hosts` and insert the values from above.
-   
+
    2. Replace `<MINIKUBE_IP>` with the output of the following command:
-      
+
       ```bash
          minikube ip
       ```
@@ -122,11 +119,10 @@ The following values need to be added in each case:
    3. Install and start [Docker Mac Net Connect](https://github.com/chipmk/docker-mac-net-connect#installation).
 
       We recommend to execute the usage example that can be found there after installation to check proper setup.
-   
+
    4. Test DNS resolution by pinging one of the configured hostnames.
 
-
-   #### macOS using K3s
+#### macOS using K3s
 
 1. Add the values from above to your `/etc/hosts` file of your **Mac**, use `127.0.0.1` to replace the placeholder `<MINIKUBE_IP>`
 
@@ -170,25 +166,22 @@ The following values need to be added in each case:
 
 3. Test DNS resolution by pinging one of the configured hostnames.
 
-
-   #### Windows 
+   #### Windows
 
 > [!WARNING]
 > As we do not currently test on Windows, we would greatly appreciate any contributions from those who successfully deploy it on Windows.
 
-   1. Open the hosts file you find here: `C:\Windows\System32\drivers\etc\hosts` and insert the values from above. 
-   
+   1. Open the hosts file you find here: `C:\Windows\System32\drivers\etc\hosts` and insert the values from above.
+
    2. Replace `<MINIKUBE_IP>` with the output of the following command:
 
-      
       ```bash
          minikube ip
       ```
 
    3. Test DNS resolution by pinging one of the configured hostnames.
 
-
-### Alternative approaches 
+### Alternative approaches
 
 Below you find alternative approaches for setting the DNS resolution. Follow the steps for your operating system:
 
@@ -203,23 +196,27 @@ Below you find alternative approaches for setting the DNS resolution. Follow the
 
     - **resolvconf**:
       Add the following to `/etc/resolvconf/resolv.conf.d/base`:
+
       ```bash
       search test
       nameserver $(minikube ip)
       timeout 5
       ```
+
       If your Linux OS uses `systemctl`, run the following commands:
+
       ```bash
       sudo resolvconf -u
       systemctl disable --now resolvconf.service
       ```
 
-      See https://linux.die.net/man/5/resolver for more information.
+      See <https://linux.die.net/man/5/resolver> for more information.
 
     - **NetworkManager**:
       NetworkManager can run integrated caching DNS server - `dnsmasq` plugin and can be configured to use separate nameservers per domain.
 
       Edit `/etc/NetworkManager/NetworkManager.conf` and enable `dns=dnsmasq` by adding:
+
       ```bash
       [main]
       dns=dnsmasq
@@ -228,15 +225,20 @@ Below you find alternative approaches for setting the DNS resolution. Follow the
       Also see `dns=` in [NetworkManager.conf](https://developer.gnome.org/NetworkManager/stable/NetworkManager.conf.html).
 
       Configure dnsmasq to handle domain names ending with `.test`:
+
       ```bash
       sudo mkdir -p /etc/NetworkManager/dnsmasq.d/
       echo "server=/test/$(minikube ip)" | sudo tee /etc/NetworkManager/dnsmasq.d/minikube.conf
       ```
+
       Restart NetworkManager:
+
       ```bash
       systemctl restart NetworkManager.service
       ```
+
       Ensure your `/etc/resolv.conf` contains only single nameserver:
+
       ```bash
       cat /etc/resolv.conf | grep nameserver
       nameserver 127.0.0.1
@@ -244,6 +246,7 @@ Below you find alternative approaches for setting the DNS resolution. Follow the
 
     - **systemd-resolved**:
       Run the following commands to add the minikube DNS for `.test` domains:
+
       ```bash
       sudo mkdir -p /etc/systemd/resolved.conf.d
       sudo tee /etc/systemd/resolved.conf.d/minikube.conf << EOF
@@ -261,11 +264,14 @@ Below you find alternative approaches for setting the DNS resolution. Follow the
 Please refer to the following instructions for the dns setup in case you're using Minikube, which is the most tested and therefore the recommended option.
 
 1. Create a resolver configuration for `.test` domains:
+
    ```bash
    sudo mkdir -p /etc/resolver
    sudo bash -c "echo 'nameserver $(minikube ip)' > /etc/resolver/test"
    ```
+
    and also add these lines to `/etc/resolver/test`:
+
    ```bash
    domain tx.test
    search_order 1
@@ -287,11 +293,13 @@ Please refer to the following instructions for the dns setup in case you're usin
 
 1. Open PowerShell as Administrator.
 2. Add a DNS client rule for `.test` domains:
+
    ```bash
    Add-DnsClientNrptRule -Namespace ".test" -NameServers "$(minikube ip)"
    ```
 
    The following will remove any matching rules before creating a new one. This is useful for updating the minikube ip.
+
    ```shell
    Get-DnsClientNrptRule | Where-Object {$_.Namespace -eq '.test'} | Remove-DnsClientNrptRule -Force; Add-DnsClientNrptRule -Namespace ".test" -NameServers "$(minikube ip)"
    ```
@@ -303,15 +311,13 @@ Please refer to the following instructions for the dns setup in case you're usin
 ## Verify Network Setup
 
 Once the DNS resolution or hosts file is configured:
-1. Ensure ingress is working by accessing a service endpoint, such as:
-   ```
-   http://portal.tx.test
-   ```
+
+1. Ensure ingress is working by accessing a service endpoint, such as <http://portal.tx.test>
 
 ## NOTICE
 
 This work is licensed under the [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/legalcode).
 
-* SPDX-License-Identifier: CC-BY-4.0
-* SPDX-FileCopyrightText: 2024 Contributors to the Eclipse Foundation
-* Source URL: <https://github.com/eclipse-tractusx/tractus-x-umbrella>
+- SPDX-License-Identifier: CC-BY-4.0
+- SPDX-FileCopyrightText: 2024 Contributors to the Eclipse Foundation
+- Source URL: <https://github.com/eclipse-tractusx/tractus-x-umbrella>
