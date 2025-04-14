@@ -284,6 +284,108 @@ entries:
     version: 0.0.2
   umbrella:
   - apiVersion: v2
+    created: "2025-04-14T10:56:47.383981514Z"
+    dependencies:
+    - condition: portal.enabled
+      name: portal
+      repository: https://eclipse-tractusx.github.io/charts/dev
+      version: 2.4.0
+    - condition: centralidp.enabled
+      name: centralidp
+      repository: https://eclipse-tractusx.github.io/charts/dev
+      version: 4.1.0
+    - condition: sharedidp.enabled
+      name: sharedidp
+      repository: https://eclipse-tractusx.github.io/charts/dev
+      version: 4.1.0
+    - condition: discoveryfinder.enabled
+      name: discoveryfinder
+      repository: https://eclipse-tractusx.github.io/charts/dev
+      version: 0.4.2
+    - condition: bpndiscovery.enabled
+      name: bpndiscovery
+      repository: https://eclipse-tractusx.github.io/charts/dev
+      version: 0.4.2
+    - alias: selfdescription
+      condition: selfdescription.enabled
+      name: sdfactory
+      repository: https://eclipse-tractusx.github.io/charts/dev
+      version: 2.1.22
+    - condition: ssi-credential-issuer.enabled
+      name: ssi-credential-issuer
+      repository: https://eclipse-tractusx.github.io/charts/dev
+      version: 1.2.0
+    - condition: semantic-hub.enabled
+      name: semantic-hub
+      repository: https://eclipse-tractusx.github.io/charts/dev
+      version: 0.4.4
+    - condition: bpdm.enabled
+      name: bpdm
+      repository: https://eclipse-tractusx.github.io/charts/dev
+      version: 5.3.0
+    - alias: dataconsumerOne
+      condition: dataconsumerOne.enabled
+      name: tx-data-provider
+      repository: file://../tx-data-provider
+      version: 0.1.5
+    - condition: tx-data-provider.enabled
+      name: tx-data-provider
+      repository: file://../tx-data-provider
+      version: 0.1.5
+    - alias: dataconsumerTwo
+      condition: dataconsumerTwo.enabled
+      name: tx-data-provider
+      repository: file://../tx-data-provider
+      version: 0.1.5
+    - condition: pgadmin4.enabled
+      name: pgadmin4
+      repository: https://helm.runix.net
+      version: 1.25.x
+    - condition: bdrs-server-memory.enabled
+      name: bdrs-server-memory
+      repository: https://eclipse-tractusx.github.io/charts/dev
+      version: 0.5.2
+    - condition: ssi-dim-wallet-stub.enabled
+      name: ssi-dim-wallet-stub
+      repository: https://eclipse-tractusx.github.io/charts/dev
+      version: 0.1.8
+    - alias: opentelemetry-collector
+      condition: opentelemetry-collector.enabled
+      name: opentelemetry-collector
+      repository: https://open-telemetry.github.io/opentelemetry-helm-charts
+      version: 0.90.1
+    - alias: jaeger
+      condition: jaeger.enabled
+      name: jaeger
+      repository: https://jaegertracing.github.io/helm-charts
+      version: 3.0.7
+    - alias: prometheus
+      condition: prometheus.enabled
+      name: prometheus
+      repository: https://prometheus-community.github.io/helm-charts
+      version: 27.1.0
+    - alias: loki
+      condition: loki.enabled
+      name: loki
+      repository: https://grafana.github.io/helm-charts
+      version: 6.27.0
+    - alias: grafana
+      condition: grafana.enabled
+      name: grafana
+      repository: https://grafana.github.io/helm-charts
+      version: 8.10.1
+    description: 'A Helm chart to spin up Tractus-X OSS components to simulate a complete
+      dataspace network.  With this Helm chart you are able to run end-to-end or create
+      a sandbox environment. '
+    digest: 9e86a18aaa2ea4835b2d23e4f141d005f765dc93ecc084d9bdf817771afac29b
+    name: umbrella
+    sources:
+    - https://github.com/eclipse-tractusx/tractus-x-umbrella
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/tractus-x-umbrella/releases/download/umbrella-2.10.0/umbrella-2.10.0.tgz
+    version: 2.10.0
+  - apiVersion: v2
     created: "2025-04-14T09:09:54.997012701Z"
     dependencies:
     - condition: portal.enabled
@@ -4060,4 +4162,4 @@ entries:
     urls:
     - https://github.com/eclipse-tractusx/e2e-testing/releases/download/umbrella-0.2.1/umbrella-0.2.1.tgz
     version: 0.2.1
-generated: "2025-04-14T09:09:54.997228704Z"
+generated: "2025-04-14T10:56:47.384224347Z"
