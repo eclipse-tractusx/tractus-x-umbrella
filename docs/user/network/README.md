@@ -65,6 +65,9 @@ For this approach you have to insert new entries to your hosts file.
 > Firstly, the existing entries should not be changed. 
 > Secondly, the adjustments made should be undone when the tutorial is no longer needed.
 
+> [!WARNING]
+> As we do not currently test on Windows, we would greatly appreciate any contributions from those who successfully deploy it on Windows.
+
 Below you will find the different procedures for [Linux using minikube](#Linux-using-minikube), [macOS using minikube](#macOS-using-minikube), [macOS using  K3s](#macOS-using-K3s) and [Windows](#windows). 
 
 The following values need to be added in each case:
@@ -89,6 +92,7 @@ The following values need to be added in each case:
    <MINIKUBE_IP>    business-partners.tx.test
    <MINIKUBE_IP>    pgadmin4.tx.test
    <MINIKUBE_IP>    ssi-dim-wallet-stub.tx.test
+   <MINIKUBE_IP>    smtp.tx.test
    ```
 
    #### Linux using minikube
@@ -168,6 +172,9 @@ The following values need to be added in each case:
 
 
    #### Windows 
+
+> [!WARNING]
+> As we do not currently test on Windows, we would greatly appreciate any contributions from those who successfully deploy it on Windows.
 
    1. Open the hosts file you find here: `C:\Windows\System32\drivers\etc\hosts` and insert the values from above. 
    
@@ -274,6 +281,9 @@ Please refer to the following instructions for the dns setup in case you're usin
 3. Test DNS resolution by pinging one of the configured hostnames.
 
 #### Windows alternative
+
+> [!WARNING]
+> As we do not currently test on Windows, we would greatly appreciate any contributions from those who successfully deploy it on Windows.
 
 1. Open PowerShell as Administrator.
 2. Add a DNS client rule for `.test` domains:
