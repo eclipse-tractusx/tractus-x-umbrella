@@ -1057,7 +1057,6 @@ dataconsumerOne:
   nameOverride: dataconsumer-1
   secrets:
     edc-wallet-secret: changeme
-dataspace-connector-bundle-dataconsumerOne:
   tractusx-connector:
     nameOverride: dataconsumer-1-edc
     participant:
@@ -1133,6 +1132,12 @@ dataspace-connector-bundle-dataconsumerOne:
     server:
       postStart: []
 
+  digital-twin-registry:
+    enabled: false
+
+  simple-data-backend:
+    enabled: false
+
 tx-data-provider:
   enabled: false
   seedTestdata: true
@@ -1144,7 +1149,6 @@ tx-data-provider:
   nameOverride: dataprovider
   secrets:
     edc-wallet-secret: changeme
-dataspace-connector-bundle-tx-data-provider:
   tractusx-connector:
     nameOverride: dataprovider-edc
     participant:
@@ -1220,6 +1224,27 @@ dataspace-connector-bundle-tx-data-provider:
     server:
       postStart: []
 
+  digital-twin-registry:
+    nameOverride: dataprovider-dtr
+    postgresql:
+      nameOverride: dataprovider-dtr-db
+      auth:
+        password: "dbpassworddtrdataprovider"
+        existingSecret: dataprovider-secret-dtr-postgres-init
+    registry:
+      host: dataprovider-dtr.test
+
+  simple-data-backend:
+    nameOverride: dataprovider-submodelserver
+    ingress:
+      enabled: true
+      className: "nginx"
+      hosts:
+        - host: "dataprovider-submodelserver.tx.test"
+          paths:
+            - path: "/"
+              pathType: "Prefix"
+
 semantic-hub:
   enabled: false
   enableKeycloak: false
@@ -1261,8 +1286,6 @@ dataconsumerTwo:
   nameOverride: dataconsumer-2
   secrets:
     edc-wallet-secret: changeme
-
-dataspace-connector-bundle-dataconsumerTwo:
   tractusx-connector:
     nameOverride: dataconsumer-2-edc
     participant:
@@ -1338,14 +1361,11 @@ dataspace-connector-bundle-dataconsumerTwo:
     server:
       postStart: []
 
-digital-twin-bundle:
-  enabled: false
+  digital-twin-registry:
+    enabled: false
 
-data-persistence-layer-bundle:
-  enabled: true
-
-identity-and-trust-bundle:
-  enabled: true
+  simple-data-backend:
+    enabled: false
 
 pgadmin4:
   enabled: false
@@ -1423,6 +1443,53 @@ bdrs-server-memory:
         className: "nginx"
         tls:
           enabled: false
+
+ssi-dim-wallet-stub:
+  enabled: false
+  wallet:
+    replicaCount: 1
+    host: ssi-dim-wallet-stub.tx.test
+    nameSpace: "umbrella"
+    appName: "ssi-dim-wallet-stub"
+    configName: "ssi-dim-wallet-config"
+    serviceName: "ssi-dim-wallet-service"
+    secretName: "ssi-dim-wallet-secret"
+    ingressName: "ssi-dim-wallet-ingress"
+    seeding:
+      bpnList: "BPNL00000003AZQP,BPNL00000003AYRE"
+    ingress:
+      enabled: true
+      tls:
+        enabled: false
+        name: ""
+      urlPrefix: /
+      className: nginx
+      annotations: {}
+    swagger:
+      ui:
+        status: true
+      apiDoc:
+        status: true
+    logLevel: "debug"
+    environment: "default"
+    baseWalletBpn: "BPNL00000003CRHK"
+    didHost: "ssi-dim-wallet-stub.tx.test"
+    stubUrl: "http://ssi-dim-wallet-stub.tx.test"
+    statusListVcId: "8a6c7486-1e1f-4555-bdd2-1a178182651e"
+    tokenExpiryTime: "5"
+    portal:
+      waitTime: "60"
+      host: "http://portal-backend.tx.test"
+      clientId: "sa-cl2-05"
+      clientSecret: "changeme"
+    keycloak:
+      realm: "CX-Central"
+      authServerUrl: "http://centralidp.tx.test/auth"
+    service:
+      type: ClusterIP
+      port: 8080
+  keycloak:
+    enabled: false
 
 smtp4dev:
   enabled: false
