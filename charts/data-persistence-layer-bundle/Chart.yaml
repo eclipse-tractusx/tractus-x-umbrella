@@ -18,7 +18,7 @@
 # #############################################################################
 
 apiVersion: v2
-name: data-persitence-layer-bundle
+name: data-persistence-layer-bundle
 description: |
   Helm chart for Capability Bundle: Data Persistence Layer
 
