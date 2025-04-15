@@ -57,4 +57,3 @@ ssi-dim-wallet-stub:
       authServerUrl: "http://centralidp.tx.test/auth"
   keycloak:
     enabled: false
-
