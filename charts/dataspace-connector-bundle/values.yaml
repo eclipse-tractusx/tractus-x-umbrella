@@ -94,8 +94,6 @@ tractusx-connector:
       username: "user"
       password: "password"
 
-
-
 # PostgreSQL Configuration
 postgresql:
   nameOverride: dataspace-connector-db
