@@ -22,6 +22,8 @@
 
 simple-data-backend:
   nameOverride: dataprovider-submodelserver
+  image:
+    tag: "main"
   ingress:
     enabled: true
     className: "nginx"
