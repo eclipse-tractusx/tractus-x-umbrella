@@ -27,6 +27,28 @@ You'll create an asset, define policies, and set up a contract definition for da
 > - **Bob**: data provider, is reachable via `http://dataprovider-controlplane.tx.test`
 > - **Alice**: data consumer, is reachable via `http://dataconsumer-1-controlplane.tx.test`
 
+```mermaid
+sequenceDiagram
+    participant Bob as Data Provider
+    participant EDC as connector
+    participant Alice as Data Consumer
+
+    Bob->>EDC: 1. Register Asset 
+    Note over Bob,EDC: for data sharing
+    Bob->>EDC: 2. Create Policy
+    Note over Bob,EDC: Access & usage constrains
+    Bob->>EDC: 3. Create Contract Definition
+    Note over Bob,EDC: To link asset & policy
+    EDC->>Alice: 4. Asset Discovery
+    Note over EDC,Alice: Asset catalog available
+```
+
+This diagram shows the data provision flow where:
+1. Bob, as the Data Provider, registers his data asset with the EDC
+2. Bob defines the access policy for his data
+3. Bob creates a contract definition connecting his asset and policy
+4. Alice, as the Data Consumer, can discover Bob’s asset through the catalog
+
 ## Create your first data asset
 
 We will start by creating an asset that represents the data to be shared. The data provider (Bob) uses the **[Management API](https://app.swaggerhub.com/apis/eclipse-edc-bot/management-api)** to define the asset.
