@@ -25,7 +25,7 @@ digital-twin-registry:
     dataSource:
       # No templating possbile, need to hardcode string, or set it via property
       # e.g. helm install <release-name> charts/digital-twin-bundle --set digital-twin-registry.registry.dataSource.url=jdbc:postgresql://<release-name>-digital-twin-registry-db:5432/dtr
-      url: "jdbc:postgresql://digital-twin-digital-twin-registry-db:5432/dtr"
+      url: "jdbc:postgresql://umbrella-twin-registry-db:5432/dtr"
       user: "user"
       password: "password"
 

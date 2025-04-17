@@ -59,7 +59,7 @@ tractusx-connector:
         authKey: TEST1
     ingresses:
       - enabled: true
-        hostname: "dataconsumer-1-controlplane.tx.test"
+        hostname: "{{ .Release.Name }}-controlplane.tx.test"
         endpoints:
           - default
           - protocol
@@ -75,7 +75,7 @@ tractusx-connector:
       EDC_IAM_DID_WEB_USE_HTTPS: false
     ingresses:
       - enabled: true
-        hostname: "dataconsumer-1-dataplane.tx.test"
+        hostname: "{{ .Release.Name }}-dataplane.tx.test"
         endpoints:
           - default
           - public
