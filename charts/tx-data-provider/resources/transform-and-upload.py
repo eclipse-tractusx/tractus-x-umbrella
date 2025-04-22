@@ -362,9 +362,9 @@ if __name__ == "__main__":
                    edc_bpns)
 
     edc_asset_path = "/management/v3/assets"
-    edc_policy_path = "/management/v2/policydefinitions"
-    edc_contract_definition_path = "/management/v2/contractdefinitions"
-    edc_catalog_path = "/management/v2/catalog/request"
+    edc_policy_path = "/management/v3/policydefinitions"
+    edc_contract_definition_path = "/management/v3/contractdefinitions"
+    edc_catalog_path = "/management/v3/catalog/request"
     dataplane_public_path = "/api/public"
     controlplane_public_path = "/api/v1/dsp"
 

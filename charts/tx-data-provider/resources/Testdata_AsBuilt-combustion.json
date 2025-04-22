@@ -11,19 +11,23 @@
         "@type": "odrl:Set",
         "odrl:permission": [
           {
-            "odrl:action": "use",
+            "odrl:action": {
+              "odrl:type": {
+                "@id": "http://www.w3.org/ns/odrl/2/use"
+              }
+            },
             "odrl:constraint": {
               "@type": "AtomicConstraint",
               "odrl:or": [
                 {
                   "@type": "Constraint",
                   "odrl:leftOperand":   {
-                    "@id": "cx-policy:UsagePurpose"
+                    "@id": "cx-policy:Membership"
                   },
                   "odrl:operator": {
                     "@id": "odrl:eq"
                   },
-                  "odrl:rightOperand": "cx.core.industrycore:1"
+                  "odrl:rightOperand": "active"
                 }
               ]
             }
