@@ -26,7 +26,9 @@ The above specifications are the minimum requirements for a local development se
 
 ### 1. Linux
 
-Video example: <video controls src="https://github.com/eclipse-tractusx/eclipse-tractusx.github.io.largefiles/blob/main/umbrella/video-tutorials/setup.mp4" title="umbrella/video-tutorials/setup.mp4"></video>
+Video example: 
+
+https://github.com/user-attachments/assets/ca2222d1-540d-4a69-b405-9ca706ff8cb5
 
 Start a Minikube cluster with the following command:
 
@@ -46,6 +48,10 @@ Start a Minikube cluster with the following command:
 ```bash
 minikube start --cpus=4 --memory=6gb
 ```
+
+
+https://github.com/user-attachments/assets/09bb435e-5657-4ba0-a7e7-a2c6c9fe17ff
+
 
 #### Option 2: No docker desktop available
 
