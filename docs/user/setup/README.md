@@ -26,6 +26,8 @@ The above specifications are the minimum requirements for a local development se
 
 ### 1. Linux
 
+Video example: <video controls src="https://github.com/eclipse-tractusx/eclipse-tractusx.github.io.largefiles/blob/main/umbrella/video-tutorials/setup.mp4" title="umbrella/video-tutorials/setup.mp4"></video>
+
 Start a Minikube cluster with the following command:
 
 ```bash
