@@ -21,7 +21,6 @@
 # This is a YAML-formatted file.
 
 simple-data-backend:
-  nameOverride: dataprovider-submodelserver
   image:
     tag: "main"
   ingress:

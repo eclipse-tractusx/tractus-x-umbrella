@@ -18,7 +18,6 @@
 # #############################################################################
 
 digital-twin-registry:
-  nameOverride: dataprovider-dtr
   enablePostgres: false
   registry:
     host: dataprovider-dtr.test
@@ -31,7 +30,6 @@ digital-twin-registry:
 
 # PostgreSQL Configuration
 postgresql:
-  nameOverride: digital-twin-registry-db
   auth:
     username: "user"
     password: "password"

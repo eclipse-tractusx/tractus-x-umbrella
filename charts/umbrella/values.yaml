@@ -1126,6 +1126,9 @@ dataconsumerOne:
           transferProxyTokenSignerPublicKey: tokenSignerPublicKey
           transferProxyTokenEncryptionAesKey: tokenEncryptionAesKey
 
+    postgresql:
+      nameOverride: dataconsumer-1-db
+
   vault:
     nameOverride: edc-dataconsumer-1-vault
     enabled: true
@@ -1215,9 +1218,10 @@ tx-data-provider:
       postgresql:
         nameOverride: dataprovider-db
         jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-dataprovider-db:5432/edc"
-        auth:
-          password: "dbpasswordtxdataprovider"
-          postgresPassword: "dbpasswordtxdataprovider"
+#        auth:
+#          user: "changeme"
+#          password: "changeme"
+#          postgresPassword: "changeme"
       vault:
         hashicorp:
           url: http://{{ .Release.Name }}-vault:8200
@@ -1225,6 +1229,9 @@ tx-data-provider:
           transferProxyTokenSignerPrivateKey: tokenSignerPrivateKey
           transferProxyTokenSignerPublicKey: tokenSignerPublicKey
           transferProxyTokenEncryptionAesKey: tokenEncryptionAesKey
+
+    postgresql:
+      nameOverride: dataprovider-db
 
   vault:
     nameOverride: edc-dataprovider-vault

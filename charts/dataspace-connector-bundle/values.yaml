@@ -87,6 +87,7 @@ tractusx-connector:
         privatekey_alias: tokenSignerPrivateKey
       verifier:
         publickey_alias: tokenSignerPublicKey
+  # IF you Bring-Your-Own DB adjust connection here
   postgresql:
     jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-dataspace-connector-db:5432/edc"
     auth:
@@ -96,7 +97,7 @@ tractusx-connector:
 
 # PostgreSQL Configuration
 postgresql:
-  nameOverride: dataspace-connector-db
+  # Set to false IF you Bring-Your-Own DB
   enabled: true
   auth:
     database: "edc"
