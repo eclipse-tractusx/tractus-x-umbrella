@@ -1120,7 +1120,7 @@ dataconsumerOne:
 #          postgresPassword: "dbpassworddataconsumerone"
       vault:
         hashicorp:
-          url: http://{{ .Release.Name }}-vault:8200
+          url: http://{{ .Release.Name }}-edc-dataconsumer-1-vault:8200
         secretNames:
           transferProxyTokenSignerPrivateKey: tokenSignerPrivateKey
           transferProxyTokenSignerPublicKey: tokenSignerPublicKey
@@ -1129,22 +1129,19 @@ dataconsumerOne:
     postgresql:
       nameOverride: dataconsumer-1-db
 
-  vault:
-    nameOverride: edc-dataconsumer-1-vault
-    enabled: true
-    hashicorp:
-      url: http://{{ .Release.Name }}-vault:8200
-    server:
-      postStart: []
+    vault:
+      nameOverride: edc-dataconsumer-1-vault
+      enabled: true
+      server:
+        postStart: [ ]
+
+  data-persistence-layer-bundle:
+    simple-data-backend:
+      enabled: false
 
   digital-twin-bundle:
     digital-twin-registry:
-      enabled: true
-      registry:
-        dataSource:
-          # No templating possbile, need to hardcode string, or set it via property
-          # e.g. helm install <release-name> charts/digital-twin-bundle --set digital-twin-registry.registry.dataSource.url=jdbc:postgresql://<release-name>-digital-twin-registry-db:5432/dtr
-          url: "jdbc:postgresql://umbrella-digital-twin-registry-db:5432/dtr"
+      enabled: false
 
   simple-data-backend:
     enabled: false
@@ -1224,7 +1221,7 @@ tx-data-provider:
 #          postgresPassword: "changeme"
       vault:
         hashicorp:
-          url: http://{{ .Release.Name }}-vault:8200
+          url: http://{{ .Release.Name }}-edc-dataprovider-vault:8200
         secretNames:
           transferProxyTokenSignerPrivateKey: tokenSignerPrivateKey
           transferProxyTokenSignerPublicKey: tokenSignerPublicKey
@@ -1233,11 +1230,23 @@ tx-data-provider:
     postgresql:
       nameOverride: dataprovider-db
 
-  vault:
-    nameOverride: edc-dataprovider-vault
-    enabled: true
-    server:
-      postStart: []
+    vault:
+      nameOverride: edc-dataprovider-vault
+      enabled: true
+      server:
+        postStart: []
+
+  digital-twin-bundle:
+    digital-twin-registry:
+      enabled: true
+      registry:
+        dataSource:
+          # No templating possbile, need to hardcode string, or set it via property
+          # e.g. helm install <release-name> charts/digital-twin-bundle --set digital-twin-registry.registry.dataSource.url=jdbc:postgresql://<release-name>-digital-twin-registry-db:5432/dtr
+          url: "jdbc:postgresql://dataprovider-digital-twin-db:5432/dtr"
+
+    postgresql:
+      fullnameOverride: "dataprovider-digital-twin-db"
 
 semantic-hub:
   enabled: false
