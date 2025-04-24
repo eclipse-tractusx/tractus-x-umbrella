@@ -1,0 +1,118 @@
+# #############################################################################
+# Copyright (c) 2025 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Apache License, Version 2.0 which is available at
+# https://www.apache.org/licenses/LICENSE-2.0.
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+# License for the specific language governing permissions and limitations
+# under the License.
+#
+# SPDX-License-Identifier: Apache-2.0
+# #############################################################################
+
+# Default values for dataspace-connector-bundle
+# This is a YAML-formatted file.
+
+tractusx-connector:
+  # Installation options
+  install:
+    # -- Deploying a PostgreSQL instance
+    postgresql: false
+    # -- Deploying a HashiCorp Vault instance
+    vault: false
+
+  # Participant Configuration
+  participant:
+    id: BPNL00000003AZQP
+
+  # IATP (Identity and Trust Protocol) Configuration
+  iatp:
+    id: did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003AZQP
+    trustedIssuers:
+      - did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003CRHK
+    sts:
+      dim:
+        url: http://ssi-dim-wallet-stub.tx.test/api/sts
+      oauth:
+        token_url: http://ssi-dim-wallet-stub.tx.test/oauth/token
+        client:
+          id: BPNL00000003AZQP
+          secret_alias: edc-wallet-secret
+
+  # Control Plane Configuration
+  controlplane:
+    env:
+      TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-stub.tx.test/api
+      EDC_IAM_DID_WEB_USE_HTTPS: false
+    bdrs:
+      server:
+        url: http://ssi-dim-wallet-stub.tx.test/api/v1/directory
+    endpoints:
+      management:
+        authKey: TEST1
+    ingresses:
+      - enabled: true
+        hostname: "{{ .Release.Name }}-controlplane.tx.test"
+        endpoints:
+          - default
+          - protocol
+          - management
+        className: "nginx"
+        tls:
+          enabled: false
+
+  # Data Plane Configuration
+  dataplane:
+    env:
+      TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-stub.tx.test/api
+      EDC_IAM_DID_WEB_USE_HTTPS: false
+    ingresses:
+      - enabled: true
+        hostname: "{{ .Release.Name }}-dataplane.tx.test"
+        endpoints:
+          - default
+          - public
+        className: "nginx"
+        tls:
+          enabled: false
+    token:
+      signer:
+        privatekey_alias: tokenSignerPrivateKey
+      verifier:
+        publickey_alias: tokenSignerPublicKey
+  # IF you Bring-Your-Own DB adjust connection here
+  postgresql:
+    jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-dataspace-connector-db:5432/edc"
+    auth:
+      database: "edc"
+      username: "user"
+      password: "password"
+
+# PostgreSQL Configuration
+postgresql:
+  # Set to false IF you Bring-Your-Own DB
+  enabled: true
+  auth:
+    database: "edc"
+    username: "user"
+    password: "password"
+  primary:
+    persistence:
+      enabled: false
+      size: "10Gi"
+
+# Vault Configuration
+vault:
+  enabled: true
+  server:
+    standalone:
+      enabled: true
+    dev:
+      enabled: true

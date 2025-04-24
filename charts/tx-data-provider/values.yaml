@@ -35,102 +35,17 @@ dataplaneUrl: ""  # Override the edc dataplane public url
 secrets:
   edc-wallet-secret: changeme
 
-tractusx-connector:
-  enabled: true
-  install:
-    postgresql: true
-    vault: false
-  participant:
-    id: changeme
-  iatp:
-    id: changeme
-    trustedIssuers:
-      - changeme
-    sts:
-      dim:
-        url: http://example.org
-      oauth:
-        token_url: http://example.org
-        client:
-          id: changeme
-          secret_alias: client-secret
-  controlplane:
-    ingresses:
-      - enabled: false
-    bdrs:
-      server:
-        url: http://example.org
-    endpoints:
-      management:
-        authKey: *edcKey
-    securityContext:
-      readOnlyRootFilesystem: false
+dataspace-connector-bundle:
+  tractusx-connector:
+    enabled: true
 
-  dataplane:
-    ingresses:
-      - enabled: false
-    token:
-      signer:
-        privatekey_alias: changeme
-      verifier:
-        publickey_alias: changeme
+digital-twin-bundle:
+  digital-twin-registry:
+    enabled: true
 
-  vault:
-    hashicorp:
-      url: http://{{ .Release.Name }}-edc-provider-vault:8200
-      token: "root"
-    secretNames:
-      transferProxyTokenSignerPrivateKey: changeme
-      transferProxyTokenSignerPublicKey: changeme
-      transferProxyTokenEncryptionAesKey: aesKey
-
-  postgresql:
-    nameOverride: edc-postgresql
-    primary:
-      persistence:
-        enabled: false
-        size: 1Gi
-    auth:
-      database: edc
-      username: *postgresuser
-      postgresPassword: *postgrespass
-      password: *postgrespass
-    username: *postgresuser
-    password: *postgrespass
-    jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-edc-postgresql:5432/edc"
-
-digital-twin-registry:
-  enabled: true
-  enableKeycloak: false
-
-  postgresql:
-    auth:
-      existingSecret: registry-db-postresinit
-    primary:
-      persistence:
-        enabled: false
-        size: 1Gi
-
-  registry:
-    host: digital-twin-registry.test
-    ingress:
-      enabled: false
-    authentication: false
-    livenessProbe:
-      failureThreshold: 10
-      initialDelaySeconds: 60
-      periodSeconds: 10
-    readinessProbe:
-      failureThreshold: 10
-      initialDelaySeconds: 60
-      periodSeconds: 10
-
-simple-data-backend:
-  enabled: true
-  image:
-    tag: "main"
-  ingress:
-    enabled: false
+data-persistence-layer-bundle:
+  simple-data-backend:
+    enabled: true
 
 vault:
   enabled: true
