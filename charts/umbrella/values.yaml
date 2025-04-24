@@ -1113,21 +1113,19 @@ dataconsumerOne:
           verifier:
             publickey_alias: tokenSignerPublicKey
       postgresql:
-        nameOverride: dataconsumer-1-db
         jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-dataconsumer-1-db:5432/edc"
-#        auth:
-#          password: "dbpassworddataconsumerone"
-#          postgresPassword: "dbpassworddataconsumerone"
+        auth:
+          password: "dbpassworddataconsumerone"
+          postgresPassword: "dbpassworddataconsumerone"
       vault:
         hashicorp:
           url: http://{{ .Release.Name }}-edc-dataconsumer-1-vault:8200
-        secretNames:
-          transferProxyTokenSignerPrivateKey: tokenSignerPrivateKey
-          transferProxyTokenSignerPublicKey: tokenSignerPublicKey
-          transferProxyTokenEncryptionAesKey: tokenEncryptionAesKey
 
     postgresql:
       nameOverride: dataconsumer-1-db
+      auth:
+        password: "dbpassworddataconsumerone"
+        postgresPassword: "dbpassworddataconsumerone"
 
     vault:
       nameOverride: edc-dataconsumer-1-vault

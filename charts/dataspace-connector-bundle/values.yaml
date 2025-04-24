@@ -95,6 +95,14 @@ tractusx-connector:
       username: "user"
       password: "password"
 
+  vault:
+    hashicorp:
+      url: "http://{{ .Release.Name }}-vault:8200"
+      token: "root"
+      paths:
+        secret: /v1/secret
+        folder: ""
+
 # PostgreSQL Configuration
 postgresql:
   # Set to false IF you Bring-Your-Own DB
@@ -116,3 +124,4 @@ vault:
       enabled: true
     dev:
       enabled: true
+      devRootToken: root
