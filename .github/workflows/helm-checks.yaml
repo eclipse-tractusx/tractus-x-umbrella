@@ -174,6 +174,10 @@ jobs:
 
     - name: Install chart for data exchange (umbrella)
       run: |
+        helm dep up charts/data-persistence-layer-bundle
+        helm dep up charts/dataspace-connector-bundle
+        helm dep up charts/digital-twin-bundle
+        helm dep up charts/identity-and-trust-bundle
         helm dep up charts/tx-data-provider
         helm dep up charts/umbrella
         helm install umbrella charts/umbrella --namespace umbrella --create-namespace --debug --timeout 10m \
