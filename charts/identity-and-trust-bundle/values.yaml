@@ -22,6 +22,7 @@
 
 # SSI DIM Wallet Configuration
 ssi-dim-wallet-stub:
+  enabled: true
   wallet:
     enabled: true
     nameSpace: "default"

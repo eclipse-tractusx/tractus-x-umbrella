@@ -27,8 +27,8 @@ selfdescription:
   enabled: true
 
 identity-and-trust-bundle:
+  enabled: true
   ssi-dim-wallet-stub:
-    enabled: true
     wallet:
       nameSpace: "umbrella"
       didHost: "ssi-dim-wallet-service"

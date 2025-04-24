@@ -18,8 +18,8 @@
 ###############################################################
 
 identity-and-trust-bundle:
+  enabled: true
   ssi-dim-wallet-stub:
-    enabled: true
     wallet:
       didHost: "ssi-dim-wallet-service"
       stubUrl: "http://ssi-dim-wallet-service"
