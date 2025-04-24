@@ -27,7 +27,7 @@ version: 1.0.1
 
 dependencies:
   - name: digital-twin-registry
-    version: 0.6.2
+    version: 0.7.0
     repository: https://eclipse-tractusx.github.io/charts/dev
     condition: digital-twin-registry.enabled
 
