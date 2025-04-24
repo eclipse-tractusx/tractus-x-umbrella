@@ -106,5 +106,5 @@ dependencies:
     condition: bdrs-server-memory.enabled
   - name: identity-and-trust-bundle
     repository: file://../identity-and-trust-bundle
-    version: 1.0.0
+    version: 1.0.1
     condition: identity-and-trust-bundle.enabled
