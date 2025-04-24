@@ -189,7 +189,7 @@ Alice uses the {{TRANSFER_PROCESS_ID}} `bdd4af10-9e4a-4796-b4b7-7ecdf91a533a` to
 ### Authorization request
 
 ```bash
-curl -L -X GET 'http://dataconsumer-1-controlplane.tx.test/management/v3/edrs/{{TRANSFER_PROCESS_ID}/dataaddress?auto_refresh=true' \
+curl -L -X GET 'http://dataconsumer-1-controlplane.tx.test/management/v3/edrs/{{TRANSFER_PROCESS_ID}}/dataaddress?auto_refresh=true' \
   -H 'Content-Type: application/json' \
   -H 'X-Api-Key: TEST1' | jq
 ```
