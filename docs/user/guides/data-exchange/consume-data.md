@@ -14,7 +14,7 @@ To see Bob's data offerings, Alice must request access to his catalog. The catal
 ### Catalog request (Alice)
 
 ```bash
-curl -L -X POST 'http://dataconsumer-1-controlplane.tx.test/management/v2/catalog/request' \
+curl -L -X POST 'http://dataconsumer-1-controlplane.tx.test/management/v3/catalog/request' \
   -H 'Content-Type: application/json' \
   -H 'X-Api-Key: TEST1' \
   --data-raw '{
@@ -26,6 +26,11 @@ curl -L -X POST 'http://dataconsumer-1-controlplane.tx.test/management/v2/catalo
     "counterPartyId": "BPNL00000003AYRE",
     "protocol": "dataspace-protocol-http",
     "querySpec": {
+      "filterExpression": {
+        "operandLeft": "https://w3id.org/edc/v0.0.1/ns/id",
+	    "operator": "=",
+	    "operandRight": "200"
+      },
       "offset": 0,
       "limit": 50
     }
@@ -71,7 +76,7 @@ To consume the data, Alice uses the `OFFER_ID` `MjAw:MjAw:Y2ZjMzdlNmUtODAwNi00NG
 ### EDR request
 
 ```bash
-curl -L -X POST 'http://dataconsumer-1-controlplane.tx.test/management/v2/edrs' \
+curl -L -X POST 'http://dataconsumer-1-controlplane.tx.test/management/v3/edrs' \
   -H 'Content-Type: application/json' \
   -H 'X-Api-Key: TEST1' \
   --data-raw '{
@@ -136,7 +141,7 @@ Alice now queries cached EDRs using the {{CONTRACT_NEGOTIATION_ID}} `4b260501-ae
 ### Query edrs request
 
 ```shell
-curl -L -X POST 'http://dataconsumer-1-controlplane.tx.test/management/v2/edrs/request' \
+curl -L -X POST 'http://dataconsumer-1-controlplane.tx.test/management/v3/edrs/request' \
   -H 'Content-Type: application/json' \
   -H 'X-Api-Key: TEST1' \
   --data-raw '{
@@ -184,7 +189,7 @@ Alice uses the {{TRANSFER_PROCESS_ID}} `bdd4af10-9e4a-4796-b4b7-7ecdf91a533a` to
 ### Authorization request
 
 ```bash
-curl -L -X GET 'http://dataconsumer-1-controlplane.tx.test/management/v2/edrs/{{TRANSFER_PROCESS_ID}}/dataaddress?auto_refresh=true' \
+curl -L -X GET 'http://dataconsumer-1-controlplane.tx.test/management/v3/edrs/{{TRANSFER_PROCESS_ID}}/dataaddress?auto_refresh=true' \
   -H 'Content-Type: application/json' \
   -H 'X-Api-Key: TEST1' | jq
 ```
@@ -226,7 +231,7 @@ real life you would receive this information from the digital twin registry as a
 
 ```bash
 curl -L -X GET '{{ENDPOINT}}/urn:uuid:b77c6d51-cd1f-4c9d-b5d4-091b22dd306b' \
-  -H 'Authorization: {{TOKEN}}'
+  -H 'Authorization: {{TOKEN}}' | jq
 ```
 
 ### Fetch data response
@@ -240,19 +245,6 @@ curl -L -X GET '{{ENDPOINT}}/urn:uuid:b77c6d51-cd1f-4c9d-b5d4-091b22dd306b' \
         "validTo": "2024-08-02T09:00:00.000+01:00"
       },
       "parentCatenaXId": "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4c79e",
-      "quantity": {
-        "quantityNumber": 2.5,
-        "measurementUnit": "unit:litre"
-      },
-      "createdOn": "2022-02-03T14:48:54.709Z",
-      "lastModifiedOn": "2022-02-03T14:48:54.709Z"
-    },
-    {
-      "validityPeriod": {
-        "validFrom": "2023-03-21T08:47:14.438+01:00",
-        "validTo": "2024-08-02T09:00:00.000+01:00"
-      },
-      "parentCatenaXId": "urn:uuid:68904173-ad59-4a77-8412-3e73fcafbd8b",
       "quantity": {
         "quantityNumber": 2.5,
         "measurementUnit": "unit:litre"

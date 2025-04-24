@@ -32,7 +32,67 @@ You'll create an asset, define policies, and set up a contract definition for da
 We will start by creating an asset that represents the data to be shared. The data provider (Bob) uses the **[Management API](https://app.swaggerhub.com/apis/eclipse-edc-bot/management-api)** to define the asset.
 For better understanding, the cURL commands are provided and explained in detail for every step. For nearly every request a response is expected.
 
-### Step 1: Create the asset
+### Step 1: Create the data
+
+Create the data in the backend system of Bob.  
+Run the following `curl` command to create the data:
+
+```bash
+curl -L -X POST 'http://dataprovider-submodelserver.tx.test/urn:uuid:b77c6d51-cd1f-4c9d-b5d4-091b22dd306b' \
+  -H 'Content-Type: application/json' \
+  --data-raw '{
+      "parentParts": [
+        {
+          "validityPeriod": {
+            "validFrom": "2023-03-21T08:47:14.438+01:00",
+            "validTo": "2024-08-02T09:00:00.000+01:00"
+          },
+          "parentCatenaXId": "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4c79e",
+          "quantity": {
+            "quantityNumber": 2.5,
+            "measurementUnit": "unit:litre"
+          },
+          "createdOn": "2022-02-03T14:48:54.709Z",
+          "lastModifiedOn": "2022-02-03T14:48:54.709Z"
+        }
+      ],
+      "catenaXId": "urn:uuid:2c57b0e9-a653-411d-bdcd-64787e9fd3a7"
+    }'
+```
+
+Then verify that the data was created successfully.  
+Run the following `curl` command to create the asset:
+
+```bash
+curl -L -X GET 'http://dataprovider-submodelserver.tx.test/urn:uuid:b77c6d51-cd1f-4c9d-b5d4-091b22dd306b' \
+  -H 'Content-Type: application/json' | jq
+```
+#### Expected output
+
+The result shows the newly created data:
+
+```json
+{
+  "parentParts": [
+    {
+      "validityPeriod": {
+        "validFrom": "2023-03-21T08:47:14.438+01:00",
+        "validTo": "2024-08-02T09:00:00.000+01:00"
+      },
+      "parentCatenaXId": "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4c79e",
+      "quantity": {
+        "quantityNumber": 2.5,
+        "measurementUnit": "unit:litre"
+      },
+      "createdOn": "2022-02-03T14:48:54.709Z",
+      "lastModifiedOn": "2022-02-03T14:48:54.709Z"
+    }
+  ],
+  "catenaXId": "urn:uuid:2c57b0e9-a653-411d-bdcd-64787e9fd3a7"
+}
+```
+
+### Step 2: Create the asset
 
 Alice, as a data consumer, wants to consume data from Bob. Bob, as a data provider, needs to create an asset for Alice.
 Run the following `curl` command to create the asset:
@@ -86,7 +146,7 @@ If successful, the response should look like this:
 }
 ```
 
-### Step 2: Validate the asset
+### Step 3: Validate the asset
 
 Check that the asset was created successfully by running the following for requesting the specific asset with ID 200:
 
@@ -150,7 +210,7 @@ Alice sends a `CatalogRequest` to Bob's connector to discover available assets:
 > The request can alsop be filtered by an asset ID -> will be explained later
 
 ```bash
-curl -L -X POST 'http://dataconsumer-1-controlplane.tx.test/management/v2/catalog/request' \
+curl -L -X POST 'http://dataconsumer-1-controlplane.tx.test/management/v3/catalog/request' \
   -H 'Content-Type: application/json' \
   -H 'X-Api-Key: TEST1' \
   --data-raw '{
@@ -298,7 +358,7 @@ Bob creates an **Access Policy** to determine who can view the data offer.
 Run this `curl` command:
 
 ```bash
-curl -L -X POST 'http://dataprovider-controlplane.tx.test/management/v2/policydefinitions' \
+curl -L -X POST 'http://dataprovider-controlplane.tx.test/management/v3/policydefinitions' \
   -H 'Content-Type: application/json' \
   -H 'X-Api-Key: TEST2' \
   --data-raw '{
@@ -360,7 +420,7 @@ The policy was successfully created, if the response is something like this
 Now that Bob has created an access policy, Alice can once again try to access Bob's offer by running this `curl`.
 
 ```shell
-curl -L -X POST 'http://dataconsumer-1-controlplane.tx.test/management/v2/catalog/request' \
+curl -L -X POST 'http://dataconsumer-1-controlplane.tx.test/management/v3/catalog/request' \
   -H 'Content-Type: application/json' \
   -H 'X-Api-Key: TEST1' \
   --data-raw '{
@@ -403,7 +463,7 @@ Alice still cannot see the asset because Bob hasn't created a **Contract Definit
 First of all run this `curl` command to check if the policy is created correctly:
 
 ```bash
-curl -L -X GET 'http://dataprovider-controlplane.tx.test/management/v2/policydefinitions/200' \
+curl -L -X GET 'http://dataprovider-controlplane.tx.test/management/v3/policydefinitions/200' \
 -H 'X-Api-Key: TEST2' | jq
 ```
 
@@ -450,7 +510,7 @@ The policy with ID: 200 was successfully created, if the response is something l
 Run this `curl` command to create a contract definition including the asset and the policies you have created:
 
 ```bash
-curl -L -X POST 'http://dataprovider-controlplane.tx.test/management/v2/contractdefinitions' \
+curl -L -X POST 'http://dataprovider-controlplane.tx.test/management/v3/contractdefinitions' \
   -H 'Content-Type: application/json' \
   -H 'X-Api-Key: TEST2' \
   --data-raw '{
@@ -495,7 +555,7 @@ Alice re-requests the catalog. This time, she should see Bob's asset in the cata
 > In this call, the `filterExpression` is used to filter the catalog by the asset ID. This is optional and can be omitted.
 
 ```bash
-curl -L -X POST 'http://dataconsumer-1-controlplane.tx.test/management/v2/catalog/request' \
+curl -L -X POST 'http://dataconsumer-1-controlplane.tx.test/management/v3/catalog/request' \
   -H 'Content-Type: application/json' \
   -H 'X-Api-Key: TEST1' \
   --data-raw '{

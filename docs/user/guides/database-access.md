@@ -10,16 +10,23 @@ The Umbrella Chart includes a `pgadmin4` instance for easy management of Postgre
 
 ### URL
 
-You can access pgAdmin4 at the following URL, because it is enabled by default:
-```
-http://pgadmin4.tx.test
-```
+You can access pgAdmin4 at the following URL, because it is enabled by default: <http://pgadmin4.tx.test>
 
 ### Credentials
 
 Use the following credentials to log in to pgAdmin4:
-- **Username**: `pgadmin4@txtest.org`
-- **Password**: `tractusxpgadmin4`
+
+**Username**:
+
+```text
+pgadmin4@txtest.org
+```
+
+**Password**:
+
+```text
+tractusxpgadmin4
+```
 
 ## Adding Database Connections
 
@@ -28,8 +35,18 @@ After logging in to pgAdmin4, you need to manually add connections for the datab
 ### Default Postgres Credentials
 
 For all connections:
-- **Username**: `postgres`
-- **Port**: `5432`
+
+**Username**:
+
+```text
+postgres
+```
+
+**Port**:
+
+```text
+5432
+```
 
 ### Database Connection Details
 

@@ -25,11 +25,13 @@ Create a `ClusterIssuer` and a self-signed certificate for your environment.
 1. Apply the configuration file for the `ClusterIssuer` and the root certificate:
 
    If you have the repository checked out, use:
+
    ```bash
    kubectl apply -f ./charts/umbrella/cluster-issuer.yaml
    ```
 
    Alternatively, create the issuer manually:
+
    ```bash
    kubectl apply -f - <<EOF
    apiVersion: cert-manager.io/v1
@@ -67,6 +69,7 @@ Create a `ClusterIssuer` and a self-signed certificate for your environment.
    ```
 
 2. Verify the `ClusterIssuer` is ready:
+
    ```bash
    kubectl get clusterissuer
    ```
@@ -89,6 +92,7 @@ ingress:
 ```
 
 Deploy the updated configuration:
+
 ```bash
 helm upgrade --install umbrella . --namespace umbrella
 ```
@@ -96,9 +100,11 @@ helm upgrade --install umbrella . --namespace umbrella
 ## Testing TLS
 
 1. Access one of the secured endpoints, for example:
+
    ```
    https://portal.tx.test
    ```
+
 2. Accept the risk for the self-signed certificate in your browser or import the root certificate into your trusted store.
 
 For more details, refer to the [cert-manager documentation](https://cert-manager.io/docs/configuration/selfsigned).

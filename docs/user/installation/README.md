@@ -6,14 +6,14 @@ This guide provides instructions to install the Umbrella Chart and its predefine
 
 The currently available components are following:
 
-- [portal](https://github.com/eclipse-tractusx/portal/tree/portal-2.3.0)
-- [centralidp](https://github.com/eclipse-tractusx/portal-iam/tree/v4.0.1)
-- [sharedidp](https://github.com/eclipse-tractusx/portal-iam/tree/v4.0.1)
-- [bpndiscovery](https://github.com/eclipse-tractusx/sldt-bpn-discovery/tree/bpndiscovery-0.4.2)
-- [discoveryfinder](https://github.com/eclipse-tractusx/sldt-discovery-finder/tree/discoveryfinder-0.4.2)
+- [portal](https://github.com/eclipse-tractusx/portal/tree/portal-2.4.0)
+- [centralidp](https://github.com/eclipse-tractusx/portal-iam/tree/v4.1.0)
+- [sharedidp](https://github.com/eclipse-tractusx/portal-iam/tree/v4.1.0)
+- [bpndiscovery](https://github.com/eclipse-tractusx/sldt-bpn-discovery/tree/bpndiscovery-0.5.1)
+- [discoveryfinder](https://github.com/eclipse-tractusx/sldt-discovery-finder/tree/discoveryfinder-0.5.1)
 - [sdfactory](https://github.com/eclipse-tractusx/sd-factory/tree/sdfactory-2.1.21)
 - [managed-identity-wallet](https://github.com/eclipse-tractusx/managed-identity-wallet/tree/v0.4.0)
-- [semantic-hub](https://github.com/eclipse-tractusx/sldt-semantic-hub/tree/semantic-hub-0.4.4)
+- [semantic-hub](https://github.com/eclipse-tractusx/sldt-semantic-hub/tree/semantic-hub-0.5.0)
 - [ssi credential issuer](https://github.com/eclipse-tractusx/ssi-credential-issuer/tree/v1.2.0)
 - [dataconsumerOne](https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/tx-data-provider) ([tractusx-edc](https://github.com/eclipse-tractusx/tractusx-edc/tree/0.7.1), [vault](https://github.com/hashicorp/vault-helm/tree/v0.20.0))
 - [tx-data-provider](https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/tx-data-provider) ([tractusx-edc](https://github.com/eclipse-tractusx/tractusx-edc/tree/0.7.1), [digital-twin-registry](https://github.com/eclipse-tractusx/sldt-digital-twin-registry/tree/digital-twin-registry-0.6.3), [vault](https://github.com/hashicorp/vault-helm/tree/v0.20.0), [simple-data-backend](https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/simple-data-backend))
@@ -21,6 +21,17 @@ The currently available components are following:
 - [bdrs](https://github.com/eclipse-tractusx/bpn-did-resolution-service/tree/0.5.2) (**in memory** - no persistence possible)
 - [bpdm](https://github.com/eclipse-tractusx/bpdm/tree/release/6.2.x)
 - [ssi-dim-wallet-stub](https://github.com/eclipse-tractusx/ssi-dim-wallet-stub/releases/tag/ssi-dim-wallet-stub-0.1.2)
+
+## Auxiliary components
+
+The currently available auxiliary components are following:
+
+- [pgadmin4](https://artifacthub.io/packages/helm/runix/pgadmin4/1.25.0)
+- [opentelemetry-collector](https://github.com/open-telemetry/opentelemetry-helm-charts/tree/opentelemetry-collector-0.90.0)
+- [jaeger](https://github.com/jaegertracing/helm-charts/tree/jaeger-3.0.7)
+- [prometheus](https://github.com/prometheus-community/helm-charts/tree/prometheus-27.1.08)
+- [grafana](https://github.com/grafana/helm-charts/tree/grafana-8.10.1)
+- [loki](https://github.com/grafana/loki/tree/helm-loki-6.27.0)
 
 > :warning: **Note**
 >

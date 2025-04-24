@@ -6,7 +6,7 @@ Add the Eclipse Tractus-X [charts repository](https://github.com/eclipse-tractus
 helm repo add tractusx-dev https://eclipse-tractusx.github.io/charts/dev
 ```
 
-**:grey_question: Command explanation**
+**:grey_question: Command explanation**:
 
 > `helm install` is used to install a chart in Kubernetes using Helm.
 > > `--set COMPONENT_1.enabled=true,COMPONENT_2.enabled=true` Enables the components by setting their respective enabled values to true.
