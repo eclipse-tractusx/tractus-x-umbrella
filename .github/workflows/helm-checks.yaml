@@ -163,8 +163,7 @@ jobs:
       run: ct lint --validate-maintainers=false --target-branch ${{ steps.set-target-branch.outputs.target-branch }}
     
     - name: Download chart dependencies (recursive)
-      shell: bash
-      run: hack/helm-dependencies.bash
+      run: bash hack/helm-dependencies.bash
 
     - name: Install chart and run tests (simple-data-backend)
       run: ct install --charts charts/simple-data-backend --target-branch ${{ steps.set-target-branch.outputs.target-branch }} --helm-extra-set-args "--set image.repository=kind-registry:5000/simple-data-backend --set image.tag=testing"
