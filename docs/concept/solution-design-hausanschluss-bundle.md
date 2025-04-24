@@ -36,6 +36,8 @@
     * [4.2.2 Business Process (SCC Artifact)](#422-business-process-scc-artifact)
       * [Chart Release Process](#chart-release-process)
       * [Capability Bundle Structure](#capability-bundle-structure)
+        * [Core Principles](#core-principles)
+        * [Benefits](#benefits)
       * [Deployment strategies](#deployment-strategies)
         * [Role: Data Provider](#role-data-provider)
         * [Role: Data Consumer](#role-data-consumer)
@@ -339,18 +341,30 @@ Chart versions should follow [Semantic Versioning](https://semver.org/)
 #### Capability Bundle Structure
 
 Capability bundle modularization for the Tractus-X Umbrella Helm chart is a sound architectural and operational design.
-It aligns with both the domain-driven architecture of Catena-X (data exchange, digital twin, identity, semantics are
-distinct domains) and with Kubernetes best practices for managing complex applications (using an umbrella chart to
-bundle related microservices).
+It aligns with both the domain-driven architecture of Catena-X (data exchange, digital twin, identity, semantics as
+distinct domains) and with Kubernetes best practices for managing complex applications using an umbrella chart to bundle
+related microservices.
 
-Each bundle is self-sufficient, which improves isolation (failures or changes in one domain have minimal impact on
-others) and allows scaling and upgrading along domain lines. It simplifies deployment by allowing “plug-and-play”
-capabilities: an Enablement Service Provider can decide which bundles to operate based on its role e.g., include the
-Digital Twin and Semantic bundles if offering an asset-rich service, or omit them if not. The approach is consistent
-with how other OSS projects deliver multi-component systems, providing one-step installation without sacrificing the
-ability to tweak individual parts.
+##### Core Principles
 
-Why this structure was proposed:
+- **Exclusive Assignment**  
+  Every component and service is assigned to exactly one capability bundle, ensuring clear ownership and avoiding
+  overlap.
+- **Separate HELM Sub-Charts**  
+  Each bundle is organized as its own Helm sub-chart within the umbrella chart, keeping codebases modular and
+  maintainable.
+- **Isolated Deployability**  
+  Bundles can be deployed in isolation, so failures or updates in one bundle have minimal or no impact on others.
+- **Independent Lifecycle Management**  
+  Each bundle can be installed, updated, or removed independently, supporting flexible versioning and rollbacks without
+  affecting unrelated domains.
+- **No Circular Dependencies**  
+  Bundles declare only one-way dependencies, ensuring that there are no cycles between bundles.
+- **Comprehensive Documentation**  
+  The modularization approach—including bundle definitions, dependency rules, deployment instructions, and
+  upgrade/removal procedures—is fully documented in the solution concept.
+
+##### Benefits
 
 1. **Clear Separation of Concerns**  
    Each capability bundle (e.g. EDC Data Transfer, Digital Twin, Identity & Trust, Semantic Model) aligns with a
@@ -371,11 +385,11 @@ Why this structure was proposed:
    for credential management, etc.). This clarity also helps new adopters navigate the ecosystem.
 
 | **Capability Bundle**             | **Default Components**                               | **Comments / Possible Replacements**                                             |
-|-----------------------------------|------------------------------------------------------|-----------------------------------------------------------------------------------|
+|-----------------------------------|------------------------------------------------------|----------------------------------------------------------------------------------|
 | **Identity and Trust bundle**     | - ssi-dim-wallet-stub                                | Can be replaced by your own Identity Wallet.                                     |
-| **Dataspace connector bundle**    | - Tractusx connector<br/>- PostgreSQL <br/>- Vault   | Vault can be replaced if you “bring your own” vault or secrets-manager solution.  |
-| **Digital twin bundle**           | - Digital Twin Registry (DTR)<br/>- PostgreSQL <br/> | DB can be replaced by your own DB solution.   |
-| **Data persistence layer bundle** | - Simple data backend                                |   |
+| **Dataspace connector bundle**    | - Tractusx connector<br/>- PostgreSQL <br/>- Vault   | Vault can be replaced if you “bring your own” vault or secrets-manager solution. |
+| **Digital twin bundle**           | - Digital Twin Registry (DTR)<br/>- PostgreSQL <br/> | DB can be replaced by your own DB solution.                                      |
+| **Data persistence layer bundle** | - Simple data backend                                |                                                                                  |
 
 ````mermaid
 %%{init: {"flowchart": {"subGraphTitleMargin": { "bottom": 10}}}}%%
