@@ -23,7 +23,7 @@ description: |
   Helm chart for Capability Bundle: Digital Twin
 
 type: application
-version: 1.0.0
+version: 1.0.1
 
 dependencies:
   - name: digital-twin-registry

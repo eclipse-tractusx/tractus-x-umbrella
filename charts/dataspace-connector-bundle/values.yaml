@@ -59,7 +59,7 @@ tractusx-connector:
         authKey: TEST1
     ingresses:
       - enabled: true
-        hostname: "{{ .Release.Name }}-controlplane.tx.test"
+        hostname: "example-controlplane.tx.test"
         endpoints:
           - default
           - protocol
@@ -75,7 +75,7 @@ tractusx-connector:
       EDC_IAM_DID_WEB_USE_HTTPS: false
     ingresses:
       - enabled: true
-        hostname: "{{ .Release.Name }}-dataplane.tx.test"
+        hostname: "example-dataplane.tx.test"
         endpoints:
           - default
           - public
@@ -89,11 +89,19 @@ tractusx-connector:
         publickey_alias: tokenSignerPublicKey
   # IF you Bring-Your-Own DB adjust connection here
   postgresql:
-    jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-dataspace-connector-db:5432/edc"
+    jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-postgresql:5432/edc"
     auth:
       database: "edc"
       username: "user"
       password: "password"
+
+  vault:
+    hashicorp:
+      url: "http://{{ .Release.Name }}-vault:8200"
+      token: "root"
+      paths:
+        secret: /v1/secret
+        folder: ""
 
 # PostgreSQL Configuration
 postgresql:
@@ -116,3 +124,4 @@ vault:
       enabled: true
     dev:
       enabled: true
+      devRootToken: root

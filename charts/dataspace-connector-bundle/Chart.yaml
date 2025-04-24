@@ -23,11 +23,11 @@ description: |
   Helm chart for Capability Bundle: Dataspace Connector
 
 type: application
-version: 1.0.0
+version: 1.0.1
 
 dependencies:
   - name: tractusx-connector
-    version: 0.9.0
+    version: 0.8.0
     repository: https://eclipse-tractusx.github.io/charts/dev
     condition: tractusx-connector.enabled
 

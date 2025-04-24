@@ -163,8 +163,7 @@ jobs:
       run: ct lint --validate-maintainers=false --target-branch ${{ steps.set-target-branch.outputs.target-branch }}
     
     - name: Download chart dependencies (recursive)
-      shell: bash
-      run: hack/helm-dependencies.bash
+      run: bash hack/helm-dependencies.bash
 
     - name: Install chart and run tests (simple-data-backend)
       run: ct install --charts charts/simple-data-backend --target-branch ${{ steps.set-target-branch.outputs.target-branch }} --helm-extra-set-args "--set image.repository=kind-registry:5000/simple-data-backend --set image.tag=testing"
@@ -174,15 +173,12 @@ jobs:
 
     - name: Install chart for data exchange (umbrella)
       run: |
-        helm dep up charts/tx-data-provider
-        helm dep up charts/umbrella
         helm install umbrella charts/umbrella --namespace umbrella --create-namespace --debug --timeout 10m \
         -f charts/values-test-data-exchange.yaml
         helm uninstall umbrella --namespace umbrella
 
     - name: Install chart for centralidp Keycloak (umbrella)
       run: |
-        helm dep up charts/umbrella
         helm install centralidp charts/umbrella --namespace umbrella --create-namespace --debug --timeout 10m \
         -f charts/values-test-iam-init-container.yaml --wait --wait-for-jobs
 

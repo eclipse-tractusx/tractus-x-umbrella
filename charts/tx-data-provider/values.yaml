@@ -38,10 +38,23 @@ secrets:
 dataspace-connector-bundle:
   tractusx-connector:
     enabled: true
+    postgresql:
+      jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-connector-postgresql:5432/edc"
+  postgresql:
+    nameOverride: connector-postgresql
 
 digital-twin-bundle:
   digital-twin-registry:
     enabled: true
+    registry:
+      authentication: false
+      dataSource:
+        # digital-twin-bundle.digital-twin-registry.registry.dataSource.url
+        # No templating possible, need to hardcode string, or set it via property e.g.,
+        # helm install <release-name> charts/tx-data-provider --set digital-twin-bundle.digital-twin-registry.registry.dataSource.url=jdbc:postgresql://<release-name>-dtr-postgresql:5432/dtr
+        url: "jdbc:postgresql://dtr-postgresql:5432/dtr"
+  postgresql:
+    fullnameOverride: "dtr-postgresql"
 
 data-persistence-layer-bundle:
   simple-data-backend:
