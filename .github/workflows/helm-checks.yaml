@@ -160,7 +160,7 @@ jobs:
         uses: helm/chart-testing-action@v2.6.1
 
       - name: Lint chart
-        run: ct lint --check-version-increment=false --validate-maintainers=false --target-branch ${{ steps.set-target-branch.outputs.target-branch }}
+        run: ct lint --validate-maintainers=false --target-branch ${{ steps.set-target-branch.outputs.target-branch }}
 
       - name: Download chart dependencies (recursive)
         run: bash hack/helm-dependencies.bash
