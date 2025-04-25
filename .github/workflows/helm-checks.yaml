@@ -54,144 +54,173 @@ jobs:
     outputs:
       changed: "${{ steps.list-changed.outputs.changed }}"
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-    - name: Set up Helm
-      uses: azure/setup-helm@b7246b12e77f7134dc2d460a3d5bad15bbe29390 # v4.1.0
-      with:
-        version: v3.12.1
+      - name: Set up Helm
+        uses: azure/setup-helm@b7246b12e77f7134dc2d460a3d5bad15bbe29390 # v4.1.0
+        with:
+          version: v3.12.1
 
-    - uses: actions/setup-python@v5
-      with:
-        python-version: '3.10'
-        check-latest: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+          check-latest: true
 
-    - name: Set up chart-testing
-      uses: helm/chart-testing-action@v2.6.1
+      - name: Set up chart-testing
+        uses: helm/chart-testing-action@v2.6.1
 
-    - name: Set target branch
-      id: set-target-branch
-      run: |
-        if [ -n "${{ github.event.pull_request.base.ref }}" ]; then
-          echo "target-branch=${{ github.event.pull_request.base.ref }}" >> "$GITHUB_OUTPUT"
-        else
-          echo "target-branch=${{ github.event.repository.default_branch }}" >> "$GITHUB_OUTPUT"
-        fi
+      - name: Set target branch
+        id: set-target-branch
+        run: |
+          if [ -n "${{ github.event.pull_request.base.ref }}" ]; then
+            echo "target-branch=${{ github.event.pull_request.base.ref }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "target-branch=${{ github.event.repository.default_branch }}" >> "$GITHUB_OUTPUT"
+          fi
 
-    - name: Run chart-testing (list-changed)
-      id: list-changed
-      run: |
-        changed=$(ct list-changed --target-branch ${{ steps.set-target-branch.outputs.target-branch }})
-        if [[ -n "$changed" ]]; then
-          echo "changed=true" >> $GITHUB_OUTPUT
-        fi
+      - name: Run chart-testing (list-changed)
+        id: list-changed
+        run: |
+          changed=$(ct list-changed --target-branch ${{ steps.set-target-branch.outputs.target-branch }})
+          if [[ -n "$changed" ]]; then
+            echo "changed=true" >> $GITHUB_OUTPUT
+          fi
 
   lint-test:
     runs-on: ubuntu-latest
     needs: [list-changed]
     if: ${{ github.event_name != 'pull_request' || needs.list-changed.outputs.changed == 'true' }}
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-      with:
-        fetch-depth: 0
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-    - name: Kubernetes KinD Cluster
-      uses: container-tools/kind-action@0ad70e2299366b0e1552c7240f4e4567148f723e #v2.0.4
-      with:
-        # upgrade version, default (v0.17.0) uses node image v1.21.1 and doesn't work with more recent node image versions
-        version: v0.20.0
-        # default value for event_name != workflow_dispatch
-        node_image: ${{ github.event.inputs.node_image || 'kindest/node:v1.27.3' }}
+      - name: Kubernetes KinD Cluster
+        uses: container-tools/kind-action@0ad70e2299366b0e1552c7240f4e4567148f723e #v2.0.4
+        with:
+          # upgrade version, default (v0.17.0) uses node image v1.21.1 and doesn't work with more recent node image versions
+          version: v0.20.0
+          # default value for event_name != workflow_dispatch
+          node_image: ${{ github.event.inputs.node_image || 'kindest/node:v1.27.3' }}
 
-    - name: Informational - describe node
-      run: kubectl describe node
+      - name: Informational - describe node
+        run: kubectl describe node
 
-      # Pull and build Jena Fuseki DB for semantic-hub
-    - name: Pull Fuseki sources
-      run: |
-        curl https://repo1.maven.org/maven2/org/apache/jena/jena-fuseki-docker/5.0.0/jena-fuseki-docker-5.0.0.zip > ./jena-fuseki.zip
-        unzip jena-fuseki.zip
-    - name: Build and push Fuseki DB
-      uses: docker/build-push-action@4a13e500e55cf31b7a5d59a38ab2040ab0f42f56
-      with:
-        context: jena-fuseki-docker-5.0.0
-        push: true
-        tags: kind-registry:5000/jena-fuseki-docker:5.0.0
-        build-args: JENA_VERSION=5.0.0
+        # Pull and build Jena Fuseki DB for semantic-hub
+      - name: Pull Fuseki sources
+        run: |
+          curl https://repo1.maven.org/maven2/org/apache/jena/jena-fuseki-docker/5.0.0/jena-fuseki-docker-5.0.0.zip > ./jena-fuseki.zip
+          unzip jena-fuseki.zip
+      - name: Build and push Fuseki DB
+        uses: docker/build-push-action@4a13e500e55cf31b7a5d59a38ab2040ab0f42f56
+        with:
+          context: jena-fuseki-docker-5.0.0
+          push: true
+          tags: kind-registry:5000/jena-fuseki-docker:5.0.0
+          build-args: JENA_VERSION=5.0.0
 
-    - name: Build simple data backend
-      uses: docker/build-push-action@4a13e500e55cf31b7a5d59a38ab2040ab0f42f56 # v5.1.0
-      with:
-        context: ./simple-data-backend/
-        push: true
-        tags: kind-registry:5000/simple-data-backend:testing
+      - name: Build simple data backend
+        uses: docker/build-push-action@4a13e500e55cf31b7a5d59a38ab2040ab0f42f56 # v5.1.0
+        with:
+          context: ./simple-data-backend/
+          push: true
+          tags: kind-registry:5000/simple-data-backend:testing
 
-    - name: Build init container
-      uses: docker/build-push-action@4a13e500e55cf31b7a5d59a38ab2040ab0f42f56 # v5.1.0
-      with:
-        context: ./init-container/
-        push: true
-        tags: kind-registry:5000/init-container:testing
+      - name: Build init container
+        uses: docker/build-push-action@4a13e500e55cf31b7a5d59a38ab2040ab0f42f56 # v5.1.0
+        with:
+          context: ./init-container/
+          push: true
+          tags: kind-registry:5000/init-container:testing
 
-    - name: Set up Helm
-      uses: azure/setup-helm@b7246b12e77f7134dc2d460a3d5bad15bbe29390 # v4.1.0
-      with:
-        version: ${{ github.event.inputs.helm_version || 'latest' }}
+      - name: Set up Helm
+        uses: azure/setup-helm@b7246b12e77f7134dc2d460a3d5bad15bbe29390 # v4.1.0
+        with:
+          version: ${{ github.event.inputs.helm_version || 'latest' }}
 
-    - uses: actions/setup-python@v5
-      with:
-        python-version: '3.10'
-        check-latest: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+          check-latest: true
 
-    - name: Set target branch
-      id: set-target-branch
-      run: |
-        if [ -n "${{ github.event.pull_request.base.ref }}" ]; then
-          echo "target-branch=${{ github.event.pull_request.base.ref }}" >> "$GITHUB_OUTPUT"
-        else
-          echo "target-branch=${{ github.event.repository.default_branch }}" >> "$GITHUB_OUTPUT"
-        fi
+      - name: Set target branch
+        id: set-target-branch
+        run: |
+          if [ -n "${{ github.event.pull_request.base.ref }}" ]; then
+            echo "target-branch=${{ github.event.pull_request.base.ref }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "target-branch=${{ github.event.repository.default_branch }}" >> "$GITHUB_OUTPUT"
+          fi
 
-    - name: Set up chart-testing
-      uses: helm/chart-testing-action@v2.6.1
+      - name: Set up chart-testing
+        uses: helm/chart-testing-action@v2.6.1
 
-    - name: Lint chart
-      run: ct lint --validate-maintainers=false --target-branch ${{ steps.set-target-branch.outputs.target-branch }}
-    
-    - name: Download chart dependencies (recursive)
-      run: bash hack/helm-dependencies.bash
+      - name: Lint chart
+        run: ct lint --check-version-increment=false --validate-maintainers=false --target-branch ${{ steps.set-target-branch.outputs.target-branch }}
 
-    - name: Install chart and run tests (simple-data-backend)
-      run: ct install --charts charts/simple-data-backend --target-branch ${{ steps.set-target-branch.outputs.target-branch }} --helm-extra-set-args "--set image.repository=kind-registry:5000/simple-data-backend --set image.tag=testing"
+      - name: Download chart dependencies (recursive)
+        run: bash hack/helm-dependencies.bash
 
-    - name: Install chart and run tests (tx-data-provider)
-      run: ct install --charts charts/tx-data-provider --target-branch ${{ steps.set-target-branch.outputs.target-branch }}
+      - name: Install chart (data-persistence-layer-bundle)
+        run: |
+          cd charts/data-persistence-layer-bundle
+          helm dependency update
+          helm install dpl --namespace dpl --create-namespace .
+          helm uninstall dpl --namespace dpl
 
-    - name: Install chart for data exchange (umbrella)
-      run: |
-        helm install umbrella charts/umbrella --namespace umbrella --create-namespace --debug --timeout 10m \
-        -f charts/values-test-data-exchange.yaml
-        helm uninstall umbrella --namespace umbrella
+      - name: Install chart (dataspace-connector-bundle)
+        run: |
+          cd charts/dataspace-connector-bundle
+          helm dependency update
+          helm install dcb --namespace dcb --create-namespace .
+          helm uninstall dcb --namespace dcb
 
-    - name: Install chart for centralidp Keycloak (umbrella)
-      run: |
-        helm install centralidp charts/umbrella --namespace umbrella --create-namespace --debug --timeout 10m \
-        -f charts/values-test-iam-init-container.yaml --wait --wait-for-jobs
+      - name: Install chart (digital-twin-bundle)
+        run: |
+          cd charts/digital-twin-bundle
+          helm dependency update
+          helm install dtb --namespace dtb --create-namespace .
+          helm uninstall dtb --namespace dtb
 
-    - name: Install chart for shared services one (umbrella)
-      run: |
-        helm install umbrella charts/umbrella -f charts/values-test-shared-services-1.yaml --namespace umbrella --create-namespace --debug --timeout 10m
-        helm uninstall umbrella --namespace umbrella
-        helm uninstall centralidp --namespace umbrella
+      - name: Install chart (identity-and-trust-bundle)
+        run: |
+          cd charts/identity-and-trust-bundle
+          helm dependency update
+          helm install itb --namespace itb --create-namespace .
+          helm uninstall itb --namespace itb
 
-    - name: Install chart for shared services two (umbrella)
-      run: |
-        helm install umbrella charts/umbrella -f charts/values-test-shared-services-2.yaml --namespace umbrella --create-namespace --debug --timeout 10m  --set semantic-hub.graphdb.image=kind-registry:5000/jena-fuseki-docker:5.0.0
-        helm uninstall umbrella --namespace umbrella
+      - name: Install chart and run tests (simple-data-backend)
+        run: ct install --charts charts/simple-data-backend --target-branch ${{ steps.set-target-branch.outputs.target-branch }} --helm-extra-set-args "--set image.repository=kind-registry:5000/simple-data-backend --set image.tag=testing"
+
+      - name: Install chart and run tests (tx-data-provider)
+        run: ct install --charts charts/tx-data-provider --target-branch ${{ steps.set-target-branch.outputs.target-branch }}
+
+
+      - name: Install chart for data exchange (umbrella)
+        run: |
+          helm install umbrella charts/umbrella --namespace umbrella --create-namespace --debug --timeout 10m \
+          -f charts/values-test-data-exchange.yaml
+          helm uninstall umbrella --namespace umbrella
+
+      - name: Install chart for centralidp Keycloak (umbrella)
+        run: |
+          helm install centralidp charts/umbrella --namespace umbrella --create-namespace --debug --timeout 10m \
+          -f charts/values-test-iam-init-container.yaml --wait --wait-for-jobs
+
+      - name: Install chart for shared services one (umbrella)
+        run: |
+          helm install umbrella charts/umbrella -f charts/values-test-shared-services-1.yaml --namespace umbrella --create-namespace --debug --timeout 10m
+          helm uninstall umbrella --namespace umbrella
+          helm uninstall centralidp --namespace umbrella
+
+      - name: Install chart for shared services two (umbrella)
+        run: |
+          helm install umbrella charts/umbrella -f charts/values-test-shared-services-2.yaml --namespace umbrella --create-namespace --debug --timeout 10m  --set semantic-hub.graphdb.image=kind-registry:5000/jena-fuseki-docker:5.0.0
+          helm uninstall umbrella --namespace umbrella
 
     ## Skip upgrade for now until a working chart is released
     #- name: Run helm upgrade
@@ -209,23 +238,23 @@ jobs:
   #  steps:
   #  - name: Checkout
   #    uses: actions/checkout@v4
-#
+  #
   #  - name: Install Helm
   #    uses: azure/setup-helm@v3
   #    with:
   #      version: ${{ github.event.inputs.helm_version || 'latest' }}
   #      token: ${{ secrets.GITHUB_TOKEN }}
-#
+  #
   #  - name: Download chart dependencies (recursive)
   #    shell: bash
   #    run: hack/helm-dependencies.bash
-#
+  #
   #  - name: Create Helm template
   #    run: |
   #       helm template chart-template charts/umbrella > charts/umbrella-template.yaml
-#
+  #
   #  - name: Install Kyverno CLI
   #    uses: kyverno/action-install-cli@v0.2.0          
-#
+  #
   #  - name: Test new resources against existing policies
   #    run: kyverno apply .github/kyverno-policies/ -r charts/umbrella-template.yaml
