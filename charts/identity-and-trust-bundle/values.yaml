@@ -22,39 +22,82 @@
 
 # SSI DIM Wallet Configuration
 ssi-dim-wallet-stub:
+  # -- Enable SSI DIM Wallet deployment
+  # @section -- Wallet Component Configuration
   enabled: true
   wallet:
-    enabled: true
-    nameSpace: "default"
+    # -- Kubernetes namespace
+    # @section -- Wallet Component Configuration
+    nameSpace: "umbrella"
+    # @ignore
     replicaCount: 1
-    host: ssi-dim-wallet-stub.tx.test
+    # @ignore
     appName: "ssi-dim-wallet-stub"
+    # @ignore
     configName: "ssi-dim-wallet-config"
+    # @ignore
     serviceName: "ssi-dim-wallet-service"
+    # -@ignore
     secretName: "ssi-dim-wallet-secret"
+    # @ignore
     ingressName: "ssi-dim-wallet-ingress"
     seeding:
+      # -- List of BPNs for which wallets will be seeded on application startup
+      # @section -- Wallet Seeding Configuration
       bpnList: "BPNL00000003AZQP,BPNL00000003AYRE"
+    # -- Operator BPN
+    # @section -- Wallet Core Configuration
+    baseWalletBpn: "BPNL00000003CRHK"
+    # -- Wallet stub server URL. This will pe part of the presentation query API in the did document
+    # @section -- Wallet Core Configuration
+    stubUrl: "http://ssi-dim-wallet-stub.tx.test"
+    # -- Default status list VC id
+    # @section -- Wallet Core Configuration
+    statusListVcId: "8a6c7486-1e1f-4555-bdd2-1a178182651e"
+    # -- Token expiry time in seconds
+    # @section -- Wallet Core Configuration
+    tokenExpiryTime: "5"
     ingress:
+      # -- Enable ingress creation
+      # @section -- Wallet Ingress Configuration
       enabled: true
       tls:
+        # -- Enable TLS
+        # @section -- Wallet Ingress Configuration
         enabled: false
+        # -- TLS secret name
+        # @section -- Wallet Ingress Configuration
         name: ""
+      # -- URL prefix
+      # @section -- Wallet Ingress Configuration
       urlPrefix: /
+      # @ignore
       className: nginx
-      annotations: {}
-    baseWalletBpn: "BPNL00000003CRHK"
+      # @ignore
+      annotations: { }
+    # -- External hostname for wallet
+    # @section -- Wallet Ingress Configuration
+    host: ssi-dim-wallet-stub.tx.test
+    # -- Did document host, this will be part of did String i.e., did:web:<didHost>
+    # @section -- Wallet Ingress Configuration
     didHost: "ssi-dim-wallet-stub.tx.test"
-    stubUrl: "http://ssi-dim-wallet-stub.tx.test"
-    statusListVcId: "8a6c7486-1e1f-4555-bdd2-1a178182651e"
-    tokenExpiryTime: "5"
     portal:
+      # -- Wait for given seconds before pushing data to portal backend after wallet creation
+      # @section -- (Optional) Portal Integration
       waitTime: "60"
+      # -- Portal backend application host
+      # @section -- (Optional) Portal Integration
       host: "http://portal-backend.tx.test"
+      # -- Keycloak client_id. We will create an access token and using this we access portal backend APIs
+      # @section -- (Optional) Portal Integration
       clientId: "sa-cl2-05"
+      # -- (Optional) Keycloak client_secret. We will create an access token and using this we access portal backend APIs
+      # @section -- (Optional) Portal Integration
       clientSecret: "changeme"
     keycloak:
+      # -- Keycloak realm name
+      # @section -- (Optional) Keycloak Integration
       realm: "CX-Central"
+      # -- Keycloak auth server URL
+      # @section -- (Optional) Keycloak Integration
       authServerUrl: "http://centralidp.tx.test/auth"
-  keycloak:
-    enabled: false

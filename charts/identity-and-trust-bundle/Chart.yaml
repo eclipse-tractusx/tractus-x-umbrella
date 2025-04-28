@@ -21,6 +21,14 @@ apiVersion: v2
 name: identity-and-trust-bundle
 description: |
   Helm chart for Capability Bundle: Identity and Trust
+  
+  The Identity & Trust Bundle provides identity management and authentication services for the Catena-X ecosystem. 
+
+
+home: https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/identity-and-trust-bundle
+
+sources:
+  - https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/identity-and-trust-bundle
 
 type: application
 version: 1.0.1

@@ -22,6 +22,11 @@ name: dataspace-connector-bundle
 description: |
   Helm chart for Capability Bundle: Dataspace Connector
 
+home: https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/dataspace-connector-bundle
+
+sources:
+  - https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/dataspace-connector-bundle
+
 type: application
 version: 1.0.1
 
