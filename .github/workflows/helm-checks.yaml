@@ -165,6 +165,34 @@ jobs:
     - name: Download chart dependencies (recursive)
       run: bash hack/helm-dependencies.bash
 
+    - name: Install chart (data-persistence-layer-bundle)
+      run: |
+        cd charts/data-persistence-layer-bundle
+        helm dependency update
+        helm install dpl --namespace dpl --create-namespace .
+        helm uninstall dpl --namespace dpl
+
+    - name: Install chart (dataspace-connector-bundle)
+      run: |
+        cd charts/dataspace-connector-bundle
+        helm dependency update
+        helm install dcb --namespace dcb --create-namespace .
+        helm uninstall dcb --namespace dcb
+
+    - name: Install chart (digital-twin-bundle)
+      run: |
+        cd charts/digital-twin-bundle
+        helm dependency update
+        helm install dtb --namespace dtb --create-namespace .
+        helm uninstall dtb --namespace dtb
+
+    - name: Install chart (identity-and-trust-bundle)
+      run: |
+        cd charts/identity-and-trust-bundle
+        helm dependency update
+        helm install itb --namespace itb --create-namespace .
+        helm uninstall itb --namespace itb
+
     - name: Install chart and run tests (simple-data-backend)
       run: ct install --charts charts/simple-data-backend --target-branch ${{ steps.set-target-branch.outputs.target-branch }} --helm-extra-set-args "--set image.repository=kind-registry:5000/simple-data-backend --set image.tag=testing"
 
