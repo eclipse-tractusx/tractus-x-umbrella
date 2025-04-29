@@ -76,9 +76,12 @@ helm install submodel-server tractusx-dev/data-persistence-layer-bundle \
 
 ##### digital-twin-bundle
 
+> ⚠️ Due to an issue in the sldt-digital-twin-registry Helm Chart, the dataSource.url cannot be templated and has to be set manually to the release name
+
 ```bash
 helm install dtr tractusx-dev/digital-twin-bundle \
-  --namespace umbrella --create-namespace
+  --namespace umbrella --create-namespace \
+  --set digital-twin-registry.registry.dataSource.url=jdbc:postgresql://dtr-postgresql:5432/dtr
 ```
 
 ##### identity-and-trust-bundle
