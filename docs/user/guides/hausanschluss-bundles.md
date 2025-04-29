@@ -18,9 +18,9 @@ Before you begin, make sure you have the following:
     - (Optional) Vault token or AppRole credentials, if using Vault subchart.
     - (Optional) Docker registry credentials, if you override images.
 - Umbrella setup guides
-  1. [Cluster Setup](/docs/user/setup)
-  2. [Network Setup](/docs/user/network)
-  3. [Installation](/docs/user/installation)
+    1. [Cluster Setup](/docs/user/setup)
+    2. [Network Setup](/docs/user/network)
+    3. [Installation](/docs/user/installation)
 
 #### Skills:
 
@@ -56,18 +56,41 @@ helm repo update
 
 To install the entire umbrella Chart, see [README.md](/README.md).
 
-#### Install only the Chart
+#### Install a single Bundle
 
-Install the bundles:
+Install a bundle with its default values:
 
-```
-helm install data-persistence tractusx-dev/data-persistence-layer-bundle \
+##### dataspace-connector-bundle
+
+```bash
+helm install connector tractusx-dev/dataspace-connector-bundle \
   --namespace umbrella --create-namespace
 ```
 
-This will install the chart with the default values.
+##### data-persistence-layer-bundle
 
-#### Use the charts as dependencies
+```bash
+helm install submodel-server tractusx-dev/data-persistence-layer-bundle \
+  --namespace umbrella --create-namespace
+```
+
+##### digital-twin-bundle
+
+```bash
+helm install dtr tractusx-dev/digital-twin-bundle \
+  --namespace umbrella --create-namespace
+```
+
+##### identity-and-trust-bundle
+
+```bash
+helm install wallet tractusx-dev/identity-and-trust-bundle \
+  --namespace umbrella --create-namespace
+```
+
+#### Use a bundle as dependencies
+
+Create your own Chart and add the bundles as dependency.
 
 ```yaml
 dependencies:
@@ -76,10 +99,9 @@ dependencies:
     repository: https://eclipse-tractusx.github.io/charts/dev
 ```
 
-The Bundles are pre-configured to work with in the Umbrella environment. 
+The Bundles are pre-configured to work with in the Umbrella environment.  
 In case you want to use them in your own dataspace, you have to adjust the "Identity and Trust Protocol (IATP) Settings"
 of the dataspace-connector-bundle with credentials of your own dataspace.
-
 
 ```yaml
 dataspace-connector-bundle:
@@ -99,20 +121,21 @@ dataspace-connector-bundle:
 
 ```
 
-### Customizing Your Deployment
+## Customizing Your Deployment
 
-## Bring-Your-Own Components
+### Bring-Your-Own Components
 
 Each Capability Bundle supports BYO of its dependencies:
 
 1. Disable the built-in subchart (e.g. `postgresql.enabled=false`).
 
 2. Configure the external service.  
-They are marked with `# === Bring Your Own ===` in the values.yaml files or with (Bring your Own) in the README files of each Bundle Chart.
+   They are marked with `# === Bring Your Own ===` in the values.yaml files or with (Bring your Own) in the README files
+   of each Bundle Chart.
 
 3. Ensure connectivity (NetworkPolicy, ServiceAccounts, Secrets).
 
-### Example: Bring your own Vault
+#### Example: Bring your own Vault
 
 Create your Chart with the dataspace-connector-bundle as a dependency:
 
@@ -155,7 +178,7 @@ See the chart README for detailed configuration options:
 
 ```bash
 helm repo update
-helm upgrade data-persistence tractusx-dev/data-persistence-layer-bundle \
+helm upgrade connector tractusx-dev/dataspace-connector-bundle \
   --namespace umbrella \
   -f values.custom.yaml
 ```
@@ -163,7 +186,7 @@ helm upgrade data-persistence tractusx-dev/data-persistence-layer-bundle \
 ### To uninstall
 
 ```bash
-helm uninstall data-persistence --namespace umbrella
+helm uninstall connector --namespace umbrella
 kubectl delete ns umbrella
 ```
 
