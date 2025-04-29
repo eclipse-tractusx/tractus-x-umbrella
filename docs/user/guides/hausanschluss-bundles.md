@@ -140,6 +140,15 @@ dataspace-connector-bundle:
     enabled: false # To save resources, make sure to disable the embedded vault.
 ```
 
+### Configuration options
+
+See the chart README for detailed configuration options:
+
+- [data-persistence-layer-bundle](/charts/data-persistence-layer-bundle/README.md)
+- [dataspace-connector-bundle](/charts/dataspace-connector-bundle/README.md)
+- [digital-twin-bundle](/charts/digital-twin-bundle/README.md)
+- [identity-and-trust-bundle](/charts/identity-and-trust-bundle/README.md)
+
 ## Updating & Uninstalling
 
 ### To update a chart
