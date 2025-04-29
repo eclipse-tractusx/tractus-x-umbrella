@@ -54,13 +54,9 @@ helm repo update
 
 #### Umbrella
 
-To install the entire umbrella Chart, see [README.md](README.md).
+To install the entire umbrella Chart, see [README.md](/README.md).
 
-#### Choose your Bundles
-
-Dependent on your needs, you can choose which bundles to install. To do that, choose one of two recommended options:
-
-1. Install only the Chart
+#### Install only the Chart
 
 Install the bundles:
 
@@ -71,29 +67,21 @@ helm install data-persistence tractusx-dev/data-persistence-layer-bundle \
 
 This will install the chart with the default values.
 
-Use the charts as dependencies:
+#### Use the charts as dependencies
 
 ```yaml
 dependencies:
-  - name: identity-and-trust-bundle
-    version: 1.0.1
-    repository: https://eclipse-tractusx.github.io/charts/dev
-
   - name: dataspace-connector-bundle
     version: 1.0.1
     repository: https://eclipse-tractusx.github.io/charts/dev
 ```
 
 The Bundles are pre-configured to work with in the Umbrella environment. 
-In case you want to use them in your own 
+In case you want to use them in your own dataspace, you have to adjust the "Identity and Trust Protocol (IATP) Settings"
+of the dataspace-connector-bundle with credentials of your own dataspace.
 
-and set the values to your need:
 
 ```yaml
-identity-and-trust-bundle:
-  wallet:
-    host: ssi-dim-wallet-stub.tx.test
-
 dataspace-connector-bundle:
   tractusx-connector:
     iatp:
@@ -123,6 +111,34 @@ Each Capability Bundle supports BYO of its dependencies:
 They are marked with `# === Bring Your Own ===` in the values.yaml files or with (Bring your Own) in the README files of each Bundle Chart.
 
 3. Ensure connectivity (NetworkPolicy, ServiceAccounts, Secrets).
+
+### Example: Bring your own Vault
+
+Create your Chart with the dataspace-connector-bundle as a dependency:
+
+```yaml
+dependencies:
+  - name: dataspace-connector-bundle
+    version: 1.0.1
+    repository: https://eclipse-tractusx.github.io/charts/dev
+```
+
+Configure the dataspace-connector-bundle to use your own vault.
+
+```yaml
+dataspace-connector-bundle:
+  tractusx-connector:
+    # === Bring Your Own ===
+    vault:
+      hashicorp:
+        url: "<your-own-vault>"
+        token: "<your-vault-token>"
+        paths:
+          secret: <your-base-path-to-secrets>
+          folder: "<your-sub-folder>" # Optional if the secrets are on root level
+  vault:
+    enabled: false # To save resources, make sure to disable the embedded vault.
+```
 
 ## Updating & Uninstalling
 
