@@ -18,8 +18,8 @@
 # #############################################################################
 ---
 {{ if .Values.vault.enabled }}
-{{- $vaultToken := index .Values "tractusx-connector" "vault" "hashicorp" "token" -}}
-{{- $vaultUrl := tpl (index .Values "tractusx-connector" "vault" "hashicorp" "url") . -}}
+{{- $vaultToken := index .Values  "dataspace-connector-bundle" "tractusx-connector" "vault" "hashicorp" "token" -}}
+{{- $vaultUrl := tpl (index .Values  "dataspace-connector-bundle" "tractusx-connector" "vault" "hashicorp" "url") . -}}
 {{- $fullName := include "dataprovider.fullname" . -}}
 apiVersion: batch/v1
 kind: Job
