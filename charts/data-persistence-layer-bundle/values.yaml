@@ -20,7 +20,7 @@
 # Default values for data-persistence-layer-bundle
 # This is a YAML-formatted file.
 simple-data-backend:
-    # @ignore
+  # @ignore
   image:
     tag: "main"
   ingress:
@@ -29,10 +29,10 @@ simple-data-backend:
     # -- Ingress controller class (nginx)
     className: "nginx"
     hosts:
-      - # -- External hostname
-        host: "dataprovider-submodelserver.tx.test"
+      # simple-data-backend.ingress.hosts[0].host -- External hostname
+      - host: "dataprovider-submodelserver.tx.test"
         paths:
-          - # -- URL path to expose
-            path: "/"
+          # simple-data-backend.ingress.hosts[0].paths[0].path -- URL path to expose
+          - path: "/"
             # @ignore
             pathType: "Prefix"

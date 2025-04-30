@@ -74,7 +74,7 @@ ssi-dim-wallet-stub:
       # @ignore
       className: nginx
       # @ignore
-      annotations: { }
+      annotations: {}
     # -- External hostname for wallet
     # @section -- Wallet Ingress Configuration
     host: ssi-dim-wallet-stub.tx.test

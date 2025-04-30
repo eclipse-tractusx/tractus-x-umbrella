@@ -46,7 +46,7 @@ postgresql:
     # -- Database username
     # @section -- PostgreSQL Configuration
     username: "user"
-    # -- Database password  
+    # -- Database password
     # @section -- PostgreSQL Configuration
     password: "password"
     # -- Database name
