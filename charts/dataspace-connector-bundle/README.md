@@ -3,9 +3,11 @@
 
 
 
-![Version: 1.0.1](https://img.shields.io/badge/Version-1.0.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) 
+![Version: 1.0.2](https://img.shields.io/badge/Version-1.0.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) 
 
 Helm chart for Capability Bundle: Dataspace Connector
+
+For more information on the Tractus-X EDC, see https://github.com/eclipse-tractusx/tractusx-edc
 
 
 **Homepage:** <https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/dataspace-connector-bundle>
@@ -35,7 +37,7 @@ helm install my-release tractusx-dev/dataspace-connector-bundle
 
 ## Values
 
-### Identity and Trust Protocol (IATP) Settings
+### Identity and Trust Protocol (IATP) Settings (Bring Your Own)
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
@@ -44,17 +46,17 @@ helm install my-release tractusx-dev/dataspace-connector-bundle
 | tractusx-connector.iatp.sts.dim.url | string | `"http://ssi-dim-wallet-stub.tx.test/api/sts"` | URL where connectors can request SI tokens |
 | tractusx-connector.iatp.sts.oauth.token_url | string | `"http://ssi-dim-wallet-stub.tx.test/oauth/token"` | URL where connectors can request OAuth2 access tokens for DIM access |
 | tractusx-connector.iatp.sts.oauth.client.id | string | `"BPNL00000003AZQP"` | Client ID for requesting OAuth2 access token for DIM access |
-| tractusx-connector.iatp.sts.oauth.client.secret_alias | string | `"edc-wallet-secret"` | Alias under which the client secret is stored in the vault for requesting OAuth2 access token for DIM access |
+| tractusx-connector.iatp.sts.oauth.client.secret_alias | string | `"client-secret"` | Alias under which the client secret is stored in the vault for requesting OAuth2 access token for DIM access |
+| tractusx-connector.participant.id | string | `"BPNL00000003AZQP"` | Business Partner Number (BPN) of the connector |
+| tractusx-connector.controlplane.env | map | `{"TX_IAM_IATP_CREDENTIALSERVICE_URL":"http://ssi-dim-wallet-stub.tx.test/api"}` | Extra environment variables that will be pass onto deployment pods |
+| tractusx-connector.controlplane.bdrs.server.url | string | `"http://ssi-dim-wallet-stub.tx.test/api/v1/directory"` | URL of the BPN/DID Resolution Service |
+| tractusx-connector.dataplane.env | map | `{"TX_IAM_IATP_CREDENTIALSERVICE_URL":"http://ssi-dim-wallet-stub.tx.test/api"}` | Extra environment variables that will be pass onto deployment pods |
 
 ### EDC Installation Options
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| tractusx-connector.participant.id | string | `"BPNL00000003AZQP"` | Business Partner Number (BPN) of the connector |
-| tractusx-connector.controlplane.env | map | `{"TX_IAM_IATP_CREDENTIALSERVICE_URL":"http://ssi-dim-wallet-stub.tx.test/api"}` | Extra environment variables that will be pass onto deployment pods |
-| tractusx-connector.controlplane.bdrs.server.url | string | `"http://ssi-dim-wallet-stub.tx.test/api/v1/directory"` | URL of the BPN/DID Resolution Service |
 | tractusx-connector.controlplane.endpoints.management.authKey | string | `"TEST1"` | Authentication key. Must be attached to each request as `X-Api-Key` header |
-| tractusx-connector.dataplane.env | map | `{"TX_IAM_IATP_CREDENTIALSERVICE_URL":"http://ssi-dim-wallet-stub.tx.test/api"}` | Extra environment variables that will be pass onto deployment pods |
 | tractusx-connector.dataplane.token.signer.privatekey_alias | string | `"tokenSignerPrivateKey"` | Alias under which the private key (JWK or PEM format) is stored in the vault |
 | tractusx-connector.dataplane.token.verifier.publickey_alias | string | `"tokenSignerPublicKey"` | Alias under which the public key (JWK or PEM format) is stored in the vault, that belongs to the private key which was referred to at `dataplane.token.signer.privatekey_alias` |
 
@@ -108,15 +110,6 @@ helm install my-release tractusx-dev/dataspace-connector-bundle
 | vault.server.standalone.enabled | bool | `true` | Enable standalone mode for Vault |
 | vault.server.dev.enabled | bool | `true` | Enable development mode for Vault |
 | vault.server.dev.devRootToken | string | `"root"` | Root token for dev mode |
-
-### Other Values
-
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| tractusx-connector.controlplane.resources.limits | object | `{}` |  |
-| tractusx-connector.controlplane.resources.requests | object | `{}` |  |
-| tractusx-connector.dataplane.resources.limits | object | `{}` |  |
-| tractusx-connector.dataplane.resources.requests | object | `{}` |  |
 
 ## Contributing
 

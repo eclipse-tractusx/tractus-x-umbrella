@@ -3,11 +3,13 @@
 
 
 
-![Version: 1.0.1](https://img.shields.io/badge/Version-1.0.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) 
+![Version: 1.0.2](https://img.shields.io/badge/Version-1.0.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) 
 
 Helm chart for Capability Bundle: Identity and Trust
 
 The Identity & Trust Bundle provides identity management and authentication services for the Catena-X ecosystem.
+
+For more information on the SSI DIM Wallet stub application, see https://github.com/eclipse-tractusx/ssi-dim-wallet-stub
 
 
 **Homepage:** <https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/identity-and-trust-bundle>

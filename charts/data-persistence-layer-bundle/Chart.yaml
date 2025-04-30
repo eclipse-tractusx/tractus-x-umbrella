@@ -30,7 +30,7 @@ home: https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/da
 sources:
   - https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/data-persistence-layer-bundle
 type: application
-version: 1.0.0
+version: 1.0.1
 
 dependencies:
   - name: simple-data-backend
