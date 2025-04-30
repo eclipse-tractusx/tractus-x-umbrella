@@ -21,11 +21,10 @@ apiVersion: v2
 name: digital-twin-bundle
 description: |
   Helm chart for Capability Bundle: Digital Twin
-  
-  The Digital Twin Bundle provides a complete solution for managing digital twins in the Catena-X ecosystem. It includes the Digital Twin Registry and its required dependencies.
-  
-  For more information about the Digital Twin Registry check this documentation [Digital Twin Registry](https://github.com/eclipse-tractusx/sldt-digital-twin-registry/blob/main/charts/registry/README.md).
 
+  The Digital Twin Bundle provides a complete solution for managing digital twins in the Catena-X ecosystem. It includes the Digital Twin Registry and its required dependencies.
+
+  For more information about the Digital Twin Registry check this documentation [Digital Twin Registry](https://github.com/eclipse-tractusx/sldt-digital-twin-registry/blob/main/charts/registry/README.md).
 
 home: https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/digital-twin-bundle
 

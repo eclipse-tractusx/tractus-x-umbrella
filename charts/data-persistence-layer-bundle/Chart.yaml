@@ -21,9 +21,8 @@ apiVersion: v2
 name: data-persistence-layer-bundle
 description: |
   Helm chart for Capability Bundle: Data Persistence Layer
-  
-  The Data Persistence Layer Bundle provides a simple data backend for the Catena-X ecosystem.
 
+  The Data Persistence Layer Bundle provides a simple data backend for the Catena-X ecosystem.
 
 home: https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/data-persistence-layer-bundle
 

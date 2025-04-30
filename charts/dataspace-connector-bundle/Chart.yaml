@@ -21,7 +21,7 @@ apiVersion: v2
 name: dataspace-connector-bundle
 description: |
   Helm chart for Capability Bundle: Dataspace Connector
-  
+
   For more information on the Tractus-X EDC, see https://github.com/eclipse-tractusx/tractusx-edc
 
 home: https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/dataspace-connector-bundle
