@@ -42,7 +42,7 @@ helm install my-release tractusx-dev/identity-and-trust-bundle
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | ssi-dim-wallet-stub.enabled | bool | `true` | Enable SSI DIM Wallet deployment |
-| ssi-dim-wallet-stub.wallet.nameSpace | string | `"umbrella"` | Kubernetes namespace |
+| ssi-dim-wallet-stub.wallet.nameSpace | string | `"default"` | Kubernetes namespace |
 
 ### Wallet Seeding Configuration
 

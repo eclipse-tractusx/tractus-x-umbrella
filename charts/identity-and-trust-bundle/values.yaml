@@ -28,7 +28,7 @@ ssi-dim-wallet-stub:
   wallet:
     # -- Kubernetes namespace
     # @section -- Wallet Component Configuration
-    nameSpace: "umbrella"
+    nameSpace: "default"
     # @ignore
     replicaCount: 1
     # @ignore
