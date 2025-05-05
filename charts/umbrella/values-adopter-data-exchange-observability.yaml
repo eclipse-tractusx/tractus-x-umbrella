@@ -39,6 +39,7 @@ dataconsumerOne:
         otel.exporter.jaeger.endpoint=http://umbrella-jaeger-collector.umbrella:4318
         otel.metrics.exporter=prometheus
         otel.metrics.protocol=http/protobuf
+        otel.exporter.prometheus.port=9090
         edc.metrics.enabled=true
         edc.metrics.system.enabled=true
         otel.instrumentation.micrometer.enabled=true
@@ -55,6 +56,7 @@ dataconsumerOne:
         otel.exporter.jaeger.endpoint=http://umbrella-jaeger-collector.umbrella:4318
         otel.metrics.exporter=prometheus
         otel.metrics.protocol=http/protobuf
+        otel.exporter.prometheus.port=9090
         edc.metrics.enabled=true
         edc.metrics.system.enabled=true
         otel.instrumentation.micrometer.enabled=true
@@ -80,6 +82,7 @@ tx-data-provider:
         otel.exporter.jaeger.endpoint=http://umbrella-jaeger-collector.umbrella:4318
         otel.metrics.exporter=prometheus
         otel.metrics.protocol=http/protobuf
+        otel.exporter.prometheus.port=9090
         edc.metrics.enabled=true
         edc.metrics.system.enabled=true
         otel.instrumentation.micrometer.enabled=true
@@ -95,6 +98,7 @@ tx-data-provider:
         otel.exporter.jaeger.endpoint=http://umbrella-jaeger-collector.umbrella:4318
         otel.metrics.exporter=prometheus
         otel.metrics.protocol=http/protobuf
+        otel.exporter.prometheus.port=9090
         edc.metrics.enabled=true
         edc.metrics.system.enabled=true
         otel.instrumentation.micrometer.enabled=true
