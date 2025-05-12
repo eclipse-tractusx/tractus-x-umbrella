@@ -18,24 +18,45 @@
 # #############################################################################
 
 digital-twin-registry:
+  # @ignore
   enablePostgres: false
   registry:
+    # @ignore
     authentication: false
+    # -- External hostname for Digital Twin Registry
+    # @section -- Registry Configuration
     host: dataprovider-dtr.test
+
+    # === Bring Your Own ===
     dataSource:
-      # No templating possible, need to hardcode string, or set it via property e.g.,
-      # helm install <release-name> charts/digital-twin-bundle --set digital-twin-registry.registry.dataSource.url=jdbc:postgresql://<release-name>-postgresql:5432/dtr
+      # -- Database connection URL
+      # (needs to be set explicitly via --set digital-twin-registry.registry.dataSource.url=jdbc:postgresql://<release-name>-postgresql:5432/dtr)
+      # @section -- Registry Database Configuration (Bring Your Own)
       url: "jdbc:postgresql://<release-name>-postgresql:5432/dtr"
+      # -- Database username
+      # @section -- Registry Database Configuration (Bring Your Own)
       user: "user"
+      # -- Database password
+      # @section -- Registry Database Configuration (Bring Your Own)
       password: "password"
 
 # PostgreSQL Configuration
 postgresql:
   auth:
+    # -- Database username
+    # @section -- PostgreSQL Configuration
     username: "user"
+    # -- Database password
+    # @section -- PostgreSQL Configuration
     password: "password"
+    # -- Database name
+    # @section -- PostgreSQL Configuration
     database: "dtr"
   primary:
     persistence:
+      # -- Enable persistent storage for PostgreSQL
+      # @section -- PostgreSQL Configuration
       enabled: true
+      # -- Size of persistent volume
+      # @section -- PostgreSQL Configuration
       size: "10Gi"
