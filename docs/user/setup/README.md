@@ -2,6 +2,8 @@
 
 This guide provides instructions to set up a Kubernetes cluster required for running the Umbrella Chart.
 
+You can also follow the guide with the help of the [tutorial video](https://github.com/eclipse-tractusx/eclipse-tractusx.github.io.largefiles/blob/main/umbrella/video-tutorials/setup.mp4)
+
 ## System Requirements
 
 | CPU (Cores) | Memory (GB) |
