@@ -8,11 +8,18 @@ if ! helm repo list ; then
   helm repo add runix https://helm.runix.net
 fi
 
-# This hack script will download all chart/umbrella dependency charts.
-# (including recursive dependencies)
-find charts/umbrella -name Chart.yaml -print | \
-  sed s/Chart.yaml//g | \
-  awk -F"/" '{print NF $0}' | \
-  sort -nr | \
-  sed 's/^.//' | \
-  xargs -n1 helm dependency update --skip-refresh
+CHARTS_DIR="./charts"
+
+echo "🔄 Updating Helm repositories..."
+helm repo update
+
+echo "🔍 Scanning for Helm charts under '$CHARTS_DIR'..."
+# find all Chart.yaml files, dedupe their parent dirs, and update each
+find "$CHARTS_DIR" -type f -name Chart.yaml -print0 \
+  | while IFS= read -r -d '' chartfile; do
+      chartdir=$(dirname "$chartfile")
+      echo -e "\n📦 Updating dependencies for chart: $chartdir"
+      helm dependency update "$chartdir"
+    done
+
+echo -e "\n✅ All charts up to date!"
