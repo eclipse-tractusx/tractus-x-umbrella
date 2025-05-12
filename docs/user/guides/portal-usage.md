@@ -2,7 +2,7 @@
 
 This guide provides instructions for accessing and using the Portal subset of the Umbrella Chart.
 
-You can also follow the guide with the help of the [tutorial video](https://github.com/eclipse-tractusx/eclipse-tractusx.github.io.largefiles/blob/main/umbrella/video-tutorials/portal-Installation.mp4)
+You can also follow the guide with the help of the [tutorial video](https://github.com/eclipse-tractusx/eclipse-tractusx.github.io.largefiles/blob/main/umbrella/video-tutorials/portal-Installation.mp4).
 
 ## Overview
 
