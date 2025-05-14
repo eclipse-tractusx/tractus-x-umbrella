@@ -50,16 +50,18 @@ postgres
 
 ### Database Connection Details
 
-| Component         | Host                              |Password                   |
-|-------------------|-----------------------------------|---------------------------|
-| Portal            | `umbrella-portal-backend-postgresql` |`dbpasswordportal`         |
-| CentralIdP        | `umbrella-centralidp-postgresql`    |`dbpasswordcentralidp`     |
-| SharedIdP         | `umbrella-sharedidp-postgresql`    |`dbpasswordsharedidp`      |
-| MIW               | `umbrella-miw-postgres`            |`dbpasswordmiw`            |
-| Data Provider     | `umbrella-dataprovider-db`         |`dbpasswordtxdataprovider` |
-| Data Consumer 1   | `umbrella-dataconsumer-1-db`       |`dbpassworddataconsumerone`|
-| Data Consumer 2   | `umbrella-dataconsumer-2-db`       |`dbpassworddataconsumertwo`|
-| BPDM              | `umbrella-bpdm-postgres`           |`dbpasswordbpdm`           |
+| Component              | Host                                 |Password                   |
+|------------------------|--------------------------------------|---------------------------|
+| Portal                 | `umbrella-portal-backend-postgresql` |`dbpasswordportal`         |
+| CentralIdP             | `umbrella-centralidp-postgresql`     |`dbpasswordcentralidp`     |
+| SharedIdP              | `umbrella-sharedidp-postgresql`      |`dbpasswordsharedidp`      |
+| SSI Credential Issuer  | `umbrella-issuer-postgresql`         |`dbpasswordissuer`         |
+| Data Provider          | `umbrella-dataprovider-db`           |`dbpasswordtxdataprovider` |
+| Data Consumer 1        | `umbrella-dataconsumer-1-db`         |`dbpassworddataconsumerone`|
+| Data Consumer 2        | `umbrella-dataconsumer-2-db`         |`dbpassworddataconsumertwo`|
+| BPDM                   | `umbrella-bpdm-postgres`             |`dbpasswordbpdm`           |
+
+For connection details not listed in this table, please refer to the [values.yaml file of the umbrella chart](/charts/umbrella/values.yaml).
 
 ## Verifying Database Access
 
