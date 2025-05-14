@@ -827,6 +827,7 @@ ssi-credential-issuer:
       default: "Debug"
   postgresql:
     enabled: true
+    nameOverride: issuer-postgresql
     architecture: standalone
     primary:
       persistence:
