@@ -2,6 +2,8 @@
 
 This guide provides instructions for accessing and using the Portal subset of the Umbrella Chart.
 
+You can also follow the guide with the help of the [tutorial video](https://github.com/eclipse-tractusx/eclipse-tractusx.github.io.largefiles/blob/main/umbrella/video-tutorials/portal-Installation.mp4).
+
 ## Overview
 
 The Portal subset is designed to manage participant onboarding and provide a user-friendly interface for interacting with the Catena-X ecosystem.
