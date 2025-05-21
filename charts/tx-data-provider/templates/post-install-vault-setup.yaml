@@ -17,7 +17,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # #############################################################################
 ---
-{{ if .Values.vault.enabled }}
+{{ if index .Values  "dataspace-connector-bundle" "vault" "enabled" }}
 {{- $vaultToken := index .Values  "dataspace-connector-bundle" "tractusx-connector" "vault" "hashicorp" "token" -}}
 {{- $vaultUrl := tpl (index .Values  "dataspace-connector-bundle" "tractusx-connector" "vault" "hashicorp" "url") . -}}
 {{- $fullName := include "dataprovider.fullname" . -}}

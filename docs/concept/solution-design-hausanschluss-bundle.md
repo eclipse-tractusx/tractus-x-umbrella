@@ -101,14 +101,14 @@ addresses the need to:
 
 ## 1.4 Expected Deliverables
 
-- **PoC Documentation:** A concept and architecture overview highlighting the modular design.
+- **[PoC Documentation](/docs/concept/solution-design-hausanschluss-bundle.md):** A concept and architecture overview highlighting the modular design.
 - **Modular Installation Package:** A set of HELM charts for deploying the enablement service bundles:
-    - **Dataspace Connector:** Including the Eclipse Dataspace Connector, EDC PostgreSQL, and HashiCorp Vault.
-    - **Digital Twin Bundle:** Featuring components such as the Decentral DT Registry (with “bring your own” PostgreSQL)
-    - **Data Persistence Layer Bundle:** Including a simple Submodel Server to store semantic data.
-    - **Identity Wallet Bundle:** Covering the Identity Wallet functionality.
+    - **[Dataspace Connector Bundle](/charts/dataspace-connector-bundle):** Including the Eclipse Dataspace Connector, EDC PostgreSQL, and HashiCorp Vault.
+    - **[Digital Twin Bundle](/charts/digital-twin-bundle):** Featuring components such as the Decentral DT Registry (with “bring your own” PostgreSQL).
+    - **[Data Persistence Layer Bundle](/charts/data-persistence-layer-bundle):** Including a simple Submodel Server to store semantic data.
+    - **[Identity & Trust Bundle](/charts/identity-and-trust-bundle)**: Covering the Identity Wallet functionality.
 - **Demonstration Environment:** A test deployment showcasing reduced complexity and improved efficiency.
-- **Basic User Guide:** Instructions on how to deploy and update the PoC bundle.
+- **[Basic User Guide](/docs/user/guides/hausanschluss-bundles.md):** Instructions on how to deploy and update the PoC bundle
 
 ## 1.5 Benefits
 
