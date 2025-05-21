@@ -780,6 +780,7 @@ selfdescription:
 
 ssi-credential-issuer:
   enabled: false
+  replicaCount: 1
   portalBackendAddress: "http://portal-backend.tx.test"
   walletAddress: "http://ssi-dim-wallet-stub.tx.test"
   walletTokenAddress: "http://ssi-dim-wallet-stub.tx.test/oauth/token"
@@ -812,8 +813,6 @@ ssi-credential-issuer:
       clientSecret: "changeme"
     logging:
       default: "Debug"
-    processIdentity:
-      identityId: ac1cf001-7fbc-1f2f-817f-bce058020006
     wallet:
       # -- Provide wallet client-id from CX IAM centralidp.
       # You must specify the technical user with the required roles for the interaction with the managed-identity-wallet
@@ -828,16 +827,16 @@ ssi-credential-issuer:
       default: "Debug"
   postgresql:
     enabled: true
+    nameOverride: issuer-postgresql
     architecture: standalone
     primary:
       persistence:
         enabled: false
     auth:
       # -- Password for the root username 'postgres'. Secret-key 'postgres-password'.
-      postgrespassword: "rootissuerpassword"
+      postgrespassword: "dbpasswordissuer"
       # -- Password for the non-root username 'issuer'. Secret-key 'password'.
-      password: "issuerpassword"
-
+      password: "dbpasswordissuer"
   centralidp:
     # -- Provide centralidp base address (CX IAM), without trailing '/auth'.
     address: "http://centralidp.tx.test"
