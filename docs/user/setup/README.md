@@ -5,7 +5,6 @@ This guide provides instructions to set up a Kubernetes cluster required for run
 You can also follow the guide with the help of the [tutorial video](https://github.com/eclipse-tractusx/eclipse-tractusx.github.io.largefiles/blob/main/umbrella/video-tutorials/setup.mp4).
 
 https://github.com/user-attachments/assets/c10bb246-33a1-47fa-9b94-9af433b4adfd
-
 > [!WARNING]
 > The video may not be displayed depending on your browser and browser version, try ussing different one if you not able to see the video.
 
