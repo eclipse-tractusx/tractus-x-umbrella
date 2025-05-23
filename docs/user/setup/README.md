@@ -187,7 +187,7 @@ After starting Minikube or Docker Desktop Kubernetes, verify the cluster setup:
 - Check that your cluster is running:
 
   ```bash
-  kubectl cluster-info
+  minikube kubectl cluster-info
   ```
 
 - Open the Minikube dashboard to monitor resources:
