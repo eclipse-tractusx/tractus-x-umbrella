@@ -198,7 +198,7 @@ After starting Minikube or Docker Desktop Kubernetes, verify the cluster setup:
 
 ### 3.1 Windows with WSL
 
-Follow these steps when running Ubuntu 22.04 LTS in WSL:
+Follow these steps when running Ubuntu in WSL:
 
 ```bash
 # Install kubectl
@@ -263,8 +263,19 @@ chmod 700 get_helm.sh
 ./get_helm.sh
 helm version
 
-# Configure Ingress external IP if needed
+# Configure Ingress external IP to point to minikube IP
 kubectl edit svc -n ingress-nginx
+
+Example configuration:
+
+```yaml
+spec:
+  clusterIP: 10.101.189.214
+  clusterIPs:
+  - 10.101.189.214
+  externalIPs:
+  - <MINIKUBE_IP>
+```
 
 ## Recommendations
 
