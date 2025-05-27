@@ -183,6 +183,10 @@ Alternatively, you can use the native Kubernetes cluster provided by Docker Desk
 
 ### 3.1. Windows with Ubuntu WSL
 
+> **Note:** This guide sets up a self-contained environment within Ubuntu WSL, with no reliance on Docker Desktop or the Windows host system. The idea is to keep everything self-contained in WSL so you don’t have to touch the host system at all.
+
+> **Tip for Docker Desktop users:** If you already have Docker Desktop installed with WSL integration enabled, you can skip the Docker installation steps — the Docker daemon should be accessible from within WSL.
+
 Follow these steps when running Ubuntu in WSL (tested on Ubuntu 22.04/24.04):
 
 
@@ -261,6 +265,7 @@ helm version
 ```
 - Configure Ingress - set external IP to the minikube IP (add externalIPs below clusterIPs, as listed in the example)
 ```bash
+kubectl get svc -n ingress-nginx
 kubectl edit svc ingress-nginx-controller -n ingress-nginx
 ```
 Example configuration:
