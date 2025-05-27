@@ -204,6 +204,9 @@ echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.
 sudo apt-get update
 sudo apt-get install -y docker-ce docker-ce-cli containerd.io docker-compose-plugin
 sudo systemctl status docker
+> [!WARNING]
+> Systemctl will only work if you have systemd enabled in your WSL. 
+> Alternatively, start the service with sudo service docker start.
 sudo groupadd docker
 sudo usermod -aG docker $USER && newgrp docker
 sudo systemctl enable docker
