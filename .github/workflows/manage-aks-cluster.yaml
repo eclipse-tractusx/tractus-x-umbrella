@@ -1,0 +1,107 @@
+###############################################################
+# Copyright (c) 2024 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Apache License, Version 2.0 which is available at
+# https://www.apache.org/licenses/LICENSE-2.0.
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+# License for the specific language governing permissions and limitations
+# under the License.
+#
+# SPDX-License-Identifier: Apache-2.0
+###############################################################
+
+# This workflow is scheduled to shutdown/restart the AKS - Azure Kubernetes Service(s) to optimize computing resources and cost savings during weekends (non-working days).
+
+name: Manage AKS Cluster(s)
+
+on:
+  push:
+    branches:
+      - 'main'
+  schedule:
+    - cron: '0 4 * * 1'     # Runs at 04:00 UTC only on Monday (Start AKS) (CEST equivalent to 06:00)
+    - cron: '0 22 * * 5'   # Runs at 22:00 UTC only on Friday (Stop AKS) (CEST equivalent to 00:00)
+  workflow_dispatch:
+
+env:
+  AKS_CLUSTER_NAME: "${{ vars.AKS_CLUSTER_NAMES }}"
+  AKS_RESOURCE_GROUP: "${{ vars.AKS_RESOURCE_GROUPS }}"
+
+
+jobs:
+  start-aks:
+    if: github.event.schedule == '0 4 * * 1'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Log in to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      
+      - name: Start AKS Cluster
+        run: |
+          # Set your azure subscription
+          az account set --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          # Convert space-separated values to arrays
+          CLUSTERS=($AKS_CLUSTER_NAME)
+          RESOURCE_GROUPS=($AKS_RESOURCE_GROUP)
+          # Ensure both arrays have the same length
+          length=${#CLUSTERS[@]}
+          if [ ${#RESOURCE_GROUPS[@]} -lt $length ]; then
+            length=${#RESOURCE_GROUPS[@]}
+          fi
+          for ((i=0; i<$length; i++)); do
+            echo "Starting AKS Cluster: ${CLUSTERS[i]} in Resource Group: ${RESOURCE_GROUPS[i]}"
+            az aks start --name "${CLUSTERS[i]}" --resource-group "${RESOURCE_GROUPS[i]}"
+            # Ensure the cluster is started
+            echo "Verifying the cluster status: ${CLUSTERS[i]} in Resource Group: ${RESOURCE_GROUPS[i]}"
+            STATUS=$(az aks show --name "${CLUSTERS[i]}" --resource-group "${RESOURCE_GROUPS[i]}" --query "powerState.code" --output tsv)
+            if [[ "$STATUS" == "Running" || "$STATUS" == "Starting" ]]; then
+              echo "✅ Success: AKS Cluster '${CLUSTERS[i]}' is now $STATUS."
+            else
+              echo "❌ Error: AKS Cluster '${CLUSTERS[i]}' did not $STATUS successfully."
+              exit 1
+            fi
+          done
+
+  stop-aks:
+    if: github.event.schedule == '0 22 * * 5'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Log in to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+      
+      - name: Stop AKS Cluster
+        run: |
+          # Set your azure subscription
+          az account set --subscription ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+          # Convert space-separated values to arrays
+          CLUSTERS=($AKS_CLUSTER_NAME)
+          RESOURCE_GROUPS=($AKS_RESOURCE_GROUP)
+          # Ensure both arrays have the same length
+          length=${#CLUSTERS[@]}
+          if [ ${#RESOURCE_GROUPS[@]} -lt $length ]; then
+            length=${#RESOURCE_GROUPS[@]}
+          fi
+          for ((i=0; i<$length; i++)); do
+            echo "Stopping AKS Cluster: ${CLUSTERS[i]} in Resource Group: ${RESOURCE_GROUPS[i]}"
+            az aks stop --name "${CLUSTERS[i]}" --resource-group "${RESOURCE_GROUPS[i]}"
+            # Ensure the cluster is stopped
+            echo "Verifying the cluster status: ${CLUSTERS[i]} in Resource Group: ${RESOURCE_GROUPS[i]}"
+            STATUS=$(az aks show --name "${CLUSTERS[i]}" --resource-group "${RESOURCE_GROUPS[i]}" --query "powerState.code" --output tsv)
+            if [ "$STATUS" == "Stopped" ]; then
+              echo "✅ Success: AKS Cluster '${CLUSTERS[i]}' is now $STATUS."
+            else
+              echo "❌ Error: AKS Cluster '${CLUSTERS[i]}' did not $STATUS successfully."
+              exit 1
+            fi
+          done
