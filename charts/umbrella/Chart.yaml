@@ -61,12 +61,12 @@ dependencies:
     name: sdfactory
     alias: selfdescription
     repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 2.1.22
+    version: 2.1.23
     # ssi-credential-issuer
   - name: ssi-credential-issuer
     condition: ssi-credential-issuer.enabled
     repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 1.2.0
+    version: 1.3.0
   # semantic-hub
   - condition: semantic-hub.enabled
     name: semantic-hub
