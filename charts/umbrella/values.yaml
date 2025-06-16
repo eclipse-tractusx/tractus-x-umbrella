@@ -1484,11 +1484,22 @@ ssi-dim-wallet-stub:
     keycloak:
       realm: "CX-Central"
       authServerUrl: "http://centralidp.tx.test/auth"
+    postgresql:
+      username: "postgres"
+      password: "postgrespassword"
     service:
       type: ClusterIP
       port: 8080
   keycloak:
     enabled: false
+  postgresql:
+    enabled: true
+    auth:
+      password: "postgrespassword"
+      username: "postgres"
+    primary:
+      persistence:
+        enabled: false
 
 smtp4dev:
   enabled: false

@@ -21,13 +21,13 @@
 portal:
   enabled: true
   # -- uncomment the following for SMTP mail mock 
-  # backend:
-      # mailing:
-        # host: "smtp4dev"
-        # port: "25"
-        # user: "portal-user"
-        # senderEmail: "portal-admin@tx.test"
-        # password: "portal-password"
+  backend:
+      mailing:
+        host: "smtp4dev"
+        port: "25"
+        user: "portal-user"
+        senderEmail: "portal-admin@tx.test"
+        password: "portal-password"
 
   # -- uncomment the following for persistance
   # postgresql:
@@ -63,25 +63,30 @@ pgadmin4:
 
 # Set 'enabled' to true if onboarding is required
 bpdm:
-  enabled: false
+  enabled: true
 
 bdrs-server-memory:
-  enabled: false
+  enabled: true
 
 # Set 'enabled' to true if onboarding is required
 selfdescription:
-  enabled: false
+  enabled: true
 
 bpndiscovery:
-  enabled: false
+  enabled: true
 
 discoveryfinder:
-  enabled: false
+  enabled: true
 
 # Set 'enabled' to true if onboarding is required
 ssi-credential-issuer:
-  enabled: false
+  enabled: true
 
 # Set 'enabled' to true if onboarding is required
 ssi-dim-wallet-stub:
-  enabled: false
+  enabled: true
+  # -- uncomment the following for persistance
+  postgresql:
+    primary:
+      persistence:
+        enabled: true
