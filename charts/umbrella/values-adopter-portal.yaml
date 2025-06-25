@@ -72,6 +72,10 @@ bdrs-server-memory:
 selfdescription:
   enabled: false
 
+# Set 'enabled' to true if onboarding is required
+smtp4dev:
+  enabled: false
+
 bpndiscovery:
   enabled: false
 
