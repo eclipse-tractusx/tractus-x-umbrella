@@ -26,8 +26,8 @@ on:
     branches:
       - 'main'
   schedule:
-    - cron: '0 4 * * 1'     # Runs at 04:00 UTC only on Monday (Start AKS) (CEST equivalent to 06:00)
-    - cron: '0 22 * * 5'   # Runs at 22:00 UTC only on Friday (Stop AKS) (CEST equivalent to 00:00)
+    - cron: '0 5 * * 1-5'    # Runs at 05:00 UTC Mon-Fri (Start AKS) (CEST equivalent to 07:00)
+    - cron: '0 18 * * 1-5'   # Runs at 18:00 UTC Mon-Fri (Stop AKS) (CEST equivalent to 20:00)
   workflow_dispatch:
 
 env:
@@ -37,7 +37,7 @@ env:
 
 jobs:
   start-aks:
-    if: github.event.schedule == '0 4 * * 1'
+    if: github.event.schedule == '0 5 * * 1-5'
     runs-on: ubuntu-latest
     steps:
       - name: Log in to Azure
@@ -72,7 +72,7 @@ jobs:
           done
 
   stop-aks:
-    if: github.event.schedule == '0 22 * * 5'
+    if: github.event.schedule == '0 18 * * 1-5'
     runs-on: ubuntu-latest
     steps:
       - name: Log in to Azure
