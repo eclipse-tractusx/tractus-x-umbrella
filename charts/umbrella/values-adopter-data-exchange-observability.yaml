@@ -196,6 +196,13 @@ opentelemetry-collector:
     extensions:
       health_check:
         endpoint: ${env:MY_POD_IP}:13133
+    processors:
+      transform:
+        log_statements:
+          - context: log
+            statements:
+              - 'set(body, {"message": body})'
+
     receivers:
       otlp:
         protocols:
@@ -240,6 +247,7 @@ opentelemetry-collector:
             - debug
             - otlphttp/loki
           processors:
+            - transform
             - memory_limiter
             - batch
           receivers:
