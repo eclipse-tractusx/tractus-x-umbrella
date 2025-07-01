@@ -205,10 +205,17 @@ kubectl delete ns umbrella
 ## Releasing a new Bundle Version
 
 You can release a new version of the Bundles by following these steps:
-- update the `version` attribute in the Chart.yaml of the respective Chart 
+
+- update the `version` attribute in the Chart.yaml of the respective Chart, following semantic versioning
 - update the dependency version in the Chart.yaml of [tx-data-provider](/charts/tx-data-provider)
 - bump the `version` attribute in the Chart.yaml of [tx-data-provider](/charts/tx-data-provider)
-- update the dependency version in the Chart.yaml of [umbrella](/charts/umbrella)
+- update the dependency version of `tx-data-provider` in the Chart.yaml of [umbrella](/charts/umbrella)
+- bump the `version` attribute in the Chart.yaml of [umbrella](/charts/umbrella)
+
+For the [identity-and-trust-bundle](/charts/identity-and-trust-bundle) follow these steps:
+
+- update the `version` attribute in the Chart.yaml of the respective Chart, following semantic versioning
+- update the dependency version of `identity-and-trust-bundle` in the Chart.yaml of [umbrella](/charts/umbrella)
 - bump the `version` attribute in the Chart.yaml of [umbrella](/charts/umbrella)
 
 ## Troubleshooting
