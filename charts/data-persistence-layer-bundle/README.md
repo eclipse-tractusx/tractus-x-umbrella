@@ -1,13 +1,10 @@
-# data-persistence-layer-bundle
-
-
-
+# Data Persistence Layer Bundle
 
 ![Version: 1.0.1](https://img.shields.io/badge/Version-1.0.1-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) 
 
 Helm chart for Capability Bundle: Data Persistence Layer
 
-The Data Persistence Layer Bundle provides a simple data backend for the Catena-X ecosystem.
+The Data Persistence Layer Bundle provides a simple data backend for the Tractus-X ecosystem.
 
 
 **Homepage:** <https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/data-persistence-layer-bundle>
@@ -20,8 +17,6 @@ Run this shell command to start the Capability Bundle: Data Persistence Layer:
 helm repo add tractusx-dev https://eclipse-tractusx.github.io/charts/dev
 helm install my-release tractusx-dev/data-persistence-layer-bundle
 ```
-
-
 
 ## Source Code
 
@@ -41,7 +36,6 @@ helm install my-release tractusx-dev/data-persistence-layer-bundle
 | simple-data-backend.ingress.className | string | `"nginx"` | Ingress controller class (nginx) |
 | simple-data-backend.ingress.hosts[0].host | string | `"dataprovider-submodelserver.tx.test"` | External hostname |
 | simple-data-backend.ingress.hosts[0].paths[0].path | string | `"/"` | URL path to expose |
-
 
 ## Contributing
 

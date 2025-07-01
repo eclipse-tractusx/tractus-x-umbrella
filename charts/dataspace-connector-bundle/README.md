@@ -1,7 +1,4 @@
-# dataspace-connector-bundle
-
-
-
+# Dataspace Connector Bundle
 
 ![Version: 1.0.2](https://img.shields.io/badge/Version-1.0.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) 
 
@@ -21,8 +18,6 @@ helm repo add tractusx-dev https://eclipse-tractusx.github.io/charts/dev
 helm install my-release tractusx-dev/dataspace-connector-bundle
 ```
 
-
-
 ## Source Code
 
 * <https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/dataspace-connector-bundle>
@@ -37,7 +32,7 @@ helm install my-release tractusx-dev/dataspace-connector-bundle
 
 ## Values
 
-### Identity and Trust Protocol (IATP) Settings (Bring Your Own)
+### Decentralized Claims Protocol (DCP) Settings (Bring Your Own)
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|

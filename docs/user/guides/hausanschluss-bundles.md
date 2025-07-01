@@ -22,7 +22,7 @@ Before you begin, make sure you have the following:
     2. [Network Setup](/docs/user/network)
     3. [Installation](/docs/user/installation)
 
-#### Skills:
+#### Skills
 
 - Comfortable editing `values.yaml` and using Helm’s `--set` flags.
 - Familiarity with Vault’s secret engines and Kubernetes authentication.
@@ -48,6 +48,15 @@ You can enable or disable any bundle independently and supply your own implement
 ```bash
 helm repo add tractusx-dev https://eclipse-tractusx.github.io/charts/dev
 helm repo update
+```
+
+### Update the Chart Dependencies
+
+```bash
+helm dependency update charts/data-persistence-layer-bundle
+helm dependency update charts/dataspace-connector-bundle
+helm dependency update charts/digital-twin-bundle
+helm dependency update charts/identity-and-trust-bundle
 ```
 
 ### Deploying the Charts
@@ -133,7 +142,7 @@ Each Capability Bundle supports BYO of its dependencies:
 1. Disable the built-in subchart (e.g. `postgresql.enabled=false`).
 
 2. Configure the external service.  
-   They are marked with `# === Bring Your Own ===` in the values.yaml files or with (Bring your Own) in the README files
+   They are marked with `# === Bring Your Own ===` in the values.yaml files or with `(Bring your Own)` in the README files
    of each Bundle Chart.
 
 3. Ensure connectivity (NetworkPolicy, ServiceAccounts, Secrets).
@@ -192,6 +201,15 @@ helm upgrade connector tractusx-dev/dataspace-connector-bundle \
 helm uninstall connector --namespace umbrella
 kubectl delete ns umbrella
 ```
+
+## Releasing a new Bundle Version
+
+You can release a new version of the Bundles by following these steps:
+- update the `version` attribute in the Chart.yaml of the respective Chart 
+- update the dependency version in the Chart.yaml of [tx-data-provider](/charts/tx-data-provider)
+- bump the `version` attribute in the Chart.yaml of [tx-data-provider](/charts/tx-data-provider)
+- update the dependency version in the Chart.yaml of [umbrella](/charts/umbrella)
+- bump the `version` attribute in the Chart.yaml of [umbrella](/charts/umbrella)
 
 ## Troubleshooting
 

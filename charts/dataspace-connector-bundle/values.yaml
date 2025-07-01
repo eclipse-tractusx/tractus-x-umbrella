@@ -31,37 +31,37 @@ tractusx-connector:
   # === Bring Your Own ===
   iatp:
     # -- Decentralized IDentifier (DID) of the connector
-    # @section -- Identity and Trust Protocol (IATP) Settings (Bring Your Own)
+    # @section -- Decentralized Claims Protocol (DCP) Settings (Bring Your Own)
     id: did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003AZQP
     # -- Configures the trusted issuers for this runtime
-    # @section -- Identity and Trust Protocol (IATP) Settings (Bring Your Own)
+    # @section -- Decentralized Claims Protocol (DCP) Settings (Bring Your Own)
     trustedIssuers:
       - did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003CRHK
     sts:
       dim:
         # -- URL where connectors can request SI tokens
-        # @section -- Identity and Trust Protocol (IATP) Settings (Bring Your Own)
+        # @section -- Decentralized Claims Protocol (DCP) Settings (Bring Your Own)
         url: http://ssi-dim-wallet-stub.tx.test/api/sts
       oauth:
         # -- URL where connectors can request OAuth2 access tokens for DIM access
-        # @section -- Identity and Trust Protocol (IATP) Settings (Bring Your Own)
+        # @section -- Decentralized Claims Protocol (DCP) Settings (Bring Your Own)
         token_url: http://ssi-dim-wallet-stub.tx.test/oauth/token
         client:
           # -- Client ID for requesting OAuth2 access token for DIM access
-          # @section -- Identity and Trust Protocol (IATP) Settings (Bring Your Own)
+          # @section -- Decentralized Claims Protocol (DCP) Settings (Bring Your Own)
           id: BPNL00000003AZQP
           # -- Alias under which the client secret is stored in the vault for requesting OAuth2 access token for DIM access
-          # @section -- Identity and Trust Protocol (IATP) Settings (Bring Your Own)
+          # @section -- Decentralized Claims Protocol (DCP) Settings (Bring Your Own)
           secret_alias: client-secret
 
   participant:
     # -- Business Partner Number (BPN) of the connector
-    # @section -- Identity and Trust Protocol (IATP) Settings (Bring Your Own)
+    # @section -- Decentralized Claims Protocol (DCP) Settings (Bring Your Own)
     id: BPNL00000003AZQP
 
   controlplane:
     # -- (map) Extra environment variables that will be pass onto deployment pods
-    # @section -- Identity and Trust Protocol (IATP) Settings (Bring Your Own)
+    # @section -- Decentralized Claims Protocol (DCP) Settings (Bring Your Own)
     env:
       TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-stub.tx.test/api
       # @ignore
@@ -69,7 +69,7 @@ tractusx-connector:
     bdrs:
       server:
         # -- URL of the BPN/DID Resolution Service
-        # @section -- Identity and Trust Protocol (IATP) Settings (Bring Your Own)
+        # @section -- Decentralized Claims Protocol (DCP) Settings (Bring Your Own)
         url: http://ssi-dim-wallet-stub.tx.test/api/v1/directory
     endpoints:
       management:
@@ -105,7 +105,7 @@ tractusx-connector:
         memory: 256Mi
   dataplane:
     # -- (map) Extra environment variables that will be pass onto deployment pods
-    # @section -- Identity and Trust Protocol (IATP) Settings (Bring Your Own)
+    # @section -- Decentralized Claims Protocol (DCP) Settings (Bring Your Own)
     env:
       TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-stub.tx.test/api
       # @ignore

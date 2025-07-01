@@ -1,7 +1,4 @@
-# digital-twin-bundle
-
-
-
+# Digital Twin Bundle
 
 ![Version: 1.0.2](https://img.shields.io/badge/Version-1.0.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) 
 
@@ -22,8 +19,6 @@ Run this shell command to start the Capability Bundle: Digital Twin:
 helm repo add tractusx-dev https://eclipse-tractusx.github.io/charts/dev
 helm install my-release tractusx-dev/digital-twin-bundle --set digital-twin-registry.registry.dataSource.url=jdbc:postgresql://my-release-postgresql:5432/dtr
 ```
-
-
 
 ## Source Code
 
@@ -57,11 +52,10 @@ helm install my-release tractusx-dev/digital-twin-bundle --set digital-twin-regi
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | postgresql.auth.username | string | `"user"` | Database username |
-| postgresql.auth.password | string | `"password"` | Database password   |
+| postgresql.auth.password | string | `"password"` | Database password |
 | postgresql.auth.database | string | `"dtr"` | Database name |
 | postgresql.primary.persistence.enabled | bool | `true` | Enable persistent storage for PostgreSQL |
 | postgresql.primary.persistence.size | string | `"10Gi"` | Size of persistent volume |
-
 
 ## Contributing
 

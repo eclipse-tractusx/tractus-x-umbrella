@@ -1,7 +1,4 @@
-# identity-and-trust-bundle
-
-
-
+# Identity and Trust Bundle
 
 ![Version: 1.0.2](https://img.shields.io/badge/Version-1.0.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) 
 
@@ -22,8 +19,6 @@ Run this shell command to start the Capability Bundle: Identity and Trust:
 helm repo add tractusx-dev https://eclipse-tractusx.github.io/charts/dev
 helm install my-release tractusx-dev/identity-and-trust-bundle
 ```
-
-
 
 ## Source Code
 
@@ -85,7 +80,6 @@ helm install my-release tractusx-dev/identity-and-trust-bundle
 |-----|------|---------|-------------|
 | ssi-dim-wallet-stub.wallet.keycloak.realm | string | `"CX-Central"` | Keycloak realm name |
 | ssi-dim-wallet-stub.wallet.keycloak.authServerUrl | string | `"http://centralidp.tx.test/auth"` | Keycloak auth server URL |
-
 
 ## Contributing
 
