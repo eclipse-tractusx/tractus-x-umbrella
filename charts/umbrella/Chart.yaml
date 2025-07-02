@@ -28,7 +28,7 @@ sources:
   - https://github.com/eclipse-tractusx/tractus-x-umbrella
 
 type: application
-version: 2.14.1
+version: 2.14.2
 
 # when adding or updating versions of dependencies, also update list under /docs/user/installation/README.md
 dependencies:
@@ -112,7 +112,7 @@ dependencies:
   # OTEL Collector
   - name: opentelemetry-collector
     alias: opentelemetry-collector
-    version: "0.90.1"
+    version: "0.126.0"
     repository: https://open-telemetry.github.io/opentelemetry-helm-charts
     condition: opentelemetry-collector.enabled
   # Jaeger
