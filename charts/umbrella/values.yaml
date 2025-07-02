@@ -356,12 +356,12 @@ portal:
               backend:
                 service: "services-service"
                 port: 8080
-  clearinghouse:
-  # -- Provide the configuration of the default clearing house
-  default:
-    clientId: "clearinghouse-client-id-default"
-    # -- Provide clearinghouse client-secret from clearinghouse IAM.
-    clientSecret: ""
+  # clearinghouse:
+  ## -- Provide the configuration of the default clearing house
+  # default:
+    # clientId: "clearinghouse-client-id-default"
+    ## -- Provide clearinghouse client-secret from clearinghouse IAM.
+    # clientSecret: ""
 
 centralidp:
   enabled: false
