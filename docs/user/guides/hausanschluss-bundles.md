@@ -4,6 +4,9 @@ The **"Hausanschluss" Bundles** are a set of helm charts that simplify deploymen
 services into modular, independently deployable Capability Bundles. Its goal is to reduce deployment complexity, enable
 “bring-your-own” components, and accelerate onboarding for product developers, testers, and SMEs.
 
+This document mainly refers to usage of the "Hausanschluss" Bundles without the Umbrella Chart.
+To install the bundles as part of the Umbrella Chart, please refer to the [README.md](/README.md#usage).
+
 ### Prerequisites & Skills
 
 For general prerequisites and system requirements, please refer to:
