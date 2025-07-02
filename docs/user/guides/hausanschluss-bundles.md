@@ -6,27 +6,23 @@ services into modular, independently deployable Capability Bundles. Its goal is 
 
 ### Prerequisites & Skills
 
-Before you begin, make sure you have the following:
+For general prerequisites and system requirements, please refer to:
+- [Main Prerequisites](/README.md#prerequisites)
 
-- **Kubernetes cluster** (v1.24+; any conformant distribution: EKS, AKS, GKE, on-premise, Kind/Minikube).
-- **Helm CLI** (v3.8+).
-- **kubectl** (matching your cluster version).
-- (Optional) **Vault CLI** (for secret provisioning; if you use HashiCorp Vault).
-- (Optional) **Docker client** (only if building or pushing custom images).
+For complete installation instructions, follow the Umbrella setup guides:
+
+1. [Cluster Setup](/docs/user/setup)
+2. [Network Setup](/docs/user/network)
+3. [Installation](/docs/user/installation)
+
+Additional requirements specific to the usage of Hausanschluss Bundles without the umbrella chart:
+
 - **Access & Credentials**
-    - Kubernetes RBAC role permitting chart installation in target namespace.
-    - (Optional) Vault token or AppRole credentials, if using Vault subchart.
-    - (Optional) Docker registry credentials, if you override images.
-- Umbrella setup guides
-    1. [Cluster Setup](/docs/user/setup)
-    2. [Network Setup](/docs/user/network)
-    3. [Installation](/docs/user/installation)
+   - Kubernetes RBAC role permitting chart installation in target namespace.
+  - (Optional) Vault token or AppRole credentials, if not using Vault subchart.
 
-#### Skills
-
-- Comfortable editing `values.yaml` and using Helm’s `--set` flags.
-- Familiarity with Vault’s secret engines and Kubernetes authentication.
-- Basic understanding of microservice architecture and Kubernetes objects (Deployments, Services, Secrets, ConfigMaps).
+- **Required Skills**
+   - Familiarity with Vault's secret engines and Kubernetes authentication.
 
 ### Bundle Overview
 
@@ -130,7 +126,6 @@ dataspace-connector-bundle:
           client:
             id: <your-client-id>
             secret_alias: edc-wallet-secret-vault-alias
-
 ```
 
 ## Customizing Your Deployment
