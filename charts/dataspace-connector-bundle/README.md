@@ -18,6 +18,8 @@ helm repo add tractusx-dev https://eclipse-tractusx.github.io/charts/dev
 helm install my-release tractusx-dev/dataspace-connector-bundle
 ```
 
+For more information to "Bring Your Own" configuration, see the [hausanschluss user guide](/docs/user/guides/hausanschluss-bundles.md#bring-your-own-components).
+
 ## Source Code
 
 * <https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/dataspace-connector-bundle>
@@ -32,7 +34,7 @@ helm install my-release tractusx-dev/dataspace-connector-bundle
 
 ## Values
 
-### Decentralized Claims Protocol (DCP) Settings (Bring Your Own)
+### Decentralized Claims Protocol (DCP, formerly IATP) Settings (Bring Your Own)
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|

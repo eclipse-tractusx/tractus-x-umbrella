@@ -20,6 +20,8 @@ helm repo add tractusx-dev https://eclipse-tractusx.github.io/charts/dev
 helm install my-release tractusx-dev/digital-twin-bundle --set digital-twin-registry.registry.dataSource.url=jdbc:postgresql://my-release-postgresql:5432/dtr
 ```
 
+For more information to "Bring Your Own" configuration, see the [hausanschluss user guide](/docs/user/guides/hausanschluss-bundles.md#bring-your-own-components).
+
 ## Source Code
 
 * <https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/digital-twin-bundle>

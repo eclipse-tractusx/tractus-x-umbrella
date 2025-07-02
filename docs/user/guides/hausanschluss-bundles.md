@@ -1,6 +1,6 @@
 ## Introduction
 
-The **“Hausanschluss” Bundle** is a set of Helm Charts that simplifies deployment of all the Catena-X enablement
+The **"Hausanschluss" Bundles** are a set of helm charts that simplify deployment of all the Tractus-X enablement
 services into modular, independently deployable Capability Bundles. Its goal is to reduce deployment complexity, enable
 “bring-your-own” components, and accelerate onboarding for product developers, testers, and SMEs.
 
@@ -69,21 +69,21 @@ To install the entire umbrella Chart, see [README.md](/README.md).
 
 Install a bundle with its default values:
 
-##### dataspace-connector-bundle
+##### Dataspace Connector Bundle
 
 ```bash
 helm install connector tractusx-dev/dataspace-connector-bundle \
   --namespace umbrella --create-namespace
 ```
 
-##### data-persistence-layer-bundle
+##### Data Persistence Layer Bundle
 
 ```bash
 helm install submodel-server tractusx-dev/data-persistence-layer-bundle \
   --namespace umbrella --create-namespace
 ```
 
-##### digital-twin-bundle
+##### Digital Twin Bundle
 
 > ⚠️ Due to an issue in the sldt-digital-twin-registry Helm Chart, the dataSource.url cannot be templated and has to be set manually to the release name
 
@@ -93,7 +93,7 @@ helm install dtr tractusx-dev/digital-twin-bundle \
   --set digital-twin-registry.registry.dataSource.url=jdbc:postgresql://dtr-postgresql:5432/dtr
 ```
 
-##### identity-and-trust-bundle
+##### Identity and Trust Bundle
 
 ```bash
 helm install wallet tractusx-dev/identity-and-trust-bundle \
@@ -112,7 +112,7 @@ dependencies:
 ```
 
 The Bundles are pre-configured to work with in the Umbrella environment.  
-In case you want to use them in your own dataspace, you have to adjust the "Identity and Trust Protocol (IATP) Settings"
+In case you want to use them in your own dataspace, you have to adjust the "Decentralized Claims Protocol (DCP, formerly IATP) Settings"
 of the dataspace-connector-bundle with credentials of your own dataspace.
 
 ```yaml
@@ -137,7 +137,7 @@ dataspace-connector-bundle:
 
 ### Bring-Your-Own Components
 
-Each Capability Bundle supports BYO of its dependencies:
+Each Capability Bundle supports Bring-Your-Own (BYO) of its dependencies:
 
 1. Disable the built-in subchart (e.g. `postgresql.enabled=false`).
 
@@ -202,21 +202,8 @@ helm uninstall connector --namespace umbrella
 kubectl delete ns umbrella
 ```
 
-## Releasing a new Bundle Version
-
-You can release a new version of the Bundles by following these steps:
-
-- update the `version` attribute in the Chart.yaml of the respective Chart, following semantic versioning
-- update the dependency version in the Chart.yaml of [tx-data-provider](/charts/tx-data-provider)
-- bump the `version` attribute in the Chart.yaml of [tx-data-provider](/charts/tx-data-provider)
-- update the dependency version of `tx-data-provider` in the Chart.yaml of [umbrella](/charts/umbrella)
-- bump the `version` attribute in the Chart.yaml of [umbrella](/charts/umbrella)
-
-For the [identity-and-trust-bundle](/charts/identity-and-trust-bundle) follow these steps:
-
-- update the `version` attribute in the Chart.yaml of the respective Chart, following semantic versioning
-- update the dependency version of `identity-and-trust-bundle` in the Chart.yaml of [umbrella](/charts/umbrella)
-- bump the `version` attribute in the Chart.yaml of [umbrella](/charts/umbrella)
+### To upgrade components
+For information on upgrading components to a new version, please refer to the [Upgrading Components](/docs/admin/upgrade-components.md) guide.
 
 ## Troubleshooting
 
@@ -233,7 +220,7 @@ Use `kubectl describe pod <pod>` and `kubectl logs <pod>` to inspect errors in d
     helm install edc-a charts/dataspace-connector-bundle -n umbrella --create-namespace \
     --set tractusx-connector.controlplane.ingresses[0].hostname=edc-a.controlplane.tx.test \
     --set tractusx-connector.dataplane.ingresses[0].hostname=edc-a.dataplane.tx.test
-   
+
     helm install edc-b charts/dataspace-connector-bundle -n umbrella --create-namespace \
     --set tractusx-connector.controlplane.ingresses[0].hostname=edc-b.controlplane.tx.test \
     --set tractusx-connector.dataplane.ingresses[0].hostname=edc-b.dataplane.tx.test
