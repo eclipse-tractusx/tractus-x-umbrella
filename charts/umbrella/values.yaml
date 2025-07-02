@@ -161,6 +161,10 @@ portal:
       offerprovider:
         clientId: "sa-cl2-03"
         clientSecret: "changeme"
+        encryptionConfigs:
+          index0:
+            encryptionKey:
+              "95ee1429aa40c6bb6972520a9626b19c4306baf0efe3441c8cd41918ea198921"
       dim:
         clientId: "sa-cl2-05"
         clientSecret: "changeme"
