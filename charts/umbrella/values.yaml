@@ -49,8 +49,14 @@ portal:
     tokenAddress: "http://ssi-dim-wallet-stub.tx.test/oauth/token"
   decentralIdentityManagementAuthAddress: "http://ssi-dim-wallet-stub.tx.test/api/sts"
   sdfactoryAddress: "http://sdfactory.tx.test"
-  clearinghouseAddress: "http://validation.tx.test"
-  clearinghouseTokenAddress: "http://someiam.tx.test/realms/example/protocol/openid-connect/token"
+  # -- no configuration for clearinghouse because it's an external component
+  clearinghouse:
+    default:
+      baseAddress: "http://validation.tx.test"
+      # -- clientId and clientSecret aren't in the centralidp Keycloak
+      clientId: "clearinghouse-client-id-default"
+      clientSecret: ""
+      tokenAddress: "http://someiam.tx.test/realms/example/protocol/openid-connect/token"
   issuerComponentAddress: "http://ssi-credential-issuer.tx.test"
   frontend:
     ingress:
@@ -356,12 +362,6 @@ portal:
               backend:
                 service: "services-service"
                 port: 8080
-  # clearinghouse:
-  ## -- Provide the configuration of the default clearing house
-  # default:
-    # clientId: "clearinghouse-client-id-default"
-    ## -- Provide clearinghouse client-secret from clearinghouse IAM.
-    # clientSecret: ""
 
 centralidp:
   enabled: false
