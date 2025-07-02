@@ -6,9 +6,9 @@ This guide provides instructions to install the Umbrella Chart and its predefine
 
 The currently available components are following:
 
-- [portal](https://github.com/eclipse-tractusx/portal/tree/portal-2.4.0)
-- [centralidp](https://github.com/eclipse-tractusx/portal-iam/tree/v4.1.0)
-- [sharedidp](https://github.com/eclipse-tractusx/portal-iam/tree/v4.1.0)
+- [portal](https://github.com/eclipse-tractusx/portal/tree/portal-2.5.0)
+- [centralidp](https://github.com/eclipse-tractusx/portal-iam/tree/v4.2.0)
+- [sharedidp](https://github.com/eclipse-tractusx/portal-iam/tree/v4.2.0)
 - [bpndiscovery](https://github.com/eclipse-tractusx/sldt-bpn-discovery/tree/bpndiscovery-0.5.1)
 - [discoveryfinder](https://github.com/eclipse-tractusx/sldt-discovery-finder/tree/discoveryfinder-0.5.1)
 - [sdfactory](https://github.com/eclipse-tractusx/sd-factory/tree/sdfactory-2.1.23)
