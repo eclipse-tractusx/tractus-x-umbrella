@@ -474,6 +474,8 @@ centralidp:
           clientSecret: "changeme"
         - clientId: "sa-cl2-05"
           clientSecret: "changeme"
+        - clientId: "sa-cl2-06"
+          clientSecret: "changeme"
         - clientId: "sa-cl3-cx-1"
           clientSecret: "changeme"
         - clientId: "sa-cl5-custodian-2"
