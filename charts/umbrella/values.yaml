@@ -1490,6 +1490,17 @@ ssi-dim-wallet-stub:
     service:
       type: ClusterIP
       port: 8080
+    resources:
+      requests:
+        # -- CPU resource requests
+        cpu: 500m
+        # -- Memory resource requests
+        memory: 1Gi
+      limits:
+        # -- CPU resource limits
+        cpu: 1
+        # -- Memory resource limits
+        memory: 2Gi
   keycloak:
     enabled: false
   postgresql:
