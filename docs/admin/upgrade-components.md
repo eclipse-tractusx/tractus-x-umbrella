@@ -24,22 +24,6 @@ You can upgrade a component to a new version by following these steps:
 4. Update the dependency version of `tx-data-provider` and the version attribute in the `Chart.yaml` of the umbrella chart.
 5. If the bundle is used as a dependency of the umbrella chart (e.g., `identity-and-trust-bundle`), update the dependency version of the bundle and the version attribute in the `Chart.yaml` of the umbrella chart.
 
-### Example Workflow
-
-For most components that are dependencies of the tx-data-provider:
-
-1. Update the `version` attribute in the component's Chart.yaml
-2. Update the dependency version in the Chart.yaml of [tx-data-provider](/charts/tx-data-provider)
-3. Bump the `version` attribute in the Chart.yaml of [tx-data-provider](/charts/tx-data-provider)
-4. Update the dependency version of `tx-data-provider` in the Chart.yaml of [umbrella](/charts/umbrella)
-5. Bump the `version` attribute in the Chart.yaml of [umbrella](/charts/umbrella)
-
-For components that are direct dependencies of the umbrella chart (like identity-and-trust-bundle):
-
-1. Update the `version` attribute in the component's Chart.yaml
-2. Update the dependency version of the component in the Chart.yaml of [umbrella](/charts/umbrella)
-3. Bump the `version` attribute in the Chart.yaml of [umbrella](/charts/umbrella)
-
 ## Rollback Procedure
 
 If issues are encountered after an upgrade:
@@ -47,3 +31,11 @@ If issues are encountered after an upgrade:
 1. Revert to the previous version in the Chart.yaml files
 2. Update dependencies with `helm dependency update`
 3. Redeploy using the previous version
+
+# NOTICE
+
+This work is licensed under the [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/legalcode).
+
+* SPDX-License-Identifier: CC-BY-4.0
+* SPDX-FileCopyrightText: 2025 Contributors to the Eclipse Foundation
+* Source URL: <https://github.com/eclipse-tractusx/tractus-x-umbrella>
