@@ -59,24 +59,3 @@ digital-twin-bundle:
 data-persistence-layer-bundle:
   simple-data-backend:
     enabled: true
-
-vault:
-  enabled: true
-  nameOverride: edc-provider-vault
-  injector:
-    enabled: false
-  server:
-    postStart:
-      - sh
-      - -c
-      - |-
-        {
-        sleep 5
-        /bin/vault kv put secret/client-secret content=kEmH7QRPWhKfy8f+x0pFMw==
-        /bin/vault kv put secret/aesKey content=YWVzX2VuY2tleV90ZXN0Cg==
-        }
-    dev:
-      enabled: true
-      devRootToken: root
-    ingress:
-      enabled: false

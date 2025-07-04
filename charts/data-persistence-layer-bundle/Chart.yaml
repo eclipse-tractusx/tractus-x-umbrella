@@ -22,8 +22,14 @@ name: data-persistence-layer-bundle
 description: |
   Helm chart for Capability Bundle: Data Persistence Layer
 
+  The Data Persistence Layer Bundle provides a simple data backend for the Tractus-X ecosystem.
+
+home: https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/data-persistence-layer-bundle
+
+sources:
+  - https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/data-persistence-layer-bundle
 type: application
-version: 1.0.0
+version: 1.0.1
 
 dependencies:
   - name: simple-data-backend
