@@ -64,5 +64,5 @@ pgadmin4:
 ssi-credential-issuer:
   enabled: false
 
-ssi-dim-wallet-stub:
+identity-and-trust-bundle:
   enabled: true

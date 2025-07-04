@@ -17,9 +17,9 @@
 # SPDX-License-Identifier: Apache-2.0
 # #############################################################################
 ---
-{{ if .Values.vault.enabled }}
-{{- $vaultToken := index .Values "tractusx-connector" "vault" "hashicorp" "token" -}}
-{{- $vaultUrl := tpl (index .Values "tractusx-connector" "vault" "hashicorp" "url") . -}}
+{{ if index .Values  "dataspace-connector-bundle" "vault" "enabled" }}
+{{- $vaultToken := index .Values  "dataspace-connector-bundle" "tractusx-connector" "vault" "hashicorp" "token" -}}
+{{- $vaultUrl := tpl (index .Values  "dataspace-connector-bundle" "tractusx-connector" "vault" "hashicorp" "url") . -}}
 {{- $fullName := include "dataprovider.fullname" . -}}
 apiVersion: batch/v1
 kind: Job

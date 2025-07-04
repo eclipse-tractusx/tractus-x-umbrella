@@ -117,7 +117,7 @@ data:
       {
         "id": "2dc4249f-b5ca-4d42-bef1-7a7a950a4f88",
         "date_created": "2022-03-24 18:01:33.306000 +00:00",
-        "business_partner_number": "{{ index .Values "dataconsumerOne" "tractusx-connector" "participant" "id" }}",
+        "business_partner_number": "{{ index .Values "dataconsumerOne" "dataspace-connector-bundle" "tractusx-connector" "participant" "id" }}",
         "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "dataconsumerOne" "name" }}",
         "shortname": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "dataconsumerOne" "name" }}",
         "company_status_id": 2,
@@ -127,7 +127,7 @@ data:
       {
         "id": "220330ac-170d-4e22-8d72-9467ed042149",
         "date_created": "2022-03-24 18:01:33.393000 +00:00",
-        "business_partner_number": "{{ index .Values "tx-data-provider" "tractusx-connector" "participant" "id" }}",
+        "business_partner_number": "{{ index .Values "tx-data-provider" "dataspace-connector-bundle" "tractusx-connector" "participant" "id" }}",
         "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "tx-data-provider" "name" }}",
         "shortname": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "tx-data-provider" "name" }}",
         "company_status_id": 1,
@@ -137,7 +137,7 @@ data:
       {
         "id": "bdac6865-2a8d-4bfd-9373-9dfce8190895",
         "date_created": "2022-03-24 18:01:33.430000 +00:00",
-        "business_partner_number": "{{ index .Values "dataconsumerTwo" "tractusx-connector" "participant" "id" }}",
+        "business_partner_number": "{{ index .Values "dataconsumerTwo" "dataspace-connector-bundle" "tractusx-connector" "participant" "id" }}",
         "name": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "dataconsumerTwo" "name" }}",
         "shortname": "{{ index .Values "portal" "backend" "portalmigrations" "seeding" "seedTestData" "useOwnConfigMap" "companies" "dataconsumerTwo" "name" }}",
         "company_status_id": 1,
