@@ -7,6 +7,36 @@ In order to be able to consume data, it is necessary to have previously [provide
 This step continues the journey of our data consumer Alice. After the data provider Bob has successfully provided his data as a contract definition in his catalog. Alice will now consume the data.
 We will use plain CLI tools (`curl`) for this, but feel free to use graphical tools such as Postman or Insomnia.
 
+sequenceDiagram
+    participant Alice as Alice (Consumer)
+    participant EDC_C as EDC Consumer
+    participant EDC_P as EDC Provider
+    participant Bob as Bob (Provider)
+
+    Alice->>EDC_C: 1. Query Catalog
+    EDC_C->>EDC_P: 2. Request Catalog
+    EDC_P-->>EDC_C: 3. Catalog Response
+    EDC_C-->>Alice: 4. Display Assets
+
+    Alice->>EDC_C: 5. Negotiate Contract
+    EDC_C->>EDC_P: 6. Contract Offer
+    EDC_P-->>EDC_C: 7. Contract Agreement
+    
+    Alice->>EDC_C: 8. Request Data
+    EDC_C->>EDC_P: 9. EDR Request
+    Note over EDC_C,EDC_P: Include auth token & endpoint
+    EDC_P->>EDC_P: 10. Validate EDR
+    EDC_P-->>EDC_C: 12. EDR Response
+    Note over EDC_P,EDC_C: Contains data endpoint & token
+    EDC_C->>Alice: 13. Query EDRS Response
+
+    Alice->>EDC_P: 13. Data Transfer Request
+    Note over Alice,EDC_P: With EDR token
+    EDC_P->>Bob: 14. Fetch Data
+    Bob-->>EDC_P: 15. Return Data
+    EDC_P-->>EDC_C: 16. Transfer Data
+    EDC_C-->>Alice: 17. Deliver Data
+
 ## Step 1: Request the catalog
 
 To see Bob's data offerings, Alice must request access to his catalog. The catalog shows all the assets that Alice can consume from Bob.
