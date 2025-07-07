@@ -6,7 +6,7 @@ You can also follow the guide with the help of the [tutorial video](https://gith
 
 https://github.com/user-attachments/assets/c10bb246-33a1-47fa-9b94-9af433b4adfd
 > [!WARNING]
-> The video may not be displayed depending on your browser and browser version, try ussing different one if you not able to see the video.
+> The video may not be displayed depending on your browser and browser version, try using different one if you are not able to see it.
 > You can also dowload it from the previus link.
 
 
