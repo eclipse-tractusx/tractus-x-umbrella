@@ -9,7 +9,6 @@ https://github.com/user-attachments/assets/c10bb246-33a1-47fa-9b94-9af433b4adfd
 > The video may not be displayed depending on your browser and browser version, try using different one if you are not able to see it.
 > You can also dowload it from the previus link.
 
-
 ## System Requirements
 
 | CPU (Cores) | Memory (GB) |
