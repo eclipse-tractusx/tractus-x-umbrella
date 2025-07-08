@@ -106,7 +106,7 @@ Create your own Chart and add the bundles as dependency.
 ```yaml
 dependencies:
   - name: dataspace-connector-bundle
-    version: 1.0.1
+    version: 1.0.0
     repository: https://eclipse-tractusx.github.io/charts/dev
 ```
 
@@ -152,7 +152,7 @@ Create your Chart with the dataspace-connector-bundle as a dependency:
 ```yaml
 dependencies:
   - name: dataspace-connector-bundle
-    version: 1.0.1
+    version: 1.0.0
     repository: https://eclipse-tractusx.github.io/charts/dev
 ```
 
