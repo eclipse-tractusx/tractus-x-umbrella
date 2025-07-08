@@ -44,7 +44,6 @@ This diagram shows the data provision flow where:
 1. Bob, as the Data Provider, registers his data asset with the EDC
 2. Bob defines the access policy for his data
 3. Bob creates a contract definition connecting his asset and policy
-4. Alice, as the Data Consumer, can discover Bob’s asset through the catalog
 
 ## Create your first data asset
 
