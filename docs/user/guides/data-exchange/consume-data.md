@@ -7,35 +7,45 @@ In order to be able to consume data, it is necessary to have previously [provide
 This step continues the journey of our data consumer Alice. After the data provider Bob has successfully provided his data as a contract definition in his catalog. Alice will now consume the data.
 We will use plain CLI tools (`curl`) for this, but feel free to use graphical tools such as Postman or Insomnia.
 
+```mermaid
 sequenceDiagram
     participant Alice as Alice (Consumer)
-    participant EDC_C as EDC Consumer
-    participant EDC_P as EDC Provider
-    participant Bob as Bob (Provider)
+    participant EDC_C as Alice's Connector
+    participant EDC_P as Bob's Connector
+    participant Bob as Bob (Endpoint)
 
-    Alice->>EDC_C: 1. Query Catalog
-    EDC_C->>EDC_P: 2. Request Catalog
-    EDC_P-->>EDC_C: 3. Catalog Response
-    EDC_C-->>Alice: 4. Display Assets
+    Alice->>EDC_C: Query Catalog
+    EDC_C->>EDC_P: Request Catalog
+    EDC_P-->>EDC_C: Catalog Response
+    EDC_C->>EDC_C: Validate Access Policies
+    EDC_C-->>Alice: Display Assets
 
-    Alice->>EDC_C: 5. Negotiate Contract
-    EDC_C->>EDC_P: 6. Contract Offer
-    EDC_P-->>EDC_C: 7. Contract Agreement
+    Alice->>EDC_C: Negotiate Contract
+    EDC_C->>EDC_P: Contract Offer
+    EDC_P-->>EDC_C: Contract Agreement
+    EDC_C->>EDC_C: Validate Credentials
     
-    Alice->>EDC_C: 8. Request Data
-    EDC_C->>EDC_P: 9. EDR Request
+    Alice->>EDC_C: Request Data
+    EDC_C->>EDC_P: EDR Request
     Note over EDC_C,EDC_P: Include auth token & endpoint
-    EDC_P->>EDC_P: 10. Validate EDR
-    EDC_P-->>EDC_C: 12. EDR Response
+    EDC_P->>EDC_P: Validate EDR
+    EDC_P-->>EDC_C: EDR Response
     Note over EDC_P,EDC_C: Contains data endpoint & token
-    EDC_C->>Alice: 13. Query EDRS Response
+    EDC_C->>Alice: Query EDRS Response
 
-    Alice->>EDC_P: 13. Data Transfer Request
+    Alice->>EDC_P: Data Transfer Request
     Note over Alice,EDC_P: With EDR token
-    EDC_P->>Bob: 14. Fetch Data
-    Bob-->>EDC_P: 15. Return Data
-    EDC_P-->>EDC_C: 16. Transfer Data
-    EDC_C-->>Alice: 17. Deliver Data
+    EDC_P->>Bob: Fetch Data
+    Bob-->>EDC_P: Return Data
+    EDC_P-->>EDC_C: Transfer Data
+    EDC_C-->>Alice: Deliver Data
+```
+This diagram illustrates the three main phases of data consumption:
+1. **Catalog Query**: Alice discovers available assets
+2. **Contract Negotiation**: Alice negotiates access terms
+3. **Data Transfer**: Alice receives the requested data
+
+The default life time of the EDR token is 300s, its recommended for manual tests to extend the expiration time. 
 
 ## Step 1: Request the catalog
 
