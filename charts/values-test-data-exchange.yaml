@@ -17,59 +17,63 @@
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################
 
-ssi-dim-wallet-stub:
+identity-and-trust-bundle:
   enabled: true
-  wallet:
-    didHost: "ssi-dim-wallet-service"
-    stubUrl: "http://ssi-dim-wallet-service"
-    service:
-      type: ClusterIP
-      port: 80
+  ssi-dim-wallet-stub:
+    wallet:
+      didHost: "ssi-dim-wallet-service"
+      stubUrl: "http://ssi-dim-wallet-service"
+      service:
+        type: ClusterIP
+        port: 80
 
-  server:
-    trustedIssuers:
-      - did:web:ssi-dim-wallet-service:BPNL00000003CRHK
+    server:
+      trustedIssuers:
+        - did:web:ssi-dim-wallet-service:BPNL00000003CRHK
+
 
 dataconsumerOne:
   enabled: true
-  tractusx-connector:
-    iatp:
-      id: did:web:ssi-dim-wallet-service:BPNL00000003AZQP
-      trustedIssuers:
-        - did:web:ssi-dim-wallet-service:BPNL00000003CRHK
-      sts:
-        dim:
-          url: http://ssi-dim-wallet-service/api/sts
-        oauth:
-          token_url: http://ssi-dim-wallet-service/oauth/token
-    controlplane:
-      env:
-        TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-service/api
-      bdrs:
-        server:
-          url: http://ssi-dim-wallet-service/api/v1/directory
-    dataplane:
-      env:
-        TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-service/api
+  dataspace-connector-bundle:
+    tractusx-connector:
+      iatp:
+        id: did:web:ssi-dim-wallet-service:BPNL00000003AZQP
+        trustedIssuers:
+          - did:web:ssi-dim-wallet-service:BPNL00000003CRHK
+        sts:
+          dim:
+            url: http://ssi-dim-wallet-service/api/sts
+          oauth:
+            token_url: http://ssi-dim-wallet-service/oauth/token
+      controlplane:
+        env:
+          TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-service/api
+        bdrs:
+          server:
+            url: http://ssi-dim-wallet-service/api/v1/directory
+      dataplane:
+        env:
+          TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-service/api
 
 tx-data-provider:
   enabled: true
-  tractusx-connector:
-    iatp:
-      id: did:web:ssi-dim-wallet-service:BPNL00000003AYRE
-      trustedIssuers:
-        - did:web:ssi-dim-wallet-service:BPNL00000003CRHK
-      sts:
-        dim:
-          url: http://ssi-dim-wallet-service/api/sts
-        oauth:
-          token_url: http://ssi-dim-wallet-service/oauth/token
-    controlplane:
-      env:
-        TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-service/api
-      bdrs:
-        server:
-          url: http://ssi-dim-wallet-service/api/v1/directory
-    dataplane:
-      env:
-        TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-service/api
+  dataspace-connector-bundle:
+    tractusx-connector:
+      iatp:
+        id: did:web:ssi-dim-wallet-service:BPNL00000003AYRE
+        trustedIssuers:
+          - did:web:ssi-dim-wallet-service:BPNL00000003CRHK
+        sts:
+          dim:
+            url: http://ssi-dim-wallet-service/api/sts
+          oauth:
+            token_url: http://ssi-dim-wallet-service/oauth/token
+      controlplane:
+        env:
+          TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-service/api
+        bdrs:
+          server:
+            url: http://ssi-dim-wallet-service/api/v1/directory
+      dataplane:
+        env:
+          TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-service/api

@@ -26,15 +26,16 @@ sharedidp:
 selfdescription:
   enabled: true
 
-ssi-dim-wallet-stub:
+identity-and-trust-bundle:
   enabled: true
-  wallet:
-    nameSpace: "umbrella"
-    didHost: "ssi-dim-wallet-service"
-    stubUrl: "http://ssi-dim-wallet-service"
-    service:
-      type: ClusterIP
-      port: 80
+  ssi-dim-wallet-stub:
+    wallet:
+      nameSpace: "umbrella"
+      didHost: "ssi-dim-wallet-service"
+      stubUrl: "http://ssi-dim-wallet-service"
+      service:
+        type: ClusterIP
+        port: 80
 
 bdrs-server-memory:
   enabled: true

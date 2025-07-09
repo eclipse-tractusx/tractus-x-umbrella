@@ -28,7 +28,7 @@ sources:
   - https://github.com/eclipse-tractusx/tractus-x-umbrella
 
 type: application
-version: 2.14.2
+version: 3.0.0
 
 # when adding or updating versions of dependencies, also update list under /docs/user/installation/README.md
 dependencies:
@@ -80,18 +80,18 @@ dependencies:
     # TX Data Consumer 1
   - name: tx-data-provider
     alias: dataconsumerOne
-    version: 0.1.7
+    version: 0.2.0
     repository: file://../tx-data-provider
     condition: dataconsumerOne.enabled
     # TX Data Providers
   - name: tx-data-provider
-    version: 0.1.7
+    version: 0.2.0
     repository: file://../tx-data-provider
     condition: tx-data-provider.enabled
     # TX Data Consumer 2
   - name: tx-data-provider
     alias: dataconsumerTwo
-    version: 0.1.7
+    version: 0.2.0
     repository: file://../tx-data-provider
     condition: dataconsumerTwo.enabled
     # pgadmin4 as helper tool for easy database access
@@ -104,11 +104,10 @@ dependencies:
     repository: https://eclipse-tractusx.github.io/charts/dev
     version: 0.5.4
     condition: bdrs-server-memory.enabled
-    # ssi-dim-wallet-stub
-  - name: ssi-dim-wallet-stub
-    repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 0.1.8
-    condition: ssi-dim-wallet-stub.enabled
+  - name: identity-and-trust-bundle
+    repository: file://../identity-and-trust-bundle
+    version: 1.0.0
+    condition: identity-and-trust-bundle.enabled
   # OTEL Collector
   - name: opentelemetry-collector
     alias: opentelemetry-collector

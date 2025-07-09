@@ -124,10 +124,10 @@ EDC URL helpers
 {{- end }}
 
 {{- define "edc.key" -}}
-    {{- index .Values "tractusx-connector" "controlplane" "endpoints" "management" "authKey" }}
+    {{- index .Values  "dataspace-connector-bundle" "tractusx-connector" "controlplane" "endpoints" "management" "authKey" }}
 {{- end }}
 
 {{- define "edc.bpn" -}}
-    {{- index .Values "tractusx-connector" "participant" "id" }}
+    {{- index .Values  "dataspace-connector-bundle" "tractusx-connector" "participant" "id" }}
 {{- end }}
 
