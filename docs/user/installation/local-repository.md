@@ -1,18 +1,20 @@
 # Install from local repository
 
-Make sure to clone the [tractus-x-umbrella](https://github.com/eclipse-tractusx/tractus-x-umbrella) repository beforehand and navigate to the `charts/umbrella` directory.
+Make sure to clone the [tractus-x-umbrella](https://github.com/eclipse-tractusx/tractus-x-umbrella) repository beforehand.
+
+Update the chart dependencies of the umbrella helm chart and their dependencies.
+```bash
+helm dependency update charts/data-persistence-layer-bundle
+helm dependency update charts/dataspace-connector-bundle
+helm dependency update charts/digital-twin-bundle
+helm dependency update charts/identity-and-trust-bundle
+helm dependency update charts/tx-data-provider
+helm dependency update charts/umbrella
+```
+
+Navigate to the `charts/umbrella` directory.
 ```bash
 cd charts/umbrella/
-```
-
-Download the dependencies of the tx-data-provder subchart:
-```bash
-helm dependency update ../tx-data-provider
-```
-
-Download the chart dependencies of the umbrella helm chart:
-```bash
-helm dependency update
 ```
 
 **:grey_question: Command explanation**
