@@ -49,8 +49,14 @@ portal:
     tokenAddress: "http://ssi-dim-wallet-stub.tx.test/oauth/token"
   decentralIdentityManagementAuthAddress: "http://ssi-dim-wallet-stub.tx.test/api/sts"
   sdfactoryAddress: "http://sdfactory.tx.test"
-  clearinghouseAddress: "http://validation.tx.test"
-  clearinghouseTokenAddress: "http://someiam.tx.test/realms/example/protocol/openid-connect/token"
+  # -- no configuration for clearinghouse because it's an external component
+  clearinghouse:
+    default:
+      baseAddress: "http://validation.tx.test"
+      # -- clientId and clientSecret aren't in the centralidp Keycloak
+      clientId: "clearinghouse-client-id-default"
+      clientSecret: ""
+      tokenAddress: "http://someiam.tx.test/realms/example/protocol/openid-connect/token"
   issuerComponentAddress: "http://ssi-credential-issuer.tx.test"
   frontend:
     ingress:
@@ -145,11 +151,6 @@ portal:
       bpdm:
         clientId: &bpdmAdminClientId "sa-cl7-cx-5"
         clientSecret: &bpdmAdminClientSecret "changeme"
-      # -- no configuration for clearinghouse because it's an external component
-      # clientId and clientSecret aren't in the centralidp Keycloak
-      # clearinghouse:
-      #   clientId: "clearinghouse-client-id"
-      #   clientSecret: ""
       custodian:
         clientId: "sa-cl5-custodian-2"
         clientSecret: "changeme"
@@ -160,6 +161,10 @@ portal:
       offerprovider:
         clientId: "sa-cl2-03"
         clientSecret: "changeme"
+        encryptionConfigs:
+          index0:
+            encryptionKey:
+              "95ee1429aa40c6bb6972520a9626b19c4306baf0efe3441c8cd41918ea198921"
       dim:
         clientId: "sa-cl2-05"
         clientSecret: "changeme"
@@ -473,6 +478,8 @@ centralidp:
           clientSecret: "changeme"
         - clientId: "sa-cl2-05"
           clientSecret: "changeme"
+        - clientId: "sa-cl2-06"
+          clientSecret: "changeme"
         - clientId: "sa-cl3-cx-1"
           clientSecret: "changeme"
         - clientId: "sa-cl5-custodian-2"
@@ -554,7 +561,7 @@ centralidp:
           bpn: BPNL00000000BJTL
     initContainer:
       image:
-        name: docker.io/tractusx/umbrella-init-container:2.1.0-init
+        name: docker.io/tractusx/umbrella-init-container:2.2.0-init
         pullPolicy: IfNotPresent
 
 sharedidp:
