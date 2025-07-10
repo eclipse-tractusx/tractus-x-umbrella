@@ -2,6 +2,10 @@
 
 This document provides about API requests for the Data Exchange.
 
+## Bruno
+
+There is a [bruno collection](./bruno/Umbrella_Bruno.json) containing all the data exchange flow between Alice and Bob.
+
 ## Postman
 
 There is a [postman collection](./postman) containing information on how to exchange data between provider and consumer.
