@@ -13,7 +13,7 @@ The currently available components are the following:
 - [discoveryfinder](https://github.com/eclipse-tractusx/sldt-discovery-finder/tree/discoveryfinder-0.5.1)
 - [sdfactory](https://github.com/eclipse-tractusx/sd-factory/tree/sdfactory-2.1.23)
 - [semantic-hub](https://github.com/eclipse-tractusx/sldt-semantic-hub/tree/semantic-hub-0.5.0)
-- [ssi credential issuer](https://github.com/eclipse-tractusx/ssi-credential-issuer/tree/v1.3.0)
+- [ssi credential issuer](https://github.com/eclipse-tractusx/ssi-credential-issuer/tree/v1.4.0)
 - [tx-data-provider](https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/tx-data-provider)
   - [dataspace-connector-bundle](../../../charts/dataspace-connector-bundle)
     - [tractusx-edc](https://github.com/eclipse-tractusx/tractusx-edc/tree/0.9.0)
