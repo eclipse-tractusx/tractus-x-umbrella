@@ -30,6 +30,8 @@ The following table links you to the respective documentations.
 - [Test Data Seeding](test-data-seeding)
 - [Administration](admin)
   - [Upgrade Components](admin/upgrade-components.md)
+- [Architecture](architecture)
+  - [Decision Records](architecture/decision-records)
 
 ## NOTICE
 
