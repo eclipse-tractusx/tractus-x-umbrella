@@ -27,6 +27,8 @@ The following table links you to the respective documentations.
   - [Observability](user/guides/observability/observability.md)
 - [API Requests](api/README.md)
 - [Test Data Seeding](test-data-seeding)
+- [Architecture](architecture)
+  - [Decision Records](architecture/decision-records)
 
 ## NOTICE
 
