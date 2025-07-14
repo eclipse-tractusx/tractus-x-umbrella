@@ -8,7 +8,7 @@ This step continues the journey of our data consumer Alice. After the data provi
 We will use plain CLI tools (`curl`) for this, but feel free to use graphical tools such as Postman or Insomnia.
 
 >[!WARNING]
-> This works for the HTTP-Pull scenario.
+>- This works for the HTTP-Pull scenario.
 ```mermaid
 sequenceDiagram
     participant Alice as Alice (Consumer)
