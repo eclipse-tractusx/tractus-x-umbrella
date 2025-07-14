@@ -7,6 +7,8 @@ In order to be able to consume data, it is necessary to have previously [provide
 This step continues the journey of our data consumer Alice. After the data provider Bob has successfully provided his data as a contract definition in his catalog. Alice will now consume the data.
 We will use plain CLI tools (`curl`) for this, but feel free to use graphical tools such as Postman or Insomnia.
 
+>[!WARNING]
+> This works for the HTTP-Pull scenario.
 ```mermaid
 sequenceDiagram
     participant Alice as Alice (Consumer)
@@ -16,28 +18,28 @@ sequenceDiagram
 
     Alice->>EDC_C: Query Catalog
     EDC_C->>EDC_P: Request Catalog
-    EDC_P-->>EDC_C: Catalog Response
-    EDC_C->>EDC_C: Validate Access Policies
+    EDC_P-->>EDC_P: Identify Datasets based on Access Policies
+    EDC_P->>EDC_C: Catalog Response
     EDC_C-->>Alice: Display Assets
 
     Alice->>EDC_C: Negotiate Contract
     EDC_C->>EDC_P: Contract Offer
-    EDC_P-->>EDC_C: Contract Agreement
-    EDC_C->>EDC_C: Validate Credentials
-    
-    Alice->>EDC_C: Request Data
-    EDC_C->>EDC_P: EDR Request
-    Note over EDC_C,EDC_P: Include auth token & endpoint
-    EDC_P->>EDC_P: Validate EDR
+    EDC_P-->>EDC_P: Validate Credentials and Finalize Contract
+    EDC_C->>EDC_P: Check Status of Contract (polling until state is Finalized)
+    EDC_P-->>EDC_C: Status of Contract
+    Alice->>EDC_C: Data Transfer Request
+    EDC_C->>EDC_P: Data Transfer Request
+    Note over EDC_P: Include auth token & endpoint
+    EDC_P->>EDC_P: Create EDR
     EDC_P-->>EDC_C: EDR Response
-    Note over EDC_P,EDC_C: Contains data endpoint & token
-    EDC_C->>Alice: Query EDRS Response
+    Alice->>EDC_C: Query EDRS Response
+    EDC_C-->>Alice: EDR Response
 
-    Alice->>EDC_P: Data Transfer Request
-    Note over Alice,EDC_P: With EDR token
-    EDC_P->>Bob: Fetch Data
-    Bob-->>EDC_P: Return Data
-    EDC_P-->>EDC_C: Transfer Data
+    Alice->>EDC_P_DP: Data Request
+    Note over Alice,EDC_P: With token from EDR
+    EDC_P_DP->>Bob: Fetch Data
+    Bob-->>EDC_P_DP: Return Data
+    EDC_P_DP-->>Alice: Transfer Data
     EDC_C-->>Alice: Deliver Data
 ```
 This diagram illustrates the three main phases of data consumption:
