@@ -28,7 +28,8 @@ sources:
   - https://github.com/eclipse-tractusx/tractus-x-umbrella
 
 type: application
-version: 2.14.3
+version: 3.2.0
+
 
 # when adding or updating versions of dependencies, also update list under /docs/user/installation/README.md
 dependencies:
@@ -36,16 +37,16 @@ dependencies:
   - condition: portal.enabled
     name: portal
     repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 2.4.0
+    version: 2.5.0
   # cx-iam
   - condition: centralidp.enabled
     name: centralidp
     repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 4.1.0
+    version: 4.2.0
   - condition: sharedidp.enabled
     name: sharedidp
     repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 4.1.0
+    version: 4.2.0
   # discovery-finder
   - condition: discoveryfinder.enabled
     name: discoveryfinder
@@ -66,7 +67,7 @@ dependencies:
   - name: ssi-credential-issuer
     condition: ssi-credential-issuer.enabled
     repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 1.3.0
+    version: 1.4.0
   # semantic-hub
   - condition: semantic-hub.enabled
     name: semantic-hub
@@ -80,18 +81,18 @@ dependencies:
     # TX Data Consumer 1
   - name: tx-data-provider
     alias: dataconsumerOne
-    version: 0.1.7
+    version: 0.2.0
     repository: file://../tx-data-provider
     condition: dataconsumerOne.enabled
     # TX Data Providers
   - name: tx-data-provider
-    version: 0.1.7
+    version: 0.2.0
     repository: file://../tx-data-provider
     condition: tx-data-provider.enabled
     # TX Data Consumer 2
   - name: tx-data-provider
     alias: dataconsumerTwo
-    version: 0.1.7
+    version: 0.2.0
     repository: file://../tx-data-provider
     condition: dataconsumerTwo.enabled
     # pgadmin4 as helper tool for easy database access
@@ -104,11 +105,10 @@ dependencies:
     repository: https://eclipse-tractusx.github.io/charts/dev
     version: 0.5.4
     condition: bdrs-server-memory.enabled
-    # ssi-dim-wallet-stub
-  - name: ssi-dim-wallet-stub
-    repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 0.1.8
-    condition: ssi-dim-wallet-stub.enabled
+  - name: identity-and-trust-bundle
+    repository: file://../identity-and-trust-bundle
+    version: 1.0.0
+    condition: identity-and-trust-bundle.enabled
   # OTEL Collector
   - name: opentelemetry-collector
     alias: opentelemetry-collector

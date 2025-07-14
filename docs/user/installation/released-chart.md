@@ -38,7 +38,7 @@ This subset supports secure data sharing between participants (currently in focu
 
 ```bash
 helm install \
-  --set centralidp.enabled=true,managed-identity-wallet.enabled=true,dataconsumerOne.enabled=true,tx-data-provider.enabled=true \
+  --set identity-and-trust-bundle.enabled=true,dataconsumerOne.enabled=true,tx-data-provider.enabled=true \
   umbrella tractusx-dev/umbrella \
   --namespace umbrella \
   --create-namespace
