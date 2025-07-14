@@ -54,23 +54,8 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Update helm dependencies for tx-data-provider
-        run: |
-          cd charts/tx-data-provider
-          helm repo add tractusx-dev https://eclipse-tractusx.github.io/charts/dev
-          helm repo add hashicorp https://helm.releases.hashicorp.com
-          helm dependency update
-
-      - name: Update helm dependencies for umbrella
-        run: |
-          cd charts/umbrella
-          helm repo add tractusx-dev https://eclipse-tractusx.github.io/charts/dev
-          helm repo add pgadmin4 https://helm.runix.net
-          helm repo add open-telemetry https://open-telemetry.github.io/opentelemetry-helm-charts
-          helm repo add jaegertracing https://jaegertracing.github.io/helm-charts
-          helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
-          helm repo add grafana https://grafana.github.io/helm-charts
-          helm dependency update
+      - name: Update all chart dependencies
+        run: bash hack/helm-dependencies.bash
 
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.6.0
