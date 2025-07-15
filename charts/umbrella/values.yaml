@@ -1492,8 +1492,6 @@ identity-and-trust-bundle:
       service:
         type: ClusterIP
         port: 8080
-    keycloak:
-      enabled: false
 
 smtp4dev:
   enabled: false
