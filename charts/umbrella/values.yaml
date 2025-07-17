@@ -1493,8 +1493,8 @@ identity-and-trust-bundle:
       username: "postgres"
       password: "postgrespassword"
     service:
-        type: ClusterIP
-        port: 8080
+      type: ClusterIP
+      port: 8080
       resources:
       requests:
         # -- CPU resource requests
@@ -1506,8 +1506,6 @@ identity-and-trust-bundle:
         cpu: 1
         # -- Memory resource limits
         memory: 2Gi
-  keycloak:
-      enabled: false
   postgresql:
     fullnameOverride: wallet-postgres
     enabled: true
