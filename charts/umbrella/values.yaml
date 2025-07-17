@@ -1507,7 +1507,7 @@ identity-and-trust-bundle:
         # -- Memory resource limits
         memory: 2Gi
   keycloak:
-      enabled: false
+    enabled: false
   postgresql:
     fullnameOverride: wallet-postgres
     enabled: true
