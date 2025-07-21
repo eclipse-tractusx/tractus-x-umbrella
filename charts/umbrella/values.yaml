@@ -1490,8 +1490,8 @@ identity-and-trust-bundle:
         realm: "CX-Central"
         authServerUrl: "http://centralidp.tx.test/auth"
       postgresql:
-      username: "postgres"
-      password: "postgrespassword"
+        username: "postgres"
+        password: "postgrespassword"
     service:
       type: ClusterIP
       port: 8080

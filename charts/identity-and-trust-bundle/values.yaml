@@ -101,3 +101,35 @@ ssi-dim-wallet-stub:
       # -- Keycloak auth server URL
       # @section -- (Optional) Keycloak Integration
       authServerUrl: "http://centralidp.tx.test/auth"
+    postgresql:
+      username: "postgres"
+      password: "postgrespassword"
+    service:
+      type: ClusterIP
+      port: 8080
+      resources:
+      requests:
+        # -- CPU resource requests
+        cpu: 500m
+        # -- Memory resource requests
+        memory: 1Gi
+      limits:
+        # -- CPU resource limits
+        cpu: 1
+        # -- Memory resource limits
+        memory: 2Gi
+  postgresql:
+    fullnameOverride: wallet-postgres
+    enabled: true
+    image:
+      tag: "15-debian-11"
+    configmap:
+      name: wallet-postgres-configmap
+    auth:
+      username: postgres
+      password: postgrespassword
+    primary:
+      persistence:
+        enabled: false
+        size: 10Gi
+        storageClass: standard
