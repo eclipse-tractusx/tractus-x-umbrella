@@ -31,7 +31,7 @@ The currently available components are the following:
     - [tractusx-edc](https://github.com/eclipse-tractusx/tractusx-edc/tree/0.10.0)
     - [vault](https://github.com/hashicorp/vault-helm/tree/v0.20.0)
 - [bdrs](https://github.com/eclipse-tractusx/bpn-did-resolution-service/tree/0.5.2) (**in memory** - no persistence possible)
-- [bpdm](https://github.com/eclipse-tractusx/bpdm/tree/release/6.2.x)
+- [bpdm](https://github.com/eclipse-tractusx/bpdm/tree/release/7.0.x)
 - [identity-and-trust-bundle](../../../charts/identity-and-trust-bundle)
   - [ssi-dim-wallet-stub](https://github.com/eclipse-tractusx/ssi-dim-wallet-stub/releases/tag/ssi-dim-wallet-stub-0.1.8)
 
