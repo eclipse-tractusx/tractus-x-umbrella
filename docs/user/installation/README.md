@@ -19,7 +19,7 @@ The currently available components are the following:
     - [tractusx-edc](https://github.com/eclipse-tractusx/tractusx-edc/tree/0.10.0)
     - [vault](https://github.com/hashicorp/vault-helm/tree/v0.20.0)
   - [digital-twin-bundle](../../../charts/digital-twin-bundle)
-    - [digital-twin-registry](https://github.com/eclipse-tractusx/sldt-digital-twin-registry/tree/digital-twin-registry-0.7.0)
+    - [digital-twin-registry](https://github.com/eclipse-tractusx/sldt-digital-twin-registry/tree/digital-twin-registry-0.8.0)
   - [data-persistence-layer-bundle](../../../charts/data-persistence-layer-bundle)
     - [simple-data-backend](https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/simple-data-backend-0.1.0)
 - [dataconsumerOne](https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/tx-data-provider)
