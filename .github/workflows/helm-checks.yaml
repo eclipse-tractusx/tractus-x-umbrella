@@ -212,7 +212,7 @@ jobs:
 
     - name: Install chart for shared services one (umbrella)
       run: |
-        helm install umbrella charts/umbrella -f charts/values-test-shared-services-1.yaml --namespace umbrella --create-namespace --debug --timeout 15m
+        helm install umbrella charts/umbrella -f charts/values-test-shared-services-1.yaml --namespace umbrella --create-namespace --debug --timeout 10m
         helm uninstall umbrella --namespace umbrella
         helm uninstall centralidp --namespace umbrella
 

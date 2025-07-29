@@ -20,6 +20,9 @@
 portal:
   enabled: true
 
+centralidp:
+  enabled: true
+
 sharedidp:
   enabled: true
 
