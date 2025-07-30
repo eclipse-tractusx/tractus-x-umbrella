@@ -209,10 +209,23 @@ jobs:
       run: |
         helm install centralidp charts/umbrella --namespace umbrella --create-namespace --debug --timeout 10m \
         -f charts/values-test-iam-init-container.yaml --wait --wait-for-jobs
-
+    - name: Wait for portal-backend-postgresql ready
+      run: |
+          for i in {1..30}; do
+            if kubectl run pg-check --rm -i --restart=Never --image=postgres:15 --namespace umbrella \
+              -- bash -c "PGPASSWORD=dbpasswordportal psql -h portal-backend-postgresql -U postgres -d postgres -c '\q'"; then
+              echo 'Database portal-backend-postgresql is ready'
+              exit 0
+            fi
+            echo 'Waiting 10s for portal-backend-postgresql database...'
+            sleep 10
+          done
+          echo 'The portal-backend-postgresql database is not ready after 5 minutes'
+          kubectl get pods -n umbrella
+          exit 1
     - name: Install chart for shared services one (umbrella)
       run: |
-        helm install umbrella charts/umbrella -f charts/values-test-shared-services-1.yaml --namespace umbrella --create-namespace --debug --timeout 10m
+        helm install umbrella charts/umbrella -f charts/values-test-shared-services-1.yaml --namespace umbrella --create-namespace --debug --timeout 10m --wait
         helm uninstall umbrella --namespace umbrella
         helm uninstall centralidp --namespace umbrella
 
