@@ -20,6 +20,8 @@
 portal:
   enabled: true
 
+sharedidp:
+  enabled: true
 selfdescription:
   enabled: true
 

@@ -24,5 +24,3 @@ centralidp:
       image:
         name: kind-registry:5000/init-container:testing
         pullPolicy: Always
-sharedidp:
-  enabled: true
