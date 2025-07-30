@@ -213,10 +213,6 @@ jobs:
     - name: Install chart for shared services one (umbrella)
       run: |
         helm install umbrella charts/umbrella -f charts/values-test-shared-services-1.yaml --namespace umbrella --create-namespace --debug --timeout 10m
-         echo "=== Logs wallet stub ==="
-        kubectl logs -n umbrella -f -l app=ssi-dim-wallet-stub --all-containers=true
-         echo "=== Logs portal ==="
-        kubectl logs -n umbrella -f -l app=portal --all-containers=true
         helm uninstall umbrella --namespace umbrella
         helm uninstall centralidp --namespace umbrella
 
