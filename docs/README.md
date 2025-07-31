@@ -25,9 +25,14 @@ The following table links you to the respective documentations.
   - [Portal Usage](user/guides/portal-usage.md)
   - [Database Access](user/guides/database-access.md)
   - [Observability](user/guides/observability/observability.md)
+  - [Hausanschluss Bundles](user/guides/hausanschluss-bundles.md)
   - [External Secrets Operator](user/guides/external-secrets.md)
 - [API Requests](api/README.md)
 - [Test Data Seeding](test-data-seeding)
+- [Administration](admin)
+  - [Upgrade Components](admin/upgrade-components.md)
+- [Architecture](architecture)
+  - [Decision Records](architecture/decision-records)
 
 ## NOTICE
 

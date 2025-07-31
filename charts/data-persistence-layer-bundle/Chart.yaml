@@ -1,6 +1,5 @@
 # #############################################################################
-# Copyright (c) 2022,2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
-# Copyright (c) 2021,2024 Contributors to the Eclipse Foundation
+# Copyright (c) 2025 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
 # information regarding copyright ownership.
@@ -17,25 +16,23 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 # #############################################################################
----
-apiVersion: v2
-name: tx-data-provider
-description: A Helm chart for Kubernetes
 
+apiVersion: v2
+name: data-persistence-layer-bundle
+description: |
+  Helm chart for Capability Bundle: Data Persistence Layer
+
+  The Data Persistence Layer Bundle provides a simple data backend for the Tractus-X ecosystem.
+
+home: https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/data-persistence-layer-bundle
+
+sources:
+  - https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/data-persistence-layer-bundle
 type: application
-version: 0.3.0
-appVersion: 0.0.1
+version: 1.0.0
 
 dependencies:
-  - name: digital-twin-bundle
-    repository: file://../digital-twin-bundle
-    version: 1.0.0
-    condition: digital-twin-bundle.enabled
-  - name: data-persistence-layer-bundle
-    repository: file://../data-persistence-layer-bundle
-    version: 1.0.0
-    condition: data-persistence-layer-bundle.enabled
-  - name: dataspace-connector-bundle
-    repository: file://../dataspace-connector-bundle
-    version: 1.1.0
-    condition: dataspace-connector-bundle.enabled
+  - name: simple-data-backend
+    version: 0.1.0
+    repository: https://eclipse-tractusx.github.io/charts/dev
+    condition: simple-data-backend.enabled

@@ -1,6 +1,5 @@
 # #############################################################################
-# Copyright (c) 2022,2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
-# Copyright (c) 2021,2024 Contributors to the Eclipse Foundation
+# Copyright (c) 2025 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
 # information regarding copyright ownership.
@@ -17,25 +16,23 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 # #############################################################################
----
-apiVersion: v2
-name: tx-data-provider
-description: A Helm chart for Kubernetes
 
-type: application
-version: 0.3.0
-appVersion: 0.0.1
-
-dependencies:
-  - name: digital-twin-bundle
-    repository: file://../digital-twin-bundle
-    version: 1.0.0
-    condition: digital-twin-bundle.enabled
-  - name: data-persistence-layer-bundle
-    repository: file://../data-persistence-layer-bundle
-    version: 1.0.0
-    condition: data-persistence-layer-bundle.enabled
-  - name: dataspace-connector-bundle
-    repository: file://../dataspace-connector-bundle
-    version: 1.1.0
-    condition: dataspace-connector-bundle.enabled
+# Default values for data-persistence-layer-bundle
+# This is a YAML-formatted file.
+simple-data-backend:
+  # @ignore
+  image:
+    tag: "main"
+  ingress:
+    # -- Enable ingress creation
+    enabled: true
+    # -- Ingress controller class (nginx)
+    className: "nginx"
+    hosts:
+      # simple-data-backend.ingress.hosts[0].host -- External hostname
+      - host: "dataprovider-submodelserver.tx.test"
+        paths:
+          # simple-data-backend.ingress.hosts[0].paths[0].path -- URL path to expose
+          - path: "/"
+            # @ignore
+            pathType: "Prefix"

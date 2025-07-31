@@ -34,7 +34,7 @@ dataconsumerOne:
     #       enabled: true
 
 tx-data-provider:
-  seedTestdata: false
+  seedTestdata: true
   enabled: true
   # -- uncomment the following for persistence
     # postgresql:
@@ -64,15 +64,8 @@ pgadmin4:
 ssi-credential-issuer:
   enabled: false
 
-ssi-dim-wallet-stub:
+identity-and-trust-bundle:
   enabled: true
-  wallet:
-    resources:
-      limits:
-        # -- CPU resource limits
-        cpu: 1
-        # -- Memory resource limits
-        memory: 2Gi
 
 external-secrets:
   enabled: true

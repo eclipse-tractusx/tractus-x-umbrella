@@ -72,6 +72,10 @@ bdrs-server-memory:
 selfdescription:
   enabled: false
 
+# Set 'enabled' to true if onboarding is required
+smtp4dev:
+  enabled: false
+
 bpndiscovery:
   enabled: false
 
@@ -83,5 +87,5 @@ ssi-credential-issuer:
   enabled: false
 
 # Set 'enabled' to true if onboarding is required
-ssi-dim-wallet-stub:
+identity-and-trust-bundle:
   enabled: false

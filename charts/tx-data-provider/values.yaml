@@ -35,120 +35,27 @@ dataplaneUrl: ""  # Override the edc dataplane public url
 secrets:
   edc-wallet-secret: changeme
 
-tractusx-connector:
-  enabled: true
-  install:
-    postgresql: true
-    vault: false
-  participant:
-    id: changeme
-  iatp:
-    id: changeme
-    trustedIssuers:
-      - changeme
-    sts:
-      dim:
-        url: http://example.org
-      oauth:
-        token_url: http://example.org
-        client:
-          id: changeme
-          secret_alias: client-secret
-  controlplane:
-    ingresses:
-      - enabled: false
-    bdrs:
-      server:
-        url: http://example.org
-    endpoints:
-      management:
-        authKey: *edcKey
-    securityContext:
-      readOnlyRootFilesystem: false
-
-  dataplane:
-    ingresses:
-      - enabled: false
-    token:
-      signer:
-        privatekey_alias: changeme
-      verifier:
-        publickey_alias: changeme
-
-  vault:
-    hashicorp:
-      url: http://{{ .Release.Name }}-edc-provider-vault:8200
-      token: "root"
-    secretNames:
-      transferProxyTokenSignerPrivateKey: changeme
-      transferProxyTokenSignerPublicKey: changeme
-      transferProxyTokenEncryptionAesKey: aesKey
-
+dataspace-connector-bundle:
+  tractusx-connector:
+    enabled: true
+    postgresql:
+      jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-connector-postgresql:5432/edc"
   postgresql:
-    nameOverride: edc-postgresql
-    primary:
-      persistence:
-        enabled: false
-        size: 1Gi
-    auth:
-      database: edc
-      username: *postgresuser
-      postgresPassword: *postgrespass
-      password: *postgrespass
-    username: *postgresuser
-    password: *postgrespass
-    jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-edc-postgresql:5432/edc"
+    nameOverride: connector-postgresql
 
-digital-twin-registry:
-  enabled: true
-  enableKeycloak: false
-
+digital-twin-bundle:
+  digital-twin-registry:
+    enabled: true
+    registry:
+      authentication: false
+      dataSource:
+        # digital-twin-bundle.digital-twin-registry.registry.dataSource.url
+        # No templating possible, need to hardcode string, or set it via property e.g.,
+        # helm install <release-name> charts/tx-data-provider --set digital-twin-bundle.digital-twin-registry.registry.dataSource.url=jdbc:postgresql://<release-name>-dtr-postgresql:5432/dtr
+        url: "jdbc:postgresql://dtr-postgresql:5432/dtr"
   postgresql:
-    auth:
-      existingSecret: registry-db-postresinit
-    primary:
-      persistence:
-        enabled: false
-        size: 1Gi
+    fullnameOverride: "dtr-postgresql"
 
-  registry:
-    host: digital-twin-registry.test
-    ingress:
-      enabled: false
-    authentication: false
-    livenessProbe:
-      failureThreshold: 10
-      initialDelaySeconds: 60
-      periodSeconds: 10
-    readinessProbe:
-      failureThreshold: 10
-      initialDelaySeconds: 60
-      periodSeconds: 10
-
-simple-data-backend:
-  enabled: true
-  image:
-    tag: "main"
-  ingress:
-    enabled: false
-
-vault:
-  enabled: true
-  nameOverride: edc-provider-vault
-  injector:
-    enabled: false
-  server:
-    postStart:
-      - sh
-      - -c
-      - |-
-        {
-        sleep 5
-        /bin/vault kv put secret/client-secret content=kEmH7QRPWhKfy8f+x0pFMw==
-        /bin/vault kv put secret/aesKey content=YWVzX2VuY2tleV90ZXN0Cg==
-        }
-    dev:
-      enabled: true
-      devRootToken: root
-    ingress:
-      enabled: false
+data-persistence-layer-bundle:
+  simple-data-backend:
+    enabled: true
