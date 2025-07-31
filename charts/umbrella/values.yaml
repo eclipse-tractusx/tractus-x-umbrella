@@ -1498,6 +1498,16 @@ smtp4dev:
     smtp: 25
     http: 80
 
+# External Secrets Operator configuration
+external-secrets:
+  enabled: false
+  # When enabled, the operator will be installed and can be used to manage secrets
+  installCRDs: true
+  webhook:
+    create: true
+  certController:
+    enabled: true
+
 # By default we're disabling observability
 grafana:
   enabled: false
