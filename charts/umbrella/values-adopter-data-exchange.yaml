@@ -34,7 +34,7 @@ dataconsumerOne:
     #       enabled: true
 
 tx-data-provider:
-  seedTestdata: true
+  seedTestdata: false
   enabled: true
   # -- uncomment the following for persistence
     # postgresql:
@@ -65,7 +65,4 @@ ssi-credential-issuer:
   enabled: false
 
 identity-and-trust-bundle:
-  enabled: true
-
-external-secrets:
   enabled: true

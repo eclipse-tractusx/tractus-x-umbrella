@@ -1504,12 +1504,7 @@ smtp4dev:
 # External Secrets Operator configuration
 external-secrets:
   enabled: false
-  # When enabled, the operator will be installed and can be used to manage secrets
-  installCRDs: true
-  webhook:
-    create: true
-  certController:
-    enabled: true
+  createSecrets: true
 
 # By default we're disabling observability
 grafana:
