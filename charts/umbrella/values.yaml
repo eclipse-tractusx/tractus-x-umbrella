@@ -1501,11 +1501,6 @@ smtp4dev:
     smtp: 25
     http: 80
 
-# External Secrets Operator configuration
-external-secrets:
-  enabled: false
-  createSecrets: true
-
 # By default we're disabling observability
 grafana:
   enabled: false

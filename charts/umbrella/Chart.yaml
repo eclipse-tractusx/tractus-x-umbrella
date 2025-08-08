@@ -32,11 +32,6 @@ version: 3.5.1
 
 # when adding or updating versions of dependencies, also update list under /docs/user/installation/README.md
 dependencies:
-  # external-secrets-operator
-  - condition: external-secrets.enabled
-    name: external-secrets
-    repository: https://charts.external-secrets.io
-    version: 0.18.2
   # portal
   - condition: portal.enabled
     name: portal
