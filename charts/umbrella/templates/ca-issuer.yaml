@@ -22,11 +22,13 @@ apiVersion: cert-manager.io/v1
 kind: Issuer
 metadata:
   name: umbrella-ca-issuer
+  {{- if index .Values "cert-manager" "enabled" }}
   annotations:
     # This is what defines this resource as a hook. Without this line, the
     # job is considered part of the release.
     "helm.sh/hook": post-install
     "helm.sh/hook-weight": "0"
+  {{ end }}
 spec:
   acme:
     # You must replace this email address with your own.
@@ -36,7 +38,7 @@ spec:
     # If the ACME server supports profiles, you can specify the profile name here.
     # See #acme-certificate-profiles below.
     profile: {{ index .Values "tls-issuer" "acme" "profile" | default "tlsserver" }}
-    server: {{ index .Values "tls-issuer" "acme" "server" | default "https://acme-staging-v02.api.letsencrypt.org/directory" }}
+    server: {{ index .Values "tls-issuer" "acme" "server" | default "https://acme-v02.api.letsencrypt.org/directory" }}
     privateKeySecretRef:
       # Secret resource that will be used to store the account's private key.
       # This is your identity with your ACME provider. Any secret name may be
@@ -53,4 +55,3 @@ spec:
           ingress:
             ingressClassName: {{ index .Values "tls-issuer" "acme" "ingressClassName" | default "nginx" }}
 {{ end }}
-

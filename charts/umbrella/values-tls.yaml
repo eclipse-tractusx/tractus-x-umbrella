@@ -16,7 +16,18 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 # #############################################################################
----
+
+tls-issuer:
+  acme:
+    enabled: true
+    email: "jan.kreutzfeld@gmail.com" # needs to be defined
+
+cert-manager:
+  enabled: true
+  crds:
+    enabled: true
+    keep: false
+
 portal:
   portalAddress: "https://portal.tx.test"
   portalBackendAddress: "https://portal-backend.tx.test"
@@ -528,15 +539,3 @@ identity-and-trust-bundle:
         host: "https://portal-backend.tx.test"
       keycloak:
         authServerUrl: "https://centralidp.tx.test/auth"
-
-
-tls-issuer:
-  acme:
-    enabled: true
-    email: "jan.kreutzfeld@gmail.com" # needs to be defined
-
-cert-manager:
-  enabled: true
-  crds:
-    enabled: true
-    keep: false
