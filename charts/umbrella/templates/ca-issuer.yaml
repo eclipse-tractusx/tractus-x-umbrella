@@ -22,6 +22,11 @@ apiVersion: cert-manager.io/v1
 kind: Issuer
 metadata:
   name: umbrella-ca-issuer
+  annotations:
+    # This is what defines this resource as a hook. Without this line, the
+    # job is considered part of the release.
+    "helm.sh/hook": post-install
+    "helm.sh/hook-weight": "0"
 spec:
   acme:
     # You must replace this email address with your own.

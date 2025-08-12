@@ -1541,3 +1541,6 @@ prometheus:
   enabled: false
 jaeger:
   enabled: false
+
+cert-manager:
+  enabled: false
