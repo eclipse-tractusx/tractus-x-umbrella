@@ -139,7 +139,6 @@ portal:
             - "portal-backend.tx.test"
 
 centralidp:
-  enabled: false
   keycloak:
     ingress:
       annotations:
@@ -183,7 +182,6 @@ centralidp:
       bpdmOrchestrator:
         clientSecret: "changeme"
     sharedidp: "https://sharedidp.tx.test"
-
 
 sharedidp:
   keycloak:

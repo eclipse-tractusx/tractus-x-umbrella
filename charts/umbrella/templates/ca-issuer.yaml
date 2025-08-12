@@ -16,8 +16,7 @@
   #
   # SPDX-License-Identifier: Apache-2.0
   # #############################################################################
----
-{{ if index .Values "tls-issuer" "acme" "enabled" | default false }}
+{{- if and (index .Values "tls-issuer") (index .Values "tls-issuer" "acme" "enabled")}}
 # See https://cert-manager.io/docs/configuration/acme/
 apiVersion: cert-manager.io/v1
 kind: Issuer
