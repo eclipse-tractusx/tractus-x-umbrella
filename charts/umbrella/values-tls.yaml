@@ -141,11 +141,41 @@ portal:
         nginx.ingress.kubernetes.io/enable-cors: "true"
         nginx.ingress.kubernetes.io/proxy-body-size: "8m"
         nginx.ingress.kubernetes.io/cors-allow-origin: "http://localhost:3000, https://*.tx.test"
-      # uncomment the following lines for tls
+      hosts:
+        - host: "portal-backend.tx.test"
+          paths:
+            - path: "/api/registration"
+              pathType: "Prefix"
+              backend:
+                service: "registration-service"
+                port: 8080
+            - path: "/api/administration"
+              pathType: "Prefix"
+              backend:
+                service: "administration-service"
+                port: 8080
+            - path: "/api/notification"
+              pathType: "Prefix"
+              backend:
+                service: "notification-service"
+                port: 8080
+            - path: "/api/provisioning"
+              pathType: "Prefix"
+              backend:
+                service: "provisioning-service"
+                port: 8080
+            - path: "/api/apps"
+              pathType: "Prefix"
+              backend:
+                service: "marketplace-app-service"
+                port: 8080
+            - path: "/api/services"
+              pathType: "Prefix"
+              backend:
+                service: "services-service"
+                port: 8080
       tls:
-        # -- Provide tls secret.
         - secretName: "portal-backend.tx.test-tls"
-        # -- Provide host for tls secret.
           hosts:
             - "portal-backend.tx.test"
 
@@ -216,7 +246,9 @@ sharedidp:
 
 bpndiscovery:
   bpndiscovery:
+    host: semantics.tx.test
     ingress:
+      tls: true
       annotations:
         cert-manager.io/issuer: "umbrella-ca-issuer"
         nginx.ingress.kubernetes.io/rewrite-target: "/$2"
@@ -232,6 +264,7 @@ bpndiscovery:
 
 discoveryfinder:
   discoveryfinder:
+    host: semantics.tx.test
     properties:
       discoveryfinder:
         initialEndpoints:
@@ -254,6 +287,11 @@ discoveryfinder:
 
 selfdescription:
   ingress:
+    hosts:
+      - host: "sdfactory.tx.test"
+        paths:
+          - path: "/"
+            pathType: "Prefix"
     tls:
       - tlsName: sdfactory.tx.test-tls
         hosts:
@@ -281,6 +319,13 @@ ssi-credential-issuer:
       nginx.ingress.kubernetes.io/enable-cors: "true"
       nginx.ingress.kubernetes.io/proxy-body-size: "8m"
       nginx.ingress.kubernetes.io/cors-allow-origin: "http://*.tx.test"
+    hosts:
+      - host: "ssi-credential-issuer.tx.test"
+        paths:
+          - path: "/"
+            pathType: "Prefix"
+            backend:
+              port: 8080
     # -- Ingress TLS configuration
     tls:
       - hosts:
@@ -296,6 +341,15 @@ bpdm:
         nginx.ingress.kubernetes.io/rewrite-target: "/$2"
         nginx.ingress.kubernetes.io/use-regex: "true"
         nginx.ingress.kubernetes.io/x-forwarded-prefix: "/gate"
+      hosts:
+        - host: "business-partners.tx.test"
+          paths:
+            - path: "/gate(/|$)(.*)"
+              pathType: "ImplementationSpecific"
+      tls:
+        - secretName: "business-partners.tx.test-tls"
+          hosts:
+            - "business-partners.tx.test"
     applicationConfig:
       bpdm:
         security:
@@ -315,6 +369,15 @@ bpdm:
         nginx.ingress.kubernetes.io/rewrite-target: "/$2"
         nginx.ingress.kubernetes.io/use-regex: "true"
         nginx.ingress.kubernetes.io/x-forwarded-prefix: "/pool"
+      hosts:
+        - host: "business-partners.tx.test"
+          paths:
+            - path: "/pool(/|$)(.*)"
+              pathType: "ImplementationSpecific"
+      tls:
+        - secretName: "business-partners.tx.test-tls"
+          hosts:
+            - "business-partners.tx.test"
     applicationConfig:
       bpdm:
         security:
@@ -331,7 +394,15 @@ bpdm:
         nginx.ingress.kubernetes.io/rewrite-target: "/$2"
         nginx.ingress.kubernetes.io/use-regex: "true"
         nginx.ingress.kubernetes.io/x-forwarded-prefix: "/orchestrator"
-
+      hosts:
+        - host: "business-partners.tx.test"
+          paths:
+            - path: "/orchestrator(/|$)(.*)"
+              pathType: "ImplementationSpecific"
+      tls:
+        - secretName: "business-partners.tx.test-tls"
+          hosts:
+            - "business-partners.tx.test"
     applicationConfig:
       bpdm:
         security:
@@ -434,8 +505,33 @@ tx-data-provider:
             tls:
               enabled: true
 
+  digital-twin-bundle:
+    digital-twin-registry:
+      registry:
+        host: dataprovider-dtr.tx.test
+        ingress:
+          annotations:
+            cert-manager.io/issuer: "umbrella-ca-issuer"
+          tls: true
+
+  data-persistence-layer-bundle:
+    simple-data-backend:
+      ingress:
+        annotations:
+          cert-manager.io/issuer: "umbrella-ca-issuer"
+        hosts:
+          - host: "dataprovider-submodelserver.tx.test"
+            paths:
+              - path: "/"
+                pathType: "Prefix"
+        tls:
+          - hosts:
+              - "dataprovider-submodelserver.tx.test"
+            secretName: "dataprovider-submodelserver.tx.test-tls"
+
 semantic-hub:
   hub:
+    host: semantics.tx.test
     ingress:
       tls: true
       annotations:
@@ -525,6 +621,7 @@ bdrs-server-memory:
 identity-and-trust-bundle:
   ssi-dim-wallet-stub:
     wallet:
+      host: ssi-dim-wallet-stub.tx.test
       ingress:
         enabled: true
         tls:
