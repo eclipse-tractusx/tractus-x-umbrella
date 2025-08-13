@@ -43,7 +43,7 @@ on:
       deployment_name:
         description: 'helm deployment name e.g, umbrella-edc'
         default: 'umbrella-edc'
-        required: true
+        required: false
         type: string
       deployment_type:
         default: 'upgrade'
@@ -56,12 +56,12 @@ on:
       helm_values_file:
         description: 'the relative path to the helm values.yaml'
         default: 'values-arena2036-x-edcs.yaml'
-        required: true
+        required: false
         type: string
       namespace:
         description: 'the namespace where the edc is to be deployed'
         default: 'release24-12'
-        required: true
+        required: false
         type: string
 
 jobs:
@@ -108,4 +108,4 @@ jobs:
         run: |
           chmod +x ./install-edc.sh
           echo "Running deployment script..."
-          ./install-edc.sh ${{ vars.EDC_CLUSTER_CONTEXT }} umbrella-edc upgrade values-arena2036-x-edcs.yaml release24-12
+          ./install-edc.sh ${{ github.event.inputs.cluster_context }} ${{ github.event.inputs.deployment_name }} ${{ github.event.inputs.deployment_type }} ${{ github.event.inputs.helm_values_file }} ${{ github.event.inputs.namespace }}
