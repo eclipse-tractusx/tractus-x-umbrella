@@ -32,31 +32,27 @@ on:
   workflow_dispatch:
     inputs:
       cluster_context:
-        description: 'the current k8s environment where the edc is to be deployed'
-        default: 'arena2036-x-edc-cluster'
-        required: true
-        choice_input:
-          description: "Select an option"
-          type: choice
-          options:
-          - arena2036-x-edc-cluster
-          - construct-x-fed-services
-          - demo-cluster
+        default: 'upgrade'
+        required: false
+        description: "Select the environment"
+        type: choice
+        options:
+        - arena2036-x-edc-cluster
+        - construct-x-fed-services
+        - demo-cluster
       deployment_name:
         description: 'helm deployment name e.g, umbrella-edc'
         default: 'umbrella-edc'
         required: true
         type: string
       deployment_type:
-        description: 'deployment type -> install/upgrade'
         default: 'upgrade'
         required: false
-        choice_input:
-          description: "Select an option"
-          type: choice
-          options:
-          - install
-          - upgrade
+        description: "Select the command"
+        type: choice
+        options:
+        - install
+        - upgrade
       helm_values_file:
         description: 'the relative path to the helm values.yaml'
         default: 'values-arena2036-x-edcs.yaml'
