@@ -216,6 +216,7 @@ sharedidp:
 bpndiscovery:
   bpndiscovery:
     ingress:
+      tls: true
       annotations:
         cert-manager.io/issuer: "umbrella-ca-issuer"
         nginx.ingress.kubernetes.io/rewrite-target: "/$2"
@@ -295,6 +296,10 @@ bpdm:
         nginx.ingress.kubernetes.io/rewrite-target: "/$2"
         nginx.ingress.kubernetes.io/use-regex: "true"
         nginx.ingress.kubernetes.io/x-forwarded-prefix: "/gate"
+      tls:
+        - secretName: "business-partners.tx.test-tls"
+          hosts:
+            - "business-partners.tx.test"
     applicationConfig:
       bpdm:
         security:
@@ -314,6 +319,10 @@ bpdm:
         nginx.ingress.kubernetes.io/rewrite-target: "/$2"
         nginx.ingress.kubernetes.io/use-regex: "true"
         nginx.ingress.kubernetes.io/x-forwarded-prefix: "/pool"
+      tls:
+        - secretName: "business-partners.tx.test-tls"
+          hosts:
+            - "business-partners.tx.test"
     applicationConfig:
       bpdm:
         security:
@@ -330,7 +339,10 @@ bpdm:
         nginx.ingress.kubernetes.io/rewrite-target: "/$2"
         nginx.ingress.kubernetes.io/use-regex: "true"
         nginx.ingress.kubernetes.io/x-forwarded-prefix: "/orchestrator"
-
+      tls:
+        - secretName: "business-partners.tx.test-tls"
+          hosts:
+            - "business-partners.tx.test"
     applicationConfig:
       bpdm:
         security:
@@ -431,7 +443,7 @@ tx-data-provider:
               - public
             className: "nginx"
             tls:
-              enabled:
+              enabled: true
 
   digital-twin-bundle:
     digital-twin-registry:
