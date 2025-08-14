@@ -1234,6 +1234,19 @@ tx-data-provider:
     enabled: true
     simple-data-backend:
       nameOverride: dataprovider-submodelserver
+      ingress:
+        enabled: true
+        className: "nginx"
+        hosts:
+          - host: "dataprovider-submodelserver.tx.test"
+            paths:
+              - path: "/"
+                pathType: "Prefix"
+        # uncomment the following lines for tls
+        # tls:
+        #   - hosts:
+        #       - host: "dataprovider-submodelserver.tx.test"
+        #     secretName: "secretName"
 
   digital-twin-bundle:
     enabled: true
@@ -1241,7 +1254,10 @@ tx-data-provider:
       nameOverride: dataprovider-dtr
       registry:
         authentication: false
-        host: dataprovider-dtr.test
+        host: dataprovider-dtr.tx.test
+        ingress:
+          enabled: true
+          tls: false
         dataSource:
           url: "jdbc:postgresql://dataprovider-digital-twin-db:5432/dtr"
 
