@@ -283,8 +283,9 @@ ssi-credential-issuer:
       nginx.ingress.kubernetes.io/cors-allow-origin: "http://*.tx.test"
     # -- Ingress TLS configuration
     tls:
-      - hosts:
-          - "ssi-credential-issuer.tx.test"
+      - secretName: "ssi-credential-issuer.tx.test-tls"
+        hosts:
+          - ssi-credential-issuer.tx.test
 
 # Set up services for a business partner pool, golden record process
 # and a gate with which the Portal and the users can share business partner data
@@ -526,16 +527,11 @@ pgadmin4:
   ingress:
     enabled: true
     tls:
-      - hosts:
+      - secretName: chart-example-tls
+        hosts:
           - pgadmin4.tx.test
     annotations:
       cert-manager.io/issuer: "umbrella-ca-issuer"
-    ingressClassName: "nginx"
-    hosts:
-      - host: pgadmin4.tx.test
-        paths:
-          - path: /
-            pathType: Prefix
 
 bdrs-server-memory:
   server:
