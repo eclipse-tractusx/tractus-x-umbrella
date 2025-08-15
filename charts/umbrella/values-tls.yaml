@@ -257,7 +257,7 @@ selfdescription:
     tls:
       - tlsName: sdfactory.tx.test-tls
         hosts:
-          - sdfactory.tx.test.net
+          - sdfactory.tx.test
     className: "nginx"
     annotations:
       cert-manager.io/issuer: "umbrella-ca-issuer"

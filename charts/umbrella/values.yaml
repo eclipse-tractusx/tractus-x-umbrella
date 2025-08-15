@@ -779,7 +779,7 @@ selfdescription:
     # tls:
     # - tlsName: sdfactory.tx.test-tls
     #   hosts:
-    #     - sdfactory.tx.test.net
+    #     - sdfactory.tx.test
     className: "nginx"
     # annotations:
     #   # uncomment the following line for tls
