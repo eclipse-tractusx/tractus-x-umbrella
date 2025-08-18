@@ -190,7 +190,7 @@ def extract_secrets_from_yaml(yaml_file: str) -> Dict[str, Any]:
     # Based on the file structure, secrets seem to be at the root level after some metadata
     secrets = {}
     
-    for key, value in data.items():
+    for key, value in data["externalSecrets"].items():
         if isinstance(value, dict):
             # Check if this is one of our target secrets or looks like a secret
             if all(isinstance(v, (str, int, float, bool)) for v in value.values()):

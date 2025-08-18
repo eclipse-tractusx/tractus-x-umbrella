@@ -24,7 +24,7 @@ structure.
 
 ```bash
 # Install Python dependencies
-pip install PyYAML requests
+pip install -r requirements.txt
 ```
 
 ### Vault Setup
@@ -51,7 +51,7 @@ python vault-secrets-setup.py --dry-run
 python vault-secrets-setup.py
 
 # Use custom YAML file
-python vault-secrets-setup.py --yaml-file my-secrets.yaml
+python vault-secrets-setup.py --yaml-file ../charts/umbrella/values-external-secrets.yaml
 
 # Use custom Vault path
 python vault-secrets-setup.py --vault-path custom/path
@@ -71,17 +71,18 @@ python vault-secrets-setup.py --vault-path custom/path
 The script expects a YAML file with the following structure:
 
 ```yaml
-secret-name-1:
-  key1: value1
-  key2: value2
-
-secret-name-2:
-  username: admin
-  password: secret123
-
-secret-name-3:
-  api-key: abc123
-  endpoint: https://api.example.com
+externalSecrets:
+  secret-name-1:
+    key1: value1
+    key2: value2
+  
+  secret-name-2:
+    username: admin
+    password: secret123
+  
+  secret-name-3:
+    api-key: abc123
+    endpoint: https://api.example.com
 ```
 
 ### Example
