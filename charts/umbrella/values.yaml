@@ -1274,7 +1274,10 @@ semantic-hub:
         persistence:
           enabled: false
   hub:
-    authentication: false
+    authentication: true
+    idpIssuerUri: "http://centralidp.tx.test/auth/realms/CX-Central"
+    idpClientId: Cl3-CX-Semantic
+    embeddedTripleStore: true
     livenessProbe:
       initialDelaySeconds: 200
     readinessProbe:
