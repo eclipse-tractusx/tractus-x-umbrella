@@ -33,7 +33,7 @@ The currently available components are the following:
 - [bdrs](https://github.com/eclipse-tractusx/bpn-did-resolution-service/tree/0.5.2) (**in memory** - no persistence possible)
 - [bpdm](https://github.com/eclipse-tractusx/bpdm/tree/release/7.0.x)
 - [identity-and-trust-bundle](../../../charts/identity-and-trust-bundle)
-  - [ssi-dim-wallet-stub](https://github.com/eclipse-tractusx/ssi-dim-wallet-stub/releases/tag/ssi-dim-wallet-stub-0.1.8)
+  - [ssi-dim-wallet-stub](https://github.com/eclipse-tractusx/ssi-dim-wallet-stub/tree/ssi-dim-wallet-stub-memory-0.1.11)
 
 ## Auxiliary components
 

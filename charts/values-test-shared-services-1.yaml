@@ -22,7 +22,6 @@ portal:
 
 sharedidp:
   enabled: true
-
 selfdescription:
   enabled: true
 
