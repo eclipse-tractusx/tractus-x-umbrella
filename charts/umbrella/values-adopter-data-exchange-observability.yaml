@@ -158,9 +158,6 @@ tx-data-provider:
               AppenderRef:
                 - ref: OpenTelemetryAppender
                 - ref: ConsoleAppender
-      participant:
-        id: BPNL00000003AYRE
-        bpn: BPNL00000003AYRE
       dataplane:
         env:
           OTEL_SERVICE_NAME: dataprovider-edc-dataplane
