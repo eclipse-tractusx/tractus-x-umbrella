@@ -3,7 +3,7 @@ external-secrets:
   enabled: true
 
 vault:
-  enabled: true
+  enabled: false
   server:
     dev:
       enabled: true

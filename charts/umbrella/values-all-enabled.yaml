@@ -49,6 +49,8 @@ tx-data-provider:
 
 semantic-hub:
   enabled: true
+  graphdb:
+    enabled: false
 
 dataconsumerTwo:
   enabled: true
