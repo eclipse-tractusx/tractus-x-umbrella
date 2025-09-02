@@ -1,5 +1,4 @@
-
-# 0010 Decision Record: Secrets management with External Secrets Operator (ESO)
+# Decision Record: Secrets management with External Secrets Operator (ESO)
 
 ## Metadata
 
@@ -11,7 +10,7 @@
 
 The current setup uses an umbrella Helm chart for local deployments, where secrets are hardcoded. The goal is to make the deployment cluster-ready for production use.
 
-To achieve this, it was initially considered to adopt the ArgoCD Vault Plugin — as used in standard ArgoCD-based GitOps workflows — to provide secret injection at deployment time. However, the plugin is **not currently in use for the umbrella chart**, since the current use case is limited to local development only.
+To achieve this, it was initially considered adopting the ArgoCD Vault Plugin — as used in standard ArgoCD-based GitOps workflows — to provide secret injection at deployment time. However, the plugin is **not currently in use for the umbrella chart**, since the current use case is limited to local development only.
 
 Integrating the ArgoCD Vault Plugin into the umbrella chart for cluster readiness would introduce additional complexity, such as Vault configuration, plugin setup, and runtime token handling inside ArgoCD. Furthermore, this solution does not support Helm CLI workflows or alternative CI/CD pipelines without duplicating logic and configuration.
 

@@ -341,8 +341,8 @@ Most of the components already support disabling the seeding, but this needs to 
 
 - Infra (Vault, ArgoCD): CATENA-X e.V.
 - Chart Owners: Umbrella maintainers
-- Lead: Felix Gerbig
-- Umbrella Lead: Evelyn Gurschler (resp. her replacement, if any) possibly Mikkel Garcia (https://github.com/mgarciaLKS)
+- Lead: TAP7.1 Lead
+- Umbrella Lead
 - Product teams 
   - For potential changes to helm charts 
   - Regarding vault secret management. Some teams use the vault for more than pure secrets, so if this requires changes to deployment setups, this needs to be communicated.
