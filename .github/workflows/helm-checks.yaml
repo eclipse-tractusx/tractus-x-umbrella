@@ -226,6 +226,7 @@ jobs:
           exit 1
         fi
         
+        echo "--- Installation successful. Starting cleanup... ---"
         helm uninstall umbrella --namespace umbrella
 
     - name: Install chart for centralidp Keycloak (umbrella)
@@ -247,6 +248,8 @@ jobs:
           
           exit 1
         fi
+
+        echo "--- Installation successful. ---"
 
     - name: Install chart for sharedidp Keycloak (umbrella)
       run: |
