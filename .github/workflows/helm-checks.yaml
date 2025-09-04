@@ -295,7 +295,6 @@ jobs:
         
         echo "--- Installation successful. Starting cleanup... ---"
         helm uninstall umbrella --namespace umbrella
-        helm uninstall centralidp --namespace umbrella
 
     - name: Install chart for shared services two (umbrella)
       run: |
