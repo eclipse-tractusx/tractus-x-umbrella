@@ -201,8 +201,31 @@ jobs:
 
     - name: Install chart for data exchange (umbrella)
       run: |
-        helm install umbrella charts/umbrella --namespace umbrella --create-namespace --debug --timeout 10m \
-        -f charts/values-test-data-exchange.yaml
+        set -o pipefail
+        if ! helm install umbrella charts/umbrella --namespace umbrella --create-namespace --debug --timeout 10m \
+          -f charts/values-test-data-exchange.yaml; then
+          
+          echo "--- Helm installation failed. Executing post-mortem diagnosis. ---"
+          
+          echo "--- Getting pods status in 'umbrella' namespace ---"
+          kubectl get pods -n umbrella
+          
+          echo "--- Getting logs for all pods in 'umbrella' namespace ---"
+          for pod in $(kubectl get pods -n umbrella -o=jsonpath='{.items[*].metadata.name}'); do
+            echo "--- Logs for pod: $pod ---"
+            kubectl logs $pod -n umbrella || true
+            echo "--------------------------------------------------------"
+          done
+          
+          echo "--- Getting events in 'umbrella' namespace ---"
+          kubectl get events -n umbrella --sort-by='.metadata.creationTimestamp'
+          
+          echo "--- Helm history for 'umbrella' ---"
+          helm history umbrella --namespace umbrella
+          
+          exit 1
+        fi
+        
         helm uninstall umbrella --namespace umbrella
 
     - name: Install chart for centralidp Keycloak (umbrella)
