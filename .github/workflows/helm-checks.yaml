@@ -231,7 +231,7 @@ jobs:
     - name: Install chart for centralidp Keycloak (umbrella)
       run: |
         if ! helm install centralidp charts/umbrella --namespace umbrella --create-namespace --debug --timeout 10m \
-          -f charts/values-test-iam-init-container.yaml --wait --wait-for-jobs; then
+          -f charts/values-test-iam-init-container-1.yaml --wait --wait-for-jobs; then
           
           echo "--- Helm installation for 'centralidp' failed. Executing diagnosis. ---"
           kubectl get pods -n umbrella
@@ -247,6 +247,29 @@ jobs:
           
           exit 1
         fi
+
+    - name: Install chart for sharedidp Keycloak (umbrella)
+      run: |
+        if ! helm install umbrella charts/umbrella -f charts/values-test-iam-init-container-2.yaml --namespace umbrella --create-namespace --debug --timeout 10m; then
+
+          echo "--- Helm installation for 'sharedidp' failed. Executing diagnosis. ---"
+          kubectl get pods -n umbrella
+          
+          for pod in $(kubectl get pods -n umbrella -o=jsonpath='{.items[*].metadata.name}'); do
+            echo "--- Logs for pod: $pod ---"
+            kubectl logs $pod -n umbrella || true
+            echo "--------------------------------------------------------"
+          done
+          
+          kubectl get events -n umbrella --sort-by='.metadata.creationTimestamp'
+          helm history umbrella --namespace umbrella
+          
+          exit 1
+        fi
+        
+        echo "--- Installation successful. Starting cleanup... ---"
+        helm uninstall umbrella --namespace umbrella
+        helm uninstall centralidp --namespace umbrella
 
     - name: Install chart for shared services one (umbrella)
       run: |
