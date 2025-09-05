@@ -17,22 +17,5 @@
 # SPDX-License-Identifier: Apache-2.0
 ###############################################################
 
-portal:
-  enabled: true
-
-selfdescription:
-  enabled: true
-
-identity-and-trust-bundle:
-  enabled: true
-  ssi-dim-wallet-stub:
-    wallet:
-      nameSpace: "umbrella"
-      didHost: "ssi-dim-wallet-service"
-      stubUrl: "http://ssi-dim-wallet-service"
-      service:
-        type: ClusterIP
-        port: 80
-
-bdrs-server-memory:
+sharedidp:
   enabled: true
