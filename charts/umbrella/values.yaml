@@ -1495,7 +1495,7 @@ identity-and-trust-bundle:
     service:
       type: ClusterIP
       port: 8080
-      resources:
+    resources:
       requests:
         # -- CPU resource requests
         cpu: 500m
