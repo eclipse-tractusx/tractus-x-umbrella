@@ -89,3 +89,8 @@ ssi-credential-issuer:
 # Set 'enabled' to true if onboarding is required
 identity-and-trust-bundle:
   enabled: false
+  # -- uncomment the following for persistance
+  # postgresql:
+  #   primary:
+  #     persistence:
+  #       enabled: true
