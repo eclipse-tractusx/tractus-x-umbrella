@@ -34,7 +34,7 @@ dataconsumerOne:
     #       enabled: true
 
 tx-data-provider:
-  seedTestdata: false
+  seedTestdata: true
   enabled: true
   # -- uncomment the following for persistence
     # postgresql:
