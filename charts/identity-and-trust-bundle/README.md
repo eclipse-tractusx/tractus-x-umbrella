@@ -1,6 +1,6 @@
 # Identity and Trust Bundle
 
-![Version: 1.0.0](https://img.shields.io/badge/Version-1.0.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) 
+![Version: 1.1.0](https://img.shields.io/badge/Version-1.0.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) 
 
 Helm chart for Capability Bundle: Identity and Trust
 
@@ -28,7 +28,7 @@ helm install my-release tractusx-dev/identity-and-trust-bundle
 
 | Repository | Name | Version |
 |------------|------|---------|
-| https://eclipse-tractusx.github.io/charts/dev | ssi-dim-wallet-stub | 0.1.8 |
+| https://eclipse-tractusx.github.io/charts/dev | ssi-dim-wallet-stub | 0.1.11 |
 
 ## Values
 
