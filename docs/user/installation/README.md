@@ -39,6 +39,7 @@ The currently available components are the following:
 
 The currently available auxiliary components are following:
 
+- [external-secrets](https://github.com/external-secrets/external-secrets/tree/v0.18.2)
 - [pgadmin4](https://artifacthub.io/packages/helm/runix/pgadmin4/1.25.0)
 - [opentelemetry-collector](https://github.com/open-telemetry/opentelemetry-helm-charts/tree/opentelemetry-collector-0.90.0)
 - [jaeger](https://github.com/jaegertracing/helm-charts/tree/jaeger-3.0.7)

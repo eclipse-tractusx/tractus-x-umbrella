@@ -1,0 +1,16 @@
+apiVersion: v2
+name: umbrella-infrastructure
+description: A Helm chart for Kubernetes
+
+type: application
+
+version: 0.1.0
+dependencies:
+  - condition: external-secrets.enabled
+    name: external-secrets
+    repository: https://charts.external-secrets.io
+    version: 0.18.2
+  - condition: vault.enabled
+    name: vault
+    repository: https://helm.releases.hashicorp.com
+    version: 0.30.1
