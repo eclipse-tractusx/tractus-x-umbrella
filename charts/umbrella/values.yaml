@@ -31,33 +31,33 @@ portal:
     primary:
       persistence:
         enabled: false
-  portalAddress: "http://portal.stable.catena-x.net"
-  portalBackendAddress: "http://portal-backend.stable.catena-x.net"
+  portalAddress: "http://portal.tx.test"
+  portalBackendAddress: "http://portal-backend.tx.test"
   centralidp:
-    address: "http://centralidp.stable.catena-x.net"
-  sharedidpAddress: "http://sharedidp.stable.catena-x.net"
-  semanticsAddress: "http://semantics.stable.catena-x.net"
+    address: "http://centralidp.tx.test"
+  sharedidpAddress: "http://sharedidp.tx.test"
+  semanticsAddress: "http://semantics.tx.test"
   bpdm:
-    poolAddress: "http://business-partners.stable.catena-x.net"
+    poolAddress: "http://business-partners.tx.test"
     poolApiPath: "/pool/v6"
-    portalGateAddress: "http://business-partners.stable.catena-x.net"
+    portalGateAddress: "http://business-partners.tx.test"
     portalGateApiPath: "/gate/v6"
-  custodianAddress: "http://ssi-dim-wallet-stub.stable.catena-x.net"
+  custodianAddress: "http://ssi-dim-wallet-stub.tx.test"
   dimWrapper:
-    baseAddress: "http://ssi-dim-wallet-stub.stable.catena-x.net"
+    baseAddress: "http://ssi-dim-wallet-stub.tx.test"
     apiPath: "/api/dim"
-    tokenAddress: "http://ssi-dim-wallet-stub.stable.catena-x.net/oauth/token"
-  decentralIdentityManagementAuthAddress: "http://ssi-dim-wallet-stub.stable.catena-x.net/api/sts"
-  sdfactoryAddress: "http://sdfactory.stable.catena-x.net"
+    tokenAddress: "http://ssi-dim-wallet-stub.tx.test/oauth/token"
+  decentralIdentityManagementAuthAddress: "http://ssi-dim-wallet-stub.tx.test/api/sts"
+  sdfactoryAddress: "http://sdfactory.tx.test"
   # -- no configuration for clearinghouse because it's an external component
   clearinghouse:
     default:
-      baseAddress: "http://validation.stable.catena-x.net"
+      baseAddress: "http://validation.tx.test"
       # -- clientId and clientSecret aren't in the centralidp Keycloak
       clientId: "clearinghouse-client-id-default"
       clientSecret: ""
-      tokenAddress: "http://someiam.stable.catena-x.net/realms/example/protocol/openid-connect/token"
-  issuerComponentAddress: "http://ssi-credential-issuer.stable.catena-x.net"
+      tokenAddress: "http://someiam.tx.test/realms/example/protocol/openid-connect/token"
+  issuerComponentAddress: "http://ssi-credential-issuer.tx.test"
   frontend:
     ingress:
       enabled: true
@@ -67,16 +67,16 @@ portal:
         nginx.ingress.kubernetes.io/rewrite-target: "/$1"
         nginx.ingress.kubernetes.io/use-regex: "true"
         nginx.ingress.kubernetes.io/enable-cors: "true"
-        nginx.ingress.kubernetes.io/cors-allow-origin: "http://*.stable.catena-x.net"
+        nginx.ingress.kubernetes.io/cors-allow-origin: "http://*.tx.test"
       # uncomment the following lines for tls
       # tls:
       #   # -- Provide tls secret.
-      #   - secretName: "portal.stable.catena-x.net-tls"
+      #   - secretName: "portal.tx.test-tls"
       #     # -- Provide host for tls secret.
       #     hosts:
-      #       - "portal.stable.catena-x.net"
+      #       - "portal.tx.test"
       hosts:
-        - host: "portal.stable.catena-x.net"
+        - host: "portal.tx.test"
           paths:
             - path: "/(.*)"
               pathType: "ImplementationSpecific"
@@ -122,7 +122,7 @@ portal:
         encryptionConfigs:
           index0:
             encryptionKey: "deb8261ec7b89c344f1c5ef5a11606e305f14e0d231b1357d90ad0180c5081d3"
-      issuerdid: "did:web:ssi-dim-wallet-stub.stable.catena-x.net:BPNL00000003CRHK"
+      issuerdid: "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003CRHK"
       swaggerEnabled: true
     appmarketplace:
       logging:
@@ -170,7 +170,7 @@ portal:
         clientSecret: "changeme"
         grantType: "client_credentials"
         scope: "openid"
-        baseAddress: "http://ssi-dim-wallet-stub.stable.catena-x.net"
+        baseAddress: "http://ssi-dim-wallet-stub.tx.test"
         universalResolverAddress: "https://dev.uniresolver.io/"
         encryptionConfigs:
           index0:
@@ -207,10 +207,10 @@ portal:
             encryptionKey:
               "d2e27d71b018cb36029184852f1baa3e26891be94718f77de4c7cc6c882fe317"
     mailing:
-      host: "smtp.stable.catena-x.net"
+      host: "smtp.tx.test"
       port: "587"
       user: "smtp-user"
-      senderEmail: "smtp@tx.test"
+      senderEmail: "testenv-notification@catena-x.net"
       password: ""
     portalmigrations:
       seeding:
@@ -223,99 +223,99 @@ portal:
               # BPN is retrieved from participant id of the dataconsumerOne
               dataconsumerOne:
                 name: "BPN_OEM_C"
-                connectorUrl: "http://dataconsumer-1-controlplane.stable.catena-x.net/api/v1/dsp"
+                connectorUrl: "http://dataconsumer-1-controlplane.tx.test/api/v1/dsp"
                 connectorName: "BPN OEM C Connector"
               # BPN is retrieved from participant id of the tx-data-provider
               tx-data-provider:
                 name: "BPN_OEM_A"
-                connectorUrl: "http://dataprovider-controlplane.stable.catena-x.net/api/v1/dsp"
+                connectorUrl: "http://dataprovider-controlplane.tx.test/api/v1/dsp"
                 connectorName: "BPN OEM A Connector"
               # BPN is retrieved from participant id of the dataconsumerTwo
               dataconsumerTwo:
                 name: "BPN_OEM_B"
-                connectorUrl: "http://dataconsumer-2-controlplane.stable.catena-x.net/api/v1/dsp"
+                connectorUrl: "http://dataconsumer-2-controlplane.tx.test/api/v1/dsp"
                 connectorName: "BPN OEM B Connector"
               company4:
                 name: "BPN_IRS_TEST"
                 bpn: "BPNL00000003AWSS"
-                connectorUrl: "http://company4-controlplane.stable.catena-x.net/api/v1/dsp"
+                connectorUrl: "http://company4-controlplane.tx.test/api/v1/dsp"
                 connectorName: "BPN IRS TEST Connector"
               company5:
                 name: "BPN_N_TIER_A"
                 bpn: "BPNL00000003B0Q0"
-                connectorUrl: "http://company5-controlplane.stable.catena-x.net/api/v1/dsp"
+                connectorUrl: "http://company5-controlplane.tx.test/api/v1/dsp"
                 connectorName: "BPN N TIER A Connector"
               company6:
                 name: "BPN_TRACEX_A_SITE_A"
                 bpn: "BPNS0000000008ZZ"
-                connectorUrl: "http://company6-controlplane.stable.catena-x.net/api/v1/dsp"
+                connectorUrl: "http://company6-controlplane.tx.test/api/v1/dsp"
                 connectorName: "BPN TRACEX A SITE A Connector"
               company7:
                 name: "BPN_TRACEX_B"
                 bpn: "BPNL00000003CNKC"
-                connectorUrl: "http://company7-controlplane.stable.catena-x.net/api/v1/dsp"
+                connectorUrl: "http://company7-controlplane.tx.test/api/v1/dsp"
                 connectorName: "BPN TRACEX B Connector"
               company8:
                 name: "BPN_DISMANTLER"
                 bpn: "BPNL00000003B6LU"
-                connectorUrl: "http://company8-controlplane.stable.catena-x.net/api/v1/dsp"
+                connectorUrl: "http://company8-controlplane.tx.test/api/v1/dsp"
                 connectorName: "BPN DISMANTLER Connector"
               company9:
                 name: "BPN_TRACEX_A"
                 bpn: "BPNL00000003CML1"
-                connectorUrl: "http://company9-controlplane.stable.catena-x.net/api/v1/dsp"
+                connectorUrl: "http://company9-controlplane.tx.test/api/v1/dsp"
                 connectorName: "BPN TRACEX A Connector"
               company10:
                 name: "BPN_TRACEX_B_SITE_A"
                 bpn: "BPNS00000008BDFH"
-                connectorUrl: "http://company10-controlplane.stable.catena-x.net/api/v1/dsp"
+                connectorUrl: "http://company10-controlplane.tx.test/api/v1/dsp"
                 connectorName: "BPN TRACEX B SITE A Connector"
               company11:
                 name: "BPN_TIER_A"
                 bpn: "BPNL00000003B2OM"
-                connectorUrl: "http://company11-controlplane.stable.catena-x.net/api/v1/dsp"
+                connectorUrl: "http://company11-controlplane.tx.test/api/v1/dsp"
                 connectorName: "BPN TIER A Connector"
               company12:
                 name: "BPN_TIER_C"
                 bpn: "BPNL00000003CSGV"
-                connectorUrl: "http://company12-controlplane.stable.catena-x.net/api/v1/dsp"
+                connectorUrl: "http://company12-controlplane.tx.test/api/v1/dsp"
                 connectorName: "BPN TIER C Connector"
               company13:
                 name: "BPN_TIER_B"
                 bpn: "BPNL00000003B5MJ"
-                connectorUrl: "http://company13-controlplane.stable.catena-x.net/api/v1/dsp"
+                connectorUrl: "http://company13-controlplane.tx.test/api/v1/dsp"
                 connectorName: "BPN TIER B Connector"
               company14:
                 name: "BPN_SUB_TIER_B"
                 bpn: "BPNL00000003AXS3"
-                connectorUrl: "http://company14-controlplane.stable.catena-x.net/api/v1/dsp"
+                connectorUrl: "http://company14-controlplane.tx.test/api/v1/dsp"
                 connectorName: "BPN SUB TIER B Connector"
               company15:
                 name: "BPN_SUB_TIER_A"
                 bpn: "BPNL00000003B3NX"
-                connectorUrl: "http://company15-controlplane.stable.catena-x.net/api/v1/dsp"
+                connectorUrl: "http://company15-controlplane.tx.test/api/v1/dsp"
                 connectorName: "BPN SUB TIER A Connector"
               company16:
                 name: "BPN_SUB_TIER_C"
                 bpn: "BPNL00000000BJTL"
-                connectorUrl: "http://company16-controlplane.stable.catena-x.net/api/v1/dsp"
+                connectorUrl: "http://company16-controlplane.tx.test/api/v1/dsp"
                 connectorName: "BPN SUB TIER C Connector"
       logging:
         default: "Debug"
     provisioning:
       sharedRealm:
         smtpServer:
-          host: "smtp.stable.catena-x.net"
+          host: "smtp.tx.test"
           port: "587"
           user: "smtp-user"
           password: ""
           from: "smtp@tx.test"
           replyTo: "smtp@tx.test"
-    # -- docs: http://portal-backend.stable.catena-x.net/api/administration/swagger/index.html
-    # http://portal-backend.stable.catena-x.net/api/registration/swagger/index.html
-    # http://portal-backend.stable.catena-x.net/api/apps/swagger/index.html
-    # http://portal-backend.stable.catena-x.net/api/services/swagger/index.html
-    # http://portal-backend.stable.catena-x.net/api/notification/swagger/index.html
+    # -- docs: http://portal-backend.tx.test/api/administration/swagger/index.html
+    # http://portal-backend.tx.test/api/registration/swagger/index.html
+    # http://portal-backend.tx.test/api/apps/swagger/index.html
+    # http://portal-backend.tx.test/api/services/swagger/index.html
+    # http://portal-backend.tx.test/api/notification/swagger/index.html
     ingress:
       enabled: true
       name: "portal-backend"
@@ -325,16 +325,16 @@ portal:
         nginx.ingress.kubernetes.io/use-regex: "true"
         nginx.ingress.kubernetes.io/enable-cors: "true"
         nginx.ingress.kubernetes.io/proxy-body-size: "8m"
-        nginx.ingress.kubernetes.io/cors-allow-origin: "http://localhost:3000, http://*.stable.catena-x.net"
+        nginx.ingress.kubernetes.io/cors-allow-origin: "http://localhost:3000, http://*.tx.test"
       # uncomment the following lines for tls
       # tls:
       #   # -- Provide tls secret.
-      #   - secretName: "portal-backend.stable.catena-x.net-tls"
+      #   - secretName: "portal-backend.tx.test-tls"
       #     # -- Provide host for tls secret.
       #     hosts:
-      #       - "portal-backend.stable.catena-x.net"
+      #       - "portal-backend.tx.test"
       hosts:
-        - host: "portal-backend.stable.catena-x.net"
+        - host: "portal-backend.tx.test"
           paths:
             - path: "/api/registration"
               pathType: "Prefix"
@@ -386,13 +386,13 @@ centralidp:
     ingress:
       enabled: true
       ingressClassName: "nginx"
-      hostname: "centralidp.stable.catena-x.net"
+      hostname: "centralidp.tx.test"
       annotations:
         # uncomment the following line for tls
         # cert-manager.io/cluster-issuer: "my-ca-issuer"
         nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
         nginx.ingress.kubernetes.io/cors-allow-methods: "PUT, GET, POST, OPTIONS"
-        nginx.ingress.kubernetes.io/cors-allow-origin: "http://centralidp.stable.catena-x.net"
+        nginx.ingress.kubernetes.io/cors-allow-origin: "http://centralidp.tx.test"
         nginx.ingress.kubernetes.io/enable-cors: "true"
         nginx.ingress.kubernetes.io/proxy-buffer-size: "128k"
         nginx.ingress.kubernetes.io/proxy-buffering: "on"
@@ -442,26 +442,26 @@ centralidp:
     clients:
       registration:
         redirects:
-          - http://portal.stable.catena-x.net/*
+          - http://portal.tx.test/*
       portal:
-        rootUrl: http://portal.stable.catena-x.net/home
+        rootUrl: http://portal.tx.test/home
         redirects:
-          - http://portal.stable.catena-x.net/*
+          - http://portal.tx.test/*
       semantics:
         redirects:
-          - http://portal.stable.catena-x.net/*
+          - http://portal.tx.test/*
       miw:
         clientSecret: "changeme"
         redirects:
-          - http://managed-identity-wallets.stable.catena-x.net/*
+          - http://managed-identity-wallets.tx.test/*
       bpdm:
         clientSecret: "changeme"
         redirects:
-          - http://partners-pool.stable.catena-x.net/*
+          - http://partners-pool.tx.test/*
       bpdmGate:
         clientSecret: "changeme"
         redirects:
-          - http://partners-gate.stable.catena-x.net/*
+          - http://partners-gate.tx.test/*
       bpdmOrchestrator:
         clientSecret: "changeme"
     serviceAccounts:
@@ -505,7 +505,7 @@ centralidp:
         - clientId: "sa-cl25-cx-3"
           clientSecret: "changeme"
     bpn: "BPNL00000003CRHK"
-    sharedidp: "http://sharedidp.stable.catena-x.net"
+    sharedidp: "http://sharedidp.tx.test"
     # -- test service accounts for EDC - MIW which are obsolete since R24.05;
     # uncomment once EDC uses SSI DIM Wallet Stub and the helm chart testing has been updated;
     # currently the post-install testdata-upload-job fails if not available
@@ -582,13 +582,13 @@ sharedidp:
     ingress:
       enabled: true
       ingressClassName: "nginx"
-      hostname: "sharedidp.stable.catena-x.net"
+      hostname: "sharedidp.tx.test"
       annotations:
         # uncomment the following line for tls
         # cert-manager.io/cluster-issuer: "my-ca-issuer"
         nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
         nginx.ingress.kubernetes.io/cors-allow-methods: "PUT, GET, POST, OPTIONS"
-        nginx.ingress.kubernetes.io/cors-allow-origin: "http://sharedidp.stable.catena-x.net"
+        nginx.ingress.kubernetes.io/cors-allow-origin: "http://sharedidp.tx.test"
         nginx.ingress.kubernetes.io/enable-cors: "true"
         nginx.ingress.kubernetes.io/proxy-buffer-size: "128k"
         nginx.ingress.kubernetes.io/proxy-buffering: "on"
@@ -637,12 +637,12 @@ sharedidp:
     realms:
       cxOperator:
         sslRequired: "none"
-        centralidp: "http://centralidp.stable.catena-x.net"
+        centralidp: "http://centralidp.tx.test"
         initialUser:
           username: "cx-operator@tx.test"
           password: "tractusx-umbr3lla!"
         mailing:
-          host: "smtp.stable.catena-x.net"
+          host: "smtp.tx.test"
           port: "587"
           username: "smtp-user"
           password: ""
@@ -659,7 +659,7 @@ bpndiscovery:
   enabled: false
   enablePostgres: true
   bpndiscovery:
-    host: semantics.stable.catena-x.net
+    host: semantics.tx.test
     ingress:
       enabled: true
       tls: false
@@ -674,7 +674,7 @@ bpndiscovery:
         nginx.ingress.kubernetes.io/x-forwarded-prefix: "/bpndiscovery"
     authentication: true
     idp:
-      issuerUri: "http://centralidp.stable.catena-x.net/auth/realms/CX-Central"
+      issuerUri: "http://centralidp.tx.test/auth/realms/CX-Central"
       publicClientId: "Cl22-CX-BPND"
     bpndiscoveryEndpoint:
       allowedTypes: oen,wmi,passtype,manufacturerPartId
@@ -683,14 +683,14 @@ bpndiscovery:
       documentation: /bpndiscovery/swagger-ui/index.html
       timeToLive: "31536000"
     discoveryfinderClient:
-      baseUrl: "semantics.stable.catena-x.net/discoveryfinder"
+      baseUrl: "semantics.tx.test/discoveryfinder"
       registration:
         clientId: sa-cl21-01
         clientSecret: "changeme"
         authorizationGrantType: client_credentials
       schedulerCronFrequency: "0 0 */1 * * *"
       provider:
-        tokenUri: "http://centralidp.stable.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/token"
+        tokenUri: "http://centralidp.tx.test/auth/realms/CX-Central/protocol/openid-connect/token"
     livenessProbe:
       initialDelaySeconds: 200
     readinessProbe:
@@ -714,20 +714,20 @@ discoveryfinder:
       initialDelaySeconds: 200
     readinessProbe:
       initialDelaySeconds: 200
-    host: semantics.stable.catena-x.net
+    host: semantics.tx.test
     properties:
       discoveryfinder:
         initialEndpoints:
           - type: bpn
-            endpointAddress: http://portal-backend.stable.catena-x.net/api/administration/Connectors/discovery
+            endpointAddress: http://portal-backend.tx.test/api/administration/Connectors/discovery
             description: Service to discover connector endpoints based on bpns
-            documentation: http://portal-backend.stable.catena-x.net/api/administration/swagger/index.html
+            documentation: http://portal-backend.tx.test/api/administration/swagger/index.html
     idp:
-      issuerUri: "http://centralidp.stable.catena-x.net/auth/realms/CX-Central"
+      issuerUri: "http://centralidp.tx.test/auth/realms/CX-Central"
       publicClientId: "Cl21-CX-DF"
     dataSource:
       url: "jdbc:postgresql://{{ .Release.Name }}-discoveryfinder-postgresql:5432/discoveryfinder"
-    # -- docs: http://semantics.stable.catena-x.net/discoveryfinder/swagger-ui/index.html
+    # -- docs: http://semantics.tx.test/discoveryfinder/swagger-ui/index.html
     ingress:
       enabled: true
       tls: false
@@ -755,7 +755,7 @@ selfdescription:
   sdfactory:
     secret:
       # -- JWK Set URI
-      jwkSetUri: "http://centralidp.stable.catena-x.net/auth/realms/CX-Central/protocol/openid-connect/certs"
+      jwkSetUri: "http://centralidp.tx.test/auth/realms/CX-Central/protocol/openid-connect/certs"
       # -- Details for Clearing House URI
       clearingHouseUri: ""
       # -- Details for Clearing House URL
@@ -771,15 +771,15 @@ selfdescription:
   ingress:
     enabled: true
     hosts:
-      - host: "sdfactory.stable.catena-x.net"
+      - host: "sdfactory.tx.test"
         paths:
           - path: "/"
             pathType: "Prefix"
     # uncomment the following lines for tls
     # tls:
-    # - tlsName: sdfactory.stable.catena-x.net-tls
+    # - tlsName: sdfactory.tx.test-tls
     #   hosts:
-    #     - sdfactory.stable.catena-x.net.net
+    #     - sdfactory.tx.test.net
     className: "nginx"
     # annotations:
     #   # uncomment the following line for tls
@@ -788,9 +788,9 @@ selfdescription:
 ssi-credential-issuer:
   enabled: false
   replicaCount: 1
-  portalBackendAddress: "http://portal-backend.stable.catena-x.net"
-  walletAddress: "http://ssi-dim-wallet-stub.stable.catena-x.net"
-  walletTokenAddress: "http://ssi-dim-wallet-stub.stable.catena-x.net/oauth/token"
+  portalBackendAddress: "http://portal-backend.tx.test"
+  walletAddress: "http://ssi-dim-wallet-stub.tx.test"
+  walletTokenAddress: "http://ssi-dim-wallet-stub.tx.test/oauth/token"
   service:
     swaggerEnabled: true
     logging:
@@ -803,9 +803,9 @@ ssi-credential-issuer:
       # -- Client-secret for portal client-id. Secret-key 'portal-client-secret'.
       clientSecret: "changeme"
     credential:
-      issuerDid: "did:web:ssi-dim-wallet-stub.stable.catena-x.net:BPNL00000003CRHK"
+      issuerDid: "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003CRHK"
       issuerBpn: "BPNL00000003CRHK"
-      statusListUrl: "http://ssi-dim-wallet-stub.stable.catena-x.net/status-list/BPNL00000003CRHK/8a6c7486-1e1f-4555-bdd2-1a178182651e"
+      statusListUrl: "http://ssi-dim-wallet-stub.tx.test/status-list/BPNL00000003CRHK/8a6c7486-1e1f-4555-bdd2-1a178182651e"
       encryptionConfigIndex: 0
       encryptionConfigs:
         index0:
@@ -846,7 +846,7 @@ ssi-credential-issuer:
       password: "dbpasswordissuer"
   centralidp:
     # -- Provide centralidp base address (CX IAM), without trailing '/auth'.
-    address: "http://centralidp.stable.catena-x.net"
+    address: "http://centralidp.tx.test"
     jwtBearerOptions:
       requireHttpsMetadata: "false"
   ingress:
@@ -856,14 +856,14 @@ ssi-credential-issuer:
       nginx.ingress.kubernetes.io/use-regex: "true"
       nginx.ingress.kubernetes.io/enable-cors: "true"
       nginx.ingress.kubernetes.io/proxy-body-size: "8m"
-      nginx.ingress.kubernetes.io/cors-allow-origin: "http://*.stable.catena-x.net"
+      nginx.ingress.kubernetes.io/cors-allow-origin: "http://*.tx.test"
     # -- Ingress TLS configuration
     tls: []
       # - secretName: ""
       #   hosts:
       #     - ""
     hosts:
-      - host: "ssi-credential-issuer.stable.catena-x.net"
+      - host: "ssi-credential-issuer.tx.test"
         paths:
           - path: "/"
             pathType: "Prefix"
@@ -904,7 +904,7 @@ bpdm:
         nginx.ingress.kubernetes.io/x-forwarded-prefix: "/gate"
       # The Portal expects its Gate on that specific url path so we provide it here through ingress
       hosts:
-        - host: "business-partners.stable.catena-x.net"
+        - host: "business-partners.tx.test"
           paths:
             - path: "/gate(/|$)(.*)"
               pathType: "ImplementationSpecific"
@@ -920,7 +920,7 @@ bpdm:
           owner-bpn-l:
         security:
           # App's API is authenticated over Central-IDP
-          auth-server-url: "http://centralidp.stable.catena-x.net/auth"
+          auth-server-url: "http://centralidp.tx.test/auth"
           realm: "CX-Central"
           # Is Central-IDPs name for the Gate client
           # The Gate will use that name to check for existing client permissions here
@@ -931,11 +931,11 @@ bpdm:
         # We will reuse the general BPDM admin technical user to establish connection between the services
         client:
           pool:
-            base-url: http://business-partners.stable.catena-x.net/pool
+            base-url: http://business-partners.tx.test/pool
             registration:
               client-id: "sa-cl7-cx-1"
           orchestrator:
-            base-url: http://business-partners.stable.catena-x.net/orchestrator
+            base-url: http://business-partners.tx.test/orchestrator
             registration:
               client-id: "sa-cl25-cx-3"
     applicationSecrets:
@@ -965,7 +965,7 @@ bpdm:
         nginx.ingress.kubernetes.io/use-regex: "true"
         nginx.ingress.kubernetes.io/x-forwarded-prefix: "/pool"
       hosts:
-        - host: "business-partners.stable.catena-x.net"
+        - host: "business-partners.tx.test"
           paths:
             - path: "/pool(/|$)(.*)"
               pathType: "ImplementationSpecific"
@@ -978,7 +978,7 @@ bpdm:
           host: *bpdmPostgresName
         security:
           # App's API is authenticated over Central-IDP
-          auth-server-url: "http://centralidp.stable.catena-x.net/auth"
+          auth-server-url: "http://centralidp.tx.test/auth"
           realm: "CX-Central"
           # Is Central-IDPs name for the Pool client
           # The Pool will use that name to check for existing client permissions here
@@ -989,7 +989,7 @@ bpdm:
         # We will reuse the general BPDM admin technical user to establish connection between the services
         client:
           orchestrator:
-            base-url: http://business-partners.stable.catena-x.net/orchestrator
+            base-url: http://business-partners.tx.test/orchestrator
             registration:
               client-id: "sa-cl25-cx-2"
     applicationSecrets:
@@ -1012,7 +1012,7 @@ bpdm:
         nginx.ingress.kubernetes.io/use-regex: "true"
         nginx.ingress.kubernetes.io/x-forwarded-prefix: "/orchestrator"
       hosts:
-        - host: "business-partners.stable.catena-x.net"
+        - host: "business-partners.tx.test"
           paths:
             - path: "/orchestrator(/|$)(.*)"
               pathType: "ImplementationSpecific"
@@ -1027,7 +1027,7 @@ bpdm:
         datasource:
           host: *bpdmPostgresName
         security:
-          auth-server-url: "http://centralidp.stable.catena-x.net/auth"
+          auth-server-url: "http://centralidp.tx.test/auth"
           realm: "CX-Central"
           client-id: "Cl25-CX-BPDM-Orchestrator"
     applicationSecrets:
@@ -1045,9 +1045,9 @@ bpdm:
         # We reuse the general BPDM admin technical user to establish connection between the services
         client:
           orchestrator:
-            base-url: http://business-partners.stable.catena-x.net/orchestrator
+            base-url: http://business-partners.tx.test/orchestrator
             provider:
-              issuer-uri: "http://centralidp.stable.catena-x.net/auth/realms/CX-Central"
+              issuer-uri: "http://centralidp.tx.test/auth/realms/CX-Central"
             registration:
               client-id: "sa-cl25-cx-1"
     applicationSecrets:
@@ -1069,30 +1069,30 @@ dataconsumerOne:
       participant:
         id: BPNL00000003AZQP
       iatp:
-        id: did:web:ssi-dim-wallet-stub.stable.catena-x.net:BPNL00000003AZQP
+        id: did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003AZQP
         trustedIssuers:
-          - did:web:ssi-dim-wallet-stub.stable.catena-x.net:BPNL00000003CRHK
+          - did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003CRHK
         sts:
           dim:
-            url: http://ssi-dim-wallet-stub.stable.catena-x.net/api/sts
+            url: http://ssi-dim-wallet-stub.tx.test/api/sts
           oauth:
-            token_url: http://ssi-dim-wallet-stub.stable.catena-x.net/oauth/token
+            token_url: http://ssi-dim-wallet-stub.tx.test/oauth/token
             client:
               id: BPNL00000003AZQP
               secret_alias: edc-wallet-secret
       controlplane:
         env:
-          TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-stub.stable.catena-x.net/api
+          TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-stub.tx.test/api
           EDC_IAM_DID_WEB_USE_HTTPS: false
         bdrs:
           server:
-            url: http://ssi-dim-wallet-stub.stable.catena-x.net/api/v1/directory
+            url: http://ssi-dim-wallet-stub.tx.test/api/v1/directory
         endpoints:
           management:
             authKey: TEST1
         ingresses:
           - enabled: true
-            hostname: "dataconsumer-1-controlplane.stable.catena-x.net"
+            hostname: "dataconsumer-1-controlplane.tx.test"
             endpoints:
               - default
               - protocol
@@ -1102,11 +1102,11 @@ dataconsumerOne:
               enabled: false
       dataplane:
         env:
-          TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-stub.stable.catena-x.net/api
+          TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-stub.tx.test/api
           EDC_IAM_DID_WEB_USE_HTTPS: false
         ingresses:
           - enabled: true
-            hostname: "dataconsumer-1-dataplane.stable.catena-x.net"
+            hostname: "dataconsumer-1-dataplane.tx.test"
             endpoints:
               - default
               - public
@@ -1160,30 +1160,30 @@ tx-data-provider:
       participant:
         id: BPNL00000003AYRE
       iatp:
-        id: did:web:ssi-dim-wallet-stub.stable.catena-x.net:BPNL00000003AYRE
+        id: did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003AYRE
         trustedIssuers:
-          - did:web:ssi-dim-wallet-stub.stable.catena-x.net:BPNL00000003CRHK
+          - did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003CRHK
         sts:
           dim:
-            url: http://ssi-dim-wallet-stub.stable.catena-x.net/api/sts
+            url: http://ssi-dim-wallet-stub.tx.test/api/sts
           oauth:
-            token_url: http://ssi-dim-wallet-stub.stable.catena-x.net/oauth/token
+            token_url: http://ssi-dim-wallet-stub.tx.test/oauth/token
             client:
               id: BPNL00000003AYRE
               secret_alias: edc-wallet-secret
       controlplane:
         env:
-          TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-stub.stable.catena-x.net/api
+          TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-stub.tx.test/api
           EDC_IAM_DID_WEB_USE_HTTPS: false
         bdrs:
           server:
-            url: http://ssi-dim-wallet-stub.stable.catena-x.net/api/v1/directory
+            url: http://ssi-dim-wallet-stub.tx.test/api/v1/directory
         endpoints:
           management:
             authKey: TEST2
         ingresses:
           - enabled: true
-            hostname: "dataprovider-controlplane.stable.catena-x.net"
+            hostname: "dataprovider-controlplane.tx.test"
             endpoints:
               - default
               - protocol
@@ -1193,11 +1193,11 @@ tx-data-provider:
               enabled: false
       dataplane:
         env:
-          TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-stub.stable.catena-x.net/api
+          TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-stub.tx.test/api
           EDC_IAM_DID_WEB_USE_HTTPS: false
         ingresses:
           - enabled: true
-            hostname: "dataprovider-dataplane.stable.catena-x.net"
+            hostname: "dataprovider-dataplane.tx.test"
             endpoints:
               - default
               - public
@@ -1238,14 +1238,14 @@ tx-data-provider:
         enabled: true
         className: "nginx"
         hosts:
-          - host: "dataprovider-submodelserver.stable.catena-x.net"
+          - host: "dataprovider-submodelserver.tx.test"
             paths:
               - path: "/"
                 pathType: "Prefix"
         # uncomment the following lines for tls
         # tls:
         #   - hosts:
-        #       - host: "dataprovider-submodelserver.stable.catena-x.net"
+        #       - host: "dataprovider-submodelserver.tx.test"
         #     secretName: "secretName"
 
   digital-twin-bundle:
@@ -1254,7 +1254,7 @@ tx-data-provider:
       nameOverride: dataprovider-dtr
       registry:
         authentication: false
-        host: dataprovider-dtr.stable.catena-x.net
+        host: dataprovider-dtr.tx.test
         ingress:
           enabled: true
           tls: false
@@ -1282,7 +1282,7 @@ semantic-hub:
       initialDelaySeconds: 200
     readinessProbe:
       initialDelaySeconds: 200
-    host: semantics.stable.catena-x.net
+    host: semantics.tx.test
     ingress:
       enabled: true
       tls: false
@@ -1314,30 +1314,30 @@ dataconsumerTwo:
       participant:
         id: BPNL00000003AVTH
       iatp:
-        id: did:web:ssi-dim-wallet-stub.stable.catena-x.net:BPNL00000003AVTH
+        id: did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003AVTH
         trustedIssuers:
-          - did:web:ssi-dim-wallet-stub.stable.catena-x.net:BPNL00000003CRHK
+          - did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003CRHK
         sts:
           dim:
-            url: http://ssi-dim-wallet-stub.stable.catena-x.net/api/sts
+            url: http://ssi-dim-wallet-stub.tx.test/api/sts
           oauth:
-            token_url: http://ssi-dim-wallet-stub.stable.catena-x.net/oauth/token
+            token_url: http://ssi-dim-wallet-stub.tx.test/oauth/token
             client:
               id: BPNL00000003AVTH
               secret_alias: edc-wallet-secret
       controlplane:
         env:
-          TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-stub.stable.catena-x.net/api
+          TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-stub.tx.test/api
           EDC_IAM_DID_WEB_USE_HTTPS: false
         bdrs:
           server:
-            url: http://ssi-dim-wallet-stub.stable.catena-x.net/api/v1/directory
+            url: http://ssi-dim-wallet-stub.tx.test/api/v1/directory
         endpoints:
           management:
             authKey: TEST3
         ingresses:
           - enabled: true
-            hostname: "dataconsumer-2-controlplane.stable.catena-x.net"
+            hostname: "dataconsumer-2-controlplane.tx.test"
             endpoints:
               - default
               - protocol
@@ -1347,11 +1347,11 @@ dataconsumerTwo:
               enabled: false
       dataplane:
         env:
-          TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-stub.stable.catena-x.net/api
+          TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-stub.tx.test/api
           EDC_IAM_DID_WEB_USE_HTTPS: false
         ingresses:
           - enabled: true
-            hostname: "dataconsumer-2-dataplane.stable.catena-x.net"
+            hostname: "dataconsumer-2-dataplane.tx.test"
             endpoints:
               - default
               - public
@@ -1400,7 +1400,7 @@ pgadmin4:
     enabled: true
     ingressClassName: "nginx"
     hosts:
-      - host: pgadmin4.stable.catena-x.net
+      - host: pgadmin4.tx.test
         paths:
           - path: /
             pathType: Prefix
@@ -1414,43 +1414,43 @@ bdrs-server-memory:
     enabled: true
     bpnList:
       - bpn: "BPNL00000003CRHK"
-        did: "did:web:ssi-dim-wallet-stub.stable.catena-x.net:BPNL00000003CRHK"
+        did: "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003CRHK"
       - bpn: "BPNL00000003B3NX"
-        did: "did:web:ssi-dim-wallet-stub.stable.catena-x.net:BPNL00000003B3NX"
+        did: "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003B3NX"
       - bpn: "BPNL00000003CSGV"
-        did: "did:web:ssi-dim-wallet-stub.stable.catena-x.net:BPNL00000003CSGV"
+        did: "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003CSGV"
       - bpn: "BPNL00000003B6LU"
-        did: "did:web:ssi-dim-wallet-stub.stable.catena-x.net:BPNL00000003B6LU"
+        did: "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003B6LU"
       - bpn: "BPNL00000003AXS3"
-        did: "did:web:ssi-dim-wallet-stub.stable.catena-x.net:BPNL00000003AXS3"
+        did: "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003AXS3"
       - bpn: "BPNL00000003AZQP"
-        did: "did:web:ssi-dim-wallet-stub.stable.catena-x.net:BPNL00000003AZQP"
+        did: "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003AZQP"
       - bpn: "BPNL00000003AWSS"
-        did: "did:web:ssi-dim-wallet-stub.stable.catena-x.net:BPNL00000003AWSS"
+        did: "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003AWSS"
       - bpn: "BPNL00000003AYRE"
-        did: "did:web:ssi-dim-wallet-stub.stable.catena-x.net:BPNL00000003AYRE"
+        did: "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003AYRE"
       - bpn: "BPNL00000003AVTH"
-        did: "did:web:ssi-dim-wallet-stub.stable.catena-x.net:BPNL00000003AVTH"
+        did: "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003AVTH"
       - bpn: "BPNL00000000BJTL"
-        did: "did:web:ssi-dim-wallet-stub.stable.catena-x.net:BPNL00000000BJTL"
+        did: "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000000BJTL"
       - bpn: "BPNL00000003CML1"
-        did: "did:web:ssi-dim-wallet-stub.stable.catena-x.net:BPNL00000003CML1"
+        did: "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003CML1"
       - bpn: "BPNL00000003B2OM"
-        did: "did:web:ssi-dim-wallet-stub.stable.catena-x.net:BPNL00000003B2OM"
+        did: "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003B2OM"
       - bpn: "BPNL00000003B0Q0"
-        did: "did:web:ssi-dim-wallet-stub.stable.catena-x.net:BPNL00000003B0Q0"
+        did: "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003B0Q0"
       - bpn: "BPNL00000003B5MJ"
-        did: "did:web:ssi-dim-wallet-stub.stable.catena-x.net:BPNL00000003B5MJ"
+        did: "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003B5MJ"
       - bpn: "BPNS0000000008ZZ"
-        did: "did:web:ssi-dim-wallet-stub.stable.catena-x.net:BPNS0000000008ZZ"
+        did: "did:web:ssi-dim-wallet-stub.tx.test:BPNS0000000008ZZ"
       - bpn: "BPNL00000003CNKC"
-        did: "did:web:ssi-dim-wallet-stub.stable.catena-x.net:BPNL00000003CNKC"
+        did: "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003CNKC"
       - bpn: "BPNS00000008BDFH"
-        did: "did:web:ssi-dim-wallet-stub.stable.catena-x.net:BPNS00000008BDFH"
+        did: "did:web:ssi-dim-wallet-stub.tx.test:BPNS00000008BDFH"
 
   server:
     trustedIssuers:
-      - did:web:ssi-dim-wallet-stub.stable.catena-x.net:BPNL00000003CRHK
+      - did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003CRHK
     env:
       EDC_IAM_DID_WEB_USE_HTTPS: false
     endpoints:
@@ -1458,7 +1458,7 @@ bdrs-server-memory:
         authKey: TEST
     ingresses:
       - enabled: true
-        hostname: bdrs-server.stable.catena-x.net
+        hostname: bdrs-server.tx.test
         endpoints:
           - directory
           - management
@@ -1471,7 +1471,7 @@ identity-and-trust-bundle:
   ssi-dim-wallet-stub:
     wallet:
       replicaCount: 1
-      host: ssi-dim-wallet-stub.stable.catena-x.net
+      host: ssi-dim-wallet-stub.tx.test
       nameSpace: "umbrella"
       appName: "ssi-dim-wallet-stub"
       configName: "ssi-dim-wallet-config"
@@ -1496,18 +1496,18 @@ identity-and-trust-bundle:
       logLevel: "debug"
       environment: "default"
       baseWalletBpn: "BPNL00000003CRHK"
-      didHost: "ssi-dim-wallet-stub.stable.catena-x.net"
-      stubUrl: "http://ssi-dim-wallet-stub.stable.catena-x.net"
+      didHost: "ssi-dim-wallet-stub.tx.test"
+      stubUrl: "http://ssi-dim-wallet-stub.tx.test"
       statusListVcId: "8a6c7486-1e1f-4555-bdd2-1a178182651e"
       tokenExpiryTime: "5"
       portal:
         waitTime: "60"
-        host: "http://portal-backend.stable.catena-x.net"
+        host: "http://portal-backend.tx.test"
         clientId: "sa-cl2-05"
         clientSecret: "changeme"
       keycloak:
         realm: "CX-Central"
-        authServerUrl: "http://centralidp.stable.catena-x.net/auth"
+        authServerUrl: "http://centralidp.tx.test/auth"
       service:
         type: ClusterIP
         port: 8080
@@ -1515,7 +1515,7 @@ identity-and-trust-bundle:
 smtp4dev:
   enabled: false
   ingress:
-    url: smtp.stable.catena-x.net
+    url: smtp.tx.test
   ports:
     smtp: 25
     http: 80
