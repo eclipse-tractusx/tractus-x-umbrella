@@ -210,7 +210,7 @@ portal:
       host: "smtp.tx.test"
       port: "587"
       user: "smtp-user"
-      senderEmail: "testenv-notification@catena-x.net"
+      senderEmail: "smtp@tx.test"
       password: ""
     portalmigrations:
       seeding:
