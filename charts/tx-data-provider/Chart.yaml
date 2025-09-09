@@ -23,13 +23,13 @@ name: tx-data-provider
 description: A Helm chart for Kubernetes
 
 type: application
-version: 0.3.0
+version: 0.3.1
 appVersion: 0.0.1
 
 dependencies:
   - name: digital-twin-bundle
     repository: file://../digital-twin-bundle
-    version: 1.0.0
+    version: 1.0.1
     condition: digital-twin-bundle.enabled
   - name: data-persistence-layer-bundle
     repository: file://../data-persistence-layer-bundle
