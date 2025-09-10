@@ -20,7 +20,7 @@
 tls-issuer:
   acme:
     enabled: true
-    email: "jan.kreutzfeld@gmail.com" # needs to be defined
+    email: "CHANGEME" # needs to be defined
 
 cert-manager:
   enabled: true

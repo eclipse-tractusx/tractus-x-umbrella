@@ -1255,9 +1255,6 @@ tx-data-provider:
       registry:
         authentication: false
         host: dataprovider-dtr.tx.test
-        ingress:
-          enabled: true
-          tls: false
         dataSource:
           url: "jdbc:postgresql://dataprovider-digital-twin-db:5432/dtr"
 
