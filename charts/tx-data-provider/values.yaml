@@ -26,12 +26,16 @@ configuration:
 nameOverride: ""
 fullnameOverride: ""
 seedTestdata: false  # Toggle seeding of testdata. Can be enabled when the edc should be seeded with testdata on startup.
+testData:
+  image: python:3.11
 testdataConfigMap: ""  # Provide a custom configmap for post-install-job-upload-testdata.yaml.
 backendUrl: ""  # Override the backend service url
 registryUrl: ""  # Override the digital twin registry url
 controlplanePublicUrl: ""  # Override the edc controlplane protocol url
 controlplaneManagementUrl: ""  # Override the edc controlplane management url
 dataplaneUrl: ""  # Override the edc dataplane public url
+vaultSetup:
+  image: alpine:3.19
 secrets:
   edc-wallet-secret: changeme
 
