@@ -48,7 +48,7 @@ spec:
       restartPolicy: Never
       containers:
         - name: post-install-job
-          image: "alpine:3.19"
+          image: {{ .Values.vaultSetup.image | quote }}
           imagePullPolicy: "IfNotPresent"
           command:
             - "/bin/sh"
