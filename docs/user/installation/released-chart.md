@@ -32,7 +32,7 @@ helm install \
 
 ## Data Exchange Subset
 
-This subset supports secure data sharing between participants (currently in focus of the **E2E Adopter Journey**).
+This subset supports secure data or digital twin sharing between participants (currently in focus of the **E2E Adopter Journey**).
 
 ### Installation Command
 
