@@ -374,7 +374,7 @@ centralidp:
       registry: docker.io
       repository: bitnamilegacy/keycloak
       tag: 25.0.6-debian-12-r0
-      nameOverride: "centralidp"
+    nameOverride: "centralidp"
     replicaCount: 1
     auth:
       adminPassword: "adminconsolepwcentralidp"
