@@ -54,7 +54,7 @@ spec:
       restartPolicy: Never
       containers:
         - name: post-install-job
-          image: "python:3.11"
+          image: {{ .Values.testData.image | quote }}
           imagePullPolicy: "IfNotPresent"
           command:
             - "/bin/sh"
