@@ -374,6 +374,10 @@ centralidp:
       registry: docker.io
       repository: bitnamilegacy/keycloak
       tag: 25.0.6-debian-12-r0
+    # Keycloak helm-chart from Bitnami has moved on to version 16.
+    image:
+      registry: docker.io
+      repository: bitnamilegacy/postgresql
     nameOverride: "centralidp"
     replicaCount: 1
     auth:
