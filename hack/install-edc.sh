@@ -59,9 +59,9 @@ cd ../$SUB_DIR
 echo "Working directory is now `pwd`"
 echo ""
 
-echo "Updating helm repositories..."
-helm repo update
-echo ""
+#echo "Updating helm repositories..."
+#helm repo update
+#echo ""
 
 echo "Getting dependencies from Repo ..."
 echo ""
