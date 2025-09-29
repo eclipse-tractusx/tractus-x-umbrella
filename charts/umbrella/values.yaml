@@ -378,12 +378,12 @@ centralidp:
     replicaCount: 1
     auth:
       adminPassword: "adminconsolepwcentralidp"
+    postgresql:
+      nameOverride: "centralidp-postgresql"
       # TEMPORARY UNTIL PORTAL-IAM VERSION IS UPDATED
       image:
         registry: docker.io
         repository: bitnamilegacy/postgresql
-    postgresql:
-      nameOverride: "centralidp-postgresql"
       auth:
         password: "dbpasswordcentralidp"
         postgresPassword: "dbpasswordcentralidp"
@@ -578,12 +578,12 @@ sharedidp:
     nameOverride: "sharedidp"
     auth:
       adminPassword: "adminconsolepwsharedidp"
+    postgresql:
+      nameOverride: "sharedidp-postgresql"
       # TEMPORARY UNTIL PORTAL-IAM VERSION IS UPDATED
       image:
         registry: docker.io
         repository: bitnamilegacy/postgresql
-    postgresql:
-      nameOverride: "sharedidp-postgresql"
       auth:
         password: "dbpasswordsharedidp"
         postgresPassword: "dbpasswordsharedidp"
