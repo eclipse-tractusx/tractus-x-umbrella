@@ -370,12 +370,20 @@ portal:
 centralidp:
   enabled: false
   keycloak:
+    image:
+      registry: docker.io
+      repository: bitnamilegacy/keycloak
+      tag: 25.0.6-debian-12-r0
     nameOverride: "centralidp"
     replicaCount: 1
     auth:
       adminPassword: "adminconsolepwcentralidp"
     postgresql:
       nameOverride: "centralidp-postgresql"
+      # TEMPORARY UNTIL PORTAL-IAM VERSION IS UPDATED
+      image:
+        registry: docker.io
+        repository: bitnamilegacy/postgresql
       auth:
         password: "dbpasswordcentralidp"
         postgresPassword: "dbpasswordcentralidp"
@@ -572,6 +580,10 @@ sharedidp:
       adminPassword: "adminconsolepwsharedidp"
     postgresql:
       nameOverride: "sharedidp-postgresql"
+      # TEMPORARY UNTIL PORTAL-IAM VERSION IS UPDATED
+      image:
+        registry: docker.io
+        repository: bitnamilegacy/postgresql
       auth:
         password: "dbpasswordsharedidp"
         postgresPassword: "dbpasswordsharedidp"
