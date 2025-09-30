@@ -21,6 +21,13 @@ portal:
   enabled: false
   replicaCount: 1
   postgresql:
+    ## TEMPORALY UNTIL NEW PORTAL UPDATE
+    enabled: true
+    image:
+      tag: "15-debian-11"
+    commonLabels:
+      app.kubernetes.io/version: "15"
+    ## UNTIL HERE
     nameOverride: "portal-backend-postgresql"
     architecture: standalone
     auth:
