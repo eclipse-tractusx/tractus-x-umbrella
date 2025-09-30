@@ -24,6 +24,8 @@ portal:
     ## TEMPORALY UNTIL NEW PORTAL UPDATE
     enabled: true
     image:
+      registry: docker.io
+      repository: bitnamilegacy/postgresql
       tag: "15-debian-11"
     commonLabels:
       app.kubernetes.io/version: "15"
