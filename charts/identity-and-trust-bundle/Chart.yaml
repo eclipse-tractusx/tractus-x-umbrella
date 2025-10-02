@@ -32,10 +32,10 @@ sources:
   - https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/identity-and-trust-bundle
 
 type: application
-version: 1.1.0
+version: 1.1.1
 
 dependencies:
   - name: ssi-dim-wallet-stub
-    version: 0.1.11
+    version: 0.1.12
     repository: https://eclipse-tractusx.github.io/charts/dev
     condition: ssi-dim-wallet-stub.enabled
