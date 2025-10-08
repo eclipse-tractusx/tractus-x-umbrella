@@ -21,6 +21,15 @@ portal:
   enabled: false
   replicaCount: 1
   postgresql:
+    ## TEMPORALY UNTIL NEW PORTAL UPDATE
+    enabled: true
+    image:
+      registry: docker.io
+      repository: bitnamilegacy/postgresql
+      tag: "15-debian-11"
+    commonLabels:
+      app.kubernetes.io/version: "15"
+    ## UNTIL HERE
     nameOverride: "portal-backend-postgresql"
     architecture: standalone
     auth:
@@ -370,12 +379,20 @@ portal:
 centralidp:
   enabled: false
   keycloak:
+    image:
+      registry: docker.io
+      repository: bitnamilegacy/keycloak
+      tag: 25.0.6-debian-12-r0
     nameOverride: "centralidp"
     replicaCount: 1
     auth:
       adminPassword: "adminconsolepwcentralidp"
     postgresql:
       nameOverride: "centralidp-postgresql"
+      # TEMPORARY UNTIL PORTAL-IAM VERSION IS UPDATED
+      image:
+        registry: docker.io
+        repository: bitnamilegacy/postgresql
       auth:
         password: "dbpasswordcentralidp"
         postgresPassword: "dbpasswordcentralidp"
@@ -568,10 +585,20 @@ sharedidp:
   enabled: false
   keycloak:
     nameOverride: "sharedidp"
+    # TEMPORARY UNTIL PORTAL-IAM VERSION IS UPDATED
+    image:
+      registry: docker.io
+      repository: bitnamilegacy/keycloak
+      tag: 25.0.6-debian-12-r0
+    ## UNTIL HERE
     auth:
       adminPassword: "adminconsolepwsharedidp"
     postgresql:
       nameOverride: "sharedidp-postgresql"
+      # TEMPORARY UNTIL PORTAL-IAM VERSION IS UPDATED
+      image:
+        registry: docker.io
+        repository: bitnamilegacy/postgresql
       auth:
         password: "dbpasswordsharedidp"
         postgresPassword: "dbpasswordsharedidp"
@@ -836,6 +863,11 @@ ssi-credential-issuer:
     enabled: true
     nameOverride: issuer-postgresql
     architecture: standalone
+    ## TEMPORALY UNTIL NEW SSI-CREDENTIAL-ISSUER UPDATE
+    image:
+      repository: bitnamilegacy/postgresql
+      tag: 15-debian-11
+    ## UNTIL HERE
     primary:
       persistence:
         enabled: false
@@ -878,6 +910,11 @@ bpdm:
     # We use the default name for BPDM postgres
     fullnameOverride: &bpdmPostgresName "bpdm-postgres"
     nameOverride:
+    ## TEMPORALY UNTIL NEW BPDM UPDATE
+    image:
+      repository: bitnamilegacy/postgresql
+      tag: 15-debian-11
+    ## UNTIL HERE
     auth:
       # BPDM can't handle random initial passwords at the moment
       # so need to set a fixed one here and use it in the app configs later
