@@ -140,6 +140,6 @@ dependencies:
     condition: grafana.enabled
   # Cert-Manager
   - name: cert-manager
-    version: 1.18.2
+    version: v1.18.2
     repository: https://charts.jetstack.io
     condition: cert-manager.enabled

@@ -65,7 +65,7 @@ portal:
         nginx.ingress.kubernetes.io/rewrite-target: "/$1"
         nginx.ingress.kubernetes.io/use-regex: "true"
         nginx.ingress.kubernetes.io/enable-cors: "true"
-        nginx.ingress.kubernetes.io/cors-allow-origin: "http://*.tx.test"
+        nginx.ingress.kubernetes.io/cors-allow-origin: "https://*.tx.test"
       # uncomment the following lines for tls
       tls:
         # -- Provide tls secret.
@@ -165,7 +165,8 @@ centralidp:
       tls: true
       hostname: "centralidp.tx.test"
   realmSeeding:
-    sslRequired: "none"
+    # 'none' should only be set in non-productive scenarios.
+    sslRequired: external
     clients:
       registration:
         redirects:

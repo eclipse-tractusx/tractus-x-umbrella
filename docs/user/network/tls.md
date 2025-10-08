@@ -17,7 +17,7 @@ helm repo update
 helm install cert-manager jetstack/cert-manager \
   --namespace umbrella \
   --create-namespace \
-  --version v1.14.4 \
+  --version v1.18.2 \
   --set installCRDs=true
 ```
 
