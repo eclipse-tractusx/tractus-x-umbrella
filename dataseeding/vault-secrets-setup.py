@@ -190,7 +190,15 @@ def extract_secrets_from_yaml(yaml_file: str) -> Dict[str, Any]:
     # Based on the file structure, secrets seem to be at the root level after some metadata
     secrets = {}
     
-    for key, value in data["externalSecrets"].items():
+    external_secrets = data.get("externalSecrets")
+    if external_secrets is None:
+        print("YAML does not contain 'externalSecrets' key. No secrets to process.")
+        return secrets
+    if not isinstance(external_secrets, dict):
+        print("'externalSecrets' key is present but is not a mapping/dict. No secrets to process.")
+        return secrets
+
+    for key, value in external_secrets.items():
         if isinstance(value, dict):
             # Check if this is one of our target secrets or looks like a secret
             if all(isinstance(v, (str, int, float, bool)) for v in value.values()):
