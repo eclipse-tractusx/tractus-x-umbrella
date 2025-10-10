@@ -108,6 +108,11 @@ dependencies:
     repository: file://../identity-and-trust-bundle
     version: 1.1.0
     condition: identity-and-trust-bundle.enabled
+    # Industry Core Hub
+  - name: industry-core-hub
+    repository: https://eclipse-tractusx.github.io/charts/dev
+    version: 0.3.0
+    condition: industry-core-hub.enabled
   # OTEL Collector
   - name: opentelemetry-collector
     alias: opentelemetry-collector
