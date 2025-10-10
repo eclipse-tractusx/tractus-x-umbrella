@@ -756,7 +756,7 @@ discoveryfinder:
       url: "jdbc:postgresql://{{ .Release.Name }}-discoveryfinder-postgresql:5432/discoveryfinder"
     # -- docs: http://semantics.tx.test/discoveryfinder/swagger-ui/index.html
     ingress:
-      enabled: true
+      enabled: false
       tls: false
       urlPrefix: "/discoveryfinder"
       className: "nginx"
@@ -769,6 +769,9 @@ discoveryfinder:
         nginx.ingress.kubernetes.io/x-forwarded-prefix: "/discoveryfinder"
   postgresql:
     nameOverride: "discoveryfinder-postgresql"
+    image:
+      repository: bitnamilegacy/postgresql
+      tag: 15-debian-11
     primary:
       persistence:
         enabled: false
@@ -1558,6 +1561,190 @@ identity-and-trust-bundle:
         enabled: false
         size: 10Gi
         storageClass: standard
+
+industry-core-hub:
+  enabled: false
+  backend:
+    enabled: true
+    name: "industry-core-hub-backend"
+    image:
+      repository: "tractusx/industry-core-hub-backend"
+      pullPolicy: IfNotPresent
+      tag: ""
+      pullSecrets: []
+    service:
+      type: ClusterIP
+      portService: 8000
+      portContainer: 8000
+    cors:
+      enabled: true
+      allow_origins:
+        - "http://industry-core-hub-frontend.tx.test"
+    configuration:
+      authorization:
+        enabled: true
+        apiKey:
+          key: "X-Api-Key"
+          value: "dev-ichub-apikey"
+      database:
+        echo: false
+        timeout: 8
+      logger:
+        level: "INFO"
+      consumer:
+        discovery:
+          discovery_finder:
+            url: "http://semantics.tx.test/discoveryfinder/api/v1.0/administration/connectors/discovery/search"
+          connector_discovery:
+            key: "bpn"
+          oauth:
+            url: "http://centralidp.tx.test/auth/"
+            realm: "CX-Central"
+            client_id: "ichub-client"
+            client_secret: "changeme-dev"
+          digitalTwinRegistry:
+            dct_type_key: "dct:type"
+            dct_type_filter:
+              operandLeft: "'http://purl.org/dc/terms/type'.'@id'"
+              operator: "="
+              operandRight: "https://w3id.org/catenax/taxonomy#DigitalTwinRegistry"
+        connector:
+          dataspace:
+            version: "jupiter"
+          controlplane:
+            hostname: "http://dataprovider-controlplane.tx.test"
+            apiKeyHeader: "X-Api-Key"
+            apiKey: "TEST2"
+            managementPath: "/management"
+            protocolPath: "/api/v1/dsp"
+            catalogPath: "/catalog"
+      provider:
+        connector:
+          dataspace:
+            version: "jupiter"
+          controlplane:
+            hostname: "http://dataprovider-controlplane.tx.test"
+            apiKeyHeader: "X-Api-Key"
+            apiKey: "TEST2"
+            managementPath: "/management"
+            protocolPath: "/api/v1/dsp"
+          dataplane:
+            hostname: "http://dataprovider-dataplane.tx.test"
+            publicPath: "/api/public"
+        digitalTwinRegistry:
+          hostname: "http://umbrella-dataprovider-dtr"
+          apiPath: "/api/v3"
+          uri: ""
+          asset_config:
+            dct_type: "https://w3id.org/catenax/taxonomy#DigitalTwinRegistry"
+          lookup:
+            uri: ""
+      submodel_dispatcher:
+        path: "/industry-core-hub/data/submodels"
+        apiPath: "/submodel-dispatcher"
+    ingress:
+      enabled: true
+      className: "nginx"
+      tls: []
+        # # -- Provide tls secret.
+        # - secretName: ""
+        #   # -- Provide host for tls secret.
+        #   hosts:
+        #     - ""
+      hosts:
+        - host: "industry-core-hub-backend.tx.test"
+          paths:
+            - path: /
+              pathType: ImplementationSpecific
+              backend:
+                service: "backend"
+                port: 8000
+    volumeMounts:
+      - name: data-volume
+        mountPath: /industry-core-hub/data
+        subPath: data
+      - name: logs-volume
+        mountPath: /industry-core-hub/logs
+        subPath: logs
+      - name: backend-config-configmap
+        mountPath: /industry-core-hub/config
+      - name: tmpfs
+        mountPath: /industry-core-hub/tmp
+    volumes:
+      - name: backend-config-configmap
+        configMap:
+          name: "{{ .Release.Name }}-config"
+      - name: logs-volume
+        persistentVolumeClaim:
+          claimName: "{{ .Release.Name }}-pvc-logs-backend"
+      - name: data-volume
+        persistentVolumeClaim:
+          claimName: "{{ .Release.Name }}-pvc-data-backend"
+      - name: tmpfs
+        emptyDir: {}
+    persistence:
+      enabled: true
+      data:
+        enabled: true
+        size: 1Gi
+        accessMode: ReadWriteOnce
+        storageClass: "standard"
+      logs:
+        enabled: true
+        size: 1Gi
+        accessMode: ReadWriteOnce
+        storageClass: "standard"
+  frontend:
+    config:
+      environment: "development"
+      version: "1.0.0"
+      ichubBackendUrl: "http://industry-core-hub-backend.tx.test/v1"
+      apiTimeout: 30000
+      apiRetryAttempts: 3
+      requireHttpsUrlPattern: false
+      apiKey: ""
+      apiKeyHeader: "X-API-Key"
+      enableApiKeyRotation: false
+      apiKeyExpiryWarningDays: 7
+      authEnabled: false
+      authProvider: "none"
+    env:
+      backendUrl: "http://industry-core-hub-backend.tx.test/v1"
+    enabled: true
+    name: "industry-core-hub-frontend"
+    image:
+      repository: "tractusx/industry-core-hub-frontend"
+      pullPolicy: IfNotPresent
+      tag: ""
+      pullSecrets: []
+    ingress:
+      enabled: true
+      className: "nginx"
+      tls: []
+        # # -- Provide tls secret.
+        # - secretName: ""
+        #   # -- Provide host for tls secret.
+        #   hosts:
+        #     - ""
+      hosts:
+        - host: "industry-core-hub-frontend.tx.test"
+          paths:
+            - path: /
+              pathType: ImplementationSpecific
+              backend:
+                service: "frontend"
+                port: 8080
+    volumeMounts:
+      - name: tmp
+        mountPath: /tmp
+    additionalVolumes: []
+  postgresql:
+    enabled: true
+    fullnameOverride: ""
+    nameOverride: ""
+    image:
+      repository: bitnamilegacy/postgresql
+      tag: 15.4.0-debian-11-r45
 
 smtp4dev:
   enabled: false
