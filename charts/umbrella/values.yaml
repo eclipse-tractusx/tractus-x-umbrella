@@ -712,9 +712,9 @@ bpndiscovery:
     discoveryfinderClient:
       baseUrl: "semantics.tx.test/discoveryfinder"
       registration:
-        clientId: sa-cl22-01
-        clientSecret: "client-secret"
-        authorizationGrantType: changeme
+        clientId: sa-cl21-01
+        clientSecret: "changeme"
+        authorizationGrantType: client_credentials
       schedulerCronFrequency: "0 0 */1 * * *"
       provider:
         tokenUri: "http://centralidp.tx.test/auth/realms/CX-Central/protocol/openid-connect/token"
@@ -1308,7 +1308,10 @@ semantic-hub:
         persistence:
           enabled: false
   hub:
-    authentication: false
+    authentication: true
+    idpIssuerUri: "http://centralidp.tx.test/auth/realms/CX-Central"
+    idpClientId: Cl3-CX-Semantic
+    embeddedTripleStore: true
     livenessProbe:
       initialDelaySeconds: 200
     readinessProbe:
@@ -1593,4 +1596,6 @@ jaeger:
   enabled: false
 
 cert-manager:
+  enabled: false
+external-secrets:
   enabled: false

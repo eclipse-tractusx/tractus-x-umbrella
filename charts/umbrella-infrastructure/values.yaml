@@ -1,0 +1,10 @@
+# External Secrets Operator configuration
+external-secrets:
+  enabled: true
+
+vault:
+  enabled: false
+  server:
+    dev:
+      enabled: true
+      devRootToken: "root"
