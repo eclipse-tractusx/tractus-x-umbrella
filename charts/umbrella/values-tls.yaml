@@ -1,0 +1,567 @@
+# #############################################################################
+# Copyright (c) 2025 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Apache License, Version 2.0 which is available at
+# https://www.apache.org/licenses/LICENSE-2.0.
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+# License for the specific language governing permissions and limitations
+# under the License.
+#
+# SPDX-License-Identifier: Apache-2.0
+# #############################################################################
+
+tls-issuer:
+  acme:
+    enabled: true
+    email: "CHANGEME" # needs to be defined
+
+cert-manager:
+  enabled: true
+  crds:
+    enabled: true
+    keep: false
+
+portal:
+  portalAddress: "https://portal.tx.test"
+  portalBackendAddress: "https://portal-backend.tx.test"
+  centralidp:
+    address: "https://centralidp.tx.test"
+  sharedidpAddress: "https://sharedidp.tx.test"
+  semanticsAddress: "https://semantics.tx.test"
+  bpdm:
+    poolAddress: "https://business-partners.tx.test"
+    poolApiPath: "/pool/v6"
+    portalGateAddress: "https://business-partners.tx.test"
+    portalGateApiPath: "/gate/v6"
+  custodianAddress: "https://ssi-dim-wallet-stub.tx.test"
+  dimWrapper:
+    baseAddress: "https://ssi-dim-wallet-stub.tx.test"
+    apiPath: "/api/dim"
+    tokenAddress: "https://ssi-dim-wallet-stub.tx.test/oauth/token"
+  decentralIdentityManagementAuthAddress: "https://ssi-dim-wallet-stub.tx.test/api/sts"
+  sdfactoryAddress: "https://sdfactory.tx.test"
+  # -- no configuration for clearinghouse because it's an external component
+  clearinghouse:
+    default:
+      baseAddress: "https://validation.tx.test"
+      # -- clientId and clientSecret aren't in the centralidp Keycloak
+      clientId: "clearinghouse-client-id-default"
+      clientSecret: ""
+      tokenAddress: "https://someiam.tx.test/realms/example/protocol/openid-connect/token"
+  issuerComponentAddress: "https://ssi-credential-issuer.tx.test"
+  frontend:
+    ingress:
+      enabled: true
+      annotations:
+        # uncomment the following line for tls
+        cert-manager.io/issuer: "umbrella-ca-issuer"
+        nginx.ingress.kubernetes.io/rewrite-target: "/$1"
+        nginx.ingress.kubernetes.io/use-regex: "true"
+        nginx.ingress.kubernetes.io/enable-cors: "true"
+        nginx.ingress.kubernetes.io/cors-allow-origin: "https://*.tx.test"
+      # uncomment the following lines for tls
+      tls:
+        # -- Provide tls secret.
+        - secretName: "portal.tx.test-tls"
+          # -- Provide host for tls secret.
+          hosts:
+            - "portal.tx.test"
+      hosts:
+        - host: "portal.tx.test"
+          paths:
+            - path: "/(.*)"
+              pathType: "ImplementationSpecific"
+              backend:
+                service: "portal"
+                port: 8080
+            - path: "/registration/(.*)"
+              pathType: "ImplementationSpecific"
+              backend:
+                service: "registration"
+                port: 8080
+            - path: "/((assets|documentation)/.*)"
+              pathType: "ImplementationSpecific"
+              backend:
+                service: "assets"
+                port: 8080
+  backend:
+    processesworker:
+      dim:
+        baseAddress: "https://ssi-dim-wallet-stub.tx.test"
+        universalResolverAddress: "https://dev.uniresolver.io/"
+    portalmigrations:
+      seeding:
+        seedTestData:
+          useOwnConfigMap:
+            companies:
+              dataconsumerOne:
+                connectorUrl: "https://dataconsumer-1-controlplane.tx.test/api/v1/dsp"
+              tx-data-provider:
+                connectorUrl: "https://dataprovider-controlplane.tx.test/api/v1/dsp"
+              dataconsumerTwo:
+                connectorUrl: "https://dataconsumer-2-controlplane.tx.test/api/v1/dsp"
+              company4:
+                connectorUrl: "https://company4-controlplane.tx.test/api/v1/dsp"
+              company5:
+                connectorUrl: "https://company5-controlplane.tx.test/api/v1/dsp"
+              company6:
+                connectorUrl: "https://company6-controlplane.tx.test/api/v1/dsp"
+              company7:
+                connectorUrl: "https://company7-controlplane.tx.test/api/v1/dsp"
+              company8:
+                connectorUrl: "https://company8-controlplane.tx.test/api/v1/dsp"
+              company9:
+                connectorUrl: "https://company9-controlplane.tx.test/api/v1/dsp"
+              company10:
+                connectorUrl: "https://company10-controlplane.tx.test/api/v1/dsp"
+              company11:
+                connectorUrl: "https://company11-controlplane.tx.test/api/v1/dsp"
+              company12:
+                connectorUrl: "https://company12-controlplane.tx.test/api/v1/dsp"
+              company13:
+                connectorUrl: "https://company13-controlplane.tx.test/api/v1/dsp"
+              company14:
+                connectorUrl: "https://company14-controlplane.tx.test/api/v1/dsp"
+              company15:
+                connectorUrl: "https://company15-controlplane.tx.test/api/v1/dsp"
+              company16:
+                connectorUrl: "https://company16-controlplane.tx.test/api/v1/dsp"
+    ingress:
+      annotations:
+        # uncomment the following line for tls
+        cert-manager.io/issuer: "umbrella-ca-issuer"
+        nginx.ingress.kubernetes.io/use-regex: "true"
+        nginx.ingress.kubernetes.io/enable-cors: "true"
+        nginx.ingress.kubernetes.io/proxy-body-size: "8m"
+        nginx.ingress.kubernetes.io/cors-allow-origin: "http://localhost:3000, https://*.tx.test"
+      tls:
+        # -- Provide tls secret.
+        - secretName: "portal-backend.tx.test-tls"
+        # -- Provide host for tls secret.
+          hosts:
+            - "portal-backend.tx.test"
+
+centralidp:
+  keycloak:
+    ingress:
+      annotations:
+        # uncomment the following line for tls
+        cert-manager.io/issuer: "umbrella-ca-issuer"
+        nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
+        nginx.ingress.kubernetes.io/cors-allow-methods: "PUT, GET, POST, OPTIONS"
+        nginx.ingress.kubernetes.io/cors-allow-origin: "http://centralidp.tx.test"
+        nginx.ingress.kubernetes.io/enable-cors: "true"
+        nginx.ingress.kubernetes.io/proxy-buffer-size: "128k"
+        nginx.ingress.kubernetes.io/proxy-buffering: "on"
+        nginx.ingress.kubernetes.io/proxy-buffers-number: "20"
+        nginx.ingress.kubernetes.io/use-regex: "true"
+      tls: true
+      hostname: "centralidp.tx.test"
+  realmSeeding:
+    # 'none' should only be set in non-productive scenarios.
+    sslRequired: external
+    clients:
+      registration:
+        redirects:
+          - https://portal.tx.test/*
+      portal:
+        rootUrl: https://portal.tx.test/home
+        redirects:
+          - https://portal.tx.test/*
+      semantics:
+        redirects:
+          - https://portal.tx.test/*
+      miw:
+        clientSecret: "changeme"
+        redirects:
+          - https://managed-identity-wallets.tx.test/*
+      bpdm:
+        clientSecret: "changeme"
+        redirects:
+          - https://partners-pool.tx.test/*
+      bpdmGate:
+        clientSecret: "changeme"
+        redirects:
+          - https://partners-gate.tx.test/*
+      bpdmOrchestrator:
+        clientSecret: "changeme"
+    sharedidp: "https://sharedidp.tx.test"
+
+sharedidp:
+  keycloak:
+    ingress:
+      annotations:
+        cert-manager.io/issuer: "umbrella-ca-issuer"
+        nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
+        nginx.ingress.kubernetes.io/cors-allow-methods: "PUT, GET, POST, OPTIONS"
+        nginx.ingress.kubernetes.io/cors-allow-origin: "http://sharedidp.tx.test"
+        nginx.ingress.kubernetes.io/enable-cors: "true"
+        nginx.ingress.kubernetes.io/proxy-buffer-size: "128k"
+        nginx.ingress.kubernetes.io/proxy-buffering: "on"
+        nginx.ingress.kubernetes.io/proxy-buffers-number: "20"
+        nginx.ingress.kubernetes.io/use-regex: "true"
+      tls: true
+      hostname: "sharedidp.tx.test"
+  realmSeeding:
+    realms:
+      cxOperator:
+        centralidp: "https://centralidp.tx.test"
+
+bpndiscovery:
+  bpndiscovery:
+    ingress:
+      tls: true
+      annotations:
+        cert-manager.io/issuer: "umbrella-ca-issuer"
+        nginx.ingress.kubernetes.io/rewrite-target: "/$2"
+        nginx.ingress.kubernetes.io/use-regex: "true"
+        nginx.ingress.kubernetes.io/enable-cors: "true"
+        nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
+        nginx.ingress.kubernetes.io/x-forwarded-prefix: "/bpndiscovery"
+    idp:
+      issuerUri: "https://centralidp.tx.test/auth/realms/CX-Central"
+    discoveryfinderClient:
+      provider:
+        tokenUri: "https://centralidp.tx.test/auth/realms/CX-Central/protocol/openid-connect/token"
+
+discoveryfinder:
+  discoveryfinder:
+    properties:
+      discoveryfinder:
+        initialEndpoints:
+          - type: bpn
+            endpointAddress: https://portal-backend.tx.test/api/administration/Connectors/discovery
+            description: Service to discover connector endpoints based on bpns
+            documentation: https://portal-backend.tx.test/api/administration/swagger/index.html
+    idp:
+      issuerUri: "https://centralidp.tx.test/auth/realms/CX-Central"
+    # -- docs: http://semantics.tx.test/discoveryfinder/swagger-ui/index.html
+    ingress:
+      tls: true
+      annotations:
+        cert-manager.io/issuer: "umbrella-ca-issuer"
+        nginx.ingress.kubernetes.io/rewrite-target: "/$2"
+        nginx.ingress.kubernetes.io/use-regex: "true"
+        nginx.ingress.kubernetes.io/enable-cors: "true"
+        nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
+        nginx.ingress.kubernetes.io/x-forwarded-prefix: "/discoveryfinder"
+
+selfdescription:
+  ingress:
+    tls:
+      - tlsName: sdfactory.tx.test-tls
+        hosts:
+          - sdfactory.tx.test
+    className: "nginx"
+    annotations:
+      cert-manager.io/issuer: "umbrella-ca-issuer"
+
+ssi-credential-issuer:
+  portalBackendAddress: "https://portal-backend.tx.test"
+  walletAddress: "https://ssi-dim-wallet-stub.tx.test"
+  walletTokenAddress: "https://ssi-dim-wallet-stub.tx.test/oauth/token"
+  service:
+    credential:
+      statusListUrl: "https://ssi-dim-wallet-stub.tx.test/status-list/BPNL00000003CRHK/8a6c7486-1e1f-4555-bdd2-1a178182651e"
+  centralidp:
+    # -- Provide centralidp base address (CX IAM), without trailing '/auth'.
+    address: "https://centralidp.tx.test"
+  ingress:
+    enabled: true
+    className: "nginx"
+    annotations:
+      cert-manager.io/issuer: "umbrella-ca-issuer"
+      nginx.ingress.kubernetes.io/use-regex: "true"
+      nginx.ingress.kubernetes.io/enable-cors: "true"
+      nginx.ingress.kubernetes.io/proxy-body-size: "8m"
+      nginx.ingress.kubernetes.io/cors-allow-origin: "http://*.tx.test"
+    # -- Ingress TLS configuration
+    tls:
+      - secretName: "ssi-credential-issuer.tx.test-tls"
+        hosts:
+          - ssi-credential-issuer.tx.test
+
+# Set up services for a business partner pool, golden record process
+# and a gate with which the Portal and the users can share business partner data
+bpdm:
+  bpdm-gate:
+    ingress:
+      annotations:
+        cert-manager.io/issuer: "umbrella-ca-issuer"
+        nginx.ingress.kubernetes.io/rewrite-target: "/$2"
+        nginx.ingress.kubernetes.io/use-regex: "true"
+        nginx.ingress.kubernetes.io/x-forwarded-prefix: "/gate"
+      tls:
+        - secretName: "business-partners.tx.test-tls"
+          hosts:
+            - "business-partners.tx.test"
+    applicationConfig:
+      bpdm:
+        security:
+          # App's API is authenticated over Central-IDP
+          auth-server-url: "https://centralidp.tx.test/auth"
+        client:
+          pool:
+            base-url: https://business-partners.tx.test/pool
+          orchestrator:
+            base-url: https://business-partners.tx.test/orchestrator
+
+  # Configures the central business partner Pool
+  bpdm-pool:
+    ingress:
+      annotations:
+        cert-manager.io/issuer: "umbrella-ca-issuer"
+        nginx.ingress.kubernetes.io/rewrite-target: "/$2"
+        nginx.ingress.kubernetes.io/use-regex: "true"
+        nginx.ingress.kubernetes.io/x-forwarded-prefix: "/pool"
+      tls:
+        - secretName: "business-partners.tx.test-tls"
+          hosts:
+            - "business-partners.tx.test"
+    applicationConfig:
+      bpdm:
+        security:
+          auth-server-url: "https://centralidp.tx.test/auth"
+        client:
+          orchestrator:
+            base-url: https://business-partners.tx.test/orchestrator
+
+  # Configures the central service for orchestrating the Golden Record Process
+  bpdm-orchestrator:
+    ingress:
+      annotations:
+        cert-manager.io/issuer: "umbrella-ca-issuer"
+        nginx.ingress.kubernetes.io/rewrite-target: "/$2"
+        nginx.ingress.kubernetes.io/use-regex: "true"
+        nginx.ingress.kubernetes.io/x-forwarded-prefix: "/orchestrator"
+      tls:
+        - secretName: "business-partners.tx.test-tls"
+          hosts:
+            - "business-partners.tx.test"
+    applicationConfig:
+      bpdm:
+        security:
+          auth-server-url: "https://centralidp.tx.test/auth"
+
+  # This installs a dummy cleaning service which performs rudimentary cleaning operations in order to realize the golden record process
+  bpdm-cleaning-service-dummy:
+    applicationConfig:
+      bpdm:
+        client:
+          orchestrator:
+            base-url: https://business-partners.tx.test/orchestrator
+            provider:
+              issuer-uri: "https://centralidp.tx.test/auth/realms/CX-Central"
+
+dataconsumerOne:
+  dataspace-connector-bundle:
+    tractusx-connector:
+      iatp:
+        sts:
+          dim:
+            url: https://ssi-dim-wallet-stub.tx.test/api/sts
+          oauth:
+            token_url: https://ssi-dim-wallet-stub.tx.test/oauth/token
+      controlplane:
+        env:
+          TX_IAM_IATP_CREDENTIALSERVICE_URL: https://ssi-dim-wallet-stub.tx.test/api
+        bdrs:
+          server:
+            url: https://ssi-dim-wallet-stub.tx.test/api/v1/directory
+        ingresses:
+          - enabled: true
+            annotations:
+              cert-manager.io/issuer: "umbrella-ca-issuer"
+            hostname: "dataconsumer-1-controlplane.tx.test"
+            endpoints:
+              - default
+              - protocol
+              - management
+            className: "nginx"
+            tls:
+              enabled: true
+      dataplane:
+        env:
+          TX_IAM_IATP_CREDENTIALSERVICE_URL: https://ssi-dim-wallet-stub.tx.test/api
+        ingresses:
+          - enabled: true
+            annotations:
+              cert-manager.io/issuer: "umbrella-ca-issuer"
+            hostname: "dataconsumer-1-dataplane.tx.test"
+            endpoints:
+              - default
+              - public
+            className: "nginx"
+            tls:
+              enabled: true
+      vault:
+        hashicorp:
+          url: http://{{ .Release.Name }}-edc-dataconsumer-1-vault:8200
+
+tx-data-provider:
+  dataspace-connector-bundle:
+    tractusx-connector:
+      iatp:
+        sts:
+          dim:
+            url: https://ssi-dim-wallet-stub.tx.test/api/sts
+          oauth:
+            token_url: https://ssi-dim-wallet-stub.tx.test/oauth/token
+      controlplane:
+        env:
+          TX_IAM_IATP_CREDENTIALSERVICE_URL: https://ssi-dim-wallet-stub.tx.test/api
+        bdrs:
+          server:
+            url: https://ssi-dim-wallet-stub.tx.test/api/v1/directory
+        ingresses:
+          - enabled: true
+            hostname: "dataprovider-controlplane.tx.test"
+            annotations:
+              cert-manager.io/issuer: "umbrella-ca-issuer"
+            endpoints:
+              - default
+              - protocol
+              - management
+            className: "nginx"
+            tls:
+              enabled: true
+      dataplane:
+        env:
+          TX_IAM_IATP_CREDENTIALSERVICE_URL: https://ssi-dim-wallet-stub.tx.test/api
+        ingresses:
+          - enabled: true
+            hostname: "dataprovider-dataplane.tx.test"
+            annotations:
+              cert-manager.io/issuer: "umbrella-ca-issuer"
+            endpoints:
+              - default
+              - public
+            className: "nginx"
+            tls:
+              enabled: true
+
+  digital-twin-bundle:
+    digital-twin-registry:
+      registry:
+        ingress:
+          annotations:
+            cert-manager.io/issuer: "umbrella-ca-issuer"
+          tls: true
+
+  data-persistence-layer-bundle:
+    simple-data-backend:
+      ingress:
+        annotations:
+          cert-manager.io/issuer: "umbrella-ca-issuer"
+        tls:
+          - hosts:
+              - "dataprovider-submodelserver.tx.test"
+            secretName: "dataprovider-submodelserver.tx.test-tls"
+
+semantic-hub:
+  hub:
+    ingress:
+      tls: true
+      annotations:
+        cert-manager.io/issuer: "umbrella-ca-issuer"
+        nginx.ingress.kubernetes.io/rewrite-target: "/$2"
+        nginx.ingress.kubernetes.io/use-regex: "true"
+        nginx.ingress.kubernetes.io/enable-cors: "true"
+        nginx.ingress.kubernetes.io/cors-allow-credentials: "true"
+        nginx.ingress.kubernetes.io/x-forwarded-prefix: "/hub"
+
+dataconsumerTwo:
+  dataspace-connector-bundle:
+    tractusx-connector:
+      iatp:
+        sts:
+          dim:
+            url: https://ssi-dim-wallet-stub.tx.test/api/sts
+          oauth:
+            token_url: https://ssi-dim-wallet-stub.tx.test/oauth/token
+      controlplane:
+        env:
+          TX_IAM_IATP_CREDENTIALSERVICE_URL: https://ssi-dim-wallet-stub.tx.test/api
+        bdrs:
+          server:
+            url: https://ssi-dim-wallet-stub.tx.test/api/v1/directory
+        ingresses:
+          - enabled: true
+            hostname: "dataconsumer-2-controlplane.tx.test"
+            annotations:
+              cert-manager.io/issuer: "umbrella-ca-issuer"
+            endpoints:
+              - default
+              - protocol
+              - management
+            className: "nginx"
+            tls:
+              enabled: true
+      dataplane:
+        env:
+          TX_IAM_IATP_CREDENTIALSERVICE_URL: https://ssi-dim-wallet-stub.tx.test/api
+        ingresses:
+          - enabled: true
+            hostname: "dataconsumer-2-dataplane.tx.test"
+            annotations:
+              cert-manager.io/issuer: "umbrella-ca-issuer"
+            endpoints:
+              - default
+              - public
+            className: "nginx"
+            tls:
+              enabled: true
+
+pgadmin4:
+  env:
+    email: pgadmin4@txtest.org
+    password: tractusxpgadmin4
+  persistentVolume:
+    enabled: false
+  ingress:
+    enabled: true
+    tls:
+      - secretName: chart-example-tls
+        hosts:
+          - pgadmin4.tx.test
+    annotations:
+      cert-manager.io/issuer: "umbrella-ca-issuer"
+
+bdrs-server-memory:
+  server:
+    ingresses:
+      - enabled: true
+        annotations:
+          cert-manager.io/issuer: "umbrella-ca-issuer"
+        hostname: bdrs-server.tx.test
+        endpoints:
+          - directory
+          - management
+        className: "nginx"
+        tls:
+          enabled: true
+
+identity-and-trust-bundle:
+  ssi-dim-wallet-stub:
+    wallet:
+      ingress:
+        enabled: true
+        tls:
+          enabled: true
+          name: "ssi-dim-wallet-stub-tls"
+        urlPrefix: /
+        className: nginx
+        annotations:
+          cert-manager.io/issuer: "umbrella-ca-issuer"
+      stubUrl: "https://ssi-dim-wallet-stub.tx.test"
+      portal:
+        host: "https://portal-backend.tx.test"
+      keycloak:
+        authServerUrl: "https://centralidp.tx.test/auth"
