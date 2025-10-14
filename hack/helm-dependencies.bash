@@ -11,6 +11,55 @@ if ! helm repo list ; then
   helm repo add jaegertracing https://jaegertracing.github.io/helm-charts
   helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
   helm repo add grafana https://grafana.github.io/helm-charts
+  helm repo add cert-manager https://charts.jetstack.io
+else
+  echo "Checking and adding missing repositories..."
+  
+  # Check for each required repository and add if missing
+  if ! helm repo list | grep -q "^tractusx[[:space:]]"; then
+    echo "Adding tractusx repository..."
+    helm repo add tractusx https://eclipse-tractusx.github.io/charts/dev
+  fi
+
+  if ! helm repo list | grep -q "^hashicorp[[:space:]]"; then
+    echo "Adding hashicorp repository..."
+    helm repo add hashicorp https://helm.releases.hashicorp.com
+  fi
+
+  if ! helm repo list | grep -q "^runix[[:space:]]"; then
+    echo "Adding runix repository..."
+    helm repo add runix https://helm.runix.net
+  fi
+
+  if ! helm repo list | grep -q "^bitnami[[:space:]]"; then
+    echo "Adding bitnami repository..."
+    helm repo add bitnami https://charts.bitnami.com/bitnami
+  fi
+  
+  if ! helm repo list | grep -q "^open-telemetry[[:space:]]"; then
+    echo "Adding open-telemetry repository..."
+    helm repo add open-telemetry https://open-telemetry.github.io/opentelemetry-helm-charts
+  fi
+  
+  if ! helm repo list | grep -q "^jaegertracing[[:space:]]"; then
+    echo "Adding jaegertracing repository..."
+    helm repo add jaegertracing https://jaegertracing.github.io/helm-charts
+  fi
+  
+  if ! helm repo list | grep -q "^prometheus-community[[:space:]]"; then
+    echo "Adding prometheus-community repository..."
+    helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+  fi
+  
+  if ! helm repo list | grep -q "^grafana[[:space:]]"; then
+    echo "Adding grafana repository..."
+    helm repo add grafana https://grafana.github.io/helm-charts
+  fi
+  
+  if ! helm repo list | grep -q "^cert-manager[[:space:]]"; then
+    echo "Adding cert-manager repository..."
+    helm repo add cert-manager https://charts.jetstack.io
+  fi
 fi
 
 CHARTS_DIR="./charts"
