@@ -379,20 +379,12 @@ portal:
 centralidp:
   enabled: false
   keycloak:
-    image:
-      registry: docker.io
-      repository: bitnamilegacy/keycloak
-      tag: 25.0.6-debian-12-r0
     nameOverride: "centralidp"
     replicaCount: 1
     auth:
       adminPassword: "adminconsolepwcentralidp"
     postgresql:
       nameOverride: "centralidp-postgresql"
-      # TEMPORARY UNTIL PORTAL-IAM VERSION IS UPDATED
-      image:
-        registry: docker.io
-        repository: bitnamilegacy/postgresql
       auth:
         password: "dbpasswordcentralidp"
         postgresPassword: "dbpasswordcentralidp"
@@ -578,27 +570,17 @@ centralidp:
           bpn: BPNL00000000BJTL
     initContainer:
       image:
-        name: docker.io/tractusx/umbrella-init-container:2.2.0-init
+        name: docker.io/tractusx/umbrella-init-container:2.3.0-init
         pullPolicy: IfNotPresent
 
 sharedidp:
   enabled: false
   keycloak:
     nameOverride: "sharedidp"
-    # TEMPORARY UNTIL PORTAL-IAM VERSION IS UPDATED
-    image:
-      registry: docker.io
-      repository: bitnamilegacy/keycloak
-      tag: 25.0.6-debian-12-r0
-    ## UNTIL HERE
     auth:
       adminPassword: "adminconsolepwsharedidp"
     postgresql:
       nameOverride: "sharedidp-postgresql"
-      # TEMPORARY UNTIL PORTAL-IAM VERSION IS UPDATED
-      image:
-        registry: docker.io
-        repository: bitnamilegacy/postgresql
       auth:
         password: "dbpasswordsharedidp"
         postgresPassword: "dbpasswordsharedidp"
