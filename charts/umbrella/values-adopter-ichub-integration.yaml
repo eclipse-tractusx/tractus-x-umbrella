@@ -1,0 +1,157 @@
+# #############################################################################
+# Copyright (c) 2025 LKS Next
+# Copyright (c) 2025 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Apache License, Version 2.0 which is available at
+# https://www.apache.org/licenses/LICENSE-2.0.
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+# License for the specific language governing permissions and limitations
+# under the License.
+#
+# SPDX-License-Identifier: Apache-2.0
+# #############################################################################
+---
+
+# --------| Dataspace Infrastructure
+portal:
+  enabled: true
+  # -- uncomment the following for SMTP mail mock 
+  # backend:
+      # mailing:
+        # host: "smtp4dev"
+        # port: "25"
+        # user: "portal-user"
+        # senderEmail: "portal-admin@tx.test"
+        # password: "portal-password"
+
+  # -- uncomment the following for persistance
+  # postgresql:
+  #   primary:
+  #     persistence:
+  #       enabled: true
+
+centralidp:
+  enabled: true
+  keycloak:
+    resources:
+      requests:
+        cpu: 500m
+        memory: 512Mi
+      limits:
+        cpu: 1
+        memory: 1Gi
+  # -- uncomment the following for persistance
+  # keycloak:
+  #   postgresql:
+  #     primary:
+  #       persistence:
+  #         enabled: true
+
+sharedidp:
+  enabled: false
+  # -- uncomment the following for persistance
+  # keycloak:
+  #   postgresql:
+  #     primary:
+  #       persistence:
+  #         enabled: true
+  keycloak:
+    resources:
+      requests:
+        cpu: 500m
+        memory: 512Mi
+      limits:
+        cpu: 1
+        memory: 1Gi
+
+pgadmin4:
+  enabled: true
+  # -- uncomment the following for persistance
+  # persistentVolume:
+  #   enabled: true
+
+# Interfaces are disabled by default (other than IAM)
+
+# Set 'enabled' to true if onboarding is required
+bpdm:
+  enabled: false
+
+# Set 'enabled' to true if onboarding is required
+selfdescription:
+  enabled: false
+
+# Set 'enabled' to true if onboarding is required
+smtp4dev:
+  enabled: false
+
+bpndiscovery:
+  enabled: false
+
+discoveryfinder:
+  enabled: true
+
+# Set 'enabled' to true if onboarding is required
+ssi-credential-issuer:
+  enabled: false
+
+# Set 'enabled' to true if onboarding is required
+identity-and-trust-bundle:
+  enabled: true
+  # -- uncomment the following for persistance
+  # postgresql:
+  #   primary:
+  #     persistence:
+  #       enabled: true
+
+# --------| Data Providers / Consumers
+dataconsumerOne:
+  enabled: true
+    # -- uncomment the following for persistence
+    # postgresql:
+    #   primary:
+    #     persistence:
+    #       enabled: true
+
+tx-data-provider:
+  seedTestdata: true
+  enabled: true
+  # -- uncomment the following for persistence
+    # postgresql:
+    #   primary:
+    #     persistence:
+    #       enabled: true
+  # digital-twin-registry:
+  #   postgresql:
+  #     primary:
+  #       persistence:
+  #         enabled: true
+  digital-twin-bundle:
+    enabled: true
+    digital-twin-registry:
+      registry:
+        ingress:
+          enabled: false
+
+dataconsumerTwo:
+  enabled: false
+    # -- uncomment the following for persistence
+    # postgresql:
+    #   primary:
+    #     persistence:
+    #       enabled: true
+
+# --------| Industry Core Hub
+industry-core-hub:
+  enabled: true
+  # -- uncomment the following for persistence
+  # postgresql:
+  #   primary:
+  #     persistence:
+  #       enabled: true
