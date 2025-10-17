@@ -112,7 +112,7 @@ identity-and-trust-bundle:
 
 # --------| Data Providers / Consumers
 dataconsumerOne:
-  enabled: false
+  enabled: true
     # -- uncomment the following for persistence
     # postgresql:
     #   primary:
@@ -133,6 +133,7 @@ tx-data-provider:
   #       persistence:
   #         enabled: true
   digital-twin-bundle:
+    enabled: true
     digital-twin-registry:
       registry:
         ingress:
@@ -154,4 +155,3 @@ industry-core-hub:
   #   primary:
   #     persistence:
   #       enabled: true
-  

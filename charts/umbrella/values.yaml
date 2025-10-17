@@ -1401,7 +1401,7 @@ dataconsumerTwo:
 
     vault:
       nameOverride: edc-dataconsumer-2-vault
-#      fullnameOverride: edc-dataconsumer-2-vault
+      # fullnameOverride: edc-dataconsumer-2-vault
       enabled: true
 
   digital-twin-bundle:
@@ -1564,6 +1564,7 @@ identity-and-trust-bundle:
 
 industry-core-hub:
   enabled: false
+  participantId: "BPNL00000003AYRE"
   backend:
     enabled: true
     name: "industry-core-hub-backend"
@@ -1580,6 +1581,7 @@ industry-core-hub:
       enabled: true
       allow_origins:
         - "http://industry-core-hub-frontend.tx.test"
+        - "http://industry-core-hub-backend.tx.test"
     configuration:
       authorization:
         enabled: true
@@ -1600,8 +1602,8 @@ industry-core-hub:
           oauth:
             url: "http://centralidp.tx.test/auth/"
             realm: "CX-Central"
-            client_id: "ichub-client"
-            client_secret: "changeme-dev"
+            client_id: "Cl21-CX-DF"
+            client_secret: "changeme"
           digitalTwinRegistry:
             dct_type_key: "dct:type"
             dct_type_filter:
@@ -1612,7 +1614,7 @@ industry-core-hub:
           dataspace:
             version: "jupiter"
           controlplane:
-            hostname: "http://dataprovider-controlplane.tx.test"
+            hostname: "https://dataprovider-controlplane.tx.test"
             apiKeyHeader: "X-Api-Key"
             apiKey: "TEST2"
             managementPath: "/management"
@@ -1632,7 +1634,7 @@ industry-core-hub:
             hostname: "http://dataprovider-dataplane.tx.test"
             publicPath: "/api/public"
         digitalTwinRegistry:
-          hostname: "http://umbrella-dataprovider-dtr"
+          hostname: "http://umbrella-dataprovider-dtr:8080"
           apiPath: "/api/v3"
           uri: ""
           asset_config:
