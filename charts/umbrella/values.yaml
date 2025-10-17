@@ -1614,7 +1614,7 @@ industry-core-hub:
           dataspace:
             version: "jupiter"
           controlplane:
-            hostname: "https://dataprovider-controlplane.tx.test"
+            hostname: "http://dataprovider-controlplane.tx.test"
             apiKeyHeader: "X-Api-Key"
             apiKey: "TEST2"
             managementPath: "/management"
