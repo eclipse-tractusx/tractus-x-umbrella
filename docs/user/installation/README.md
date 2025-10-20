@@ -11,7 +11,7 @@ The currently available components are the following:
 - [sharedidp](https://github.com/eclipse-tractusx/portal-iam/tree/v4.2.1)
 - [bpndiscovery](https://github.com/eclipse-tractusx/sldt-bpn-discovery/tree/bpndiscovery-0.5.1)
 - [discoveryfinder](https://github.com/eclipse-tractusx/sldt-discovery-finder/tree/discoveryfinder-0.5.1)
-- [sdfactory](https://github.com/eclipse-tractusx/sd-factory/tree/sdfactory-2.1.24)
+- [sdfactory](https://github.com/eclipse-tractusx/sd-factory/tree/sdfactory-2.1.34)
 - [semantic-hub](https://github.com/eclipse-tractusx/sldt-semantic-hub/tree/semantic-hub-0.5.0)
 - [ssi credential issuer](https://github.com/eclipse-tractusx/ssi-credential-issuer/tree/v1.4.0)
 - [tx-data-provider](https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/tx-data-provider)
