@@ -100,6 +100,31 @@ entries:
     version: 1.0.0
   digital-twin-bundle:
   - apiVersion: v2
+    created: "2025-10-20T06:50:47.136599293Z"
+    dependencies:
+    - condition: digital-twin-registry.enabled
+      name: digital-twin-registry
+      repository: https://eclipse-tractusx.github.io/charts/dev
+      version: 0.9.0
+    - condition: postgresql.enabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 15.2.1
+    description: 'Helm chart for Capability Bundle: Digital Twin  The Digital Twin
+      Bundle provides a complete solution for managing digital twins in the Catena-X
+      ecosystem. It includes the Digital Twin Registry and its required dependencies.  For
+      more information about the Digital Twin Registry check this documentation [Digital
+      Twin Registry](https://github.com/eclipse-tractusx/sldt-digital-twin-registry/blob/main/charts/registry/README.md). '
+    digest: 9338b150c8a4e419967586bfbf1e2b33364c8456db07d701f6be74a1a092ee37
+    home: https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/digital-twin-bundle
+    name: digital-twin-bundle
+    sources:
+    - https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/digital-twin-bundle
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/tractus-x-umbrella/releases/download/digital-twin-bundle-1.0.3/digital-twin-bundle-1.0.3.tgz
+    version: 1.0.3
+  - apiVersion: v2
     created: "2025-09-29T07:49:02.311502278Z"
     dependencies:
     - condition: digital-twin-registry.enabled
@@ -227,6 +252,29 @@ entries:
     - https://github.com/eclipse-tractusx/tractus-x-umbrella/releases/download/simple-data-backend-0.1.0/simple-data-backend-0.1.0.tgz
     version: 0.1.0
   tx-data-provider:
+  - apiVersion: v2
+    appVersion: 0.0.1
+    created: "2025-10-20T06:50:47.387330671Z"
+    dependencies:
+    - condition: digital-twin-bundle.enabled
+      name: digital-twin-bundle
+      repository: file://../digital-twin-bundle
+      version: 1.0.3
+    - condition: data-persistence-layer-bundle.enabled
+      name: data-persistence-layer-bundle
+      repository: file://../data-persistence-layer-bundle
+      version: 1.0.0
+    - condition: dataspace-connector-bundle.enabled
+      name: dataspace-connector-bundle
+      repository: file://../dataspace-connector-bundle
+      version: 1.1.1
+    description: A Helm chart for Kubernetes
+    digest: 572eac176b6f9be135d40f915e00cc67a7c8fedba9a7e564b667ef64b5cc11bd
+    name: tx-data-provider
+    type: application
+    urls:
+    - https://github.com/eclipse-tractusx/tractus-x-umbrella/releases/download/tx-data-provider-0.3.4/tx-data-provider-0.3.4.tgz
+    version: 0.3.4
   - apiVersion: v2
     appVersion: 0.0.1
     created: "2025-09-29T07:49:02.599101834Z"
@@ -6817,4 +6865,4 @@ entries:
     urls:
     - https://github.com/eclipse-tractusx/tractus-x-umbrella/releases/download/umbrella-infrastructure-0.1.0/umbrella-infrastructure-0.1.0.tgz
     version: 0.1.0
-generated: "2025-10-14T09:59:53.305547793Z"
+generated: "2025-10-20T06:50:47.780783059Z"
