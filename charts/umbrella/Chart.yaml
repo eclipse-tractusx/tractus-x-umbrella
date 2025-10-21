@@ -28,7 +28,7 @@ sources:
   - https://github.com/eclipse-tractusx/tractus-x-umbrella
 
 type: application
-version: 3.10.0
+version: 3.11.0
 
 # when adding or updating versions of dependencies, also update list under /docs/user/installation/README.md
 dependencies:
@@ -102,7 +102,7 @@ dependencies:
     # bdrs
   - name: bdrs-server-memory
     repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 0.5.4
+    version: 0.5.7
     condition: bdrs-server-memory.enabled
   - name: identity-and-trust-bundle
     repository: file://../identity-and-trust-bundle
