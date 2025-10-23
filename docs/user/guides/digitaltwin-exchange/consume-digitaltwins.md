@@ -5,6 +5,7 @@ In order to be able to consume digital twins, it is necessary to have previously
 > **Please** have a look at the `cURL explanation` Notes in the beginning of [Provide Digital Twins](provide-digitaltwins.md) to get more information about cURL. 
 
 This step continues the journey of our digital twin consumer Alice. After the digital twin provider Bob has successfully provided his digital twin via DTR and submodelserver in his EDC. Alice will now consume the digital twin.
+
 We will use plain CLI tools (`curl`) for this, but feel free to use graphical tools such as Postman or Insomnia.
 
 The following figure illustrates the process:
@@ -81,8 +82,7 @@ curl -L -X POST 'http://dataconsumer-1-controlplane.tx.test/management/v3/catalo
 
 We have already learned about the response of a catalog request in the [Provide Data](provide-data.md) guide. The response contains a list of assets that Alice can consume from Bob.
 
-The response (here just an extract) will contain the `@id` `200` of the asset that Alice wants to consume, but also the `@id` `MjAw:MjAw:Y2ZjMzdlNmUtODAwNi00NGJjLWJhMWYtNjJkOWIzZWM0ZTQ3` of the offer
-that Alice needs to reference in the negotiation.
+The response (here just an extract) will contain the `@id` `200` of the asset that Alice wants to consume, but also the `@id` `MjAw:MjAw:Y2ZjMzdlNmUtODAwNi00NGJjLWJhMWYtNjJkOWIzZWM0ZTQ3` of the offer that Alice needs to reference in the negotiation.
 
 ```json
 {
@@ -236,8 +236,7 @@ curl -L -X GET 'http://dataconsumer-1-controlplane.tx.test/management/v3/edrs/{{
 
 ### Authorization response
 
-
-The response will contain the authorization details, including the `endpoint` and `authorization`which are needed to fetch the data via the data plane.
+The response will contain the authorization details, including the `endpoint` and `authorization` which are needed to fetch the data via the data plane.
 
 ```json
 {
@@ -264,8 +263,7 @@ The response will contain the authorization details, including the `endpoint` an
 
 ## Step 5: Fetch data
 
-Using the {{ENDPOINT}} and {{TOKEN}} from the response, Alice fetches the data. In our example the `uuid` `urn:uuid:b77c6d51-cd1f-4c9d-b5d4-091b22dd306b` for the data is already known. In
-real life you would receive this information from the digital twin registry as an endpoint in the submodelDescriptors.
+Using the {{ENDPOINT}} and {{TOKEN}} from the response, Alice fetches the data. In our example the `uuid` `urn:uuid:b77c6d51-cd1f-4c9d-b5d4-091b22dd306b` for the data is already known. In real life you would receive this information from the digital twin registry as an endpoint in the submodelDescriptors.
 
 ### Fetch data request
 

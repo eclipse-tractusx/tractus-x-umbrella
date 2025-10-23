@@ -156,7 +156,7 @@ curl -L -X POST 'http://dataprovider-controlplane.tx.test/management/v3/policyde
   ```
 ### Usage Policy for dDTR
 
-The usage policy defines the conditions under which data from the decentralized Digital Twin Registry (dDTR) may be utilized. By using a standardized purpose such as **"cx.core.digitalTwinRegistry:1"**, it ensures that all providers within the Catena-X ecosystem employ a consistent usage policy. This enhances the transparency and trustworthiness of the system.
+The usage policy defines the conditions under which data from the decentralized Digital Twin Registry (dDTR) may be utilized. By using a standardized purpose, such as **"cx.core.digitalTwinRegistry:1"**, it ensures that all providers within the Catena-X ecosystem employ a consistent usage policy. This enhances the transparency and trustworthiness of the system.
 
 ```bash
 curl -L -X POST 'http://dataprovider-controlplane.tx.test/management/v3/policydefinitions' \
@@ -195,7 +195,7 @@ curl -L -X POST 'http://dataprovider-controlplane.tx.test/management/v3/policyde
 ```
 ## Creating a dDTR Contract Definition
 
-In common a contract definition always consists out of 1 to n assets, an access policy and 1 to n usage policies. So you should first create a access and usage policy for your registry (like shown above). In common policies can be reused, but please do not reuse the usage policy of the registry for other contract definitions as the purpose of the usage is focused on the dDTR use!
+In common, a contract definition always consists out of 1 to n assets, an access policy and 1 to n usage policies. So you should first create a access and usage policy for your registry (like shown above). In common policies can be reused, but please do not reuse the usage policy of the registry for other contract definitions as the purpose of the usage is focused on the dDTR use!
 
 ```bash
 curl -L -X POST 'http://dataprovider-controlplane.tx.test/management/v3/contractdefinitions' \
@@ -224,7 +224,7 @@ curl -L -X POST 'http://dataprovider-controlplane.tx.test/management/v3/contract
 ```
 ## Filter for the dDTR Offer
 
-If everything is setup like described above, a data consumer should find the dDTR offer in the catalogue with the the catalogue request with the filter expression shown in the example. The filter uses the dct type to filter for the registry offer.
+If everything is set up like described above, a data consumer should find the dDTR offer in the catalogue with the catalogue request with the filter expression shown in the example. The filter uses the dct type to filter for the registry offer.
 
 ```bash
 curl -L -X POST 'http://dataconsumer-1-controlplane.tx.test/management/v3/catalog/request' \
