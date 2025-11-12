@@ -55,9 +55,12 @@ tractusx-connector:
           secret_alias: client-secret
 
   participant:
-    # -- Business Partner Number (BPN) of the connector
+    # -- Decentralized IDentifier (DID) of the connector (primary identifier in 0.11.0+)
     # @section -- Decentralized Claims Protocol (DCP, formerly IATP) Settings (Bring Your Own)
-    id: BPNL00000003AZQP
+    id: did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003AZQP
+    # -- Business Partner Number (BPN) of the connector (required in 0.11.0+ via tractusx.edc.participant.bpn)
+    # @section -- Decentralized Claims Protocol (DCP, formerly IATP) Settings (Bring Your Own)
+    bpn: BPNL00000003AZQP
 
   controlplane:
     # -- (map) Extra environment variables that will be pass onto deployment pods

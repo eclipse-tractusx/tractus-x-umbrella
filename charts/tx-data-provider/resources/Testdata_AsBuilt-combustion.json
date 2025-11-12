@@ -1,35 +1,24 @@
 {
   "policies": {
     "Test-Policy": {
-      "@context": {
-        "odrl": "http://www.w3.org/ns/odrl/2/",
-        "cx-policy": "https://w3id.org/catenax/policy/"
-      },
-      "@type": "PolicyDefinitionRequestDto",
+      "@context": [
+        "https://w3id.org/catenax/2025/9/policy/odrl.jsonld",
+        "https://w3id.org/catenax/2025/9/policy/context.jsonld",
+        {
+          "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
+        }
+      ],
+      "@type": "PolicyDefinition",
       "@id": "test",
       "policy": {
-        "@type": "odrl:Set",
-        "odrl:permission": [
+        "@type": "Set",
+        "permission": [
           {
-            "odrl:action": {
-              "odrl:type": {
-                "@id": "http://www.w3.org/ns/odrl/2/use"
-              }
-            },
-            "odrl:constraint": {
-              "@type": "AtomicConstraint",
-              "odrl:or": [
-                {
-                  "@type": "Constraint",
-                  "odrl:leftOperand":   {
-                    "@id": "cx-policy:Membership"
-                  },
-                  "odrl:operator": {
-                    "@id": "odrl:eq"
-                  },
-                  "odrl:rightOperand": "active"
-                }
-              ]
+            "action": "use",
+            "constraint": {
+              "leftOperand": "FrameworkAgreement",
+              "operator": "eq",
+              "rightOperand": "DataExchangeGovernance:1.0"
             }
           }
         ]
