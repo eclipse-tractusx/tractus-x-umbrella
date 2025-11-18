@@ -148,11 +148,6 @@ ssi-dim-wallet-stub:
   postgresql:
     fullnameOverride: wallet-postgres
     enabled: true
-    ## TEMPORALY UNTIL NEW SSI-DIM-WALLET-STUB UPDATE
-    image:
-      repository: bitnamilegacy/postgresql
-      tag: 15-debian-11
-    ## UNTIL HERE
     configmap:
       name: wallet-postgres-configmap
     auth:
