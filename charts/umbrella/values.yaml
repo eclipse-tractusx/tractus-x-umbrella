@@ -379,20 +379,12 @@ portal:
 centralidp:
   enabled: false
   keycloak:
-    image:
-      registry: docker.io
-      repository: bitnamilegacy/keycloak
-      tag: 25.0.6-debian-12-r0
     nameOverride: "centralidp"
     replicaCount: 1
     auth:
       adminPassword: "adminconsolepwcentralidp"
     postgresql:
       nameOverride: "centralidp-postgresql"
-      # TEMPORARY UNTIL PORTAL-IAM VERSION IS UPDATED
-      image:
-        registry: docker.io
-        repository: bitnamilegacy/postgresql
       auth:
         password: "dbpasswordcentralidp"
         postgresPassword: "dbpasswordcentralidp"
@@ -578,27 +570,17 @@ centralidp:
           bpn: BPNL00000000BJTL
     initContainer:
       image:
-        name: docker.io/tractusx/umbrella-init-container:2.2.0-init
+        name: docker.io/tractusx/umbrella-init-container:2.3.0-init
         pullPolicy: IfNotPresent
 
 sharedidp:
   enabled: false
   keycloak:
     nameOverride: "sharedidp"
-    # TEMPORARY UNTIL PORTAL-IAM VERSION IS UPDATED
-    image:
-      registry: docker.io
-      repository: bitnamilegacy/keycloak
-      tag: 25.0.6-debian-12-r0
-    ## UNTIL HERE
     auth:
       adminPassword: "adminconsolepwsharedidp"
     postgresql:
       nameOverride: "sharedidp-postgresql"
-      # TEMPORARY UNTIL PORTAL-IAM VERSION IS UPDATED
-      image:
-        registry: docker.io
-        repository: bitnamilegacy/postgresql
       auth:
         password: "dbpasswordsharedidp"
         postgresPassword: "dbpasswordsharedidp"
@@ -712,9 +694,9 @@ bpndiscovery:
     discoveryfinderClient:
       baseUrl: "semantics.tx.test/discoveryfinder"
       registration:
-        clientId: sa-cl22-01
-        clientSecret: "client-secret"
-        authorizationGrantType: changeme
+        clientId: sa-cl21-01
+        clientSecret: "changeme"
+        authorizationGrantType: client_credentials
       schedulerCronFrequency: "0 0 */1 * * *"
       provider:
         tokenUri: "http://centralidp.tx.test/auth/realms/CX-Central/protocol/openid-connect/token"
@@ -806,7 +788,7 @@ selfdescription:
     # tls:
     # - tlsName: sdfactory.tx.test-tls
     #   hosts:
-    #     - sdfactory.tx.test.net
+    #     - sdfactory.tx.test
     className: "nginx"
     # annotations:
     #   # uncomment the following line for tls
@@ -1271,6 +1253,19 @@ tx-data-provider:
     enabled: true
     simple-data-backend:
       nameOverride: dataprovider-submodelserver
+      ingress:
+        enabled: true
+        className: "nginx"
+        hosts:
+          - host: "dataprovider-submodelserver.tx.test"
+            paths:
+              - path: "/"
+                pathType: "Prefix"
+        # uncomment the following lines for tls
+        # tls:
+        #   - hosts:
+        #       - host: "dataprovider-submodelserver.tx.test"
+        #     secretName: "secretName"
 
   digital-twin-bundle:
     enabled: true
@@ -1278,7 +1273,7 @@ tx-data-provider:
       nameOverride: dataprovider-dtr
       registry:
         authentication: false
-        host: dataprovider-dtr.test
+        host: dataprovider-dtr.tx.test
         dataSource:
           url: "jdbc:postgresql://dataprovider-digital-twin-db:5432/dtr"
 
@@ -1295,7 +1290,10 @@ semantic-hub:
         persistence:
           enabled: false
   hub:
-    authentication: false
+    authentication: true
+    idpIssuerUri: "http://centralidp.tx.test/auth/realms/CX-Central"
+    idpClientId: Cl3-CX-Semantic
+    embeddedTripleStore: true
     livenessProbe:
       initialDelaySeconds: 200
     readinessProbe:
@@ -1577,4 +1575,9 @@ opentelemetry-collector:
 prometheus:
   enabled: false
 jaeger:
+  enabled: false
+
+cert-manager:
+  enabled: false
+external-secrets:
   enabled: false

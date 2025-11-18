@@ -6,12 +6,12 @@ This guide provides instructions to install the Umbrella Chart and its predefine
 
 The currently available components are the following:
 
-- [portal](https://github.com/eclipse-tractusx/portal/tree/portal-2.5.0)
-- [centralidp](https://github.com/eclipse-tractusx/portal-iam/tree/v4.2.0)
-- [sharedidp](https://github.com/eclipse-tractusx/portal-iam/tree/v4.2.0)
+- [portal](https://github.com/eclipse-tractusx/portal/tree/portal-2.6.0)
+- [centralidp](https://github.com/eclipse-tractusx/portal-iam/tree/v4.2.1)
+- [sharedidp](https://github.com/eclipse-tractusx/portal-iam/tree/v4.2.1)
 - [bpndiscovery](https://github.com/eclipse-tractusx/sldt-bpn-discovery/tree/bpndiscovery-0.5.1)
 - [discoveryfinder](https://github.com/eclipse-tractusx/sldt-discovery-finder/tree/discoveryfinder-0.5.1)
-- [sdfactory](https://github.com/eclipse-tractusx/sd-factory/tree/sdfactory-2.1.24)
+- [sdfactory](https://github.com/eclipse-tractusx/sd-factory/tree/sdfactory-2.1.34)
 - [semantic-hub](https://github.com/eclipse-tractusx/sldt-semantic-hub/tree/semantic-hub-0.5.0)
 - [ssi credential issuer](https://github.com/eclipse-tractusx/ssi-credential-issuer/tree/v1.4.0)
 - [tx-data-provider](https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/tx-data-provider)
@@ -19,7 +19,7 @@ The currently available components are the following:
     - [tractusx-edc](https://github.com/eclipse-tractusx/tractusx-edc/tree/0.10.0)
     - [vault](https://github.com/hashicorp/vault-helm/tree/v0.20.0)
   - [digital-twin-bundle](../../../charts/digital-twin-bundle)
-    - [digital-twin-registry](https://github.com/eclipse-tractusx/sldt-digital-twin-registry/tree/digital-twin-registry-0.8.0)
+    - [digital-twin-registry](https://github.com/eclipse-tractusx/sldt-digital-twin-registry/tree/digital-twin-registry-0.9.0)
   - [data-persistence-layer-bundle](../../../charts/data-persistence-layer-bundle)
     - [simple-data-backend](https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/simple-data-backend-0.1.0)
 - [dataconsumerOne](https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/tx-data-provider)
@@ -30,7 +30,7 @@ The currently available components are the following:
   - [dataspace-connector-bundle](../../../charts/dataspace-connector-bundle)
     - [tractusx-edc](https://github.com/eclipse-tractusx/tractusx-edc/tree/0.10.0)
     - [vault](https://github.com/hashicorp/vault-helm/tree/v0.20.0)
-- [bdrs](https://github.com/eclipse-tractusx/bpn-did-resolution-service/tree/0.5.2) (**in memory** - no persistence possible)
+- [bdrs](https://github.com/eclipse-tractusx/bpn-did-resolution-service/tree/0.5.7) (**in memory** - no persistence possible)
 - [bpdm](https://github.com/eclipse-tractusx/bpdm/tree/release/7.0.x)
 - [identity-and-trust-bundle](../../../charts/identity-and-trust-bundle)
   - [ssi-dim-wallet-stub](https://github.com/eclipse-tractusx/ssi-dim-wallet-stub/tree/ssi-dim-wallet-stub-memory-0.1.11)
@@ -39,6 +39,7 @@ The currently available components are the following:
 
 The currently available auxiliary components are following:
 
+- [external-secrets](https://github.com/external-secrets/external-secrets/tree/v0.18.2)
 - [pgadmin4](https://artifacthub.io/packages/helm/runix/pgadmin4/1.25.0)
 - [opentelemetry-collector](https://github.com/open-telemetry/opentelemetry-helm-charts/tree/opentelemetry-collector-0.90.0)
 - [jaeger](https://github.com/jaegertracing/helm-charts/tree/jaeger-3.0.7)

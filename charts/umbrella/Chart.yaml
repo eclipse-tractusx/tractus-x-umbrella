@@ -28,7 +28,7 @@ sources:
   - https://github.com/eclipse-tractusx/tractus-x-umbrella
 
 type: application
-version: 3.6.5
+version: 3.11.0
 
 # when adding or updating versions of dependencies, also update list under /docs/user/installation/README.md
 dependencies:
@@ -36,16 +36,16 @@ dependencies:
   - condition: portal.enabled
     name: portal
     repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 2.5.0
+    version: 2.6.0
   # cx-iam
   - condition: centralidp.enabled
     name: centralidp
     repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 4.2.0
+    version: 4.2.1
   - condition: sharedidp.enabled
     name: sharedidp
     repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 4.2.0
+    version: 4.2.1
   # discovery-finder
   - condition: discoveryfinder.enabled
     name: discoveryfinder
@@ -61,7 +61,7 @@ dependencies:
     name: sdfactory
     alias: selfdescription
     repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 2.1.33
+    version: 2.1.34
     # ssi-credential-issuer
   - name: ssi-credential-issuer
     condition: ssi-credential-issuer.enabled
@@ -80,18 +80,18 @@ dependencies:
     # TX Data Consumer 1
   - name: tx-data-provider
     alias: dataconsumerOne
-    version: 0.3.3
+    version: 0.3.4
     repository: file://../tx-data-provider
     condition: dataconsumerOne.enabled
     # TX Data Providers
   - name: tx-data-provider
-    version: 0.3.3
+    version: 0.3.4
     repository: file://../tx-data-provider
     condition: tx-data-provider.enabled
     # TX Data Consumer 2
   - name: tx-data-provider
     alias: dataconsumerTwo
-    version: 0.3.3
+    version: 0.3.4
     repository: file://../tx-data-provider
     condition: dataconsumerTwo.enabled
     # pgadmin4 as helper tool for easy database access
@@ -102,7 +102,7 @@ dependencies:
     # bdrs
   - name: bdrs-server-memory
     repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 0.5.4
+    version: 0.5.7
     condition: bdrs-server-memory.enabled
   - name: identity-and-trust-bundle
     repository: file://../identity-and-trust-bundle
@@ -138,3 +138,8 @@ dependencies:
     version: "8.10.1"
     repository: https://grafana.github.io/helm-charts
     condition: grafana.enabled
+  # Cert-Manager
+  - name: cert-manager
+    version: v1.18.2
+    repository: https://charts.jetstack.io
+    condition: cert-manager.enabled
