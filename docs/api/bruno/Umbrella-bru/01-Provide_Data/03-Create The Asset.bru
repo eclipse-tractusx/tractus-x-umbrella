@@ -7,7 +7,13 @@ meta {
 post {
   url: {{Bob}}/assets
   body: json
-  auth: inherit
+  auth: apikey
+}
+
+auth:apikey {
+  key: X-Api-Key
+  value: {{Bob_Api_Key}}
+  placement: header
 }
 
 body:json {

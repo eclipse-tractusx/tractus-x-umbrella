@@ -7,5 +7,11 @@ meta {
 get {
   url: {{Bob}}/assets/{{ASSET_ID}}
   body: none
-  auth: inherit
+  auth: apikey
+}
+
+auth:apikey {
+  key: X-Api-Key
+  value: {{Bob_Api_Key}}
+  placement: header
 }
