@@ -163,7 +163,3 @@ ssi-dim-wallet-stub:
         enabled: false
         size: 10Gi
         storageClass: standard
-    persistence:
-      enabled: false
-      size: 10Gi
-      storageClass: standard
