@@ -1,6 +1,6 @@
 # Dataspace Connector Bundle
 
-![Version: 1.1.0](https://img.shields.io/badge/Version-1.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) 
+![Version: 1.2.0](https://img.shields.io/badge/Version-1.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) 
 
 Helm chart for Capability Bundle: Dataspace Connector
 
@@ -29,7 +29,7 @@ For more information to "Bring Your Own" configuration, see the [hausanschluss u
 | Repository | Name | Version |
 |------------|------|---------|
 | https://charts.bitnami.com/bitnami | postgresql | 15.2.1 |
-| https://eclipse-tractusx.github.io/charts/dev | tractusx-connector | 0.10.0 |
+| https://eclipse-tractusx.github.io/charts/dev | tractusx-connector | 0.11.0 |
 | https://helm.releases.hashicorp.com | vault | 0.27.0 |
 
 ## Values
