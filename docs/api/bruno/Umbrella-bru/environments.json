@@ -1,0 +1,73 @@
+{
+  "id": "umbrella-env",
+  "name": "Umbrella Local",
+  "values": [
+    {
+      "key": "Bob",
+      "value": "http://dataprovider-controlplane.tx.test/management/v3",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "Bob_DSP",
+      "value": "http://dataprovider-controlplane.tx.test/api/v1/dsp",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "Alice",
+      "value": "http://dataconsumer-1-controlplane.tx.test/management/v3",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "Bob_BPN",
+      "value": "BPNL00000003AYRE",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "Bob_DID",
+      "value": "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003AYRE",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "Alice_BPN",
+      "value": "BPNL00000003AZQP",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "Alice_DID",
+      "value": "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003AZQP",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "Bob_Data_Server",
+      "value": "http://dataprovider-submodelserver.tx.test",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "ASSET_ID",
+      "value": "200",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "POLICY_ID",
+      "value": "200",
+      "type": "default",
+      "enabled": true
+    },
+    {
+      "key": "CONTRACT_ID",
+      "value": "200",
+      "type": "default",
+      "enabled": true
+    }
+  ],
+  "_postman_variable_scope": "environment"
+}

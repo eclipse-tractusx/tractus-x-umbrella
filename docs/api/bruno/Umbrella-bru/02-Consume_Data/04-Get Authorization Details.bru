@@ -1,0 +1,29 @@
+meta {
+  name: 04-Get Authorization Details
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{Alice}}/edrs/{{TRANSFER_PROCESS_ID}}/dataaddress?auto_refresh=true
+  body: none
+  auth: apikey
+}
+
+params:query {
+  auto_refresh: true
+}
+
+auth:apikey {
+  key: X-Api-Key
+  value: {{Alice_Api_Key}}
+  placement: header
+}
+
+tests {
+  const endpoint = res.body.endpoint;
+  const authorization = res.body.authorization;
+  
+  bru.setVar("ENDPOINT", endpoint);
+  bru.setVar("TOKEN", authorization);
+}

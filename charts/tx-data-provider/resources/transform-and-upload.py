@@ -235,8 +235,8 @@ def create_registry_asset(edc_upload_urls_, edc_bpns_, edc_asset_path_, edc_cont
         catalog_url_ = edc_upload_url_ + catalog_path_
         payload_ = {
             "@context": edc_context(),
-            "edc:protocol": "dataspace-protocol-http",
-            "edc:counterPartyAddress": f"{edc_url_}/api/v1/dsp",
+            "edc:protocol": "dataspace-protocol-http:2025-1",
+            "edc:counterPartyAddress": f"{edc_url_}/api/v1/dsp/2025-1",
             "edc:counterPartyId": f"{edc_bpn_}",
             "edc:querySpec": {
                 "edc:filterExpression": {
@@ -381,13 +381,27 @@ if __name__ == "__main__":
 
     default_policy_definition = {
         "default": {
-            "@context": {
-                "odrl": "http://www.w3.org/ns/odrl/2/"
-            },
+            "@context": [
+                "https://w3id.org/catenax/2025/9/policy/odrl.jsonld",
+                "https://w3id.org/catenax/2025/9/policy/context.jsonld",
+                {
+                    "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
+                }
+            ],
             "@id": "default-policy",
+            "@type": "PolicyDefinition",
             "policy": {
-                "@type": "odrl:Set",
-                "odrl:permission": []
+                "@type": "Set",
+                "permission": [
+                {
+                    "action": "use",
+                    "constraint": {
+                        "leftOperand": "FrameworkAgreement",
+                        "operator": "eq",
+                        "rightOperand": "DataExchangeGovernance:1.0"
+                    }
+                }
+                ]
             }
         }
     }

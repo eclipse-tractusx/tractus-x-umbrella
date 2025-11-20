@@ -1086,7 +1086,8 @@ dataconsumerOne:
     tractusx-connector:
       nameOverride: dataconsumer-1-edc
       participant:
-        id: BPNL00000003AZQP
+        id: did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003AZQP
+        bpn: BPNL00000003AZQP
       iatp:
         id: did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003AZQP
         trustedIssuers:
@@ -1177,7 +1178,8 @@ tx-data-provider:
     tractusx-connector:
       nameOverride: dataprovider-edc
       participant:
-        id: BPNL00000003AYRE
+        id: did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003AYRE
+        bpn: BPNL00000003AYRE
       iatp:
         id: did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003AYRE
         trustedIssuers:
@@ -1328,7 +1330,8 @@ dataconsumerTwo:
     tractusx-connector:
       nameOverride: dataconsumer-2-edc
       participant:
-        id: BPNL00000003AVTH
+        id: did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003AVTH
+        bpn: BPNL00000003AVTH
       iatp:
         id: did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003AVTH
         trustedIssuers:
