@@ -1,0 +1,11 @@
+{
+  "version": "1",
+  "name": "Umbrella",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ],
+  "size": 0.0074214935302734375,
+  "filesCount": 15
+}

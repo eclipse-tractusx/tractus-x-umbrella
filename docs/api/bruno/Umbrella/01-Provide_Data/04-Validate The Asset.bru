@@ -1,0 +1,11 @@
+meta {
+  name: 04-Validate The Asset
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{Bob}}/assets/{{ASSET_ID}}
+  body: none
+  auth: inherit
+}

@@ -1,0 +1,44 @@
+meta {
+  name: 01-Request Contract Offers
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{Alice}}/catalog/request
+  body: json
+  auth: apikey
+}
+
+auth:apikey {
+  key: X-Api-Key
+  value: TEST1
+  placement: header
+}
+
+body:json {
+  {
+      "@context": {
+        "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
+      },
+      "@type": "CatalogRequest",
+      "counterPartyAddress": "{{Bob_DSP}}",
+      "counterPartyId": "{{Bob_BPN}}",
+      "protocol": "dataspace-protocol-http",
+       "querySpec": {
+        "filterExpression": {
+          "operandLeft": "https://w3id.org/edc/v0.0.1/ns/id",
+        "operator": "=",
+        "operandRight": "{{ASSET_ID}}"
+        },
+        "offset": 0,
+        "limit": 50
+      }
+    }
+}
+
+tests {
+  const offerId = res.body["dcat:dataset"]["odrl:hasPolicy"]["@id"];
+  bru.setVar("OFFER_ID", offerId);
+  
+}

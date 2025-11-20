@@ -1,0 +1,11 @@
+meta {
+  name: 06-Validate The Policy
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{Bob}}/policydefinitions/{{POLICY_ID}}
+  body: none
+  auth: inherit
+}

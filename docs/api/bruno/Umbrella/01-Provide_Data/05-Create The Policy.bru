@@ -1,0 +1,44 @@
+meta {
+  name: 05-Create The Policy
+  type: http
+  seq: 5
+}
+
+post {
+  url: {{Bob}}/policydefinitions
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+      "@context": {
+        "odrl": "http://www.w3.org/ns/odrl/2/"
+      },
+      "@type": "PolicyDefinitionRequestDto",
+      "@id": "{{POLICY_ID}}",
+      "policy": {
+        "@type": "odrl:Set",
+        "odrl:permission": [
+          {
+            "odrl:action": "USE",
+            "odrl:constraint": {
+              "@type": "LogicalConstraint",
+              "odrl:or": [
+                {
+                  "@type": "Constraint",
+                  "odrl:leftOperand": {
+                    "@id": "BusinessPartnerNumber"
+                  },
+                  "odrl:operator": {
+                    "@id": "odrl:eq"
+                  },
+                  "odrl:rightOperand": "{{Alice_BPN}}"
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+}
