@@ -63,18 +63,18 @@ pgadmin4:
 
 # Set 'enabled' to true if onboarding is required
 bpdm:
-  enabled: false
+  enabled: true
 
 bdrs-server-memory:
   enabled: false
 
 # Set 'enabled' to true if onboarding is required
 selfdescription:
-  enabled: false
+  enabled: true
 
 # Set 'enabled' to true if onboarding is required
 smtp4dev:
-  enabled: false
+  enabled: true
 
 bpndiscovery:
   enabled: false
@@ -84,11 +84,11 @@ discoveryfinder:
 
 # Set 'enabled' to true if onboarding is required
 ssi-credential-issuer:
-  enabled: false
+  enabled: true
 
 # Set 'enabled' to true if onboarding is required
 identity-and-trust-bundle:
-  enabled: false
+  enabled: true
   # -- uncomment the following for persistance
   # postgresql:
   #   primary:
