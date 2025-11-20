@@ -5,7 +5,7 @@ This document provides about API requests for the Data Exchange.
 ## Bruno
 
 There is a [bruno collection](./bruno/Umbrella) containing all the data exchange flow between Alice and Bob.
-You can Directly Open in Bruno selecting the folder.
+>You can Directly Open in Bruno, selecting the folder.
 
 ## Postman
 
