@@ -44,7 +44,7 @@ Choose to install one of the predefined subsets (currently in focus of the **E2E
 
 ## Data Exchange Subset
 
-The Data Exchange subset enables secure data sharing between participants in the network.
+The Data Exchange subset enables secure data or digital twin sharing between participants in the network.
 
 ```bash
 helm install -f values-adopter-data-exchange.yaml umbrella . --namespace umbrella --create-namespace
