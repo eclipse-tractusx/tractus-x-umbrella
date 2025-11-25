@@ -16,9 +16,18 @@
           {
             "action": "use",
             "constraint": {
-              "leftOperand": "FrameworkAgreement",
-              "operator": "eq",
-              "rightOperand": "DataExchangeGovernance:1.0"
+              "and": [
+                {
+                  "leftOperand": "FrameworkAgreement",
+                  "operator": "eq",
+                  "rightOperand": "DataExchangeGovernance:1.0"
+                },
+                {
+                  "leftOperand": "UsagePurpose",
+                  "operator": "isAnyOf",
+                  "rightOperand": "cx.core.industrycore:1"
+                }
+              ]
             }
           }
         ]
