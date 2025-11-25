@@ -19,6 +19,11 @@
 
 portal:
   enabled: true
+  backend:
+    portalmigrations:
+        seeding:
+          seedTestData:
+            enabled: false
 
 selfdescription:
   enabled: true
