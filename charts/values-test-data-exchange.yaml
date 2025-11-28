@@ -31,20 +31,6 @@ identity-and-trust-bundle:
       trustedIssuers:
         - did:web:ssi-dim-wallet-service:BPNL00000003CRHK
 
-bdrs-server-memory:
-  enabled: true
-  seeding:
-    url: "http://bdrs-server:8081"
-    enabled: true
-    bpnList:
-      - bpn: "BPNL00000003CRHK"
-        did: "did:web:ssi-dim-wallet-service:BPNL00000003CRHK"
-      - bpn: "BPNL00000003AZQP"
-        did: "did:web:ssi-dim-wallet-service:BPNL00000003AZQP"
-      - bpn: "BPNL00000003AYRE"
-        did: "did:web:ssi-dim-wallet-service:BPNL00000003AYRE"
-
-
 dataconsumerOne:
   enabled: true
   dataspace-connector-bundle:
@@ -63,7 +49,7 @@ dataconsumerOne:
           TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-service/api
         bdrs:
           server:
-            url: http://bdrs-server:8082/api/directory/bpn-directory
+            url: http://ssi-dim-wallet-service/api/v1/directory
       dataplane:
         env:
           TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-service/api
@@ -86,7 +72,7 @@ tx-data-provider:
           TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-service/api
         bdrs:
           server:
-            url: http://bdrs-server:8082/api/directory/bpn-directory
+            url: http://ssi-dim-wallet-service/api/v1/directory
       dataplane:
         env:
           TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-service/api
