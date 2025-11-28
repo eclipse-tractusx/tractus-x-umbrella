@@ -40,25 +40,27 @@ body:json {
       "permission": [
         {
           "action": "use",
-          "constraint": {
-            "and": [
+            "constraint": [
               {
-                "leftOperand": "FrameworkAgreement",
-                "operator": "eq",
-                "rightOperand": "DataExchangeGovernance:1.0"
-              },
-              {
-                "leftOperand": "UsagePurpose",
-                "operator": "isAnyOf",
-                "rightOperand": ["cx.core.industrycore:1"]
-              },
-              {
-                "leftOperand": "BusinessPartnerNumber",
-                "operator": "isAnyOf",
-                "rightOperand": ["{{Alice_BPN}}"]
+                "and": [
+                  {
+                    "leftOperand": "Membership",
+                    "operator": "eq",
+                    "rightOperand": "active"
+                  },
+                  {
+                    "leftOperand": "FrameworkAgreement",
+                    "operator": "eq",
+                    "rightOperand": "DataExchangeGovernance:1.0"
+                  },
+                  {
+                    "leftOperand": "UsagePurpose",
+                    "operator": "isAnyOf",
+                    "rightOperand": "cx.core.industrycore:1"
+                  }
+                ]
               }
             ]
-          }
         }
       ],
       "prohibition": [],

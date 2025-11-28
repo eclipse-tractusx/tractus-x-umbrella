@@ -1,7 +1,7 @@
 meta {
   name: 07-Create The Contract Definition
   type: http
-  seq: 7
+  seq: 8
 }
 
 post {
@@ -18,16 +18,20 @@ auth:apikey {
 
 body:json {
   {
-    "@context": {},
+    "@context": {
+      "edc": "https://w3id.org/edc/v0.0.1/ns/"
+    },
     "@id": "{{CONTRACT_ID}}",
     "@type": "ContractDefinition",
-    "accessPolicyId": "{{POLICY_ID}}",
-    "contractPolicyId": "{{POLICY_ID}}",
-    "assetsSelector": {
-      "@type": "CriterionDto",
-      "operandLeft": "https://w3id.org/edc/v0.0.1/ns/id",
-      "operator": "=",
-      "operandRight": "{{ASSET_ID}}"
-    }
+    "accessPolicyId": "{{ACCESS_POLICY_ID}}",
+    "contractPolicyId": "{{USAGE_POLICY_ID}}",
+    "assetsSelector": [
+      {
+        "@type": "CriterionDto",
+        "operandLeft": "https://w3id.org/edc/v0.0.1/ns/id",
+        "operator": "=",
+        "operandRight": "{{ASSET_ID}}"
+      }
+    ]
   }
 }
