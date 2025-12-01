@@ -31,8 +31,8 @@ on:
     inputs:
       node_image:
         description: 'kindest/node image for k8s kind cluster'
-        # k8s version from 3.1 release as default
-        default: 'kindest/node:v1.27.3'
+        # k8s version updated to 1.30 for BPDM 6.1.0 recursiveReadOnly support
+        default: 'kindest/node:v1.30.0'
         required: false
         type: string
       ## Skip upgrade for now until a working chart is released
@@ -105,7 +105,7 @@ jobs:
         # upgrade version, default (v0.17.0) uses node image v1.21.1 and doesn't work with more recent node image versions
         version: v0.20.0
         # default value for event_name != workflow_dispatch
-        node_image: ${{ github.event.inputs.node_image || 'kindest/node:v1.27.3' }}
+        node_image: ${{ github.event.inputs.node_image || 'kindest/node:v1.30.0' }}
 
     - name: Informational - describe node
       run: kubectl describe node
