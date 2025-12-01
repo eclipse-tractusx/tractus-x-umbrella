@@ -21,8 +21,9 @@
 centralidp:
   enabled: false
 
+# Replace by ssi-dim-wallet-stub
 bdrs-server-memory:
-  enabled: true
+  enabled: false
 
 dataconsumerOne:
   enabled: true
