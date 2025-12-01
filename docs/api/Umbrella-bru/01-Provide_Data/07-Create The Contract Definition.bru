@@ -1,0 +1,37 @@
+meta {
+  name: 07-Create The Contract Definition
+  type: http
+  seq: 8
+}
+
+post {
+  url: {{Bob}}/contractdefinitions
+  body: json
+  auth: apikey
+}
+
+auth:apikey {
+  key: X-Api-Key
+  value: {{Bob_Api_Key}}
+  placement: header
+}
+
+body:json {
+  {
+    "@context": {
+      "edc": "https://w3id.org/edc/v0.0.1/ns/"
+    },
+    "@id": "{{CONTRACT_ID}}",
+    "@type": "ContractDefinition",
+    "accessPolicyId": "{{ACCESS_POLICY_ID}}",
+    "contractPolicyId": "{{USAGE_POLICY_ID}}",
+    "assetsSelector": [
+      {
+        "@type": "CriterionDto",
+        "operandLeft": "https://w3id.org/edc/v0.0.1/ns/id",
+        "operator": "=",
+        "operandRight": "{{ASSET_ID}}"
+      }
+    ]
+  }
+}

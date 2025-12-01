@@ -1,0 +1,43 @@
+meta {
+  name: 03-Create The Asset
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{Bob}}/assets
+  body: json
+  auth: apikey
+}
+
+auth:apikey {
+  key: X-Api-Key
+  value: {{Bob_Api_Key}}
+  placement: header
+}
+
+body:json {
+  {
+    "@context": {
+      "@vocab": "https://w3id.org/edc/v0.0.1/ns/",
+      "edc": "https://w3id.org/edc/v0.0.1/ns/",
+      "tx": "https://w3id.org/tractusx/v0.0.1/ns/",
+      "tx-auth": "https://w3id.org/tractusx/auth/",
+      "cx-policy": "https://w3id.org/catenax/policy/",
+      "odrl": "http://www.w3.org/ns/odrl/2/"
+    },
+    "@id": "{{ASSET_ID}}",
+    "properties": {
+      "description": "Product EDC Demo Asset"
+    },
+    "dataAddress": {
+      "@type": "DataAddress",
+      "type": "HttpData",
+      "proxyPath": "true",
+      "proxyMethod": "true",
+      "proxyQueryParams": "true",
+      "proxyBody": "true",
+      "baseUrl": "http://dataprovider-submodelserver.tx.test"
+    }
+  }
+}

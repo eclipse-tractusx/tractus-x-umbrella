@@ -1,0 +1,63 @@
+meta {
+  name: 05_2-Create The Policy
+  type: http
+  seq: 6
+}
+
+post {
+  url: {{Bob}}/policydefinitions
+  body: json
+  auth: apikey
+}
+
+auth:apikey {
+  key: X-Api-Key
+  value: {{Bob_Api_Key}}
+  placement: header
+}
+
+body:json {
+  {
+    "@context": [
+      "https://w3id.org/catenax/2025/9/policy/odrl.jsonld",
+      "https://w3id.org/catenax/2025/9/policy/context.jsonld",
+      {
+        "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
+      },
+      {}
+    ],
+    "@type": "PolicyDefinition",
+    "@id": "{{USAGE_POLICY_ID}}",
+    "policy": {
+      "@type": "Set",
+      "permission": [
+        {
+          "action": "use",
+          "constraint": {
+            "and": [
+              {
+                "leftOperand": "Membership",
+                "operator": "eq",
+                "rightOperand": "active"
+              },
+              {
+                "leftOperand": "FrameworkAgreement",
+                "operator": "eq",
+                "rightOperand": "DataExchangeGovernance:1.0"
+              },
+              {
+                "leftOperand": "UsagePurpose",
+                "operator": "isAnyOf",
+                "rightOperand": [
+                  "cx.core.industrycore:1"
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "prohibition": [],
+      "obligation": []
+    }
+  }
+}

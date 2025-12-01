@@ -1,14 +1,13 @@
 # API Requests for Data Exchange
 
-This document provides about API requests for the Data Exchange.
+This document provides information about API requests for the Data Exchange.
 
 ## Bruno
 
-There is a [bruno collection](./bruno/Umbrella_Bruno.json) containing all the data exchange flow between Alice and Bob.
+There are Bruno collections containing all the data exchange flow between Alice and Bob:
 
-## Postman
-
-There is a [postman collection](./postman) containing information on how to exchange data between provider and consumer.
+- [Umbrella-bru](./Umbrella-bru) - Bruno collection in `.bru` format (recommended for Bruno CLI and latest Bruno versions)
+- [Umbrella-json](./Umbrella-json) - Bruno collection in JSON format for compatibility
 
 ## Curl
 
