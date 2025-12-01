@@ -1,0 +1,17 @@
+meta {
+  name: 08-Validate The Contract Definition
+  type: http
+  seq: 9
+}
+
+get {
+  url: {{Bob}}/contractdefinitions/{{CONTRACT_ID}}
+  body: none
+  auth: apikey
+}
+
+auth:apikey {
+  key: X-Api-Key
+  value: {{Bob_Api_Key}}
+  placement: header
+}

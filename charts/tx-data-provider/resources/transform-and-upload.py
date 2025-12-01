@@ -211,13 +211,19 @@ class ArgumentException(Exception):
 def create_policy(policy_, edc_upload_url_, edc_policy_path_, headers_, session_):
     url_ = edc_upload_url_ + edc_policy_path_
     print(f"Create policy {policy_['@id']} on EDC {url_}")
+    print(f"DEBUG: Checking if policy exists - GET {url_}/{policy_['@id']}")
     response_ = session_.request(method="GET", url=f"{url_}/{policy_['@id']}", headers=headers_)
+    print(f"DEBUG: Policy check response status: {response_.status_code}")
     if response_.status_code == 200 and response_.json():
         print(f"Policy {policy_['@id']} already exists. Skipping creation.")
     else:
+        print(f"DEBUG: Creating new policy - POST {url_}")
+        print(f"DEBUG: Policy payload: {json.dumps(policy_, indent=2)}")
         response_ = session_.request(method="POST", url=url_, headers=headers_, data=json.dumps(policy_))
+        print(f"DEBUG: Policy creation response status: {response_.status_code}")
         print(response_)
         if response_.status_code > 205:
+            print(f"DEBUG: Policy creation failed with error: {response_.text}")
             print(response_.text)
         else:
             print(f"Successfully created policy {response_.json()['@id']}.")
@@ -235,8 +241,8 @@ def create_registry_asset(edc_upload_urls_, edc_bpns_, edc_asset_path_, edc_cont
         catalog_url_ = edc_upload_url_ + catalog_path_
         payload_ = {
             "@context": edc_context(),
-            "edc:protocol": "dataspace-protocol-http",
-            "edc:counterPartyAddress": f"{edc_url_}/api/v1/dsp",
+            "edc:protocol": "dataspace-protocol-http:2025-1",
+            "edc:counterPartyAddress": f"{edc_url_}/api/v1/dsp/2025-1",
             "edc:counterPartyId": f"{edc_bpn_}",
             "edc:querySpec": {
                 "edc:filterExpression": {
@@ -248,31 +254,42 @@ def create_registry_asset(edc_upload_urls_, edc_bpns_, edc_asset_path_, edc_cont
             }
         }
         print(f"Query Catalog for registry asset {catalog_url_}")
+        print(f"DEBUG: Catalog query payload: {json.dumps(payload_, indent=2)}")
         response_ = session_.request(method="POST", url=catalog_url_, headers=header_, data=json.dumps(payload_))
+        print(f"DEBUG: Catalog query response status: {response_.status_code}")
         print_response(response_)
         asset_url_ = edc_upload_url_ + edc_asset_path_
         print(response_.status_code)
         catalog_response_ = response_.json()
-        if response_.status_code == 200 and len(catalog_response_['dcat:dataset']) >= 1:
-            first_offer_ = catalog_response_['dcat:dataset']
+        print(f"DEBUG: Catalog response keys: {catalog_response_.keys()}")
+        print(f"DEBUG: Full catalog response: {json.dumps(catalog_response_, indent=2)}")
+        if response_.status_code == 200 and 'dataset' in catalog_response_ and len(catalog_response_['dataset']) >= 1:
+            first_offer_ = catalog_response_['dataset']
             print(
                 f"Offer with type {first_offer_['type']} already exists. Skipping creation.")
         else:
+            print(f"DEBUG: Creating registry asset - POST {asset_url_}")
             payload_ = create_edc_registry_asset_payload(aas_url_, registry_asset_id_)
+            print(f"DEBUG: Registry asset payload: {payload_}")
             response_ = session_.request(method="POST", url=asset_url_,
                                          headers=header_,
                                          data=payload_)
+            print(f"DEBUG: Registry asset creation response status: {response_.status_code}")
             print(response_)
             if response_.status_code > 205:
+                print(f"DEBUG: Registry asset creation failed")
                 print(response_.text)
             else:
                 print(f"Successfully created registry asset {response_.json()['@id']}.")
 
             print("Create registry edc contract definition")
+            print(f"DEBUG: Creating contract definition - POST {edc_upload_url_ + edc_contract_definition_path_}")
             payload_ = create_edc_contract_definition_payload(policy_, registry_asset_id_)
+            print(f"DEBUG: Contract definition payload: {payload_}")
             response_ = session_.request(method="POST", url=edc_upload_url_ + edc_contract_definition_path_,
                                          headers=header_,
                                          data=payload_)
+            print(f"DEBUG: Contract definition creation response status: {response_.status_code}")
             print_response(response_)
 
 
@@ -292,7 +309,10 @@ def search_for_asset_in_catalog(edc_catalog_path_, edc_upload_url_, edc_url_, he
         }
     }
     print(f"Query Catalog for notification assets {catalog_url_}")
-    return session_.request(method="POST", url=catalog_url_, headers=headers_, data=json.dumps(payload_))
+    print(f"DEBUG: Search catalog query payload: {json.dumps(payload_, indent=2)}")
+    response_ = session_.request(method="POST", url=catalog_url_, headers=headers_, data=json.dumps(payload_))
+    print(f"DEBUG: Search catalog response status: {response_.status_code}")
+    return response_
 
 
 if __name__ == "__main__":
@@ -381,13 +401,41 @@ if __name__ == "__main__":
 
     default_policy_definition = {
         "default": {
-            "@context": {
-                "odrl": "http://www.w3.org/ns/odrl/2/"
-            },
+            "@context": [
+                "https://w3id.org/catenax/2025/9/policy/odrl.jsonld",
+                "https://w3id.org/catenax/2025/9/policy/context.jsonld",
+                {
+                    "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
+                }
+            ],
             "@id": "default-policy",
+            "@type": "PolicyDefinition",
             "policy": {
-                "@type": "odrl:Set",
-                "odrl:permission": []
+                "@type": "Set",
+                "permission": [
+                {
+                    "action": "http://www.w3.org/ns/odrl/2/use",
+                    "constraint": {
+                        "and": [
+                        {
+                            "leftOperand": "https://w3id.org/catenax/2025/9/policy/Membership",
+                            "operator": "eq",
+                            "rightOperand": "active"
+                        },
+                        {
+                            "leftOperand": "https://w3id.org/catenax/2025/9/policy/FrameworkAgreement",
+                            "operator": "eq",
+                            "rightOperand": "DataExchangeGovernance:1.0"
+                        },
+                        {
+                            "leftOperand": "https://w3id.org/catenax/2025/9/policy/UsagePurpose",
+                            "operator": "eq",
+                            "rightOperand": "cx.core.digitalTwinRegistry:1"
+                        }
+                        ]
+                    }
+                }
+                ]
             }
         }
     }
@@ -507,37 +555,48 @@ if __name__ == "__main__":
 
                     print("Create submodel on submodel server")
                     if tmp_data[tmp_key] != "":
+                        print(f"DEBUG: Creating submodel - POST {submodel_upload_url}/{submodel_identification}")
                         payload = create_submodel_payload(tmp_data[tmp_key][0])
                         response = session.request(method="POST",
                                                    url=f"{submodel_upload_url}/{submodel_identification}",
                                                    headers=headers, data=payload)
+                        print(f"DEBUG: Submodel creation response status: {response.status_code}")
                         print_response(response)
 
                     asset_path = edc_upload_url + edc_asset_path
                     print(f"Create edc asset on EDC {asset_path}")
+                    print(f"DEBUG: Creating EDC asset - POST {asset_path}")
                     payload = create_edc_asset_payload(submodel_url, edc_asset_id)
+                    print(f"DEBUG: EDC asset payload: {payload}")
                     response = session.request(method="POST", url=asset_path, headers=headers_with_api_key,
                                                data=payload)
+                    print(f"DEBUG: EDC asset creation response status: {response.status_code}")
                     print_response(response)
                     if response.status_code > 205:
                         print("Asset creation failed. Skipping creation of contract definition.")
                     else:
                         print("Create edc contract definition")
+                        print(f"DEBUG: Creating contract definition - POST {edc_upload_url + edc_contract_definition_path}")
                         payload = create_edc_contract_definition_payload(policy_id, edc_asset_id)
+                        print(f"DEBUG: Contract definition payload: {payload}")
                         response = session.request(method="POST", url=edc_upload_url + edc_contract_definition_path,
                                                    headers=headers_with_api_key,
                                                    data=payload)
+                        print(f"DEBUG: Contract definition response status: {response.status_code}")
                         print_response(response)
                     contract_number = contract_number + 1
 
             if submodel_descriptors:
                 print("Create aas shell")
+                print(f"DEBUG: Creating AAS shell - POST {aas_upload_url}{registry_path}")
                 id_short = uuid.uuid4().urn
                 payload = create_aas_shell_3_0(catenax_id, id_short, identification, specific_asset_ids,
                                                submodel_descriptors)
+                print(f"DEBUG: AAS shell payload length: {len(payload)} bytes")
                 response = session.request(method="POST", url=f"{aas_upload_url}{registry_path}",
                                            headers=headers,
                                            data=payload)
+                print(f"DEBUG: AAS shell creation response status: {response.status_code}")
                 print_response(response)
 
     timestamp_end = time.time()

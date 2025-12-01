@@ -1,0 +1,329 @@
+{
+  "name": "Umbrella",
+  "version": "1",
+  "items": [
+    {
+      "type": "folder",
+      "name": "01-Provide_Data",
+      "items": [
+        {
+          "type": "http",
+          "name": "01-Create The Data",
+          "request": {
+            "url": "{{Bob_Data_Server}}/urn:uuid:b77c6d51-cd1f-4c9d-b5d4-091b22dd306b",
+            "method": "POST",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": "application/json",
+                "enabled": true
+              }
+            ],
+            "body": {
+              "mode": "json",
+              "json": "{\n      \"parentParts\": [\n        {\n          \"validityPeriod\": {\n            \"validFrom\": \"2023-03-21T08:47:14.438+01:00\",\n            \"validTo\": \"2024-08-02T09:00:00.000+01:00\"\n          },\n          \"parentCatenaXId\": \"urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4c79e\",\n          \"quantity\": {\n            \"quantityNumber\": 2.5,\n            \"measurementUnit\": \"unit:litre\"\n          },\n          \"createdOn\": \"2022-02-03T14:48:54.709Z\",\n          \"lastModifiedOn\": \"2022-02-03T14:48:54.709Z\"\n        }\n      ],\n      \"catenaXId\": \"urn:uuid:2c57b0e9-a653-411d-bdcd-64787e9fd3a7\"\n    }"
+            },
+            "auth": {
+              "mode": "inherit"
+            }
+          }
+        },
+        {
+          "type": "http",
+          "name": "02-Verify Data is Created",
+          "request": {
+            "url": "{{Bob_Data_Server}}/urn:uuid:b77c6d51-cd1f-4c9d-b5d4-091b22dd306b",
+            "method": "GET",
+            "body": {
+              "mode": "none"
+            },
+            "auth": {
+              "mode": "inherit"
+            }
+          }
+        },
+        {
+          "type": "http",
+          "name": "03-Create The Asset",
+          "request": {
+            "url": "{{Bob}}/assets",
+            "method": "POST",
+            "body": {
+              "mode": "json",
+              "json": "{\n    \"@context\": {\n      \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\",\n      \"edc\": \"https://w3id.org/edc/v0.0.1/ns/\",\n      \"tx\": \"https://w3id.org/tractusx/v0.0.1/ns/\",\n      \"tx-auth\": \"https://w3id.org/tractusx/auth/\",\n      \"cx-policy\": \"https://w3id.org/catenax/policy/\",\n      \"odrl\": \"http://www.w3.org/ns/odrl/2/\"\n     },\n    \"@id\": \"{{ASSET_ID}}\",\n    \"properties\": {\n      \"description\": \"Product EDC Demo Asset\"\n    },\n    \"dataAddress\": {\n      \"@type\": \"DataAddress\",\n      \"type\": \"HttpData\",\n      \"proxyPath\": \"true\",\n      \"proxyMethod\": \"true\",\n      \"proxyQueryParams\": \"true\",\n      \"proxyBody\": \"true\",\n      \"baseUrl\": \"http://dataprovider-submodelserver.tx.test\"\n    }\n  }"
+            },
+            "auth": {
+              "mode": "inherit"
+            }
+          }
+        },
+        {
+          "type": "http",
+          "name": "04-Validate The Asset",
+          "request": {
+            "url": "{{Bob}}/assets/{{ASSET_ID}}",
+            "method": "GET",
+            "body": {
+              "mode": "none"
+            },
+            "auth": {
+              "mode": "inherit"
+            }
+          }
+        },
+        {
+          "type": "http",
+          "name": "05-Create The Policy",
+          "request": {
+            "url": "{{Bob}}/policydefinitions",
+            "method": "POST",
+            "body": {
+              "mode": "json",
+              "json": "{\n    \"@context\": [\n      \"http://www.w3.org/ns/odrl.jsonld\",\n      \"https://w3id.org/catenax/2025/9/policy/context.jsonld\",\n      {\n        \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\n      }\n    ],\n    \"@type\": \"PolicyDefinition\",\n    \"@id\": \"{{POLICY_ID}}\",\n    \"policy\": {\n      \"@type\": \"Set\",\n      \"permission\": [\n        {\n          \"action\": \"use\",\n          \"constraint\": {\n            \"and\": [\n              {\n                \"leftOperand\": \"FrameworkAgreement\",\n                \"operator\": \"eq\",\n                \"rightOperand\": \"DataExchangeGovernance:1.0\"\n              },\n              {\n                \"leftOperand\": \"UsagePurpose\",\n                \"operator\": \"isAnyOf\",\n                \"rightOperand\": [\"cx.core.industrycore:1\"]\n              },\n              {\n                \"leftOperand\": \"BusinessPartnerNumber\",\n                \"operator\": \"isAnyOf\",\n                \"rightOperand\": [\"{{Alice_BPN}}\"]\n              }\n            ]\n          }\n        }\n      ]\n    }\n  }"
+            },
+            "auth": {
+              "mode": "inherit"
+            }
+          }
+        },
+        {
+          "type": "http",
+          "name": "06-Validate The Policy",
+          "request": {
+            "url": "{{Bob}}/policydefinitions/{{POLICY_ID}}",
+            "method": "GET",
+            "body": {
+              "mode": "none"
+            },
+            "auth": {
+              "mode": "inherit"
+            }
+          }
+        },
+        {
+          "type": "http",
+          "name": "07-Create The Contract Definition",
+          "request": {
+            "url": "{{Bob}}/contractdefinitions",
+            "method": "POST",
+            "body": {
+              "mode": "json",
+              "json": "{\n    \"@context\": {},\n    \"@id\": \"{{CONTRACT_ID}}\",\n    \"@type\": \"ContractDefinition\",\n    \"accessPolicyId\": \"{{POLICY_ID}}\",\n    \"contractPolicyId\": \"{{POLICY_ID}}\",\n    \"assetsSelector\": {\n      \"@type\": \"CriterionDto\",\n      \"operandLeft\": \"https://w3id.org/edc/v0.0.1/ns/id\",\n      \"operator\": \"=\",\n      \"operandRight\": \"{{ASSET_ID}}\"\n    }\n  }"
+            },
+            "auth": {
+              "mode": "inherit"
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "folder",
+      "name": "02-Consume_Data",
+      "items": [
+        {
+          "type": "http",
+          "name": "01-Request Contract Offers",
+          "request": {
+            "url": "{{Alice}}/catalog/request",
+            "method": "POST",
+            "body": {
+              "mode": "json",
+              "json": "{\n    \"@context\": [\n      \"http://www.w3.org/ns/odrl.jsonld\",\n      \"https://w3id.org/catenax/2025/9/policy/context.jsonld\",\n      {\n        \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\n      }\n    ],\n    \"@type\": \"CatalogRequest\",\n    \"counterPartyAddress\": \"{{Bob_DSP}}/2025-1\",\n    \"counterPartyId\": \"{{Bob_DID}}\",\n    \"protocol\": \"dataspace-protocol-http:2025-1\",\n     \"querySpec\": {\n      \"filterExpression\": {\n        \"operandLeft\": \"https://w3id.org/edc/v0.0.1/ns/id\",\n      \"operator\": \"=\",\n      \"operandRight\": \"{{ASSET_ID}}\"\n      },\n      \"offset\": 0,\n      \"limit\": 50\n    }\n  }"
+            },
+            "tests": "const offerId = res.body[\"dcat:dataset\"][\"odrl:hasPolicy\"][\"@id\"];\nbru.setVar(\"OFFER_ID\", offerId);\n",
+            "auth": {
+              "mode": "apikey",
+              "apikey": {
+                "key": "X-Api-Key",
+                "value": "TEST1",
+                "placement": "header"
+              }
+            }
+          }
+        },
+        {
+          "type": "http",
+          "name": "02-EDR Request",
+          "request": {
+            "url": "{{Alice}}/edrs",
+            "method": "POST",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": "application/json",
+                "enabled": true
+              }
+            ],
+            "body": {
+              "mode": "json",
+              "json": "{\n    \"@context\": [\n      \"http://www.w3.org/ns/odrl.jsonld\",\n      \"https://w3id.org/catenax/2025/9/policy/context.jsonld\",\n      {\n        \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\"\n      }\n    ],\n    \"@type\": \"ContractRequest\",\n    \"counterPartyAddress\": \"{{Bob_DSP}}/2025-1\",\n    \"protocol\": \"dataspace-protocol-http:2025-1\",\n    \"policy\": {\n      \"@id\": \"{{OFFER_ID}}\",\n      \"@type\": \"Offer\",\n      \"assigner\": \"{{Bob_DID}}\",\n      \"target\": \"{{ASSET_ID}}\",\n      \"permission\": [\n        {\n          \"action\": \"use\",\n          \"constraint\": {\n            \"and\": [\n              {\n                \"leftOperand\": \"FrameworkAgreement\",\n                \"operator\": \"eq\",\n                \"rightOperand\": \"DataExchangeGovernance:1.0\"\n              },\n              {\n                \"leftOperand\": \"UsagePurpose\",\n                \"operator\": \"isAnyOf\",\n                \"rightOperand\": [\"cx.core.industrycore:1\"]\n              },\n              {\n                \"leftOperand\": \"BusinessPartnerNumber\",\n                \"operator\": \"isAnyOf\",\n                \"rightOperand\": [\"{{Alice_BPN}}\"]\n              }\n            ]\n          }\n        }\n      ],\n      \"prohibition\": [],\n      \"obligation\": []\n    },\n    \"callbackAddresses\": []\n  }"
+            },
+            "tests": "const contractnegotiationId = res.body[\"@id\"];\nbru.setVar(\"CONTRACT_NEGOTIATION_ID\", contractnegotiationId);\n",
+            "auth": {
+              "mode": "apikey",
+              "apikey": {
+                "key": "X-Api-Key",
+                "value": "TEST1",
+                "placement": "header"
+              }
+            }
+          }
+        },
+        {
+          "type": "http",
+          "name": "03-Query Cached EDRs Response",
+          "request": {
+            "url": "{{Alice}}/edrs/request",
+            "method": "POST",
+            "headers": [
+              {
+                "name": "Content-Type",
+                "value": "application/json",
+                "enabled": true
+              }
+            ],
+            "body": {
+              "mode": "json",
+              "json": "{\n    \"@context\": { \"@vocab\": \"https://w3id.org/edc/v0.0.1/ns/\" },\n    \"@type\": \"QuerySpec\",\n    \"filterExpression\": [\n      {\n        \"operandLeft\": \"contractNegotiationId\",\n        \"operator\": \"=\",\n        \"operandRight\": \"{{CONTRACT_NEGOTIATION_ID}}\"\n      }\n    ]\n  }"
+            },
+            "tests": "const transferProcessId = res.body[0].transferProcessId;\nbru.setVar(\"TRANSFER_PROCESS_ID\", transferProcessId);\n",
+            "auth": {
+              "mode": "apikey",
+              "apikey": {
+                "key": "X-Api-Key",
+                "value": "TEST1",
+                "placement": "header"
+              }
+            }
+          }
+        },
+        {
+          "type": "http",
+          "name": "04-Get Authorization Details",
+          "request": {
+            "url": "{{Alice}}/edrs/{{TRANSFER_PROCESS_ID}}/dataaddress?auto_refresh=true",
+            "method": "GET",
+            "params": [
+              {
+                "name": "auto_refresh",
+                "value": "true",
+                "enabled": true
+              }
+            ],
+            "body": {
+              "mode": "none"
+            },
+            "tests": "const endpoint = res.body.endpoint;\nconst authorization= res.body.authorization;\n\nbru.setVar(\"ENDPOINT\", endpoint)\nbru.setVar(\"TOKEN\", authorization);\n",
+            "auth": {
+              "mode": "apikey",
+              "apikey": {
+                "key": "X-Api-Key",
+                "value": "TEST1",
+                "placement": "header"
+              }
+            }
+          }
+        },
+        {
+          "type": "http",
+          "name": "05-Fetch Data",
+          "request": {
+            "url": "{{ENDPOINT}}/urn:uuid:b77c6d51-cd1f-4c9d-b5d4-091b22dd306b",
+            "method": "GET",
+            "headers": [
+              {
+                "name": "Authorization",
+                "value": "{{TOKEN}}",
+                "enabled": true
+              }
+            ],
+            "body": {
+              "mode": "none"
+            },
+            "auth": {
+              "mode": "none"
+            }
+          }
+        }
+      ]
+    }
+  ],
+  "environments": [],
+  "root": {
+    "request": {
+      "auth": {
+        "mode": "apikey",
+        "apikey": {
+          "key": "X-Api-Key",
+          "value": "TEST2",
+          "placement": "header"
+        }
+      },
+      "vars": {
+        "req": [
+          {
+            "name": "Bob",
+            "value": "http://dataprovider-controlplane.tx.test/management/v3",
+            "enabled": true
+          },
+          {
+            "name": "Bob_DSP",
+            "value": "http://dataprovider-controlplane.tx.test/api/v1/dsp",
+            "enabled": true
+          },
+          {
+            "name": "Alice",
+            "value": "http://dataconsumer-1-controlplane.tx.test/management/v3",
+            "enabled": true
+          },
+          {
+            "name": "Bob_BPN",
+            "value": "BPNL00000003AYRE",
+            "enabled": true
+          },
+          {
+            "name": "Bob_DID",
+            "value": "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003AYRE",
+            "enabled": true
+          },
+          {
+            "name": "Alice_BPN",
+            "value": "BPNL00000003AZQP",
+            "enabled": true
+          },
+          {
+            "name": "Alice_DID",
+            "value": "did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003AZQP",
+            "enabled": true
+          },
+          {
+            "name": "Bob_Data_Server",
+            "value": "http://dataprovider-submodelserver.tx.test",
+            "enabled": true
+          },
+          {
+            "name": "ASSET_ID",
+            "value": "200",
+            "enabled": true
+          },
+          {
+            "name": "POLICY_ID",
+            "value": "200",
+            "enabled": true
+          },
+          {
+            "name": "CONTRACT_ID",
+            "value": "200",
+            "enabled": true
+          }
+        ]
+      }
+    }
+  },
+  "brunoConfig": {
+    "version": "1",
+    "name": "Umbrella",
+    "type": "collection"
+  }
+}

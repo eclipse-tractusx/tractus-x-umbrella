@@ -1544,18 +1544,15 @@ identity-and-trust-bundle:
   postgresql:
     fullnameOverride: wallet-postgres
     enabled: true
-    image:
-      tag: "15-debian-11"
     configmap:
       name: wallet-postgres-configmap
     auth:
       username: postgres
       password: postgrespassword
-    primary:
-      persistence:
-        enabled: false
-        size: 10Gi
-        storageClass: standard
+    persistence:
+      enabled: false
+      size: 10Gi
+      storageClass: standard
 
 smtp4dev:
   enabled: false
