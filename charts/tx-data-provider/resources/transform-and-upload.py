@@ -414,23 +414,26 @@ if __name__ == "__main__":
                 "@type": "Set",
                 "permission": [
                 {
-                    "action": "access",
-                    "constraint": [
+                    "action": "http://www.w3.org/ns/odrl/2/use",
+                    "constraint": {
+                        "and": [
                         {
-                            "and": [
-                            {
-                                "leftOperand": "Membership",
-                                "operator": "eq",
-                                "rightOperand": "active"
-                            },
-                            {
-                                "leftOperand": "FrameworkAgreement",
-                                "operator": "eq",
-                                "rightOperand": "DataExchangeGovernance:1.0"
-                            }
-                            ]
+                            "leftOperand": "https://w3id.org/catenax/2025/9/policy/Membership",
+                            "operator": "eq",
+                            "rightOperand": "active"
+                        },
+                        {
+                            "leftOperand": "https://w3id.org/catenax/2025/9/policy/FrameworkAgreement",
+                            "operator": "eq",
+                            "rightOperand": "DataExchangeGovernance:1.0"
+                        },
+                        {
+                            "leftOperand": "https://w3id.org/catenax/2025/9/policy/UsagePurpose",
+                            "operator": "eq",
+                            "rightOperand": "cx.core.digitalTwinRegistry:1"
                         }
                         ]
+                    }
                 }
                 ]
             }

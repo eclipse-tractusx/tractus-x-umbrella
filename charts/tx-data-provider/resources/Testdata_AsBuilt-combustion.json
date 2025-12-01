@@ -1,6 +1,6 @@
 {
   "policies": {
-    "Test-Policy": {
+    "test": {
       "@context": [
         "https://w3id.org/catenax/2025/9/policy/odrl.jsonld",
         "https://w3id.org/catenax/2025/9/policy/context.jsonld",
@@ -14,18 +14,23 @@
         "@type": "Set",
         "permission": [
           {
-            "action": "use",
+            "action": "http://www.w3.org/ns/odrl/2/use",
             "constraint": {
               "and": [
                 {
-                  "leftOperand": "FrameworkAgreement",
+                  "leftOperand": "https://w3id.org/catenax/2025/9/policy/Membership",
+                  "operator": "eq",
+                  "rightOperand": "active"
+                },
+                {
+                  "leftOperand": "https://w3id.org/catenax/2025/9/policy/FrameworkAgreement",
                   "operator": "eq",
                   "rightOperand": "DataExchangeGovernance:1.0"
                 },
                 {
-                  "leftOperand": "UsagePurpose",
-                  "operator": "isAnyOf",
-                  "rightOperand": "cx.core.industrycore:1"
+                  "leftOperand": "https://w3id.org/catenax/2025/9/policy/UsagePurpose",
+                  "operator": "eq",
+                  "rightOperand": "cx.core.digitalTwinRegistry:1"
                 }
               ]
             }

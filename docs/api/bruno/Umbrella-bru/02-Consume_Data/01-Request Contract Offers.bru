@@ -38,6 +38,7 @@ body:json {
 }
 
 tests {
-  const offerId = res.body["dataset"]["hasPolicy"]["@id"];
+  const response = res.getBody();
+  const offerId = response.dataset[0].hasPolicy[0]["@id"];
   bru.setVar("OFFER_ID", offerId);
 }
