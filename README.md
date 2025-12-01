@@ -28,7 +28,7 @@ After the installation, you can refer to the [user guides and tutorials sections
 
 ## Release Compatibility
 
-The versions of the [integrated components](/docs/user/installation/README.md#available-components) correspond to the overarching **[Release 25.06](https://github.com/eclipse-tractusx/tractus-x-release/blob/25.06/CHANGELOG.md#2506---2025-06-16)** (Updating to Release 25.09)
+The versions of the [integrated components](/docs/user/installation/README.md#available-components) correspond to the overarching **[Release 25.09](https://github.com/eclipse-tractusx/tractus-x-release/blob/25.09/CHANGELOG.md#2509---2025-10-01)**
 
 ## Purpose
 
