@@ -28,6 +28,14 @@ Before proceeding, ensure you have:
    cd charts/umbrella/
    ```
 
+## Custom Configuration
+
+If you have a custom configuration file (e.g., `your-values.yaml`), use the following command:
+
+```bash
+helm install -f your-values.yaml umbrella . --namespace umbrella --create-namespace
+```
+
 > [!NOTE]
 > **Command Explanation**
 > 
@@ -39,14 +47,6 @@ Before proceeding, ensure you have:
 > - `.`: Path to the chart (current directory).
 > - `--namespace <NAMESPACE>`: Target namespace.
 > - `--create-namespace`: Creates the namespace if it doesn't exist.
-
-## Custom Configuration
-
-If you have a custom configuration file (e.g., `your-values.yaml`), use the following command:
-
-```bash
-helm install -f your-values.yaml umbrella . --namespace umbrella --create-namespace
-```
 
 > [!TIP]
 > For production or specific setups, it is highly recommended to use your own values file to manage configurations and secrets.
