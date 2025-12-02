@@ -2,6 +2,24 @@
 
 This guide provides instructions to configure the network setup required for running the Umbrella Chart in a Kubernetes cluster.
 
+## Table of Contents
+
+- [Enabled Ingresses](#enabled-ingresses)
+  - [Enable Ingress](#enable-ingress)
+- [DNS Resolution Setup](#dns-resolution-setup)
+  - [Hosts File Configuration](#hosts-file-configuration)
+    - [Linux using minikube](#linux-using-minikube)
+    - [macOS using minikube](#macos-using-minikube)
+    - [macOS using K3s](#macos-using-k3s)
+    - [Windows](#windows)
+  - [Alternative approaches](#alternative-approaches)
+    - [Linux](#linux)
+    - [macOS using Minikube](#macos-using-minikube-1)
+    - [Windows alternative](#windows-alternative)
+- [Verify Network Setup](#verify-network-setup)
+- [Troubleshooting](#troubleshooting)
+  - [DNS resolution fails due to resolution timeouts](#dns-resolution-fails-due-to-resolution-timeouts)
+
 ## Enabled Ingresses
 
 To enable ingress for local access, use the following command with Minikube:

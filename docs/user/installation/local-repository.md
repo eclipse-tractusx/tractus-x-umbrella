@@ -1,50 +1,59 @@
 # Install from local repository
 
-Make sure to clone the [tractus-x-umbrella](https://github.com/eclipse-tractusx/tractus-x-umbrella) repository beforehand.
+## Table of Contents
 
-Update the chart dependencies of the umbrella helm chart and their dependencies.
-```bash
-helm dependency update charts/data-persistence-layer-bundle
-helm dependency update charts/dataspace-connector-bundle
-helm dependency update charts/digital-twin-bundle
-helm dependency update charts/identity-and-trust-bundle
-helm dependency update charts/tx-data-provider
-helm dependency update charts/umbrella
-```
+- [Prerequisites](#prerequisites)
+- [First Steps](#first-steps)
+- [Custom Configuration](#custom-configuration)
+- [Data Exchange Subset](#data-exchange-subset)
+  - [Enable Additional Data Consumers](#enable-additional-data-consumers)
+- [Portal Subset](#portal-subset)
 
-Navigate to the `charts/umbrella` directory.
-```bash
-cd charts/umbrella/
-```
+## Prerequisites
 
-**:grey_question: Command explanation**
+Before proceeding, ensure you have:
+- A running Kubernetes cluster (see [Cluster Setup](../setup/README.md)).
+- `helm` and `kubectl` installed.
+- Cloned the [tractus-x-umbrella](https://github.com/eclipse-tractusx/tractus-x-umbrella) repository.
 
-> `helm install` is used to install a Helm chart.
-> > `-f your-values.yaml` | `-f values-*.yaml` specifies the values file to use for configuration.
->
-> > `umbrella` is the release name for the Helm chart.
->
-> > `.` specifies the path to the chart directory.
->
-> > `--namespace umbrella` specifies the namespace in which to install the chart.
->
-> > `--create-namespace` create a namespace with the name `umbrella`.
+## First Steps
+
+1. **Update Dependencies**: Update the chart dependencies of the umbrella helm chart.
+   ```bash
+   bash hack/helm-dependencies.bash 
+   ```
+
+2. **Navigate to Chart**: Move to the chart directory.
+   ```bash
+   cd charts/umbrella/
+   ```
+
+> [!NOTE]
+> **Command Explanation**
+> 
+> The installation commands generally follow this structure:
+> `helm install -f <VALUES_FILE> <RELEASE_NAME> . --namespace <NAMESPACE> --create-namespace`
+> 
+> - `-f <VALUES_FILE>`: Specifies the configuration file (e.g., `values-adopter-portal.yaml`).
+> - `<RELEASE_NAME>`: Name of the release (e.g., `umbrella`).
+> - `.`: Path to the chart (current directory).
+> - `--namespace <NAMESPACE>`: Target namespace.
+> - `--create-namespace`: Creates the namespace if it doesn't exist.
 
 ## Custom Configuration
 
-Install your chosen components by having them enabled in a `your-values.yaml` file:
+If you have a custom configuration file (e.g., `your-values.yaml`), use the following command:
 
 ```bash
 helm install -f your-values.yaml umbrella . --namespace umbrella --create-namespace
 ```
 
-> In general, all your specific configuration and secret values should be set by installing with an own values file.
-
-Choose to install one of the predefined subsets (currently in focus of the **E2E Adopter Journey**):
+> [!TIP]
+> For production or specific setups, it is highly recommended to use your own values file to manage configurations and secrets.
 
 ## Data Exchange Subset
 
-The Data Exchange subset enables secure data sharing between participants in the network.
+This subset is designed for the **E2E Adopter Journey** and enables secure data sharing.
 
 ```bash
 helm install -f values-adopter-data-exchange.yaml umbrella . --namespace umbrella --create-namespace
@@ -52,22 +61,22 @@ helm install -f values-adopter-data-exchange.yaml umbrella . --namespace umbrell
 
 ### Enable Additional Data Consumers
 
-To enable an additional data consumer (`dataconsumerTwo`), follow these steps:
+To enable a second data consumer (`dataconsumerTwo`):
 
-1. Update the `values-adopter-data-exchange.yaml` file to set `dataconsumerTwo` as enabled:
+1. **Edit Configuration**: Open `values-adopter-data-exchange.yaml` and set `enabled: true`.
    ```yaml
    dataconsumerTwo:
      enabled: true
    ```
 
-2. Apply the changes by upgrading the Helm release:
+2. **Apply Changes**: Upgrade the Helm release.
    ```bash
    helm upgrade -f values-adopter-data-exchange.yaml umbrella . --namespace umbrella
    ```
 
 ## Portal Subset
 
-The Portal subset provides a user-friendly interface for participant onboarding and management.
+This subset provides the user interface for onboarding and management.
 
 ```bash
 helm install -f values-adopter-portal.yaml umbrella . --namespace umbrella --create-namespace
