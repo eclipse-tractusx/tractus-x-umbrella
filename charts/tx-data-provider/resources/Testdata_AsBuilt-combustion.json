@@ -29,8 +29,8 @@
                 },
                 {
                   "leftOperand": "https://w3id.org/catenax/2025/9/policy/UsagePurpose",
-                  "operator": "eq",
-                  "rightOperand": "cx.core.digitalTwinRegistry:1"
+                  "operator": "isAnyof",
+                  "rightOperand": ["cx.core.digitalTwinRegistry:1"]
                 }
               ]
             }
