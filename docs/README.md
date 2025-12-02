@@ -5,6 +5,24 @@ This umbrella chart provides a foundation for running end-to-end tests or creati
 
 The following table links you to the respective documentations.
 
+## **Getting Started**
+
+If you are new to the Umbrella Chart, we recommend following these steps in order to get your environment up and running:
+
+1. **Environment Setup**: Prepare your cluster and prerequisites.
+   - [Step 1: Setup Guide](user/setup/README.md)
+
+2. **Network Configuration**: Configure the network settings.
+   - [Step 2: Network Guide](user/network/README.md)
+
+3. **Installation**: Install the Umbrella Chart.
+   - [Step 3: Install from Local Repository](user/installation/local-repository.md)
+
+4. **Usage Guides**: Once installed, explore the capabilities.
+   - [Data Exchange Guide](user/guides/data-exchange.md)
+   - [Portal Usage Guide](user/guides/portal-usage.md)
+   - [All Guides](user/guides)
+
 ## **Table of Contents**
 
 - [Note from R24.05 onwards](user/note-r2405-onwards)
