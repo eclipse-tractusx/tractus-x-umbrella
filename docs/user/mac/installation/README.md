@@ -1,6 +1,6 @@
 # Installation
 
-For detailed instructions on installing the Umbrella Chart, please refer to the [macOS Deployment Guide](../README.md#3-installation).
+For detailed instructions on installing the Umbrella Chart, please refer to the [macOS Deployment Guide](../README.md) and choose your deployment method.
 
 ## Available components
 

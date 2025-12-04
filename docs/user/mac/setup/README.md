@@ -1,6 +1,6 @@
 # Cluster Setup
 
-For detailed instructions on setting up the cluster, please refer to the [macOS Deployment Guide](../README.md#1-cluster-setup).
+For detailed instructions on setting up the cluster, please refer to the [macOS Deployment Guide](../README.md) and choose your deployment method.
 
 ## Semantic Hub Precondition
 

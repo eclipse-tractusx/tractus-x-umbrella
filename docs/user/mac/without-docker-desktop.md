@@ -334,6 +334,21 @@ The Portal subset provides a user-friendly interface for participant onboarding 
 helm install -f values-adopter-portal.yaml umbrella . --namespace umbrella --create-namespace
 ```
 
+## Next Steps
+
+After successfully deploying the Umbrella Chart, you can explore the following guides to continue your journey:
+
+- **Guides**:
+  - [Data Exchange Guide](../common/guides/data-exchange.md) - Learn how to provide and consume data.
+  - [Portal Usage Guide](../common/guides/portal-usage.md) - Instructions on how to use the Portal.
+  - [Database Access](../common/guides/database-access.md) - How to access the databases.
+  - [Observability](../common/guides/observability/observability.md) - Monitoring and logging.
+  - [Hausanschluss Bundles](../common/guides/hausanschluss-bundles.md) - Information about Hausanschluss bundles.
+  - [External Secrets](../common/guides/external-secrets.md) - Managing external secrets.
+
+- **Secrets Management**:
+  - [Secrets Overview](../common/secrets/README.md) - Comprehensive guide on secrets management.
+
 ## NOTICE
 
 This work is licensed under the [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/legalcode).
