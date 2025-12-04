@@ -334,6 +334,10 @@ The Portal subset provides a user-friendly interface for participant onboarding 
 helm install -f values-adopter-portal.yaml umbrella . --namespace umbrella --create-namespace
 ```
 
+### Troubleshooting
+
+For common issues and solutions, please refer to the [Troubleshooting Guide](../common/troubleshooting/README.md).
+
 ## Next Steps
 
 After successfully deploying the Umbrella Chart, you can explore the following guides to continue your journey:
