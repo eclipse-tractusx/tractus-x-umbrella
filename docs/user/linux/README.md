@@ -1,8 +1,39 @@
-# Network Setup
+# Linux Deployment Guide
+
+This guide combines the steps for Cluster Setup, Network Setup, and Installation for Linux users.
+
+## 1. Cluster Setup
+
+This guide provides instructions to set up a Kubernetes cluster required for running the Umbrella Chart.
+
+You can also follow the guide with the help of the [tutorial video](https://github.com/eclipse-tractusx/eclipse-tractusx.github.io.largefiles/blob/main/umbrella/video-tutorials/setup.mp4).
+
+https://github.com/user-attachments/assets/c10bb246-33a1-47fa-9b94-9af433b4adfd
+> [!WARNING]
+> The video may not be displayed depending on your browser and browser version, try using different one if you are not able to see it.
+> You can also dowload it from the previus link.
+
+### System Requirements
+
+| CPU (Cores) | Memory (GB) |
+| :----------:| :----------:|
+|      4      |      6      |
+
+The above specifications are the minimum requirements for a local development setup. Adjust resources based on your workload for larger or production environments.
+
+### Start Minikube
+
+Start a Minikube cluster with the following command:
+
+```bash
+minikube start --cpus=4 --memory=6gb
+```
+
+## 2. Network Setup
 
 This guide provides instructions to configure the network setup required for running the Umbrella Chart in a Kubernetes cluster.
 
-## Enabled Ingresses
+### Enabled Ingresses
 
 To enable ingress for local access, use the following command with Minikube:
 
@@ -53,24 +84,13 @@ The following ingresses are configured and available:
   - [SSI DIM Wallet Stub](http://ssi-dim-wallet-stub.tx.test)
   - [pgAdmin4](http://pgadmin4.tx.test)
 
-## DNS Resolution Setup
+### DNS Resolution Setup
 
-Proper DNS resolution is required to map local domain names to the Minikube IP address. There are different ways to configure DNS. The most reliable way is to adapt the [hosts file configuration](#hosts-file-configuration) on your system. [Here](#alternative-approaches), you find alternative approaches  for the resolution setup.
+Proper DNS resolution is required to map local domain names to the Minikube IP address.
 
-### Hosts File Configuration
+#### Hosts File Configuration
 
-For this approach you have to insert new entries to your hosts file.  
-> **Note**
-> There are two things to consider here.
-> Firstly, the existing entries should not be changed.
-> Secondly, the adjustments made should be undone when the tutorial is no longer needed.
-
-> [!WARNING]
-> As we do not currently test on Windows, we would greatly appreciate any contributions from those who successfully deploy it on Windows.
-
-Below you will find the different procedures for [Linux using minikube](#linux-using-minikube), [macOS using minikube](#macos-using-minikube), [macOS using  K3s](#macos-using-k3s) and [Windows](#windows).
-
-The following values need to be added in each case:
+1. Open the hosts file you find here `/etc/hosts` and insert the values from below.
 
    ```text
    <MINIKUBE_IP>    centralidp.tx.test
@@ -94,102 +114,15 @@ The following values need to be added in each case:
    <MINIKUBE_IP>    smtp.tx.test
    ```
 
-#### Linux using minikube
-
-   1. Open the hosts file you find here `/etc/hosts` and insert the values from above.
-
-   2. Replace `<MINIKUBE_IP>` with the output of the following command:
-
-      ```bash
-         minikube ip
-      ```
-
-   3. Test DNS resolution by pinging one of the configured hostnames.
-
-#### macOS using minikube
-
-   1. Open the hosts file you find here: `/etc/hosts` and insert the values from above.
-
-   2. Replace `<MINIKUBE_IP>` with the output of the following command:
-
-      ```bash
-         minikube ip
-      ```
-
-   3. Install and start [Docker Mac Net Connect](https://github.com/chipmk/docker-mac-net-connect#installation).
-
-      We recommend to execute the usage example that can be found there after installation to check proper setup.
-
-   4. Test DNS resolution by pinging one of the configured hostnames.
-
-#### macOS using K3s
-
-1. Add the values from above to your `/etc/hosts` file of your **Mac**, use `127.0.0.1` to replace the placeholder `<MINIKUBE_IP>`
-
-2. Add the values from above to your `/etc/hosts` file of your **lima vm**, use `192.168.5.15` to replace the placeholder `<MINIKUBE_IP>`
+2. Replace `<MINIKUBE_IP>` with the output of the following command:
 
    ```bash
-   #to login to your limavm
-   limactl shell k3s
+      minikube ip
    ```
-
-3. Add the values from aboveto your coredns configuration of your **k3s-cluster**, use `192.168.5.15` to replace the placeholder `<MINIKUBE_IP>`
-
-   ```bash
-   kubectl edit cm coredns -n kube-system
-   ```
-
-   ```yaml
-   apiVersion: v1
-   data:
-   Corefile: |
-      .:53 {
-         log
-         errors
-         health
-         ready
-         kubernetes cluster.local in-addr.arpa ip6.arpa {
-            pods insecure
-            fallthrough in-addr.arpa ip6.arpa
-         }
-         hosts /etc/coredns/NodeHosts {
-            #ADD THE HOSTS HERE
-            ttl 60
-            reload 15s
-            fallthrough
-         }
-   ```
-
-   > **Note**
-   > If you do this step, after you already deployed the helm charts, make sure to  restart your java backend pods (controlplane and dataplane) to refresh their dns resolution.
-   > To make this change permanent in your vm, make sure to update `/var/lib/rancher/k3s/server/manifests/coredns.yaml` in the install script of your vm template
 
 3. Test DNS resolution by pinging one of the configured hostnames.
 
-   #### Windows
-
-> [!WARNING]
-> As we do not currently test on Windows, we would greatly appreciate any contributions from those who successfully deploy it on Windows.
-
-   1. Open the hosts file you find here: `C:\Windows\System32\drivers\etc\hosts` and insert the values from above.
-
-   2. Replace `<MINIKUBE_IP>` with the output of the following command:
-
-      ```bash
-         minikube ip
-      ```
-
-   3. Test DNS resolution by pinging one of the configured hostnames.
-
-### Alternative approaches
-
-Below you find alternative approaches for setting the DNS resolution. Follow the steps for your operating system:
-
-- [Linux](#linux)
-- [macOS using Minikube](#macos-using-minikube-1)
-- [Windows](#windows-alternative)
-
-#### Linux
+#### Alternative approaches
 
 1. Identify your DNS resolver by checking the contents of `/etc/resolv.conf`.
 2. Update the resolver configuration based on your system:
@@ -259,66 +192,15 @@ Below you find alternative approaches for setting the DNS resolution. Follow the
 
 3. Test DNS resolution by pinging one of the configured hostnames.
 
-#### macOS using Minikube
-
-Please refer to the following instructions for the dns setup in case you're using Minikube, which is the most tested and therefore the recommended option.
-
-1. Create a resolver configuration for `.test` domains:
-
-   ```bash
-   sudo mkdir -p /etc/resolver
-   sudo bash -c "echo 'nameserver $(minikube ip)' > /etc/resolver/test"
-   ```
-
-   and also add these lines to `/etc/resolver/test`:
-
-   ```bash
-   domain tx.test
-   search_order 1
-   timeout 5
-   ```
-
-2. Additional network setup for macOS
-
-   Install and start [Docker Mac Net Connect](https://github.com/chipmk/docker-mac-net-connect#installation).
-
-   We recommend to execute the usage example that can be found there after installation to check proper setup.
-
-3. Test DNS resolution by pinging one of the configured hostnames.
-
-#### Windows alternative
-
-> [!WARNING]
-> As we do not currently test on Windows, we would greatly appreciate any contributions from those who successfully deploy it on Windows.
-
-1. Open PowerShell as Administrator.
-2. Add a DNS client rule for `.test` domains:
-
-   ```bash
-   Add-DnsClientNrptRule -Namespace ".test" -NameServers "$(minikube ip)"
-   ```
-
-   The following will remove any matching rules before creating a new one. This is useful for updating the minikube ip.
-
-   ```shell
-   Get-DnsClientNrptRule | Where-Object {$_.Namespace -eq '.test'} | Remove-DnsClientNrptRule -Force; Add-DnsClientNrptRule -Namespace ".test" -NameServers "$(minikube ip)"
-   ```
-
-3. Test DNS resolution by pinging one of the configured hostnames.
-
----
-
-## Verify Network Setup
+### Verify Network Setup
 
 Once the DNS resolution or hosts file is configured:
 
 1. Ensure ingress is working by accessing a service endpoint, such as <http://portal.tx.test>
 
----
+### Troubleshooting
 
-## Troubleshooting
-
-### DNS resolution fails due to resolution timeouts
+#### DNS resolution fails due to resolution timeouts
 
 **Problem background**
 
@@ -391,10 +273,87 @@ Prevent pods from inheriting `/etc/resolv.conf` search field values from the Min
    minikube start --cpus=4 --memory=6gb --extra-config=kubelet.resolv-conf="/etc/umbrella.resolv.conf"
    ```
 
+## 3. Installation
+
+# Install from local repository
+
+Make sure to clone the [tractus-x-umbrella](https://github.com/eclipse-tractusx/tractus-x-umbrella) repository beforehand.
+
+Update the chart dependencies of the umbrella helm chart and their dependencies.
+```bash
+helm dependency update charts/data-persistence-layer-bundle
+helm dependency update charts/dataspace-connector-bundle
+helm dependency update charts/digital-twin-bundle
+helm dependency update charts/identity-and-trust-bundle
+helm dependency update charts/tx-data-provider
+helm dependency update charts/umbrella
+```
+
+Navigate to the `charts/umbrella` directory.
+```bash
+cd charts/umbrella/
+```
+
+**:grey_question: Command explanation**
+
+> `helm install` is used to install a Helm chart.
+> > `-f your-values.yaml` | `-f values-*.yaml` specifies the values file to use for configuration.
+>
+> > `umbrella` is the release name for the Helm chart.
+>
+> > `.` specifies the path to the chart directory.
+>
+> > `--namespace umbrella` specifies the namespace in which to install the chart.
+>
+> > `--create-namespace` create a namespace with the name `umbrella`.
+
+### Custom Configuration
+
+Install your chosen components by having them enabled in a `your-values.yaml` file:
+
+```bash
+helm install -f your-values.yaml umbrella . --namespace umbrella --create-namespace
+```
+
+> In general, all your specific configuration and secret values should be set by installing with an own values file.
+
+Choose to install one of the predefined subsets (currently in focus of the **E2E Adopter Journey**):
+
+### Data Exchange Subset
+
+The Data Exchange subset enables secure data sharing between participants in the network.
+
+```bash
+helm install -f values-adopter-data-exchange.yaml umbrella . --namespace umbrella --create-namespace
+```
+
+#### Enable Additional Data Consumers
+
+To enable an additional data consumer (`dataconsumerTwo`), follow these steps:
+
+1. Update the `values-adopter-data-exchange.yaml` file to set `dataconsumerTwo` as enabled:
+   ```yaml
+   dataconsumerTwo:
+     enabled: true
+   ```
+
+2. Apply the changes by upgrading the Helm release:
+   ```bash
+   helm upgrade -f values-adopter-data-exchange.yaml umbrella . --namespace umbrella
+   ```
+
+### Portal Subset
+
+The Portal subset provides a user-friendly interface for participant onboarding and management.
+
+```bash
+helm install -f values-adopter-portal.yaml umbrella . --namespace umbrella --create-namespace
+```
+
 ## NOTICE
 
 This work is licensed under the [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/legalcode).
 
-- SPDX-License-Identifier: CC-BY-4.0
-- SPDX-FileCopyrightText: 2024 Contributors to the Eclipse Foundation
-- Source URL: <https://github.com/eclipse-tractusx/tractus-x-umbrella>
+* SPDX-License-Identifier: CC-BY-4.0
+* SPDX-FileCopyrightText: 2024 Contributors to the Eclipse Foundation
+* Source URL: <https://github.com/eclipse-tractusx/tractus-x-umbrella>

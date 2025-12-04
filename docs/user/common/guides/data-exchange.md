@@ -38,7 +38,7 @@ You can test and interact with the Data Exchange subset using the following tool
 ### 1. Postman Collection
 
 Import the Postman collection for the Umbrella Chart to test predefined APIs:
-[Download Postman Collection](../../api/postman/UmbrellaConnectorData-Exchange.postman_collection.json).
+[Download Postman Collection](../../../common/api/postman/UmbrellaConnectorData-Exchange.postman_collection.json).
 
 ### 2. Curl Commands
 

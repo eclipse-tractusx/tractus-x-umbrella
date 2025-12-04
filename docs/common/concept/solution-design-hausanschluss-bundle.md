@@ -101,7 +101,7 @@ addresses the need to:
 
 ## 1.4 Expected Deliverables
 
-- **[PoC Documentation](/docs/concept/solution-design-hausanschluss-bundle.md):** A concept and architecture overview highlighting the modular design.
+- **[PoC Documentation](/docs/common/concept/solution-design-hausanschluss-bundle.md):** A concept and architecture overview highlighting the modular design.
 - **Modular Installation Package:** A set of HELM charts for deploying the enablement service bundles:
     - **[Dataspace Connector Bundle](/charts/dataspace-connector-bundle):** Including the Eclipse Dataspace Connector, EDC PostgreSQL, and HashiCorp Vault.
     - **[Digital Twin Bundle](/charts/digital-twin-bundle):** Featuring components such as the Decentral DT Registry (with “bring your own” PostgreSQL).
