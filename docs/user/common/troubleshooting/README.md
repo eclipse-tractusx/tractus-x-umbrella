@@ -6,7 +6,6 @@ This guide provides solutions to common issues encountered during the deployment
 
 - [Common Issues](#common-issues)
   - [DNS resolution fails due to resolution timeouts](#dns-resolution-fails-due-to-resolution-timeouts)
-  - [Digital Twin Registry Ingress and Path Handling](#digital-twin-registry-ingress-and-path-handling)
 - [Linux Issues](#linux-issues)
 - [Windows Issues](#windows-issues)
 - [macOS Issues](#macos-issues)
@@ -85,41 +84,6 @@ Prevent pods from inheriting `/etc/resolv.conf` search field values from the Min
    ```shell
    minikube start --cpus=4 --memory=6gb --extra-config=kubelet.resolv-conf="/etc/umbrella.resolv.conf"
    ```
-
-### Digital Twin Registry Ingress and Path Handling
-
-**Problem symptoms**
-
-- Issues with Ingress and path handling for the Digital Twin Registry.
-- Errors when accessing the registry or submodel server.
-- Error message during installation: `Error: INSTALLATION FAILED: failed to create resource: admission webhook "validate.nginx.ingress.kubernetes.io" denied the request: ingress contains invalid paths: path /semantics/registry(/|$)(.*) cannot be used with pathType Prefix`
-
-**Solution**
-
-If you encounter problems with Ingress and path handling, you may need to uncomment specific lines in your `values.yaml` file.
-
-Locate the `digital-twin-bundle` configuration in your `values.yaml` and uncomment the following lines under `digital-twin-registry`:
-
-```yaml
-    digital-twin-registry:
-      registry:
-        # UNCOMMENT THE FOLLOWING LINES TO FIX PROBLEMS WITH INGRESS AND PATH HANDLING
-        ingress:
-          # disable urlPrefix behaviour (that appends a regex to the path)
-          urlPrefix: ""
-          # provide explicit rules so we can set pathType to ImplementationSpecific
-          rules:
-            - host: dataprovider-dtr.tx.test
-              http:
-                paths:
-                  - path: "/semantics/registry(/|$)(.*)"
-                    pathType: ImplementationSpecific
-          className: "nginx"
-          annotations:
-            cert-manager.io/cluster-issuer: "my-ca-issuer"
-            nginx.ingress.kubernetes.io/rewrite-target: "/$2"
-            nginx.ingress.kubernetes.io/use-regex: "true"
-```
 
 ## Linux Issues
 
