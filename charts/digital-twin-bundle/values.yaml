@@ -26,7 +26,7 @@ digital-twin-registry:
     # -- External hostname for Digital Twin Registry
     # @section -- Registry Configuration
     host: dataprovider-dtr.test
-        # FIX PROBLEMS WITH INGRESS AND PATH HANDLING
+    # FIX PROBLEMS WITH INGRESS AND PATH HANDLING
     ingress:
       # disable urlPrefix behaviour (that appends a regex to the path)
       urlPrefix: ""
