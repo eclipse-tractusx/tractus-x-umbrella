@@ -1292,7 +1292,6 @@ tx-data-provider:
             cert-manager.io/cluster-issuer: "my-ca-issuer"
             nginx.ingress.kubernetes.io/rewrite-target: "/$2"
             nginx.ingress.kubernetes.io/use-regex: "true"
-   
     postgresql:
       fullnameOverride: "dataprovider-digital-twin-db"
 
