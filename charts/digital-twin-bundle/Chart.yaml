@@ -32,7 +32,7 @@ sources:
   - https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/digital-twin-bundle
 
 type: application
-version: 1.0.3
+version: 1.1.0
 
 dependencies:
   - name: digital-twin-registry
