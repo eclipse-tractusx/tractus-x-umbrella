@@ -42,7 +42,6 @@ digital-twin-registry:
         cert-manager.io/cluster-issuer: "my-ca-issuer"
         nginx.ingress.kubernetes.io/rewrite-target: "/$2"
         nginx.ingress.kubernetes.io/use-regex: "true"
- 
 
     # === Bring Your Own ===
     dataSource:
