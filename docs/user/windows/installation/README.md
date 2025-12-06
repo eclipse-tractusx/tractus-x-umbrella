@@ -1,6 +1,6 @@
 # Installation
 
-This guide provides instructions to install the Umbrella Chart and its predefined subsets.
+For detailed instructions on installing the Umbrella Chart, please refer to the [Windows Deployment Guide](../README.md#3-installation).
 
 ## Available components
 
