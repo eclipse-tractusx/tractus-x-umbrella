@@ -1,11 +1,10 @@
-# Network Setup
+    # Network Setup
 
 This guide provides instructions to configure the network setup required for running the Umbrella Chart in a Kubernetes cluster.
 
 ## Table of Contents
 
-- [Enabled Ingresses](#enabled-ingresses)
-  - [Enable Ingress](#enable-ingress)
+- [Enable Ingresses](#enable-ingresses)
 - [DNS Resolution Setup](#dns-resolution-setup)
   - [Hosts File Configuration](#hosts-file-configuration)
     - [Linux using minikube](#linux-using-minikube)
@@ -20,9 +19,9 @@ This guide provides instructions to configure the network setup required for run
 - [Troubleshooting](#troubleshooting)
   - [DNS resolution fails due to resolution timeouts](#dns-resolution-fails-due-to-resolution-timeouts)
 
-## Enabled Ingresses
+## Enable Ingresses
 
-To enable ingress for local access, use the following command with Minikube:
+Enable the Minikube ingress addon to enable ingress for local access:
 
 ```bash
 minikube addons enable ingress
@@ -34,7 +33,9 @@ Make sure that the **DNS** resolution for the hosts is in place:
 minikube addons enable ingress-dns
 ```
 
-And execute installation step [3 Add the `minikube ip` as a DNS server](https://minikube.sigs.k8s.io/docs/handbook/addons/ingress-dns) for your OS
+Execute installation step [3 Add the `minikube ip` as a DNS server](https://minikube.sigs.k8s.io/docs/handbook/addons/ingress-dns/#installation) for your OS.
+
+Execute installation step [4 Configure in-cluster DNS server to resolve local DNS names inside cluster](https://minikube.sigs.k8s.io/docs/handbook/addons/ingress-dns/#installation).
 
 ## DNS Resolution Setup
 
