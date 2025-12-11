@@ -14,9 +14,9 @@ For general prerequisites and system requirements, please refer to:
 
 For complete installation instructions, follow the Umbrella setup guides:
 
-1. [Cluster Setup](/docs/user/setup)
-2. [Network Setup](/docs/user/network)
-3. [Installation](/docs/user/installation)
+1. [Cluster Setup](/docs/README.md#setup-network--installation)
+2. [Network Setup](/docs/README.md#setup-network--installation)
+3. [Installation](/docs/README.md#setup-network--installation)
 
 Additional requirements specific to the usage of Hausanschluss Bundles without the umbrella chart:
 
