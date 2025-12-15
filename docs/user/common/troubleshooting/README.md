@@ -66,10 +66,22 @@ Prevent pods from inheriting `/etc/resolv.conf` search field values from the Min
    cp /etc/resolv.conf  /etc/umbrella.resolv.conf
    ```
 
-3. Using `vim`, `nano` or any other text editor, open the `/etc/umbrella.resolv.conf` file and **comment out the "search"** line. Save the file. Exit Minikube console.
+3. Using `vim`, `nano` or any other text editor, open the `/etc/umbrella.resolv.conf` file.
 
    ```shell
    vim /etc/umbrella.resolv.conf
+   ```
+
+   **Comment out the "search" line** (add a `#` at the beginning of the line). It should look like this:
+
+   ```text
+   nameserver 10.0.2.3
+   # search .
+   ```
+
+   Save the file and exit the Minikube console.
+
+   ```shell
    exit
    ```
 
