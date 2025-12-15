@@ -59,6 +59,7 @@ portal:
   decentralIdentityManagementAuthAddress: "http://ssi-dim-wallet-stub.tx.test/api/sts"
   sdfactoryAddress: "http://sdfactory.tx.test"
   # -- no configuration for clearinghouse because it's an external component
+  clearinghouseConnectDisabled: true
   clearinghouse:
     default:
       baseAddress: "http://validation.tx.test"
@@ -66,6 +67,7 @@ portal:
       clientId: "clearinghouse-client-id-default"
       clientSecret: ""
       tokenAddress: "http://someiam.tx.test/realms/example/protocol/openid-connect/token"
+      clearinghouseConnectDisabled: true
   issuerComponentAddress: "http://ssi-credential-issuer.tx.test"
   frontend:
     ingress:
@@ -148,7 +150,6 @@ portal:
         default: "Debug"
       swaggerEnabled: true
     processesworker:
-      clearinghouseConnectDisabled: true
       logging:
         default: "Debug"
         processesLibrary: "Debug"
