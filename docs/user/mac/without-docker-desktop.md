@@ -126,23 +126,11 @@ export KUBECONFIG="/Users/YOURUSER/.lima/docker/copied-from-guest/kubeconfig.yam
 
 This guide provides instructions to configure the network setup required for running the Umbrella Chart in a Kubernetes cluster.
 
-### Enabled Ingresses
+### Ingress Configuration
 
-To enable ingress for local access, use the following command with Minikube:
+The ingress controller is automatically configured during the cluster setup with the provided K3s template. No further action is required to enable ingress.
 
-```bash
-minikube addons enable ingress
-```
-
-Make sure that the **DNS** resolution for the hosts is in place:
-
-```bash
-minikube addons enable ingress-dns
-```
-
-And execute installation step [3 Add the `minikube ip` as a DNS server](https://minikube.sigs.k8s.io/docs/handbook/addons/ingress-dns) for your OS
-
-### Enable Ingress
+### Available Services
 
 The following ingresses are configured and available:
 
@@ -179,7 +167,7 @@ The following ingresses are configured and available:
 
 ### DNS Resolution Setup
 
-Proper DNS resolution is required to map local domain names to the Minikube IP address.
+Proper DNS resolution is required to map local domain names to the cluster IP address.
 
 #### Hosts File Configuration
 

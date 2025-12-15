@@ -49,7 +49,7 @@ minikube addons enable ingress-dns
 
 And execute installation step [3 Add the `minikube ip` as a DNS server](https://minikube.sigs.k8s.io/docs/handbook/addons/ingress-dns) for your OS
 
-### Enable Ingress
+### Available Services
 
 The following ingresses are configured and available:
 
