@@ -26,6 +26,22 @@ digital-twin-registry:
     # -- External hostname for Digital Twin Registry
     # @section -- Registry Configuration
     host: dataprovider-dtr.test
+    # FIX PROBLEMS WITH INGRESS AND PATH HANDLING
+    ingress:
+      # disable urlPrefix behaviour (that appends a regex to the path)
+      urlPrefix: ""
+      # provide explicit rules so we can set pathType to ImplementationSpecific
+      rules:
+        - host: dataprovider-dtr.tx.test
+          http:
+            paths:
+              - path: "/semantics/registry(/|$)(.*)"
+                pathType: ImplementationSpecific
+      className: "nginx"
+      annotations:
+        cert-manager.io/cluster-issuer: "my-ca-issuer"
+        nginx.ingress.kubernetes.io/rewrite-target: "/$2"
+        nginx.ingress.kubernetes.io/use-regex: "true"
 
     # === Bring Your Own ===
     dataSource:

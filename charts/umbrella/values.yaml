@@ -1277,7 +1277,22 @@ tx-data-provider:
         host: dataprovider-dtr.tx.test
         dataSource:
           url: "jdbc:postgresql://dataprovider-digital-twin-db:5432/dtr"
-
+        # FIX PROBLEMS WITH INGRESS AND PATH HANDLING
+        ingress:
+          # disable urlPrefix behaviour (that appends a regex to the path)
+          urlPrefix: ""
+          # provide explicit rules so we can set pathType to ImplementationSpecific
+          rules:
+            - host: dataprovider-dtr.tx.test
+              http:
+                paths:
+                  - path: "/semantics/registry(/|$)(.*)"
+                    pathType: ImplementationSpecific
+          className: "nginx"
+          annotations:
+            cert-manager.io/cluster-issuer: "my-ca-issuer"
+            nginx.ingress.kubernetes.io/rewrite-target: "/$2"
+            nginx.ingress.kubernetes.io/use-regex: "true"
     postgresql:
       fullnameOverride: "dataprovider-digital-twin-db"
 

@@ -18,7 +18,7 @@ helm repo add tractusx-dev https://eclipse-tractusx.github.io/charts/dev
 helm install my-release tractusx-dev/dataspace-connector-bundle
 ```
 
-For more information to "Bring Your Own" configuration, see the [hausanschluss user guide](/docs/user/guides/hausanschluss-bundles.md#bring-your-own-components).
+For more information to "Bring Your Own" configuration, see the [hausanschluss user guide](/docs/user/common/guides/hausanschluss-bundles.md#bring-your-own-components).
 
 ## Source Code
 
