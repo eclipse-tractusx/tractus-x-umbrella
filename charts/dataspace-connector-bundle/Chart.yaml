@@ -30,7 +30,7 @@ sources:
   - https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/dataspace-connector-bundle
 
 type: application
-version: 1.2.0
+version: 1.2.1
 
 dependencies:
   - name: tractusx-connector

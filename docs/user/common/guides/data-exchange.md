@@ -35,10 +35,10 @@ The following components are part of the Data Exchange subset:
 
 You can test and interact with the Data Exchange subset using the following tools:
 
-### 1. Postman Collection
+### 1. Bruno Collection
 
-Import the Postman collection for the Umbrella Chart to test predefined APIs:
-[Download Postman Collection](../../api/postman/UmbrellaConnectorData-Exchange.postman_collection.json).
+Import the Bruno collection for the Umbrella Chart to test predefined APIs:
+[Bruno Collection](../../../common/api/README.md).
 
 ### 2. Curl Commands
 
