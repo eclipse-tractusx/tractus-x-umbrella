@@ -127,7 +127,7 @@ curl -L -X POST 'http://dataprovider-controlplane.tx.test/management/v3/assets' 
       "tx-auth": "https://w3id.org/tractusx/auth/",
       "cx-policy": "https://w3id.org/catenax/policy/",
       "odrl": "http://www.w3.org/ns/odrl/2/"
-     },
+    },
     "@id": "200",
     "properties": {
       "description": "Product EDC Demo Asset"
@@ -232,16 +232,21 @@ curl -L -X POST 'http://dataconsumer-1-controlplane.tx.test/management/v3/catalo
   -H 'Content-Type: application/json' \
   -H 'X-Api-Key: TEST1' \
   --data-raw '{
-    "@context": {
-      "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
-    },
+    "@context": [
+      {
+        "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
+      }
+    ],
     "@type": "CatalogRequest",
-    "counterPartyAddress": "http://dataprovider-controlplane.tx.test/api/v1/dsp",
+    "counterPartyAddress": "http://dataprovider-controlplane.tx.test/api/v1/dsp/2025-1",
     "counterPartyId": "BPNL00000003AYRE",
-    "protocol": "dataspace-protocol-http",
+    "protocol": "dataspace-protocol-http:2025-1",
     "querySpec": {
       "offset": 0,
-      "limit": 50
+      "limit": 50,
+      "sortOrder": "DESC",
+      "sortField": "fieldName",
+      "filterExpression": []
     }
   }' | jq
 ```
@@ -371,47 +376,108 @@ Alice's catalog response will include available assets like this (**but not the 
 
 Bob creates an **Access Policy** to determine who can view the data offer.
 
-### Step 1: Create the policy
+### Step 1: Create the policies
 
-Run this `curl` command:
+First, create the **Access Policy**. Run this `curl` command:
 
 ```bash
 curl -L -X POST 'http://dataprovider-controlplane.tx.test/management/v3/policydefinitions' \
   -H 'Content-Type: application/json' \
   -H 'X-Api-Key: TEST2' \
   --data-raw '{
-    "@context": {
-      "odrl": "http://www.w3.org/ns/odrl/2/"
-    },
-    "@type": "PolicyDefinitionRequestDto",
-    "@id": "200",
+      "@context": [
+        "https://w3id.org/catenax/2025/9/policy/odrl.jsonld",
+        "https://w3id.org/catenax/2025/9/policy/context.jsonld",
+          {
+              "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
+          }
+      ],
+      "@id": "100",
+      "@type": "PolicyDefinition",
+      "policy": {
+          "@type": "Set",
+          "permission": [
+          {
+              "action": "access",
+              "constraint": [
+                  {
+                      "and": [
+                      {
+                          "leftOperand": "Membership",
+                          "operator": "eq",
+                          "rightOperand": "active"
+                      },
+                      {
+                          "leftOperand": "FrameworkAgreement",
+                          "operator": "eq",
+                          "rightOperand": "DataExchangeGovernance:1.0"
+                      },
+                      {
+                        "leftOperand": "BusinessPartnerNumber",
+                        "operator": "isAnyOf",
+                        "rightOperand": ["BPNL00000003AZQP"]
+                      }
+                      ]
+                  }
+                  ]
+          }
+          ]
+      }
+  }' | jq
+```
+
+Next, create the **Usage Policy**. Run this `curl` command:
+
+```bash
+curl -L -X POST 'http://dataprovider-controlplane.tx.test/management/v3/policydefinitions' \
+  -H 'Content-Type: application/json' \
+  -H 'X-Api-Key: TEST2' \
+  --data-raw '{
+    "@context": [
+      "https://w3id.org/catenax/2025/9/policy/odrl.jsonld",
+      "https://w3id.org/catenax/2025/9/policy/context.jsonld",
+      {
+        "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
+      },
+      {}
+    ],
+    "@type": "PolicyDefinition",
+    "@id": "101",
     "policy": {
-      "@type": "odrl:Set",
-      "odrl:permission": [
+      "@type": "Set",
+      "permission": [
         {
-          "odrl:action": "USE",
-          "odrl:constraint": {
-            "@type": "LogicalConstraint",
-            "odrl:or": [
+          "action": "use",
+          "constraint": {
+            "and": [
               {
-                "@type": "Constraint",
-                "odrl:leftOperand": {
-                  "@id": "BusinessPartnerNumber"
-                },
-                "odrl:operator": {
-                  "@id": "odrl:eq"
-                },
-                "odrl:rightOperand": "BPNL00000003AZQP"
+                "leftOperand": "Membership",
+                "operator": "eq",
+                "rightOperand": "active"
+              },
+              {
+                "leftOperand": "FrameworkAgreement",
+                "operator": "eq",
+                "rightOperand": "DataExchangeGovernance:1.0"
+              },
+              {
+                "leftOperand": "UsagePurpose",
+                "operator": "isAnyOf",
+                "rightOperand": [
+                  "cx.core.industrycore:1"
+                ]
               }
             ]
           }
         }
-      ]
+      ],
+      "prohibition": [],
+      "obligation": []
     }
   }' | jq
 ```
 
-In this case a **Access Policy** is created. The assigned asset will only be visible as a data offer for the Business Partner Number `BPNL00000003AZQP`.
+In this case an **Access Policy** and a **Usage Policy** are created. The assigned asset will only be visible as a data offer for the Business Partner Number `BPNL00000003AZQP`.
 
 #### Expected Output
 
@@ -442,16 +508,21 @@ curl -L -X POST 'http://dataconsumer-1-controlplane.tx.test/management/v3/catalo
   -H 'Content-Type: application/json' \
   -H 'X-Api-Key: TEST1' \
   --data-raw '{
-    "@context": {
-      "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
-    },
+    "@context": [
+      {
+        "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
+      }
+    ],
     "@type": "CatalogRequest",
-    "counterPartyAddress": "http://dataprovider-controlplane.tx.test/api/v1/dsp",
+    "counterPartyAddress": "http://dataprovider-controlplane.tx.test/api/v1/dsp/2025-1",
     "counterPartyId": "BPNL00000003AYRE",
-    "protocol": "dataspace-protocol-http",
+    "protocol": "dataspace-protocol-http:2025-1",
     "querySpec": {
       "offset": 0,
-      "limit": 50
+      "limit": 50,
+      "sortOrder": "DESC",
+      "sortField": "fieldName",
+      "filterExpression": []
     }
   }' | jq
 ```
@@ -481,7 +552,7 @@ Alice still cannot see the asset because Bob hasn't created a **Contract Definit
 First of all run this `curl` command to check if the policy is created correctly:
 
 ```bash
-curl -L -X GET 'http://dataprovider-controlplane.tx.test/management/v3/policydefinitions/200' \
+curl -L -X GET 'http://dataprovider-controlplane.tx.test/management/v3/policydefinitions/100' \
 -H 'X-Api-Key: TEST2' | jq
 ```
 
@@ -532,17 +603,21 @@ curl -L -X POST 'http://dataprovider-controlplane.tx.test/management/v3/contract
   -H 'Content-Type: application/json' \
   -H 'X-Api-Key: TEST2' \
   --data-raw '{
-    "@context": {},
+    "@context": {
+      "edc": "https://w3id.org/edc/v0.0.1/ns/"
+    },
     "@id": "200",
     "@type": "ContractDefinition",
-    "accessPolicyId": "200",
-    "contractPolicyId": "200",
-    "assetsSelector": {
-      "@type": "CriterionDto",
-      "operandLeft": "https://w3id.org/edc/v0.0.1/ns/id",
-      "operator": "=",
-      "operandRight": "200"
-    }
+    "accessPolicyId": "100",
+    "contractPolicyId": "101",
+    "assetsSelector": [
+      {
+        "@type": "CriterionDto",
+        "operandLeft": "https://w3id.org/edc/v0.0.1/ns/id",
+        "operator": "=",
+        "operandRight": "200"
+      }
+    ]
   }' | jq
 ```
 
@@ -568,30 +643,26 @@ curl -L -X POST 'http://dataprovider-controlplane.tx.test/management/v3/contract
 
 Alice re-requests the catalog. This time, she should see Bob's asset in the catalog:
 
-> **Note**
-> 
-> In this call, the `filterExpression` is used to filter the catalog by the asset ID. This is optional and can be omitted.
-
 ```bash
 curl -L -X POST 'http://dataconsumer-1-controlplane.tx.test/management/v3/catalog/request' \
   -H 'Content-Type: application/json' \
   -H 'X-Api-Key: TEST1' \
   --data-raw '{
-    "@context": {
-      "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
-    },
+    "@context": [
+      {
+        "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
+      }
+    ],
     "@type": "CatalogRequest",
-    "counterPartyAddress": "http://dataprovider-controlplane.tx.test/api/v1/dsp",
+    "counterPartyAddress": "http://dataprovider-controlplane.tx.test/api/v1/dsp/2025-1",
     "counterPartyId": "BPNL00000003AYRE",
-    "protocol": "dataspace-protocol-http",
-        "querySpec": {
-        "filterExpression": [
-            {
-                "operandLeft": "https://w3id.org/edc/v0.0.1/ns/id",
-                "operator": "=",
-                "operandRight": "200"
-            } 
-        ] 
+    "protocol": "dataspace-protocol-http:2025-1",
+    "querySpec": {
+      "offset": 0,
+      "limit": 50,
+      "sortOrder": "DESC",
+      "sortField": "fieldName",
+      "filterExpression": []
     }
   }' | jq
 ```
