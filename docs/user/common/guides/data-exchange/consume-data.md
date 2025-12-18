@@ -60,21 +60,21 @@ curl -L -X POST 'http://dataconsumer-1-controlplane.tx.test/management/v3/catalo
   -H 'Content-Type: application/json' \
   -H 'X-Api-Key: TEST1' \
   --data-raw '{
-    "@context": {
-      "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
-    },
+    "@context": [
+      {
+        "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
+      }
+    ],
     "@type": "CatalogRequest",
     "counterPartyAddress": "http://dataprovider-controlplane.tx.test/api/v1/dsp",
     "counterPartyId": "BPNL00000003AYRE",
-    "protocol": "dataspace-protocol-http",
+    "protocol": "dataspace-protocol-http:2025-1",
     "querySpec": {
-      "filterExpression": {
-        "operandLeft": "https://w3id.org/edc/v0.0.1/ns/id",
-	    "operator": "=",
-	    "operandRight": "200"
-      },
       "offset": 0,
-      "limit": 50
+      "limit": 50,
+      "sortOrder": "DESC",
+      "sortField": "fieldName",
+      "filterExpression": []
     }
   }' | jq
 ```
@@ -123,34 +123,48 @@ curl -L -X POST 'http://dataconsumer-1-controlplane.tx.test/management/v3/edrs' 
   -H 'X-Api-Key: TEST1' \
   --data-raw '{
     "@context": [
-      "https://w3id.org/tractusx/policy/v1.0.0",
       "http://www.w3.org/ns/odrl.jsonld",
-      { "@vocab": "https://w3id.org/edc/v0.0.1/ns/" }
+      "https://w3id.org/catenax/2025/9/policy/context.jsonld",
+      {
+        "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
+      }
     ],
     "@type": "ContractRequest",
     "counterPartyAddress": "http://dataprovider-controlplane.tx.test/api/v1/dsp",
-    "protocol": "dataspace-protocol-http",
+    "protocol": "dataspace-protocol-http:2025-1",
     "policy": {
-      "assigner": "BPNL00000003AYRE",
-      "target": "{{ASSET_ID}}",
       "@id": "{{OFFER_ID}}",
-        "@type": "odrl:Offer",
-        "odrl:permission": {
-          "odrl:action": {
-            "odrl:type": "USE"
-          },
-          "odrl:constraint": {
-            "odrl:or": {
-              "odrl:leftOperand": "BusinessPartnerNumber",
-              "odrl:operator": {
-                "@id": "odrl:eq"
-              },
-              "odrl:rightOperand": "BPNL00000003AZQP"
-            }
-          }
-        },
-        "odrl:prohibition": [],
-        "odrl:obligation": []
+      "@type": "Offer",
+      "assigner": "BPNL00000003AYRE",
+      "target": "200",
+      "permission": [
+        {
+          "action": "use",
+            "constraint": [
+              {
+                "and": [
+                  {
+                    "leftOperand": "Membership",
+                    "operator": "eq",
+                    "rightOperand": "active"
+                  },
+                  {
+                    "leftOperand": "FrameworkAgreement",
+                    "operator": "eq",
+                    "rightOperand": "DataExchangeGovernance:1.0"
+                  },
+                  {
+                    "leftOperand": "UsagePurpose",
+                    "operator": "isAnyOf",
+                    "rightOperand": "cx.core.industrycore:1"
+                  }
+                ]
+              }
+            ]
+        }
+      ],
+      "prohibition": [],
+      "obligation": []
     },
     "callbackAddresses": []
   }' | jq
@@ -232,7 +246,6 @@ Alice uses the {{TRANSFER_PROCESS_ID}} `bdd4af10-9e4a-4796-b4b7-7ecdf91a533a` to
 
 ```bash
 curl -L -X GET 'http://dataconsumer-1-controlplane.tx.test/management/v3/edrs/{{TRANSFER_PROCESS_ID}}/dataaddress?auto_refresh=true' \
-  -H 'Content-Type: application/json' \
   -H 'X-Api-Key: TEST1' | jq
 ```
 
