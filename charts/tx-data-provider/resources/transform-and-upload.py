@@ -415,21 +415,21 @@ if __name__ == "__main__":
                 "@type": "Set",
                 "permission": [
                 {
-                    "action": "http://www.w3.org/ns/odrl/2/use",
+                    "action": "use",
                     "constraint": {
                         "and": [
                         {
-                            "leftOperand": "https://w3id.org/catenax/2025/9/policy/Membership",
+                            "leftOperand": "Membership",
                             "operator": "eq",
                             "rightOperand": "active"
                         },
                         {
-                            "leftOperand": "https://w3id.org/catenax/2025/9/policy/FrameworkAgreement",
+                            "leftOperand": "FrameworkAgreement",
                             "operator": "eq",
                             "rightOperand": "DataExchangeGovernance:1.0"
                         },
                         {
-                            "leftOperand": "https://w3id.org/catenax/2025/9/policy/UsagePurpose",
+                            "leftOperand": "UsagePurpose",
                             "operator": "isAnyOf",
                             "rightOperand": ["cx.core.digitalTwinRegistry:1"]
                         }
