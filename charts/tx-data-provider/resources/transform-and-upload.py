@@ -241,16 +241,17 @@ def create_registry_asset(edc_upload_urls_, edc_bpns_, edc_asset_path_, edc_cont
         catalog_url_ = edc_upload_url_ + catalog_path_
         payload_ = {
             "@context": edc_context(),
+            "@type": "CatalogRequest",
             "edc:protocol": "dataspace-protocol-http:2025-1",
             "edc:counterPartyAddress": f"{edc_url_}/api/v1/dsp/2025-1",
             "edc:counterPartyId": f"{edc_bpn_}",
             "edc:querySpec": {
-                "edc:filterExpression": {
+                "edc:filterExpression": [{
                     "@type": "edc:Criterion",
                     "edc:operandLeft": "https://w3id.org/edc/v0.0.1/ns/type",
                     "edc:operator": "=",
                     "edc:operandRight": "data.core.digitalTwinRegistry"
-                }
+                }]
             }
         }
         print(f"Query Catalog for registry asset {catalog_url_}")
