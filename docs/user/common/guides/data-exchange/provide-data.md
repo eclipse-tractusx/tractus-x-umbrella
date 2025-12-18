@@ -238,7 +238,7 @@ curl -L -X POST 'http://dataconsumer-1-controlplane.tx.test/management/v3/catalo
       }
     ],
     "@type": "CatalogRequest",
-    "counterPartyAddress": "http://dataprovider-controlplane.tx.test/api/v1/dsp",
+    "counterPartyAddress": "http://dataprovider-controlplane.tx.test/api/v1/dsp/2025-1",
     "counterPartyId": "BPNL00000003AYRE",
     "protocol": "dataspace-protocol-http:2025-1",
     "querySpec": {
@@ -514,7 +514,7 @@ curl -L -X POST 'http://dataconsumer-1-controlplane.tx.test/management/v3/catalo
       }
     ],
     "@type": "CatalogRequest",
-    "counterPartyAddress": "http://dataprovider-controlplane.tx.test/api/v1/dsp",
+    "counterPartyAddress": "http://dataprovider-controlplane.tx.test/api/v1/dsp/2025-1",
     "counterPartyId": "BPNL00000003AYRE",
     "protocol": "dataspace-protocol-http:2025-1",
     "querySpec": {
@@ -654,7 +654,7 @@ curl -L -X POST 'http://dataconsumer-1-controlplane.tx.test/management/v3/catalo
       }
     ],
     "@type": "CatalogRequest",
-    "counterPartyAddress": "http://dataprovider-controlplane.tx.test/api/v1/dsp",
+    "counterPartyAddress": "http://dataprovider-controlplane.tx.test/api/v1/dsp/2025-1",
     "counterPartyId": "BPNL00000003AYRE",
     "protocol": "dataspace-protocol-http:2025-1",
     "querySpec": {
