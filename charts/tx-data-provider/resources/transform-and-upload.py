@@ -464,7 +464,7 @@ if __name__ == "__main__":
                 create_policy(policies[policy], url, edc_policy_path, headers_with_api_key, session)
 
     create_registry_asset(edc_upload_urls, edc_bpns, edc_asset_path, edc_contract_definition_path, edc_catalog_path,
-                          headers_with_api_key, session, edc_urls, default_policy, registry_asset_id, aas_url)
+                          headers_with_api_key, session, edc_urls, "default-policy", registry_asset_id, aas_url)
 
     edc_asset_ids = []
     for url in dataplane_urls:
