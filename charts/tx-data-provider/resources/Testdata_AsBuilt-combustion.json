@@ -29,7 +29,7 @@
                 },
                 {
                   "leftOperand": "https://w3id.org/catenax/2025/9/policy/UsagePurpose",
-                  "operator": "isAnyof",
+                  "operator": "isAnyOf",
                   "rightOperand": ["cx.core.digitalTwinRegistry:1"]
                 }
               ]

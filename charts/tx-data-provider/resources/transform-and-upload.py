@@ -429,8 +429,8 @@ if __name__ == "__main__":
                         },
                         {
                             "leftOperand": "https://w3id.org/catenax/2025/9/policy/UsagePurpose",
-                            "operator": "eq",
-                            "rightOperand": "cx.core.digitalTwinRegistry:1"
+                            "operator": "isAnyOf",
+                            "rightOperand": ["cx.core.digitalTwinRegistry:1"]
                         }
                         ]
                     }
