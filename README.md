@@ -1,4 +1,4 @@
-[![OverarchingRelease](https://img.shields.io/badge/Release_25.06-blue)](https://github.com/eclipse-tractusx/tractus-x-release/blob/25.06/CHANGELOG.md#2506---2025-06-16)
+[![OverarchingRelease](https://img.shields.io/badge/Release_25.09-blue)](https://github.com/eclipse-tractusx/tractus-x-release/blob/25.09/CHANGELOG.md#2509---2025-10-01)
 
 # Eclipse Tractus-X Umbrella
 
