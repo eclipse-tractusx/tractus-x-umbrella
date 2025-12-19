@@ -1,6 +1,6 @@
 {
   "policies": {
-    "test": {
+    "test-access": {
       "@context": [
         "https://w3id.org/catenax/2025/9/policy/odrl.jsonld",
         "https://w3id.org/catenax/2025/9/policy/context.jsonld",
@@ -8,8 +8,49 @@
           "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
         }
       ],
+      "@id": "test-access",
       "@type": "PolicyDefinition",
-      "@id": "test",
+      "policy": {
+        "@type": "Set",
+        "permission": [
+          {
+            "action": "access",
+            "constraint": [
+              {
+                "and": [
+                  {
+                    "leftOperand": "Membership",
+                    "operator": "eq",
+                    "rightOperand": "active"
+                  },
+                  {
+                    "leftOperand": "FrameworkAgreement",
+                    "operator": "eq",
+                    "rightOperand": "DataExchangeGovernance:1.0"
+                  },
+                  {
+                    "leftOperand": "BusinessPartnerNumber",
+                    "operator": "isAnyOf",
+                    "rightOperand": ["BPNL00000003AZQP"]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "test-usage": {
+      "@context": [
+        "https://w3id.org/catenax/2025/9/policy/odrl.jsonld",
+        "https://w3id.org/catenax/2025/9/policy/context.jsonld",
+        {
+          "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
+        },
+        {}
+      ],
+      "@type": "PolicyDefinition",
+      "@id": "test-usage",
       "policy": {
         "@type": "Set",
         "permission": [
@@ -30,12 +71,14 @@
                 {
                   "leftOperand": "UsagePurpose",
                   "operator": "isAnyOf",
-                  "rightOperand": ["cx.core.digitalTwinRegistry:1"]
+                  "rightOperand": ["cx.core.industrycore:1"]
                 }
               ]
             }
           }
-        ]
+        ],
+        "prohibition": [],
+        "obligation": []
       }
     }
   },
