@@ -30,3 +30,12 @@
 | client_id miw|The client_id of a technical user with the required role "Identity Wallet Management" |
 | client_secret miw|The client_secret used for the technical user authentication. |
 | miw_authority_id|If not retrievable by http get request |
+
+## NOTICE
+
+This work is licensed under the [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/legalcode).
+
+- SPDX-License-Identifier: CC-BY-4.0
+- SPDX-FileCopyrightText: 2025 Contributors to the Eclipse Foundation
+- Source URL: <https://github.com/eclipse-tractusx/tractus-x-umbrella>
+

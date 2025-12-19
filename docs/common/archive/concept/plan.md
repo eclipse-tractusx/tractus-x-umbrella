@@ -156,3 +156,12 @@ Assosiation:
 * [ ] Tractus-X Community Days
 * [ ] @All: update components to 24.03 Release
 * [ ] Semantic Hub integration ongoing, some issues remain, Tuna is investigating them. Update will be in the EF Matrix chat as he'll be gone for a month. https://github.com/eclipse-tractusx/tractus-x-umbrella/pull/61
+
+## NOTICE
+
+This work is licensed under the [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/legalcode).
+
+- SPDX-License-Identifier: CC-BY-4.0
+- SPDX-FileCopyrightText: 2025 Contributors to the Eclipse Foundation
+- Source URL: <https://github.com/eclipse-tractusx/tractus-x-umbrella>
+

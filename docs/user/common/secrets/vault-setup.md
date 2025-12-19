@@ -553,3 +553,12 @@ kubectl run vault-test --rm -it --image=vault:latest -- sh
 - Review [Configuration Reference](configuration.md) for complete configuration options
 - Check [Connected Services](connected-services.md) for service-specific configurations
 - See [Troubleshooting](troubleshooting.md) for additional troubleshooting guidance
+
+## NOTICE
+
+This work is licensed under the [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/legalcode).
+
+- SPDX-License-Identifier: CC-BY-4.0
+- SPDX-FileCopyrightText: 2025 Contributors to the Eclipse Foundation
+- Source URL: <https://github.com/eclipse-tractusx/tractus-x-umbrella>
+

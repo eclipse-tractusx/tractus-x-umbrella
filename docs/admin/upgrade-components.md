@@ -34,7 +34,7 @@ If issues are encountered after an upgrade:
 2. Update dependencies with `helm dependency update`
 3. Redeploy using the previous version
 
-# NOTICE
+## NOTICE
 
 This work is licensed under the [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/legalcode).
 

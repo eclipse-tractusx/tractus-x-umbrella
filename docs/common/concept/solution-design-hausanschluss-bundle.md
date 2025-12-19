@@ -709,7 +709,7 @@ flowchart LR
 - **Chart Releaser**: Automated creation and publication of chart releases.
 - **Helm Chart Repository / GitHub Packages**: Hosting and provisioning of the finalized charts.
 
-# NOTICE
+## NOTICE
 
 This work is licensed under the [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/legalcode).
 
