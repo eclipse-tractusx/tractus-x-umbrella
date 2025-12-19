@@ -785,10 +785,10 @@ curl -L -X POST 'http://dataconsumer-1-controlplane.tx.test/management/v3/catalo
 > 
 > Finally Alice can see the Contract Offer from Bob. Congratulations on yor first successful offering of data in your own data space!
 
-## Notice
+## NOTICE
 
 This work is licensed under the [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/legalcode).
 
 * SPDX-License-Identifier: CC-BY-4.0
-* SPDX-FileCopyrightText: 2024 Contributors to the Eclipse Foundation
+* SPDX-FileCopyrightText: 2025 Contributors to the Eclipse Foundation
 * Source URL: <https://github.com/eclipse-tractusx/tractus-x-umbrella>

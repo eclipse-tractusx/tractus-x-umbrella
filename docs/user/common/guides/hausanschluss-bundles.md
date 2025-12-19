@@ -224,7 +224,7 @@ Use `kubectl describe pod <pod>` and `kubectl logs <pod>` to inspect errors in d
     --set tractusx-connector.dataplane.ingresses[0].hostname=edc-b.dataplane.tx.test
     ```
 
-# NOTICE
+## NOTICE
 
 This work is licensed under the [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/legalcode).
 

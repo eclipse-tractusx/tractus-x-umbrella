@@ -32,7 +32,13 @@ body:json {
       "limit": 50,
       "sortOrder": "DESC",
       "sortField": "fieldName",
-      "filterExpression": []
+      "filterExpression": [
+        {
+          "operandLeft": "https://w3id.org/edc/v0.0.1/ns/id",
+          "operator": "=",
+          "operandRight": "{{ASSET_ID}}"
+        }
+      ]
     }
   }
 }

@@ -36,21 +36,28 @@ def create_submodel_payload(json_payload):
 
 
 def create_edc_asset_payload(submodel_url_, asset_id_):
+    # Formato exacto de Bruno 03-Create The Asset.bru
     return json.dumps({
-        "@context": edc_context(),
-        "@id": f"{asset_id_}",
-        "edc:properties": {
-            "edc:description": "Umbrella EDC Test Asset",
-            "edc:id": f"{asset_id_}",
+        "@context": {
+            "@vocab": "https://w3id.org/edc/v0.0.1/ns/",
+            "edc": "https://w3id.org/edc/v0.0.1/ns/",
+            "tx": "https://w3id.org/tractusx/v0.0.1/ns/",
+            "tx-auth": "https://w3id.org/tractusx/auth/",
+            "cx-policy": "https://w3id.org/catenax/policy/",
+            "odrl": "http://www.w3.org/ns/odrl/2/"
         },
-        "edc:dataAddress": {
-            "@type": "edc:DataAddress",
-            "edc:type": "HttpData",
-            "edc:baseUrl": f"{submodel_url_}",
-            "edc:proxyPath": "true",
-            "edc:proxyBody": "false",
-            "edc:proxyMethod": "false",
-            "edc:proxyQueryParams": "false"
+        "@id": f"{asset_id_}",
+        "properties": {
+            "description": "Product EDC Demo Asset"
+        },
+        "dataAddress": {
+            "@type": "DataAddress",
+            "type": "HttpData",
+            "proxyPath": "true",
+            "proxyMethod": "true",
+            "proxyQueryParams": "true",
+            "proxyBody": "true",
+            "baseUrl": f"{submodel_url_}"
         }
     })
 
@@ -93,20 +100,24 @@ def edc_context():
     }
 
 
-def create_edc_contract_definition_payload(edc_policy_id_, asset_prop_id_):
+def create_edc_contract_definition_payload(access_policy_id_, contract_policy_id_, asset_prop_id_):
+    # Formato exacto de Bruno 07-Create The Contract Definition.bru
     return json.dumps({
-        "@context": edc_context(),
+        "@context": {
+            "edc": "https://w3id.org/edc/v0.0.1/ns/"
+        },
         "@type": "ContractDefinition",
-        "accessPolicyId": f"{edc_policy_id_}",
-        "contractPolicyId": f"{edc_policy_id_}",
-        "assetsSelector": {
-            "@type": "CriterionDto",
-            "operandLeft": "https://w3id.org/edc/v0.0.1/ns/id",
-            "operator": "=",
-            "operandRight": f"{asset_prop_id_}"
-        }
-    }
-    )
+        "accessPolicyId": f"{access_policy_id_}",
+        "contractPolicyId": f"{contract_policy_id_}",
+        "assetsSelector": [
+            {
+                "@type": "CriterionDto",
+                "operandLeft": "https://w3id.org/edc/v0.0.1/ns/id",
+                "operator": "=",
+                "operandRight": f"{asset_prop_id_}"
+            }
+        ]
+    })
 
 
 def create_aas_shell_3_0(global_asset_id_, id_short_, identification_, specific_asset_id_, submodel_descriptors_):
@@ -211,26 +222,20 @@ class ArgumentException(Exception):
 def create_policy(policy_, edc_upload_url_, edc_policy_path_, headers_, session_):
     url_ = edc_upload_url_ + edc_policy_path_
     print(f"Create policy {policy_['@id']} on EDC {url_}")
-    print(f"DEBUG: Checking if policy exists - GET {url_}/{policy_['@id']}")
     response_ = session_.request(method="GET", url=f"{url_}/{policy_['@id']}", headers=headers_)
-    print(f"DEBUG: Policy check response status: {response_.status_code}")
     if response_.status_code == 200 and response_.json():
         print(f"Policy {policy_['@id']} already exists. Skipping creation.")
     else:
-        print(f"DEBUG: Creating new policy - POST {url_}")
-        print(f"DEBUG: Policy payload: {json.dumps(policy_, indent=2)}")
         response_ = session_.request(method="POST", url=url_, headers=headers_, data=json.dumps(policy_))
-        print(f"DEBUG: Policy creation response status: {response_.status_code}")
         print(response_)
         if response_.status_code > 205:
-            print(f"DEBUG: Policy creation failed with error: {response_.text}")
             print(response_.text)
         else:
             print(f"Successfully created policy {response_.json()['@id']}.")
 
 
 def create_registry_asset(edc_upload_urls_, edc_bpns_, edc_asset_path_, edc_contract_definition_path_, catalog_path_, header_,
-                          session_, edc_urls_, policy_, registry_asset_id_, aas_url_):
+                          session_, edc_urls_, access_policy_, usage_policy_, registry_asset_id_, aas_url_):
     for edc_upload_url_ in edc_upload_urls_:
         index = edc_upload_urls_.index(edc_upload_url_)
         edc_url_ = edc_urls_[index]
@@ -255,42 +260,31 @@ def create_registry_asset(edc_upload_urls_, edc_bpns_, edc_asset_path_, edc_cont
             }
         }
         print(f"Query Catalog for registry asset {catalog_url_}")
-        print(f"DEBUG: Catalog query payload: {json.dumps(payload_, indent=2)}")
         response_ = session_.request(method="POST", url=catalog_url_, headers=header_, data=json.dumps(payload_))
-        print(f"DEBUG: Catalog query response status: {response_.status_code}")
         print_response(response_)
         asset_url_ = edc_upload_url_ + edc_asset_path_
         print(response_.status_code)
         catalog_response_ = response_.json()
-        print(f"DEBUG: Catalog response keys: {catalog_response_.keys()}")
-        print(f"DEBUG: Full catalog response: {json.dumps(catalog_response_, indent=2)}")
         if response_.status_code == 200 and 'dataset' in catalog_response_ and len(catalog_response_['dataset']) >= 1:
             first_offer_ = catalog_response_['dataset']
             print(
                 f"Offer with type {first_offer_['type']} already exists. Skipping creation.")
         else:
-            print(f"DEBUG: Creating registry asset - POST {asset_url_}")
             payload_ = create_edc_registry_asset_payload(aas_url_, registry_asset_id_)
-            print(f"DEBUG: Registry asset payload: {payload_}")
             response_ = session_.request(method="POST", url=asset_url_,
                                          headers=header_,
                                          data=payload_)
-            print(f"DEBUG: Registry asset creation response status: {response_.status_code}")
             print(response_)
             if response_.status_code > 205:
-                print(f"DEBUG: Registry asset creation failed")
                 print(response_.text)
             else:
                 print(f"Successfully created registry asset {response_.json()['@id']}.")
 
             print("Create registry edc contract definition")
-            print(f"DEBUG: Creating contract definition - POST {edc_upload_url_ + edc_contract_definition_path_}")
-            payload_ = create_edc_contract_definition_payload(policy_, registry_asset_id_)
-            print(f"DEBUG: Contract definition payload: {payload_}")
+            payload_ = create_edc_contract_definition_payload(access_policy_, usage_policy_, registry_asset_id_)
             response_ = session_.request(method="POST", url=edc_upload_url_ + edc_contract_definition_path_,
                                          headers=header_,
                                          data=payload_)
-            print(f"DEBUG: Contract definition creation response status: {response_.status_code}")
             print_response(response_)
 
 
@@ -310,9 +304,7 @@ def search_for_asset_in_catalog(edc_catalog_path_, edc_upload_url_, edc_url_, he
         }
     }
     print(f"Query Catalog for notification assets {catalog_url_}")
-    print(f"DEBUG: Search catalog query payload: {json.dumps(payload_, indent=2)}")
     response_ = session_.request(method="POST", url=catalog_url_, headers=headers_, data=json.dumps(payload_))
-    print(f"DEBUG: Search catalog response status: {response_.status_code}")
     return response_
 
 
@@ -369,7 +361,12 @@ if __name__ == "__main__":
         edc_upload_urls = edc_urls
 
     if default_policy is None:
-        default_policy = "default-policy"
+        default_access_policy_id = "default-access-policy"
+        default_usage_policy_id = "default-usage-policy"
+    else:
+        # Si se especifica una policy base, buscar las correspondientes -access y -usage
+        default_access_policy_id = f"{default_policy}-access"
+        default_usage_policy_id = f"{default_policy}-usage"
 
     if aas_upload_url is None:
         aas_upload_url = aas_url
@@ -400,8 +397,9 @@ if __name__ == "__main__":
         'Content-Type': 'application/json'
     }
 
-    default_policy_definition = {
-        "default": {
+    # Formato exacto de Bruno 05-Create The Policy.bru (Access Policy)
+    default_access_policy_definition = {
+        "default-access-policy": {
             "@context": [
                 "https://w3id.org/catenax/2025/9/policy/odrl.jsonld",
                 "https://w3id.org/catenax/2025/9/policy/context.jsonld",
@@ -409,34 +407,81 @@ if __name__ == "__main__":
                     "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
                 }
             ],
-            "@id": "default-policy",
+            "@id": "default-access-policy",
             "@type": "PolicyDefinition",
             "policy": {
                 "@type": "Set",
                 "permission": [
-                {
-                    "action": "http://www.w3.org/ns/odrl/2/use",
-                    "constraint": {
-                        "and": [
-                        {
-                            "leftOperand": "https://w3id.org/catenax/2025/9/policy/Membership",
-                            "operator": "eq",
-                            "rightOperand": "active"
-                        },
-                        {
-                            "leftOperand": "https://w3id.org/catenax/2025/9/policy/FrameworkAgreement",
-                            "operator": "eq",
-                            "rightOperand": "DataExchangeGovernance:1.0"
-                        },
-                        {
-                            "leftOperand": "https://w3id.org/catenax/2025/9/policy/UsagePurpose",
-                            "operator": "isAnyOf",
-                            "rightOperand": ["cx.core.digitalTwinRegistry:1"]
-                        }
+                    {
+                        "action": "access",
+                        "constraint": [
+                            {
+                                "and": [
+                                    {
+                                        "leftOperand": "Membership",
+                                        "operator": "eq",
+                                        "rightOperand": "active"
+                                    },
+                                    {
+                                        "leftOperand": "FrameworkAgreement",
+                                        "operator": "eq",
+                                        "rightOperand": "DataExchangeGovernance:1.0"
+                                    },
+                                    {
+                                        "leftOperand": "BusinessPartnerNumber",
+                                        "operator": "isAnyOf",
+                                        "rightOperand": ["BPNL00000003AZQP"]
+                                    }
+                                ]
+                            }
                         ]
                     }
-                }
                 ]
+            }
+        }
+    }
+
+    # Formato exacto de Bruno 05_2-Create The Policy.bru (Usage Policy)
+    default_usage_policy_definition = {
+        "default-usage-policy": {
+            "@context": [
+                "https://w3id.org/catenax/2025/9/policy/odrl.jsonld",
+                "https://w3id.org/catenax/2025/9/policy/context.jsonld",
+                {
+                    "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
+                },
+                {}
+            ],
+            "@type": "PolicyDefinition",
+            "@id": "default-usage-policy",
+            "policy": {
+                "@type": "Set",
+                "permission": [
+                    {
+                        "action": "use",
+                        "constraint": {
+                            "and": [
+                                {
+                                    "leftOperand": "Membership",
+                                    "operator": "eq",
+                                    "rightOperand": "active"
+                                },
+                                {
+                                    "leftOperand": "FrameworkAgreement",
+                                    "operator": "eq",
+                                    "rightOperand": "DataExchangeGovernance:1.0"
+                                },
+                                {
+                                    "leftOperand": "UsagePurpose",
+                                    "operator": "isAnyOf",
+                                    "rightOperand": ["cx.core.industrycore:1"]
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "prohibition": [],
+                "obligation": []
             }
         }
     }
@@ -446,7 +491,9 @@ if __name__ == "__main__":
     data = json.load(f)
     f.close()
     testdata = data["https://catenax.io/schema/TestDataContainer/1.0.0"]
-    policies = default_policy_definition
+    policies = {}
+    policies.update(default_access_policy_definition)
+    policies.update(default_usage_policy_definition)
     if "policies" in data.keys():
         policies.update(data["policies"])
 
@@ -464,7 +511,7 @@ if __name__ == "__main__":
                 create_policy(policies[policy], url, edc_policy_path, headers_with_api_key, session)
 
     create_registry_asset(edc_upload_urls, edc_bpns, edc_asset_path, edc_contract_definition_path, edc_catalog_path,
-                          headers_with_api_key, session, edc_urls, default_policy, registry_asset_id, aas_url)
+                          headers_with_api_key, session, edc_urls, "default-access-policy", "default-usage-policy", registry_asset_id, aas_url)
 
     edc_asset_ids = []
     for url in dataplane_urls:
@@ -526,10 +573,18 @@ if __name__ == "__main__":
                     "externalSubjectId": externalSubjectId
                 })
 
-            policy_id = default_policy
-            if "policy" in tmp_keys:
-                policy_id = tmp_data["policy"]
-            print(f"Policy: {policy_id}")
+            access_policy_id = default_access_policy_id
+            usage_policy_id = default_usage_policy_id
+            if "accessPolicy" in tmp_keys and "usagePolicy" in tmp_keys:
+                # Si se especifican ambas policies explícitamente
+                access_policy_id = tmp_data["accessPolicy"]
+                usage_policy_id = tmp_data["usagePolicy"]
+            elif "policy" in tmp_keys:
+                # Compatibilidad hacia atrás: usar convención de nombres -access y -usage
+                base_policy = tmp_data["policy"]
+                access_policy_id = f"{base_policy}-access"
+                usage_policy_id = f"{base_policy}-usage"
+            print(f"Access Policy: {access_policy_id}, Usage Policy: {usage_policy_id}")
 
             for tmp_key in tmp_keys:
                 if "PlainObject" not in tmp_key and "catenaXId" not in tmp_key and "bpn" not in tmp_key \
@@ -556,48 +611,37 @@ if __name__ == "__main__":
 
                     print("Create submodel on submodel server")
                     if tmp_data[tmp_key] != "":
-                        print(f"DEBUG: Creating submodel - POST {submodel_upload_url}/{submodel_identification}")
                         payload = create_submodel_payload(tmp_data[tmp_key][0])
                         response = session.request(method="POST",
                                                    url=f"{submodel_upload_url}/{submodel_identification}",
                                                    headers=headers, data=payload)
-                        print(f"DEBUG: Submodel creation response status: {response.status_code}")
                         print_response(response)
 
                     asset_path = edc_upload_url + edc_asset_path
                     print(f"Create edc asset on EDC {asset_path}")
-                    print(f"DEBUG: Creating EDC asset - POST {asset_path}")
                     payload = create_edc_asset_payload(submodel_url, edc_asset_id)
-                    print(f"DEBUG: EDC asset payload: {payload}")
                     response = session.request(method="POST", url=asset_path, headers=headers_with_api_key,
                                                data=payload)
-                    print(f"DEBUG: EDC asset creation response status: {response.status_code}")
                     print_response(response)
                     if response.status_code > 205:
                         print("Asset creation failed. Skipping creation of contract definition.")
                     else:
                         print("Create edc contract definition")
-                        print(f"DEBUG: Creating contract definition - POST {edc_upload_url + edc_contract_definition_path}")
-                        payload = create_edc_contract_definition_payload(policy_id, edc_asset_id)
-                        print(f"DEBUG: Contract definition payload: {payload}")
+                        payload = create_edc_contract_definition_payload(access_policy_id, usage_policy_id, edc_asset_id)
                         response = session.request(method="POST", url=edc_upload_url + edc_contract_definition_path,
                                                    headers=headers_with_api_key,
                                                    data=payload)
-                        print(f"DEBUG: Contract definition response status: {response.status_code}")
                         print_response(response)
                     contract_number = contract_number + 1
 
             if submodel_descriptors:
                 print("Create aas shell")
-                print(f"DEBUG: Creating AAS shell - POST {aas_upload_url}{registry_path}")
                 id_short = uuid.uuid4().urn
                 payload = create_aas_shell_3_0(catenax_id, id_short, identification, specific_asset_ids,
                                                submodel_descriptors)
-                print(f"DEBUG: AAS shell payload length: {len(payload)} bytes")
                 response = session.request(method="POST", url=f"{aas_upload_url}{registry_path}",
                                            headers=headers,
                                            data=payload)
-                print(f"DEBUG: AAS shell creation response status: {response.status_code}")
                 print_response(response)
 
     timestamp_end = time.time()

@@ -4,10 +4,9 @@ This document provides information about API requests for the Data Exchange.
 
 ## Bruno
 
-There are Bruno collections containing all the data exchange flow between Alice and Bob:
+There is a Bruno collection containing all the data exchange flow between Alice and Bob:
 
-- [Umbrella-bru](./Umbrella-bru) - Bruno collection in `.bru` format (recommended for Bruno CLI and latest Bruno versions)
-- [Umbrella-json](./Umbrella-json) - Bruno collection in JSON format for compatibility
+- [Umbrella-bru](./bruno/Umbrella-bru) - Bruno collection in `.bru` format
 
 ## Curl
 
@@ -18,5 +17,5 @@ There is a guide containing step by step tutorial on how to exchange data betwee
 This work is licensed under the [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0).
 
 * SPDX-License-Identifier: Apache-2.0
-* SPDX-FileCopyrightText: 2024 Contributors to the Eclipse Foundation
+* SPDX-FileCopyrightText: 2025 Contributors to the Eclipse Foundation
 * Source URL: <https://github.com/eclipse-tractusx/tractus-x-umbrella>
