@@ -4,10 +4,9 @@ This document provides information about API requests for the Data Exchange.
 
 ## Bruno
 
-There are Bruno collections containing all the data exchange flow between Alice and Bob:
+There is a Bruno collection containing all the data exchange flow between Alice and Bob:
 
-- [Umbrella-bru](./Umbrella-bru) - Bruno collection in `.bru` format (recommended for Bruno CLI and latest Bruno versions)
-- [Umbrella-json](./Umbrella-json) - Bruno collection in JSON format for compatibility
+- [Umbrella-bru](./bruno/Umbrella-bru) - Bruno collection in `.bru` format
 
 ## Curl
 
