@@ -4,6 +4,11 @@ on:
   schedule:
     - cron: 0 9 * * 1
   workflow_dispatch:
+    inputs:
+      pr_assignee:
+        description: 'GitHub username(s) to assign PR to (comma-separated, leave empty to skip)'
+        required: false
+        default: 'saudkhan116'
 
 permissions:
   contents: write
@@ -53,7 +58,7 @@ jobs:
     
       - name: Push sync branch to your fork
         run: |
-          git push https://x-access-token:${{ secrets.SYNC_UPSTREAM_PAT }}@github.com/ARENA2036/tx-umbrella.git sync-upstream --force
+          git push https://x-access-token:${{ secrets.SYNC_UPSTREAM_PAT }}@github.com/ARENA2036/tx-umbrella.git sync-upstream
 
       - name: Install GitHub CLI
         run: sudo apt-get install -y gh
@@ -69,5 +74,19 @@ jobs:
       - name: Create Pull Request
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh pr create --repo ARENA2036/tx-umbrella --base main --head sync-upstream --title "Merge sync-upstream to main" --body "This PR rebases main on top of the latest upstream/main." --assignee "saudkhan116"
+          PR_ASSIGNEE: ${{ github.event.inputs.pr_assignee }}
+        run: |
+          CMD="gh pr create --repo ARENA2036/tx-umbrella --base main --head sync-upstream --title \"Merge sync-upstream to main\" --body \"This PR rebases main on top of the latest upstream/main.\""
+          if [ -n "$PR_ASSIGNEE" ]; then
+            # split comma-separated list into array (supports spaces around commas)
+            IFS=',' read -ra ASSIGNEES <<< "$PR_ASSIGNEE"
+            for a in "${ASSIGNEES[@]}"; do
+              # trim leading/trailing whitespace
+              a="$(echo "$a" | sed -e 's/^ *//' -e 's/ *$//')"
+              if [ -n "$a" ]; then
+                CMD="$CMD --assignee $a"
+              fi
+            done
+          fi
+          eval $CMD
 
