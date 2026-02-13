@@ -17,7 +17,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # #############################################################################
 ---
-{{ if .Values.vault-cronjob.enabled }}
+{{ if (index .Values "vault-cronjob" "enabled") }}
 {{- $vaultToken := index .Values "tractusx-connector" "vault" "hashicorp" "token" -}}
 {{- $vaultUrl := tpl (index .Values "tractusx-connector" "vault" "hashicorp" "url") . -}}
 {{- $fullName := include "dataprovider.fullname" . -}}
@@ -71,4 +71,4 @@ spec:
                 items:
                   - key: vault-setup.sh
                     path: vault-setup.sh
-{{ end }}
+{{- end }}

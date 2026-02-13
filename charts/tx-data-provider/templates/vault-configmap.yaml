@@ -39,8 +39,8 @@ data:
       expected_value=$(cat "$vault_json_file" | jq -r '.data.content // empty' 2>/dev/null)
       
       # Try to get existing secret
-      existing_secret_response=$(wget --quiet --header "X-Vault-Token: {{ index .Values "tractusx-connector" "vault" "hashicorp" "token" }}" \
-        -O- "{{ tpl (index .Values "tractusx-connector" "vault" "hashicorp" "url") . }}/v1/secret/data/$secret_key" 2>/dev/null || echo "")
+      existing_secret_response=$(wget --quiet --header "X-Vault-Token: {{ index .Values "dataspace-connector-bundle" "tractusx-connector" "vault" "hashicorp" "token" }}" \
+        -O- "{{ tpl (index .Values "dataspace-connector-bundle" "tractusx-connector" "vault" "hashicorp" "url") . }}/v1/secret/data/$secret_key" 2>/dev/null || echo "")
       
       if [ -n "$existing_secret_response" ] && echo "$existing_secret_response" | jq -e . >/dev/null 2>&1; then
         echo "Found existing secret, parsing JSON response..."
@@ -66,8 +66,8 @@ data:
       
       # Update the secret using file-based approach
       echo "Updating secret $secret_key using file: $vault_json_file"
-      update_result=$(wget --header 'Content-Type: application/json' --header 'X-Vault-Token: {{ index .Values "tractusx-connector" "vault" "hashicorp" "token" }}' \
-        --post-file="$vault_json_file" "{{ tpl (index .Values "tractusx-connector" "vault" "hashicorp" "url") . }}/v1/secret/data/$secret_key" -O- 2>&1)
+      update_result=$(wget --header 'Content-Type: application/json' --header 'X-Vault-Token: {{ index .Values "dataspace-connector-bundle" "tractusx-connector" "vault" "hashicorp" "token" }}' \
+        --post-file="$vault_json_file" "{{ tpl (index .Values "dataspace-connector-bundle" "tractusx-connector" "vault" "hashicorp" "url") . }}/v1/secret/data/$secret_key" -O- 2>&1)
       
       if [ $? -eq 0 ]; then
         echo "✅ Successfully updated secret: $secret_key"
@@ -81,7 +81,7 @@ data:
 
     # Wait for vault to be ready
     echo "Waiting for vault to be ready..."
-    until wget --spider --quiet "{{ tpl (index .Values "tractusx-connector" "vault" "hashicorp" "url") . }}/v1/sys/health" 2>/dev/null; do
+    until wget --spider --quiet "{{ tpl (index .Values "dataspace-connector-bundle" "tractusx-connector" "vault" "hashicorp" "url") . }}/v1/sys/health" 2>/dev/null; do
       echo "Vault not ready yet, waiting..."
       sleep 10
     done
