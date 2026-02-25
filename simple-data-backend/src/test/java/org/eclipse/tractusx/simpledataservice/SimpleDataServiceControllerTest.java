@@ -27,6 +27,30 @@ class SimpleDataServiceControllerTest {
     }
 
     @Test
+    void shouldOverwriteData() {
+        // Arrange
+        final SimpleDataServiceController simpleDataServiceController = new SimpleDataServiceController();
+        final String initialPayload = """
+                {
+                    "test": "initial"
+                }
+                """;
+        final String updatedPayload = """
+                {
+                    "test": "updated"
+                }
+                """;
+
+        // Act
+        simpleDataServiceController.addData("test", initialPayload);
+        simpleDataServiceController.addData("test", updatedPayload);
+
+        // Assert
+        final Object actualResponse = simpleDataServiceController.getData("test");
+        assertThat(actualResponse).isEqualTo(updatedPayload);
+    }
+
+    @Test
     void shouldThrowNotFoundException() {
         // Arrange
         final SimpleDataServiceController simpleDataServiceController = new SimpleDataServiceController();
