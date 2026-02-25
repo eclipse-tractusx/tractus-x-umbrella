@@ -51,6 +51,33 @@ class SimpleDataServiceControllerTest {
     }
 
     @Test
+    void shouldDeleteData() {
+        // Arrange
+        final SimpleDataServiceController simpleDataServiceController = new SimpleDataServiceController();
+        final String payload = """
+                {
+                    "test": "data"
+                }
+                """;
+        simpleDataServiceController.addData("test", payload);
+
+        // Act
+        simpleDataServiceController.deleteData("test");
+
+        // Assert
+        assertThatExceptionOfType(ResponseStatusException.class).isThrownBy(() -> simpleDataServiceController.getData("test"));
+    }
+
+    @Test
+    void shouldThrowNotFoundExceptionOnDelete() {
+        // Arrange
+        final SimpleDataServiceController simpleDataServiceController = new SimpleDataServiceController();
+
+        // Act & Assert
+        assertThatExceptionOfType(ResponseStatusException.class).isThrownBy(() -> simpleDataServiceController.deleteData("test"));
+    }
+
+    @Test
     void shouldThrowNotFoundException() {
         // Arrange
         final SimpleDataServiceController simpleDataServiceController = new SimpleDataServiceController();

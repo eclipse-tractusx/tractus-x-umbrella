@@ -23,6 +23,7 @@ import java.util.HashMap;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,6 +42,16 @@ public class SimpleDataServiceController {
     public void addData(@PathVariable final String id, @RequestBody final Object payload) {
         log.info("Adding data for id '{}'", id);
         data.put(id, payload);
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteData(@PathVariable final String id) {
+        if (data.containsKey(id)) {
+            log.info("Deleting data for id '{}'", id);
+            data.remove(id);
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No data found with id '%s'".formatted(id));
+        }
     }
 
     @GetMapping({"/{id}", "/{id}/$value"})
