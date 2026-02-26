@@ -1,6 +1,7 @@
 /********************************************************************************
  * Copyright (c) 2022,2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
- * Copyright (c) 2021,2024 Contributors to the Eclipse Foundation
+ * Copyright (c) 2021,2026 Contributors to the Eclipse Foundation
+ * Copyright (c) 2026 Catena-X Automotive Network e.V.
  *
  * See the NOTICE file(s) distributed with this work for additional
  * information regarding copyright ownership.
@@ -23,6 +24,7 @@ import java.util.HashMap;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -48,6 +50,16 @@ public class SimpleDataServiceController {
         if (data.containsKey(id)) {
             log.info("Returning data for id '{}'", id);
             return data.get(id);
+        } else {
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No data found with id '%s'".formatted(id));
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public void deleteData(@PathVariable final String id) {
+        if (data.containsKey(id)) {
+            log.info("Deleting data for id '{}'", id);
+            data.remove(id);
         } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No data found with id '%s'".formatted(id));
         }
