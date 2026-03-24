@@ -35,7 +35,7 @@ The Umbrella Chart is intended for:
 
 - Ensure your cluster meets the updated system requirements:
   - Kubernetes version `>1.24.x`
-  - Helm version `3.8+`
+  - Helm version `3.12+`
 
 For detailed setup instructions, refer to the [Setup Guide](/docs/README.md#setup-network--installation).
 
