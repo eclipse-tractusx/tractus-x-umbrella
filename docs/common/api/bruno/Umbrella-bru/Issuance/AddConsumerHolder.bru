@@ -1,0 +1,30 @@
+meta {
+  name: AddConsumerHolder
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{ISSUERSERVICE.URL}}/api/admin/v1alpha/participants/{{ISSUER_PARTICIPANT}}/holders
+  body: json
+  auth: apikey
+}
+
+auth:apikey {
+  key: x-api-key
+  value: {{ISSUER_API_KEY}}
+  placement: header
+}
+
+body:json {
+  {
+    "did": "{{Alice_DID}}",
+    "holderId": "{{Alice_DID}}",
+    "name": "{{Alice_BPN}}"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

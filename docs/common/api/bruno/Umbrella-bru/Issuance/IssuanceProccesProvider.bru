@@ -1,0 +1,55 @@
+meta {
+  name: IssuanceProccesProvider
+  type: http
+  seq: 10
+}
+
+post {
+  url: http://identityhub.provider.tx.test/api/identity/v1alpha/participants/{{PROVIDER_PARTICIPANT_CONTEXT}}/credentials/request
+  body: json
+  auth: apikey
+}
+
+auth:apikey {
+  key: x-api-key
+  value: ZGlkOndlYjppZGVudGl0eWh1Yi5wcm92aWRlci50eC50ZXN0OkJQTlMwMDAwMDAwMEFBQUE=.randomChars
+  placement: header
+}
+
+body:json {
+  {
+    "credentials": [
+      {
+        "format": "VC1_0_JWT",
+        "id": "membershipCredential-id",
+        "type": "MembershipCredential"
+      },
+      {
+        "format": "VC1_0_JWT",
+        "id": "usagePurposeCredential-id",
+        "type": "UsagePurposeCredential"
+      },
+      {
+        "format": "VC1_0_JWT",
+        "id": "dataExchangeGovernanceCredential-id",
+        "type": "DataExchangeGovernanceCredential"
+      },
+      {
+        "format": "VC1_0_JWT",
+        "id": "BpnCredential-id",
+        "type": "BpnCredential"
+      }
+    ],
+    "holderPid": "did:web:issuerservice.issuance.local:BPNS00000000AAAC",
+    "issuerDid": "did:web:issuerservice.issuance.local:BPNS00000000AAAC"
+  }
+}
+
+vars:pre-request {
+  PROVIDER_PARTICIPANT_CONTEXT: ZGlkOndlYjppZGVudGl0eWh1Yi5wcm92aWRlci50eC50ZXN0OkJQTlMwMDAwMDAwMEFBQUE=
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

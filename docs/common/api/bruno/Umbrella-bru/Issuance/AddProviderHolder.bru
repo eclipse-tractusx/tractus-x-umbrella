@@ -1,0 +1,30 @@
+meta {
+  name: AddProviderHolder
+  type: http
+  seq: 8
+}
+
+post {
+  url: {{ISSUERSERVICE.URL}}/api/admin/v1alpha/participants/{{ISSUER_PARTICIPANT}}/holders
+  body: json
+  auth: apikey
+}
+
+auth:apikey {
+  key: x-api-key
+  value: {{ISSUER_API_KEY}}
+  placement: header
+}
+
+body:json {
+  {
+    "did": "{{Bob_DID}}",
+    "holderId": "{{Bob_DID}}",
+    "name": "{{Bob_BPN}}"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
