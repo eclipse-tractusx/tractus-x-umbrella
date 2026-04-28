@@ -1,0 +1,322 @@
+# #############################################################################
+#
+# Copyright (c) 2026 Contributors to the Eclipse Foundation
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Apache License, Version 2.0 which is available at
+# https://www.apache.org/licenses/LICENSE-2.0.
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+# License for the specific language governing permissions and limitations
+# under the License.
+#
+# SPDX-License-Identifier: Apache-2.0
+# #############################################################################
+---
+portal:
+  enabled: false
+
+dataconsumerOne:
+  enabled: true
+  seedTestdata: false
+  nameOverride: dataconsumer-1
+  secrets:
+    consumer-secret: testme
+  dataspace-connector-bundle:
+    tractusx-connector:
+      nameOverride: dataconsumer-1-edc
+      participant:
+        id: BPNL00000003AZQP
+      iatp:
+        id: did:web:identityhub.consumer.tx.test:BPNL00000003AZQP
+        trustedIssuers:
+          - did:web:issuerservice.issuance.local:BPNS00000000AAAC
+        sts:
+          dim:
+            url: ""
+          oauth:
+            token_url: http://identityhub.consumer.tx.test/api/sts/token
+            client:
+              id: did:web:identityhub.consumer.tx.test:BPNL00000003AZQP
+              secret_alias: consumer-secret
+      controlplane:
+        debug:
+          # -- Enables java debugging mode.
+          enabled: true
+          # -- Port where the debuggee can connect to.
+          port: 5005
+          # -- Defines if the JVM should wait with starting the application until someone connected to the debugging port.
+          suspendOnStart: false
+        env:
+          TX_IAM_IATP_CREDENTIALSERVICE_URL: http://identityhub.consumer.tx.test/api/credentials/v1/participants/ZGlkOndlYjppZGVudGl0eWh1Yi5jb25zdW1lci50eC50ZXN0OkJQTkwwMDAwMDAwM0FaUVA=
+          EDC_IAM_DID_WEB_USE_HTTPS: false
+          EDC_IAM_CREDENTIAL_REVOCATION_MIMETYPE: application/json
+        bdrs:
+          server:
+            url: http://bdrs-server.directory.local/api/directory
+        ingresses:
+          - enabled: true
+            hostname: "dataconsumer-1-controlplane.tx.test"
+            endpoints:
+              - default
+              - protocol
+              - management
+            className: "nginx"
+            tls:
+              enabled: false
+      dataplane:
+        env:
+          TX_IAM_IATP_CREDENTIALSERVICE_URL: http://identityhub.consumer.tx.test/api/credentials/v1/participants/ZGlkOndlYjppZGVudGl0eWh1Yi5jb25zdW1lci50eC50ZXN0OkJQTkwwMDAwMDAwM0FaUVA=
+          EDC_IAM_DID_WEB_USE_HTTPS: false
+          EDC_IAM_CREDENTIAL_REVOCATION_MIMETYPE: application/json
+        ingresses:
+          - enabled: true
+            hostname: "dataconsumer-1-dataplane.tx.test"
+            endpoints:
+              - default
+              - public
+            className: "nginx"
+            tls:
+              enabled: false
+        token:
+          signer:
+            privatekey_alias: tokenSignerPrivateKey
+          verifier:
+            publickey_alias: tokenSignerPublicKey
+      postgresql:
+        jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-dataconsumer-1-db:5432/edc"
+        auth:
+          password: "dbpassworddataconsumerone"
+          postgresPassword: "dbpassworddataconsumerone"
+      vault:
+        hashicorp:
+          url: http://{{ .Release.Name }}-edc-dataconsumer-1-vault:8200
+
+    postgresql:
+      nameOverride: dataconsumer-1-db
+      auth:
+        password: "dbpassworddataconsumerone"
+        postgresPassword: "dbpassworddataconsumerone"
+
+    vault:
+      nameOverride: edc-dataconsumer-1-vault
+      enabled: true
+
+  identity-and-trust-bundle:
+    enabled: true
+
+    tractusx-identityhub:
+      nameOverride: identityhubconsumer-1
+      enabled: true
+      
+      postgresql:
+        nameOverride: identityhubconsumer-db
+        jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-identityhubconsumer-db:5432/ih"
+        auth:
+          database: "ih"
+          username: "user"
+          password: "password"
+      vault:
+        nameOverride: identityhubconsumer-vault
+        server:
+          dev:
+            enabled: true
+            devRootToken: "root"
+        hashicorp:
+          url: "http://{{ .Release.Name }}-identityhubconsumer-vault:8200"
+          token: "root"
+      
+      identityhub:
+        envConfigMapNames: []
+        ingresses:
+          - enabled: true
+            hostname: "identityhub.consumer.tx.test"
+            endpoints:
+              - credentials
+              - did
+              - sts
+              - identity
+            tls:
+              enabled: false
+        iatp:
+          sts:
+            oauth:
+              client:
+                # -- Enable participant context client configuration
+                enabled: true
+                # -- Client ID // Did of the initial participant
+                id: "did:web:identityhub.consumer.tx.test:BPNL00000003AZQP"
+                # -- The client secret that is stored in the vault for requesting OAuth2 access token for Presentation API access
+                secret: "testme"
+                # -- Alias under which the client secret is stored in the vault
+                secret_alias: consumer-secret
+                # -- The x-api-key that is stored in the vault for the initial participant
+                x_api_key: "ZGlkOndlYjppZGVudGl0eWh1Yi5jb25zdW1lci50eC50ZXN0OkJQTkwwMDAwMDAwM0FaUVA=.randomChars"
+
+tx-data-provider:
+  enabled: true
+  seedTestdata: false
+  secrets:
+    provider-secret: testme
+  dataspace-connector-bundle:
+    tractusx-connector:
+      nameOverride: dataprovider-edc
+      participant:
+        id: BPNS00000000AAAA
+      iatp:
+        id: did:web:identityhub.provider.tx.test:BPNS00000000AAAA
+        trustedIssuers:
+          - did:web:issuerservice.issuance.local:BPNS00000000AAAC
+        sts:
+          dim:
+            url: ""
+          oauth:
+            token_url: http://identityhub.provider.tx.test/api/sts/token
+            client:
+              id: did:web:identityhub.provider.tx.test:BPNS00000000AAAA
+              secret_alias: provider-secret
+      controlplane:
+        debug:
+          # -- Enables java debugging mode.
+          enabled: true
+          # -- Port where the debuggee can connect to.
+          port: 5005
+          # -- Defines if the JVM should wait with starting the application until someone connected to the debugging port.
+          suspendOnStart: false
+        livenessProbe:
+          # -- Whether to enable kubernetes [liveness-probe](https://kubernetes.io/docs/tasks/configure-pod-container/configure-liveness-readiness-startup-probes/)
+          enabled: true
+          # -- seconds to wait before performing the first liveness check
+          initialDelaySeconds: 1000000
+        env:
+          EDC_IAM_DID_WEB_USE_HTTPS: false
+          EDC_IAM_CREDENTIAL_REVOCATION_MIMETYPE: application/json
+          TX_IAM_IATP_CREDENTIALSERVICE_URL: http://identityhub.provider.tx.test/api/credentials/v1/participants/ZGlkOndlYjppZGVudGl0eWh1Yi5wcm92aWRlci50eC50ZXN0OkJQTlMwMDAwMDAwMEFBQUE=
+        bdrs:
+          server:
+            url: http://bdrs-server.directory.local/api/directory
+        endpoints:
+          management:
+            authKey: TEST2
+      dataplane:
+        env:
+          TX_IAM_IATP_CREDENTIALSERVICE_URL: http://identityhub.provider.tx.test/api/credentials/v1/participants/ZGlkOndlYjppZGVudGl0eWh1Yi5wcm92aWRlci50eC50ZXN0OkJQTlMwMDAwMDAwMEFBQUE=
+          EDC_IAM_DID_WEB_USE_HTTPS: false
+          EDC_IAM_CREDENTIAL_REVOCATION_MIMETYPE: application/json
+  identity-and-trust-bundle:
+    enabled: true
+
+    tractusx-identityhub:
+      nameOverride: identityprovider-1
+      enabled: true
+      
+      postgresql:
+        nameOverride: identityprovider-db
+        jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-identityprovider-db:5432/ih"
+        auth:
+          database: "ih"
+          username: "user"
+          password: "password"      
+      vault:
+        nameOverride: identityprovider-vault
+        server:
+          dev:
+            enabled: true
+            devRootToken: "root"
+        hashicorp:
+          url: "http://{{ .Release.Name }}-identityprovider-vault:8200"
+          token: "root"
+      
+      identityhub:
+        envConfigMapNames: []
+        ingresses:
+          - enabled: true
+            hostname: "identityhub.provider.tx.test"
+            endpoints:
+              - credentials
+              - did
+              - sts
+              - identity
+            tls:
+              enabled: false
+        iatp:
+          sts:
+            oauth:
+              client:
+                # -- Enable participant context client configuration
+                enabled: true
+                # -- Client ID // Did of the initial participant
+                id: "did:web:identityhub.provider.tx.test:BPNS00000000AAAA"
+                # -- The client secret that is stored in the vault for requesting OAuth2 access token for Presentation API access
+                secret: "testme"
+                # -- Alias under which the client secret is stored in the vault
+                secret_alias: provider-secret
+                # -- The x-api-key that is stored in the vault for the initial participant
+                x_api_key: "ZGlkOndlYjppZGVudGl0eWh1Yi5wcm92aWRlci50eC50ZXN0OkJQTlMwMDAwMDAwMEFBQUE=.randomChars"
+
+
+bdrs-server-memory:
+  nameOverride: bdrs-server
+  fullnameOverride: bdrs-server
+  enabled: true
+  seeding:
+    url: "http://bdrs-server.mgmt.local"
+    enabled: true
+    bpnList:
+      - bpn: "BPNS00000000AAAA  "
+        did: "did:web:identityhub.provider.tx.test:BPNS00000000AAAA"
+      - bpn: "BPNS00000000AAAB"
+        did: "did:web:identityhub.presentation.local:BPNS00000000AAAB"
+      - bpn: "BPNS00000000AAAC"
+        did: "did:web:issuerservice.issuance.local:BPNS00000000AAAC"
+      - bpn: "BPNL00000003AZQP"
+        did: "did:web:identityhub.consumer.tx.test:BPNL00000003AZQP"
+  server:
+    image:
+      # -- [Kubernetes image pull policy](https://kubernetes.io/docs/concepts/containers/images/#image-pull-policy) to use
+      pullPolicy: Never
+    trustedIssuers:
+      - did:web:issuerservice.issuance.local:BPNS00000000AAAC
+    env:
+      EDC_IAM_DID_WEB_USE_HTTPS: false
+      EDC_IAM_CREDENTIAL_REVOCATION_MIMETYPE: application/json
+    endpoints:
+      management:
+        authKey: TEST
+    ingresses:
+    ## Public / Internet facing Ingress
+    - enabled: true
+      # -- The hostname to be used to precisely map incoming traffic onto the underlying network service
+      hostname: "bdrs-server.directory.local"
+      # -- Additional ingress annotations to add
+      annotations: {}
+      # -- EDC endpoints exposed by this ingress resource
+      endpoints:
+        - directory
+      tls:
+        enabled: false
+    ## Ingress for the Management API, should not be internet facing
+    - enabled: true
+      # -- The hostname to be used to precisely map incoming traffic onto the underlying network service
+      hostname: "bdrs-server.mgmt.local"
+      # -- Additional ingress annotations to add
+      annotations: {}
+      # -- EDC endpoints exposed by this ingress resource
+      endpoints:
+        - management
+      tls:
+        enabled: false
+identity-and-trust-bundle:
+  enabled: false
+  ssi-dim-wallet-stub:
+    enabled: false
+  tractusx-identityhub:
+    enabled: false
+  postgresql:
+    enabled: false
+  vault:
+    enabled: false

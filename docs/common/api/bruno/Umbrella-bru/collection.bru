@@ -2,7 +2,7 @@ vars:pre-request {
   Bob: http://dataprovider-controlplane.tx.test/management/v3
   Bob_DSP: http://dataprovider-controlplane.tx.test/api/v1/dsp
   Alice: http://dataconsumer-1-controlplane.tx.test/management/v3
-  Bob_BPN: BPNL00000003AYRE
+  Bob_BPN: BPNS00000000AAAA
   Alice_BPN: BPNL00000003AZQP
   Bob_Data_Server: http://dataprovider-submodelserver.tx.test
   ASSET_ID: 201
@@ -10,7 +10,9 @@ vars:pre-request {
   CONTRACT_ID: 207
   Alice_Api_Key: TEST1
   Bob_Api_Key: TEST2
-  Alice_DID: did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003AZQP
-  Bob_DID: did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003AYRE
+  Alice_DID: did:web:identityhub.consumer.tx.test:BPNL00000003AZQP
+  Bob_DID: did:web:identityhub.provider.tx.test:BPNS00000000AAAA
   USAGE_POLICY_ID: 208
+  ISSUERSERVICE.URL: http://issuerservice.did.local
+  API-KEY: c3VwZXItdXNlcg==.C27i46v4t81jNMY9FGZ+4DVSuiCC3WvrgqtpMqwniUn11qVSKwdJzOCB9mWiqpqDfwudYmRDgqH2AMv+XEvkAg==
 }

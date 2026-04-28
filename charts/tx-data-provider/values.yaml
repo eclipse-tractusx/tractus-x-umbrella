@@ -63,3 +63,25 @@ digital-twin-bundle:
 data-persistence-layer-bundle:
   simple-data-backend:
     enabled: true
+
+identity-and-trust-bundle:
+  enabled: false
+  ssi-dim-wallet-stub:
+    enabled: false
+  tractusx-identityhub:
+    enabled: true
+    postgresql:
+      jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-postgresql:5432/ih"
+      auth:
+        database: "ih"
+        username: "user"
+        password: "password"
+    vault:
+      hashicorp:
+        url: "http://{{ .Release.Name }}-identityhub-vault:8200"
+    iatp:
+      sts:
+        oauth:
+          client:
+            # -- Enable participant context client configuration
+            enabled: false

@@ -39,3 +39,7 @@ dependencies:
     version: 0.1.17
     repository: https://eclipse-tractusx.github.io/charts/dev
     condition: ssi-dim-wallet-stub.enabled
+  - name: tractusx-identityhub
+    version: v0.2.1
+    repository: file://../../../tractusx-identityhub/charts/tractusx-identityhub
+    condition: tractusx-identityhub.enabled
