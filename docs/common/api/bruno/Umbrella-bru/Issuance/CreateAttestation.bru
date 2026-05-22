@@ -1,0 +1,33 @@
+meta {
+  name: CreateAttestation
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{ISSUERSERVICE.URL}}/api/admin/v1alpha/participants/{{ISSUER_PARTICIPANT}}/attestations
+  body: json
+  auth: apikey
+}
+
+auth:apikey {
+  key: x-api-key
+  value: {{ISSUER_API_KEY}}
+  placement: header
+}
+
+body:json {
+  {
+    "attestationType": "database",
+    "configuration": {
+      "dataSourceName": "customattestations",
+      "tableName": "custom_attestation_claims"
+    },
+    "id": "attestation-id"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
