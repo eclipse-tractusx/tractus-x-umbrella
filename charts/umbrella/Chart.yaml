@@ -143,3 +143,15 @@ dependencies:
     version: v1.18.2
     repository: https://charts.jetstack.io
     condition: cert-manager.enabled
+  # Edc-Provider
+  - name: decentralized-identity-connector
+    alias: edc-provider
+    repository: file://../decentralized-identity-connector
+    version: 0.1.0
+    condition: edc-provider.enabled
+  # Edc-Consumer
+  - name: decentralized-identity-connector
+    alias: edc-consumer
+    repository: file://../decentralized-identity-connector
+    version: 0.1.0
+    condition: edc-consumer.enabled

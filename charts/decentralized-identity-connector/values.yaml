@@ -1,0 +1,393 @@
+# #############################################################################
+# Copyright (c) 2026 LKS Next
+# Copyright (c) 2026 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Apache License, Version 2.0 which is available at
+# https://www.apache.org/licenses/LICENSE-2.0.
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+# License for the specific language governing permissions and limitations
+# under the License.
+#
+# SPDX-License-Identifier: Apache-2.0
+# #############################################################################
+
+install:
+  postgresql: true
+  vault: true
+shared-configuration:
+  did: &participantDid "did:web:edc.local:BPN1234567890"
+  bpn: &participantBpn "BPN1234567890"
+  bdrsUrl:  &bdrsUrl "bdrs url"
+  tokenUrl: &tokenUrl "http://token-url"
+  secret-alias: &secretAlias "sts-secret"
+  secret-value: &secretValue "changeme"
+  privatekeyAlias: &privatekeyAlias "alias"
+  publickeyAlias: &publickeyAlias "alias"
+  xApiKey: &xApiKey "ZGlkOndlYjplZGMubG9jYWw6QlBOMTIzNDU2Nzg5MA==.randomChars"
+  trustedIssuers: &trustedIssuers []
+
+  ingress:
+    publicEnabled: &publicIngressEnabled true
+    privateEnabled: &privateIngressEnabled true
+    className: &ingressClassName ""
+    annotations: &ingressAnnotations {}
+    tls: &ingressTls
+      enabled: false
+      secretName: ""
+    certManager: &ingressCertManager
+      issuer: ""
+      clusterIssuer: ""
+    publicHostname: &publicHostname "edc.local"
+    privateHostname: &privateHostname "edc.intranet"
+
+postgresql:
+  # Must set nameOverride for postgresql, if using default name it wont deploy the tables correctly
+  nameOverride: "merged-postgresql"
+  image:
+    repository: "bitnamilegacy/postgresql"
+    tag: "16.2.0-debian-12-r10"
+  primary:
+    initdb:
+      scripts:
+        create-databases.sql: |
+          CREATE DATABASE edc;
+          CREATE DATABASE ih;
+          GRANT ALL PRIVILEGES ON DATABASE edc TO "user";
+          GRANT ALL PRIVILEGES ON DATABASE ih TO "user";
+    persistence:
+      enabled: false
+  readReplicas:
+    persistence:
+      enabled: false
+  auth:
+    username: "user"
+    password: "password"
+    database: "postgres"
+  connector: &connectorPostgresql
+    jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-merged-postgresql:5432/edc"
+    auth:
+      username: "user"
+      password: "password"
+      database: "edc"
+  identityhub: &identityhubPostgresql
+    jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-merged-postgresql:5432/ih"
+    auth:
+      username: "user"
+      password: "password"
+      database: "ih"
+vault:
+  nameOverride: "merged-vault"
+  injector:
+    enabled: false
+  server:
+    dev:
+      enabled: true
+      devRootToken: "root"
+    postStart:
+  hashicorp: &vault-hashicorp
+    url: "http://{{ .Release.Name }}-merged-vault:8200"
+    token: "root"
+    timeout: 30
+    healthCheck:
+      enabled: true
+      standbyOk: true
+    paths:
+      secret: /v1/secret
+      health: /v1/sys/health
+      folder: ""
+
+tx-data-provider:
+  enabled: true
+  dataspace-connector-bundle:
+    nameOverride: ""
+    fullnameOverride: ""
+    seedTestdata: false  # Toggle seeding of testdata. Can be enabled when the edc should be seeded with testdata on startup.
+    testData:
+      image: python:3.11
+    testdataConfigMap: ""  # Provide a custom configmap for post-install-job-upload-testdata.yaml.
+    backendUrl: ""  # Override the backend service url
+    registryUrl: ""  # Override the digital twin registry url
+    controlplanePublicUrl: ""  # Override the edc controlplane protocol url
+    controlplaneManagementUrl: ""  # Override the edc controlplane management url
+    dataplaneUrl: ""  # Override the edc dataplane public url
+    vaultSetup:
+      image: alpine:3.19
+    secrets:
+      edc-wallet-secret: *secretValue
+    tractusx-connector:
+      enabled: true
+      install:
+        postgresql: false
+        vault: false
+      postgresql: *connectorPostgresql
+      vault:
+        hashicorp: *vault-hashicorp
+      participant:
+        id: *participantBpn
+
+      iatp:
+        # -- Decentralized IDentifier (DID) of the connector
+        id: *participantDid
+        # -- Configures the trusted issuers for this runtime. If no supportedTypes are specified, the value defaults to "*" for that issuer
+        trustedIssuers: *trustedIssuers
+        sts:
+          dim:
+            # -- DIM service URL (used for dynamic credential issuance)
+            url: ""
+          oauth:
+            # -- OAuth token endpoint URL (used for token exchange with external STS)
+            token_url: *tokenUrl
+            client:
+              # -- Client ID (uses participant DID)
+              id: *participantDid
+              # -- Vault secret alias for client secret
+              secret_alias: *secretAlias
+      controlplane:
+        debug:
+          # -- Enable debug mode
+          enabled: false
+          # -- Debug port
+          port: 1044
+          # -- Suspend on start for debugger attachment
+          suspendOnStart: false
+        logs:
+          # -- Log level
+          level: DEBUG
+        endpoints:
+          default:
+            # -- Port number for default API endpoint
+            port: 8080
+            # -- API path for default endpoint
+            path: /connector/api
+          management:
+            # -- Port number for management API endpoint
+            port: 8081
+            # -- API path for management endpoint
+            path: /connector/management
+            # -- Authentication key for management API
+            authKey: "password"
+            # -- JWKS URL for token validation in management API
+            jwksUrl:
+          control:
+            # -- Port number for control API endpoint
+            port: 8083
+            # -- API path for control API endpoint
+            path: /connector/control
+          protocol:
+            # -- Port number for DSP (Dataspace Protocol) endpoint
+            port: 8084
+            # -- API path for DSP endpoint
+            path: /connector/api/v1/dsp
+          metrics:
+            # -- Port number for metrics endpoint
+            port: 9090
+            # -- Metrics path for metrics endpoint
+            path: /connector/metrics
+          catalog:
+            # -- Port number for catalog API endpoint
+            port: 8085
+            # -- API path for catalog API endpoint
+            path: /connector/catalog
+            # -- Authentication key for catalog API
+            authKey: "password"
+        bdrs:
+          # -- Cache validity in seconds for BDRS (Business Partner Data Retrieval Service) responses
+          cache_validity_seconds: 600
+          server:
+            # -- BDRS server URL
+            url: *bdrsUrl
+        policy:
+          validation:
+            enabled: true
+        ingresses:
+          - enabled: *publicIngressEnabled
+            hostname: *publicHostname
+            annotations: *ingressAnnotations
+            # -- Expose controlplane API on the public ingress
+            endpoints:
+              - protocol
+            className: *ingressClassName
+            tls: *ingressTls
+            certManager: *ingressCertManager
+          - enabled: *privateIngressEnabled
+            hostname: *privateHostname
+            annotations: *ingressAnnotations
+            # -- Expose controlplane API on the private ingress
+            endpoints:
+              - management
+              - control
+              - catalog
+            className: *ingressClassName
+            tls: *ingressTls
+            certManager: *ingressCertManager
+      dataplane:
+        token:
+          signer:
+            # -- Vault alias for private key used for signing tokens
+            privatekey_alias: *privatekeyAlias
+          verifier:
+            # -- Vault alias for public key used for verifying tokens
+            publickey_alias: *publickeyAlias
+          debug:
+            # -- Enable debug mode
+            enabled: false
+            # -- Debug port
+            port: 1044
+            # -- Suspend on start for debugger attachment
+            suspendOnStart: false
+        logs:
+          # -- Log level
+          level: DEBUG
+        endpoints:
+          default:
+            # -- Port number for default API endpoint
+            port: 8080
+            # -- API path for default endpoint
+            path: /dataplane/api
+          public:
+            # -- Port number for public API endpoint
+            port: 8081
+            # -- API path for public endpoint
+            path: /dataplane/api/public
+          control:
+            # -- Port number for control API endpoint
+            port: 8084
+            # -- API path for control API endpoint
+            path: /dataplane/api/control
+          proxy:
+            # -- Port number for proxy endpoint
+            port: 8186
+            # -- API path for proxy endpoint
+            path: /dataplane/proxy
+            # -- Authentication key for proxy endpoint
+            authKey: "password"
+          metrics:
+            # -- Port number for metrics endpoint
+            port: 9090
+            # -- Metrics path for metrics endpoint
+            path: /dataplane/metrics
+        # -- Ingress configuration for data plane
+        # @default -- Configured in the global ingress settings above
+        ingresses:
+          - enabled: *publicIngressEnabled
+            hostname: *publicHostname
+            annotations: *ingressAnnotations
+            # -- Expose dataplane APIs on the public ingress
+            endpoints:
+              - public
+            className: *ingressClassName
+            tls: *ingressTls
+            certManager: *ingressCertManager
+          - enabled: *privateIngressEnabled
+            hostname: *privateHostname
+            annotations: *ingressAnnotations
+            # -- Expose dataplane APIs on the private ingress
+            endpoints:
+              - proxy
+            className: *ingressClassName
+            tls: *ingressTls
+            certManager: *ingressCertManager
+    postgresql:
+      enabled: false
+    vault:
+      enabled: false
+
+tractusx-identityhub:
+  enabled: true
+  install:
+    # -- Install PostgreSQL for IdentityHub (uses shared instance)
+    postgresql: false
+    # -- Install Vault for IdentityHub (uses shared instance)
+    vault: false
+  postgresql: *identityhubPostgresql
+  vault:
+    hashicorp: *vault-hashicorp
+  identityhub:
+    debug:
+      # -- Enable debug mode
+      enabled: false
+      # -- Debug port
+      port: 1044
+      # -- Suspend on start for debugger attachment
+      suspendOnStart: false
+    endpoints:
+      default:
+        # -- Port number for default API endpoint
+        port: 8081
+        # -- API path for default endpoint
+        path: /api
+      identity:
+        # -- Port number for identity API endpoint
+        port: 8082
+        # -- API path for identity endpoint
+        path: /identityhub/api/identity
+      credentials:
+        # -- Port number for credentials API endpoint
+        port: 8083
+        # -- API path for credentials endpoint
+        path: /identityhub/api/credentials
+      did:
+        # -- Port number for DID endpoint
+        port: 8084
+        # -- API path for DID endpoint
+        path: /identityhub/
+      accounts:
+        # -- Port number for accounts API endpoint
+        port: 8085
+        # -- API path for accounts API endpoint
+        path: /identityhub/api/accounts
+      version:
+        # -- Port number for version/well-known endpoint
+        port: 8086
+        # -- API path for version/well-known endpoint
+        path: /identityhub/.well-known/api
+      sts:
+        # -- Port number for Secure Token Service (STS) endpoint
+        port: 8087
+        # -- API path for Secure Token Service (STS) endpoint
+        path: /identityhub/api/sts
+    iatp:
+      sts:
+        oauth:
+          client:
+            # -- Enable Initial Participant Context (IATP) for STS OAuth client
+            enabled: true
+            # -- Client ID (uses participant DID)
+            id: *participantDid
+            # -- Client secret
+            secret: *secretValue
+            # -- Vault secret alias for client secret
+            secret_alias: *secretAlias
+            # -- API key for authentication
+            x_api_key: *xApiKey
+    didweb:
+      # -- Use HTTPS for DID resolution 
+      https: false
+    # -- Ingress configuration for IdentityHub
+    # @default -- See values.yaml
+    ingresses:
+      - enabled: *publicIngressEnabled
+        hostname: *publicHostname
+        annotations: *ingressAnnotations
+        endpoints:
+          - did
+          - credentials
+          - sts
+        className: *ingressClassName
+        tls: *ingressTls
+        certManager: *ingressCertManager
+      - enabled: *privateIngressEnabled
+        hostname: *privateHostname
+        annotations: *ingressAnnotations
+        endpoints:
+          - identity
+        className: *ingressClassName
+        tls: *ingressTls
+        certManager: *ingressCertManager

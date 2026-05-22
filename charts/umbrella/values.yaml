@@ -1589,3 +1589,8 @@ cert-manager:
   enabled: false
 external-secrets:
   enabled: false
+
+edc-provider:
+  enabled: false
+edc-consumer:
+  enabled: false
