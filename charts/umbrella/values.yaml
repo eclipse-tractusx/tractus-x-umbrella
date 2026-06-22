@@ -1,4 +1,5 @@
 # #############################################################################
+# Copyright (c) 2026 ARENA2036 e.V.
 # Copyright (c) 2023,2024 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
@@ -72,6 +73,7 @@ portal:
   frontend:
     ingress:
       enabled: true
+      className : "nginx"
       annotations:
         # uncomment the following line for tls
         # cert-manager.io/cluster-issuer: "my-ca-issuer"
@@ -150,6 +152,7 @@ portal:
         default: "Debug"
       swaggerEnabled: true
     processesworker:
+      clearinghouseConnectDisabled: true
       logging:
         default: "Debug"
         processesLibrary: "Debug"
@@ -329,6 +332,7 @@ portal:
     ingress:
       enabled: true
       name: "portal-backend"
+      className : "nginx"
       annotations:
         # uncomment the following line for tls
         # cert-manager.io/cluster-issuer: "my-ca-issuer"
@@ -707,6 +711,10 @@ bpndiscovery:
       initialDelaySeconds: 200
   postgresql:
     nameOverride: "bpndiscovery-postgresql"
+    image:
+      registry: docker.io
+      repository: bitnamilegacy/postgresql
+      tag: "15-debian-11"
     primary:
       persistence:
         enabled: false
@@ -752,6 +760,10 @@ discoveryfinder:
         nginx.ingress.kubernetes.io/x-forwarded-prefix: "/discoveryfinder"
   postgresql:
     nameOverride: "discoveryfinder-postgresql"
+    image:
+      registry: docker.io
+      repository: bitnamilegacy/postgresql
+      tag: "15-debian-11"
     primary:
       persistence:
         enabled: false
@@ -893,6 +905,9 @@ bpdm:
     # We use the default name for BPDM postgres
     fullnameOverride: &bpdmPostgresName "bpdm-postgres"
     nameOverride:
+    image:
+      repository: bitnamilegacy/postgresql
+      tag: 15-debian-11
     auth:
       # BPDM can't handle random initial passwords at the moment
       # so need to set a fixed one here and use it in the app configs later
@@ -1407,12 +1422,8 @@ dataconsumerTwo:
 
     vault:
       nameOverride: edc-dataconsumer-2-vault
-#      fullnameOverride: edc-dataconsumer-2-vault
-      enabled: true
-
   digital-twin-bundle:
     enabled: false
-
   data-persistence-layer-bundle:
     enabled: false
 
