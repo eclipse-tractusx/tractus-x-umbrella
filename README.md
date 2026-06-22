@@ -1,4 +1,4 @@
-[![OverarchingRelease](https://img.shields.io/badge/Release_25.03-blue)](https://github.com/eclipse-tractusx/tractus-x-release/blob/25.03/CHANGELOG.md#2503---2025-03-19)
+[![OverarchingRelease](https://img.shields.io/badge/Release_25.12-blue)](https://github.com/eclipse-tractusx/tractus-x-release/blob/25.12/CHANGELOG.md#2512---2025-12-031)
 
 # Eclipse Tractus-X Umbrella
 
@@ -9,16 +9,6 @@ The umbrella helm chart is located in the [charts/umbrella](./charts/umbrella) d
 
 Have a look in the [docs](/docs) section for user manuals and guides.
 
-## Usage
-
-Execute the following steps:
-
-1. [Cluster Setup](/docs/user/setup/)
-2. [Network Setup](/docs/user/network/)
-3. [Installation](/docs/user/installation/)
-
-After the installation, you can refer to the [user guides and tutorials sections](/docs/user/guides/).
-
 ## Key Features
 
 - **Automated Setup**: Provides a fully functional network with minimal manual intervention.
@@ -28,7 +18,7 @@ After the installation, you can refer to the [user guides and tutorials sections
 
 ## Release Compatibility
 
-The versions of the [integrated components](/docs/user/installation/README.md#available-components) correspond to the overarching **[Release 25.06](https://github.com/eclipse-tractusx/tractus-x-release/blob/25.06/CHANGELOG.md#2506---2025-06-16)** (Updating to Release 25.09)
+The versions of the [integrated components](/docs/user/linux/installation/README.md#available-components) correspond to the overarching **[Release 25.12](https://github.com/eclipse-tractusx/tractus-x-release/blob/25.12/CHANGELOG.md#2512---2025-12-03)**
 
 ## Purpose
 
@@ -42,9 +32,9 @@ The Umbrella Chart is intended for:
 
 - Ensure your cluster meets the updated system requirements:
   - Kubernetes version `>1.24.x`
-  - Helm version `3.8+`
+  - Helm version `3.12+`
 
-For detailed setup instructions, refer to the [Setup Guide](/docs/user/setup/README.md).
+For detailed setup instructions, refer to the [Setup Guide](/docs/README.md#setup-network--installation).
 
 ## Prerequisites
 
@@ -60,7 +50,7 @@ Assuming you have a running cluster and your `kubectl` context is set to that cl
 > [!WARNING]
 > As we do not currently test on Windows, we would greatly appreciate any contributions from those who successfully deploy it on Windows.
 
-For detailed setup instructions, refer to the [Setup Guide](/docs/user/setup/README.md).
+For detailed setup instructions, refer to the [Setup Guide](/docs/README.md#setup-network--installation).
 
 ## Testing GitHub workflows locally
 

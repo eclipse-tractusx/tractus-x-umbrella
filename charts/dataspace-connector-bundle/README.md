@@ -18,7 +18,7 @@ helm repo add tractusx-dev https://eclipse-tractusx.github.io/charts/dev
 helm install my-release tractusx-dev/dataspace-connector-bundle
 ```
 
-For more information to "Bring Your Own" configuration, see the [hausanschluss user guide](/docs/user/guides/hausanschluss-bundles.md#bring-your-own-components).
+For more information to "Bring Your Own" configuration, see the [hausanschluss user guide](/docs/user/common/guides/hausanschluss-bundles.md#bring-your-own-components).
 
 ## Source Code
 
@@ -29,7 +29,7 @@ For more information to "Bring Your Own" configuration, see the [hausanschluss u
 | Repository | Name | Version |
 |------------|------|---------|
 | https://charts.bitnami.com/bitnami | postgresql | 15.2.1 |
-| https://eclipse-tractusx.github.io/charts/dev | tractusx-connector | 0.10.0 |
+| https://eclipse-tractusx.github.io/charts/dev | tractusx-connector | 0.11.2 |
 | https://helm.releases.hashicorp.com | vault | 0.27.0 |
 
 ## Values

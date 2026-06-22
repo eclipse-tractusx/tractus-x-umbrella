@@ -24,7 +24,7 @@ You can upgrade a component to a new version by following these steps:
 4. Update the dependency version of `tx-data-provider` and the version attribute in the `Chart.yaml` of the umbrella chart.
 5. If the bundle is used as a dependency of the umbrella chart (e.g., `identity-and-trust-bundle`), update the dependency version of the bundle and the version attribute in the `Chart.yaml` of the umbrella chart.
 
-See the [umbrella chart structure](/docs/user/installation/README.md#available-components) to understand how the "Hausanschluss" Bundles, `tx-data-provider` and other charts depend on each other.
+See the [umbrella chart structure](/docs/user/linux/installation/README.md#available-components) to understand how the "Hausanschluss" Bundles, `tx-data-provider` and other charts depend on each other.
 
 ## Rollback Procedure
 
@@ -34,7 +34,7 @@ If issues are encountered after an upgrade:
 2. Update dependencies with `helm dependency update`
 3. Redeploy using the previous version
 
-# NOTICE
+## NOTICE
 
 This work is licensed under the [CC-BY-4.0](https://creativecommons.org/licenses/by/4.0/legalcode).
 

@@ -59,6 +59,7 @@ portal:
   decentralIdentityManagementAuthAddress: "http://ssi-dim-wallet-stub.tx.test/api/sts"
   sdfactoryAddress: "http://sdfactory.tx.test"
   # -- no configuration for clearinghouse because it's an external component
+  clearinghouseConnectDisabled: true
   clearinghouse:
     default:
       baseAddress: "http://validation.tx.test"
@@ -66,6 +67,7 @@ portal:
       clientId: "clearinghouse-client-id-default"
       clientSecret: ""
       tokenAddress: "http://someiam.tx.test/realms/example/protocol/openid-connect/token"
+      clearinghouseConnectDisabled: true
   issuerComponentAddress: "http://ssi-credential-issuer.tx.test"
   frontend:
     ingress:
@@ -148,7 +150,6 @@ portal:
         default: "Debug"
       swaggerEnabled: true
     processesworker:
-      clearinghouseConnectDisabled: true
       logging:
         default: "Debug"
         processesLibrary: "Debug"
@@ -892,11 +893,6 @@ bpdm:
     # We use the default name for BPDM postgres
     fullnameOverride: &bpdmPostgresName "bpdm-postgres"
     nameOverride:
-    ## TEMPORALY UNTIL NEW BPDM UPDATE
-    image:
-      repository: bitnamilegacy/postgresql
-      tag: 15-debian-11
-    ## UNTIL HERE
     auth:
       # BPDM can't handle random initial passwords at the moment
       # so need to set a fixed one here and use it in the app configs later
@@ -1276,7 +1272,22 @@ tx-data-provider:
         host: dataprovider-dtr.tx.test
         dataSource:
           url: "jdbc:postgresql://dataprovider-digital-twin-db:5432/dtr"
-
+        # FIX PROBLEMS WITH INGRESS AND PATH HANDLING
+        ingress:
+          # disable urlPrefix behaviour (that appends a regex to the path)
+          urlPrefix: ""
+          # provide explicit rules so we can set pathType to ImplementationSpecific
+          rules:
+            - host: dataprovider-dtr.tx.test
+              http:
+                paths:
+                  - path: "/semantics/registry(/|$)(.*)"
+                    pathType: ImplementationSpecific
+          className: "nginx"
+          annotations:
+            cert-manager.io/cluster-issuer: "my-ca-issuer"
+            nginx.ingress.kubernetes.io/rewrite-target: "/$2"
+            nginx.ingress.kubernetes.io/use-regex: "true"
     postgresql:
       fullnameOverride: "dataprovider-digital-twin-db"
 
@@ -1527,35 +1538,32 @@ identity-and-trust-bundle:
       postgresql:
         username: "postgres"
         password: "postgrespassword"
-    service:
-      type: ClusterIP
-      port: 8080
-    resources:
-      requests:
-        # -- CPU resource requests
-        cpu: 500m
-        # -- Memory resource requests
-        memory: 1Gi
-      limits:
-        # -- CPU resource limits
-        cpu: 1
-        # -- Memory resource limits
-        memory: 2Gi
+      service:
+        type: ClusterIP
+        port: 8080
+      resources:
+        requests:
+          # -- CPU resource requests
+          cpu: 500m
+          # -- Memory resource requests
+          memory: 1Gi
+        limits:
+          # -- CPU resource limits
+          cpu: 1
+          # -- Memory resource limits
+          memory: 2Gi
   postgresql:
     fullnameOverride: wallet-postgres
     enabled: true
-    image:
-      tag: "15-debian-11"
     configmap:
       name: wallet-postgres-configmap
     auth:
       username: postgres
       password: postgrespassword
-    primary:
-      persistence:
-        enabled: false
-        size: 10Gi
-        storageClass: standard
+    persistence:
+      enabled: false
+      size: 10Gi
+      storageClass: standard
 
 smtp4dev:
   enabled: false

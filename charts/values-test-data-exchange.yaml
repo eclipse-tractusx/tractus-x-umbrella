@@ -31,7 +31,6 @@ identity-and-trust-bundle:
       trustedIssuers:
         - did:web:ssi-dim-wallet-service:BPNL00000003CRHK
 
-
 dataconsumerOne:
   enabled: true
   dataspace-connector-bundle:

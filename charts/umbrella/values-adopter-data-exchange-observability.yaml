@@ -443,6 +443,20 @@ grafana:
           url: http://umbrella-prometheus-server.umbrella:9090/
           access: proxy
           isDefault: false
+  dashboardProviders:
+    dashboardproviders.yaml:
+      apiVersion: 1
+      providers:
+        - name: 'default'
+          orgId: 1
+          folder: ''
+          type: file
+          disableDeletion: false
+          editable: true
+          options:
+            path: /var/lib/grafana/dashboards/default
+  dashboardsConfigMaps:
+    default: "grafana-dashboards"
   persistence:
     type: pvc
     enabled: true

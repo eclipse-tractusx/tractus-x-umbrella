@@ -55,7 +55,7 @@ tractusx-connector:
           secret_alias: client-secret
 
   participant:
-    # -- Business Partner Number (BPN) of the connector
+    # -- Business Partner Number (BPN) of the connector (required in 0.11.0+ via tractusx.edc.participant.bpn)
     # @section -- Decentralized Claims Protocol (DCP, formerly IATP) Settings (Bring Your Own)
     id: BPNL00000003AZQP
 

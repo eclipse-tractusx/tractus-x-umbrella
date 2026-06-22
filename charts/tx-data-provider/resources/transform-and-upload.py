@@ -36,21 +36,28 @@ def create_submodel_payload(json_payload):
 
 
 def create_edc_asset_payload(submodel_url_, asset_id_):
+    # Formato exacto de Bruno 03-Create The Asset.bru
     return json.dumps({
-        "@context": edc_context(),
-        "@id": f"{asset_id_}",
-        "edc:properties": {
-            "edc:description": "Umbrella EDC Test Asset",
-            "edc:id": f"{asset_id_}",
+        "@context": {
+            "@vocab": "https://w3id.org/edc/v0.0.1/ns/",
+            "edc": "https://w3id.org/edc/v0.0.1/ns/",
+            "tx": "https://w3id.org/tractusx/v0.0.1/ns/",
+            "tx-auth": "https://w3id.org/tractusx/auth/",
+            "cx-policy": "https://w3id.org/catenax/policy/",
+            "odrl": "http://www.w3.org/ns/odrl/2/"
         },
-        "edc:dataAddress": {
-            "@type": "edc:DataAddress",
-            "edc:type": "HttpData",
-            "edc:baseUrl": f"{submodel_url_}",
-            "edc:proxyPath": "true",
-            "edc:proxyBody": "false",
-            "edc:proxyMethod": "false",
-            "edc:proxyQueryParams": "false"
+        "@id": f"{asset_id_}",
+        "properties": {
+            "description": "Product EDC Demo Asset"
+        },
+        "dataAddress": {
+            "@type": "DataAddress",
+            "type": "HttpData",
+            "proxyPath": "true",
+            "proxyMethod": "true",
+            "proxyQueryParams": "true",
+            "proxyBody": "true",
+            "baseUrl": f"{submodel_url_}"
         }
     })
 
@@ -93,20 +100,24 @@ def edc_context():
     }
 
 
-def create_edc_contract_definition_payload(edc_policy_id_, asset_prop_id_):
+def create_edc_contract_definition_payload(access_policy_id_, contract_policy_id_, asset_prop_id_):
+    # Formato exacto de Bruno 07-Create The Contract Definition.bru
     return json.dumps({
-        "@context": edc_context(),
+        "@context": {
+            "edc": "https://w3id.org/edc/v0.0.1/ns/"
+        },
         "@type": "ContractDefinition",
-        "accessPolicyId": f"{edc_policy_id_}",
-        "contractPolicyId": f"{edc_policy_id_}",
-        "assetsSelector": {
-            "@type": "CriterionDto",
-            "operandLeft": "https://w3id.org/edc/v0.0.1/ns/id",
-            "operator": "=",
-            "operandRight": f"{asset_prop_id_}"
-        }
-    }
-    )
+        "accessPolicyId": f"{access_policy_id_}",
+        "contractPolicyId": f"{contract_policy_id_}",
+        "assetsSelector": [
+            {
+                "@type": "CriterionDto",
+                "operandLeft": "https://w3id.org/edc/v0.0.1/ns/id",
+                "operator": "=",
+                "operandRight": f"{asset_prop_id_}"
+            }
+        ]
+    })
 
 
 def create_aas_shell_3_0(global_asset_id_, id_short_, identification_, specific_asset_id_, submodel_descriptors_):
@@ -224,7 +235,7 @@ def create_policy(policy_, edc_upload_url_, edc_policy_path_, headers_, session_
 
 
 def create_registry_asset(edc_upload_urls_, edc_bpns_, edc_asset_path_, edc_contract_definition_path_, catalog_path_, header_,
-                          session_, edc_urls_, policy_, registry_asset_id_, aas_url_):
+                          session_, edc_urls_, access_policy_, usage_policy_, registry_asset_id_, aas_url_):
     for edc_upload_url_ in edc_upload_urls_:
         index = edc_upload_urls_.index(edc_upload_url_)
         edc_url_ = edc_urls_[index]
@@ -235,16 +246,17 @@ def create_registry_asset(edc_upload_urls_, edc_bpns_, edc_asset_path_, edc_cont
         catalog_url_ = edc_upload_url_ + catalog_path_
         payload_ = {
             "@context": edc_context(),
-            "edc:protocol": "dataspace-protocol-http",
-            "edc:counterPartyAddress": f"{edc_url_}/api/v1/dsp",
+            "@type": "CatalogRequest",
+            "edc:protocol": "dataspace-protocol-http:2025-1",
+            "edc:counterPartyAddress": f"{edc_url_}/api/v1/dsp/2025-1",
             "edc:counterPartyId": f"{edc_bpn_}",
             "edc:querySpec": {
-                "edc:filterExpression": {
+                "edc:filterExpression": [{
                     "@type": "edc:Criterion",
                     "edc:operandLeft": "https://w3id.org/edc/v0.0.1/ns/type",
                     "edc:operator": "=",
                     "edc:operandRight": "data.core.digitalTwinRegistry"
-                }
+                }]
             }
         }
         print(f"Query Catalog for registry asset {catalog_url_}")
@@ -253,8 +265,8 @@ def create_registry_asset(edc_upload_urls_, edc_bpns_, edc_asset_path_, edc_cont
         asset_url_ = edc_upload_url_ + edc_asset_path_
         print(response_.status_code)
         catalog_response_ = response_.json()
-        if response_.status_code == 200 and len(catalog_response_['dcat:dataset']) >= 1:
-            first_offer_ = catalog_response_['dcat:dataset']
+        if response_.status_code == 200 and 'dataset' in catalog_response_ and len(catalog_response_['dataset']) >= 1:
+            first_offer_ = catalog_response_['dataset']
             print(
                 f"Offer with type {first_offer_['type']} already exists. Skipping creation.")
         else:
@@ -269,7 +281,7 @@ def create_registry_asset(edc_upload_urls_, edc_bpns_, edc_asset_path_, edc_cont
                 print(f"Successfully created registry asset {response_.json()['@id']}.")
 
             print("Create registry edc contract definition")
-            payload_ = create_edc_contract_definition_payload(policy_, registry_asset_id_)
+            payload_ = create_edc_contract_definition_payload(access_policy_, usage_policy_, registry_asset_id_)
             response_ = session_.request(method="POST", url=edc_upload_url_ + edc_contract_definition_path_,
                                          headers=header_,
                                          data=payload_)
@@ -292,7 +304,8 @@ def search_for_asset_in_catalog(edc_catalog_path_, edc_upload_url_, edc_url_, he
         }
     }
     print(f"Query Catalog for notification assets {catalog_url_}")
-    return session_.request(method="POST", url=catalog_url_, headers=headers_, data=json.dumps(payload_))
+    response_ = session_.request(method="POST", url=catalog_url_, headers=headers_, data=json.dumps(payload_))
+    return response_
 
 
 if __name__ == "__main__":
@@ -348,7 +361,12 @@ if __name__ == "__main__":
         edc_upload_urls = edc_urls
 
     if default_policy is None:
-        default_policy = "default-policy"
+        default_access_policy_id = "default-access-policy"
+        default_usage_policy_id = "default-usage-policy"
+    else:
+        # Si se especifica una policy base, buscar las correspondientes -access y -usage
+        default_access_policy_id = f"{default_policy}-access"
+        default_usage_policy_id = f"{default_policy}-usage"
 
     if aas_upload_url is None:
         aas_upload_url = aas_url
@@ -379,15 +397,91 @@ if __name__ == "__main__":
         'Content-Type': 'application/json'
     }
 
-    default_policy_definition = {
-        "default": {
-            "@context": {
-                "odrl": "http://www.w3.org/ns/odrl/2/"
-            },
-            "@id": "default-policy",
+    # Formato exacto de Bruno 05-Create The Policy.bru (Access Policy)
+    default_access_policy_definition = {
+        "default-access-policy": {
+            "@context": [
+                "https://w3id.org/dspace/2025/1/odrl-profile.jsonld",
+                "https://w3id.org/catenax/2025/9/policy/context.jsonld",
+                {
+                    "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
+                }
+            ],
+            "@id": "default-access-policy",
+            "@type": "PolicyDefinition",
             "policy": {
-                "@type": "odrl:Set",
-                "odrl:permission": []
+                "@type": "Set",
+                "permission": [
+                    {
+                        "action": "access",
+                        "constraint": [
+                            {
+                                "and": [
+                                    {
+                                        "leftOperand": "Membership",
+                                        "operator": "eq",
+                                        "rightOperand": "active"
+                                    },
+                                    {
+                                        "leftOperand": "FrameworkAgreement",
+                                        "operator": "eq",
+                                        "rightOperand": "DataExchangeGovernance:1.0"
+                                    },
+                                    {
+                                        "leftOperand": "BusinessPartnerNumber",
+                                        "operator": "isAnyOf",
+                                        "rightOperand": ["BPNL00000003AZQP"]
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        }
+    }
+
+    # Formato exacto de Bruno 05_2-Create The Policy.bru (Usage Policy)
+    default_usage_policy_definition = {
+        "default-usage-policy": {
+            "@context": [
+                "https://w3id.org/dspace/2025/1/odrl-profile.jsonld",
+                "https://w3id.org/catenax/2025/9/policy/context.jsonld",
+                {
+                    "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
+                },
+                {}
+            ],
+            "@type": "PolicyDefinition",
+            "@id": "default-usage-policy",
+            "policy": {
+                "@type": "Set",
+                "permission": [
+                    {
+                        "action": "use",
+                        "constraint": {
+                            "and": [
+                                {
+                                    "leftOperand": "Membership",
+                                    "operator": "eq",
+                                    "rightOperand": "active"
+                                },
+                                {
+                                    "leftOperand": "FrameworkAgreement",
+                                    "operator": "eq",
+                                    "rightOperand": "DataExchangeGovernance:1.0"
+                                },
+                                {
+                                    "leftOperand": "UsagePurpose",
+                                    "operator": "isAnyOf",
+                                    "rightOperand": ["cx.core.industrycore:1"]
+                                }
+                            ]
+                        }
+                    }
+                ],
+                "prohibition": [],
+                "obligation": []
             }
         }
     }
@@ -397,7 +491,9 @@ if __name__ == "__main__":
     data = json.load(f)
     f.close()
     testdata = data["https://catenax.io/schema/TestDataContainer/1.0.0"]
-    policies = default_policy_definition
+    policies = {}
+    policies.update(default_access_policy_definition)
+    policies.update(default_usage_policy_definition)
     if "policies" in data.keys():
         policies.update(data["policies"])
 
@@ -415,7 +511,7 @@ if __name__ == "__main__":
                 create_policy(policies[policy], url, edc_policy_path, headers_with_api_key, session)
 
     create_registry_asset(edc_upload_urls, edc_bpns, edc_asset_path, edc_contract_definition_path, edc_catalog_path,
-                          headers_with_api_key, session, edc_urls, default_policy, registry_asset_id, aas_url)
+                          headers_with_api_key, session, edc_urls, "default-access-policy", "default-usage-policy", registry_asset_id, aas_url)
 
     edc_asset_ids = []
     for url in dataplane_urls:
@@ -477,10 +573,18 @@ if __name__ == "__main__":
                     "externalSubjectId": externalSubjectId
                 })
 
-            policy_id = default_policy
-            if "policy" in tmp_keys:
-                policy_id = tmp_data["policy"]
-            print(f"Policy: {policy_id}")
+            access_policy_id = default_access_policy_id
+            usage_policy_id = default_usage_policy_id
+            if "accessPolicy" in tmp_keys and "usagePolicy" in tmp_keys:
+                # Si se especifican ambas policies explícitamente
+                access_policy_id = tmp_data["accessPolicy"]
+                usage_policy_id = tmp_data["usagePolicy"]
+            elif "policy" in tmp_keys:
+                # Compatibilidad hacia atrás: usar convención de nombres -access y -usage
+                base_policy = tmp_data["policy"]
+                access_policy_id = f"{base_policy}-access"
+                usage_policy_id = f"{base_policy}-usage"
+            print(f"Access Policy: {access_policy_id}, Usage Policy: {usage_policy_id}")
 
             for tmp_key in tmp_keys:
                 if "PlainObject" not in tmp_key and "catenaXId" not in tmp_key and "bpn" not in tmp_key \
@@ -523,7 +627,7 @@ if __name__ == "__main__":
                         print("Asset creation failed. Skipping creation of contract definition.")
                     else:
                         print("Create edc contract definition")
-                        payload = create_edc_contract_definition_payload(policy_id, edc_asset_id)
+                        payload = create_edc_contract_definition_payload(access_policy_id, usage_policy_id, edc_asset_id)
                         response = session.request(method="POST", url=edc_upload_url + edc_contract_definition_path,
                                                    headers=headers_with_api_key,
                                                    data=payload)
