@@ -73,7 +73,7 @@ portal:
   frontend:
     ingress:
       enabled: true
-      className : "nginx"
+      className: "nginx"
       annotations:
         # uncomment the following line for tls
         # cert-manager.io/cluster-issuer: "my-ca-issuer"
@@ -332,7 +332,7 @@ portal:
     ingress:
       enabled: true
       name: "portal-backend"
-      className : "nginx"
+      className: "nginx"
       annotations:
         # uncomment the following line for tls
         # cert-manager.io/cluster-issuer: "my-ca-issuer"
