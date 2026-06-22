@@ -1,5 +1,6 @@
 # #############################################################################
 # Copyright (c) 2022,2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
+# Copyright (c) 2026 ARENA2036 e.V.
 # Copyright (c) 2021,2024 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
@@ -23,13 +24,13 @@ name: tx-data-provider
 description: A Helm chart for Kubernetes
 
 type: application
-version: 0.4.6
+version:  0.4.7
 appVersion: 0.0.1
 
 dependencies:
   - name: digital-twin-bundle
     repository: file://../digital-twin-bundle
-    version: 1.2.0
+    version: 1.3.0
     condition: digital-twin-bundle.enabled
   - name: data-persistence-layer-bundle
     repository: file://../data-persistence-layer-bundle
@@ -37,5 +38,5 @@ dependencies:
     condition: data-persistence-layer-bundle.enabled
   - name: dataspace-connector-bundle
     repository: file://../dataspace-connector-bundle
-    version: 1.2.2
+    version: 1.3.0
     condition: dataspace-connector-bundle.enabled
