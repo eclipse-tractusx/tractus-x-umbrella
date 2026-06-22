@@ -1,4 +1,4 @@
-[![OverarchingRelease](https://img.shields.io/badge/Release_25.09-blue)](https://github.com/eclipse-tractusx/tractus-x-release/blob/25.09/CHANGELOG.md#2509---2025-10-01)
+[![OverarchingRelease](https://img.shields.io/badge/Release_25.12-blue)](https://github.com/eclipse-tractusx/tractus-x-release/blob/25.12/CHANGELOG.md#2512---2025-12-031)
 
 # Eclipse Tractus-X Umbrella
 
@@ -18,7 +18,7 @@ Have a look in the [docs](/docs) section for user manuals and guides.
 
 ## Release Compatibility
 
-The versions of the [integrated components](/docs/user/linux/installation/README.md#available-components) correspond to the overarching **[Release 25.09](https://github.com/eclipse-tractusx/tractus-x-release/blob/25.09/CHANGELOG.md#2509---2025-10-01)**
+The versions of the [integrated components](/docs/user/linux/installation/README.md#available-components) correspond to the overarching **[Release 25.12](https://github.com/eclipse-tractusx/tractus-x-release/blob/25.12/CHANGELOG.md#2512---2025-12-03)**
 
 ## Purpose
 
@@ -32,7 +32,7 @@ The Umbrella Chart is intended for:
 
 - Ensure your cluster meets the updated system requirements:
   - Kubernetes version `>1.24.x`
-  - Helm version `3.8+`
+  - Helm version `3.12+`
 
 For detailed setup instructions, refer to the [Setup Guide](/docs/README.md#setup-network--installation).
 

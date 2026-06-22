@@ -231,7 +231,7 @@ jobs:
 
     - name: Install chart for centralidp Keycloak (umbrella)
       run: |
-        if ! helm install centralidp charts/umbrella --namespace umbrella --create-namespace --debug --timeout 10m \
+        if ! helm install centralidp charts/umbrella --namespace umbrella --create-namespace --debug --timeout 20m \
           -f charts/values-test-iam-init-container-1.yaml --wait --wait-for-jobs; then
           
           echo "--- Helm installation for 'centralidp' failed. Executing diagnosis. ---"

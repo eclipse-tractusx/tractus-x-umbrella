@@ -74,7 +74,13 @@ curl -L -X POST 'http://dataconsumer-1-controlplane.tx.test/management/v3/catalo
       "limit": 50,
       "sortOrder": "DESC",
       "sortField": "fieldName",
-      "filterExpression": []
+      "filterExpression": [
+        {
+          "operandLeft": "https://w3id.org/edc/v0.0.1/ns/id",
+          "operator": "=",
+          "operandRight": "{{ASSET_ID}}"
+        }
+      ]
     }
   }' | jq
 ```
@@ -130,7 +136,7 @@ curl -L -X POST 'http://dataconsumer-1-controlplane.tx.test/management/v3/edrs' 
       }
     ],
     "@type": "ContractRequest",
-    "counterPartyAddress": "http://dataprovider-controlplane.tx.test/api/v1/dsp",
+    "counterPartyAddress": "http://dataprovider-controlplane.tx.test/api/v1/dsp/2025-1",
     "protocol": "dataspace-protocol-http:2025-1",
     "policy": {
       "@id": "{{OFFER_ID}}",

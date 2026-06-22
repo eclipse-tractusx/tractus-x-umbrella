@@ -386,7 +386,7 @@ curl -L -X POST 'http://dataprovider-controlplane.tx.test/management/v3/policyde
   -H 'X-Api-Key: TEST2' \
   --data-raw '{
       "@context": [
-        "https://w3id.org/catenax/2025/9/policy/odrl.jsonld",
+        "https://w3id.org/dspace/2025/1/odrl-profile.jsonld",
         "https://w3id.org/catenax/2025/9/policy/context.jsonld",
           {
               "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
@@ -434,7 +434,7 @@ curl -L -X POST 'http://dataprovider-controlplane.tx.test/management/v3/policyde
   -H 'X-Api-Key: TEST2' \
   --data-raw '{
     "@context": [
-      "https://w3id.org/catenax/2025/9/policy/odrl.jsonld",
+      "https://w3id.org/dspace/2025/1/odrl-profile.jsonld",
       "https://w3id.org/catenax/2025/9/policy/context.jsonld",
       {
         "@vocab": "https://w3id.org/edc/v0.0.1/ns/"

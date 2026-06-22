@@ -19,6 +19,15 @@
 
 centralidp:
   enabled: true
+  keycloak:
+    # -- increase memory limit to prevent OOMKill during Keycloak 25 (Quarkus) startup on constrained CI runners
+    resources:
+      requests:
+        cpu: 500m
+        memory: 1500M
+      limits:
+        cpu: 1500m
+        memory: 2Gi
   realmSeeding:
     initContainer:
       image:

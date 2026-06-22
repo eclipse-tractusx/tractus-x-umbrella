@@ -401,7 +401,7 @@ if __name__ == "__main__":
     default_access_policy_definition = {
         "default-access-policy": {
             "@context": [
-                "https://w3id.org/catenax/2025/9/policy/odrl.jsonld",
+                "https://w3id.org/dspace/2025/1/odrl-profile.jsonld",
                 "https://w3id.org/catenax/2025/9/policy/context.jsonld",
                 {
                     "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
@@ -445,7 +445,7 @@ if __name__ == "__main__":
     default_usage_policy_definition = {
         "default-usage-policy": {
             "@context": [
-                "https://w3id.org/catenax/2025/9/policy/odrl.jsonld",
+                "https://w3id.org/dspace/2025/1/odrl-profile.jsonld",
                 "https://w3id.org/catenax/2025/9/policy/context.jsonld",
                 {
                     "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
