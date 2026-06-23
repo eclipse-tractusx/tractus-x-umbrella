@@ -64,13 +64,13 @@ jobs:
       with: 
         version: v3.12.1
 
-    - uses: actions/setup-python@39cd14951b08e19b952c4e2093d20fe033f30592 # v5.3.0
+    - uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b # v5.3.0
       with:
         python-version: '3.10'
         check-latest: true
 
     - name: Set up chart-testing
-      uses: helm/chart-testing-action@e66ca09e6f332677840333333f28203c96603403 # v2.6.1
+      uses: helm/chart-testing-action@e6669bcd63d7cb57cb4380c33043eebe5d111992 # v2.6.1
 
     - name: Set target branch
       id: set-target-branch
@@ -142,7 +142,7 @@ jobs:
       with:
         version: ${{ github.event.inputs.helm_version || 'latest' }}
 
-    - uses: actions/setup-python@39cd14951b08e19b952c4e2093d20fe033f30592 # v5.3.0
+    - uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b # v5.3.0
       with:
         python-version: '3.10'
         check-latest: true
@@ -157,7 +157,7 @@ jobs:
         fi
 
     - name: Set up chart-testing
-      uses: helm/chart-testing-action@e66ca09e6f332677840333333f28203c96603403 # v2.6.1
+      uses: helm/chart-testing-action@e6669bcd63d7cb57cb4380c33043eebe5d111992 # v2.6.1
 
     - name: Lint chart
       run: ct lint --validate-maintainers=false --target-branch ${{ steps.set-target-branch.outputs.target-branch }}
