@@ -12,8 +12,9 @@ The following components are part of the Data Exchange with Decentralized Identi
 
 - **EDC Provider**: Eclipse Dataspace Connector acting as a data provider with integrated IdentityHub.
 - **EDC Consumer**: Eclipse Dataspace Connector acting as a data consumer with integrated IdentityHub.
+- **IssuerService**: Centralized credential issuance service for issuing verifiable credentials to participants.
 - **BDRS Server**: BPN/DID Resolution Service for mapping Business Partner Numbers to Decentralized Identifiers.
-- **PostgreSQL**: Database instances for both provider and consumer connectors and IdentityHubs.
+- **PostgreSQL**: Database instances for provider connector, consumer connector, IdentityHubs, and IssuerService.
 
 ## Accessing the Data Exchange
 
@@ -29,6 +30,10 @@ The following components are part of the Data Exchange with Decentralized Identi
   http://consumer.local
   http://consumer.intranet (management)
   ```
+- **IssuerService**:
+  ```
+  http://issuerservice.local
+  ```
 - **BDRS Server**:
   ```
   http://bdrs-server.tx.test
@@ -40,7 +45,7 @@ The following components are part of the Data Exchange with Decentralized Identi
 |-------------|-----|-----|
 | **Provider** | BPNL000000000001 | did:web:provider.local:identityhub:BPNL000000000001 |
 | **Consumer** | BPNL000000000002 | did:web:consumer.local:identityhub:BPNL000000000002 |
-| **Issuer Service** | BPNL000000000003 | did:web:issuerservice.issuance.local:BPNL000000000003 |
+| **IssuerService** | BPNL000000000003 | did:web:issuerservice.local:BPNL000000000003 |
 
 ## Testing the Data Exchange
 
@@ -53,10 +58,11 @@ Import the Bruno collection for the Umbrella Chart to test predefined APIs:
 
 ## Notes
 
-- Ensure all components are running and DNS resolution is correctly configured for `provider.local`, `provider.intranet`, `consumer.local`, `consumer.intranet`, and `bdrs-server.tx.test` domains.
+- Ensure all components are running and DNS resolution is correctly configured for `provider.local`, `provider.intranet`, `consumer.local`, `consumer.intranet`, `issuerservice.local`, and `bdrs-server.tx.test` domains.
 - This configuration uses decentralized identifiers (DIDs) and does not require a central CX-IAM/Keycloak instance.
 - Each participant has their own IdentityHub for managing credentials and issuing Self-Issued tokens.
 - The configuration uses `did:web` method for DID resolution.
+- **IssuerService Configuration**: The IssuerService issues verifiable credentials and manages attestation definitions. Custom attestation claims can be seeded into the PostgreSQL database during deployment via the `tractusx-issuerservice.attestationClaimSeeding` configuration in the values file.
 - **Important**: Each EDC instance with integrated IdentityHub must be deployed in a separate namespace to avoid resource conflicts and ensure proper isolation between participants. This limitation will be resolved after IdentityHub version 0.2.0.
 
 For further details, refer to the [Data Exchange Installation Guide](../setup/README.md#data-exchange-subset).

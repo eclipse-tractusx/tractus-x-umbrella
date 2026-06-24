@@ -4,69 +4,103 @@ This documentation guides you through the process of issuing and managing verifi
 
 > **Actors in this guide**
 > 
-> - **Issuer Service**: Trusted credential issuer, reachable via `http://issuerservice.issuance.local`
+> - **Issuer Service**: Trusted credential issuer, reachable via `http://issuerservice.local`
 > - **Alice**: Data consumer participant, DID: `did:web:consumer.local:identityhub:BPNL000000000002`
 > - **Bob**: Data provider participant, DID: `did:web:provider.local:identityhub:BPNL000000000001`
-> - **BDRS**: BPN/DID Resolution Service for mapping Business Partner Numbers to Decentralized Identifiers
+> - **Consumer IdentityHub**: IdentityHub instance used by Alice
+> - **Provider IdentityHub**: IdentityHub instance used by Bob
+
+### Consumer Issuance Sequence
 
 ```mermaid
 sequenceDiagram
-    participant Alice as Alice (Participant)
-    participant IH as Alice's IdentityHub
+    participant Admin as Issuer Admin
     participant Issuer as Issuer Service
-    participant BDRS as BDRS Server
+    participant Alice as Alice (Consumer)
+    participant CIH as Consumer IdentityHub
 
-    Alice->>Issuer: 1. Request Credential
-    Note over Alice,Issuer: Membership or other VC
-    Issuer-->>Issuer: Validate Request
-    Issuer->>IH: 2. Issue Credential
-    IH-->>IH: Store Credential
-    IH-->>Alice: Confirmation
-    
-    Alice->>BDRS: 3. Register DID Mapping
-    Note over Alice,BDRS: BPN to DID mapping
-    BDRS-->>Alice: Registration Complete
-    
-    Alice->>IH: 4. Request SI Token
-    Note over Alice,IH: For authentication
-    IH-->>IH: Generate Token with VCs
-    IH-->>Alice: Return SI Token
-    
-    Alice->>Bob: 5. Use SI Token
-    Note over Alice,Bob: Authenticate to Bob's EDC
+    Admin->>Issuer: 1. IssuerCreateParticipantContext
+    Issuer-->>Admin: Issuer API key + participant id
+    Admin->>Issuer: 2. CreateAttestation (database)
+    Admin->>Issuer: 3. AddMembershipCredentials
+    Admin->>Issuer: 4. AddBPNCredential
+    Admin->>Issuer: 5. AddUsagePurposeCredentials
+    Admin->>Issuer: 6. AddDataExchangeCredentials
+    Admin->>Issuer: 7. AddConsumerHolder (Alice DID)
+
+    Alice->>CIH: 8. IssuanceProccesConsumer (request credentials)
+    CIH->>Issuer: Resolve issuer endpoint and request issuance
+    Issuer-->>CIH: Issue VC set for Alice
+
+    Alice->>CIH: 9. IdHConsumerVC (read stored VCs)
+    CIH-->>Alice: Return consumer credentials
 ```
 
-This diagram shows the credential issuance and usage flow where:
-1. Alice requests a verifiable credential from a trusted issuer
-2. The issuer validates the request and issues the credential to Alice's IdentityHub
-3. Alice registers her DID in the BDRS for discovery by other participants
-4. Alice requests a Self-Issued (SI) token from her IdentityHub for authentication
-5. Alice uses the SI token to authenticate with Bob's connector
+### Provider Issuance Sequence
+
+```mermaid
+sequenceDiagram
+    participant Admin as Issuer Admin
+    participant Issuer as Issuer Service
+    participant Bob as Bob (Provider)
+    participant PIH as Provider IdentityHub
+
+    Admin->>Issuer: 1. IssuerCreateParticipantContext
+    Issuer-->>Admin: Issuer API key + participant id
+    Admin->>Issuer: 2. CreateAttestation (database)
+    Admin->>Issuer: 3. AddMembershipCredentials
+    Admin->>Issuer: 4. AddBPNCredential
+    Admin->>Issuer: 5. AddUsagePurposeCredentials
+    Admin->>Issuer: 6. AddDataExchangeCredentials
+    Admin->>Issuer: 7. AddProviderHolder (Bob DID)
+
+    Bob->>PIH: 8. IssuanceProccesProvider (request credentials)
+    PIH->>Issuer: Resolve issuer endpoint and request issuance
+    Issuer-->>PIH: Issue VC set for Bob
+
+    Bob->>PIH: 9. IdHProviderVC (read stored VCs)
+    PIH-->>Bob: Return provider credentials
+```
+
+These diagrams show the same Bruno **Issuance** setup split by participant path:
+1. Issuer bootstrap and credential definitions are created
+2. The participant-specific holder is registered
+3. The participant requests credential issuance via IdentityHub
+4. Issued credentials are retrieved from IdentityHub for verification
 
 ## Credential Issuance Workflow
 
-### 1. Request Verifiable Credential
+### 1. Bootstrap Issuer Participant Context
 
-A participant requests a verifiable credential from a trusted issuer service. The credential proves membership in the dataspace or specific claims about the participant.
+Create the issuer participant context (`IssuerCreateParticipantContext`) and capture the returned API key and participant id for subsequent admin requests.
 
-### 2. Store Credential in IdentityHub
+### 2. Configure Attestation and Credential Definitions
 
-Once issued, the credential is stored in the participant's IdentityHub for future use in authentication and authorization.
+Create one attestation (`CreateAttestation`) and register credential definitions:
+- `AddMembershipCredentials`
+- `AddBPNCredential`
+- `AddUsagePurposeCredentials`
+- `AddDataExchangeCredentials`
 
-### 3. Register DID in BDRS
+### 3. Register Credential Holders
 
-The participant registers their Business Partner Number (BPN) to Decentralized Identifier (DID) mapping in the BDRS so other participants can discover them.
+Register both holder identities at the issuer:
+- `AddConsumerHolder` (Alice)
+- `AddProviderHolder` (Bob)
 
-### 4. Request Self-Issued Token
+### 4. Trigger Issuance from IdentityHub
 
-When authenticating with another connector, the participant requests a Self-Issued (SI) token from their IdentityHub. This token includes verifiable presentations of the stored credentials.
+Request credential issuance for each participant:
+- `IssuanceProccesConsumer`
+- `IssuanceProccesProvider`
 
-### 5. Use Token for Authentication
+Each request asks for the configured VC types (Membership, UsagePurpose, DataExchangeGovernance, BpnCredential).
 
-The SI token is used to authenticate when:
-- Querying another participant's catalog
-- Negotiating contracts
-- Initiating data transfers
+### 5. Validate Issued Credentials in IdentityHub
+
+Read back stored credentials from each IdentityHub:
+- `IdHConsumerVC`
+- `IdHProviderVC`
 
 ## Testing Credential Issuance
 
@@ -91,9 +125,7 @@ The Bruno collection includes pre-configured requests in the **Issuance** folder
 ## Notes
 
 - Credentials must be issued by trusted issuers configured in the `trustedIssuers` list
-- Self-Issued tokens have a default lifetime of 300 seconds (5 minutes)
 - Revoked credentials will fail verification and cannot be used
-- Each participant must register their DID in BDRS for discovery
 - The `did:web` method resolves DIDs via HTTP/HTTPS based on the domain in the DID
 
 ## NOTICE
