@@ -31,11 +31,11 @@ bdrs-server-memory:
       - bpn: "BPNL000000000002"
         did: "did:web:consumer.local:identityhub:BPNL000000000002"
       - bpn: "BPNL000000000003"
-        did: "did:web:issuerservice.issuance.local:BPNL000000000003"
+        did: "did:web:issuerservice.local:BPNL000000000003"
 
   server:
     trustedIssuers:
-      - did:web:issuerservice.issuance.local:BPNL000000000003
+      - did:web:issuerservice.local:BPNL000000000003
     env:
       EDC_IAM_DID_WEB_USE_HTTPS: false
       EDC_IAM_CREDENTIAL_REVOCATION_MIMETYPE: application/json
@@ -68,7 +68,7 @@ edc-provider:
     publickeyAlias: &providerPublickeyAlias "tokenSignerPublicKey"
     xApiKey: &providerXApiKey "ZGlkOndlYjpwcm92aWRlci5sb2NhbDppZGVudGl0eWh1YjpCUE5MMDAwMDAwMDAwMDAx.randomChars"
     trustedIssuers: &providerTrustedIssuers
-      - did:web:issuerservice.issuance.local:BPNL000000000003
+      - did:web:issuerservice.local:BPNL000000000003
 
     ingress:
       publicEnabled: &providerPublicIngressEnabled true
@@ -222,7 +222,7 @@ edc-consumer:
     publickeyAlias: &consumerPublickeyAlias "tokenSignerPublicKey"
     xApiKey: &consumerXApiKey "ZGlkOndlYjpjb25zdW1lci5sb2NhbDppZGVudGl0eWh1YjpCUE5MMDAwMDAwMDAwMDAy.randomChars"
     trustedIssuers: &consumerTrustedIssuers
-      - did:web:issuerservice.issuance.local:BPNL000000000003
+      - did:web:issuerservice.local:BPNL000000000003
 
     ingress:
       publicEnabled: &consumerPublicIngressEnabled true
@@ -363,3 +363,97 @@ edc-consumer:
           tls: *consumerIngressTls
           endpoints:
             - identity
+
+tractusx-issuerservice:
+  enabled: true
+  nameOverride: issuerservice
+  install:
+    postgresql: true
+    vault: true
+  issuerservice:
+    didWeb:
+      https: false
+    jtiValidation: false
+    ingresses:
+      - enabled: true
+        hostname: issuerservice.local
+        tls:
+          enabled: false
+        endpoints:
+          - did
+          - issuance
+          - sts
+          - statuslist
+          - issueradmin
+          - identity
+  postgresql:
+    nameOverride: "issuerservice-postgresql"
+    jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-issuerservice-postgresql:5432/issuer"
+    persistence:
+      enabled: false
+    auth:
+      username: user
+      password: password
+      database: issuer
+  vault:
+    nameOverride: "issuerservice-vault"
+    hashicorp:
+      url: "http://{{ .Release.Name }}-issuerservice-vault:8200"
+  statuslist:
+    signing_key:
+      alias: alias
+    callback:
+      address: http://issuerservice.local/statuslist
+  attestationClaimSeeding:
+    enabled: true
+    kubectlImage: "bitnamilegacy/kubectl:1.32.2"
+    waitForPodTimeout: "300s"
+    backoffLimit: 3
+    sql: |
+      INSERT INTO custom_attestation_claims (
+          holder_id,
+          holder_identifier,
+          member_of,
+          bpn,
+          group_name,
+          use_case,
+          contract_template,
+          contract_version,
+          created_date,
+          last_modified_date
+      ) VALUES (
+          'did:web:provider.local:identityhub:BPNL000000000001',
+          'did:web:provider.local:identityhub:BPNL000000000001',
+          'Catena-X',
+          'BPNL000000000001',
+          'UseCaseFramework',
+          'DataExchangeGovernance',
+          'https://example.org/temp-1',
+          '1.0',
+          EXTRACT(EPOCH FROM NOW())::BIGINT * 1000,
+          EXTRACT(EPOCH FROM NOW())::BIGINT * 1000
+      );
+
+      INSERT INTO custom_attestation_claims (
+          holder_id,
+          holder_identifier,
+          member_of,
+          bpn,
+          group_name,
+          use_case,
+          contract_template,
+          contract_version,
+          created_date,
+          last_modified_date
+      ) VALUES (
+          'did:web:consumer.local:identityhub:BPNL000000000002',
+          'did:web:consumer.local:identityhub:BPNL000000000002',
+          'Catena-X',
+          'BPNL000000000002',
+          'UseCaseFramework',
+          'DataExchangeGovernance',
+          'https://example.org/temp-1',
+          '1.0',
+          EXTRACT(EPOCH FROM NOW())::BIGINT * 1000,
+          EXTRACT(EPOCH FROM NOW())::BIGINT * 1000
+      );

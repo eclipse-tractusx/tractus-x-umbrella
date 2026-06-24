@@ -155,3 +155,7 @@ dependencies:
     repository: file://../decentralized-identity-connector
     version: 0.1.0
     condition: edc-consumer.enabled
+  - name: tractusx-issuerservice
+    repository: https://eclipse-tractusx.github.io/charts/dev
+    version: v0.3.2
+    condition: tractusx-issuerservice.enabled

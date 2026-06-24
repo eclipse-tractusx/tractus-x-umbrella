@@ -1,4 +1,5 @@
 # #############################################################################
+# Copyright (c) 2026 LKS Next
 # Copyright (c) 2023,2024 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
@@ -1594,3 +1595,20 @@ edc-provider:
   enabled: false
 edc-consumer:
   enabled: false
+
+tractusx-issuerservice:
+  enabled: false
+  attestationClaimSeeding:
+    enabled: false
+    kubectlImage: "bitnamilegacy/kubectl:1.32.2"
+    waitForPodTimeout: "300s"
+    backoffLimit: 1
+    sql: |
+      -- Add idempotent SQL statements to seed custom_attestation_claims.
+      -- Example:
+      -- INSERT INTO custom_attestation_claims (holder_id, holder_identifier, member_of)
+      -- VALUES ('did:web:holder.local:identityhub:BPNL000000000001', 'BPNL000000000001', 'Catena-X')
+      -- ON CONFLICT (holder_id)
+      -- DO UPDATE SET
+      --   holder_identifier = EXCLUDED.holder_identifier,
+      --   member_of = EXCLUDED.member_of;
