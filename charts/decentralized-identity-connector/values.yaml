@@ -24,7 +24,7 @@ install:
 shared-configuration:
   did: &participantDid "did:web:edc.local:BPN1234567890"
   bpn: &participantBpn "BPN1234567890"
-  bdrsUrl:  &bdrsUrl "bdrs url"
+  bdrsUrl: &bdrsUrl "bdrs url"
   tokenUrl: &tokenUrl "http://token-url"
   secret-alias: &secretAlias "sts-secret"
   secret-value: &secretValue "changeme"
@@ -368,7 +368,7 @@ tractusx-identityhub:
             # -- API key for authentication
             x_api_key: *xApiKey
     didweb:
-      # -- Use HTTPS for DID resolution 
+      # -- Use HTTPS for DID resolution
       https: false
     # -- Ingress configuration for IdentityHub
     # @default -- See values.yaml

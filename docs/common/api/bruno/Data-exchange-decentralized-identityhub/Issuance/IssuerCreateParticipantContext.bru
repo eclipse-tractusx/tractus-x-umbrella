@@ -19,13 +19,13 @@ auth:apikey {
 body:json {
   {
     "active": true,
-    "did": "did:web:issuerservice.issuance.local:BPNL000000000003",
+    "did": "did:web:issuerservice.local:BPNL000000000003",
     "key": {
       "keyGeneratorParams": {
         "algorithm": "Ec",
         "curve": "secp256r1"
       },
-      "keyId": "did:web:issuerservice.issuance.local:BPNL000000000003#key-1",
+      "keyId": "did:web:issuerservice.local:BPNL000000000003#key-1",
       "type": "JsonWebKey2020",
       "privateKeyAlias": "issuer-privatekey-alias"
     },
@@ -36,17 +36,13 @@ body:json {
     ],
     "serviceEndpoints": [
       {
-        "id": "issuerservice.issuance.local#credential-service",
+        "id": "issuerservice.local#credential-service",
         "type": "IssuerService",
-        "serviceEndpoint": "http://issuerservice.issuance.local/api/issuance/v1alpha/participants/bWluaWt1YmU="
+        "serviceEndpoint": "http://issuerservice.local/api/issuance/v1alpha/participants/bWluaWt1YmU="
       }
     ],
     "apiKeyAlias": "apiKeyAliasTest"
   }
-}
-
-vars:pre-request {
-  ISSUERSERVICE.URL: http://issuerservice.did.local
 }
 
 script:post-response {

@@ -1,0 +1,17 @@
+meta {
+  name: 06-Validate The Policy
+  type: http
+  seq: 7
+}
+
+get {
+  url: {{Bob}}/policydefinitions/{{ACCESS_POLICY_ID}}
+  body: none
+  auth: apikey
+}
+
+auth:apikey {
+  key: X-Api-Key
+  value: {{Bob_Api_Key}}
+  placement: header
+}

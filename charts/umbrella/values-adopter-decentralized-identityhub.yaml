@@ -118,6 +118,57 @@ edc-provider:
               client:
                 id: *providerParticipantDid
                 secret_alias: *providerSecretAlias
+        log4j2:
+          # -- Whether to enable the json log config in log4j2.config
+          enableJsonLogs: true
+          # -- Log4j2 configuration for json log formatting.
+          config: |-
+            Appenders:
+              Console:
+                name: CONSOLE
+                JsonTemplateLayout:
+                  eventTemplate: |-
+                    {
+                      "timestamp": {
+                        "$resolver": "timestamp",
+                        "pattern": {
+                          "format": "yyyy-MM-dd'T'HH:mm:ss.SSSSSSS",
+                          "timeZone": "UTC"
+                        }
+                      },
+                      "level": {
+                        "$resolver": "level",
+                        "field": "severity",
+                        "severity": {
+                          "field": "keyword"
+                        }
+                      },
+                      "logger": {
+                        "$resolver": "logger",
+                        "field": "name"
+                      },
+                      "message": {
+                        "$resolver": "message"
+                      },
+                      "exception": {
+                        "$resolver": "exception",
+                        "field": "stackTrace"
+                      },
+                      "mdc": {
+                        "$resolver": "mdc"
+                      }
+                    }
+            Loggers:
+              Root:
+                level: INFO
+                AppenderRef:
+                  ref: CONSOLE
+              Logger:
+                - name: org.eclipse.edc.monitor.logger
+                  level: DEBUG
+                  additivity: false
+                  AppenderRef:
+                    ref: CONSOLE
         controlplane:
           debug:
             enabled: false
@@ -276,6 +327,57 @@ edc-consumer:
               client:
                 id: *consumerParticipantDid
                 secret_alias: *consumerSecretAlias
+        log4j2:
+          # -- Whether to enable the json log config in log4j2.config
+          enableJsonLogs: true
+          # -- Log4j2 configuration for json log formatting.
+          config: |-
+            Appenders:
+              Console:
+                name: CONSOLE
+                JsonTemplateLayout:
+                  eventTemplate: |-
+                    {
+                      "timestamp": {
+                        "$resolver": "timestamp",
+                        "pattern": {
+                          "format": "yyyy-MM-dd'T'HH:mm:ss.SSSSSSS",
+                          "timeZone": "UTC"
+                        }
+                      },
+                      "level": {
+                        "$resolver": "level",
+                        "field": "severity",
+                        "severity": {
+                          "field": "keyword"
+                        }
+                      },
+                      "logger": {
+                        "$resolver": "logger",
+                        "field": "name"
+                      },
+                      "message": {
+                        "$resolver": "message"
+                      },
+                      "exception": {
+                        "$resolver": "exception",
+                        "field": "stackTrace"
+                      },
+                      "mdc": {
+                        "$resolver": "mdc"
+                      }
+                    }
+            Loggers:
+              Root:
+                level: INFO
+                AppenderRef:
+                  ref: CONSOLE
+              Logger:
+                - name: org.eclipse.edc.monitor.logger
+                  level: DEBUG
+                  additivity: false
+                  AppenderRef:
+                    ref: CONSOLE
         controlplane:
           debug:
             enabled: false

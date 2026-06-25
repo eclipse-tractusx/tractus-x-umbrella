@@ -1,18 +1,18 @@
 meta {
-  name: IssuanceProccesConsumer
+  name: IssuanceProccesProvider
   type: http
-  seq: 9
+  seq: 10
 }
 
 post {
-  url: http://consumer.intranet/identityhub/api/identity/v1alpha/participants/{{CONSUMER_PARTICIPANT_CONTEXT}}/credentials/request
+  url: http://provider.intranet/identityhub/api/identity/v1alpha/participants/{{PROVIDER_PARTICIPANT_CONTEXT}}/credentials/request
   body: json
   auth: apikey
 }
 
 auth:apikey {
   key: x-api-key
-  value: ZGlkOndlYjpjb25zdW1lci5sb2NhbDppZGVudGl0eWh1YjpCUE5MMDAwMDAwMDAwMDAy.randomChars
+  value: ZGlkOndlYjpwcm92aWRlci5sb2NhbDppZGVudGl0eWh1YjpCUE5MMDAwMDAwMDAwMDAx.randomChars
   placement: header
 }
 
@@ -40,13 +40,13 @@ body:json {
         "type": "BpnCredential"
       }
     ],
-    "holderPid": "did:web:issuerservice.issuance.local:BPNL000000000003",
-    "issuerDid": "did:web:issuerservice.issuance.local:BPNL000000000003"
+    "holderPid": "did:web:issuerservice.local:BPNL000000000003",
+    "issuerDid": "did:web:issuerservice.local:BPNL000000000003"
   }
 }
 
 vars:pre-request {
-  CONSUMER_PARTICIPANT_CONTEXT: ZGlkOndlYjpjb25zdW1lci5sb2NhbDppZGVudGl0eWh1YjpCUE5MMDAwMDAwMDAwMDAy
+  PROVIDER_PARTICIPANT_CONTEXT: ZGlkOndlYjpwcm92aWRlci5sb2NhbDppZGVudGl0eWh1YjpCUE5MMDAwMDAwMDAwMDAx
 }
 
 settings {
