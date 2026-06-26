@@ -1,13 +1,12 @@
 # Digital Twin Bundle
 
-![Version: 1.0.0](https://img.shields.io/badge/Version-1.0.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) 
+![Version: 1.3.0](https://img.shields.io/badge/Version-1.3.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
 
 Helm chart for Capability Bundle: Digital Twin
 
 The Digital Twin Bundle provides a complete solution for managing digital twins in the Catena-X ecosystem. It includes the Digital Twin Registry and its required dependencies.
 
 For more information about the Digital Twin Registry check this documentation [Digital Twin Registry](https://github.com/eclipse-tractusx/sldt-digital-twin-registry/blob/main/charts/registry/README.md).
-
 
 **Homepage:** <https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/digital-twin-bundle>
 
@@ -31,9 +30,17 @@ For more information to "Bring Your Own" configuration, see the [hausanschluss u
 | Repository | Name | Version |
 |------------|------|---------|
 | https://charts.bitnami.com/bitnami | postgresql | 15.2.1 |
-| https://eclipse-tractusx.github.io/charts/dev | digital-twin-registry | 0.7.0 |
+| https://eclipse-tractusx.github.io/charts/dev | digital-twin-registry | 0.11.0 |
 
 ## Values
+
+### Registry Database Configuration (Bring Your Own)
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| digital-twin-registry.registry.dataSource.password | string | `"password"` | Database password |
+| digital-twin-registry.registry.dataSource.url | string | `"jdbc:postgresql://<release-name>-postgresql:5432/dtr"` | Database connection URL (needs to be set explicitly via --set digital-twin-registry.registry.dataSource.url=jdbc:postgresql://<release-name>-postgresql:5432/dtr) |
+| digital-twin-registry.registry.dataSource.user | string | `"user"` | Database username |
 
 ### Registry Configuration
 
@@ -41,28 +48,35 @@ For more information to "Bring Your Own" configuration, see the [hausanschluss u
 |-----|------|---------|-------------|
 | digital-twin-registry.registry.host | string | `"dataprovider-dtr.test"` | External hostname for Digital Twin Registry |
 
-### Registry Database Configuration (Bring Your Own)
-
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| digital-twin-registry.registry.dataSource.url | string | `"jdbc:postgresql://<release-name>-postgresql:5432/dtr"` | Database connection URL (needs to be set explicitly via --set digital-twin-registry.registry.dataSource.url=jdbc:postgresql://<release-name>-postgresql:5432/dtr) |
-| digital-twin-registry.registry.dataSource.user | string | `"user"` | Database username |
-| digital-twin-registry.registry.dataSource.password | string | `"password"` | Database password |
-
 ### PostgreSQL Configuration
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| postgresql.auth.username | string | `"user"` | Database username |
-| postgresql.auth.password | string | `"password"` | Database password |
 | postgresql.auth.database | string | `"dtr"` | Database name |
+| postgresql.auth.password | string | `"password"` | Database password |
+| postgresql.auth.username | string | `"user"` | Database username |
 | postgresql.primary.persistence.enabled | bool | `true` | Enable persistent storage for PostgreSQL |
 | postgresql.primary.persistence.size | string | `"10Gi"` | Size of persistent volume |
+
+### Other Values
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| digital-twin-registry.registry.ingress.annotations."cert-manager.io/cluster-issuer" | string | `"my-ca-issuer"` |  |
+| digital-twin-registry.registry.ingress.annotations."nginx.ingress.kubernetes.io/rewrite-target" | string | `"/$2"` |  |
+| digital-twin-registry.registry.ingress.annotations."nginx.ingress.kubernetes.io/use-regex" | string | `"true"` |  |
+| digital-twin-registry.registry.ingress.className | string | `"nginx"` |  |
+| digital-twin-registry.registry.ingress.rules[0].host | string | `"dataprovider-dtr.tx.test"` |  |
+| digital-twin-registry.registry.ingress.rules[0].http.paths[0].path | string | `"/semantics/registry(/|$)(.*)"` |  |
+| digital-twin-registry.registry.ingress.rules[0].http.paths[0].pathType | string | `"ImplementationSpecific"` |  |
+| digital-twin-registry.registry.ingress.urlPrefix | string | `""` |  |
+| postgresql.image.repository | string | `"bitnamilegacy/postgresql"` | workaround to use bitnamilegacy chart for version 12.12.x till committers align on new postgresql charts |
+| postgresql.image.tag | string | `"15.4.0-debian-11-r45"` | workaround to use bitnamilegacy chart for version 12.12.x till committers align on new postgresql charts |
 
 ## Contributing
 
 Contributions are welcome! Please see our [Contributing Guide](/CONTRIBUTING.md) for details.
 
 ----------------------------------------------
-Autogenerated from chart metadata using [helm-docs](https://github.com/norwoodj/helm-docs/)  
+Autogenerated from chart metadata using [helm-docs](https://github.com/norwoodj/helm-docs/) 
 Generate this document by running `helm-docs -s file` in this folder

@@ -1,11 +1,10 @@
 # Dataspace Connector Bundle
 
-![Version: 1.1.0](https://img.shields.io/badge/Version-1.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) 
+![Version: 1.3.0](https://img.shields.io/badge/Version-1.3.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square)
 
 Helm chart for Capability Bundle: Dataspace Connector
 
 For more information on the Tractus-X EDC, see https://github.com/eclipse-tractusx/tractusx-edc
-
 
 **Homepage:** <https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/main/charts/dataspace-connector-bundle>
 
@@ -29,25 +28,36 @@ For more information to "Bring Your Own" configuration, see the [hausanschluss u
 | Repository | Name | Version |
 |------------|------|---------|
 | https://charts.bitnami.com/bitnami | postgresql | 15.2.1 |
-| https://eclipse-tractusx.github.io/charts/dev | tractusx-connector | 0.11.2 |
+| https://eclipse-tractusx.github.io/charts/dev | tractusx-connector | 0.12.0 |
 | https://helm.releases.hashicorp.com | vault | 0.27.0 |
 
 ## Values
+
+### PostgreSQL Configuration
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| postgresql.auth.database | string | `"edc"` | Database name |
+| postgresql.auth.password | string | `"password"` | Database password |
+| postgresql.auth.username | string | `"user"` | Database username |
+| postgresql.enabled | bool | `true` | Enable embedded PostgreSQL deployment |
+| postgresql.primary.persistence.enabled | bool | `false` | Enable persistent storage for PostgreSQL |
+| postgresql.primary.persistence.size | string | `"10Gi"` | Size of persistent volume |
 
 ### Decentralized Claims Protocol (DCP, formerly IATP) Settings (Bring Your Own)
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
+| tractusx-connector.controlplane.bdrs.server.url | string | `"http://ssi-dim-wallet-stub.tx.test/api/v1/directory"` | URL of the BPN/DID Resolution Service |
+| tractusx-connector.controlplane.env | map | `{"TX_IAM_IATP_CREDENTIALSERVICE_URL":"http://ssi-dim-wallet-stub.tx.test/api"}` | Extra environment variables that will be pass onto deployment pods |
+| tractusx-connector.dataplane.env | map | `{"TX_IAM_IATP_CREDENTIALSERVICE_URL":"http://ssi-dim-wallet-stub.tx.test/api"}` | Extra environment variables that will be pass onto deployment pods |
 | tractusx-connector.iatp.id | string | `"did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003AZQP"` | Decentralized IDentifier (DID) of the connector |
-| tractusx-connector.iatp.trustedIssuers | list | `["did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003CRHK"]` | Configures the trusted issuers for this runtime |
 | tractusx-connector.iatp.sts.dim.url | string | `"http://ssi-dim-wallet-stub.tx.test/api/sts"` | URL where connectors can request SI tokens |
-| tractusx-connector.iatp.sts.oauth.token_url | string | `"http://ssi-dim-wallet-stub.tx.test/oauth/token"` | URL where connectors can request OAuth2 access tokens for DIM access |
 | tractusx-connector.iatp.sts.oauth.client.id | string | `"BPNL00000003AZQP"` | Client ID for requesting OAuth2 access token for DIM access |
 | tractusx-connector.iatp.sts.oauth.client.secret_alias | string | `"client-secret"` | Alias under which the client secret is stored in the vault for requesting OAuth2 access token for DIM access |
-| tractusx-connector.participant.id | string | `"BPNL00000003AZQP"` | Business Partner Number (BPN) of the connector |
-| tractusx-connector.controlplane.env | map | `{"TX_IAM_IATP_CREDENTIALSERVICE_URL":"http://ssi-dim-wallet-stub.tx.test/api"}` | Extra environment variables that will be pass onto deployment pods |
-| tractusx-connector.controlplane.bdrs.server.url | string | `"http://ssi-dim-wallet-stub.tx.test/api/v1/directory"` | URL of the BPN/DID Resolution Service |
-| tractusx-connector.dataplane.env | map | `{"TX_IAM_IATP_CREDENTIALSERVICE_URL":"http://ssi-dim-wallet-stub.tx.test/api"}` | Extra environment variables that will be pass onto deployment pods |
+| tractusx-connector.iatp.sts.oauth.token_url | string | `"http://ssi-dim-wallet-stub.tx.test/oauth/token"` | URL where connectors can request OAuth2 access tokens for DIM access |
+| tractusx-connector.iatp.trustedIssuers | list | `["did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003CRHK"]` | Configures the trusted issuers for this runtime |
+| tractusx-connector.participant.id | string | `"BPNL00000003AZQP"` | Business Partner Number (BPN) of the connector (required in 0.11.0+ via tractusx.edc.participant.bpn) |
 
 ### EDC Installation Options
 
@@ -62,56 +72,52 @@ For more information to "Bring Your Own" configuration, see the [hausanschluss u
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | tractusx-connector.controlplane.ingresses[0].enabled | bool | `true` | Enables ingress creation |
-| tractusx-connector.controlplane.ingresses[0].hostname | string | `"example-controlplane.tx.test"` | The hostname to be used to precisely map incoming traffic onto the underlying network service |
 | tractusx-connector.controlplane.ingresses[0].endpoints | list | `["default","protocol","management"]` | EDC endpoints exposed by this ingress resource |
+| tractusx-connector.controlplane.ingresses[0].hostname | string | `"example-controlplane.tx.test"` | The hostname to be used to precisely map incoming traffic onto the underlying network service |
 | tractusx-connector.controlplane.ingresses[0].tls.enabled | bool | `false` | Enables TLS on the ingress resource |
 | tractusx-connector.dataplane.ingresses[0].enabled | bool | `true` | Enables ingress creation |
-| tractusx-connector.dataplane.ingresses[0].hostname | string | `"example-dataplane.tx.test"` | The hostname to be used to precisely map incoming traffic onto the underlying network service |
 | tractusx-connector.dataplane.ingresses[0].endpoints | list | `["default","public"]` | EDC endpoints exposed by this ingress resource |
+| tractusx-connector.dataplane.ingresses[0].hostname | string | `"example-dataplane.tx.test"` | The hostname to be used to precisely map incoming traffic onto the underlying network service |
 | tractusx-connector.dataplane.ingresses[0].tls.enabled | bool | `false` | Enables TLS on the ingress resource |
 
 ### EDC PostgreSQL Options (Bring Your Own)
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| tractusx-connector.postgresql.jdbcUrl | string | `"jdbc:postgresql://{{ .Release.Name }}-postgresql:5432/edc"` | JDBC connection URL for PostgreSQL |
 | tractusx-connector.postgresql.auth.database | string | `"edc"` | Database name |
-| tractusx-connector.postgresql.auth.username | string | `"user"` | Database username |
 | tractusx-connector.postgresql.auth.password | string | `"password"` | Database password |
+| tractusx-connector.postgresql.auth.username | string | `"user"` | Database username |
+| tractusx-connector.postgresql.jdbcUrl | string | `"jdbc:postgresql://{{ .Release.Name }}-postgresql:5432/edc"` | JDBC connection URL for PostgreSQL |
 
 ### EDC Vault Options (Bring Your Own)
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| tractusx-connector.vault.hashicorp.url | string | `"http://{{ .Release.Name }}-vault:8200"` | URL for HashiCorp Vault |
-| tractusx-connector.vault.hashicorp.token | string | `"root"` | Root token for Vault authentication |
-| tractusx-connector.vault.hashicorp.paths.secret | string | `"/v1/secret"` | Base path for secrets in Vault |
 | tractusx-connector.vault.hashicorp.paths.folder | string | `""` | Subfolder for secrets |
-
-### PostgreSQL Configuration
-
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| postgresql.enabled | bool | `true` | Enable embedded PostgreSQL deployment |
-| postgresql.auth.database | string | `"edc"` | Database name |
-| postgresql.auth.username | string | `"user"` | Database username |
-| postgresql.auth.password | string | `"password"` | Database password |
-| postgresql.primary.persistence.enabled | bool | `false` | Enable persistent storage for PostgreSQL |
-| postgresql.primary.persistence.size | string | `"10Gi"` | Size of persistent volume |
+| tractusx-connector.vault.hashicorp.paths.secret | string | `"/v1/secret"` | Base path for secrets in Vault |
+| tractusx-connector.vault.hashicorp.token | string | `"root"` | Root token for Vault authentication |
+| tractusx-connector.vault.hashicorp.url | string | `"http://{{ .Release.Name }}-vault:8200"` | URL for HashiCorp Vault |
 
 ### Vault Configuration
 
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | vault.enabled | bool | `true` | Enable embedded HashiCorp Vault deployment |
-| vault.server.standalone.enabled | bool | `true` | Enable standalone mode for Vault |
-| vault.server.dev.enabled | bool | `true` | Enable development mode for Vault |
 | vault.server.dev.devRootToken | string | `"root"` | Root token for dev mode |
+| vault.server.dev.enabled | bool | `true` | Enable development mode for Vault |
+| vault.server.standalone.enabled | bool | `true` | Enable standalone mode for Vault |
+
+### Other Values
+
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| postgresql.image.repository | string | `"bitnamilegacy/postgresql"` | workaround to use bitnamilegacy chart for version 12.12.x till committers align on new postgresql charts |
+| postgresql.image.tag | string | `"15.4.0-debian-11-r45"` | workaround to use bitnamilegacy chart for version 12.12.x till committers align on new postgresql charts |
 
 ## Contributing
 
 Contributions are welcome! Please see our [Contributing Guide](/CONTRIBUTING.md) for details.
 
 ----------------------------------------------
-Autogenerated from chart metadata using [helm-docs](https://github.com/norwoodj/helm-docs/)  
+Autogenerated from chart metadata using [helm-docs](https://github.com/norwoodj/helm-docs/) 
 Generate this document by running `helm-docs -s file` in this folder
