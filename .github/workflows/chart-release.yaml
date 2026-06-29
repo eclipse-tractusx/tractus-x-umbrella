@@ -54,7 +54,7 @@ jobs:
         run: bash hack/helm-dependencies.bash
 
       - name: Run chart-releaser
-        uses: helm/chart-releaser-action@a3454e4ca0207301c2317ca618392f585d0da4cd # v1.6.0
+        uses: helm/chart-releaser-action@cae68fefc6b5f367a0275617c9f83181ba54714f # v1.7.0
         env:
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           CR_SKIP_EXISTING: "true"
