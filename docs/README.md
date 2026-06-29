@@ -4,16 +4,6 @@ Spin up a complete [Catena-X](https://catena-x.net/en/) dataspace locally for te
 development or sandbox usage, on top of [Eclipse Tractus-X](https://projects.eclipse.org/projects/automotive.tractusx)
 open-source components.
 
-> [!TIP]
-> **New here?** Pick your platform below and follow the deployment guide for it.
-> The **recommended profile since Release 25.12** is the **Decentralized
-> IdentityHub** flow ([`values-adopter-decentralized-identityhub.yaml`](../charts/umbrella/values-adopter-decentralized-identityhub.yaml));
-> each OS guide has it as the default `helm install`.
->
-> - 🐧 **[Linux](user/linux/README.md)** — preferred platform (Minikube + ingress-dns)
-> - 🍎 **[macOS](user/mac/README.md)** — Docker Desktop + Minikube, or Lima + K3s
-> - 🪟 **[Windows](user/windows/README.md)** — Docker Desktop, Hyper-V, or WSL2
-
 ---
 
 ## 1. The recommended path
