@@ -330,18 +330,31 @@ Navigate to the `charts/umbrella` directory.
 cd charts/umbrella/
 ```
 
-**:grey_question: Command explanation**
+> [!NOTE]
+> **Do not run anything yet.** All install commands you will use below follow the
+> same pattern &mdash; the snippet here is just a reference so you understand the
+> flags. Pick one of the subsets in the sections that follow
+> ([Decentralized IdentityHub](#decentralized-identityhub-subset-recommended-default),
+> [Data Exchange (legacy)](#data-exchange-subset-legacy-centralized-flow) or
+> [Portal](#portal-subset)) and run the command listed there.
 
-> `helm install` is used to install a Helm chart.
-> > `-f your-values.yaml` | `-f values-*.yaml` specifies the values file to use for configuration.
->
-> > `umbrella` is the release name for the Helm chart.
->
-> > `.` specifies the path to the chart directory.
->
-> > `--namespace umbrella` specifies the namespace in which to install the chart.
->
-> > `--create-namespace` create a namespace with the name `umbrella`.
+```bash
+helm install -f <values-file>.yaml umbrella . --namespace umbrella --create-namespace
+```
+
+<details>
+<summary><strong>❓ What does each flag mean?</strong></summary>
+
+<br/>
+
+- `helm install` &mdash; installs a Helm chart.
+- `-f <values-file>.yaml` &mdash; values file used for configuration (e.g. `values-adopter-decentralized-identityhub.yaml` or your own `your-values.yaml`).
+- `umbrella` &mdash; release name of the Helm chart.
+- `.` &mdash; path to the chart directory (the current `charts/umbrella/` folder).
+- `--namespace umbrella` &mdash; target Kubernetes namespace.
+- `--create-namespace` &mdash; create the `umbrella` namespace if it does not exist.
+
+</details>
 
 ### Custom Configuration
 

@@ -132,82 +132,6 @@ Proper DNS resolution is required to map local domain names to the Minikube IP a
 
 3. Test DNS resolution by pinging one of the configured hostnames.
 
-#### Alternative approaches
-
-1. Identify your DNS resolver by checking the contents of `/etc/resolv.conf`.
-2. Update the resolver configuration based on your system:
-
-    - **resolvconf**:
-      Add the following to `/etc/resolvconf/resolv.conf.d/base`:
-
-      ```bash
-      search test
-      nameserver $(minikube ip)
-      timeout 5
-      ```
-
-      If your Linux OS uses `systemctl`, run the following commands:
-
-      ```bash
-      sudo resolvconf -u
-      systemctl disable --now resolvconf.service
-      ```
-
-      See <https://linux.die.net/man/5/resolver> for more information.
-
-    - **NetworkManager**:
-      NetworkManager can run integrated caching DNS server - `dnsmasq` plugin and can be configured to use separate nameservers per domain.
-
-      Edit `/etc/NetworkManager/NetworkManager.conf` and enable `dns=dnsmasq` by adding:
-
-      ```bash
-      [main]
-      dns=dnsmasq
-      ```
-
-      Also see `dns=` in [NetworkManager.conf](https://developer.gnome.org/NetworkManager/stable/NetworkManager.conf.html).
-
-      Configure dnsmasq to handle domain names ending with `.test`:
-
-      ```bash
-      sudo mkdir -p /etc/NetworkManager/dnsmasq.d/
-      echo "server=/test/$(minikube ip)" | sudo tee /etc/NetworkManager/dnsmasq.d/minikube.conf
-      ```
-
-      Restart NetworkManager:
-
-      ```bash
-      systemctl restart NetworkManager.service
-      ```
-
-      Ensure your `/etc/resolv.conf` contains only single nameserver:
-
-      ```bash
-      cat /etc/resolv.conf | grep nameserver
-      nameserver 127.0.0.1
-      ```
-
-    - **systemd-resolved**:
-      Run the following commands to add the minikube DNS for `.test` domains:
-
-      ```bash
-      sudo mkdir -p /etc/systemd/resolved.conf.d
-      sudo tee /etc/systemd/resolved.conf.d/minikube.conf << EOF
-      [Resolve]
-      DNS=$(minikube ip)
-      Domains=~test
-      EOF
-      sudo systemctl restart systemd-resolved
-      ```
-
-3. Test DNS resolution by pinging one of the configured hostnames.
-
-### Verify Network Setup
-
-Once the DNS resolution or hosts file is configured:
-
-1. Ensure ingress is working by accessing a service endpoint, such as <http://portal.tx.test>
-
 ### Troubleshooting
 
 For common issues and solutions, please refer to the [Troubleshooting Guide](../common/troubleshooting/README.md).
@@ -228,30 +152,31 @@ Navigate to the `charts/umbrella` directory.
 cd charts/umbrella/
 ```
 
-**:grey_question: Command explanation**
-
-> `helm install` is used to install a Helm chart.
-> > `-f your-values.yaml` | `-f values-*.yaml` specifies the values file to use for configuration.
->
-> > `umbrella` is the release name for the Helm chart.
->
-> > `.` specifies the path to the chart directory.
->
-> > `--namespace umbrella` specifies the namespace in which to install the chart.
->
-> > `--create-namespace` create a namespace with the name `umbrella`.
-
-### Custom Configuration
-
-Install your chosen components by having them enabled in a `your-values.yaml` file:
+> [!NOTE]
+> **Do not run anything yet.** All install commands you will use below follow the
+> same pattern &mdash; the snippet here is just a reference so you understand the
+> flags. Pick one of the subsets in the sections that follow
+> ([Decentralized IdentityHub](#decentralized-identityhub-subset-recommended-default),
+> [Data Exchange (legacy)](#data-exchange-subset-legacy-centralized-flow) or
+> [Portal](#portal-subset)) and run the command listed there.
 
 ```bash
-helm install -f your-values.yaml umbrella . --namespace umbrella --create-namespace
+helm install -f <values-file>.yaml umbrella . --namespace umbrella --create-namespace
 ```
 
-> In general, all your specific configuration and secret values should be set by installing with an own values file.
+<details>
+<summary><strong>❓ What does each flag mean?</strong></summary>
 
-Choose to install one of the predefined subsets (currently in focus of the **E2E Adopter Journey**):
+<br/>
+
+- `helm install` &mdash; installs a Helm chart.
+- `-f <values-file>.yaml` &mdash; values file used for configuration (e.g. `values-adopter-decentralized-identityhub.yaml` or your own `your-values.yaml`).
+- `umbrella` &mdash; release name of the Helm chart.
+- `.` &mdash; path to the chart directory (the current `charts/umbrella/` folder).
+- `--namespace umbrella` &mdash; target Kubernetes namespace.
+- `--create-namespace` &mdash; create the `umbrella` namespace if it does not exist.
+
+</details>
 
 ### Decentralized IdentityHub Subset (recommended default)
 
