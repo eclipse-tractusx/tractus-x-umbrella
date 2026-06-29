@@ -42,3 +42,17 @@ data:
         "content": {{ randAlphaNum 32 | b64enc | quote }}
       }
     }
+  
+  # Dynamically create secret files from values
+  {{- if .Values.secrets }}
+  {{- range $key, $value := .Values.secrets }}
+  secret-{{ $key }}.json: |-
+    {
+      "data": {
+        "content": {{ $value | quote }}
+      }
+    }
+  {{- end }}
+  {{- end }}
+
+  

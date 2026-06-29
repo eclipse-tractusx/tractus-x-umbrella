@@ -63,3 +63,10 @@ digital-twin-bundle:
 data-persistence-layer-bundle:
   simple-data-backend:
     enabled: true
+
+vault-cronjob:
+  enabled: true
+  schedule: "*/5 * * * *"
+  concurrencyPolicy: "Forbid"
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 1
