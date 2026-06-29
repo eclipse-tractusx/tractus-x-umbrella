@@ -4,8 +4,9 @@
 > This page documents the **legacy** centralized data exchange flow
 > (`values-adopter-data-exchange.yaml`, CX-IAM + `ssi-dim-wallet-stub`). Since
 > Release 25.12 the **default** scenario is the decentralized IdentityHub flow —
-> see the [Quickstart](../../quickstart.md) and
-> [Data Exchange with Decentralized IdentityHub](data-exchange-identityhub.md).
+> see [Data Exchange with Decentralized IdentityHub](data-exchange-identityhub.md)
+> and the per-OS deployment guides ([Linux](../../linux/README.md) ·
+> [macOS](../../mac/README.md) · [Windows](../../windows/README.md)).
 
 This guide provides instructions for using the Data Exchange subset of the Umbrella Chart.
 

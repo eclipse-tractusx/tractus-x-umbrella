@@ -5,7 +5,7 @@ This umbrella chart provides a foundation for running end-to-end tests or creati
 ## **Quick Links**
 
 - [Documentation](../../docs/README.md)
-- [Quickstart (Decentralized IdentityHub)](../../docs/user/quickstart.md)
+- [Linux deployment guide](../../docs/user/linux/README.md) · [macOS](../../docs/user/mac/README.md) · [Windows](../../docs/user/windows/README.md)
 - [Setup Instructions](../../docs/README.md#setup-network--installation)
 - [Guides](../../docs/user/common/guides)
 

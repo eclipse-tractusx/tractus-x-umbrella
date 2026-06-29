@@ -5,9 +5,14 @@ development or sandbox usage, on top of [Eclipse Tractus-X](https://projects.ecl
 open-source components.
 
 > [!TIP]
-> **New here?** Jump straight to the **[Quickstart](user/quickstart.md)** — it takes
-> you from an empty machine to a working dataspace using the **recommended profile
-> (Decentralized IdentityHub)** in under 10 commands.
+> **New here?** Pick your platform below and follow the deployment guide for it.
+> The **recommended profile since Release 25.12** is the **Decentralized
+> IdentityHub** flow ([`values-adopter-decentralized-identityhub.yaml`](../charts/umbrella/values-adopter-decentralized-identityhub.yaml));
+> each OS guide has it as the default `helm install`.
+>
+> - 🐧 **[Linux](user/linux/README.md)** — preferred platform (Minikube + ingress-dns)
+> - 🍎 **[macOS](user/mac/README.md)** — Docker Desktop + Minikube, or Lima + K3s
+> - 🪟 **[Windows](user/windows/README.md)** — Docker Desktop, Hyper-V, or WSL2
 
 ---
 
@@ -21,7 +26,6 @@ ecosystem is heading.
 | What | Where |
 |------|-------|
 | **Profile** | [`charts/umbrella/values-adopter-decentralized-identityhub.yaml`](../charts/umbrella/values-adopter-decentralized-identityhub.yaml) |
-| **End-to-end walkthrough** | [Quickstart](user/quickstart.md) |
 | **What gets deployed** | [Data Exchange with Decentralized IdentityHub](user/common/guides/data-exchange-identityhub.md) |
 | **Credential issuance flow** | [Issuance guide](user/common/guides/data-exchange/issuance.md) |
 | **API tests (Bruno)** | [Bruno collection](common/api/README.md) |
@@ -32,17 +36,14 @@ ecosystem is heading.
 
 ---
 
-## 2. Set up your cluster (OS-specific)
+## 2. Deploy on your platform
 
-The umbrella chart itself is OS-agnostic. These pages cover **only the
-cluster + DNS setup** for each platform:
+Each OS guide bundles the cluster setup, DNS, and `helm install` for that platform.
+The Helm chart itself is OS-agnostic, but cluster + DNS setup differs.
 
-- 🐧 **[Linux](user/linux/README.md)** — preferred platform (Minikube + ingress-dns)
-- 🍎 **[macOS](user/mac/README.md)** — Docker Desktop + Minikube, or Lima + K3s
-- 🪟 **[Windows](user/windows/README.md)** — Docker Desktop, Hyper-V, or WSL2
-
-Once your cluster + DNS are ready, follow the [Quickstart](user/quickstart.md) — the
-`helm install` command and all the application-level steps are the **same across OSes**.
+- 🐧 **[Linux Deployment Guide](user/linux/README.md)**
+- 🍎 **[macOS Deployment Guide](user/mac/README.md)**
+- 🪟 **[Windows Deployment Guide](user/windows/README.md)**
 
 > Looking for the full install reference (all profiles, `--set` flags, released chart, uninstall)?
 > See [Installation Reference](user/common/installation.md).

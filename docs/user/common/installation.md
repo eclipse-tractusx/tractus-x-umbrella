@@ -1,9 +1,9 @@
 # Installation Reference
 
 > [!TIP]
-> For the **recommended** end-to-end install (Decentralized IdentityHub), follow
-> the [Quickstart](../quickstart.md). This page is a reference covering all
-> install methods and component subsets.
+> For an end-to-end install on your platform, follow your OS guide:
+> [Linux](../linux/README.md) · [macOS](../mac/README.md) · [Windows](../windows/README.md).
+> This page is a reference covering all install methods and component subsets.
 
 The Helm chart is platform-independent. For the cluster + DNS setup specific to
 your OS, see [Linux](../linux/README.md), [macOS](../mac/README.md) or

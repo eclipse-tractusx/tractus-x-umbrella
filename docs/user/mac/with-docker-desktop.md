@@ -114,6 +114,16 @@ The following values need to be added in each case:
    <MINIKUBE_IP>    smtp.tx.test
    ```
 
+   **For the Decentralized IdentityHub profile (recommended), also add:**
+
+   ```text
+   <MINIKUBE_IP>    provider.local
+   <MINIKUBE_IP>    provider.intranet
+   <MINIKUBE_IP>    consumer.local
+   <MINIKUBE_IP>    consumer.intranet
+   <MINIKUBE_IP>    issuerservice.local
+   ```
+
 ##### macOS using minikube
 
    1. Open the hosts file you find here: `/etc/hosts` and insert the values from above.
@@ -215,9 +225,26 @@ helm install -f your-values.yaml umbrella . --namespace umbrella --create-namesp
 
 Choose to install one of the predefined subsets (currently in focus of the **E2E Adopter Journey**):
 
-### Data Exchange Subset
+### Decentralized IdentityHub Subset (recommended default)
 
-The Data Exchange subset enables secure data sharing between participants in the network.
+Since Release 25.12 this is the recommended scenario — it deploys a provider EDC,
+a consumer EDC, the IssuerService and the BDRS server using decentralized
+identifiers (`did:web`) and per-participant IdentityHubs.
+
+> Make sure your hosts file already contains the `*.local`, `*.intranet` and
+> `bdrs-server.tx.test` entries listed in the DNS resolution section above.
+
+```bash
+helm install -f values-adopter-decentralized-identityhub.yaml umbrella . --namespace umbrella --create-namespace
+```
+
+See [Data Exchange with Decentralized IdentityHub](../common/guides/data-exchange-identityhub.md)
+for the participant identifiers (BPNs / DIDs) and how to exercise the dataspace.
+
+### Data Exchange Subset (legacy centralized flow)
+
+The legacy Data Exchange subset uses CX-IAM and the centralized `ssi-dim-wallet-stub`.
+Kept for backwards compatibility.
 
 ```bash
 helm install -f values-adopter-data-exchange.yaml umbrella . --namespace umbrella --create-namespace
