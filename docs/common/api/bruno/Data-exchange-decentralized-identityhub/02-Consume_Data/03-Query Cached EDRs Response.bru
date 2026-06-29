@@ -1,0 +1,40 @@
+meta {
+  name: 03-Query Cached EDRs Response
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{Alice}}/edrs/request
+  body: json
+  auth: apikey
+}
+
+headers {
+  Content-Type: application/json
+}
+
+auth:apikey {
+  key: X-Api-Key
+  value: {{Alice_Api_Key}}
+  placement: header
+}
+
+body:json {
+  {
+    "@context": { "@vocab": "https://w3id.org/edc/v0.0.1/ns/" },
+    "@type": "QuerySpec",
+    "filterExpression": [
+      {
+        "operandLeft": "contractNegotiationId",
+        "operator": "=",
+        "operandRight": "{{CONTRACT_NEGOTIATION_ID}}"
+      }
+    ]
+  }
+}
+
+tests {
+  const transferProcessId = res.body[0].transferProcessId;
+  bru.setVar("TRANSFER_PROCESS_ID", transferProcessId);
+}

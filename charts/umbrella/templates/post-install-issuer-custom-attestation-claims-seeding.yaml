@@ -1,0 +1,191 @@
+# #############################################################################
+# Copyright (c) 2026 LKS Next
+# Copyright (c) 2026 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Apache License, Version 2.0 which is available at
+# https://www.apache.org/licenses/LICENSE-2.0.
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+# License for the specific language governing permissions and limitations
+# under the License.
+#
+# SPDX-License-Identifier: Apache-2.0
+# #############################################################################
+---
+{{- $issuerCfg := (get .Values "tractusx-issuerservice") | default dict -}}
+{{- $seedCfg := (get $issuerCfg "attestationClaimSeeding") | default dict -}}
+{{- $issuerPostgresqlCfg := (get $issuerCfg "postgresql") | default dict -}}
+{{- $issuerPostgresqlAuthCfg := (get $issuerPostgresqlCfg "auth") | default dict -}}
+{{- if and ((get $issuerCfg "enabled") | default false) ((get $seedCfg "enabled") | default false) }}
+{{- $fullName := include "app.fullname" . -}}
+{{- $postgresName := (get $issuerPostgresqlCfg "nameOverride") | default "issuerservice-postgresql" -}}
+{{- $postgresPodName := printf "%s-%s-0" .Release.Name $postgresName -}}
+{{- $jobName := printf "%s-issuer-custom-attestation-claims-seeding" $fullName -}}
+{{- $serviceAccountName := printf "%s-sa" $jobName -}}
+{{- $sql := (get $seedCfg "sql") | default "" -}}
+{{- $fallbackUser := (get $issuerPostgresqlAuthCfg "username") | default "user" -}}
+{{- $fallbackDb := (get $issuerPostgresqlAuthCfg "database") | default "issuer" -}}
+{{- $fallbackPassword := (get $issuerPostgresqlAuthCfg "password") | default "" -}}
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: {{ $serviceAccountName }}
+  labels:
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+  annotations:
+    "helm.sh/hook": post-install,post-upgrade
+    "helm.sh/hook-weight": "-10"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: {{ $jobName }}
+  labels:
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+  annotations:
+    "helm.sh/hook": post-install,post-upgrade
+    "helm.sh/hook-weight": "-10"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+rules:
+  - apiGroups: [""]
+    resources: ["pods"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: [""]
+    resources: ["pods/exec"]
+    verbs: ["create"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: {{ $jobName }}
+  labels:
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+  annotations:
+    "helm.sh/hook": post-install,post-upgrade
+    "helm.sh/hook-weight": "-10"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+subjects:
+  - kind: ServiceAccount
+    name: {{ $serviceAccountName }}
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: Role
+  name: {{ $jobName }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ $jobName }}
+  labels:
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+  annotations:
+    "helm.sh/hook": post-install,post-upgrade
+    "helm.sh/hook-weight": "-9"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+data:
+  seed.sql: |
+{{- if $sql }}
+{{ tpl $sql . | nindent 4 }}
+{{- else }}
+  -- Provide SQL statements in .Values.tractusx-issuerservice.attestationClaimSeeding.sql
+{{- end }}
+---
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ $jobName }}
+  labels:
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+  annotations:
+    "helm.sh/hook": post-install,post-upgrade
+    "helm.sh/hook-weight": "-8"
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+spec:
+  backoffLimit: {{ (get $seedCfg "backoffLimit") | default 1 }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+        app.kubernetes.io/instance: {{ .Release.Name | quote }}
+        helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
+    spec:
+      serviceAccountName: {{ $serviceAccountName }}
+      restartPolicy: Never
+      containers:
+        - name: custom-attestation-claims-seeding
+          image: {{ ((get $seedCfg "kubectlImage") | default "bitnamilegacy/kubectl:1.32.2") | quote }}
+          imagePullPolicy: IfNotPresent
+          command:
+            - /bin/sh
+            - -ec
+            - |
+              set -x
+              echo "Starting custom attestation claims seeding..."
+              
+              if [ ! -s /scripts/seed.sql ]; then
+                echo "ERROR: No SQL script provided in tractusx-issuerservice.attestationClaimSeeding.sql"
+                exit 1
+              fi
+              
+              echo "SQL script found ($(wc -l < /scripts/seed.sql) lines)"
+              
+              POD_NAME="{{ $postgresPodName }}"
+              echo "Waiting for PostgreSQL pod: ${POD_NAME}"
+              kubectl wait --for=condition=Ready "pod/${POD_NAME}" --timeout={{ ((get $seedCfg "waitForPodTimeout") | default "300s") | quote }} || {
+                echo "ERROR: Pod did not become ready"
+                kubectl describe pod "${POD_NAME}" || true
+                exit 1
+              }
+              echo "PostgreSQL pod is ready"
+              
+              echo "Executing SQL inside pod..."
+              kubectl exec -i "${POD_NAME}" -- sh -ec '
+                set -x
+                PSQL_USER="{{ $fallbackUser }}"
+                PSQL_DB="{{ $fallbackDb }}"
+                PSQL_PASSWORD="{{ $fallbackPassword }}"
+                
+                if [ -z "${PSQL_PASSWORD}" ]; then
+                  echo "ERROR: PostgreSQL password is empty"
+                  exit 1
+                fi
+                
+                echo "Connecting to ${PSQL_DB}@${POD_NAME} as ${PSQL_USER}..."
+                export PGPASSWORD="${PSQL_PASSWORD}"
+                
+                psql -v ON_ERROR_STOP=1 -h localhost -U "${PSQL_USER}" -d "${PSQL_DB}" 2>&1 || {
+                  echo "ERROR: psql command failed with exit code $?"
+                  exit 1
+                }
+              ' < /scripts/seed.sql || {
+                echo "ERROR: SQL execution failed"
+                exit 1
+              }
+              
+              echo "Custom attestation claims seeding completed successfully"
+          volumeMounts:
+            - name: seed-sql
+              mountPath: /scripts
+              readOnly: true
+      volumes:
+        - name: seed-sql
+          configMap:
+            name: {{ $jobName }}
+{{- end }}

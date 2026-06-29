@@ -28,7 +28,7 @@ sources:
   - https://github.com/eclipse-tractusx/tractus-x-umbrella
 
 type: application
-version: 3.15.6
+version: 3.15.7
 
 # when adding or updating versions of dependencies, also update list under /docs/user/linux/installation/README.md
 dependencies:
@@ -102,7 +102,7 @@ dependencies:
     # bdrs
   - name: bdrs-server-memory
     repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 0.5.7
+    version: 0.6.0
     condition: bdrs-server-memory.enabled
   - name: identity-and-trust-bundle
     repository: file://../identity-and-trust-bundle
@@ -143,3 +143,19 @@ dependencies:
     version: v1.18.2
     repository: https://charts.jetstack.io
     condition: cert-manager.enabled
+  # Edc-Provider
+  - name: decentralized-identity-connector
+    alias: edc-provider
+    repository: file://../decentralized-identity-connector
+    version: 0.1.0
+    condition: edc-provider.enabled
+  # Edc-Consumer
+  - name: decentralized-identity-connector
+    alias: edc-consumer
+    repository: file://../decentralized-identity-connector
+    version: 0.1.0
+    condition: edc-consumer.enabled
+  - name: tractusx-issuerservice
+    repository: https://eclipse-tractusx.github.io/charts/dev
+    version: v0.3.2
+    condition: tractusx-issuerservice.enabled

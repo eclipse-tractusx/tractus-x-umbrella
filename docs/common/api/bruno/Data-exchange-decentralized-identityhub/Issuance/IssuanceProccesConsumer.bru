@@ -1,0 +1,55 @@
+meta {
+  name: IssuanceProccesConsumer
+  type: http
+  seq: 9
+}
+
+post {
+  url: http://consumer.intranet/identityhub/api/identity/v1alpha/participants/{{CONSUMER_PARTICIPANT_CONTEXT}}/credentials/request
+  body: json
+  auth: apikey
+}
+
+auth:apikey {
+  key: x-api-key
+  value: ZGlkOndlYjpjb25zdW1lci5sb2NhbDppZGVudGl0eWh1YjpCUE5MMDAwMDAwMDAwMDAy.randomChars
+  placement: header
+}
+
+body:json {
+  {
+    "credentials": [
+      {
+        "format": "VC1_0_JWT",
+        "id": "membershipCredential-id",
+        "type": "MembershipCredential"
+      },
+      {
+        "format": "VC1_0_JWT",
+        "id": "usagePurposeCredential-id",
+        "type": "UsagePurposeCredential"
+      },
+      {
+        "format": "VC1_0_JWT",
+        "id": "dataExchangeGovernanceCredential-id",
+        "type": "DataExchangeGovernanceCredential"
+      },
+      {
+        "format": "VC1_0_JWT",
+        "id": "BpnCredential-id",
+        "type": "BpnCredential"
+      }
+    ],
+    "holderPid": "did:web:issuerservice.local:BPNL000000000003",
+    "issuerDid": "did:web:issuerservice.local:BPNL000000000003"
+  }
+}
+
+vars:pre-request {
+  CONSUMER_PARTICIPANT_CONTEXT: ZGlkOndlYjpjb25zdW1lci5sb2NhbDppZGVudGl0eWh1YjpCUE5MMDAwMDAwMDAwMDAy
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

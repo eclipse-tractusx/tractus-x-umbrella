@@ -1,0 +1,57 @@
+meta {
+  name: IssuerCreateParticipantContext
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{ISSUERSERVICE.URL}}/api/identity/v1alpha/participants
+  body: json
+  auth: apikey
+}
+
+auth:apikey {
+  key: x-api-key
+  value: {{API-KEY}}
+  placement: header
+}
+
+body:json {
+  {
+    "active": true,
+    "did": "did:web:issuerservice.local:BPNL000000000003",
+    "key": {
+      "keyGeneratorParams": {
+        "algorithm": "Ec",
+        "curve": "secp256r1"
+      },
+      "keyId": "did:web:issuerservice.local:BPNL000000000003#key-1",
+      "type": "JsonWebKey2020",
+      "privateKeyAlias": "issuer-privatekey-alias"
+    },
+    "participantContextId": "minikube",
+    
+    "roles": [
+      "ROLE_ADMIN", "admin"
+    ],
+    "serviceEndpoints": [
+      {
+        "id": "issuerservice.local#credential-service",
+        "type": "IssuerService",
+        "serviceEndpoint": "http://issuerservice.local/api/issuance/v1alpha/participants/bWluaWt1YmU="
+      }
+    ],
+    "apiKeyAlias": "apiKeyAliasTest"
+  }
+}
+
+script:post-response {
+  var json = res.getBody();
+  bru.setVar("ISSUER_API_KEY", json.apiKey)
+  bru.setVar("ISSUER_PARTICIPANT", json.apiKey.split(".")[0])
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

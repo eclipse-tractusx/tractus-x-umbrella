@@ -1,0 +1,36 @@
+meta {
+  name: 01-Create The Data
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{Bob_Data_Server}}/urn:uuid:b77c6d51-cd1f-4c9d-b5d4-091b22dd306b
+  body: json
+  auth: inherit
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "parentParts": [
+      {
+        "validityPeriod": {
+          "validFrom": "2023-03-21T08:47:14.438+01:00",
+          "validTo": "2024-08-02T09:00:00.000+01:00"
+        },
+        "parentCatenaXId": "urn:uuid:0733946c-59c6-41ae-9570-cb43a6e4c79e",
+        "quantity": {
+          "quantityNumber": 2.5,
+          "measurementUnit": "unit:litre"
+        },
+        "createdOn": "2022-02-03T14:48:54.709Z",
+        "lastModifiedOn": "2022-02-03T14:48:54.709Z"
+      }
+    ],
+    "catenaXId": "urn:uuid:2c57b0e9-a653-411d-bdcd-64787e9fd3a7"
+  }
+}
