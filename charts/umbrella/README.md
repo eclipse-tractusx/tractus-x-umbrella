@@ -4,7 +4,8 @@ This umbrella chart provides a foundation for running end-to-end tests or creati
 
 ## **Quick Links**
 
-- [Latest Release Notes](../../docs/user/common/note-r2405-onwards/R24.05.md)
+- [Documentation](../../docs/README.md)
+- [Quickstart (Decentralized IdentityHub)](../../docs/user/quickstart.md)
 - [Setup Instructions](../../docs/README.md#setup-network--installation)
 - [Guides](../../docs/user/common/guides)
 

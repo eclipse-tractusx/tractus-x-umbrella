@@ -1,5 +1,11 @@
 # Linux Deployment Guide
 
+> [!TIP]
+> **Most users should follow the [Quickstart](../quickstart.md) instead.** This
+> page contains the full Linux-specific cluster + DNS reference (Minikube,
+> systemd-resolved, NetworkManager, dnsmasq alternatives). The Quickstart
+> already covers the common case in a few commands.
+
 This guide combines the steps for Cluster Setup, Network Setup, and Installation for Linux users.
 
 ## 1. Cluster Setup

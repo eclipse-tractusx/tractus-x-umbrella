@@ -1,6 +1,12 @@
 # Data Exchange with Decentralized IdentityHub Usage
 
-This guide provides instructions for using the Data Exchange with Decentralized IdentityHub configuration of the Umbrella Chart.
+> **This is the recommended / default scenario** of the umbrella chart since
+> Release 25.12. For a hands-on walkthrough start at the
+> [Quickstart](../../quickstart.md).
+
+This guide describes what is deployed by the
+[`values-adopter-decentralized-identityhub.yaml`](../../../../charts/umbrella/values-adopter-decentralized-identityhub.yaml)
+profile and how to interact with it.
 
 ## Overview
 
@@ -65,7 +71,7 @@ Import the Bruno collection for the Umbrella Chart to test predefined APIs:
 - **IssuerService Configuration**: The IssuerService issues verifiable credentials and manages attestation definitions. Custom attestation claims can be seeded into the PostgreSQL database during deployment via the `tractusx-issuerservice.attestationClaimSeeding` configuration in the values file.
 - **Important**: Each EDC instance with integrated IdentityHub must be deployed in a separate namespace to avoid resource conflicts and ensure proper isolation between participants. This limitation will be resolved after IdentityHub version 0.2.0.
 
-For further details, refer to the [Data Exchange Installation Guide](../setup/README.md#data-exchange-subset).
+For installation steps, see the [Quickstart](../../quickstart.md).
 
 ## NOTICE
 

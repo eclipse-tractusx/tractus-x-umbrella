@@ -1,5 +1,10 @@
 # macOS Deployment Guide
 
+> [!TIP]
+> After picking your deployment method below, the actual chart installation is
+> the same as in the [Quickstart](../quickstart.md) — only the cluster + DNS
+> setup differs on macOS.
+
 Please choose your deployment method:
 
 - [Deployment with Docker Desktop (Minikube)](with-docker-desktop.md)

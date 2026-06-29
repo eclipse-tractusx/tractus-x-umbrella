@@ -18,7 +18,7 @@ Have a look in the [docs](/docs) section for user manuals and guides.
 
 ## Release Compatibility
 
-The versions of the [integrated components](/docs/user/linux/installation/README.md#available-components) correspond to the overarching **[Release 25.12](https://github.com/eclipse-tractusx/tractus-x-release/blob/25.12/CHANGELOG.md#2512---2025-12-03)**
+The versions of the [integrated components](/docs/user/common/installation.md#available-components) correspond to the overarching **[Release 25.12](https://github.com/eclipse-tractusx/tractus-x-release/blob/25.12/CHANGELOG.md#2512---2025-12-03)**
 
 ## Purpose
 

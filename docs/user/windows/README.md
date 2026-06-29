@@ -1,5 +1,10 @@
 # Windows Deployment Guide
 
+> [!TIP]
+> Windows is currently not part of the regularly tested platforms. Use this page
+> to get a working cluster (Hyper-V / Docker Desktop / WSL2), then follow the
+> [Quickstart](../quickstart.md) from step 3 onwards for the actual chart install.
+
 This guide combines the steps for Cluster Setup, Network Setup, and Installation for Windows users.
 
 ## 1. Cluster Setup
