@@ -195,6 +195,14 @@ helm install -f values-adopter-decentralized-identityhub.yaml umbrella . --names
 See [Data Exchange with Decentralized IdentityHub](../common/guides/data-exchange-identityhub.md)
 for the participant identifiers (BPNs / DIDs) and how to exercise the dataspace.
 
+### Portal Subset
+
+The Portal subset provides a user-friendly interface for participant onboarding and management.
+
+```bash
+helm install -f values-adopter-portal.yaml umbrella . --namespace umbrella --create-namespace
+```
+
 ### Data Exchange Subset (legacy centralized flow)
 
 The legacy Data Exchange subset uses CX-IAM and the centralized `ssi-dim-wallet-stub`.
@@ -218,14 +226,6 @@ To enable an additional data consumer (`dataconsumerTwo`), follow these steps:
    ```bash
    helm upgrade -f values-adopter-data-exchange.yaml umbrella . --namespace umbrella
    ```
-
-### Portal Subset
-
-The Portal subset provides a user-friendly interface for participant onboarding and management.
-
-```bash
-helm install -f values-adopter-portal.yaml umbrella . --namespace umbrella --create-namespace
-```
 
 ## Next Steps
 
