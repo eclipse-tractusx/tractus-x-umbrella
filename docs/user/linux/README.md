@@ -232,7 +232,7 @@ To enable an additional data consumer (`dataconsumerTwo`), follow these steps:
 After successfully deploying the Umbrella Chart, you can explore the following guides to continue your journey:
 
 - **Guides**:
-  - [Data Exchange Guide](../common/guides/data-exchange.md) - Learn how to provide and consume data.
+  - [Data Exchange Guide](../common/guides/data-exchange-identityhub.md) - Learn how to provide and consume data.
   - [Portal Usage Guide](../common/guides/portal-usage.md) - Instructions on how to use the Portal.
   - [Database Access](../common/guides/database-access.md) - How to access the databases.
   - [Observability](../common/guides/observability/observability.md) - Monitoring and logging.
