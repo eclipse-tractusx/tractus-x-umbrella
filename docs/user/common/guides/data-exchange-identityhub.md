@@ -57,11 +57,11 @@ The following components are part of the Data Exchange with Decentralized Identi
 
 You have to copy the generated super-user X-Api-Key generated from the logs first to avoid getting an unauthorized error.
 ```
-kubeget get pods
+kubectl get pods
 ```
 Find the issuerservice pod and look the logs
 ```
-kubectl log <issuerservice pod>
+kubectl logs <issuerservice pod>
 ```
 Find the log that starts like this and copy the X-Api-Key value for pasting it afterwars in the data-exchange.
 ```
