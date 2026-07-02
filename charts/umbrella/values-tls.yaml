@@ -371,7 +371,7 @@ dataconsumerOne:
             token_url: https://ssi-dim-wallet-stub.tx.test/oauth/token
       controlplane:
         env:
-          TX_IAM_IATP_CREDENTIALSERVICE_URL: https://ssi-dim-wallet-stub.tx.test/api
+          TX_EDC_IAM_IATP_CREDENTIALSERVICE_URL: https://ssi-dim-wallet-stub.tx.test/api
         bdrs:
           server:
             url: https://ssi-dim-wallet-stub.tx.test/api/v1/directory
@@ -389,7 +389,7 @@ dataconsumerOne:
               enabled: true
       dataplane:
         env:
-          TX_IAM_IATP_CREDENTIALSERVICE_URL: https://ssi-dim-wallet-stub.tx.test/api
+          TX_EDC_IAM_IATP_CREDENTIALSERVICE_URL: https://ssi-dim-wallet-stub.tx.test/api
         ingresses:
           - enabled: true
             annotations:
@@ -416,7 +416,7 @@ tx-data-provider:
             token_url: https://ssi-dim-wallet-stub.tx.test/oauth/token
       controlplane:
         env:
-          TX_IAM_IATP_CREDENTIALSERVICE_URL: https://ssi-dim-wallet-stub.tx.test/api
+          TX_EDC_IAM_IATP_CREDENTIALSERVICE_URL: https://ssi-dim-wallet-stub.tx.test/api
         bdrs:
           server:
             url: https://ssi-dim-wallet-stub.tx.test/api/v1/directory
@@ -434,7 +434,7 @@ tx-data-provider:
               enabled: true
       dataplane:
         env:
-          TX_IAM_IATP_CREDENTIALSERVICE_URL: https://ssi-dim-wallet-stub.tx.test/api
+          TX_EDC_IAM_IATP_CREDENTIALSERVICE_URL: https://ssi-dim-wallet-stub.tx.test/api
         ingresses:
           - enabled: true
             hostname: "dataprovider-dataplane.tx.test"
@@ -488,7 +488,7 @@ dataconsumerTwo:
             token_url: https://ssi-dim-wallet-stub.tx.test/oauth/token
       controlplane:
         env:
-          TX_IAM_IATP_CREDENTIALSERVICE_URL: https://ssi-dim-wallet-stub.tx.test/api
+          TX_EDC_IAM_IATP_CREDENTIALSERVICE_URL: https://ssi-dim-wallet-stub.tx.test/api
         bdrs:
           server:
             url: https://ssi-dim-wallet-stub.tx.test/api/v1/directory
@@ -506,7 +506,7 @@ dataconsumerTwo:
               enabled: true
       dataplane:
         env:
-          TX_IAM_IATP_CREDENTIALSERVICE_URL: https://ssi-dim-wallet-stub.tx.test/api
+          TX_EDC_IAM_IATP_CREDENTIALSERVICE_URL: https://ssi-dim-wallet-stub.tx.test/api
         ingresses:
           - enabled: true
             hostname: "dataconsumer-2-dataplane.tx.test"

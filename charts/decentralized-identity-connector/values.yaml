@@ -131,6 +131,8 @@ tx-data-provider:
         hashicorp: *vault-hashicorp
       participant:
         id: *participantBpn
+        # Participant Context Id - Required since tractusx-edc 0.12.0 (multi-tenancy)
+        contextId: "00000000-0000-0000-0000-000000000006"
 
       iatp:
         # -- Decentralized IDentifier (DID) of the connector

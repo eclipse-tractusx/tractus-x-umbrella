@@ -29,7 +29,7 @@ For more information to "Bring Your Own" configuration, see the [hausanschluss u
 | Repository | Name | Version |
 |------------|------|---------|
 | https://charts.bitnami.com/bitnami | postgresql | 15.2.1 |
-| https://eclipse-tractusx.github.io/charts/dev | tractusx-connector | 0.11.2 |
+| https://eclipse-tractusx.github.io/charts/dev | tractusx-connector | 0.12.0 |
 | https://helm.releases.hashicorp.com | vault | 0.27.0 |
 
 ## Values
@@ -45,9 +45,9 @@ For more information to "Bring Your Own" configuration, see the [hausanschluss u
 | tractusx-connector.iatp.sts.oauth.client.id | string | `"BPNL00000003AZQP"` | Client ID for requesting OAuth2 access token for DIM access |
 | tractusx-connector.iatp.sts.oauth.client.secret_alias | string | `"client-secret"` | Alias under which the client secret is stored in the vault for requesting OAuth2 access token for DIM access |
 | tractusx-connector.participant.id | string | `"BPNL00000003AZQP"` | Business Partner Number (BPN) of the connector |
-| tractusx-connector.controlplane.env | map | `{"TX_IAM_IATP_CREDENTIALSERVICE_URL":"http://ssi-dim-wallet-stub.tx.test/api"}` | Extra environment variables that will be pass onto deployment pods |
+| tractusx-connector.controlplane.env | map | `{"TX_EDC_IAM_IATP_CREDENTIALSERVICE_URL":"http://ssi-dim-wallet-stub.tx.test/api"}` | Extra environment variables that will be pass onto deployment pods |
 | tractusx-connector.controlplane.bdrs.server.url | string | `"http://ssi-dim-wallet-stub.tx.test/api/v1/directory"` | URL of the BPN/DID Resolution Service |
-| tractusx-connector.dataplane.env | map | `{"TX_IAM_IATP_CREDENTIALSERVICE_URL":"http://ssi-dim-wallet-stub.tx.test/api"}` | Extra environment variables that will be pass onto deployment pods |
+| tractusx-connector.dataplane.env | map | `{"TX_EDC_IAM_IATP_CREDENTIALSERVICE_URL":"http://ssi-dim-wallet-stub.tx.test/api"}` | Extra environment variables that will be pass onto deployment pods |
 
 ### EDC Installation Options
 
