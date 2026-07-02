@@ -55,6 +55,18 @@ The following components are part of the Data Exchange with Decentralized Identi
 
 ## Testing the Data Exchange
 
+You have to copy the generated super-user X-Api-Key generated from the logs first to avoid getting an unauthorized error.
+```
+kubeget get pods
+```
+Find the issuerservice pod and look the logs
+```
+kubectl log <issuerservice pod>
+```
+Find the log that starts like this and copy the X-Api-Key value for pasting it afterwars in the data-exchange.
+```
+[2026-07-02 12:11:16] [INFO] [SuperUserSeedExtension] Created user 'super-user'. Please take note of the API Key: c3VwZXItdXNlcg==.randomChars
+```
 You can test and interact with the Data Exchange with Decentralized IdentityHub using the following tools:
 
 ### Bruno Collection
