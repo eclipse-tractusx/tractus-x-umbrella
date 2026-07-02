@@ -6,13 +6,6 @@ This guide combines the steps for Cluster Setup, Network Setup, and Installation
 
 This guide provides instructions to set up a Kubernetes cluster required for running the Umbrella Chart.
 
-You can also follow the guide with the help of the [tutorial video](https://github.com/eclipse-tractusx/eclipse-tractusx.github.io.largefiles/blob/main/umbrella/video-tutorials/setup.mp4).
-
-https://github.com/user-attachments/assets/c10bb246-33a1-47fa-9b94-9af433b4adfd
-> [!WARNING]
-> The video may not be displayed depending on your browser and browser version, try using different one if you are not able to see it.
-> You can also dowload it from the previus link.
-
 ### System Requirements
 
 | CPU (Cores) | Memory (GB) |
