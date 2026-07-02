@@ -1084,6 +1084,8 @@ dataconsumerOne:
       nameOverride: dataconsumer-1-edc
       participant:
         id: BPNL00000003AZQP
+        # Participant Context Id - Required since tractusx-edc 0.12.0 (multi-tenancy)
+        contextId: "00000000-0000-0000-0000-000000000001"
       iatp:
         id: did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003AZQP
         trustedIssuers:
@@ -1098,7 +1100,7 @@ dataconsumerOne:
               secret_alias: edc-wallet-secret
       controlplane:
         env:
-          TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-stub.tx.test/api
+          TX_EDC_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-stub.tx.test/api
           EDC_IAM_DID_WEB_USE_HTTPS: false
         bdrs:
           server:
@@ -1118,7 +1120,7 @@ dataconsumerOne:
               enabled: false
       dataplane:
         env:
-          TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-stub.tx.test/api
+          TX_EDC_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-stub.tx.test/api
           EDC_IAM_DID_WEB_USE_HTTPS: false
         ingresses:
           - enabled: true
@@ -1175,6 +1177,8 @@ tx-data-provider:
       nameOverride: dataprovider-edc
       participant:
         id: BPNL00000003AYRE
+        # Participant Context Id - Required since tractusx-edc 0.12.0 (multi-tenancy)
+        contextId: "00000000-0000-0000-0000-000000000002"
       iatp:
         id: did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003AYRE
         trustedIssuers:
@@ -1189,7 +1193,7 @@ tx-data-provider:
               secret_alias: edc-wallet-secret
       controlplane:
         env:
-          TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-stub.tx.test/api
+          TX_EDC_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-stub.tx.test/api
           EDC_IAM_DID_WEB_USE_HTTPS: false
         bdrs:
           server:
@@ -1209,7 +1213,7 @@ tx-data-provider:
               enabled: false
       dataplane:
         env:
-          TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-stub.tx.test/api
+          TX_EDC_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-stub.tx.test/api
           EDC_IAM_DID_WEB_USE_HTTPS: false
         ingresses:
           - enabled: true
@@ -1341,6 +1345,8 @@ dataconsumerTwo:
       nameOverride: dataconsumer-2-edc
       participant:
         id: BPNL00000003AVTH
+        # Participant Context Id - Required since tractusx-edc 0.12.0 (multi-tenancy)
+        contextId: "00000000-0000-0000-0000-000000000003"
       iatp:
         id: did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003AVTH
         trustedIssuers:
@@ -1355,7 +1361,7 @@ dataconsumerTwo:
               secret_alias: edc-wallet-secret
       controlplane:
         env:
-          TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-stub.tx.test/api
+          TX_EDC_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-stub.tx.test/api
           EDC_IAM_DID_WEB_USE_HTTPS: false
         bdrs:
           server:
@@ -1375,7 +1381,7 @@ dataconsumerTwo:
               enabled: false
       dataplane:
         env:
-          TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-stub.tx.test/api
+          TX_EDC_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-stub.tx.test/api
           EDC_IAM_DID_WEB_USE_HTTPS: false
         ingresses:
           - enabled: true
