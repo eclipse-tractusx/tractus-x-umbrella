@@ -185,14 +185,9 @@ For common issues and solutions, please refer to the [Troubleshooting Guide](../
 
 Make sure to clone the [tractus-x-umbrella](https://github.com/eclipse-tractusx/tractus-x-umbrella) repository beforehand.
 
-Update the chart dependencies of the umbrella helm chart and their dependencies.
+Update the chart dependencies of the umbrella helm chart and their dependencies (from root).
 ```bash
-helm dependency update charts/data-persistence-layer-bundle
-helm dependency update charts/dataspace-connector-bundle
-helm dependency update charts/digital-twin-bundle
-helm dependency update charts/identity-and-trust-bundle
-helm dependency update charts/tx-data-provider
-helm dependency update charts/umbrella
+bash ./hack/helm-dependencies.bash
 ```
 
 Navigate to the `charts/umbrella` directory.
