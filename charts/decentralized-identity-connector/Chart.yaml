@@ -29,7 +29,7 @@ appVersion: 0.0.1
 dependencies:
   - name: tx-data-provider
     repository: file://../tx-data-provider
-    version: 0.4.6
+    version: 0.5.0
     condition: tx-data-provider.enabled
   - name: tractusx-identityhub
     repository: https://eclipse-tractusx.github.io/charts/dev
