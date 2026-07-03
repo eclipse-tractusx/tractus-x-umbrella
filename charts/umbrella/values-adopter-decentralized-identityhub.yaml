@@ -499,8 +499,12 @@ tractusx-issuerservice:
   postgresql:
     nameOverride: "issuerservice-postgresql"
     jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-issuerservice-postgresql:5432/issuer"
-    persistence:
-      enabled: false
+    primary:
+      persistence:
+        enabled: false
+    readReplicas:
+      persistence:
+        enabled: false
     auth:
       username: user
       password: password
