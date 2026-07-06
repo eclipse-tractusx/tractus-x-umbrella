@@ -3,6 +3,7 @@
 Please choose your deployment method:
 
 - [Deployment with Docker Desktop (Minikube)](with-docker-desktop.md)
+- [Deployment with Rancher Desktop (K3s)](with-rancher-desktop.md)
 - [Deployment without Docker Desktop (Lima + K3s)](without-docker-desktop.md)
 
 ## NOTICE
