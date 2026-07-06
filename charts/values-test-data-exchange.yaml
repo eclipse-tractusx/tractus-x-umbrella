@@ -35,6 +35,8 @@ dataconsumerOne:
   enabled: true
   dataspace-connector-bundle:
     tractusx-connector:
+      participant:
+        contextId: "00000000-0000-0000-0000-000000000001"
       iatp:
         id: did:web:ssi-dim-wallet-service:BPNL00000003AZQP
         trustedIssuers:
@@ -46,18 +48,20 @@ dataconsumerOne:
             token_url: http://ssi-dim-wallet-service/oauth/token
       controlplane:
         env:
-          TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-service/api
+          TX_EDC_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-service/api
         bdrs:
           server:
             url: http://ssi-dim-wallet-service/api/v1/directory
       dataplane:
         env:
-          TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-service/api
+          TX_EDC_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-service/api
 
 tx-data-provider:
   enabled: true
   dataspace-connector-bundle:
     tractusx-connector:
+      participant:
+        contextId: "00000000-0000-0000-0000-000000000002"
       iatp:
         id: did:web:ssi-dim-wallet-service:BPNL00000003AYRE
         trustedIssuers:
@@ -69,10 +73,10 @@ tx-data-provider:
             token_url: http://ssi-dim-wallet-service/oauth/token
       controlplane:
         env:
-          TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-service/api
+          TX_EDC_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-service/api
         bdrs:
           server:
             url: http://ssi-dim-wallet-service/api/v1/directory
       dataplane:
         env:
-          TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-service/api
+          TX_EDC_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-service/api

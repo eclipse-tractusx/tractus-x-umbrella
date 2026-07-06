@@ -53,17 +53,39 @@ tractusx-connector:
           # -- Alias under which the client secret is stored in the vault for requesting OAuth2 access token for DIM access
           # @section -- Decentralized Claims Protocol (DCP, formerly IATP) Settings (Bring Your Own)
           secret_alias: client-secret
+    # -- Verifiable Presentation cache (introduced in tractusx-edc 0.12.0). Reduces load on the wallet.
+    # @section -- Decentralized Claims Protocol (DCP, formerly IATP) Settings (Bring Your Own)
+    cache:
+      # -- Whether the Verifiable Presentation cache is enabled
+      # @section -- Decentralized Claims Protocol (DCP, formerly IATP) Settings (Bring Your Own)
+      enabled: true
+      # -- Validity of the Verifiable Presentation cache in seconds (default: 24h)
+      # @section -- Decentralized Claims Protocol (DCP, formerly IATP) Settings (Bring Your Own)
+      validity: 86400
+    # -- Automatic self-registration of the connector in its DID document (introduced in tractusx-edc 0.12.0)
+    # @section -- Decentralized Claims Protocol (DCP, formerly IATP) Settings (Bring Your Own)
+    didService:
+      selfRegistration:
+        # -- Whether Service Self Registration is enabled
+        # @section -- Decentralized Claims Protocol (DCP, formerly IATP) Settings (Bring Your Own)
+        enabled: false
+        # -- Unique id of connector to be used for register / unregister service inside did document (must be valid URI)
+        # @section -- Decentralized Claims Protocol (DCP, formerly IATP) Settings (Bring Your Own)
+        id: did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003AZQP
 
   participant:
     # -- Business Partner Number (BPN) of the connector (required in 0.11.0+ via tractusx.edc.participant.bpn)
     # @section -- Decentralized Claims Protocol (DCP, formerly IATP) Settings (Bring Your Own)
     id: BPNL00000003AZQP
+    # -- Participant Context Id - Required since 0.12.0 (used as tenant id in future multi-tenancy). Must be a UUID or a value usable as URL path segment.
+    # @section -- Decentralized Claims Protocol (DCP, formerly IATP) Settings (Bring Your Own)
+    contextId: "00000000-0000-0000-0000-000000000001"
 
   controlplane:
     # -- (map) Extra environment variables that will be pass onto deployment pods
     # @section -- Decentralized Claims Protocol (DCP, formerly IATP) Settings (Bring Your Own)
     env:
-      TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-stub.tx.test/api
+      TX_EDC_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-stub.tx.test/api
       # @ignore
       EDC_IAM_DID_WEB_USE_HTTPS: false
     bdrs:
@@ -107,7 +129,7 @@ tractusx-connector:
     # -- (map) Extra environment variables that will be pass onto deployment pods
     # @section -- Decentralized Claims Protocol (DCP, formerly IATP) Settings (Bring Your Own)
     env:
-      TX_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-stub.tx.test/api
+      TX_EDC_IAM_IATP_CREDENTIALSERVICE_URL: http://ssi-dim-wallet-stub.tx.test/api
       # @ignore
       EDC_IAM_DID_WEB_USE_HTTPS: false
     ingresses:
