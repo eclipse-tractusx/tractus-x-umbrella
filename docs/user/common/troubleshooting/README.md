@@ -6,6 +6,7 @@ This guide provides solutions to common issues encountered during the deployment
 
 - [Common Issues](#common-issues)
   - [DNS resolution fails due to resolution timeouts](#dns-resolution-fails-due-to-resolution-timeouts)
+  - [CentralIDP and SharedIDP pods enter CrashLoopBackOff during startup](#centralidp-and-sharedidp-pods-enter-crashloopbackoff-during-startup)
 - [Linux Issues](#linux-issues)
 - [Windows Issues](#windows-issues)
 - [macOS Issues](#macos-issues)
@@ -97,6 +98,140 @@ Prevent pods from inheriting `/etc/resolv.conf` search field values from the Min
    minikube start --cpus=4 --memory=6gb --extra-config=kubelet.resolv-conf="/etc/umbrella.resolv.conf"
    ```
 
+<<<<<<< Updated upstream
+### Portal pods fail to start in resource-constrained local environments
+
+**Problem background**
+
+When deploying the Portal on local Kubernetes environments such as Minikube, the available CPU and memory resources may not be sufficient for the Portal components.
+
+By default, the `values.yaml` file does not include a recommended resource configuration for these environments. As a result, Portal pods may fail to start because Kubernetes cannot allocate enough resources.
+
+Providing explicit resource requests and limits resolves the issue, but users may not immediately recognize that insufficient resources are the root cause.
+
+**Problem symptoms**
+
+- One or more Portal pods remain in the `Pending` or `CrashLoopBackOff` state.
+- The Portal application is not accessible after deployment.
+- Pod events indicate insufficient memory or CPU resources.
+- Increasing the resource requests and limits allows the Portal to start successfully.
+
+**Solution**
+
+Configure resource requests and limits for the Portal.
+
+1. Open the `values.yaml` file.
+
+2. Locate the `portal` section and uncomment the following resource configuration:
+
+   ```yaml
+portal:
+  enabled: false
+  replicaCount: 1
+  # Uncomment this section if the Portal pods fail to start in 
+  # resource-constrained local environments due to insufficient memory.
+  centralidp:
+    realmSeeding:
+      resources:
+        requests:
+          memory: "512Mi"
+        limits:
+          memory: "1Gi"
+
+  sharedidp:
+    realmSeeding:
+      resources:
+        requests:
+          memory: "512Mi"
+        limits:
+          memory: "1Gi"
+   ```
+
+   Alternatively, if the chart already contains the commented example, simply uncomment it:
+
+   ```yaml
+   # Uncomment this section if the Portal pods fail to start in
+   # resource-constrained local environments due to insufficient memory.
+   #
+   # resources:
+   #   limits:
+   #     memory: 2Gi
+   #     cpu: 1000m
+   #   requests:
+   #     memory: 1Gi
+   #     cpu: 500m
+   ```
+
+3. Redeploy or upgrade the Helm release.
+
+   ```bash
+   helm upgrade --install umbrella ./umbrella -f values.yaml
+   ```
+
+4. Verify that the Portal pods are running successfully.
+
+   ```bash
+   kubectl get pods
+   ```
+
+   The Portal pods should now reach the `Running` state.
+=======
+### CentralIDP and SharedIDP pods enter CrashLoopBackOff during startup
+
+**Problem background**
+
+When deploying the Umbrella Chart on resource-constrained local Kubernetes environments such as Minikube, the `centralidp` and `sharedidp` pods may repeatedly fail during startup and enter the `CrashLoopBackOff` state.
+
+The root cause is the Keycloak cache, which is enabled by default. During the initial startup, cache initialization significantly increases memory consumption. As a result, the application may not become ready before the configured startup probes fail, causing Kubernetes to restart the containers. In some cases, the process is terminated by the operating system due to insufficient memory.
+
+Disabling the Keycloak cache reduces the startup memory requirements and allows the deployment to complete successfully in local environments.
+
+**Problem symptoms**
+
+- `centralidp` pod enters the `CrashLoopBackOff` state.
+- `sharedidp` pod enters the `CrashLoopBackOff` state.
+- The deployment does not complete successfully.
+- Pod logs or events may contain messages indicating that the process was terminated (`Killed`) due to excessive memory usage.
+- The readiness or liveness probes repeatedly fail during startup.
+
+**Solution**
+
+Disable the Keycloak cache for both CentralIDP and SharedIDP when deploying on local Minikube environments.
+
+Deploy the Umbrella Chart with the following Helm flags:
+
+```bash
+helm upgrade --install umbrella . \
+  -f values-adopter-portal.yaml \
+  --set centralidp.keycloak.cache.enabled=false \
+  --set sharedidp.keycloak.cache.enabled=false \
+  --namespace umbrella \
+  --create-namespace
+```
+
+Alternatively, disable the cache in your `values.yaml` file:
+
+```yaml
+centralidp:
+  keycloak:
+    cache:
+      enabled: false
+
+sharedidp:
+  keycloak:
+    cache:
+      enabled: false
+```
+
+After redeploying with the cache disabled, verify that the pods reach the `Running` state:
+
+```bash
+kubectl get pods
+```
+
+Both `centralidp` and `sharedidp` should start successfully and the Portal deployment should complete.
+>>>>>>> Stashed changes
+
 ## Linux Issues
 
 *No specific issues documented yet.*
@@ -115,5 +250,6 @@ This work is licensed under the [CC-BY-4.0](https://creativecommons.org/licenses
 
 - SPDX-License-Identifier: CC-BY-4.0
 - SPDX-FileCopyrightText: 2025 Contributors to the Eclipse Foundation
+* SPDX-FileCopyrightText: 2026 LKS Next
 - Source URL: <https://github.com/eclipse-tractusx/tractus-x-umbrella>
 

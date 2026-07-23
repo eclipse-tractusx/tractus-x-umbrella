@@ -21,6 +21,22 @@
 portal:
   enabled: false
   replicaCount: 1
+  # Uncomment this section if the Portal pods fail to start in 
+  # resource-constrained local environments due to insufficient memory. 
+  # centralidp:
+  #   realmSeeding:
+  #     resources:
+  #       requests:
+  #         memory: "512Mi"
+  #       limits:
+  #         memory: "1Gi"
+  # sharedidp:
+  #   realmSeeding:
+  #     resources:
+  #       requests:
+  #         memory: "512Mi"
+  #       limits:
+  #         memory: "1Gi"
   postgresql:
     ## TEMPORALY UNTIL NEW PORTAL UPDATE
     enabled: true
