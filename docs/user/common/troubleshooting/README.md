@@ -97,6 +97,71 @@ Prevent pods from inheriting `/etc/resolv.conf` search field values from the Min
    minikube start --cpus=4 --memory=6gb --extra-config=kubelet.resolv-conf="/etc/umbrella.resolv.conf"
    ```
 
+### Portal pods fail to start in resource-constrained local environments
+
+**Problem background**
+
+When deploying the Portal on local Kubernetes environments such as Minikube, the available CPU and memory resources may not be sufficient for the Portal components.
+
+By default, the `values.yaml` file does not include a recommended resource configuration for these environments. As a result, Portal pods may fail to start because Kubernetes cannot allocate enough resources.
+
+Providing explicit resource requests and limits resolves the issue, but users may not immediately recognize that insufficient resources are the root cause.
+
+**Problem symptoms**
+
+- One or more Portal pods remain in the `Pending` or `CrashLoopBackOff` state.
+- The Portal application is not accessible after deployment.
+- Pod events indicate insufficient memory or CPU resources.
+- Increasing the resource requests and limits allows the Portal to start successfully.
+
+**Solution**
+
+Configure resource requests and limits for the Portal.
+
+1. Open the `values.yaml` file.
+
+2. Locate the `portal` section and uncomment the following resource configuration:
+
+   ```yaml
+   portal:
+     resources:
+       limits:
+         memory: 2Gi
+         cpu: 1000m
+       requests:
+         memory: 1Gi
+         cpu: 500m
+   ```
+
+   Alternatively, if the chart already contains the commented example, simply uncomment it:
+
+   ```yaml
+   # Uncomment this section if the Portal pods fail to start in
+   # resource-constrained local environments due to insufficient memory.
+   #
+   # resources:
+   #   limits:
+   #     memory: 2Gi
+   #     cpu: 1000m
+   #   requests:
+   #     memory: 1Gi
+   #     cpu: 500m
+   ```
+
+3. Redeploy or upgrade the Helm release.
+
+   ```bash
+   helm upgrade --install umbrella ./umbrella -f values.yaml
+   ```
+
+4. Verify that the Portal pods are running successfully.
+
+   ```bash
+   kubectl get pods
+   ```
+
+   The Portal pods should now reach the `Running` state.
+
 ## Linux Issues
 
 *No specific issues documented yet.*
