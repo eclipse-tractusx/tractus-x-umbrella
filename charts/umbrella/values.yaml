@@ -37,20 +37,6 @@ portal:
   #         memory: "512Mi"
   #       limits:
   #         memory: "1Gi"
-  centralidp:
-    realmSeeding:
-      resources:
-        requests:
-          memory: "512Mi"
-        limits:
-          memory: "1Gi"
-  sharedidp:
-    realmSeeding:
-      resources:
-        requests:
-          memory: "512Mi"
-        limits:
-          memory: "1Gi"
   postgresql:
     ## TEMPORALY UNTIL NEW PORTAL UPDATE
     enabled: true
