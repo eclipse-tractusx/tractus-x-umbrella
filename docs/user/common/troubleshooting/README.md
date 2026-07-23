@@ -6,6 +6,7 @@ This guide provides solutions to common issues encountered during the deployment
 
 - [Common Issues](#common-issues)
   - [DNS resolution fails due to resolution timeouts](#dns-resolution-fails-due-to-resolution-timeouts)
+  - [CentralIDP and SharedIDP pods fail to start and enter CrashLoopBackOff](#centralidp-and-sharedidp-pods-fail-to-start-and-enter-crashloopbackoff)
 - [Linux Issues](#linux-issues)
 - [Windows Issues](#windows-issues)
 - [macOS Issues](#macos-issues)
@@ -96,6 +97,62 @@ Prevent pods from inheriting `/etc/resolv.conf` search field values from the Min
    ```shell
    minikube start --cpus=4 --memory=6gb --extra-config=kubelet.resolv-conf="/etc/umbrella.resolv.conf"
    ```
+
+### CentralIDP and SharedIDP pods fail to start and enter CrashLoopBackOff
+
+**Problem background**
+
+When deploying the Umbrella Chart on a local Minikube cluster, the `centralidp` and `sharedidp` pods may repeatedly fail during startup and enter the `CrashLoopBackOff` state.
+
+The Keycloak cache, which is enabled by default, can significantly increase memory consumption during the initial startup. As a result, the application may not become ready before the configured startup probes fail, causing Kubernetes to continuously restart the containers. In some cases, the process may also be terminated by the operating system due to insufficient memory.
+
+Disabling the Keycloak cache reduces the startup memory requirements and allows the deployment to complete successfully in local environments.
+
+**Problem symptoms**
+
+- `kubectl get pods` shows the `centralidp` and `sharedidp` pods repeatedly restarting.
+- The `centralidp` pod enters the `CrashLoopBackOff` state.
+- The `sharedidp` pod enters the `CrashLoopBackOff` state.
+- The deployment does not complete successfully.
+- Pod logs or events may contain messages indicating that the process was terminated (`Killed`) due to excessive memory usage.
+- The readiness or liveness probes repeatedly fail during startup.
+
+**Solution**
+
+Disable the Keycloak cache for both CentralIDP and SharedIDP when deploying the Umbrella Chart on a local Minikube cluster.
+
+Deploy the Umbrella Chart with the following Helm command:
+
+```bash
+helm upgrade --install umbrella . \
+  -f values-adopter-portal.yaml \
+  --set centralidp.keycloak.cache.enabled=false \
+  --set sharedidp.keycloak.cache.enabled=false \
+  --namespace umbrella \
+  --create-namespace
+```
+
+Alternatively, disable the cache in your `values.yaml` file:
+
+```yaml
+centralidp:
+  keycloak:
+    cache:
+      enabled: false
+
+sharedidp:
+  keycloak:
+    cache:
+      enabled: false
+```
+
+Redeploy the Umbrella Chart and verify that the pods reach the `Running` state:
+
+```bash
+kubectl get pods
+```
+
+The `centralidp` and `sharedidp` pods should reach the `Running` state and the deployment should complete successfully.
 
 ## Linux Issues
 
