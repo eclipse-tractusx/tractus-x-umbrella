@@ -34,6 +34,83 @@ vars:pre-request {
   PROVIDER_PARTICIPANT_CONTEXT: ZGlkOndlYjpwcm92aWRlci5sb2NhbDppZGVudGl0eWh1YjpCUE5MMDAwMDAwMDAwMDAx
 }
 
+tests {
+  // This block is a display surface, not a test suite: every test() line shows up in
+  // Bruno's Tests tab, which is the most convenient place to read decoded credentials
+  // during the walkthrough. The names carry the data; nothing is asserted.
+
+  // JWT segments are base64url, so swap the URL-safe alphabet back to standard and
+  // restore the padding atob expects.
+  function decodeSegment(seg) {
+    const s = seg.replace(/-/g, "+").replace(/_/g, "/");
+    return JSON.parse(atob(s + "=".repeat((4 - (s.length % 4)) % 4)));
+  }
+
+  // Find every rawVc wherever it sits, so this survives changes to the
+  // VerifiableCredentialResource envelope around it.
+  function collectRawVcs(node, out) {
+    out = out || [];
+    if (node === null || typeof node !== "object") return out;
+    if (Array.isArray(node)) {
+      node.forEach(function (n) { collectRawVcs(n, out); });
+      return out;
+    }
+    if (typeof node.rawVc === "string") out.push(node.rawVc);
+    Object.keys(node).forEach(function (k) { collectRawVcs(node[k], out); });
+    return out;
+  }
+
+  const decoded = collectRawVcs(res.getBody()).map(function (jwt) {
+    const parts = jwt.split(".");
+    const header = decodeSegment(parts[0]);
+    const payload = decodeSegment(parts[1]);
+    return {
+      type: ((payload.vc && payload.vc.type) || []).filter(function (t) {
+        return t !== "VerifiableCredential";
+      }).join(", ") || "unknown",
+      alg: header.alg,
+      kid: header.kid,
+      iss: payload.iss,
+      sub: payload.sub,
+      credentialSubject: (payload.vc && payload.vc.credentialSubject) || {},
+      payload: payload
+    };
+  });
+
+  // `id` and `holderIdentifier` are the holder's identity, shown once below; whatever
+  // else remains is the claim the policy constraints actually read.
+  function claims(cs) {
+    const keys = Object.keys(cs).filter(function (k) {
+      return k !== "id" && k !== "holderIdentifier";
+    }).sort();
+    if (keys.length === 0) return "no claims - carries holder identity only";
+    return keys.map(function (k) { return k + "=" + cs[k]; }).join(", ");
+  }
+
+  const line = function (name) { test(name, function () {}); };
+  const uniq = function (xs) {
+    return xs.filter(function (x, i) { return xs.indexOf(x) === i; });
+  };
+
+  line("Bob holds " + decoded.length + " credential(s)");
+
+  decoded.forEach(function (c, i) {
+    line("[" + (i + 1) + "] " + c.type + "  ->  " + claims(c.credentialSubject));
+  });
+
+  line("holder: " + uniq(decoded.map(function (c) { return c.sub; })).join(" | "));
+  line("issuer: " + uniq(decoded.map(function (c) { return c.iss; })).join(" | "));
+  line("signed with: " + uniq(decoded.map(function (c) {
+    return c.kid + " (" + c.alg + ")";
+  })).join(" | "));
+
+  // Full decoded payloads, for when the summary above isn't enough.
+  decoded.forEach(function (c, i) {
+    console.log("--- [" + (i + 1) + "] " + c.type + " ---");
+    console.log(JSON.stringify(c.payload, null, 2));
+  });
+}
+
 settings {
   encodeUrl: true
   timeout: 0

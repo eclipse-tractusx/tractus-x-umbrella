@@ -34,7 +34,53 @@ body:json {
   }
 }
 
+script:post-response {
+  // The contract negotiation and the transfer it triggers take a few seconds, so this
+  // endpoint legitimately returns [] for a while. Poll instead of indexing into an
+  // empty array (which used to throw a script error that looked like a real failure).
+  //
+  // bru.setNextRequest only takes effect during a folder/collection run ("Run Folder",
+  // or `bru run`); on a single Send it is a no-op, so the tests block below tells you
+  // to click again.
+  const MAX_ATTEMPTS = 10;
+  const DELAY_MS = 2000;
+
+  const rows = res.getBody();
+  const ready = Array.isArray(rows) && rows.length > 0;
+  const attempt = Number(bru.getVar("EDR_POLL_ATTEMPT") || 0) + 1;
+
+  bru.setVar("EDR_POLL_ATTEMPT", attempt);
+
+  if (ready) {
+    bru.setVar("TRANSFER_PROCESS_ID", rows[0].transferProcessId);
+    // Keep the count for the tests block to report, then clear the live counter.
+    bru.setVar("EDR_POLL_USED", attempt);
+    bru.setVar("EDR_POLL_ATTEMPT", 0);
+  } else if (attempt < MAX_ATTEMPTS) {
+    await bru.sleep(DELAY_MS);
+    bru.setNextRequest("03-Query Cached EDRs Response");
+  } else {
+    // Give up rather than letting step 04 run with a stale or missing id.
+    bru.setVar("EDR_POLL_ATTEMPT", 0);
+    bru.setNextRequest(null);
+  }
+}
+
 tests {
-  const transferProcessId = res.body[0].transferProcessId;
-  bru.setVar("TRANSFER_PROCESS_ID", transferProcessId);
+  const rows = res.getBody();
+  const count = Array.isArray(rows) ? rows.length : 0;
+  const attempt = Number(bru.getVar("EDR_POLL_ATTEMPT") || 0);
+  const line = function (name) { test(name, function () {}); };
+
+  if (count > 0) {
+    line("EDR ready after " + Number(bru.getVar("EDR_POLL_USED") || 1) + " attempt(s)");
+    line("transferProcessId: " + bru.getVar("TRANSFER_PROCESS_ID"));
+    line("negotiation: " + bru.getVar("CONTRACT_NEGOTIATION_ID"));
+  } else if (attempt > 0 && attempt < 10) {
+    line("no EDR yet - attempt " + attempt + " of 10, negotiation still running");
+    line("folder run: retries automatically | single Send: click again");
+  } else {
+    line("gave up after 10 attempts - no EDR for this negotiation");
+    line("check the negotiation state, the usage policy is the usual culprit");
+  }
 }
