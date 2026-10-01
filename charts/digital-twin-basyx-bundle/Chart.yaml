@@ -1,5 +1,4 @@
 # #############################################################################
-# Copyright (c) 2026 LKS Next
 # Copyright (c) 2026 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
@@ -17,33 +16,17 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 # #############################################################################
----
 apiVersion: v2
-name: decentralized-identity-connector
-description: A Helm chart for Kubernetes
-
+name: digital-twin-basyx-bundle
+description: Optional BaSyx DTR PoC with an externally provisioned isolated PostgreSQL
 type: application
-version: 0.1.2
-appVersion: 0.0.1
-
+version: 0.1.0
+appVersion: "1.1.0"
+home: https://github.com/eclipse-basyx/charts
+sources:
+  - https://github.com/eclipse-basyx/charts/tree/basyx-3.15.0
 dependencies:
-  - name: tx-data-provider
-    repository: file://../tx-data-provider
-    version: 0.5.1
-    condition: tx-data-provider.enabled
-  - name: tractusx-identityhub
-    repository: https://eclipse-tractusx.github.io/charts/dev
-    version: "v0.3.2"
-    condition: tractusx-identityhub.enabled
-  # HashiCorp Vault
-  - name: vault
-    alias: vault
-    version: "0.27.0"
-    repository: https://helm.releases.hashicorp.com
-    condition: install.vault
-  # PostgreSQL
-  - name: postgresql
-    alias: postgresql
-    version: "15.2.1"
-    repository: https://charts.bitnami.com/bitnami
-    condition: install.postgresql
+  - name: basyx
+    version: 3.15.0
+    repository: https://eclipse-basyx.github.io/charts
+    condition: basyx.enabled

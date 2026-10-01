@@ -26,6 +26,10 @@ configuration:
 nameOverride: ""
 fullnameOverride: ""
 seedTestdata: false  # Toggle seeding of testdata. Can be enabled when the edc should be seeded with testdata on startup.
+
+# Optional provider; disabled so the existing Tractus-X DTR remains the default.
+digital-twin-basyx-bundle:
+  enabled: false
 testData:
   image: python:3.11
 testdataConfigMap: ""  # Provide a custom configmap for post-install-job-upload-testdata.yaml.

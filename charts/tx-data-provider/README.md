@@ -6,6 +6,11 @@ testing environments.
 
 ## Prerequisites
 
+For the optional BaSyx DTR deployment, see the
+[BaSyx DTR evaluation guide](../../docs/user/common/guides/basyx-dtr-poc.md).
+Tractus-X DTR remains the default. The BaSyx profile uses an existing independent
+PostgreSQL database and does not deploy an identity or connector stack.
+
 - Running Kubernetes cluster
 - Helm is installed
 

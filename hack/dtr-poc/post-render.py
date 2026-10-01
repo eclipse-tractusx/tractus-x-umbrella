@@ -1,5 +1,5 @@
+#!/usr/bin/env python3
 # #############################################################################
-# Copyright (c) 2026 LKS Next
 # Copyright (c) 2026 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
@@ -17,33 +17,13 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 # #############################################################################
----
-apiVersion: v2
-name: decentralized-identity-connector
-description: A Helm chart for Kubernetes
+"""Filter the unused TLS Issuer emitted by official BaSyx chart 3.15.0."""
+import sys
+import yaml
 
-type: application
-version: 0.1.2
-appVersion: 0.0.1
-
-dependencies:
-  - name: tx-data-provider
-    repository: file://../tx-data-provider
-    version: 0.5.1
-    condition: tx-data-provider.enabled
-  - name: tractusx-identityhub
-    repository: https://eclipse-tractusx.github.io/charts/dev
-    version: "v0.3.2"
-    condition: tractusx-identityhub.enabled
-  # HashiCorp Vault
-  - name: vault
-    alias: vault
-    version: "0.27.0"
-    repository: https://helm.releases.hashicorp.com
-    condition: install.vault
-  # PostgreSQL
-  - name: postgresql
-    alias: postgresql
-    version: "15.2.1"
-    repository: https://charts.bitnami.com/bitnami
-    condition: install.postgresql
+for obj in yaml.safe_load_all(sys.stdin):
+    if not obj:
+        continue
+    if obj["kind"] == "Issuer" and obj["metadata"]["name"] == "internal-issuer":
+        continue
+    sys.stdout.write("---\n" + yaml.safe_dump(obj, sort_keys=False))
