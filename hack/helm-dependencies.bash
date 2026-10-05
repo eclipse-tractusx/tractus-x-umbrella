@@ -12,6 +12,7 @@ if ! helm repo list ; then
   helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
   helm repo add grafana https://grafana.github.io/helm-charts
   helm repo add cert-manager https://charts.jetstack.io
+  helm repo add external-secrets https://charts.external-secrets.io
 else
   echo "Checking and adding missing repositories..."
   
@@ -59,6 +60,11 @@ else
   if ! helm repo list | grep -q "^cert-manager[[:space:]]"; then
     echo "Adding cert-manager repository..."
     helm repo add cert-manager https://charts.jetstack.io
+  fi
+
+  if ! helm repo list | grep -q "^external-secrets[[:space:]]"; then
+    echo "Adding external-secrets repository..."
+    helm repo add external-secrets https://charts.external-secrets.io
   fi
 fi
 

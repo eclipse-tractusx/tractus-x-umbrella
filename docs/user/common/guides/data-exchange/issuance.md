@@ -20,19 +20,21 @@ sequenceDiagram
     participant CIH as Consumer IdentityHub
 
     Admin->>Issuer: 1. IssuerCreateParticipantContext
-    Issuer-->>Admin: Issuer API key + participant id
-    Admin->>Issuer: 2. CreateAttestation (database)
-    Admin->>Issuer: 3. AddMembershipCredentials
-    Admin->>Issuer: 4. AddBPNCredential
-    Admin->>Issuer: 5. AddUsagePurposeCredentials
-    Admin->>Issuer: 6. AddDataExchangeCredentials
-    Admin->>Issuer: 7. AddConsumerHolder (Alice DID)
+    Issuer-->>Admin: Issuer API key + participant id (state: CREATED)
+    Admin->>Issuer: 2. IssuerActivateParticipantContext
+    Issuer-->>Admin: Participant state: ACTIVATED, DID document published
+    Admin->>Issuer: 3. CreateAttestation (database)
+    Admin->>Issuer: 4. AddMembershipCredentials
+    Admin->>Issuer: 5. AddBPNCredential
+    Admin->>Issuer: 6. AddUsagePurposeCredentials
+    Admin->>Issuer: 7. AddDataExchangeCredentials
+    Admin->>Issuer: 8. AddConsumerHolder (Alice DID)
 
-    Alice->>CIH: 8. IssuanceProccesConsumer (request credentials)
+    Alice->>CIH: 9. IssuanceProccesConsumer (request credentials)
     CIH->>Issuer: Resolve issuer endpoint and request issuance
     Issuer-->>CIH: Issue VC set for Alice
 
-    Alice->>CIH: 9. IdHConsumerVC (read stored VCs)
+    Alice->>CIH: 10. IdHConsumerVC (read stored VCs)
     CIH-->>Alice: Return consumer credentials
 ```
 
@@ -46,19 +48,21 @@ sequenceDiagram
     participant PIH as Provider IdentityHub
 
     Admin->>Issuer: 1. IssuerCreateParticipantContext
-    Issuer-->>Admin: Issuer API key + participant id
-    Admin->>Issuer: 2. CreateAttestation (database)
-    Admin->>Issuer: 3. AddMembershipCredentials
-    Admin->>Issuer: 4. AddBPNCredential
-    Admin->>Issuer: 5. AddUsagePurposeCredentials
-    Admin->>Issuer: 6. AddDataExchangeCredentials
-    Admin->>Issuer: 7. AddProviderHolder (Bob DID)
+    Issuer-->>Admin: Issuer API key + participant id (state: CREATED)
+    Admin->>Issuer: 2. IssuerActivateParticipantContext
+    Issuer-->>Admin: Participant state: ACTIVATED, DID document published
+    Admin->>Issuer: 3. CreateAttestation (database)
+    Admin->>Issuer: 4. AddMembershipCredentials
+    Admin->>Issuer: 5. AddBPNCredential
+    Admin->>Issuer: 6. AddUsagePurposeCredentials
+    Admin->>Issuer: 7. AddDataExchangeCredentials
+    Admin->>Issuer: 8. AddProviderHolder (Bob DID)
 
-    Bob->>PIH: 8. IssuanceProccesProvider (request credentials)
+    Bob->>PIH: 9. IssuanceProccesProvider (request credentials)
     PIH->>Issuer: Resolve issuer endpoint and request issuance
     Issuer-->>PIH: Issue VC set for Bob
 
-    Bob->>PIH: 9. IdHProviderVC (read stored VCs)
+    Bob->>PIH: 10. IdHProviderVC (read stored VCs)
     PIH-->>Bob: Return provider credentials
 ```
 
@@ -72,7 +76,7 @@ These diagrams show the same Bruno **Issuance** setup split by participant path:
 
 ### 1. Bootstrap Issuer Participant Context
 
-Create the issuer participant context (`IssuerCreateParticipantContext`) and capture the returned API key and participant id for subsequent admin requests.
+Create the issuer participant context (`IssuerCreateParticipantContext`) and capture the returned API key and participant id for subsequent admin requests.  Then Activate the issuer participant context (`IssuerActivateParticipantContext`).
 
 ### 2. Configure Attestation and Credential Definitions
 
@@ -110,6 +114,7 @@ For detailed API testing and credential management operations, use the Bruno col
 
 The Bruno collection includes pre-configured requests in the **Issuance** folder for:
 - **IssuerCreateParticipantContext**: Create participant context in the issuer service
+- **IssuerActivateParticipantContext**: Activate the issuer participant context so its DID document gets published
 - **CreateAttestation**: Create attestations for participants
 - **AddMembershipCredentials**: Issue membership credentials to participants
 - **AddBPNCredential**: Issue BPN credentials
