@@ -17,13 +17,21 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 # #############################################################################
-"""Filter the unused TLS Issuer emitted by official BaSyx chart 3.15.0."""
-import sys
-import yaml
+"""Filter the unused TLS Issuer emitted by official BaSyx chart 3.15.0.
 
-for obj in yaml.safe_load_all(sys.stdin):
-    if not obj:
-        continue
-    if obj["kind"] == "Issuer" and obj["metadata"]["name"] == "internal-issuer":
-        continue
-    sys.stdout.write("---\n" + yaml.safe_dump(obj, sort_keys=False))
+Standard library only, so it runs wherever python3 is available. Every other
+document is passed through unchanged.
+"""
+import re
+import sys
+
+KIND = re.compile(r"^kind:\s*['\"]?Issuer['\"]?\s*$", re.MULTILINE)
+NAME = re.compile(r"^metadata:\s*\n(?:[ \t]+.*\n|\s*\n)*?[ \t]+name:\s*['\"]?internal-issuer['\"]?\s*$", re.MULTILINE)
+
+
+def keep(document):
+    return not (KIND.search(document) and NAME.search(document))
+
+
+documents = re.split(r"^---[ \t]*$\n?", sys.stdin.read(), flags=re.MULTILINE)
+sys.stdout.write("".join("---\n" + d for d in documents if d.strip() and keep(d)))

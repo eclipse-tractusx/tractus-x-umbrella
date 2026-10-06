@@ -48,13 +48,14 @@ Use these only if the default (Decentralized IdentityHub) does not match what yo
 |---------|----------------|
 | `values-adopter-data-exchange.yaml` | Legacy centralized data exchange (CX-IAM + central wallet stub) |
 | `values-adopter-data-exchange-observability.yaml` | Same as above + Prometheus / Grafana / Loki / Jaeger |
+| `values-adopter-data-exchange-basyx.yaml` | Overlay for `values-adopter-data-exchange.yaml`: the data provider uses the Eclipse BaSyx DTR ([guide](user/common/guides/basyx-dtr-poc.md)) |
 | `values-adopter-portal.yaml` | Portal-only setup (UI, BPDM, onboarding) |
 | `values-external-secrets.yaml` | Replace fake secrets with HashiCorp Vault + ESO |
 | `values-tls.yaml` | TLS / ingress with certificates (cert-manager) |
 
 See the per-profile guides under [user/common/guides/](user/common/guides/).
 
-For an isolated alternative Registry evaluation, see
+For the BaSyx DTR (umbrella data exchange or an isolated tenant evaluation), see
 [Optional BaSyx DTR](user/common/guides/basyx-dtr-poc.md).
 
 ---

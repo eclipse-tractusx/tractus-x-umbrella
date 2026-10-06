@@ -1,0 +1,22 @@
+meta {
+  name: 10-Get Submodel Authorization
+  type: http
+  seq: 10
+}
+
+get {
+  url: {{Alice}}/edrs/{{SUBMODEL_TRANSFER_PROCESS_ID}}/dataaddress?auto_refresh=true
+  body: none
+  auth: apikey
+}
+
+auth:apikey {
+  key: X-Api-Key
+  value: {{Alice_Api_Key}}
+  placement: header
+}
+
+tests {
+  bru.setVar("SUBMODEL_ENDPOINT", res.body.endpoint);
+  bru.setVar("SUBMODEL_TOKEN", res.body.authorization);
+}

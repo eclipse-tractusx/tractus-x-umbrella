@@ -12,6 +12,36 @@ The profile is DTR-only: no identity stack, EDC, data backend, public ingress,
 Gateway, TLS certificate or authentication is provisioned. Other BaSyx
 components stay disabled. The current image digests target `amd64`.
 
+Two database modes are supported:
+
+| Mode | Values | Schema initialization |
+|---|---|---|
+| External (default) | `basyx.database.existingSecret` points to a prepared Secret | `pre-install,pre-upgrade` hook Job |
+| Bundled (sandbox) | [`values-bundled-postgresql.yaml`](values-bundled-postgresql.yaml) (`postgresql.enabled: true`) | regular Job that waits for the database |
+
+For EDC data exchange inside the umbrella, use the
+[umbrella BaSyx overlay](../../docs/user/common/guides/basyx-dtr-poc.md#run-basyx-in-the-umbrella-data-exchange-scenario).
+
+## Quick start with a bundled PostgreSQL
+
+```bash
+helm dependency update charts/digital-twin-basyx-bundle
+helm install dtbx charts/digital-twin-basyx-bundle --namespace dtbx --create-namespace \
+  -f charts/digital-twin-basyx-bundle/values-bundled-postgresql.yaml \
+  --post-renderer python3 --post-renderer-args hack/dtr-poc/post-render.py \
+  --wait --wait-for-jobs --timeout 10m
+kubectl -n dtbx port-forward svc/basyx-dtr-poc-digital-twin-registry 8080:8080
+curl http://localhost:8080/digital-twin-registry/health
+```
+
+The bundle renders the database Secret named in `basyx.database.existingSecret`
+for its own PostgreSQL 16 (BaSyx requires PostgreSQL 16 or newer). The
+credentials in `values.yaml` are fake sandbox values. The Configuration Service
+runs as a regular Job, not a Helm hook. The bundled PostgreSQL does not exist
+during pre-install hooks, and a post-install hook would deadlock with `--wait`
+because the DTR stays unready until the schema exists. The DTR Pod restarts
+until the Job has created the schema.
+
 ## Self-contained acceptance
 
 For a disposable installation with generated test databases and synthetic
@@ -75,8 +105,9 @@ metadata and Asset Link lookups. Error response envelopes differ between DTR
 implementations; this is not a claim of complete API equivalence.
 
 Registry descriptors point to a Submodel data service. This chart does not
-provide that service or validate EDC negotiation/data delivery. The bulk dataset
-importer, production tenant integration, ABAC, OIDC, Keycloak, BMW ECS, HA,
+provide that service. EDC negotiation and data delivery are covered by the umbrella
+BaSyx overlay, its CI install and the `Data-exchange-basyx` Bruno collection. The bulk dataset
+importer, production tenant integration, ABAC, OIDC, Keycloak, HA,
 performance, network isolation and data migration are outside this profile.
 
 ## Rollback and retained data

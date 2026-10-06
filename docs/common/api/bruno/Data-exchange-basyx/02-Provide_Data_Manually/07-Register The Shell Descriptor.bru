@@ -1,0 +1,57 @@
+meta {
+  name: 07-Register The Shell Descriptor
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{Bob_BaSyx_DTR}}/shell-descriptors
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "id": "{{MANUAL_SHELL_ID}}",
+    "idShort": "BaSyxDemoPart",
+    "globalAssetId": "{{MANUAL_GLOBAL_ASSET_ID}}",
+    "specificAssetIds": [
+      {
+        "name": "manufacturerPartId",
+        "value": "BASYX-DEMO-0001",
+        "externalSubjectId": {
+          "type": "ExternalReference",
+          "keys": [ { "type": "GlobalReference", "value": "{{Alice_BPN}}" } ]
+        }
+      }
+    ],
+    "submodelDescriptors": [
+      {
+        "id": "{{MANUAL_SUBMODEL_ID}}",
+        "idShort": "PartTypeInformation",
+        "semanticId": {
+          "type": "ExternalReference",
+          "keys": [ { "type": "GlobalReference", "value": "urn:samm:io.catenax.part_type_information:1.0.0#PartTypeInformation" } ]
+        },
+        "endpoints": [
+          {
+            "interface": "SUBMODEL-3.0",
+            "protocolInformation": {
+              "href": "{{Bob_Dataplane_Internal}}/{{MANUAL_SUBMODEL_ID}}",
+              "endpointProtocol": "HTTP",
+              "endpointProtocolVersion": ["1.1"],
+              "subprotocol": "DSP",
+              "subprotocolBody": "id={{MANUAL_SUBMODEL_ASSET_ID}};dspEndpoint={{Bob_DSP_Internal}}",
+              "subprotocolBodyEncoding": "plain",
+              "securityAttributes": [ { "type": "NONE", "key": "NONE", "value": "NONE" } ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

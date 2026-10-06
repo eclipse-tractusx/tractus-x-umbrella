@@ -148,7 +148,7 @@ across versions requires an independently verified schema recovery plan.
 Switching DTR engines is not a Helm rollback or an automatic data migration.
 
 The PoC has private ClusterIP services and no public ingress, OIDC, Keycloak,
-ABAC, BMW ECS, HA, migration or production tenant integration. Namespace and
+ABAC, HA, migration or production tenant integration. Namespace and
 database tests prove independent instances and data; they do not prove network
 or authorization isolation. A production rollout still requires the tenant's
 network/RBAC boundaries, caller compatibility, data handling and cutover plan.

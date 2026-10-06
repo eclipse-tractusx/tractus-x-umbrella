@@ -1,0 +1,43 @@
+meta {
+  name: 03-Create The DTR Asset
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{Bob}}/assets
+  body: json
+  auth: apikey
+}
+
+auth:apikey {
+  key: X-Api-Key
+  value: {{Bob_Api_Key}}
+  placement: header
+}
+
+body:json {
+  {
+    "@context": {
+      "@vocab": "https://w3id.org/edc/v0.0.1/ns/",
+      "dct": "http://purl.org/dc/terms/",
+      "cx-common": "https://w3id.org/catenax/ontology/common#"
+    },
+    "@id": "{{DTR_ASSET_ID}}",
+    "properties": {
+      "dct:type": { "@id": "https://w3id.org/catenax/taxonomy#DigitalTwinRegistry" },
+      "cx-common:version": "3.0",
+      "description": "BaSyx Digital Twin Registry",
+      "type": "data.core.digitalTwinRegistry"
+    },
+    "dataAddress": {
+      "@type": "DataAddress",
+      "type": "HttpData",
+      "baseUrl": "{{Bob_BaSyx_DTR_Internal}}",
+      "proxyPath": "true",
+      "proxyMethod": "true",
+      "proxyQueryParams": "true",
+      "proxyBody": "true"
+    }
+  }
+}

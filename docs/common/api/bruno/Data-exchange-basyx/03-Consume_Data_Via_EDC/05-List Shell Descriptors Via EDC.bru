@@ -1,0 +1,21 @@
+meta {
+  name: 05-List Shell Descriptors Via EDC
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{DTR_ENDPOINT}}/shell-descriptors?limit=5
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: {{DTR_TOKEN}}
+}
+
+tests {
+  // The EDC dataplane proxies this path to the BaSyx DTR base URL (.../digital-twin-registry).
+  const shells = res.getBody().result || [];
+  bru.setVar("SHELL_ID_B64", Buffer.from(shells[0].id).toString("base64url"));
+}

@@ -8,6 +8,7 @@ Two flows are covered &mdash; pick the one that matches the umbrella profile you
 |---|---|---|---|
 | **Decentralized IdentityHub** (`values-adopter-decentralized-identityhub.yaml`) | ✅ Default since Release 25.12 | [Data-exchange-decentralized-identityhub](./bruno/Data-exchange-decentralized-identityhub) | [Data Exchange with Decentralized IdentityHub](../../user/common/guides/data-exchange-identityhub.md) |
 | **Centralized Data Exchange** (`values-adopter-data-exchange.yaml`) | Legacy | [Umbrella-bru](./bruno/Umbrella-bru) | [Provide data](../../user/common/guides/data-exchange/provide-data.md) · [Consume data](../../user/common/guides/data-exchange/consume-data.md) |
+| **Centralized Data Exchange with BaSyx DTR** (`values-adopter-data-exchange.yaml` + `values-adopter-data-exchange-basyx.yaml`) | Optional | [Data-exchange-basyx](./bruno/Data-exchange-basyx) | [Optional BaSyx DTR](../../user/common/guides/basyx-dtr-poc.md#run-basyx-in-the-umbrella-data-exchange-scenario) |
 
 ## Bruno
 
@@ -16,6 +17,7 @@ Both collections are provided in `.bru` format and can be opened directly with
 
 - [Data-exchange-decentralized-identityhub](./bruno/Data-exchange-decentralized-identityhub) &mdash; provider/consumer flow plus issuance against the IssuerService, targeting the `*.local` / `*.intranet` hostnames used by the IdentityHub profile.
 - [Umbrella-bru](./bruno/Umbrella-bru) &mdash; original Alice/Bob data-exchange collection for the legacy centralized profile.
+- [Data-exchange-basyx](./bruno/Data-exchange-basyx) &mdash; same Alice/Bob flow with the Eclipse BaSyx DTR: checks the seeded BaSyx DTR, manual provisioning of DTR and submodel assets, and DTR discovery plus submodel fetch through the EDC.
 
 ## Curl
 
