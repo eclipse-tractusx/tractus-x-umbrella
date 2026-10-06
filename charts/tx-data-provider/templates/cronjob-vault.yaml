@@ -17,7 +17,7 @@
 # SPDX-License-Identifier: Apache-2.0
 # #############################################################################
 {{- $cronjob := index .Values "dataspace-connector-bundle" "vault-cronjob" }}
-{{- if $cronjob.enabled }}
+{{- if and $cronjob.enabled (index .Values "dataspace-connector-bundle" "vault" "enabled") }}
 ---
 {{- $fullName := include "dataprovider.fullname" . }}
 apiVersion: batch/v1
@@ -33,8 +33,8 @@ spec:
   # Use configurable schedule, default to every 5 minutes
   schedule: {{ $cronjob.schedule | default "*/5 * * * *" | quote }}
   concurrencyPolicy: {{ $cronjob.concurrencyPolicy | default "Forbid" }}
-  successfulJobsHistoryLimit: {{ $cronjob.successfulJobsHistoryLimit | default 3 }}
-  failedJobsHistoryLimit: {{ $cronjob.failedJobsHistoryLimit | default 1 }}
+  successfulJobsHistoryLimit: {{ $cronjob.successfulJobsHistoryLimit }}
+  failedJobsHistoryLimit: {{ $cronjob.failedJobsHistoryLimit }}
   jobTemplate:
     spec:
       template:
@@ -48,11 +48,17 @@ spec:
           restartPolicy: Never
           containers:
             - name: vault-setup-job
-              image: "alpine:3.19"
+              image: {{ .Values.vaultSetup.image | quote }}
               imagePullPolicy: "IfNotPresent"
               command:
                 - "/bin/sh"
                 - "/opt/scripts/vault-setup.sh"
+              env:
+                - name: VAULT_TOKEN
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ $fullName }}-vault-edc-secret
+                      key: vault-token
               volumeMounts:
                 - name: config-volume
                   mountPath: /opt/config
@@ -60,9 +66,27 @@ spec:
                   mountPath: /opt/scripts
           volumes:
             - name: config-volume
-              configMap:
-                name: {{ $fullName }}-vault-edc-configmap
-                defaultMode: 0777
+              projected:
+                defaultMode: 0444
+                sources:
+                  - configMap:
+                      name: {{ $fullName }}-vault-edc-configmap
+                      items:
+                        - key: cert.json
+                          path: cert.json
+                        - key: key.json
+                          path: key.json
+                        - key: aes-secret.json
+                          path: aes-secret.json
+                  {{- if .Values.secrets }}
+                  - secret:
+                      name: {{ $fullName }}-vault-edc-secret
+                      items:
+                        {{- range $key, $value := .Values.secrets }}
+                        - key: secret-{{ $key }}.json
+                          path: secret-{{ $key }}.json
+                        {{- end }}
+                  {{- end }}
             - name: script-volume
               configMap:
                 name: {{ $fullName }}-vault-edc-configmap

@@ -147,13 +147,13 @@ dependencies:
   - name: decentralized-identity-connector
     alias: edc-provider
     repository: file://../decentralized-identity-connector
-    version: 0.1.1
+    version: 0.1.2
     condition: edc-provider.enabled
   # Edc-Consumer
   - name: decentralized-identity-connector
     alias: edc-consumer
     repository: file://../decentralized-identity-connector
-    version: 0.1.1
+    version: 0.1.2
     condition: edc-consumer.enabled
   - name: tractusx-issuerservice
     repository: https://eclipse-tractusx.github.io/charts/dev
