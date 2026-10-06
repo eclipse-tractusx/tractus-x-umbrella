@@ -16,10 +16,10 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 # #############################################################################
----
 {{- $cronjob := index .Values "dataspace-connector-bundle" "vault-cronjob" }}
 {{- if $cronjob.enabled }}
-{{- $fullName := include "dataprovider.fullname" . -}}
+---
+{{- $fullName := include "dataprovider.fullname" . }}
 apiVersion: batch/v1
 kind: CronJob
 metadata:
