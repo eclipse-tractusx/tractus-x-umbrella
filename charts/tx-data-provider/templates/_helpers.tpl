@@ -69,9 +69,30 @@ Registry URL helpers
     {{- print "" }}
     {{- end }}
 {{- end }}
+{{/*
+In-cluster BaSyx DTR base URL (mirrors basyx.fullname of the BaSyx chart).
+BaSyx serves the AAS registry API under /digital-twin-registry, without /api/v3.
+*/}}
+{{- define "registry.basyx.url" -}}
+    {{- $basyx := index .Values "digital-twin-basyx-bundle" "basyx" | default dict }}
+    {{- $fullname := "" }}
+    {{- if $basyx.fullnameOverride }}
+        {{- $fullname = $basyx.fullnameOverride | trunc 63 | trimSuffix "-" }}
+    {{- else }}
+        {{- $name := default "basyx" $basyx.nameOverride }}
+        {{- if contains $name .Release.Name }}
+            {{- $fullname = .Release.Name | trunc 63 | trimSuffix "-" }}
+        {{- else }}
+            {{- $fullname = printf "%s-%s" .Release.Name $name | trunc 63 | trimSuffix "-" }}
+        {{- end }}
+    {{- end }}
+    {{- printf "http://%s:8080/digital-twin-registry" (printf "%s-digital-twin-registry" $fullname | trunc 63 | trimSuffix "-") }}
+{{- end }}
 {{- define "registry.url" -}}
     {{- if .Values.registryUrl }}
         {{- tpl .Values.registryUrl . }}
+    {{- else if index .Values "digital-twin-basyx-bundle" "enabled" }}
+        {{- include "registry.basyx.url" . }}
     {{ else }}
         {{- printf "%s%s%s" (include "registry.host" .) (include "registry.path" .) "/api/v3" }}
     {{- end }}

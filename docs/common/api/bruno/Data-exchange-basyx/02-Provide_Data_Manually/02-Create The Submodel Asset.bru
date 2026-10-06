@@ -1,0 +1,38 @@
+meta {
+  name: 02-Create The Submodel Asset
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{Bob}}/assets
+  body: json
+  auth: apikey
+}
+
+auth:apikey {
+  key: X-Api-Key
+  value: {{Bob_Api_Key}}
+  placement: header
+}
+
+body:json {
+  {
+    "@context": {
+      "@vocab": "https://w3id.org/edc/v0.0.1/ns/"
+    },
+    "@id": "{{MANUAL_SUBMODEL_ASSET_ID}}",
+    "properties": {
+      "description": "BaSyx demo submodel asset"
+    },
+    "dataAddress": {
+      "@type": "DataAddress",
+      "type": "HttpData",
+      "proxyPath": "true",
+      "proxyMethod": "true",
+      "proxyQueryParams": "true",
+      "proxyBody": "true",
+      "baseUrl": "{{Bob_Data_Server_Internal}}"
+    }
+  }
+}

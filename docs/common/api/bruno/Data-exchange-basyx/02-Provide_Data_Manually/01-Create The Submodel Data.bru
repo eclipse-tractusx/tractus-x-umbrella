@@ -1,0 +1,25 @@
+meta {
+  name: 01-Create The Submodel Data
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{Bob_Data_Server}}/{{MANUAL_SUBMODEL_ID}}
+  body: json
+  auth: none
+}
+
+headers {
+  Content-Type: application/json
+}
+
+body:json {
+  {
+    "catenaXId": "{{MANUAL_GLOBAL_ASSET_ID}}",
+    "partTypeInformation": {
+      "manufacturerPartId": "BASYX-DEMO-0001",
+      "nameAtManufacturer": "BaSyx demo part"
+    }
+  }
+}

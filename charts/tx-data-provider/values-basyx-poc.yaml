@@ -1,5 +1,4 @@
 # #############################################################################
-# Copyright (c) 2026 LKS Next
 # Copyright (c) 2026 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
@@ -17,33 +16,31 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 # #############################################################################
----
-apiVersion: v2
-name: decentralized-identity-connector
-description: A Helm chart for Kubernetes
+# Explicit PoC profile. The legacy DTR remains the chart's default.
+seedTestdata: false
+registryUrl: "http://basyx-dtr-poc-digital-twin-registry:8080/digital-twin-registry"
 
-type: application
-version: 0.1.4
-appVersion: 0.0.1
+digital-twin-bundle:
+  enabled: false
+  digital-twin-registry:
+    enabled: false
+  postgresql:
+    enabled: false
 
-dependencies:
-  - name: tx-data-provider
-    repository: file://../tx-data-provider
-    version: 0.5.3
-    condition: tx-data-provider.enabled
-  - name: tractusx-identityhub
-    repository: https://eclipse-tractusx.github.io/charts/dev
-    version: "v0.3.2"
-    condition: tractusx-identityhub.enabled
-  # HashiCorp Vault
-  - name: vault
-    alias: vault
-    version: "0.27.0"
-    repository: https://helm.releases.hashicorp.com
-    condition: install.vault
-  # PostgreSQL
-  - name: postgresql
-    alias: postgresql
-    version: "15.2.1"
-    repository: https://charts.bitnami.com/bitnami
-    condition: install.postgresql
+digital-twin-basyx-bundle:
+  enabled: true
+
+# Deploy the DTR only. Simple Submodel Server code/configuration is unchanged.
+data-persistence-layer-bundle:
+  enabled: false
+  simple-data-backend:
+    enabled: false
+
+dataspace-connector-bundle:
+  enabled: false
+  tractusx-connector:
+    enabled: false
+  postgresql:
+    enabled: false
+  vault:
+    enabled: false

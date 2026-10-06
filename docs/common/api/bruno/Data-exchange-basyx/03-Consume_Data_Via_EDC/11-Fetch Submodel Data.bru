@@ -1,0 +1,15 @@
+meta {
+  name: 11-Fetch Submodel Data
+  type: http
+  seq: 11
+}
+
+get {
+  url: {{SUBMODEL_ENDPOINT}}{{SUBMODEL_PATH}}
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: {{SUBMODEL_TOKEN}}
+}

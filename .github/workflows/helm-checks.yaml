@@ -186,6 +186,18 @@ jobs:
         helm install dtb --namespace dtb --create-namespace .
         helm uninstall dtb --namespace dtb
 
+    - name: Install chart (digital-twin-basyx-bundle, bundled PostgreSQL)
+      run: |
+        helm install dtbx charts/digital-twin-basyx-bundle --namespace dtbx --create-namespace \
+          -f charts/digital-twin-basyx-bundle/values-bundled-postgresql.yaml \
+          --post-renderer python3 --post-renderer-args hack/dtr-poc/post-render.py \
+          --wait --wait-for-jobs --timeout 10m || {
+          kubectl get pods,jobs -n dtbx
+          kubectl logs -n dtbx -l app.kubernetes.io/component=configuration-service --all-containers --tail=100 || true
+          exit 1
+        }
+        helm uninstall dtbx --namespace dtbx
+
     - name: Install chart (identity-and-trust-bundle)
       run: |
         cd charts/identity-and-trust-bundle
@@ -228,6 +240,26 @@ jobs:
         
         echo "--- Installation successful. Starting cleanup... ---"
         helm uninstall umbrella --namespace umbrella
+
+    - name: Install chart for data exchange with BaSyx DTR (umbrella)
+      run: |
+        set -o pipefail
+        if ! helm install umbrella charts/umbrella --namespace umbrella --create-namespace --debug --timeout 10m \
+          -f charts/values-test-data-exchange.yaml \
+          -f charts/umbrella/values-adopter-data-exchange-basyx.yaml \
+          --post-renderer python3 --post-renderer-args hack/dtr-poc/post-render.py; then
+          echo "--- Helm installation failed. Executing post-mortem diagnosis. ---"
+          kubectl get pods,jobs -n umbrella
+          for pod in $(kubectl get pods -n umbrella -o=jsonpath='{.items[*].metadata.name}'); do
+            echo "--- Logs for pod: $pod ---"
+            kubectl logs $pod -n umbrella --all-containers --tail=200 || true
+          done
+          kubectl get events -n umbrella --sort-by='.metadata.creationTimestamp'
+          exit 1
+        fi
+        echo "--- Installation successful (test data seeded into BaSyx DTR via EDC). Starting cleanup... ---"
+        helm uninstall umbrella --namespace umbrella
+        kubectl delete pvc -n umbrella --all --wait=false || true
 
     - name: Install chart for centralidp Keycloak (umbrella)
       run: |
