@@ -17,9 +17,8 @@
 # SPDX-License-Identifier: Apache-2.0
 # #############################################################################
 ---
-{{ if (index .Values "vault-cronjob" "enabled") }}
-{{- $vaultToken := index .Values "tractusx-connector" "vault" "hashicorp" "token" -}}
-{{- $vaultUrl := tpl (index .Values "tractusx-connector" "vault" "hashicorp" "url") . -}}
+{{- $cronjob := index .Values "dataspace-connector-bundle" "vault-cronjob" }}
+{{- if $cronjob.enabled }}
 {{- $fullName := include "dataprovider.fullname" . -}}
 apiVersion: batch/v1
 kind: CronJob
@@ -32,10 +31,10 @@ metadata:
     helm.sh/chart: "{{ .Chart.Name }}-{{ .Chart.Version }}"
 spec:
   # Use configurable schedule, default to every 5 minutes
-  schedule: {{ .Values.vault-cronjob.schedule | default "*/5 * * * *" | quote }}
-  concurrencyPolicy: {{ .Values.vault-cronjob.concurrencyPolicy | default "Forbid" }}
-  successfulJobsHistoryLimit: {{ .Values.vault-cronjob.successfulJobsHistoryLimit | default 3 }}
-  failedJobsHistoryLimit: {{ .Values.vault-cronjob.failedJobsHistoryLimit | default 1 }}
+  schedule: {{ $cronjob.schedule | default "*/5 * * * *" | quote }}
+  concurrencyPolicy: {{ $cronjob.concurrencyPolicy | default "Forbid" }}
+  successfulJobsHistoryLimit: {{ $cronjob.successfulJobsHistoryLimit | default 3 }}
+  failedJobsHistoryLimit: {{ $cronjob.failedJobsHistoryLimit | default 1 }}
   jobTemplate:
     spec:
       template:
@@ -54,7 +53,7 @@ spec:
               command:
                 - "/bin/sh"
                 - "/opt/scripts/vault-setup.sh"
-          volumeMounts:
+              volumeMounts:
                 - name: config-volume
                   mountPath: /opt/config
                 - name: script-volume

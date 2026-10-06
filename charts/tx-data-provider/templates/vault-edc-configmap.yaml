@@ -55,4 +55,64 @@ data:
   {{- end }}
   {{- end }}
 
-  
+  vault-setup.sh: |-
+    #!/bin/sh
+    # Install jq for JSON parsing
+    apk add --no-cache --quiet jq
+    
+    # Function to check if secret exists and matches expected value
+    check_and_update_secret() {
+      local secret_key="$1"
+      local vault_json_file="$2"
+      
+      # Extract expected value from the JSON file
+      expected_value=$(cat "$vault_json_file" | jq -r '.data.content // empty' 2>/dev/null)
+      
+      # Try to get existing secret
+      existing_secret_response=$(wget --quiet --header "X-Vault-Token: {{ index .Values "dataspace-connector-bundle" "tractusx-connector" "vault" "hashicorp" "token" }}" \
+        -O- "{{ tpl (index .Values "dataspace-connector-bundle" "tractusx-connector" "vault" "hashicorp" "url") . }}/v1/secret/data/$secret_key" 2>/dev/null || echo "")
+      
+      if [ -n "$existing_secret_response" ] && echo "$existing_secret_response" | jq -e . >/dev/null 2>&1; then
+        
+        # Extract the content value from the JSON response using jq
+        existing_value=$(echo "$existing_secret_response" | jq -r '.data.data.content // empty' 2>/dev/null)
+        
+        if [ -n "$existing_value" ] && [ "$existing_value" = "$expected_value" ]; then
+          return 0
+        else
+          echo "🔄 Secret $secret_key exists but value differs or is empty - updating"
+        fi
+      else
+        echo "🆕 Secret $secret_key not found or invalid response - creating"
+      fi
+      
+      # Update the secret using file-based approach
+      echo "Updating secret $secret_key using file: $vault_json_file"
+      update_result=$(wget --header 'Content-Type: application/json' --header 'X-Vault-Token: {{ index .Values "dataspace-connector-bundle" "tractusx-connector" "vault" "hashicorp" "token" }}' \
+        --post-file="$vault_json_file" "{{ tpl (index .Values "dataspace-connector-bundle" "tractusx-connector" "vault" "hashicorp" "url") . }}/v1/secret/data/$secret_key" -O- 2>&1)
+      
+      if [ $? -eq 0 ]; then
+        echo "✅ Successfully updated secret: $secret_key"
+      else
+        echo "❌ Failed to update secret: $secret_key"
+        echo "Error response: $update_result"
+      fi
+    }
+
+    # Wait for vault to be ready
+    until wget --spider --quiet "{{ tpl (index .Values "dataspace-connector-bundle" "tractusx-connector" "vault" "hashicorp" "url") . }}/v1/sys/health" 2>/dev/null; do
+      echo "Vault not ready yet, waiting..."
+      sleep 10
+    done
+    
+    # Setup secrets from values (now as files in configmap)
+    {{- if .Values.secrets }}
+    {{- range $key, $value := .Values.secrets }}
+    check_and_update_secret "{{ $key }}" "/opt/config/secret-{{ $key }}.json"
+    {{- end }}
+    {{- end }}
+
+    # Setup certificate and key secrets from configmap
+    check_and_update_secret "tokenSignerPublicKey" "/opt/config/cert.json"
+    check_and_update_secret "tokenSignerPrivateKey" "/opt/config/key.json"
+    check_and_update_secret "tokenEncryptionAesKey" "/opt/config/aes-secret.json"
