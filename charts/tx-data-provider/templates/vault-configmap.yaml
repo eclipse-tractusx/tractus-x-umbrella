@@ -1,5 +1,5 @@
 # #############################################################################
-# Copyright (c) 2021,2024 Contributors to the Eclipse Foundation
+# Copyright (c) 2025 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
 # information regarding copyright ownership.
@@ -21,49 +21,19 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ $fullName }}-vault-edc-configmap
+  name: {{ $fullName }}-vault-configmap
 data:
-  cert.json: |-
-      {
-        "data": {
-          "content": "-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAsP1Wl50viKzVqw8HGFWP\nis+M8Im4daTFMned5Qr2z90FNgkj1EVhip0mOdD6kDg3bW4RxyL6z3jWi19JKBHZ\n68UTgZNdPbhhPNLEGcQpu8uwgFcWKL4P/IOykEeE8ResGOVg/HzNE7HkTgiBdr2C\nMTEXL3zTmdr0vbFGMbOTPyOvKMoy/2FaJaJAPXo3poGqfRvr6Gu6top2ktRd/z8N\nhBpuzx9QypIsE62ooLNPpqzjezfvzJbc3tko/cXNOyGoZWuEKMTfKwYq3ZjsTZKk\nbjVNgdoEFSWpd6Tqk76B1Cboxv1CD8xw0cQ149eW0IuLkAk3eF5eZR4iQ5YAOZqA\nUQIDAQAB\n-----END PUBLIC KEY-----\n"
-        }
-      }
-
-  key.json: |-
-    {
-      "data": {
-        "content": "-----BEGIN PRIVATE KEY-----\nMIIEvAIBADANBgkqhkiG9w0BAQEFAASCBKYwggSiAgEAAoIBAQCw/VaXnS+IrNWr\nDwcYVY+Kz4zwibh1pMUyd53lCvbP3QU2CSPURWGKnSY50PqQODdtbhHHIvrPeNaL\nX0koEdnrxROBk109uGE80sQZxCm7y7CAVxYovg/8g7KQR4TxF6wY5WD8fM0TseRO\nCIF2vYIxMRcvfNOZ2vS9sUYxs5M/I68oyjL/YVolokA9ejemgap9G+voa7q2inaS\n1F3/Pw2EGm7PH1DKkiwTraigs0+mrON7N+/Mltze2Sj9xc07Iahla4QoxN8rBird\nmOxNkqRuNU2B2gQVJal3pOqTvoHUJujG/UIPzHDRxDXj15bQi4uQCTd4Xl5lHiJD\nlgA5moBRAgMBAAECggEAKD8XjYb8G+WHeexDJgSwzTUonLsIg9H52KHMORz+5mIh\nUPoPmHHFfj6BhoSvsZNjAUKWDtU0uPCGwu8iRNcYWa15I841lfcjP3BDEQPjJJXr\nNyf2fUHJA1gURwxIXgWOyCOC5C9h9/BMFPWIsQ5jeFmsJsuJF5OrcyZIar1lxqWu\nQ+HC7f/7JNkpR26uIyGjs1OXwfp+mHqze2Qf8hLWIXcN9tBCQZ75Cg7rarNVimMC\n59QD80JZCHTaCX1ZtE1T8HM+53Ob78lnFCuBfiBT/S3O/NXVsEN9q6rMWKhETVWR\nUX56EqZ7XGSMOzuZyK7kj1QsHzEMrrHjwDSNSjAqFQKBgQC6hEeAWPCEM+WVoF9n\nmhvwZVZv/PPyLAarykBTGoeHR2hqNyih9JmcXL+XQHMlhy1Ka8NtJHvfyB1xhXgF\n/d91i/Yq02+nZoJPNnVWo8zoXIAIq+xg9CBiu0agBxv45PjJkEkQmmEG4Iej1+Kf\n5/+dI7sFjE2T4q/lLK0Aw3x+zQKBgQDy7Ho7eRi5CV1Ks+r5lpGGdM15hbE5tviE\nfmJvaEUh3oWuwdkyFjD/QEPITG1bFuvhATdEEWxTbuswNEbELLhKCPcixcI0sLUO\n6BeNi1YD6ouuqsWBLvmE4hvoDR7RlkpUduxWpZ2tNIDJYYTwCERhcYK9OtHU15kc\nlS0pEjF/lQKBgEh+28/OQgYQqd7ji9GX+94PdW5n0mXBqQIixafHewAgyDvonpl8\nmixFfI6MlXTzuq3ffwEwGhncDV2vc/xYNf/ZW+A/eHmHhYTGdQss9ZsnQPid4m24\n1dGqWwQeX0f5r52gwFV8u9PRd8c+RS7EHP12At5gL1MY3CdmmwPd98jNAoGASvPV\n/xWtICKYi10aCip/+kl9wJoUhadD5LWOL6uvcPTUsIgVONQKCCfPAjU6pJlc7E7Q\nu4rYrqGRpYzrrMnTjtxXTH5SHqnLI69O3Rh50LmEob8FM4fH601MqPurX6WMh6Ut\n5Moy7Wc+uWQCfYE/gAVi/nnwlkhzcJNCnOKFLUUCgYA4nbhLrdEeCBJas2+Z9aGw\n/SurtHF2z2meAPO3VaYslf0D0xKzUIv5hkkzaNgs0pFGt0BcKfTWkYy/Hh4QXZhm\n//ZrqbkVsqzDOcqGwQcDmUEN/T+vprUJVKqpNHXT6fz3OTydxLQ7K7SXzwXWYfRW\ncpjdr0c1tVVLMyNG+Wahrg==\n-----END PRIVATE KEY-----\n"
-      }
-    }
-  aes-secret.json: |-
-    {
-      "data": {
-        "content": {{ randAlphaNum 32 | b64enc | quote }}
-      }
-    }
-  
-  # Dynamically create secret files from values
-  {{- if .Values.secrets }}
-  {{- range $key, $value := .Values.secrets }}
-  secret-{{ $key }}.json: |-
-    {
-      "data": {
-        "content": {{ $value | quote }}
-      }
-    }
-  {{- end }}
-  {{- end }}
-
   vault-setup.sh: |-
     #!/bin/sh
     # Install jq for JSON parsing
-    apk add --no-cache --quiet jq
+    apk add --no-cache jq
     
     # Function to check if secret exists and matches expected value
     check_and_update_secret() {
       local secret_key="$1"
       local vault_json_file="$2"
+      
+      echo "=== Checking secret: $secret_key ==="
       
       # Extract expected value from the JSON file
       expected_value=$(cat "$vault_json_file" | jq -r '.data.content // empty' 2>/dev/null)
@@ -73,17 +43,25 @@ data:
         -O- "{{ tpl (index .Values "dataspace-connector-bundle" "tractusx-connector" "vault" "hashicorp" "url") . }}/v1/secret/data/$secret_key" 2>/dev/null || echo "")
       
       if [ -n "$existing_secret_response" ] && echo "$existing_secret_response" | jq -e . >/dev/null 2>&1; then
+        echo "Found existing secret, parsing JSON response..."
         
         # Extract the content value from the JSON response using jq
         existing_value=$(echo "$existing_secret_response" | jq -r '.data.data.content // empty' 2>/dev/null)
         
         if [ -n "$existing_value" ] && [ "$existing_value" = "$expected_value" ]; then
+          echo "✅ Secret $secret_key already exists with correct value - skipping update"
+          echo "=== End check for $secret_key ==="
           return 0
         else
           echo "🔄 Secret $secret_key exists but value differs or is empty - updating"
+          echo "  Expected: [$expected_value]"
+          echo "  Existing: [$existing_value]"
         fi
       else
         echo "🆕 Secret $secret_key not found or invalid response - creating"
+        if [ -n "$existing_secret_response" ]; then
+          echo "Response was: $existing_secret_response"
+        fi
       fi
       
       # Update the secret using file-based approach
@@ -93,17 +71,21 @@ data:
       
       if [ $? -eq 0 ]; then
         echo "✅ Successfully updated secret: $secret_key"
+        echo "Update response: $update_result"
       else
         echo "❌ Failed to update secret: $secret_key"
         echo "Error response: $update_result"
       fi
+      echo "=== End check for $secret_key ==="
     }
 
     # Wait for vault to be ready
+    echo "Waiting for vault to be ready..."
     until wget --spider --quiet "{{ tpl (index .Values "dataspace-connector-bundle" "tractusx-connector" "vault" "hashicorp" "url") . }}/v1/sys/health" 2>/dev/null; do
       echo "Vault not ready yet, waiting..."
       sleep 10
     done
+    echo "Vault is ready, setting up secrets..."
     
     # Setup secrets from values (now as files in configmap)
     {{- if .Values.secrets }}
@@ -113,6 +95,9 @@ data:
     {{- end }}
 
     # Setup certificate and key secrets from configmap
+    echo "=== Setting up certificate secrets ==="
     check_and_update_secret "tokenSignerPublicKey" "/opt/config/cert.json"
     check_and_update_secret "tokenSignerPrivateKey" "/opt/config/key.json"
     check_and_update_secret "tokenEncryptionAesKey" "/opt/config/aes-secret.json"
+    
+    echo "=== Vault setup completed successfully! ==="
