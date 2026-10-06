@@ -1,6 +1,5 @@
 # #############################################################################
-# Copyright (c) 2022,2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
-# Copyright (c) 2021,2024 Contributors to the Eclipse Foundation
+# Copyright (c) 2026 Contributors to the Eclipse Foundation
 #
 # See the NOTICE file(s) distributed with this work for additional
 # information regarding copyright ownership.
@@ -17,29 +16,17 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 # #############################################################################
----
 apiVersion: v2
-name: tx-data-provider
-description: A Helm chart for Kubernetes
-
+name: digital-twin-basyx-bundle
+description: Optional BaSyx DTR PoC with an externally provisioned isolated PostgreSQL
 type: application
-version: 0.5.2
-appVersion: 0.0.1
-
+version: 0.1.1
+appVersion: "1.1.0"
+home: https://github.com/eclipse-basyx/charts
+sources:
+  - https://github.com/eclipse-basyx/charts/tree/basyx-3.15.0
 dependencies:
-  - name: digital-twin-basyx-bundle
-    repository: file://../digital-twin-basyx-bundle
-    version: 0.1.1
-    condition: digital-twin-basyx-bundle.enabled
-  - name: digital-twin-bundle
-    repository: file://../digital-twin-bundle
-    version: 1.3.0
-    condition: digital-twin-bundle.enabled
-  - name: data-persistence-layer-bundle
-    repository: file://../data-persistence-layer-bundle
-    version: 1.0.0
-    condition: data-persistence-layer-bundle.enabled
-  - name: dataspace-connector-bundle
-    repository: file://../dataspace-connector-bundle
-    version: 1.3.0
-    condition: dataspace-connector-bundle.enabled
+  - name: basyx
+    version: 3.15.0
+    repository: https://eclipse-basyx.github.io/charts
+    condition: basyx.enabled
