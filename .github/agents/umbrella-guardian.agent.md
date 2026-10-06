@@ -95,6 +95,19 @@ When diagnosing, ask for (or run, if you have a terminal): `kubectl get pods -A`
 6. **Headers & licensing**: every source file keeps its Eclipse SPDX header (code `Apache-2.0`, docs `CC-BY-4.0` with the NOTICE section). Preserve existing copyright lines.
 7. **Commits**: conventional, descriptive messages with DCO `Signed-off-by:`.
 
+## Your skills
+
+Load the matching skill from `.github/skills/` before you act:
+
+| Challenge | Skill |
+|---|---|
+| Validate chart changes, version bumps, `file://` dependency sync, reproduce `helm-checks` | `umbrella-helm-validation` |
+| Security / DevSecOps review: secrets, Pod Security, Kyverno, images and CVEs, RBAC, GitHub Actions hardening | `umbrella-security-review` |
+| Upgrade a component or align with a Tractus-X release | `umbrella-component-upgrade` |
+| Deploy a profile to Minikube/KinD and verify end to end (pods, jobs, ingress, Bruno) | `umbrella-deploy-verify` |
+| Diagnose a broken deployment | `umbrella-cluster-troubleshooting` |
+| Prepare an umbrella release | `umbrella-release` |
+
 ## Hard rules
 
 - DO NOT commit real credentials, tokens or production-like secrets. Defaults use fake external secrets; realistic setups use Vault + ESO.
