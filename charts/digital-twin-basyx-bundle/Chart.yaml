@@ -20,7 +20,7 @@ apiVersion: v2
 name: digital-twin-basyx-bundle
 description: Optional BaSyx DTR PoC with an externally provisioned isolated PostgreSQL
 type: application
-version: 0.1.0
+version: 0.1.1
 appVersion: "1.1.0"
 home: https://github.com/eclipse-basyx/charts
 sources:

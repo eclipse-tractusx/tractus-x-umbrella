@@ -26,7 +26,17 @@ SPDX-License-Identifier: Apache-2.0
 {{- if or (not .Values.basyx.configurationService.enabled) (not .Values.basyx.configurationService.hook.enabled) (not (has "pre-install" .Values.basyx.configurationService.hook.events)) (not (has "pre-upgrade" .Values.basyx.configurationService.hook.events)) -}}
 {{- fail "BaSyx DTR bundle requires Configuration Service pre-install and pre-upgrade hooks" -}}
 {{- end -}}
+{{- if ne .Values.basyx.configurationService.hook.weight "-10" -}}
+{{- fail "BaSyx DTR bundle requires its Configuration Service job hook at weight -10" -}}
+{{- end -}}
+{{- $jobAnnotations := .Values.basyx.configurationService.hook.annotations | default dict -}}
+{{- if or (hasKey $jobAnnotations "helm.sh/hook") (hasKey $jobAnnotations "helm.sh/hook-weight") (hasKey $jobAnnotations "helm.sh/hook-delete-policy") -}}
+{{- fail "BaSyx DTR bundle Configuration Service annotations must not override Helm hook annotations" -}}
+{{- end -}}
 {{- if or (not .Values.basyx.serviceAccount.create) (ne (get .Values.basyx.serviceAccount.annotations "helm.sh/hook") "pre-install,pre-upgrade") (ne (get .Values.basyx.serviceAccount.annotations "helm.sh/hook-weight") "-20") -}}
 {{- fail "BaSyx DTR bundle requires its Configuration Service account hook at weight -20" -}}
+{{- end -}}
+{{- if ne (get .Values.basyx.serviceAccount.annotations "helm.sh/hook-delete-policy") "before-hook-creation" -}}
+{{- fail "BaSyx DTR bundle requires its Configuration Service account hook delete policy before-hook-creation" -}}
 {{- end -}}
 {{- end -}}

@@ -23,13 +23,13 @@ name: decentralized-identity-connector
 description: A Helm chart for Kubernetes
 
 type: application
-version: 0.1.2
+version: 0.1.3
 appVersion: 0.0.1
 
 dependencies:
   - name: tx-data-provider
     repository: file://../tx-data-provider
-    version: 0.5.1
+    version: 0.5.2
     condition: tx-data-provider.enabled
   - name: tractusx-identityhub
     repository: https://eclipse-tractusx.github.io/charts/dev

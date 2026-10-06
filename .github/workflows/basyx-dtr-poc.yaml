@@ -87,6 +87,8 @@ jobs:
         run: python hack/dtr-poc/dependencies.py
       - name: Compile acceptance scripts
         run: python -W error -m compileall -q hack/dtr-poc
+      - name: Validate hook overrides and cleanup failure diagnostics
+        run: python -m unittest discover -s hack/dtr-poc -p 'test_*.py' -v
       - name: Install and validate independent tenants
         run: python hack/dtr-poc/acceptance.py --artifacts "$RUNNER_TEMP/dtr-results"
       - name: Upload sanitized results

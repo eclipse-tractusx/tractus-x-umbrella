@@ -79,6 +79,7 @@ basyx:
       digest: sha256:b8f863fb44dd422cae83d7e27a1f049800106db2030332a0f33d4e45ec125219
     hook:
       enabled: true
+      weight: "-10"
       events:
         - pre-install
         - pre-upgrade

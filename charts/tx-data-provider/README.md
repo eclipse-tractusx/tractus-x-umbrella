@@ -1,3 +1,5 @@
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
+
 # Dataprovider Helm Chart
 
 This chart includes EDC, Digital Twin Registry and a Submodel Server.  
@@ -48,4 +50,4 @@ The Chart can be used as dataprovider by setting `simple-data-backend.enabled`, 
 After the installation, a Post-Install Helm Hook will be started which initiates the seeding of testdata. The Hook executes a python script which uploads a provided test dataset to the dataprovider. Documentation to the python script can be found here [README](https://github.com/eclipse-tractusx/item-relationship-service/blob/main/local/testing/testdata/README.md)
 
 Test data set and upload script are stored in [resources/](resources) and provided to the hook as config map.  
-A custom config map can be used to provided e.g. `testdataConfigMap: my-custom-testdata-configmap`.
+A custom config map can be used to provide e.g. `testdataConfigMap: my-custom-testdata-configmap`.

@@ -18,6 +18,7 @@ is recommended. From the repository root:
 ```bash
 python -m pip install -r hack/dtr-poc/requirements.txt
 python hack/dtr-poc/dependencies.py
+python -m unittest discover -s hack/dtr-poc -p 'test_*.py' -v
 python hack/dtr-poc/acceptance.py --artifacts .dtr-poc-artifacts/run-1
 ```
 
@@ -68,6 +69,9 @@ database is created by the chart. This bundle requires an existing external
 database instead. Its Configuration Service account runs as a pre-install and
 pre-upgrade hook at weight -20; the initialization Job follows at weight -10.
 Only successful initialization allows Helm to create the DTR Deployment.
+The bundle rejects overrides of the Job's weight or the account's
+`before-hook-creation` deletion policy. Custom Job annotations cannot override
+the validated Helm hook annotations.
 
 The account does not mount a Kubernetes API token. No Kubernetes read permission
 is required by Configuration Service. The renderer only removes the unused
@@ -92,6 +96,10 @@ cluster at completion or failure. It uses only `basyx-poc` and
 It refuses a nonempty result directory. Passwords are sent through stdin,
 consumed from Secret references and checked for absence from result artifacts.
 The temporary kubeconfig is removed with its private temporary directory.
+
+The unit tests run before cluster acceptance in CI. They render the real provider
+chart to verify hook ordering and reject unsafe overrides, and inject cleanup
+failures to verify that redacted diagnostics remain available.
 
 Acceptance covers initialization failure preventing DTR creation; cold start
 without DTR restarts; descriptor CRUD, full submodel endpoint metadata and
@@ -118,6 +126,10 @@ synthetic descriptors and expected response statuses. Database reports record
 schema initialization and least-privilege role checks. No database Secret
 manifest or generated password is saved. CI uploads these sanitized artifacts
 with seven-day retention.
+Cleanup failures also save these files, mark the overall result as `FAIL` and
+record `cleanupFailure` separately from any original acceptance failure. The
+cleanup exception is re-raised after persistence; an empty API event list is
+saved when failure occurs before API testing.
 
 An overall `PASS` requires both tenants to pass the runtime checks and the
 temporary Kind cluster to be removed. The uninstall/reinstall and Helm rollback

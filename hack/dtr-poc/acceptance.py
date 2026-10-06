@@ -246,20 +246,26 @@ class Acceptance:
                 for kind, name in resources}
 
     def finish(self):
-        if self.created:
-            self.run("kind", "delete", "cluster", "--name", self.cluster, "--kubeconfig", self.kubeconfig)
-            assert self.cluster not in self.run("kind", "get", "clusters", quiet=True).splitlines()
-            self.results["checks"]["temporaryClusterRemoved"] = "PASS"
-        self.save("commands.json", self.commands)
-        self.save("results.json", self.results)
-        if self.events:
+        try:
+            if self.created:
+                self.run("kind", "delete", "cluster", "--name", self.cluster, "--kubeconfig", self.kubeconfig)
+                assert self.cluster not in self.run("kind", "get", "clusters", quiet=True).splitlines(), "Temporary Kind cluster remains"
+                self.results["checks"]["temporaryClusterRemoved"] = "PASS"
+        except Exception as error:
+            self.results["result"] = "FAIL"
+            self.results["checks"]["temporaryClusterRemoved"] = "FAIL"
+            self.results["cleanupFailure"] = type(error).__name__ + ": " + self.redact(str(error))
+            raise
+        finally:
+            self.save("commands.json", self.commands)
+            self.save("results.json", self.results)
             self.save("api-events.json", self.events)
-        for path in self.artifacts.iterdir():
-            if not path.is_file():
-                continue
-            raw = path.read_text(encoding="utf-8")
-            for value in self.secret_values:
-                assert value not in raw and base64.b64encode(value.encode()).decode() not in raw, "Secret artifact leak"
+            for path in self.artifacts.iterdir():
+                if not path.is_file():
+                    continue
+                raw = path.read_text(encoding="utf-8")
+                for value in self.secret_values:
+                    assert value not in raw and base64.b64encode(value.encode()).decode() not in raw, "Secret artifact leak"
 
 
 def main():
