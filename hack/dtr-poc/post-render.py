@@ -26,11 +26,32 @@ import re
 import sys
 
 KIND = re.compile(r"^kind:\s*['\"]?Issuer['\"]?\s*$", re.MULTILINE)
-NAME = re.compile(r"^metadata:\s*\n(?:[ \t]+.*\n|\s*\n)*?[ \t]+name:\s*['\"]?internal-issuer['\"]?\s*$", re.MULTILINE)
+ISSUER_NAME = "internal-issuer"
+
+
+def metadata_name(document):
+    """Return metadata.name of a manifest using a linear line scan."""
+    in_metadata = False
+    indent = None
+    for line in document.splitlines():
+        if not line.strip() or line.lstrip().startswith("#"):
+            continue
+        if not line[0].isspace():
+            in_metadata = line.rstrip() == "metadata:"
+            indent = None
+            continue
+        if not in_metadata:
+            continue
+        current = len(line) - len(line.lstrip())
+        if indent is None:
+            indent = current
+        if current == indent and line.lstrip().startswith("name:"):
+            return line.split(":", 1)[1].strip().strip("'\"")
+    return None
 
 
 def keep(document):
-    return not (KIND.search(document) and NAME.search(document))
+    return not (KIND.search(document) and metadata_name(document) == ISSUER_NAME)
 
 
 documents = re.split(r"^---[ \t]*$\n?", sys.stdin.read(), flags=re.MULTILINE)
