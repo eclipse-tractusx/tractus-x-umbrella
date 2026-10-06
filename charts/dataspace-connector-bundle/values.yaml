@@ -255,3 +255,20 @@ vault:
       # -- Root token for dev mode
       # @section -- Vault Configuration
       devRootToken: root
+
+vault-cronjob:
+  # -- Enable a CronJob that periodically re-seeds missing or changed connector secrets in Vault
+  # @section -- Vault Configuration
+  enabled: true
+  # -- Cron schedule of the Vault secrets CronJob
+  # @section -- Vault Configuration
+  schedule: "*/5 * * * *"
+  # -- Concurrency policy of the Vault secrets CronJob
+  # @section -- Vault Configuration
+  concurrencyPolicy: "Forbid"
+  # -- Number of successful jobs to keep
+  # @section -- Vault Configuration
+  successfulJobsHistoryLimit: 3
+  # -- Number of failed jobs to keep
+  # @section -- Vault Configuration
+  failedJobsHistoryLimit: 1
