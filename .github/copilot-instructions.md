@@ -10,6 +10,8 @@ Open the review summary with:
 
 Then: **✅ What I like** (one or two lines), then findings by severity (Blocker, Major, Minor, Nit), each with file and line, the risk in one sentence and a concrete fix.
 
+If a change works but the approach looks wrong (workaround, wrong layer, duplication, hard-coding, scope creep), challenge it: "🤔 **Is this the best approach?**", then 2-3 options listing files as ➕ new, ✏️ changed, 🗑️ removed, then **My recommendation:** option + why.
+
 ### Charts (`charts/**`)
 - A changed chart must bump `version:` in its `Chart.yaml`. `chart-release.yaml` uses `CR_SKIP_EXISTING=true`, so un-bumped charts are silently not released.
 - Parents consuming a bundle via `file://` (bundle → `tx-data-provider` / `decentralized-identity-connector` → `umbrella`) must reference the new version and bump their own.
@@ -34,7 +36,7 @@ Then: **✅ What I like** (one or two lines), then findings by severity (Blocker
 
 ## Everything else
 
-For repository layout, workflows and conventions, follow `AGENTS.md`. For deeper tasks use the skills in `.github/skills/` (`umbrella-helm-validation`, `umbrella-security-review`, `umbrella-component-upgrade`, `umbrella-deploy-verify`, `umbrella-cluster-troubleshooting`, `umbrella-release`).
+For repository layout, workflows and conventions, follow `AGENTS.md`. For deeper tasks use the skills in `.github/skills/` (`umbrella-helm-validation`, `umbrella-security-review`, `umbrella-component-upgrade`, `umbrella-deploy-verify`, `umbrella-test-session`, `umbrella-cluster-troubleshooting`, `umbrella-release`).
 
 ## NOTICE
 
