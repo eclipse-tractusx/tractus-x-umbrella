@@ -33,3 +33,10 @@ centralidp:
       image:
         name: kind-registry:5000/init-container:testing
         pullPolicy: Always
+    resources:
+      requests:
+        cpu: 500m
+        memory: 1500M
+      limits:
+        cpu: 1500m
+        memory: 2Gi
