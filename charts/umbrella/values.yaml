@@ -673,7 +673,8 @@ bpndiscovery:
     host: semantics.tx.test
     ingress:
       enabled: true
-      tls: false
+      tls:
+        enabled: false
       urlPrefix: "/bpndiscovery"
       className: "nginx"
       annotations:
