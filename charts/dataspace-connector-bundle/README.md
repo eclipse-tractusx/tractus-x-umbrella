@@ -107,6 +107,11 @@ For more information to "Bring Your Own" configuration, see the [hausanschluss u
 | vault.server.standalone.enabled | bool | `true` | Enable standalone mode for Vault |
 | vault.server.dev.enabled | bool | `true` | Enable development mode for Vault |
 | vault.server.dev.devRootToken | string | `"root"` | Root token for dev mode |
+| vault-cronjob.enabled | bool | `true` | Enable a CronJob that periodically re-seeds missing or changed connector secrets in Vault |
+| vault-cronjob.schedule | string | `"*/5 * * * *"` | Cron schedule of the Vault secrets CronJob |
+| vault-cronjob.concurrencyPolicy | string | `"Forbid"` | Concurrency policy of the Vault secrets CronJob |
+| vault-cronjob.successfulJobsHistoryLimit | int | `3` | Number of successful jobs to keep |
+| vault-cronjob.failedJobsHistoryLimit | int | `1` | Number of failed jobs to keep |
 
 ## Contributing
 
