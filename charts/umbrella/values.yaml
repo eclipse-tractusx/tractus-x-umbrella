@@ -891,28 +891,26 @@ ssi-credential-issuer:
 # and a gate with which the Portal and the users can share business partner data
 bpdm:
   enabled: false
+  # BPDM 7.x bundles the CloudPirates postgres/keycloak charts (replacing the previous
+  # Bitnami postgresql/centralidp dependencies); the per-service datasource/auth wiring
+  # further below is unaffected by that swap.
   postgres:
     # We use the default name for BPDM postgres
     fullnameOverride: &bpdmPostgresName "bpdm-postgres"
     nameOverride:
-    auth:
+    customUser:
+      name: bpdm
+      database: bpdm
       # BPDM can't handle random initial passwords at the moment
       # so need to set a fixed one here and use it in the app configs later
       password: &bpdmPostgresPassword "dbpasswordbpdm"
-      postgresPassword: *bpdmPostgresPassword
-    architecture: standalone
-    primary:
-      persistence:
-        enabled: false
-  centralidp:
+    persistence:
+      enabled: false
+  keycloak:
     # We use Central-IDP as authentication server
     enabled: false
   # Set up a Gate that acts as the Portal's Gate
   bpdm-gate:
-    postgres:
-      # App uses BPDM postgres default name to find connection to the Postgres
-      fullnameOverride:
-      nameOverride: bpdm-postgres
     ingress:
       enabled: true
       annotations:
@@ -971,10 +969,6 @@ bpdm:
 
   # Configures the central business partner Pool
   bpdm-pool:
-    postgres:
-      # App uses BPDM postgres default name to find connection to the Postgres
-      fullnameOverride:
-      nameOverride: bpdm-postgres
     ingress:
       enabled: true
       annotations:
@@ -1033,9 +1027,6 @@ bpdm:
           paths:
             - path: "/orchestrator(/|$)(.*)"
               pathType: "ImplementationSpecific"
-    postgres:
-      enabled: false
-      fullnameOverride: bpdm-postgres
     applicationConfig:
       server:
         # App should take the x-forward-header-prefix into account for Swagger-UI and redirects to work correctly

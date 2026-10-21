@@ -28,7 +28,7 @@ sources:
   - https://github.com/eclipse-tractusx/tractus-x-umbrella
 
 type: application
-version: 26.03.02
+version: 26.03.03
 
 # when adding or updating versions of dependencies, also update list under /docs/user/common/installation.md
 dependencies:
@@ -76,7 +76,7 @@ dependencies:
   - name: bpdm
     condition: bpdm.enabled
     repository: https://eclipse-tractusx.github.io/charts/dev
-    version: 6.2.0
+    version: 7.0.0
     # TX Data Consumer 1
   - name: tx-data-provider
     alias: dataconsumerOne
@@ -147,13 +147,13 @@ dependencies:
   - name: decentralized-identity-connector
     alias: edc-provider
     repository: file://../decentralized-identity-connector
-    version: 0.1.1
+    version: 0.1.2
     condition: edc-provider.enabled
   # Edc-Consumer
   - name: decentralized-identity-connector
     alias: edc-consumer
     repository: file://../decentralized-identity-connector
-    version: 0.1.1
+    version: 0.1.2
     condition: edc-consumer.enabled
   - name: tractusx-issuerservice
     repository: https://eclipse-tractusx.github.io/charts/dev
