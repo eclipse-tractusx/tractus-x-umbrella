@@ -28,7 +28,7 @@
 #
 # The post-renderer removes the unused cert-manager Issuer that BaSyx chart 3.15.0
 # always renders; it is not needed when cert-manager CRDs are installed.
-# Guide: docs/user/common/guides/basyx-dtr-poc.md
+# Guide: docs/user/common/guides/basyx-dtr.md
 
 tx-data-provider:
   # -- Seed test data on install (enable/disable switch): shell descriptors in the

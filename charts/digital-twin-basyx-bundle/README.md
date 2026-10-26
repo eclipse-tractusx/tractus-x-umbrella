@@ -20,7 +20,7 @@ Two database modes are supported:
 | Bundled (sandbox) | [`values-bundled-postgresql.yaml`](values-bundled-postgresql.yaml) (`postgresql.enabled: true`) | regular Job that waits for the database |
 
 For EDC data exchange inside the umbrella, use the
-[umbrella BaSyx overlay](../../docs/user/common/guides/basyx-dtr-poc.md#run-basyx-in-the-umbrella-data-exchange-scenario).
+[umbrella BaSyx overlay](../../docs/user/common/guides/basyx-dtr.md#run-basyx-in-the-umbrella-data-exchange-scenario).
 
 ## Quick start with a bundled PostgreSQL
 

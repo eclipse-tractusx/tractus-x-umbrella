@@ -48,7 +48,7 @@ Use these only if the default (Decentralized IdentityHub) does not match what yo
 |---------|----------------|
 | `values-adopter-data-exchange.yaml` | Legacy centralized data exchange (CX-IAM + central wallet stub) |
 | `values-adopter-data-exchange-observability.yaml` | Same as above + Prometheus / Grafana / Loki / Jaeger |
-| `values-adopter-data-exchange-basyx.yaml` | Overlay for `values-adopter-data-exchange.yaml`: the data provider uses the Eclipse BaSyx DTR ([guide](user/common/guides/basyx-dtr-poc.md)) |
+| `values-adopter-data-exchange-basyx.yaml` | Overlay for `values-adopter-data-exchange.yaml`: the data provider uses the Eclipse BaSyx DTR ([guide](user/common/guides/basyx-dtr.md)) |
 | `values-adopter-portal.yaml` | Portal-only setup (UI, BPDM, onboarding) |
 | `values-external-secrets.yaml` | Replace fake secrets with HashiCorp Vault + ESO |
 | `values-tls.yaml` | TLS / ingress with certificates (cert-manager) |
@@ -56,7 +56,7 @@ Use these only if the default (Decentralized IdentityHub) does not match what yo
 See the per-profile guides under [user/common/guides/](user/common/guides/).
 
 For the BaSyx DTR (umbrella data exchange or an isolated tenant evaluation), see
-[Optional BaSyx DTR](user/common/guides/basyx-dtr-poc.md). For how it compares
+[Optional BaSyx DTR](user/common/guides/basyx-dtr.md). For how it compares
 with the Tractus-X DTR and `simple-data-backend`, and what changes in a migration, see the
 [BaSyx comparison report](user/common/guides/basyx-dtr-comparison-report.md).
 
