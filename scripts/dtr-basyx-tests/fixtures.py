@@ -30,7 +30,7 @@ def database_resources(tenant):
          "spec": {"capacity": {"storage": "5Gi"}, "accessModes": ["ReadWriteOnce"],
                   "storageClassName": "", "persistentVolumeReclaimPolicy": "Retain",
                   "claimRef": {"namespace": ns, "name": name},
-                  "hostPath": {"path": f"/var/local/dtr-poc/{ns}/{name}", "type": "Directory"}}},
+                  "hostPath": {"path": f"/var/local/dtr/{ns}/{name}", "type": "Directory"}}},
         {"apiVersion": "v1", "kind": "PersistentVolumeClaim", "metadata": metadata(name),
          "spec": {"storageClassName": "", "volumeName": f"{ns}-{name}",
                   "accessModes": ["ReadWriteOnce"], "resources": {"requests": {"storage": "5Gi"}}}},

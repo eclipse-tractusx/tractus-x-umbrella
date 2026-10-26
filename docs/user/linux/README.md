@@ -144,7 +144,7 @@ Make sure to clone the [tractus-x-umbrella](https://github.com/eclipse-tractusx/
 
 Update the chart dependencies of the umbrella helm chart and their dependencies.
 ```bash
-bash ./hack/helm-dependencies.bash
+bash ./scripts/helm-dependencies.bash
 ```
 
 Navigate to the `charts/umbrella` directory.

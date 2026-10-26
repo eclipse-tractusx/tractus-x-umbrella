@@ -12,7 +12,7 @@ Reproduce what CI (`.github/workflows/helm-checks.yaml`) checks, plus the umbrel
 
 - Any change under `charts/**`
 - Before opening or approving a chart PR
-- After running `./hack/helm-dependencies.bash` and something looks off
+- After running `./scripts/helm-dependencies.bash` and something looks off
 
 ## Procedure
 
@@ -32,7 +32,7 @@ Reproduce what CI (`.github/workflows/helm-checks.yaml`) checks, plus the umbrel
 
 3. **Refresh dependencies** (order matters because of `file://` chains):
    ```bash
-   ./hack/helm-dependencies.bash
+   ./scripts/helm-dependencies.bash
    ```
    Never commit or hand-edit content under `charts/*/charts/`.
 

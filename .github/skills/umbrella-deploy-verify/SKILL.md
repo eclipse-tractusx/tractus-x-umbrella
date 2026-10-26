@@ -20,7 +20,7 @@ argument-hint: 'Profile and OS, e.g. decentralized-identityhub on macOS'
 
 3. **Dependencies**
    ```bash
-   ./hack/helm-dependencies.bash
+   ./scripts/helm-dependencies.bash
    ```
 
 4. **Install** (one profile per release; don't layer legacy and decentralized profiles):

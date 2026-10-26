@@ -14,7 +14,7 @@ The umbrella is a **sandbox / test environment**, but it is copied into real clu
 ```bash
 git diff --name-only origin/main...HEAD
 ```
-Classify: chart templates/values, bundle charts, CI workflows, container images (`init-container/`, `simple-data-backend/`), scripts (`dataseeding/`, `hack/`), docs.
+Classify: chart templates/values, bundle charts, CI workflows, container images (`init-container/`, `simple-data-backend/`), scripts (`dataseeding/`, `scripts/`), docs.
 
 ### 2. Secrets
 - Run a local scan before pushing (CI runs `trufflehog.yml` on PRs and daily):

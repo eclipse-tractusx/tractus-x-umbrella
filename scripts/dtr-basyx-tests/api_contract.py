@@ -56,18 +56,18 @@ class Api:
 
 
 def fixture(token, tenant):
-    return {"id": f"urn:basyx:poc:tenant:{token}", "idShort": tenant,
-        "assetKind": "Instance", "globalAssetId": f"urn:basyx:poc:asset:{token}",
+    return {"id": f"urn:basyx:test:tenant:{token}", "idShort": tenant,
+        "assetKind": "Instance", "globalAssetId": f"urn:basyx:test:asset:{token}",
         "specificAssetIds": [{"name": "serialNumber", "value": token,
             "externalSubjectId": {"type": "ExternalReference",
                 "keys": [{"type": "GlobalReference", "value": "PUBLIC_READABLE"}]}}],
-        "submodelDescriptors": [{"id": f"urn:basyx:poc:submodel:{token}", "idShort": "Part",
+        "submodelDescriptors": [{"id": f"urn:basyx:test:submodel:{token}", "idShort": "Part",
             "semanticId": {"type": "ExternalReference", "keys": [{"type": "GlobalReference",
                 "value": "urn:samm:io.catenax.serial_part:3.0.0#SerialPart"}]},
             "endpoints": [{"interface": "SUBMODEL-3.0", "protocolInformation": {
                 "href": "https://data.invalid/submodels/" + encoded(token),
                 "endpointProtocol": "HTTP", "endpointProtocolVersion": ["1.1"],
-                "subprotocol": "DSP", "subprotocolBody": "id=poc;dspEndpoint=https://dsp.invalid/api",
+                "subprotocol": "DSP", "subprotocolBody": "id=test;dspEndpoint=https://dsp.invalid/api",
                 "subprotocolBodyEncoding": "plain",
                 "securityAttributes": [{"type": "NONE", "key": "NONE", "value": "NONE"}]}}]}]}
 
