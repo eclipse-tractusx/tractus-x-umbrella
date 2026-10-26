@@ -1,0 +1,22 @@
+meta {
+  name: 04-Get DTR Authorization
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{Alice}}/edrs/{{DTR_TRANSFER_PROCESS_ID}}/dataaddress?auto_refresh=true
+  body: none
+  auth: apikey
+}
+
+auth:apikey {
+  key: X-Api-Key
+  value: {{Alice_Api_Key}}
+  placement: header
+}
+
+tests {
+  bru.setVar("DTR_ENDPOINT", res.body.endpoint);
+  bru.setVar("DTR_TOKEN", res.body.authorization);
+}

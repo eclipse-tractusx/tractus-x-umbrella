@@ -1,0 +1,26 @@
+meta {
+  name: 06-Get Shell Descriptor Via EDC
+  type: http
+  seq: 6
+}
+
+get {
+  url: {{DTR_ENDPOINT}}/shell-descriptors/{{SHELL_ID_B64}}
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: {{DTR_TOKEN}}
+}
+
+tests {
+  // Read the submodel asset id and path from the DSP subprotocol of the first submodel endpoint.
+  const sm = res.getBody().submodelDescriptors[0];
+  const info = sm.endpoints[0].protocolInformation;
+  const body = Object.fromEntries(info.subprotocolBody.split(";").map(p => p.split(/=(.*)/s).slice(0, 2)));
+  bru.setVar("SUBMODEL_ASSET_ID", body.id);
+  const href = info.href;
+  const idx = href.indexOf("/api/public");
+  bru.setVar("SUBMODEL_PATH", idx >= 0 ? href.substring(idx + "/api/public".length) : "/" + sm.id);
+}
