@@ -56,7 +56,9 @@ Use these only if the default (Decentralized IdentityHub) does not match what yo
 See the per-profile guides under [user/common/guides/](user/common/guides/).
 
 For the BaSyx DTR (umbrella data exchange or an isolated tenant evaluation), see
-[Optional BaSyx DTR](user/common/guides/basyx-dtr-poc.md).
+[Optional BaSyx DTR](user/common/guides/basyx-dtr-poc.md). For how it compares
+with the Tractus-X DTR and `simple-data-backend`, and what changes in a migration, see the
+[BaSyx comparison report](user/common/guides/basyx-dtr-comparison-report.md).
 
 ---
 

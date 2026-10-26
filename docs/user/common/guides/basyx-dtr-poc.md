@@ -105,9 +105,18 @@ The steps in `02-Provide_Data_Manually` are the reference. The parts that matter
 > match regardless of the `Edc-Bpn` header. The Tractus-X DTR hides them from other BPNs. Use the
 > EDC access policy (as in the Bruno collection) to restrict who can reach the DTR. Don't rely on
 > `externalSubjectId` for confidentiality.
+>
+> To get Tractus-X style `Edc-Bpn` visibility, enable ABAC with an OIDC provider and the tested
+> rules in [Configure ABAC for Tractus-X style visibility](basyx-dtr-comparison-report.md#6-configure-abac-for-tractus-x-style-visibility).
+
+For an endpoint-by-endpoint comparison with the Tractus-X DTR, the `simple-data-backend` versus
+BaSyx Submodel Repository results and a migration checklist, see the
+[comparison report](basyx-dtr-comparison-report.md).
 
 - Error response bodies differ between the two DTR implementations.
-- The BaSyx images are pinned by digest for `amd64`.
+- The BaSyx images are pinned by digest for `amd64`. On arm64 nodes, override the digests with the
+  multi-arch index digests of the same 1.1.0 release listed in the
+  [comparison report](basyx-dtr-comparison-report.md#image-architecture).
 - Persistence is enabled for the bundled PostgreSQL. `helm uninstall` keeps the PVC; delete it
   to start from scratch.
 
