@@ -40,7 +40,7 @@ def profile(namespace, release, tenant):
     safe_name(tenant, 24)
     # Keep the longest upstream name (<fullname>-digital-twin-registry) <= 63.
     fullname = safe_name(f"{release}-{tenant}", 41)
-    values = yaml.safe_load((ROOT / "charts/tx-data-provider/values-basyx-poc.yaml").read_text())
+    values = yaml.safe_load((ROOT / "charts/tx-data-provider/values-basyx.yaml").read_text())
     service = f"{fullname}-digital-twin-registry"
     values["registryUrl"] = f"http://{service}.{namespace}.svc.cluster.local:8080/digital-twin-registry"
     values["digital-twin-basyx-bundle"]["basyx"] = {

@@ -112,7 +112,7 @@ comparison against upstream commit `356959aeca4451afe4ad2159c9e39cd008d27ca8`.
 The comparison permits only three known upstream demo random values, and
 validates the two hook labels against the exact new provider chart version.
 
-The GitHub workflow `basyx-dtr-poc.yaml` runs these checks in a hosted runner with
+The GitHub workflow `basyx-dtr-checks.yaml` runs these checks in a hosted runner with
 read-only repository permissions, on pull requests and `feat/basyx-*` pushes.
 It needs no server credentials or production
 secrets. It does not deploy the full Umbrella identity or connector stack.

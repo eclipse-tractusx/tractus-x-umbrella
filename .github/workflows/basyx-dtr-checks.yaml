@@ -29,7 +29,7 @@ on:
       - 'charts/umbrella/Chart.yaml'
       - 'hack/dtr-poc/**'
       - 'hack/helm-dependencies.bash'
-      - '.github/workflows/basyx-dtr-poc.yaml'
+      - '.github/workflows/basyx-dtr-checks.yaml'
   pull_request:
     paths:
       - 'charts/digital-twin-basyx-bundle/**'
@@ -39,7 +39,7 @@ on:
       - 'charts/umbrella/Chart.yaml'
       - 'hack/dtr-poc/**'
       - 'hack/helm-dependencies.bash'
-      - '.github/workflows/basyx-dtr-poc.yaml'
+      - '.github/workflows/basyx-dtr-checks.yaml'
   workflow_dispatch:
 
 permissions:

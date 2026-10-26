@@ -55,7 +55,7 @@ Use these only if the default (Decentralized IdentityHub) does not match what yo
 See the per-profile guides under [user/common/guides/](user/common/guides/).
 
 For an isolated alternative Registry evaluation, see
-[Optional BaSyx DTR](user/common/guides/basyx-dtr-poc.md).
+[Optional BaSyx DTR](user/common/guides/basyx-dtr.md).
 
 ---
 
