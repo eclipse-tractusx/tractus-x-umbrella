@@ -108,7 +108,7 @@ rejection of one tenant's database credential by the other database, after a
 successful control connection; DTR and PostgreSQL Pod replacement persistence;
 same-version Helm upgrade/rollback; uninstall and reinstall with unchanged
 database Secret, StatefulSet and PVC UIDs; and a default Tractus-X template
-comparison against upstream commit `fe1d0cc9d8326cc68dbd6f56433d1baa403d8ebc`.
+comparison against upstream commit `356959aeca4451afe4ad2159c9e39cd008d27ca8`.
 The comparison permits only three known upstream demo random values, and
 validates the two hook labels against the exact new provider chart version.
 

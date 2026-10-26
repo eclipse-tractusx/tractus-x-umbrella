@@ -26,7 +26,7 @@ from pathlib import Path
 
 import yaml
 
-BASELINE = "fe1d0cc9d8326cc68dbd6f56433d1baa403d8ebc"
+BASELINE = "356959aeca4451afe4ad2159c9e39cd008d27ca8"
 RANDOM_PATHS = {
     "/ConfigMap/basyx-dtr-poc-tx-data-provider-vault-edc-configmap/data/aes-secret.json",
     "/Secret/basyx-dtr-poc-connector-postgresql/data/postgres-password",
