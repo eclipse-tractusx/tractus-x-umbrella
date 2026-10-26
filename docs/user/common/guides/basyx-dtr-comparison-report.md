@@ -36,7 +36,7 @@ bundle, see [Evaluate an optional BaSyx DTR](basyx-dtr-poc.md).
 
 | Item | Tractus-X stack (namespace `txdtr`) | BaSyx stack (namespace `basyx`) |
 |---|---|---|
-| Chart | `tx-data-provider` 0.6.1 (`digital-twin-bundle` 1.4.0, `data-persistence-layer-bundle` 1.0.0) | `tx-data-provider` 0.6.1 + `values-basyx-poc.yaml` (`digital-twin-basyx-bundle` 0.1.2 → `basyx` chart 3.15.0), external database profile |
+| Chart | `tx-data-provider` 0.6.2 (`digital-twin-bundle` 1.4.0, `data-persistence-layer-bundle` 1.0.0) | `tx-data-provider` 0.6.2 + `values-basyx-poc.yaml` (`digital-twin-basyx-bundle` 0.1.2 → `basyx` chart 3.15.0), external database profile |
 | Registry | `tractusx/sldt-digital-twin-registry:0.12.0`, authentication off | `eclipsebasyx/digitaltwinregistry-go` 1.1.0. ABAC off for Sections 3 to 5; ABAC on with Keycloak 26.4 for Section 6. |
 | Registry database | Bitnami PostgreSQL 15.4 (subchart) | External `postgres:18.4`, set up with `hack/dtr-poc/fixtures.py` |
 | Data service | `tractusx/simple-data-backend:main` | `eclipsebasyx/submodelrepository-go` 1.1.0, added to the same BaSyx release and sharing its database |
