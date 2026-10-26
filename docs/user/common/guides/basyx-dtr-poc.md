@@ -119,7 +119,9 @@ own DTR instance, PostgreSQL instance/database/role/schema, Secret and persisten
 ### Run the self-contained test
 
 Check out the contribution branch and prepare Docker, Kind 0.23.0,
-kubectl 1.30.0, Helm 3.21.3 and Python 3.12. From the repository root, install
+kubectl 1.30.0, Helm 3.21.3 and Python 3.12. This profile requires Helm 3 because
+its post-renderer is an executable; Helm 4 requires a post-renderer plugin.
+The Helm CI defaults to the same Helm 3.21.3 version. From the repository root, install
 the test requirements, resolve dependencies and run acceptance:
 
 ```bash
