@@ -6,3 +6,5 @@ Chart.lock
 target/
 **/values-local.yaml
 **/your-values.yaml
+__pycache__/
+.dtr-poc-artifacts/
