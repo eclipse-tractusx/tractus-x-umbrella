@@ -1,0 +1,19 @@
+meta {
+  name: 03-Get Shell Descriptor
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{Bob_BaSyx_DTR}}/shell-descriptors/{{SHELL_ID_B64}}
+  body: none
+  auth: none
+}
+
+tests {
+  const ids = res.getBody().specificAssetIds || [];
+  const link = ids.find(i => i.name === "manufacturerPartId") || ids[0];
+  if (link) {
+    bru.setVar("ASSET_LINK_B64", Buffer.from(JSON.stringify({ name: link.name, value: link.value })).toString("base64url"));
+  }
+}
