@@ -54,7 +54,7 @@ The components currently shipped by the umbrella chart:
 Clone this repository, then resolve all Helm dependencies (handles the inter-chart `file://` links):
 
 ```bash
-./hack/helm-dependencies.bash
+./scripts/helm-dependencies.bash
 ```
 
 Then install with the profile you need:

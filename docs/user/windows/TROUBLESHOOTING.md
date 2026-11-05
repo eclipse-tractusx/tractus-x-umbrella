@@ -77,7 +77,7 @@ if not, use `minikube tunnel` and point hosts entries at `127.0.0.1`.
 1. `minikube start --cpus=4 --memory=6gb --driver=docker`
 2. `minikube addons enable ingress` + `ingress-dns`
 3. `minikube update-context`; ensure `NO_PROXY` set
-4. `helm dependency update` (or `bash hack/helm-dependencies.bash`)
+4. `helm dependency update` (or `bash scripts/helm-dependencies.bash`)
 5. **Apply CoreDNS patch (#4)** — before install, or the testdata job fails
 6. `helm install ... --timeout 20m` from `charts/umbrella`
 7. Add Windows hosts entries (#5) for browser access

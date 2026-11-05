@@ -112,13 +112,13 @@ class CleanupDiagnosticsTests(unittest.TestCase):
 
 class StartupPrerequisitesTests(unittest.TestCase):
     def render(self, override):
-        values, _ = profile("umbrella-basyx-poc", "basyx-dtr-poc", "poc-a")
+        values, _ = profile("umbrella-basyx", "basyx-dtr", "tenant-a")
         values["digital-twin-basyx-bundle"]["basyx"].update(override)
         with tempfile.TemporaryDirectory() as folder:
             path = Path(folder) / "values.yaml"
             path.write_text(yaml.safe_dump(values), encoding="utf-8")
-            return subprocess.run(["helm", "template", "basyx-dtr-poc", str(ROOT / "charts/tx-data-provider"),
-                                   "-n", "umbrella-basyx-poc", "-f", str(path)],
+            return subprocess.run(["helm", "template", "basyx-dtr", str(ROOT / "charts/tx-data-provider"),
+                                   "-n", "umbrella-basyx", "-f", str(path)],
                                   text=True, encoding="utf-8", capture_output=True, timeout=60)
 
     def test_default_and_explicit_weights_preserve_rendered_hook_order(self):

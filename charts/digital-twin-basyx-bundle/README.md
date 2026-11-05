@@ -3,7 +3,7 @@
 
 # Optional BaSyx Digital Twin Bundle
 
-This PoC bundle uses official BaSyx chart 3.15.0 and pins DTR and Configuration
+This bundle uses official BaSyx chart 3.15.0 and pins DTR and Configuration
 Service 1.1.0 images by digest. The `tx-data-provider` chart continues to select
 Tractus-X DTR by default. Enable the BaSyx bundle and explicitly disable the
 legacy bundle to evaluate an independent BaSyx instance.
@@ -15,19 +15,19 @@ components stay disabled. The current image digests target `amd64`.
 ## Self-contained acceptance
 
 For a disposable installation with generated test databases and synthetic
-descriptors, use the [tenant acceptance quick start](../../hack/dtr-poc/README.md).
+descriptors, use the [tenant acceptance quick start](../../scripts/dtr-basyx-tests/README.md).
 The harness creates its own Kind cluster and needs no existing tenant or private
-application. It is the shortest path for a contributor to reproduce this PoC.
+application. It is the shortest path for a contributor to reproduce this setup.
 
 ## Install with an existing independent database
 
 From the repository root, use Python 3.12 with the test requirements installed:
 
 ```bash
-python -m pip install -r hack/dtr-poc/requirements.txt
-python hack/dtr-poc/dependencies.py
-python hack/dtr-poc/tenant_profile.py \
-  --namespace umbrella-basyx-poc --release basyx-dtr-poc --tenant poc-a \
+python -m pip install -r scripts/dtr-basyx-tests/requirements.txt
+python scripts/dtr-basyx-tests/dependencies.py
+python scripts/dtr-basyx-tests/tenant_profile.py \
+  --namespace umbrella-basyx --release basyx-dtr --tenant tenant-a \
   > values-local.yaml
 ```
 
@@ -36,7 +36,7 @@ URL. Create the reviewed namespace, independent PostgreSQL instance, retained
 storage, database, non-superuser role, owned schema and referenced database
 Secret before installing. PostgreSQL 18.4 was used in acceptance; other versions
 are not covered by this test. See the
-[database Secret contract](../../hack/dtr-poc/README.md#generate-tenant-values).
+[database Secret contract](../../scripts/dtr-basyx-tests/README.md#generate-tenant-values).
 Keep credentials out of values files, command arguments, logs and Git.
 
 Render and review before applying. Replace the kubeconfig and context arguments
@@ -44,13 +44,13 @@ with your explicitly reviewed test target:
 
 ```bash
 helm lint charts/tx-data-provider -f values-local.yaml
-helm template basyx-dtr-poc charts/tx-data-provider -n umbrella-basyx-poc \
+helm template basyx-dtr charts/tx-data-provider -n umbrella-basyx \
   -f values-local.yaml --post-renderer python \
-  --post-renderer-args hack/dtr-poc/post-render.py
-helm install basyx-dtr-poc charts/tx-data-provider -n umbrella-basyx-poc \
+  --post-renderer-args scripts/dtr-basyx-tests/post-render.py
+helm install basyx-dtr charts/tx-data-provider -n umbrella-basyx \
   --kubeconfig /path/to/test-kubeconfig --kube-context reviewed-test-context \
   -f values-local.yaml --post-renderer python \
-  --post-renderer-args hack/dtr-poc/post-render.py --wait --timeout 5m
+  --post-renderer-args scripts/dtr-basyx-tests/post-render.py --wait --timeout 5m
 ```
 
 Use the same values and post-renderer when upgrading. Official BaSyx chart
@@ -84,7 +84,7 @@ performance, network isolation and data migration are outside this profile.
 Roll back an application revision using an explicit test kubeconfig/context:
 
 ```bash
-helm rollback basyx-dtr-poc 1 -n umbrella-basyx-poc \
+helm rollback basyx-dtr 1 -n umbrella-basyx \
   --kubeconfig /path/to/test-kubeconfig --kube-context reviewed-test-context \
   --wait --timeout 5m
 ```

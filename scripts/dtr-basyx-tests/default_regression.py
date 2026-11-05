@@ -28,8 +28,8 @@ import yaml
 
 BASELINE = "356959aeca4451afe4ad2159c9e39cd008d27ca8"
 RANDOM_PATHS = {
-    "/ConfigMap/basyx-dtr-poc-tx-data-provider-vault-edc-configmap/data/aes-secret.json",
-    "/Secret/basyx-dtr-poc-connector-postgresql/data/postgres-password",
+    "/ConfigMap/basyx-dtr-tx-data-provider-vault-edc-configmap/data/aes-secret.json",
+    "/Secret/basyx-dtr-connector-postgresql/data/postgres-password",
     "/Secret/dtr-postgresql/data/postgres-password",
 }
 
@@ -66,7 +66,7 @@ def verify(root, scratch, run):
         shutil.copy2(package, chart / "charts" / package.name)
     outputs = []
     for current in (chart, root / "charts/tx-data-provider"):
-        text = run("helm", "template", "basyx-dtr-poc", str(current), "-n", "umbrella-basyx-poc", quiet=True)
+        text = run("helm", "template", "basyx-dtr", str(current), "-n", "umbrella-basyx", quiet=True)
         outputs.append({f"{o['kind']}/{o['metadata']['name']}": o
                         for o in yaml.safe_load_all(text) if o})
     # A chart version bump changes only the default Vault hook's chart labels.
@@ -92,6 +92,6 @@ def verify(root, scratch, run):
     assert changes <= RANDOM_PATHS, "Default Tractus-X provider changed: " + json.dumps(sorted(changes - RANDOM_PATHS))
     assert outputs[0].keys() == outputs[1].keys()
     assert any(key.startswith("Deployment/") and "digital-twin-registry" in key for key in outputs[1])
-    assert not any("basyx" in key and "basyx-dtr-poc" not in key for key in outputs[1])
+    assert not any("basyx" in key and "basyx-dtr" not in key for key in outputs[1])
     return {"result": "PASS", "upstreamCommit": BASELINE, "resourceCount": len(outputs[0]),
             "allowedRandomDifferences": sorted(changes), "validatedChartVersionLabels": version_labels}

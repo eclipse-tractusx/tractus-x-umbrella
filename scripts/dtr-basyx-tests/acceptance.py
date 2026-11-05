@@ -40,13 +40,13 @@ from fixtures import DATABASE, PG_IMAGE, database_resources
 from tenant_profile import ROOT, profile
 
 NODE_IMAGE = "kindest/node:v1.30.0@sha256:047357ac0cfea04663786a612ba1eaba9702bef25227a794b52890dd8bcd692e"
-NAMESPACES = ("basyx-poc", "umbrella-basyx-poc")
+NAMESPACES = ("basyx", "umbrella-basyx")
 
 
 class Acceptance:
     def __init__(self, artifacts, temporary):
         self.artifacts, self.temporary = artifacts, temporary
-        self.cluster = "basyx-poc-" + secrets.token_hex(4)
+        self.cluster = "basyx-" + secrets.token_hex(4)
         self.context = "kind-" + self.cluster
         self.kubeconfig = temporary / "kubeconfig"
         self.secret_values, self.created = [], False
@@ -54,7 +54,7 @@ class Acceptance:
         self.events = []
         self.environment = {**os.environ, "KUBECONFIG": str(self.kubeconfig)}
         self.renderer = ["--post-renderer", sys.executable, "--post-renderer-args",
-                         str(ROOT / "hack/dtr-poc/post-render.py")]
+                         str(ROOT / "scripts/dtr-basyx-tests/post-render.py")]
 
     def redact(self, text):
         text = text.replace(str(self.kubeconfig), "<temporary-kubeconfig>")
@@ -111,12 +111,12 @@ class Acceptance:
         self.results["versions"]["kubernetes"] = nodes[0]["status"]["nodeInfo"]["kubeletVersion"]
 
     def provision(self, namespace, tenant):
-        values, metadata = profile(namespace, "basyx-dtr-poc", tenant)
+        values, metadata = profile(namespace, "basyx-dtr", tenant)
         path = self.artifacts / f"{namespace}-values.yaml"
         path.write_text(yaml.safe_dump(values, sort_keys=False), encoding="utf-8")
         metadata["values"] = path
         self.run("docker", "exec", self.node, "install", "-d", "-m", "0700", "-o", "999", "-g", "999",
-                 f"/var/local/dtr-poc/{namespace}/{metadata['postgres']}", quiet=True)
+                 f"/var/local/dtr/{namespace}/{metadata['postgres']}", quiet=True)
         self.apply([database_resources(metadata)[0]])
         admin_password, app_password = secrets.token_urlsafe(32), secrets.token_urlsafe(32)
         self.secret_values += [admin_password, app_password]
@@ -136,7 +136,7 @@ class Acceptance:
         self.run("kubectl", "wait", "-n", namespace, "--for=condition=Complete",
                  f"job/{metadata['postgres']}-bootstrap", "--timeout=120s")
         self.run("helm", "lint", ROOT / "charts/tx-data-provider", "-f", path)
-        rendered = self.run("helm", "template", "basyx-dtr-poc", ROOT / "charts/tx-data-provider",
+        rendered = self.run("helm", "template", "basyx-dtr", ROOT / "charts/tx-data-provider",
                             "-n", namespace, "-f", path, *self.renderer, quiet=True)
         objects = [o for o in yaml.safe_load_all(rendered) if o]
         assert {o["kind"] for o in objects} <= {"Secret", "ConfigMap", "ServiceAccount", "Service", "Deployment", "Job"}, "Unexpected BaSyx resource type"
@@ -176,7 +176,7 @@ class Acceptance:
     def failed_initialization(self, tenant):
         values = yaml.safe_load(tenant["values"].read_text())
         values["digital-twin-basyx-bundle"]["basyx"]["configurationService"] = {
-            "command": ["/poc-intentionally-nonexistent"], "backoffLimit": 0,
+            "command": ["/intentionally-nonexistent"], "backoffLimit": 0,
             "activeDeadlineSeconds": 20, "restartPolicy": "Never"}
         path = self.temporary / "failed-init-values.yaml"
         path.write_text(yaml.safe_dump(values), encoding="utf-8")
@@ -276,12 +276,12 @@ def main():
     if artifacts.exists() and any(artifacts.iterdir()):
         parser.error("Use a new empty artifact directory for each run")
     artifacts.mkdir(parents=True, exist_ok=True)
-    with tempfile.TemporaryDirectory(prefix="basyx-dtr-poc-") as folder:
+    with tempfile.TemporaryDirectory(prefix="basyx-dtr-") as folder:
         test = Acceptance(artifacts, Path(folder))
         try:
             test.results["checks"]["defaultTractusX"] = default_regression(ROOT, Path(folder) / "baseline", test.run)
             test.prepare()
-            tenants = [test.provision(ns, "poc-a" if i == 0 else "poc-b") for i, ns in enumerate(NAMESPACES)]
+            tenants = [test.provision(ns, "tenant-a" if i == 0 else "tenant-b") for i, ns in enumerate(NAMESPACES)]
             test.failed_initialization(tenants[0])
             for tenant in tenants:
                 test.install(tenant)

@@ -197,7 +197,7 @@ If the user asks about upstream component behavior (EDC, IdentityHub, DTR, porta
 
 1. **Pods `Pending` / OOMKilled** → Minikube too small. Check the per-OS guide for the documented minimum CPUs / memory and recreate the cluster.
 2. **Hostnames don't resolve / DSP catalog HTTP 500 / IDP CrashLoopBackOff** → DNS. Check `ingress-dns`, the host resolver config, and the CoreDNS search-domain inheritance issue in `docs/user/common/troubleshooting/README.md`.
-3. **`helm install` fails with missing or stale dependencies** → run `./hack/helm-dependencies.bash` (it updates charts in the right order: bundles first, then `tx-data-provider`, then `umbrella`). Never hand-edit `charts/*/charts/`.
+3. **`helm install` fails with missing or stale dependencies** → run `./scripts/helm-dependencies.bash` (it updates charts in the right order: bundles first, then `tx-data-provider`, then `umbrella`). Never hand-edit `charts/*/charts/`.
 4. **Bundle change not picked up by the umbrella** → bundle `version:` bumped without updating the matching dependency in `charts/umbrella/Chart.yaml` (or vice versa), or dependencies not rebuilt.
 5. **Mixing profiles** → legacy and decentralized identity profiles are different scenarios; don't layer them unless the docs say so.
 6. **Install timeouts** → post-install jobs (seeding, BDRS, issuer claims) can take a while; inspect jobs and their logs before re-installing. Use `helm uninstall` + namespace cleanup for a clean retry.
@@ -212,7 +212,7 @@ When diagnosing, ask for (or run, if you have a terminal): `kubectl get pods -A`
 3. **Versioning**: bump a bundle's `version:` when consumers are affected and sync the dependency version in `charts/umbrella/Chart.yaml` (and in `tx-data-provider` / `decentralized-identity-connector` if they depend on it). Keep `appVersion` aligned with upstream when present. Follow `docs/admin/upgrade-components.md` for component upgrades.
 4. **Validate** before proposing:
    ```bash
-   ./hack/helm-dependencies.bash
+   ./scripts/helm-dependencies.bash
    helm lint charts/umbrella -f charts/umbrella/<profile>.yaml
    helm template umbrella charts/umbrella -f charts/umbrella/<profile>.yaml > /tmp/render.yaml
    ```
