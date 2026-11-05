@@ -16,10 +16,10 @@ kubectl 1.30.0 and Helm 3.21.3 on PATH, and use Python 3.12. A virtual environme
 is recommended. From the repository root:
 
 ```bash
-python -m pip install -r hack/dtr-poc/requirements.txt
-python hack/dtr-poc/dependencies.py
-python -m unittest discover -s hack/dtr-poc -p 'test_*.py' -v
-python hack/dtr-poc/acceptance.py --artifacts .dtr-poc-artifacts/run-1
+python -m pip install -r scripts/dtr-basyx-tests/requirements.txt
+python scripts/dtr-basyx-tests/dependencies.py
+python -m unittest discover -s scripts/dtr-basyx-tests -p 'test_*.py' -v
+python scripts/dtr-basyx-tests/acceptance.py --artifacts .dtr-artifacts/run-1
 ```
 
 No external PostgreSQL, private application checkout or server credentials are
@@ -34,8 +34,8 @@ Use Python 3.12 and install `requirements.txt`. Provide a namespace,
 release and tenant slug explicitly; no credentials are accepted by the generator.
 
 ```bash
-python hack/dtr-poc/tenant_profile.py \
-  --namespace umbrella-basyx-poc --release basyx-dtr-poc --tenant poc-a \
+python scripts/dtr-basyx-tests/tenant_profile.py \
+  --namespace umbrella-basyx --release basyx-dtr --tenant tenant-a \
   > values-local.yaml
 ```
 
@@ -48,14 +48,14 @@ non-superuser role; the role must own its schema so Configuration Service can
 initialize it. Never point this profile at a Tractus-X schema.
 
 ```bash
-python hack/dtr-poc/dependencies.py
+python scripts/dtr-basyx-tests/dependencies.py
 helm lint charts/tx-data-provider -f values-local.yaml
-helm template basyx-dtr-poc charts/tx-data-provider -n umbrella-basyx-poc \
+helm template basyx-dtr charts/tx-data-provider -n umbrella-basyx \
   -f values-local.yaml --post-renderer python \
-  --post-renderer-args hack/dtr-poc/post-render.py
-helm install basyx-dtr-poc charts/tx-data-provider -n umbrella-basyx-poc \
+  --post-renderer-args scripts/dtr-basyx-tests/post-render.py
+helm install basyx-dtr charts/tx-data-provider -n umbrella-basyx \
   -f values-local.yaml --post-renderer python \
-  --post-renderer-args hack/dtr-poc/post-render.py --wait --timeout 5m
+  --post-renderer-args scripts/dtr-basyx-tests/post-render.py --wait --timeout 5m
 ```
 
 Pass an explicit reviewed kubeconfig and context for real deployment commands.
@@ -86,13 +86,13 @@ Have Docker, Kind 0.23.0, kubectl 1.30.0, Helm 3.21.3 and Python 3.12 available.
 Run from the repository root after dependency resolution:
 
 ```bash
-python hack/dtr-poc/acceptance.py --artifacts /private/path/new-dtr-results
+python scripts/dtr-basyx-tests/acceptance.py --artifacts /private/path/new-dtr-results
 ```
 
 The harness always creates a new uniquely named Kind cluster, passes its own
 kubeconfig/context to every Kubernetes and Helm command, and removes that exact
-cluster at completion or failure. It uses only `basyx-poc` and
-`umbrella-basyx-poc`, with separate storage and runtime-generated credentials.
+cluster at completion or failure. It uses only `basyx` and
+`umbrella-basyx`, with separate storage and runtime-generated credentials.
 It refuses a nonempty result directory. Passwords are sent through stdin,
 consumed from Secret references and checked for absence from result artifacts.
 The temporary kubeconfig is removed with its private temporary directory.
@@ -143,11 +143,11 @@ test cluster such as a dedicated minikube profile, and pass its context
 explicitly:
 
 ```bash
-python hack/dtr-poc/local_stack.py --context basyx-dtr-test
-python hack/dtr-poc/parity.py registry --context basyx-dtr-test --out .dtr-poc-artifacts/parity
-python hack/dtr-poc/parity.py submodel --context basyx-dtr-test --out .dtr-poc-artifacts/parity
-python hack/dtr-poc/local_stack.py --context basyx-dtr-test --only basyx --abac
-python hack/dtr-poc/parity.py visibility --context basyx-dtr-test --out .dtr-poc-artifacts/parity
+python scripts/dtr-basyx-tests/local_stack.py --context basyx-dtr-test
+python scripts/dtr-basyx-tests/parity.py registry --context basyx-dtr-test --out .dtr-artifacts/parity
+python scripts/dtr-basyx-tests/parity.py submodel --context basyx-dtr-test --out .dtr-artifacts/parity
+python scripts/dtr-basyx-tests/local_stack.py --context basyx-dtr-test --only basyx --abac
+python scripts/dtr-basyx-tests/parity.py visibility --context basyx-dtr-test --out .dtr-artifacts/parity
 ```
 
 `local_stack.py` installs:
@@ -184,7 +184,7 @@ The rollback test uses the same application and schema version. A rollback
 across versions requires an independently verified schema recovery plan.
 Switching DTR engines is not a Helm rollback or an automatic data migration.
 
-The PoC has private ClusterIP services and no public ingress, OIDC, Keycloak,
+The BaSyx setup has private ClusterIP services and no public ingress, OIDC, Keycloak,
 ABAC, HA, migration or production tenant integration. Namespace and
 database tests prove independent instances and data; they do not prove network
 or authorization isolation. A production rollout still requires the tenant's

@@ -132,7 +132,7 @@ class Stack:
     def __init__(self, context):
         self.context = context
         self.renderer = ["--post-renderer", sys.executable, "--post-renderer-args",
-                         str(ROOT / "hack/dtr-poc/post-render.py")]
+                         str(ROOT / "scripts/dtr-basyx-tests/post-render.py")]
 
     def run(self, *args, input=None):
         command = list(map(str, args))

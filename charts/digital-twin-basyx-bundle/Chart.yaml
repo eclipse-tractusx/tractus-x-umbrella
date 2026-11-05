@@ -20,7 +20,7 @@ apiVersion: v2
 name: digital-twin-basyx-bundle
 description: Optional BaSyx Digital Twin Registry with an external or bundled PostgreSQL
 type: application
-version: 0.1.2
+version: 0.1.3
 appVersion: "1.1.0"
 home: https://github.com/eclipse-basyx/charts
 sources:

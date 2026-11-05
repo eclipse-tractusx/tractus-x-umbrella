@@ -20,7 +20,7 @@
 # Sandbox overlay: bundled PostgreSQL instead of an externally provisioned one.
 # Usage: helm install <release> charts/digital-twin-basyx-bundle \
 #          -f charts/digital-twin-basyx-bundle/values-bundled-postgresql.yaml \
-#          --post-renderer python --post-renderer-args hack/dtr-poc/post-render.py
+#          --post-renderer python --post-renderer-args scripts/dtr-basyx-tests/post-render.py
 postgresql:
   enabled: true
 

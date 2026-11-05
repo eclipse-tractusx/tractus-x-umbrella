@@ -27,8 +27,8 @@ on:
       - 'charts/decentralized-identity-connector/Chart.yaml'
       - 'charts/tx-data-provider/**'
       - 'charts/umbrella/Chart.yaml'
-      - 'hack/dtr-poc/**'
-      - 'hack/helm-dependencies.bash'
+      - 'scripts/dtr-basyx-tests/**'
+      - 'scripts/helm-dependencies.bash'
       - '.github/workflows/basyx-dtr-checks.yaml'
   pull_request:
     paths:
@@ -37,8 +37,8 @@ on:
       - 'charts/decentralized-identity-connector/Chart.yaml'
       - 'charts/tx-data-provider/**'
       - 'charts/umbrella/Chart.yaml'
-      - 'hack/dtr-poc/**'
-      - 'hack/helm-dependencies.bash'
+      - 'scripts/dtr-basyx-tests/**'
+      - 'scripts/helm-dependencies.bash'
       - '.github/workflows/basyx-dtr-checks.yaml'
   workflow_dispatch:
 
@@ -82,15 +82,15 @@ jobs:
           chmod +x "$RUNNER_TEMP/kind" "$RUNNER_TEMP/kubectl" "$RUNNER_TEMP/helm"
           echo "$RUNNER_TEMP" >> "$GITHUB_PATH"
       - name: Install acceptance dependencies
-        run: python -m pip install -r hack/dtr-poc/requirements.txt
+        run: python -m pip install -r scripts/dtr-basyx-tests/requirements.txt
       - name: Resolve Helm dependencies
-        run: python hack/dtr-poc/dependencies.py
+        run: python scripts/dtr-basyx-tests/dependencies.py
       - name: Compile acceptance scripts
-        run: python -W error -m compileall -q hack/dtr-poc
+        run: python -W error -m compileall -q scripts/dtr-basyx-tests
       - name: Validate hook overrides and cleanup failure diagnostics
-        run: python -m unittest discover -s hack/dtr-poc -p 'test_*.py' -v
+        run: python -m unittest discover -s scripts/dtr-basyx-tests -p 'test_*.py' -v
       - name: Install and validate independent tenants
-        run: python hack/dtr-poc/acceptance.py --artifacts "$RUNNER_TEMP/dtr-results"
+        run: python scripts/dtr-basyx-tests/acceptance.py --artifacts "$RUNNER_TEMP/dtr-results"
       - name: Upload sanitized results
         if: always()
         uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2

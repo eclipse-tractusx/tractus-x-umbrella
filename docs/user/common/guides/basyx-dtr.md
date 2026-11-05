@@ -34,15 +34,15 @@ You also need `python3` on the machine running Helm.
 ### Install
 
 ```bash
-./hack/helm-dependencies.bash
+./scripts/helm-dependencies.bash
 helm install umbrella charts/umbrella --namespace umbrella --create-namespace \
   -f charts/umbrella/values-adopter-data-exchange.yaml \
   -f charts/umbrella/values-adopter-data-exchange-basyx.yaml \
-  --post-renderer python3 --post-renderer-args hack/dtr-poc/post-render.py
+  --post-renderer python3 --post-renderer-args scripts/dtr-basyx-tests/post-render.py
 ```
 
 BaSyx chart 3.15.0 always renders a cert-manager `Issuer` (`internal-issuer`), even with TLS disabled.
-The [post-renderer](../../../../hack/dtr-poc/post-render.py) removes only that object and needs no
+The [post-renderer](../../../../scripts/dtr-basyx-tests/post-render.py) removes only that object and needs no
 Python packages. If cert-manager is installed in your cluster, you can omit the post-renderer.
 Use the same flags for `helm upgrade`.
 
@@ -134,9 +134,9 @@ The Helm CI defaults to the same Helm 3.21.3 version. From the repository root, 
 the test requirements, resolve dependencies and run acceptance:
 
 ```bash
-python -m pip install -r hack/dtr-poc/requirements.txt
-python hack/dtr-poc/dependencies.py
-python hack/dtr-poc/acceptance.py --artifacts .dtr-poc-artifacts/run-1
+python -m pip install -r scripts/dtr-basyx-tests/requirements.txt
+python scripts/dtr-basyx-tests/dependencies.py
+python scripts/dtr-basyx-tests/acceptance.py --artifacts .dtr-artifacts/run-1
 ```
 
 Use a new result directory for each run. The harness creates and removes its
@@ -150,7 +150,7 @@ reinstallation. It also compares default Tractus-X manifests to a pinned
 upstream baseline. This last check is configuration regression, not a new
 full Tractus-X Runtime installation.
 
-See [test prerequisites, commands and results](../../../../hack/dtr-poc/README.md)
+See [test prerequisites, commands and results](../../../../scripts/dtr-basyx-tests/README.md)
 for the complete procedure.
 
 ### Install an instance for your application

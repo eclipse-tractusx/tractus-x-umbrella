@@ -16,9 +16,9 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 # #############################################################################
-# Explicit PoC profile. The legacy DTR remains the chart's default.
+# Explicit BaSyx DTR profile. The legacy DTR remains the chart's default.
 seedTestdata: false
-registryUrl: "http://basyx-dtr-poc-digital-twin-registry:8080/digital-twin-registry"
+registryUrl: "http://basyx-dtr-digital-twin-registry:8080/digital-twin-registry"
 
 digital-twin-bundle:
   enabled: false

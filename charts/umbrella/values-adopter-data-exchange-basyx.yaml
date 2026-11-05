@@ -24,7 +24,7 @@
 #   helm install umbrella charts/umbrella --namespace umbrella --create-namespace \
 #     -f charts/umbrella/values-adopter-data-exchange.yaml \
 #     -f charts/umbrella/values-adopter-data-exchange-basyx.yaml \
-#     --post-renderer python3 --post-renderer-args hack/dtr-poc/post-render.py
+#     --post-renderer python3 --post-renderer-args scripts/dtr-basyx-tests/post-render.py
 #
 # The post-renderer removes the unused cert-manager Issuer that BaSyx chart 3.15.0
 # always renders; it is not needed when cert-manager CRDs are installed.

@@ -17,7 +17,7 @@ today. It answers three questions:
 Every request and response below was captured from a local run on
 2026-10-26, on the branch of PR #441 after merging `main` (Tractus-X DTR
 0.12.0). The two stacks received identical requests. The scripts that install
-both stacks and send the requests are in [`hack/dtr-poc/`](../../../../hack/dtr-poc/README.md#compare-with-the-tractus-x-dtr);
+both stacks and send the requests are in [`scripts/dtr-basyx-tests/`](../../../../scripts/dtr-basyx-tests/README.md#compare-with-the-tractus-x-dtr);
 see [Section 10](#10-reproduce). For how to install the
 bundle, see [Evaluate an optional BaSyx DTR](basyx-dtr.md).
 
@@ -38,7 +38,7 @@ bundle, see [Evaluate an optional BaSyx DTR](basyx-dtr.md).
 |---|---|---|
 | Chart | `tx-data-provider` 0.6.2 (`digital-twin-bundle` 1.4.0, `data-persistence-layer-bundle` 1.0.0) | `tx-data-provider` 0.6.2 + `values-basyx.yaml` (`digital-twin-basyx-bundle` 0.1.2 → `basyx` chart 3.15.0), external database profile |
 | Registry | `tractusx/sldt-digital-twin-registry:0.12.0`, authentication off | `eclipsebasyx/digitaltwinregistry-go` 1.1.0. ABAC off for Sections 3 to 5; ABAC on with Keycloak 26.4 for Section 6. |
-| Registry database | Bitnami PostgreSQL 15.4 (subchart) | External `postgres:18.4`, set up with `hack/dtr-poc/fixtures.py` |
+| Registry database | Bitnami PostgreSQL 15.4 (subchart) | External `postgres:18.4`, set up with `scripts/dtr-basyx-tests/fixtures.py` |
 | Data service | `tractusx/simple-data-backend:main` | `eclipsebasyx/submodelrepository-go` 1.1.0, added to the same BaSyx release and sharing its database |
 | API base | `http://<release>-digital-twin-registry:8080/api/v3` | `http://<fullname>-digital-twin-registry:8080/digital-twin-registry` |
 | Data base | `http://<release>-simple-data-backend:8080` | `http://<fullname>-submodel-repository:8080/submodel-repo` |
@@ -50,7 +50,7 @@ straight to the services through `kubectl port-forward`.
 
 ### Values used for the BaSyx stack
 
-These values come from `hack/dtr-poc/tenant_profile.py --namespace basyx
+These values come from `scripts/dtr-basyx-tests/tenant_profile.py --namespace basyx
 --release basyx --tenant poc`, plus the overrides below:
 
 ```yaml
@@ -411,7 +411,7 @@ Tractus-X DTR:
 
   Use client-credentials clients in production.
 
-`hack/dtr-poc/local_stack.py --abac` creates a minimal test realm with exactly
+`scripts/dtr-basyx-tests/local_stack.py --abac` creates a minimal test realm with exactly
 these two users. Their passwords are generated at install time and stored only
 in the Secret `keycloak-test-users`.
 
@@ -437,7 +437,7 @@ digital-twin-basyx-bundle:
             }
           ]
         accessRules: |
-          <the JSON from 6.4, hack/dtr-poc/access-rules-tractusx.json>
+          <the JSON from 6.4, scripts/dtr-basyx-tests/access-rules-tractusx.json>
 ```
 
 The chart then mounts the rules and the trust list at `/security_env` and sets
@@ -454,7 +454,7 @@ bundle's `environment.common`. The DTR log shows
 ### 6.4 Access rules
 
 The tested file is
-[`hack/dtr-poc/access-rules-tractusx.json`](../../../../hack/dtr-poc/access-rules-tractusx.json).
+[`scripts/dtr-basyx-tests/access-rules-tractusx.json`](../../../../scripts/dtr-basyx-tests/access-rules-tractusx.json).
 Replace `default-tenant` in `owner_read` with your provider BPN. That is the
 value the Tractus-X DTR has in `REGISTRY_IDM_OWNING_TENANT_ID`.
 
@@ -838,7 +838,7 @@ transfer were not run in this test.**
 
 ## 10. Reproduce
 
-The scripts in `hack/dtr-poc/` install both stacks and send every request in
+The scripts in `scripts/dtr-basyx-tests/` install both stacks and send every request in
 this report. They pass `--context` or `--kube-context` to every command and
 never use your current kube context. Generated test passwords go to kubectl
 through stdin only.
@@ -846,8 +846,8 @@ through stdin only.
 1. Resolve the chart dependencies:
 
    ```bash
-   python -m pip install -r hack/dtr-poc/requirements.txt
-   python hack/dtr-poc/dependencies.py
+   python -m pip install -r scripts/dtr-basyx-tests/requirements.txt
+   python scripts/dtr-basyx-tests/dependencies.py
    ```
 
 2. Create a separate cluster without changing your current kube context:
@@ -861,22 +861,22 @@ through stdin only.
    Repository), using the values from [Section 1](#1-test-setup):
 
    ```bash
-   python hack/dtr-poc/local_stack.py --context basyx-dtr-test
+   python scripts/dtr-basyx-tests/local_stack.py --context basyx-dtr-test
    ```
 
 4. Run the registry and submodel comparisons (Sections 3, 4, 5 and 7):
 
    ```bash
-   python hack/dtr-poc/parity.py registry --context basyx-dtr-test --out .dtr-poc-artifacts/parity
-   python hack/dtr-poc/parity.py submodel --context basyx-dtr-test --out .dtr-poc-artifacts/parity
+   python scripts/dtr-basyx-tests/parity.py registry --context basyx-dtr-test --out .dtr-artifacts/parity
+   python scripts/dtr-basyx-tests/parity.py submodel --context basyx-dtr-test --out .dtr-artifacts/parity
    ```
 
 5. Deploy Keycloak, turn on the ABAC values from Section 6.3 and run the
    visibility comparison (Section 6). The existing database is kept.
 
    ```bash
-   python hack/dtr-poc/local_stack.py --context basyx-dtr-test --only basyx --abac
-   python hack/dtr-poc/parity.py visibility --context basyx-dtr-test --out .dtr-poc-artifacts/parity
+   python scripts/dtr-basyx-tests/local_stack.py --context basyx-dtr-test --only basyx --abac
+   python scripts/dtr-basyx-tests/parity.py visibility --context basyx-dtr-test --out .dtr-artifacts/parity
    ```
 
    Each suite prints one line per call and writes the full requests and
