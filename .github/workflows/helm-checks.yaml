@@ -110,6 +110,10 @@ jobs:
     - name: Informational - describe node
       run: kubectl describe node
 
+      # Images are pushed via localhost:5000 (the KinD registry is published on 127.0.0.1:5000).
+      # Docker >= 29 (containerd image store) only falls back to plain HTTP for localhost / 127.0.0.0/8,
+      # so pushing to kind-registry:5000 fails with "server gave HTTP response to HTTPS client".
+      # The cluster still pulls the same images as kind-registry:5000/<image>.
       # Pull and build Jena Fuseki DB for semantic-hub
     - name: Pull Fuseki sources
       run: |
@@ -120,7 +124,7 @@ jobs:
       with:
         context: jena-fuseki-docker-5.0.0
         push: true
-        tags: kind-registry:5000/jena-fuseki-docker:5.0.0
+        tags: localhost:5000/jena-fuseki-docker:5.0.0
         build-args: JENA_VERSION=5.0.0
 
     - name: Build simple data backend
@@ -128,14 +132,14 @@ jobs:
       with:
         context: ./simple-data-backend/
         push: true
-        tags: kind-registry:5000/simple-data-backend:testing
+        tags: localhost:5000/simple-data-backend:testing
 
     - name: Build init container
       uses: docker/build-push-action@4a13e500e55cf31b7a5d59a38ab2040ab0f42f56 # v5.1.0
       with:
         context: ./init-container/
         push: true
-        tags: kind-registry:5000/init-container:testing
+        tags: localhost:5000/init-container:testing
 
     - name: Set up Helm
       uses: azure/setup-helm@b7246b12e77f7134dc2d460a3d5bad15bbe29390 # v4.1.0
