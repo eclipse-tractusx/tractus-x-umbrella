@@ -28,7 +28,7 @@ bundle, see [Evaluate an optional BaSyx DTR](basyx-dtr.md).
 | Registry API (CRUD, paging, lookup, submodel descriptors) | **Compatible for the main flows.** 42 of 46 calls returned the same HTTP status. Section 3 compares every endpoint. Section 4 shows the details. |
 | `Edc-Bpn` visibility, as the bundle ships it (`abac.enabled: false`) | **Not equivalent. This blocks a migration.** BaSyx returns every `specificAssetId` to every caller. It also finds twins by restricted asset IDs for any BPN. |
 | `Edc-Bpn` visibility with the ABAC rules in [Section 6](#6-configure-abac-for-tractus-x-style-visibility) | **Equivalent for reads and lookups.** 16 of 19 checks returned the same result. Two of the three remaining differences are built into BaSyx and cannot be changed with rules. |
-| Error responses | **Different.** Tractus-X returns `{"messages":[…]}`. BaSyx returns a bare array `[{code, correlationId, …}]`. |
+| Error responses | **Different.** Tractus-X returns `{"messages":[…]}`. BaSyx `1.1.0` returns a bare array `[{code, correlationId, …}]`; `1.1.2` uses the `messages[]` envelope. |
 | Submodel Repository as the data backend | **Works, but needs migration work.** The upload format changes from raw SAMM JSON to an AAS `Submodel`. URLs must use Base64URL-encoded IDs. `$value` returns **every number and boolean as a JSON string**. 56 of 112 test payloads did not round-trip exactly. |
 | Running on Apple Silicon (arm64) | The bundle pins **amd64-only** image digests. The multi-arch index digests of the same `1.1.0` release work natively. |
 
@@ -201,7 +201,7 @@ Legend:
 | Endpoint | Note |
 |---|---|
 | `POST /query/shell-descriptors` | AAS Query Language search. With ABAC on, it needs its own object in the rules, otherwise it returns `403`. |
-| `POST`, `PUT`, `DELETE /bulk/shell-descriptors`, `GET /bulk/status/{h}`, `GET /bulk/result/{h}` | Asynchronous bulk API. Also needs its own object in the ABAC rules. |
+| `POST`, `PUT`, `DELETE /bulk/shell-descriptors`, `GET /bulk/status/{h}`, `GET /bulk/result/{h}` | Asynchronous bulk API. With ABAC, `POST` follows the descriptor `CREATE` rights; see 6.4. |
 | `POST /verify` | Checks the request against ABAC |
 | `GET /health`, `/swagger`, `/api-docs/openapi.yaml` | Operations endpoints. Tractus-X uses actuator on port 4243 and its spec at `/aas-registry-openapi.yaml`. |
 
@@ -563,8 +563,9 @@ What each rule does:
 6. **`/lookup/shells/{id}`**: only the owner and writers can call it. Other
    callers get `403`; see 6.5.
 
-The bulk and query routes are not listed, so they return `403`. If you need
-them, add `{ "ROUTE": "/bulk/*" }` and `{ "ROUTE": "/query/*" }` objects.
+The query routes are not listed, so they return `403`. If you need them, add a
+`{ "ROUTE": "/query/*" }` object. Bulk writes need no route: callers with
+`CREATE` on shell descriptors can use `POST /bulk/shell-descriptors`.
 
 ### 6.5 Results with ABAC on
 
@@ -618,6 +619,29 @@ A call without a token returns:
 ```json
 [{"code": "403", "correlationId": "Middleware-403-Rules-Forbidden-Denied", "messageType": "Error", "text": "access denied", "timestamp": "2026-10-26T10:35:29Z"}]
 ```
+
+This is the `1.1.0` release the bundle pins. On `1.1.2`, the `403` from the
+rules comes in the same `{"messages": […]}` envelope as the other errors (see
+[#433](https://github.com/eclipse-tractusx/tractus-x-umbrella/issues/433)):
+
+```json
+{"messages": [{"code": "403", "correlationId": "Middleware-403-Rules-Forbidden-Denied", "messageType": "Error", "text": "access denied", "timestamp": "2026-11-09T11:40:16Z"}]}
+```
+
+For the bulk and query routes, the rules in 6.4 give on BaSyx `1.1.2`:
+
+| Request | EDC-reader token | Provider token |
+|---|---|---|
+| `POST /query/shell-descriptors` | `403` | `403` |
+| `POST /bulk/shell-descriptors` | `403` | `202`, the shell is created |
+
+Bulk follows the descriptor rights (`CREATE` on `$aasdesc("*")`), not a
+`/bulk/*` route.
+
+On BaSyx `1.1.2` (chart `basyx` 3.14.0), the owner, non-owner and no-BPN reads,
+the `PUBLIC_READABLE` lookup and `/lookup/shells/{id}` as non-owner give the
+same results as in the table above, so the two built-in differences below still
+hold.
 
 These differences remain, and the rules cannot remove them:
 
@@ -802,8 +826,8 @@ transfer were not run in this test.**
 | `PUBLIC_READABLE` data | Put `PUBLIC_READABLE` only on `manufacturerPartId` and `digitalTwinType`. BaSyx lookups treat any public type as discoverable. |
 | Owner identity | Replace `REGISTRY_IDM_OWNING_TENANT_ID` with the owner BPN in `owner_read`. Provider apps need a token with `add_digital_twin`. |
 | `/description` | Consumers that check IDTA 3.0 or 3.1 registry or discovery profiles will not find one. |
-| Error handling | Accept a top-level array `[{code, correlationId, messageType, text, timestamp}]` as well as `messages[]`. |
-| Status codes | Duplicate create returns `409` instead of `400`. `PUT` on a missing ID creates it (`201`). `GET` asset links after deleting them returns `404`. |
+| Error handling | On `1.1.0`, accept a top-level array `[{code, correlationId, messageType, text, timestamp}]` as well as `messages[]`. `1.1.2` uses `messages[]`. |
+| Status codes | Duplicate create returns `409` instead of `400`. `PUT` on a missing ID creates it (`201`). `GET` asset links after deleting them returns `404`. Unsupported operations return `404` or `405`, unsupported parameters are ignored; no `501` as [CX-0002 §2.1.5](https://github.com/catenax-eV/catenax-ev.github.io/blob/1cdbdd192d4f0e366459b12fe1d934d8da622a22/docs/standards/CX-0002-DigitalTwinsInCatenaX/CX-0002-DigitalTwinsInCatenaX.md#L325) asks. |
 | Empty lookup | Read `result` with a default (`body.get("result", [])`). |
 | Paging | Do not depend on getting a cursor on the last page. Invalid cursors return `400`. |
 | Asset links | Expect `globalAssetId` in the asset links. `POST /lookup/shells/{id}` appends links and does not deduplicate them. |
@@ -833,7 +857,11 @@ transfer were not run in this test.**
   with authentication off.
 - ABAC on the Submodel Repository.
 - Tractus-X granular access control mode.
-- Bulk and query endpoints with ABAC rules
+- Bulk `PUT`, `DELETE`, status and result endpoints with ABAC rules, and the
+  query endpoints with a `/query/*` rule. `POST /bulk/shell-descriptors` and
+  `POST /query/shell-descriptors` without a rule are covered in 6.5.
+- `501` for unsupported operations on the Tractus-X DTR. BaSyx `1.1.2` does not
+  return it (Section 8).
 - Performance, high availability and cross-version schema rollback.
 
 ## 10. Reproduce
