@@ -135,6 +135,43 @@ An overall `PASS` requires both tenants to pass the runtime checks and the
 temporary Kind cluster to be removed. The uninstall/reinstall and Helm rollback
 checks use the same application/schema version.
 
+## Compare with the Tractus-X DTR
+
+The acceptance test checks BaSyx on its own. To compare it with the Tractus-X
+DTR, and the BaSyx Submodel Repository with `simple-data-backend`, use a local
+test cluster such as a dedicated minikube profile, and pass its context
+explicitly:
+
+```bash
+python scripts/dtr-basyx-tests/local_stack.py --context basyx-dtr-test
+python scripts/dtr-basyx-tests/parity.py registry --context basyx-dtr-test --out .dtr-artifacts/parity
+python scripts/dtr-basyx-tests/parity.py submodel --context basyx-dtr-test --out .dtr-artifacts/parity
+python scripts/dtr-basyx-tests/local_stack.py --context basyx-dtr-test --only basyx --abac
+python scripts/dtr-basyx-tests/parity.py visibility --context basyx-dtr-test --out .dtr-artifacts/parity
+```
+
+`local_stack.py` installs:
+
+- `tx-data-provider` with the Tractus-X DTR and `simple-data-backend` in the
+  namespace `txdtr`
+- The BaSyx tenant profile with the Submodel Repository in the namespace
+  `basyx`. Its external PostgreSQL is created with `fixtures.py`, using dynamic
+  volume provisioning. The images use the multi-arch digests of the pinned
+  1.1.0 release, so the stack also runs on arm64.
+
+With `--abac` it also does the following:
+
+- Deploys Keycloak with a generated test realm. The user `provider` has all DTR
+  roles; `edc-dtr-reader` has only `view_digital_twin`.
+- Enables ABAC with [`access-rules-tractusx.json`](access-rules-tractusx.json).
+
+Re-running the script keeps an existing database and realm.
+
+`parity.py` sends identical requests to both sides and writes every request and
+response to JSON. It is a comparison tool, not a pass/fail gate. The results
+and the ABAC configuration are explained in the
+[comparison report](../../docs/user/common/guides/basyx-dtr-comparison-report.md).
+
 ## Rollback and limits
 
 Keep the external PostgreSQL, credentials and storage when uninstalling the
@@ -148,7 +185,7 @@ across versions requires an independently verified schema recovery plan.
 Switching DTR engines is not a Helm rollback or an automatic data migration.
 
 The BaSyx setup has private ClusterIP services and no public ingress, OIDC, Keycloak,
-ABAC, BMW ECS, HA, migration or production tenant integration. Namespace and
+ABAC, HA, migration or production tenant integration. Namespace and
 database tests prove independent instances and data; they do not prove network
 or authorization isolation. A production rollout still requires the tenant's
 network/RBAC boundaries, caller compatibility, data handling and cutover plan.

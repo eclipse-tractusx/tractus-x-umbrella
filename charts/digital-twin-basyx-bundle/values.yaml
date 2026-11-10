@@ -137,3 +137,41 @@ basyx:
       limits:
         cpu: 100m
         memory: 512Mi
+
+# -- Bundled PostgreSQL for sandbox and umbrella use (same pattern as digital-twin-bundle).
+# When enabled, this bundle renders the database Secret named by
+# basyx.database.existingSecret and points it at this PostgreSQL. Also set
+# basyx.configurationService.hook.enabled=false and
+# basyx.configurationService.waitForDatabase.enabled=true, so schema
+# initialization runs as a regular Job after the database is up.
+# The BaSyx DTR restarts until the schema exists.
+# See values-bundled-postgresql.yaml for a ready-to-use overlay.
+postgresql:
+  enabled: false
+  # -- Optional static service name; defaults to <release>-postgresql
+  fullnameOverride: ""
+  image:
+    # -- bitnamilegacy image (same workaround as digital-twin-bundle). The BaSyx
+    # schema requires PostgreSQL 16 or newer, so this is the chart's default 16.2 tag.
+    repository: bitnamilegacy/postgresql
+    tag: 16.2.0-debian-12-r10
+  auth:
+    # -- Database username (fake test value; override for anything but a sandbox)
+    username: "basyx"
+    # -- Database password (fake test value; override for anything but a sandbox)
+    password: "basyx-password"
+    # -- Database name
+    database: "basyx"
+  primary:
+    persistence:
+      # -- Enable persistent storage for PostgreSQL
+      enabled: true
+      # -- Size of persistent volume
+      size: "2Gi"
+    resources:
+      requests:
+        cpu: 50m
+        memory: 128Mi
+      limits:
+        cpu: 500m
+        memory: 512Mi

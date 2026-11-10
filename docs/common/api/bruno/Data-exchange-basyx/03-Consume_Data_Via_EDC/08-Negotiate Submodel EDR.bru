@@ -1,0 +1,61 @@
+meta {
+  name: 08-Negotiate Submodel EDR
+  type: http
+  seq: 8
+}
+
+post {
+  url: {{Alice}}/edrs
+  body: json
+  auth: apikey
+}
+
+headers {
+  Content-Type: application/json
+}
+
+auth:apikey {
+  key: X-Api-Key
+  value: {{Alice_Api_Key}}
+  placement: header
+}
+
+body:json {
+  {
+    "@context": [
+      "http://www.w3.org/ns/odrl.jsonld",
+      "https://w3id.org/catenax/2025/9/policy/context.jsonld",
+      { "@vocab": "https://w3id.org/edc/v0.0.1/ns/" }
+    ],
+    "@type": "ContractRequest",
+    "counterPartyAddress": "{{Bob_DSP}}/2025-1",
+    "protocol": "dataspace-protocol-http:2025-1",
+    "policy": {
+      "@id": "{{SUBMODEL_OFFER_ID}}",
+      "@type": "Offer",
+      "assigner": "{{Bob_DID}}",
+      "target": "{{SUBMODEL_ASSET_ID}}",
+      "permission": [
+        {
+          "action": "use",
+          "constraint": [
+            {
+              "and": [
+                { "leftOperand": "Membership", "operator": "eq", "rightOperand": "active" },
+                { "leftOperand": "FrameworkAgreement", "operator": "eq", "rightOperand": "DataExchangeGovernance:1.0" },
+                { "leftOperand": "UsagePurpose", "operator": "isAnyOf", "rightOperand": "cx.core.industrycore:1" }
+              ]
+            }
+          ]
+        }
+      ],
+      "prohibition": [],
+      "obligation": []
+    },
+    "callbackAddresses": []
+  }
+}
+
+tests {
+  bru.setVar("SUBMODEL_NEGOTIATION_ID", res.body["@id"]);
+}
