@@ -59,7 +59,7 @@ postgres
 | Data Provider          | `umbrella-dataprovider-db`           |`dbpasswordtxdataprovider` |
 | Data Consumer 1        | `umbrella-dataconsumer-1-db`         |`dbpassworddataconsumerone`|
 | Data Consumer 2        | `umbrella-dataconsumer-2-db`         |`dbpassworddataconsumertwo`|
-| BPDM                   | `umbrella-bpdm-postgres`             |`dbpasswordbpdm`           |
+| BPDM                   | `bpdm-postgres` (user `bpdm`)        |`dbpasswordbpdm`           |
 
 For connection details not listed in this table, please refer to the [values.yaml file of the umbrella chart](/charts/umbrella/values.yaml).
 

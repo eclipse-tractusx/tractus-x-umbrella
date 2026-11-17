@@ -30,7 +30,7 @@ The components currently shipped by the umbrella chart:
   - [digital-twin-basyx-bundle](../../../charts/digital-twin-basyx-bundle) — optional alternative using the official [BaSyx chart 3.15.0](https://github.com/eclipse-basyx/charts/tree/basyx-3.15.0), disabled by default; usable in the data-exchange scenario with `values-adopter-data-exchange-basyx.yaml`; see the [DTR evaluation guide](guides/basyx-dtr.md)
   - [data-persistence-layer-bundle](../../../charts/data-persistence-layer-bundle) — [simple-data-backend](https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/simple-data-backend-0.1.0)
 - [bdrs](https://github.com/eclipse-tractusx/bpn-did-resolution-service/tree/0.5.7) (**in-memory** — no persistence)
-- [bpdm](https://github.com/eclipse-tractusx/bpdm/tree/release/7.1.x)
+- [bpdm](https://github.com/eclipse-tractusx/bpdm/tree/release/7.4.x)
 - [identity-and-trust-bundle](../../../charts/identity-and-trust-bundle) — [ssi-dim-wallet-stub](https://github.com/eclipse-tractusx/ssi-dim-wallet-stub/tree/ssi-dim-wallet-stub-memory-0.1.11)
 
 **Auxiliary components:**
