@@ -1,3 +1,6 @@
+<!-- SPDX-FileCopyrightText: 2026 Contributors to the Eclipse Foundation -->
+<!-- SPDX-License-Identifier: CC-BY-4.0 -->
+
 # Installation Reference
 
 > [!TIP]
@@ -24,9 +27,10 @@ The components currently shipped by the umbrella chart:
 - [tx-data-provider](../../../charts/tx-data-provider) — composite bundle pulling:
   - [dataspace-connector-bundle](../../../charts/dataspace-connector-bundle) — [tractusx-edc](https://github.com/eclipse-tractusx/tractusx-edc/tree/0.11.0), [vault](https://github.com/hashicorp/vault-helm/tree/v0.20.0)
   - [digital-twin-bundle](../../../charts/digital-twin-bundle) — [digital-twin-registry](https://github.com/eclipse-tractusx/sldt-digital-twin-registry/tree/digital-twin-registry-0.12.0)
+  - [digital-twin-basyx-bundle](../../../charts/digital-twin-basyx-bundle) — optional alternative using the official [BaSyx chart 3.15.0](https://github.com/eclipse-basyx/charts/tree/basyx-3.15.0), disabled by default; usable in the data-exchange scenario with `values-adopter-data-exchange-basyx.yaml`; see the [DTR evaluation guide](guides/basyx-dtr.md)
   - [data-persistence-layer-bundle](../../../charts/data-persistence-layer-bundle) — [simple-data-backend](https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/simple-data-backend-0.1.0)
 - [bdrs](https://github.com/eclipse-tractusx/bpn-did-resolution-service/tree/0.5.7) (**in-memory** — no persistence)
-- [bpdm](https://github.com/eclipse-tractusx/bpdm/tree/release/7.1.x)
+- [bpdm](https://github.com/eclipse-tractusx/bpdm/tree/release/7.4.x)
 - [identity-and-trust-bundle](../../../charts/identity-and-trust-bundle) — [ssi-dim-wallet-stub](https://github.com/eclipse-tractusx/ssi-dim-wallet-stub/tree/ssi-dim-wallet-stub-memory-0.1.11)
 
 **Auxiliary components:**
@@ -50,7 +54,7 @@ The components currently shipped by the umbrella chart:
 Clone this repository, then resolve all Helm dependencies (handles the inter-chart `file://` links):
 
 ```bash
-./hack/helm-dependencies.bash
+./scripts/helm-dependencies.bash
 ```
 
 Then install with the profile you need:

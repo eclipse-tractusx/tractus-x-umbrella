@@ -1,0 +1,44 @@
+meta {
+  name: 07-Request Submodel Offer
+  type: http
+  seq: 7
+}
+
+post {
+  url: {{Alice}}/catalog/request
+  body: json
+  auth: apikey
+}
+
+auth:apikey {
+  key: X-Api-Key
+  value: {{Alice_Api_Key}}
+  placement: header
+}
+
+body:json {
+  {
+    "@context": [ { "@vocab": "https://w3id.org/edc/v0.0.1/ns/" } ],
+    "@type": "CatalogRequest",
+    "counterPartyAddress": "{{Bob_DSP}}/2025-1",
+    "counterPartyId": "{{Bob_DID}}",
+    "protocol": "dataspace-protocol-http:2025-1",
+    "querySpec": {
+      "offset": 0,
+      "limit": 50,
+      "filterExpression": [
+        {
+          "operandLeft": "https://w3id.org/edc/v0.0.1/ns/id",
+          "operator": "=",
+          "operandRight": "{{SUBMODEL_ASSET_ID}}"
+        }
+      ]
+    }
+  }
+}
+
+tests {
+  const datasets = [].concat(res.getBody().dataset || []);
+  const policies = [].concat(datasets[0].hasPolicy);
+  bru.setVar("SUBMODEL_OFFER_ID", policies[0]["@id"]);
+}

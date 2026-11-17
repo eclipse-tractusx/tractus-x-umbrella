@@ -115,7 +115,7 @@ build_deps() {
   echo "deps: $chart" >&2
   helm dependency build --skip-refresh "$chart" >/dev/null 2>&1 ||
     helm dependency update "$chart" >/dev/null ||
-    die "dependency update failed for $chart. Run ./hack/helm-dependencies.bash once to add the Helm repositories."
+    die "dependency update failed for $chart. Run ./scripts/helm-dependencies.bash once to add the Helm repositories."
   DONE_DEPS="$DONE_DEPS$chart "
 }
 

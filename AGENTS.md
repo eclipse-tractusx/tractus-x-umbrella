@@ -30,7 +30,7 @@ tractus-x-umbrella/
 ├── charts/                  ← ★ MOST IMPORTANT FOLDER (Helm charts live here)
 ├── docs/                    ← User & admin documentation, architecture, guides
 ├── dataseeding/             ← Python tooling for seeding Vault secrets / test data
-├── hack/                    ← Helper bash scripts (e.g. helm-dependencies.bash)
+├── scripts/                 ← Helper scripts (helm-dependencies.bash, BaSyx DTR tests)
 ├── init-container/          ← Dockerfile + IAM init resources for centralidp
 ├── simple-data-backend/     ← Tiny Spring Boot backend used as a data provider in tests
 ├── .act/                    ← Sample events for running GitHub workflows locally with `act`
@@ -135,7 +135,7 @@ Each *bundle* is a small Helm chart that groups one Tractus-X capability with it
 Use the helper script — it walks all charts in the correct order:
 
 ```bash
-./hack/helm-dependencies.bash
+./scripts/helm-dependencies.bash
 ```
 
 This is preferred over running `helm dependency update` manually because of the inter-chart `file://` dependencies.
@@ -228,8 +228,10 @@ Python utility ([`vault-secrets-setup.py`](dataseeding/vault-secrets-setup.py)) 
 ### `init-container/`
 Dockerfile + IAM resources for the centralidp init container (Keycloak realm setup, etc.).
 
-### `hack/`
-Bash helpers — currently `helm-dependencies.bash` to refresh all chart deps in the right order.
+### `scripts/`
+Helper scripts:
+- `helm-dependencies.bash` refreshes all chart deps in the right order.
+- `dtr-basyx-tests/` holds the BaSyx DTR acceptance and regression checks (see its README).
 
 ---
 
@@ -240,7 +242,7 @@ Bash helpers — currently `helm-dependencies.bash` to refresh all chart deps in
 | Change which components are deployed | `charts/umbrella/values.yaml` or a `values-adopter-*.yaml` |
 | Add a new upstream Tractus-X component | `charts/umbrella/Chart.yaml` (dependencies) + values |
 | Modify a bundle (EDC, DTR, IAM, …) | `charts/<bundle>/` then bump version & sync in umbrella |
-| Update sub-chart versions after edits | `./hack/helm-dependencies.bash` |
+| Update sub-chart versions after edits | `./scripts/helm-dependencies.bash` |
 | Render manifests locally | `helm template umbrella charts/umbrella -f <values>` |
 | Find user-facing docs | `docs/README.md` |
 | Inspect CI test value sets | `charts/values-test-*.yaml` |

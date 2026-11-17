@@ -1,0 +1,71 @@
+# #############################################################################
+# Copyright (c) 2022,2024 Bayerische Motoren Werke Aktiengesellschaft (BMW AG)
+# Copyright (c) 2021,2024 Contributors to the Eclipse Foundation
+#
+# See the NOTICE file(s) distributed with this work for additional
+# information regarding copyright ownership.
+#
+# This program and the accompanying materials are made available under the
+# terms of the Apache License, Version 2.0 which is available at
+# https://www.apache.org/licenses/LICENSE-2.0.
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+# WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+# License for the specific language governing permissions and limitations
+# under the License.
+#
+# SPDX-License-Identifier: Apache-2.0
+# #############################################################################
+
+configuration:
+  postgresuser: &postgresuser testuser
+  postgrespass: &postgrespass testpass
+  edcKey: &edcKey TEST
+
+nameOverride: ""
+fullnameOverride: ""
+seedTestdata: false  # Toggle seeding of testdata. Can be enabled when the edc should be seeded with testdata on startup.
+
+testData:
+  image: python:3.11
+testdataConfigMap: ""  # Provide a custom configmap for post-install-job-upload-testdata.yaml.
+backendUrl: ""  # Override the backend service url
+registryUrl: ""  # Override the digital twin registry url
+controlplanePublicUrl: ""  # Override the edc controlplane protocol url
+controlplaneManagementUrl: ""  # Override the edc controlplane management url
+dataplaneUrl: ""  # Override the edc dataplane public url
+vaultSetup:
+  image: alpine:3.19
+secrets:
+  edc-wallet-secret: changeme
+
+dataspace-connector-bundle:
+  tractusx-connector:
+    enabled: true
+    postgresql:
+      jdbcUrl: "jdbc:postgresql://{{ .Release.Name }}-connector-postgresql:5432/edc"
+  postgresql:
+    nameOverride: connector-postgresql
+
+digital-twin-bundle:
+  enabled: true
+  digital-twin-registry:
+    enabled: true
+    registry:
+      authentication: false
+      dataSource:
+        # digital-twin-bundle.digital-twin-registry.registry.dataSource.url
+        # No templating possible, need to hardcode string, or set it via property e.g.,
+        # helm install <release-name> charts/tx-data-provider --set digital-twin-bundle.digital-twin-registry.registry.dataSource.url=jdbc:postgresql://<release-name>-dtr-postgresql:5432/dtr
+        url: "jdbc:postgresql://dtr-postgresql:5432/dtr"
+  postgresql:
+    fullnameOverride: "dtr-postgresql"
+
+# Optional provider; disabled so the existing Tractus-X DTR remains the default.
+digital-twin-basyx-bundle:
+  enabled: false
+
+data-persistence-layer-bundle:
+  simple-data-backend:
+    enabled: true

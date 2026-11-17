@@ -1,0 +1,23 @@
+vars:pre-request {
+  Bob: http://dataprovider-controlplane.tx.test/management/v3
+  Bob_DSP: http://dataprovider-controlplane.tx.test/api/v1/dsp
+  Alice: http://dataconsumer-1-controlplane.tx.test/management/v3
+  Bob_BPN: BPNL00000003AYRE
+  Alice_BPN: BPNL00000003AZQP
+  Bob_DID: did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003AYRE
+  Alice_Api_Key: TEST1
+  Bob_Api_Key: TEST2
+  Bob_Data_Server: http://dataprovider-submodelserver.tx.test
+  Bob_BaSyx_DTR: http://dataprovider-basyx-dtr.tx.test/digital-twin-registry
+  Bob_BaSyx_DTR_Internal: http://dataprovider-basyx-digital-twin-registry:8080/digital-twin-registry
+  Bob_Data_Server_Internal: http://umbrella-dataprovider-submodelserver:8080
+  Bob_Dataplane_Internal: http://umbrella-dataprovider-edc-dataplane:8081/api/public
+  Bob_DSP_Internal: http://umbrella-dataprovider-edc-controlplane:8084/api/v1/dsp
+  DTR_ASSET_ID: registry-asset
+  ACCESS_POLICY_ID: basyx-access-policy
+  USAGE_POLICY_ID: basyx-usage-policy
+  MANUAL_SUBMODEL_ASSET_ID: basyx-submodel-asset
+  MANUAL_SUBMODEL_ID: urn:uuid:2b3b7c5e-1f4b-4f7a-9c1e-0a6b2f9d8e11
+  MANUAL_SHELL_ID: urn:uuid:6c1d8a2e-3b5f-4e8a-8d7c-9f0e1a2b3c4d
+  MANUAL_GLOBAL_ASSET_ID: urn:uuid:9d7e6f5a-4b3c-4d2e-8f1a-0b9c8d7e6f5a
+}

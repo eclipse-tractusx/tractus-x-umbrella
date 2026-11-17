@@ -271,7 +271,8 @@ bpdm-pool:
 
 | Secret Name                  | Purpose             | Keys                                 |
 |------------------------------|---------------------|--------------------------------------|
-| `bpdm-postgres`              | Shared database     | `postgres-password`, `password`      |
+| `bpdm-postgres`              | Postgres admin      | `postgres-password` (generated)      |
+| `umbrella-postgres-connection-config` | BPDM database user | `username`, `password`, `database` |
 | `umbrella-bpdm-gate`         | Gate service config | Client secrets and database password |
 | `umbrella-bpdm-pool`         | Pool service config | Client secrets and database password |
 | `umbrella-bpdm-orchestrator` | Orchestrator config | Database password                    |

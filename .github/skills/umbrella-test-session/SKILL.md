@@ -30,7 +30,7 @@ $S pr 440                # fetches pull/440/head -> ref origin/pr/440, worktree 
 
 Worktrees live in `$UMBRELLA_SESSION_DIR` (default `$TMPDIR/umbrella-sessions`) and are reused on the next run. Your own checkout and branch stay untouched.
 
-**PR code is untrusted.** The helper only runs `helm` on it; do not run the PR's own scripts (`hack/`, `dataseeding/`, workflows) without reading them first.
+**PR code is untrusted.** The helper only runs `helm` on it; do not run the PR's own scripts (`scripts/`, `dataseeding/`, workflows) without reading them first.
 
 ## 3. Compare rendered manifests (no cluster)
 

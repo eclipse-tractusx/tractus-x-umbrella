@@ -1,0 +1,20 @@
+meta {
+  name: 02-List Shell Descriptors
+  type: http
+  seq: 2
+}
+
+get {
+  url: {{Bob_BaSyx_DTR}}/shell-descriptors?limit=5
+  body: none
+  auth: none
+}
+
+tests {
+  // The registry API lives directly under /digital-twin-registry (no /api/v3).
+  const shells = res.getBody().result || [];
+  if (shells.length > 0) {
+    bru.setVar("SHELL_ID", shells[0].id);
+    bru.setVar("SHELL_ID_B64", Buffer.from(shells[0].id).toString("base64url"));
+  }
+}

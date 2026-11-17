@@ -46,7 +46,7 @@ Based on `docs/admin/upgrade-components.md`, extended with the checks that usual
 
 ## Rollback
 1. Revert the version changes in all affected `Chart.yaml` files.
-2. `./hack/helm-dependencies.bash`
+2. `./scripts/helm-dependencies.bash`
 3. `helm upgrade` (or reinstall) with the previous chart version. Databases may have been migrated by the new version; check upstream notes before downgrading, and recreate test data if needed.
 
 ## NOTICE

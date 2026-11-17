@@ -1,0 +1,17 @@
+meta {
+  name: 05-Get Seeded DTR EDC Asset
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{Bob}}/assets/{{DTR_ASSET_ID}}
+  body: none
+  auth: apikey
+}
+
+auth:apikey {
+  key: X-Api-Key
+  value: {{Bob_Api_Key}}
+  placement: header
+}

@@ -1,0 +1,504 @@
+{
+  "AllAccessPermissionRules": {
+    "DEFATTRIBUTES": [
+      {
+        "name": "anonym_attr",
+        "attributes": [
+          {
+            "GLOBAL": "ANONYMOUS"
+          }
+        ]
+      },
+      {
+        "name": "role_attr",
+        "attributes": [
+          {
+            "CLAIMPATH": "/role"
+          }
+        ]
+      }
+    ],
+    "DEFOBJECTS": [
+      {
+        "name": "description",
+        "objects": [
+          {
+            "ROUTE": "/description"
+          }
+        ]
+      },
+      {
+        "name": "assetlinks",
+        "objects": [
+          {
+            "ROUTE": "/lookup/shells"
+          },
+          {
+            "ROUTE": "/lookup/shellsByAssetLink"
+          }
+        ]
+      },
+      {
+        "name": "shells",
+        "objects": [
+          {
+            "ROUTE": "/lookup/shells/*"
+          }
+        ]
+      },
+      {
+        "name": "all_shell_descriptors",
+        "objects": [
+          {
+            "DESCRIPTOR": "$aasdesc(\"*\")"
+          }
+        ]
+      }
+    ],
+    "DEFACLS": [
+      {
+        "name": "anonymous_read",
+        "acl": {
+          "USEATTRIBUTES": "anonym_attr",
+          "RIGHTS": [
+            "READ"
+          ],
+          "ACCESS": "ALLOW"
+        }
+      },
+      {
+        "name": "token_read",
+        "acl": {
+          "USEATTRIBUTES": "role_attr",
+          "RIGHTS": [
+            "READ"
+          ],
+          "ACCESS": "ALLOW"
+        }
+      },
+      {
+        "name": "token_create",
+        "acl": {
+          "USEATTRIBUTES": "role_attr",
+          "RIGHTS": [
+            "CREATE"
+          ],
+          "ACCESS": "ALLOW"
+        }
+      },
+      {
+        "name": "token_update",
+        "acl": {
+          "USEATTRIBUTES": "role_attr",
+          "RIGHTS": [
+            "UPDATE"
+          ],
+          "ACCESS": "ALLOW"
+        }
+      },
+      {
+        "name": "token_delete",
+        "acl": {
+          "USEATTRIBUTES": "role_attr",
+          "RIGHTS": [
+            "DELETE"
+          ],
+          "ACCESS": "ALLOW"
+        }
+      }
+    ],
+    "DEFFORMULAS": [
+      {
+        "name": "always_true",
+        "formula": {
+          "$boolean": true
+        }
+      },
+      {
+        "name": "can_create",
+        "formula": {
+          "$contains": [
+            {
+              "$attribute": {
+                "CLAIMPATH": "/role"
+              }
+            },
+            {
+              "$strVal": "add_digital_twin"
+            }
+          ]
+        }
+      },
+      {
+        "name": "can_update",
+        "formula": {
+          "$contains": [
+            {
+              "$attribute": {
+                "CLAIMPATH": "/role"
+              }
+            },
+            {
+              "$strVal": "update_digital_twin"
+            }
+          ]
+        }
+      },
+      {
+        "name": "can_delete",
+        "formula": {
+          "$contains": [
+            {
+              "$attribute": {
+                "CLAIMPATH": "/role"
+              }
+            },
+            {
+              "$strVal": "delete_digital_twin"
+            }
+          ]
+        }
+      },
+      {
+        "name": "owner_read",
+        "formula": {
+          "$or": [
+            {
+              "$contains": [
+                {
+                  "$attribute": {
+                    "CLAIMPATH": "/role"
+                  }
+                },
+                {
+                  "$strVal": "add_digital_twin"
+                }
+              ]
+            },
+            {
+              "$and": [
+                {
+                  "$contains": [
+                    {
+                      "$attribute": {
+                        "CLAIMPATH": "/role"
+                      }
+                    },
+                    {
+                      "$strVal": "view_digital_twin"
+                    }
+                  ]
+                },
+                {
+                  "$eq": [
+                    {
+                      "$attribute": {
+                        "CLAIM": "Edc-Bpn"
+                      }
+                    },
+                    {
+                      "$strVal": "default-tenant"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "name": "consumer_read",
+        "formula": {
+          "$and": [
+            {
+              "$contains": [
+                {
+                  "$attribute": {
+                    "CLAIMPATH": "/role"
+                  }
+                },
+                {
+                  "$strVal": "view_digital_twin"
+                }
+              ]
+            },
+            {
+              "$or": [
+                {
+                  "$eq": [
+                    {
+                      "$attribute": {
+                        "CLAIM": "Edc-Bpn"
+                      }
+                    },
+                    {
+                      "$field": "$aasdesc#specificAssetIds[].externalSubjectId.keys[].value"
+                    }
+                  ]
+                },
+                {
+                  "$match": [
+                    {
+                      "$eq": [
+                        {
+                          "$field": "$aasdesc#specificAssetIds[].externalSubjectId.keys[].value"
+                        },
+                        {
+                          "$strVal": "PUBLIC_READABLE"
+                        }
+                      ]
+                    },
+                    {
+                      "$eq": [
+                        {
+                          "$field": "$aasdesc#specificAssetIds[].name"
+                        },
+                        {
+                          "$strVal": "manufacturerPartId"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "$match": [
+                    {
+                      "$eq": [
+                        {
+                          "$field": "$aasdesc#specificAssetIds[].externalSubjectId.keys[].value"
+                        },
+                        {
+                          "$strVal": "PUBLIC_READABLE"
+                        }
+                      ]
+                    },
+                    {
+                      "$eq": [
+                        {
+                          "$field": "$aasdesc#specificAssetIds[].name"
+                        },
+                        {
+                          "$strVal": "digitalTwinType"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "name": "visible_id",
+        "formula": {
+          "$or": [
+            {
+              "$eq": [
+                {
+                  "$attribute": {
+                    "CLAIM": "Edc-Bpn"
+                  }
+                },
+                {
+                  "$field": "$aasdesc#specificAssetIds[].externalSubjectId.keys[].value"
+                }
+              ]
+            },
+            {
+              "$match": [
+                {
+                  "$eq": [
+                    {
+                      "$field": "$aasdesc#specificAssetIds[].externalSubjectId.keys[].value"
+                    },
+                    {
+                      "$strVal": "PUBLIC_READABLE"
+                    }
+                  ]
+                },
+                {
+                  "$eq": [
+                    {
+                      "$field": "$aasdesc#specificAssetIds[].name"
+                    },
+                    {
+                      "$strVal": "manufacturerPartId"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "$match": [
+                {
+                  "$eq": [
+                    {
+                      "$field": "$aasdesc#specificAssetIds[].externalSubjectId.keys[].value"
+                    },
+                    {
+                      "$strVal": "PUBLIC_READABLE"
+                    }
+                  ]
+                },
+                {
+                  "$eq": [
+                    {
+                      "$field": "$aasdesc#specificAssetIds[].name"
+                    },
+                    {
+                      "$strVal": "digitalTwinType"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "name": "bpn_or_public_key",
+        "formula": {
+          "$or": [
+            {
+              "$eq": [
+                {
+                  "$attribute": {
+                    "CLAIM": "Edc-Bpn"
+                  }
+                },
+                {
+                  "$field": "$aasdesc#specificAssetIds[].externalSubjectId.keys[].value"
+                }
+              ]
+            },
+            {
+              "$eq": [
+                {
+                  "$strVal": "PUBLIC_READABLE"
+                },
+                {
+                  "$field": "$aasdesc#specificAssetIds[].externalSubjectId.keys[].value"
+                }
+              ]
+            }
+          ]
+        }
+      },
+      {
+        "name": "bpn_match",
+        "formula": {
+          "$eq": [
+            {
+              "$attribute": {
+                "CLAIM": "Edc-Bpn"
+              }
+            },
+            {
+              "$field": "$aasdesc#specificAssetIds[].externalSubjectId.keys[].value"
+            }
+          ]
+        }
+      }
+    ],
+    "rules": [
+      {
+        "USEACL": "anonymous_read",
+        "USEOBJECTS": [
+          "description"
+        ],
+        "USEFORMULA": "always_true"
+      },
+      {
+        "USEACL": "token_create",
+        "USEOBJECTS": [
+          "all_shell_descriptors",
+          "assetlinks",
+          "shells"
+        ],
+        "USEFORMULA": "can_create"
+      },
+      {
+        "USEACL": "token_update",
+        "USEOBJECTS": [
+          "all_shell_descriptors",
+          "assetlinks",
+          "shells"
+        ],
+        "USEFORMULA": "can_update"
+      },
+      {
+        "USEACL": "token_delete",
+        "USEOBJECTS": [
+          "all_shell_descriptors",
+          "assetlinks",
+          "shells"
+        ],
+        "USEFORMULA": "can_delete"
+      },
+      {
+        "USEACL": "token_read",
+        "USEOBJECTS": [
+          "all_shell_descriptors",
+          "assetlinks",
+          "shells"
+        ],
+        "USEFORMULA": "owner_read"
+      },
+      {
+        "USEACL": "token_read",
+        "USEOBJECTS": [
+          "all_shell_descriptors"
+        ],
+        "USEFORMULA": "consumer_read",
+        "FILTERLIST": [
+          {
+            "FRAGMENT": "$aasdesc#administration",
+            "USEFORMULA": "bpn_match"
+          },
+          {
+            "FRAGMENT": "$aasdesc#displayName",
+            "USEFORMULA": "bpn_match"
+          },
+          {
+            "FRAGMENT": "$aasdesc#description",
+            "USEFORMULA": "bpn_match"
+          },
+          {
+            "FRAGMENT": "$aasdesc#assetKind",
+            "USEFORMULA": "bpn_match"
+          },
+          {
+            "FRAGMENT": "$aasdesc#assetType",
+            "USEFORMULA": "bpn_match"
+          },
+          {
+            "FRAGMENT": "$aasdesc#globalAssetId",
+            "USEFORMULA": "bpn_match"
+          },
+          {
+            "FRAGMENT": "$aasdesc#idShort",
+            "USEFORMULA": "bpn_match"
+          },
+          {
+            "FRAGMENT": "$aasdesc#specificAssetIds[]",
+            "USEFORMULA": "visible_id",
+            "MATCH": true
+          },
+          {
+            "FRAGMENT": "$aasdesc#specificAssetIds[].externalSubjectId.keys[]",
+            "USEFORMULA": "bpn_or_public_key",
+            "MATCH": true
+          }
+        ]
+      },
+      {
+        "USEACL": "token_read",
+        "USEOBJECTS": [
+          "assetlinks"
+        ],
+        "USEFORMULA": "consumer_read"
+      }
+    ]
+  }
+}
