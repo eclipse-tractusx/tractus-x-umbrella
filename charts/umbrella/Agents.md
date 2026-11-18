@@ -19,7 +19,7 @@ Main goals:
 2. **Sandbox / developer environments** for evaluating components.
 3. **Reproducible setups** for contributors of the Tractus-X projects.
 
-Current overarching release: **Tractus-X Release 25.12**.
+Current overarching release: **Tractus-X Release 26.06**.
 
 ---
 

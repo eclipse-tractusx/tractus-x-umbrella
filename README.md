@@ -1,4 +1,4 @@
-[![OverarchingRelease](https://img.shields.io/badge/Release_26.03-blue)](https://github.com/eclipse-tractusx/tractus-x-release/blob/26.03/CHANGELOG.md)
+[![OverarchingRelease](https://img.shields.io/badge/Release_26.06-blue)](https://github.com/eclipse-tractusx/tractus-x-release/blob/26.06/CHANGELOG.md)
 
 # Eclipse Tractus-X Umbrella
 
@@ -18,7 +18,7 @@ Have a look in the [docs](/docs) section for user manuals and guides.
 
 ## Release Compatibility
 
-The versions of the [integrated components](/docs/user/common/installation.md#available-components) correspond to the overarching **[Release 25.12](https://github.com/eclipse-tractusx/tractus-x-release/blob/25.12/CHANGELOG.md#2512---2025-12-03)**
+The versions of the [integrated components](/docs/user/common/installation.md#available-components) correspond to the overarching **[Release 26.06](https://github.com/eclipse-tractusx/tractus-x-release/blob/26.06/CHANGELOG.md)**
 
 ## Purpose
 
