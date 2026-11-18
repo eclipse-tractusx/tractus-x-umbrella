@@ -62,16 +62,14 @@ tractusx-connector:
       # -- Validity of the Verifiable Presentation cache in seconds (default: 24h)
       # @section -- Decentralized Claims Protocol (DCP, formerly IATP) Settings (Bring Your Own)
       validity: 86400
-    # -- Automatic self-registration of the connector in its DID document (introduced in tractusx-edc 0.12.0)
+    # -- Automatic self-registration of the connector in its DID document (introduced in tractusx-edc 0.12.0).
+    # Since 0.12.1 the service id is taken from participant.contextId.
     # @section -- Decentralized Claims Protocol (DCP, formerly IATP) Settings (Bring Your Own)
     didService:
       selfRegistration:
         # -- Whether Service Self Registration is enabled
         # @section -- Decentralized Claims Protocol (DCP, formerly IATP) Settings (Bring Your Own)
         enabled: false
-        # -- Unique id of connector to be used for register / unregister service inside did document (must be valid URI)
-        # @section -- Decentralized Claims Protocol (DCP, formerly IATP) Settings (Bring Your Own)
-        id: did:web:ssi-dim-wallet-stub.tx.test:BPNL00000003AZQP
 
   participant:
     # -- Business Partner Number (BPN) of the connector (required in 0.11.0+ via tractusx.edc.participant.bpn)

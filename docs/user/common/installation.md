@@ -25,7 +25,7 @@ The components currently shipped by the umbrella chart:
 - [semantic-hub](https://github.com/eclipse-tractusx/sldt-semantic-hub/tree/semantic-hub-0.5.0) — requires a [pre-built Fuseki image](setup/semantic-hub.md)
 - [ssi-credential-issuer](https://github.com/eclipse-tractusx/ssi-credential-issuer/tree/v1.4.0)
 - [tx-data-provider](../../../charts/tx-data-provider) — composite bundle pulling:
-  - [dataspace-connector-bundle](../../../charts/dataspace-connector-bundle) — [tractusx-edc](https://github.com/eclipse-tractusx/tractusx-edc/tree/0.11.0), [vault](https://github.com/hashicorp/vault-helm/tree/v0.20.0)
+  - [dataspace-connector-bundle](../../../charts/dataspace-connector-bundle) — [tractusx-edc](https://github.com/eclipse-tractusx/tractusx-edc/tree/0.12.3), [vault](https://github.com/hashicorp/vault-helm/tree/v0.20.0)
   - [digital-twin-bundle](../../../charts/digital-twin-bundle) — [digital-twin-registry](https://github.com/eclipse-tractusx/sldt-digital-twin-registry/tree/digital-twin-registry-0.12.0)
   - [digital-twin-basyx-bundle](../../../charts/digital-twin-basyx-bundle) — optional alternative using the official [BaSyx chart 3.15.0](https://github.com/eclipse-basyx/charts/tree/basyx-3.15.0), disabled by default; usable in the data-exchange scenario with `values-adopter-data-exchange-basyx.yaml`; see the [DTR evaluation guide](guides/basyx-dtr.md)
   - [data-persistence-layer-bundle](../../../charts/data-persistence-layer-bundle) — [simple-data-backend](https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/simple-data-backend-0.1.0)
