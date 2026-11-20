@@ -8,6 +8,12 @@
 > [Linux](../linux/README.md) · [macOS](../mac/README.md) · [Windows](../windows/README.md).
 > This page is a reference covering all install methods and component subsets.
 
+> [!WARNING]
+> `tractusx-connector` (Tractus-X EDC) versions below `0.12.3` contain a known
+> security vulnerability fixed in the [0.12.3 release](https://github.com/eclipse-tractusx/tractusx-edc/releases/tag/0.12.3)
+> ("Strengthen presentation validation"). Do not pin `dataspace-connector-bundle`'s
+> `tractusx-connector` dependency below `0.12.3`; see the [migration guide](../../admin/migration-guide.md).
+
 The Helm chart is platform-independent. For the cluster + DNS setup specific to
 your OS, see [Linux](../linux/README.md), [macOS](../mac/README.md) or
 [Windows](../windows/README.md).
@@ -25,7 +31,7 @@ The components currently shipped by the umbrella chart:
 - [semantic-hub](https://github.com/eclipse-tractusx/sldt-semantic-hub/tree/semantic-hub-0.5.0) — requires a [pre-built Fuseki image](setup/semantic-hub.md)
 - [ssi-credential-issuer](https://github.com/eclipse-tractusx/ssi-credential-issuer/tree/v1.4.0)
 - [tx-data-provider](../../../charts/tx-data-provider) — composite bundle pulling:
-  - [dataspace-connector-bundle](../../../charts/dataspace-connector-bundle) — [tractusx-edc](https://github.com/eclipse-tractusx/tractusx-edc/tree/0.11.0), [vault](https://github.com/hashicorp/vault-helm/tree/v0.20.0)
+  - [dataspace-connector-bundle](../../../charts/dataspace-connector-bundle) — [tractusx-edc](https://github.com/eclipse-tractusx/tractusx-edc/tree/0.12.3), [vault](https://github.com/hashicorp/vault-helm/tree/v0.20.0)
   - [digital-twin-bundle](../../../charts/digital-twin-bundle) — [digital-twin-registry](https://github.com/eclipse-tractusx/sldt-digital-twin-registry/tree/digital-twin-registry-0.12.0)
   - [digital-twin-basyx-bundle](../../../charts/digital-twin-basyx-bundle) — optional alternative using the official [BaSyx chart 3.15.0](https://github.com/eclipse-basyx/charts/tree/basyx-3.15.0), disabled by default; usable in the data-exchange scenario with `values-adopter-data-exchange-basyx.yaml`; see the [DTR evaluation guide](guides/basyx-dtr.md)
   - [data-persistence-layer-bundle](../../../charts/data-persistence-layer-bundle) — [simple-data-backend](https://github.com/eclipse-tractusx/tractus-x-umbrella/tree/simple-data-backend-0.1.0)

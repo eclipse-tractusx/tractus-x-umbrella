@@ -3,6 +3,13 @@
 This migration guide is based on the `chartVersion` of the chart. If you don't rely on the provided helm chart, consider the changes of the chart as mentioned below manually.
 
 > [!WARNING]
+> `tractusx-connector` (Tractus-X EDC, dependency of `dataspace-connector-bundle`) versions below
+> `0.12.3` contain a known security vulnerability, fixed in the
+> [0.12.3 release](https://github.com/eclipse-tractusx/tractusx-edc/releases/tag/0.12.3)
+> ("Strengthen presentation validation"). Upgrade to `tractusx-connector` `0.12.3` or later;
+> do not deploy or pin an older version.
+
+> [!WARNING]
 > Bitnami does change their update and versioning policy starting with 2025-08-28. To install the existing charts with its bitnami dependencies, please consider to manually specify the properties `image.repository` and `image.tag` specifying for the following dependencies:
 > 
 > - postgresql (image: bitnamilegacy/postgresql:15.4.0-debian-11-r45)
