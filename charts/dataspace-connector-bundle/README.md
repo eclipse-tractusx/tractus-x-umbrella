@@ -4,6 +4,11 @@
 
 Helm chart for Capability Bundle: Dataspace Connector
 
+> [!WARNING]
+> **Tractus-X EDC (`tractusx-connector`) versions below `0.12.3` contain a known security vulnerability.**
+> Always use `tractusx-connector` **`0.12.3` or later**; do not pin an older version.
+> The vulnerability is fixed in [0.12.3 and later](https://github.com/eclipse-tractusx/tractusx-edc/releases/tag/0.12.3).
+
 For more information on the Tractus-X EDC, see https://github.com/eclipse-tractusx/tractusx-edc
 
 

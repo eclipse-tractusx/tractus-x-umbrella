@@ -20,6 +20,12 @@ Have a look in the [docs](/docs) section for user manuals and guides.
 
 The versions of the [integrated components](/docs/user/common/installation.md#available-components) correspond to the overarching **[Release 26.06](https://github.com/eclipse-tractusx/tractus-x-release/blob/26.06/CHANGELOG.md)**
 
+> [!WARNING]
+> **Tractus-X EDC (`tractusx-connector`) versions below `0.12.3` contain a known security vulnerability.**
+> Do not use or pin `dataspace-connector-bundle`'s `tractusx-connector` dependency below `0.12.3`.
+> The vulnerability is fixed in [0.12.3 and later](https://github.com/eclipse-tractusx/tractusx-edc/releases/tag/0.12.3).
+> See the [migration guide](docs/admin/migration-guide.md) for details.
+
 ## Purpose
 
 The Umbrella Chart is intended for:
