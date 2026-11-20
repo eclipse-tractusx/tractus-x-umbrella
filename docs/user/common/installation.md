@@ -8,6 +8,12 @@
 > [Linux](../linux/README.md) · [macOS](../mac/README.md) · [Windows](../windows/README.md).
 > This page is a reference covering all install methods and component subsets.
 
+> [!WARNING]
+> `tractusx-connector` (Tractus-X EDC) versions below `0.12.3` contain a known
+> security vulnerability fixed in the [0.12.3 release](https://github.com/eclipse-tractusx/tractusx-edc/releases/tag/0.12.3)
+> ("Strengthen presentation validation"). Do not pin `dataspace-connector-bundle`'s
+> `tractusx-connector` dependency below `0.12.3`; see the [migration guide](../../admin/migration-guide.md).
+
 The Helm chart is platform-independent. For the cluster + DNS setup specific to
 your OS, see [Linux](../linux/README.md), [macOS](../mac/README.md) or
 [Windows](../windows/README.md).
